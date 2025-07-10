@@ -45,7 +45,7 @@ class ToolConfig(userProvidedTargetName: String?, flavor: KotlinPlatform, proper
     override fun loadLibclang() {
         // libclangstubs is not loaded at the moment, and it should match libclang loaded below.
         // libclang is loaded from llvmHome which is the path of llvm12 for ohos, or llvm11 otherwise. 
-        ClangConfig.useClang12 = HostManager.host.family.isAppleFamily && target == KonanTarget.OHOS_ARM64
+        ClangConfig.useClang12 = target == KonanTarget.OHOS_ARM64
         System.load(libclang)
     }
 }

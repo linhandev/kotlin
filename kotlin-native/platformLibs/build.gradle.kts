@@ -136,11 +136,6 @@ enabledTargets(platformManager).forEach { target ->
             this.compilerOpts.addAll(
                     "-fmodules-cache-path=${project.layout.buildDirectory.dir("clangModulesCache").get().asFile}"
             )
-            if (target.family == Family.OHOS) {
-                this.compilerOpts.addAll(
-                        "-I${nativeDependencies.llvmPath}/include/c++/v1",
-                )
-            }
             this.enableParallel.set(project.findProperty("kotlin.native.platformLibs.parallel")?.toString()?.toBoolean() ?: true)
         }
 
