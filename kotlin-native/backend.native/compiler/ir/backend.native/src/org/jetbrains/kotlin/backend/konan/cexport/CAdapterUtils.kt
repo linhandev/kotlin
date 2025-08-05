@@ -24,10 +24,13 @@ import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 /**
  * Check if the given function is marked as @HiddenFromC.
  */
-internal fun FunctionDescriptor.isHiddenFromC(): Boolean = when {
-    overriddenDescriptors.isNotEmpty() -> overriddenDescriptors.first().isHiddenFromC()
-    else -> annotations.any { annotation -> annotation.fqName == KonanFqNames.hiddenFromC }
-}
+internal fun FunctionDescriptor.isHiddenFromC(): Boolean {
+    // Overridden descriptors compiled with older compose compiler versions may not be annotated with HiddenFromC 
+    // while the compiling code does. Make this function hidden from C API anyway.
+    return (overriddenDescriptors + this).any {
+        it.annotations.any { annotation -> annotation.fqName == KonanFqNames.hiddenFromC }
+    }
+} 
 
 /**
  * Check if the given class or its enclosing declaration is marked as @HiddenFromC.
