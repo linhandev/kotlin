@@ -43,10 +43,21 @@ class AddHiddenFromObjCSerializationPlugin(
 
     private val annotationToAdd = ClassId.fromString("kotlin/native/HiddenFromObjC")
 
+    // region @Tencent
+    private val hiddenFromCAnnotationToAdd = ClassId.fromString("kotlin/native/HiddenFromC")
+    // endregion
+
     private fun createAnnotationProto(extension: SerializerExtension) =
         ProtoBuf.Annotation.newBuilder().apply {
             id = extension.stringTable.getQualifiedClassNameIndex(annotationToAdd)
         }.build()
+
+    // region @Tencent
+    private fun createHiddenFromCAnnotationProto(extension: SerializerExtension) =
+        ProtoBuf.Annotation.newBuilder().apply {
+            id = extension.stringTable.getQualifiedClassNameIndex(hiddenFromCAnnotationToAdd)
+        }.build()
+    // endregion
 
     override fun afterClass(
         descriptor: ClassDescriptor,
@@ -58,6 +69,12 @@ class AddHiddenFromObjCSerializationPlugin(
         if (descriptor in hideFromObjCDeclarationsSet) {
             val annotationProto = createAnnotationProto(extension)
             proto.addExtension(KlibMetadataSerializerProtocol.classAnnotation, annotationProto)
+
+            // region @Tencent
+            val hiddenFromCAnnotationProto = createHiddenFromCAnnotationProto(extension)
+            proto.addExtension(KlibMetadataSerializerProtocol.classAnnotation, hiddenFromCAnnotationProto)
+            // endregion
+
             proto.flags = proto.flags or hasAnnotationFlag
         }
     }
@@ -75,6 +92,15 @@ class AddHiddenFromObjCSerializationPlugin(
                 KlibMetadataSerializerProtocol.constructorAnnotation,
                 annotationProto
             )
+
+            // region @Tencent
+            val hiddenFromCAnnotationProto = createHiddenFromCAnnotationProto(extension)
+            proto.addExtension(
+                KlibMetadataSerializerProtocol.constructorAnnotation,
+                hiddenFromCAnnotationProto
+            )
+            // endregion
+
             proto.flags = proto.flags or hasAnnotationFlag
         }
     }
@@ -89,6 +115,12 @@ class AddHiddenFromObjCSerializationPlugin(
         if (descriptor in hideFromObjCDeclarationsSet) {
             val annotationProto = createAnnotationProto(extension)
             proto.addExtension(KlibMetadataSerializerProtocol.functionAnnotation, annotationProto)
+
+            // region @Tencent
+            val hiddenFromCAnnotationProto = createHiddenFromCAnnotationProto(extension)
+            proto.addExtension(KlibMetadataSerializerProtocol.functionAnnotation, hiddenFromCAnnotationProto)
+            // endregion
+
             proto.flags = proto.flags or hasAnnotationFlag
         }
     }
@@ -103,6 +135,12 @@ class AddHiddenFromObjCSerializationPlugin(
         if (descriptor in hideFromObjCDeclarationsSet) {
             val annotationProto = createAnnotationProto(extension)
             proto.addExtension(KlibMetadataSerializerProtocol.propertyAnnotation, annotationProto)
+
+            // region @Tencent
+            val hiddenFromCAnnotationProto = createHiddenFromCAnnotationProto(extension)
+            proto.addExtension(KlibMetadataSerializerProtocol.propertyAnnotation, hiddenFromCAnnotationProto)
+            // endregion
+
             proto.flags = proto.flags or hasAnnotationFlag
 
             // Add the annotation for the getter too if it's Composable
@@ -113,6 +151,15 @@ class AddHiddenFromObjCSerializationPlugin(
                     KlibMetadataSerializerProtocol.propertyGetterAnnotation,
                     annotationForGetter
                 )
+
+                // region @Tencent
+                val hiddenFromCAnnotationForGetter = createHiddenFromCAnnotationProto(extension)
+                proto.addExtension(
+                    KlibMetadataSerializerProtocol.propertyGetterAnnotation,
+                    hiddenFromCAnnotationForGetter
+                )
+                // endregion
+
                 proto.getterFlags = proto.getterFlags or hasAnnotationFlag
             }
 
@@ -124,6 +171,15 @@ class AddHiddenFromObjCSerializationPlugin(
                     KlibMetadataSerializerProtocol.propertySetterAnnotation,
                     annotationForSetter
                 )
+
+                // region @Tencent
+                val hiddenFromCAnnotationForSetter = createHiddenFromCAnnotationProto(extension)
+                proto.addExtension(
+                    KlibMetadataSerializerProtocol.propertySetterAnnotation,
+                    hiddenFromCAnnotationForSetter
+                )
+                // endregion
+
                 proto.setterFlags = proto.setterFlags or hasAnnotationFlag
             }
         }
