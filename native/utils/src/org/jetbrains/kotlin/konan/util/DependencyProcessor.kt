@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 import org.jetbrains.kotlin.konan.properties.propertyList
 import java.io.File
 import java.io.FileNotFoundException
+import java.io.IOException
 import java.io.RandomAccessFile
 import java.net.InetAddress
 import java.net.URL
@@ -80,6 +81,8 @@ sealed class DependencySource {
         object Internal : Remote()
     }
 }
+
+private const val KOTLIN_NATIVE_DEFAULT_DEPENDENCIES_REPO = "https://cache-redirector.jetbrains.com/download.jetbrains.com/kotlin/native"
 
 /**
  * Inspects [dependencies] and downloads all the missing ones into [dependenciesDirectory] from [dependenciesUrl].
@@ -300,16 +303,36 @@ class DependencyProcessor(
             RandomAccessFile(lockFile, "rw").use {
                 it.channel.lock().use {
                     remoteDependencies.forEach { (dependency, candidate) ->
-                        val baseUrl = when (candidate) {
-                            is DependencySource.Remote.Public -> if (candidate.subDirectory != null) {
-                                "$dependenciesUrl/${candidate.subDirectory}"
-                            } else {
-                                dependenciesUrl
-                            }
-                            DependencySource.Remote.Internal -> InternalServer.url
+                        // region @Tencent: also download native dpendencies from the orignal repo as a backup.
+                        val repoUrls = if (dependenciesUrl == KOTLIN_NATIVE_DEFAULT_DEPENDENCIES_REPO){
+                            arrayOf(dependenciesUrl)
+                        } else {
+                            arrayOf(dependenciesUrl, KOTLIN_NATIVE_DEFAULT_DEPENDENCIES_REPO)
                         }
-                        // TODO: consider using different caches for different remotes.
-                        downloadDependency(dependency, baseUrl, archiveExtractor)
+                        
+                        val errors = repoUrls.map { repoUrl ->
+                            val baseUrl = when (candidate) {
+                                is DependencySource.Remote.Public -> if (candidate.subDirectory != null) {
+                                    "$repoUrl/${candidate.subDirectory}"
+                                } else {
+                                    repoUrl
+                                }
+                                DependencySource.Remote.Internal -> InternalServer.url
+                            }
+                            try {
+                                // TODO: consider using different caches for different remotes.
+                                downloadDependency(dependency, baseUrl, archiveExtractor)
+                                return@forEach
+                            } catch (e: DependencyDownloader.HTTPResponseException) {
+                                e
+                            }
+                        }
+
+                        throw IOException(
+                            "Server returned HTTP response code: ${errors.joinToString { "${it.responseCode} for URL: ${it.url}" }}",
+                            errors.first()
+                        )
+                        // endregion
                     }
                 }
             }

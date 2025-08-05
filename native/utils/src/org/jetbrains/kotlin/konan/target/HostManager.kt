@@ -91,8 +91,7 @@ open class HostManager() {
     /**
      * Tencent: The necessary targets only for most of our cases.
      */
-    private val minimalTargets = setOf(
-        OHOS_ARM64,
+    private val minimalAppleTargets = setOf(
         MACOS_X64,
         MACOS_ARM64,
         IOS_ARM64,
@@ -101,8 +100,10 @@ open class HostManager() {
     )
 
     val enabledMinimalByHost: Map<KonanTarget, Set<KonanTarget>> = mapOf(
-        MACOS_X64 to minimalTargets,
-        MACOS_ARM64 to minimalTargets
+        MACOS_X64 to minimalAppleTargets + OHOS_ARM64,
+        MACOS_ARM64 to minimalAppleTargets + OHOS_ARM64,
+        LINUX_X64 to setOf(LINUX_X64, OHOS_ARM64),
+        MINGW_X64 to setOf(MINGW_X64, OHOS_ARM64),
     )
 
     val enabled: List<KonanTarget>

@@ -197,8 +197,9 @@ sealed class ClangArgs(
 
         KonanTarget.OHOS_ARM64 -> listOf(
             "-mcpu=$targetCPU",
+            "-I$absoluteLlvmHome/include/libcxx-ohos/include/c++/v1",
+            "-I$absoluteTargetSysRoot/usr/include",
             "-I$absoluteTargetSysRoot/usr/include/$targetTriple",
-            "-I$absoluteLlvmHome/lib/clang/12.0.1/include"
         )
 
         else -> emptyList()
