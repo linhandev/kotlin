@@ -32,6 +32,7 @@ add_executable(runtime
 	src/main/cpp/KotlinMath.cpp
 	src/main/cpp/Memory.cpp
 	src/main/cpp/MemorySharedRefs.cpp
+	src/main/cpp/NapiInteface.cpp
 	src/main/cpp/Natives.cpp
 	src/main/cpp/ObjCExceptions.cpp
 	src/main/cpp/Operator.cpp

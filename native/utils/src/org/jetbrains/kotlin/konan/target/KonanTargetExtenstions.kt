@@ -18,6 +18,7 @@ fun KonanTarget.binaryFormat() = when (family) {
     Family.OSX -> BinaryFormat.MACH_O
     Family.ANDROID -> BinaryFormat.ELF
     Family.LINUX -> BinaryFormat.ELF
+    Family.OHOS -> BinaryFormat.ELF
     Family.MINGW -> BinaryFormat.PE_COFF
 }
 
@@ -41,7 +42,7 @@ fun KonanTarget.supportsCoreSymbolication(): Boolean =
                 KonanTarget.WATCHOS_X64, KonanTarget.WATCHOS_SIMULATOR_ARM64
         )
 
-fun KonanTarget.supportsGccUnwind(): Boolean = family == Family.ANDROID || family == Family.LINUX
+fun KonanTarget.supportsGccUnwind(): Boolean = family == Family.ANDROID || family == Family.LINUX || family == Family.OHOS
 // MINGW_X64 target does not support GCC unwind, since its sysroot contains libgcc version < 12 having misfeature, see KT-49240
 fun KonanTarget.supportsWinAPIUnwind(): Boolean = this is KonanTarget.MINGW_X64
 
