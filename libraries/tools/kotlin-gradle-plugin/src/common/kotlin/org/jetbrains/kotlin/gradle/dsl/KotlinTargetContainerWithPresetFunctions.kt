@@ -27,6 +27,15 @@ import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 @KotlinGradlePluginPublicDsl
 interface KotlinTargetContainerWithPresetFunctions : KotlinTargetsContainer {
 
+    fun ohosArm64(
+        name: String = "ohosArm64",
+        configure: KotlinNativeTarget.() -> Unit = { }
+    ): KotlinNativeTarget
+    fun ohosArm64() = ohosArm64("ohosArm64") { }
+    fun ohosArm64(name: String) = ohosArm64(name) { }
+    fun ohosArm64(name: String, configure: Action<KotlinNativeTarget>) = ohosArm64(name) { configure.execute(this) }
+    fun ohosArm64(configure: Action<KotlinNativeTarget>) = ohosArm64 { configure.execute(this) }
+
     fun jvm(
         name: String = "jvm",
         configure: KotlinJvmTarget.() -> Unit = { }
@@ -417,6 +426,16 @@ internal abstract class DefaultKotlinTargetContainerWithPresetFunctions @Inject 
     
     val presets: NamedDomainObjectCollection<InternalKotlinTargetPreset<*>> =
         objectFactory.domainObjectContainer(InternalKotlinTargetPreset::class.java)
+
+    override fun ohosArm64(
+        name: String,
+        configure: KotlinNativeTarget.() -> Unit
+    ): KotlinNativeTarget = configureOrCreate(
+        name,
+        @Suppress("DEPRECATION_ERROR")
+        presets.getByName("ohosArm64") as KotlinNativeTargetPreset,
+        configure
+    )
 
     override fun jvm(
         name: String,
