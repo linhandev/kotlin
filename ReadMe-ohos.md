@@ -1,23 +1,23 @@
 # 鸿蒙适配
 
-本项目拓展2.2版本kotlin native以支持鸿蒙真机，**当前尚未经过生产环境测试**，实现仅供参考。
+本分支拓展2.2版本kotlin native以支持鸿蒙真机，**当前尚未经过生产环境测试**，实现仅供参考。
 
 ## 版本构建
 
 ### 构建 llvm
 
-2.2版本Kotlin/Native使用[llvm 19.1.4](https://github.com/Kotlin/llvm-project/blob/kotlin/llvm-19-apple/cmake/Modules/LLVMVersion.cmake)生成二进制产物。本项目使用[llvm 19.1.7](https://gitee.com/openharmony/third_party_llvm-project/blob/llvm-19.1.7/cmake/Modules/LLVMVersion.cmake)打包鸿蒙二进制，LLVM代码来自 [https://gitee.com/openharmony/third_party_llvm-project/tree/llvm-19.1.7](https://gitee.com/openharmony/third_party_llvm-project/tree/llvm-19.1.7)。当前Windows/Mac/Linux三端均有可用LLVM产物，会在使用本版本kotlin的项目构建过程中自动下载。Mac/Linux产物构建过程已开源，Windows产物构建过程将于近期开源。
+2.2版本Kotlin/Native使用[llvm 19.1.4](https://github.com/Kotlin/llvm-project/blob/kotlin/llvm-19-apple/cmake/Modules/LLVMVersion.cmake)生成二进制产物。本分支使用[llvm 19.1.7](https://gitee.com/openharmony/third_party_llvm-project/blob/llvm-19.1.7/cmake/Modules/LLVMVersion.cmake)打包鸿蒙二进制，LLVM代码来自 [https://gitee.com/openharmony/third_party_llvm-project/tree/llvm-19.1.7](https://gitee.com/openharmony/third_party_llvm-project/tree/llvm-19.1.7)。当前Windows/Mac/Linux三端均有可用LLVM产物，项目使用本版本Kotlin，构建过程中会自动下载。Mac/Linux产物构建过程已开源，Windows产物构建过程将于近期开源。
 
-为避免环境问题影响构建我们提供了用于打包llvm的[GitHub Action脚本](/.github/workflows/build-llvm.yaml)。大部分的LLVM构建工作在Linux Docker中执行，只有最终在Mac上运行的二进制需要在Mac上构建。Github Action提供的runner单次构建最多运行6h不够在Linux上完成LLVM构建，因此您需要按照[Github 文档](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/add-runners)在项目中添加一个Linux的自托管执行机（self hosted runner）。Linux执行机上只需要安装并启动docker，启动Github Action Runner，Action脚本执行过程中中会配置构建LLVM所需的环境
+为避免环境问题影响构建我们提供了用于打包LLVM的[GitHub Action脚本](/.github/workflows/build-llvm.yaml)。大部分的LLVM构建工作在Linux Docker中执行，只有最终在Mac上运行的二进制需要在Mac上构建。Github Action提供的runner单次构建最多运行6h不够在Linux上完成LLVM构建，因此您需要按照[Github 文档](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/add-runners)在项目中添加一个Linux的自托管执行机（self hosted runner）。Linux执行机上只需要安装并启动docker，启动Github Action Runner，Action脚本执行过程中会配置构建LLVM所需的环境
 
 ### 构建 Kotlin
 
 构建Kotlin过程中本项目对环境的要求[和上游社区一致](/kotlin-native/README.md#building-from-source)，主要需要注意的是java和xcode版本
 
-- kotlin构建的gradle任务执行过程中会使用[Gradle toolchains](https://docs.gradle.org/current/userguide/toolchains.html)功能下载 Temurin 版本 JDK，不过此外仍需手动安装[Zulu 8](https://www.azul.com/downloads/?version=java-8-lts&package=jdk#zulu)和[Temurin 21](https://adoptium.net/temurin/releases?version=21&os=any&arch=any)两个JDK。Mac上可以用 `brew install zulu@8 temurin@21` 命令安装，Windows/Linux上的安装方式请参考官网指导
-  - 如果您在maven打包步骤遇到 ` Could not find artifact com.sun:tools:iar:1.8.0 at specified path /path/to/java/lib/tools.jar ` 原因应为构建工具没有找到JDK 8，需要您在运行脚本前手动设置 `export JDK_18=/path/to/zulu-8/java_home`
-- Mac上需使用 Xcode 16+ 版本。您可以从 [https://xcodereleases.com](https://xcodereleases.com) 搜索下载最新的发布版本 Xcode（需要苹果账号），并通过 `sudo xcode-select -s /path/to/Xcode.app` 命令指定构建过程中使用的xcode
-- Windows上构建Kotlin需安装Microsoft Build Tools和Windows SDK，Kotlin文档中推荐的2019版本已被微软下线没有官方的下载方式，如果找不到2019版本安装包可以使用[Visual Studio 2022 Community 版本](https://visualstudio.microsoft.com/downloads/)
+- Kotlin构建的gradle任务执行过程中会使用[Gradle toolchains](https://docs.gradle.org/current/userguide/toolchains.html)功能下载 Temurin 版本 JDK，不过此外仍需手动安装[Zulu 8](https://www.azul.com/downloads/?version=java-8-lts&architecture=x86-64-bit&package=jdk#zulu)和[Temurin 21](https://adoptium.net/temurin/releases?version=21&os=any&arch=any)两个JDK。Mac上可以用 `brew install zulu@8 temurin@21` 命令安装，Windows/Linux上的安装方式请参考官网指导
+  - 如果您在项目构建过程中遇到 ` Could not find artifact com.sun:tools:iar:1.8.0 at specified path /path/to/java/lib/tools.jar ` 原因应为构建工具没有找到JDK 8，需要您在运行脚本前手动设置 `export JDK_18=/path/to/zulu-8/java_home`
+- Mac上需使用 Xcode 16+ 版本。您可以从 [https://xcodereleases.com](https://xcodereleases.com) 搜索下载最新的发布版本 Xcode（需要苹果账号），并通过 `sudo xcode-select -s /path/to/Xcode.app` 命令指定构建过程中使用的Xcode
+- Windows上构建Kotlin需安装Microsoft Build Tools和Windows SDK，Kotlin文档中推荐的2019版本已被微软下线没有官方的下载方式，如找不到2019版本安装包可以使用[Visual Studio 2022 Community 版本](https://visualstudio.microsoft.com/downloads/)，在安装过程中需要勾选使用C++的桌面开发下MSVC最新编译器和库和Windows 10 SDK两个组件
 
 构建命令
 
@@ -29,7 +29,7 @@ bash scripts/build-ohos.sh
 发布产物在 [build/repo](./build/repo) 目录下
 
 技巧：
-- 修改 [EnabledTargets.kt](/kotlin-native/build-tools/src/main/kotlin/org/jetbrains/kotlin/konan/target/EnabledTargets.kt) 可以只出只支持鸿蒙的Kotlin版本加快构建。使用这种Kotlin版本的项目中只能声明打包鸿蒙产物，否则构建会失败。
+- 修改 [EnabledTargets.kt](/kotlin-native/build-tools/src/main/kotlin/org/jetbrains/kotlin/konan/target/EnabledTargets.kt) 可以出只支持鸿蒙的Kotlin版本加快构建。使用这种Kotlin版本的项目中只能声明打包鸿蒙产物，否则构建会失败。
   ```kotlin
   fun enabledTargets(platformManager: PlatformManager) = listOf(KonanTarget.OHOS_ARM64) // 单出鸿蒙
   ```
@@ -156,7 +156,7 @@ maven("https://kotlinnativeohos.online/maven")
 
 > *注意这个maven仓库仅用于临时传递产物，随时有可能下线。这个仓库中的产物只经过极其有限的测试不能用于生产*
 
-2. 切换kotlin版本，当前本项目最新版本为 2.2.0-ohos-02
+1. 切换kotlin版本到本项目版本
 
 ### 本地版本
 
@@ -168,8 +168,6 @@ kotlin.native.home=/path/to/kotlin-native/dist/
 ```
 
 ## 鸿蒙化修改梳理
-
-Credit: 修改点参照 [KuiklyBase-kotlin](https://github.com/Tencent-TDS/KuiklyBase-kotlin)，基本为其子集
 
 总体思路：
 - 鸿蒙平台和其他平台共LLVM前端，使用支持打鸿蒙二进制的LLVM后端
