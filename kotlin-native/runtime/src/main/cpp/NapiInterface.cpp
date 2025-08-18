@@ -1,3 +1,8 @@
+/*
+ * Copyright 2025-2025 Huawei Technologies Co., Ltd. and Kotlin Programming Language contributors.
+ * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
+ */
+
 #if KONAN_OHOS
 
 #include <cstdint>
