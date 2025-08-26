@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+START_TIME=$(date +%s)
 
 # go to project root.
 SCRIPT_DIR=$(cd $(dirname $0) && pwd -P)
@@ -118,3 +119,6 @@ cleanUp
 cd -
 
 echo "All build steps SUCCEEDED."
+
+ELAPSED=$(($(date +%s) - START_TIME)); 
+echo "Building took: $((ELAPSED/60)) minutes and $((ELAPSED%60)) seconds."
