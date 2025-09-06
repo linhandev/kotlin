@@ -1,9 +1,6 @@
 SCRIPT_DIR=$(cd $(dirname $0) && pwd -P)
 ROOT_DIR=$SCRIPT_DIR/../
 
-export KONAN_DATA_DIR=${KONAN_DATA_DIR:-$ROOT_DIR/build/cache/konan}
-export GRADLE_USER_HOME=${GRADLE_USER_HOME:-$ROOT_DIR/build/cache/gradle}
-
 set -ex
 
 cd $ROOT_DIR
