@@ -76,11 +76,3 @@ size_t alloc::allocatedBytes() noexcept {
 extern "C" void mi_hook_allocation(size_t allocated_size) mi_attr_noexcept {
     OnMemoryAllocation(allocated_size);
 }
-
-// region Tencent Code
-void alloc::Allocator::onStartGC() noexcept {
-}
-
-void alloc::Allocator::onFinishGC() noexcept {
-}
-// endregion
