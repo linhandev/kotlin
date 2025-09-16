@@ -90,7 +90,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
                 // region Tencent Code
                 useHdc -> {
                     executable = "hdc"
-                    args("shell", ohosPreload, "/data/$execName")
+                    args("shell", ohosPreload, "/data/local/tmp/$execName")
                 }
                 // endregion
                 else -> executable = this@RunKotlinNativeTask.executable
@@ -149,15 +149,15 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             // remove existing exe in case there's permission issue etc.
             project.exec {
                 executable = "hdc"
-                args("shell", "rm", "/data/$execName")
+                args("shell", "rm", "/data/local/tmp/$execName")
             }
             project.exec {
                 executable = "hdc"
-                args("file", "send", this@RunKotlinNativeTask.executable.toString(), "/data/")
+                args("file", "send", this@RunKotlinNativeTask.executable.toString(), "/data/local/tmp/")
             }
             project.exec {
                 executable = "hdc"
-                args("shell", "chmod", "777", "/data/$execName")
+                args("shell", "chmod", "777", "/data/local/tmp/$execName")
             }
         }
         // endregion
@@ -170,7 +170,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             // region Tencent Code
             } else if (useHdc) {
                 executable = "hdc"
-                args("shell", ohosPreload, "/data/$execName")
+                args("shell", ohosPreload, "/data/local/tmp/$execName")
             // endregion
             } else {
                 executable = this@RunKotlinNativeTask.executable
