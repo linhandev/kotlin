@@ -68,7 +68,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
     val useHdc = project.findProperty("crossTarget")?.toString()?.contains("ohos") ?: false
     @Internal
     val execName = this.executable.split("/").last()
-    // HACK: kexe needs c++_shared to run on ohos. The location service comes bundled with the io, so this .so always exists
+    // HACK: kexe needs c++_shared to run on ohos. The location service comes bundled with the so, so this .so always exists
     @Internal
     val ohosPreload = "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so"
     // endregion
