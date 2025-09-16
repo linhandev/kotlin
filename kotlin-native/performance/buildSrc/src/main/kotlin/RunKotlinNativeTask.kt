@@ -62,6 +62,10 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
     val remoteHost = project.findProperty("remoteHost")?.toString()
     @Internal
     val remoteHostFolder = project.findProperty("remoteHostFolder")?.toString()
+    @Internal
+    val useHdc = project.findProperty("crossTarget")?.toString()?.contains("ohos") ?: false
+    @Internal
+    val execName = this.executable.split("/").last()
 
     private fun execBenchmarkOnce(benchmark: String, warmupCount: Int, repeatCount: Int) : String {
         val output = ByteArrayOutputStream()
@@ -126,11 +130,27 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
                 args(this@RunKotlinNativeTask.executable, "$it:$remoteHostFolder")
             }
         }
+
+        if (useHdc) {
+            project.exec {
+                executable = "hdc"
+                args("file", "send", this@RunKotlinNativeTask.executable.toString(), "/data/")
+            }
+            project.exec {
+                executable = "hdc"
+                args("shell", "chmod", "777", "/data/$execName")
+            }
+        }
+
         project.exec {
             if (remoteHost != null) {
                 executable = "ssh"
                 val remoteExecutable = this@RunKotlinNativeTask.executable.split("/").last()
                 args (remoteHost, "$remoteHostFolder/$remoteExecutable")
+            } else if (useHdc) {
+                executable = "hdc"
+                // HACK: kexe need c++_shared to run on ohos. Location is prebundled, this .so always exists
+                args("shell", "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so", "/data/$execName")
             } else {
                 executable = this@RunKotlinNativeTask.executable
             }
