@@ -12,7 +12,9 @@ plugins {
 }
 
 nativeDependenciesDownloader {
+    // region Tencent Code
     repositoryURL.set("https://kotlinnativeohos.online/download")
+    // endregion
     dependenciesDirectory.set(DependencyDirectories.getDependenciesRoot(kotlinBuildProperties.konanDataDir))
 
     allTargets {}

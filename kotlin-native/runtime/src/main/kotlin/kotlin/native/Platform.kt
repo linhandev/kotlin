@@ -21,8 +21,8 @@ public enum class OsFamily {
     ANDROID,
     WASM,
     TVOS,
-    // region Tencent Code
     WATCHOS,
+    // region Tencent Code
     OHOS
     // endregion
 }

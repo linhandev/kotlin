@@ -86,8 +86,8 @@ sealed class KonanTarget(override val name: String, val family: Family, val arch
                 LINUX_X64,
                 MINGW_X64,
                 MACOS_X64, MACOS_ARM64,
-                // region Tencent Code
                 LINUX_ARM64, LINUX_ARM32_HFP,
+                // region Tencent Code
                 OHOS_ARM64
                 // endregion
             ).associateBy { it.name }

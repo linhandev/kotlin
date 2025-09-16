@@ -24,6 +24,7 @@ include ':framework'
 include ':startup'
 include ':logging'
 
+// region Tencent Code
 def isAppleTarget = false
 if (hasProperty("crossTarget")) {
     def target = getProperty("crossTarget").toString().toLowerCase()
@@ -36,6 +37,7 @@ if (hasProperty("crossTarget")) {
 }
 
 if (isAppleTarget) {
+// endregion
     include ':objcinterop'
     include ':swiftinterop'
     if (hasProperty("runExcludedBenchmarks")) {

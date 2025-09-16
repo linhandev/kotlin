@@ -23,6 +23,7 @@ data class RecordTimeMeasurement(
     val warmupCount: Int,
     val durationNs: Double)
 
+// region Tencent Code
 data class BenchmarkArguments(
     val warmup: Int = 20,
     val repeat: Int = 60,
@@ -32,6 +33,7 @@ data class BenchmarkArguments(
     val filterRegex: List<String> = emptyList(),
     val verbose: Boolean = false
 )
+// endregion
 
 abstract class Launcher {
     abstract val baseBenchmarksSet: MutableMap<String, AbstractBenchmarkEntry>
@@ -170,6 +172,7 @@ abstract class Launcher {
     }
 }
 
+// region Tencent Code
 object BenchmarksRunner {
     fun parse(args: Array<String>, benchmarksListAction: (Boolean) -> Unit): BenchmarkArguments? {
         return when {
@@ -214,6 +217,7 @@ object BenchmarksRunner {
     fun collect(results: List<BenchmarkResult>, arguments: BenchmarkArguments) {
         JsonReportCreator(results).printJsonReport(arguments.output)
     }
+    // endregion
 
     fun runBenchmarks(args: Array<String>,
                       run: (parser: BenchmarkArguments) -> List<BenchmarkResult>,
