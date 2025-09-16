@@ -66,6 +66,9 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
     val useHdc = project.findProperty("crossTarget")?.toString()?.contains("ohos") ?: false
     @Internal
     val execName = this.executable.split("/").last()
+    // HACK: kexe needs c++_shared to run on ohos. The location service comes bundled with the io, so this .so always exists
+    @Internal
+    val ohosPreload = "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so"
 
     private fun execBenchmarkOnce(benchmark: String, warmupCount: Int, repeatCount: Int) : String {
         val output = ByteArrayOutputStream()
@@ -81,6 +84,10 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
                     executable = "ssh"
                     val remoteExecutable = this@RunKotlinNativeTask.executable.split("/").last()
                     args (remoteHost, "$remoteHostFolder/$remoteExecutable")
+                }
+                useHdc -> {
+                    executable = "hdc"
+                    args("shell", ohosPreload, "/data/$execName")
                 }
                 else -> executable = this@RunKotlinNativeTask.executable
             }
@@ -132,6 +139,11 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
         }
 
         if (useHdc) {
+            // remove existing exe in case there's permission issue etc.
+            project.exec {
+                executable = "hdc"
+                args("shell", "rm", "/data/$execName")
+            }
             project.exec {
                 executable = "hdc"
                 args("file", "send", this@RunKotlinNativeTask.executable.toString(), "/data/")
@@ -149,8 +161,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
                 args (remoteHost, "$remoteHostFolder/$remoteExecutable")
             } else if (useHdc) {
                 executable = "hdc"
-                // HACK: kexe need c++_shared to run on ohos. Location is prebundled, this .so always exists
-                args("shell", "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so", "/data/$execName")
+                args("shell", ohosPreload, "/data/$execName")
             } else {
                 executable = this@RunKotlinNativeTask.executable
             }
