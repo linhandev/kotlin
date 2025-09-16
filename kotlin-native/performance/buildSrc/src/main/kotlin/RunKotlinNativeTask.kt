@@ -103,7 +103,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             args("-r", repeatCount.toString())
             standardOutput = output
         }
-        return output.toString().substringAfter("[").removeSuffix("]")
+        return output.toString().substringAfterLast("[").removeSuffix("]")
     }
 
     private fun execBenchmarkRepeatedly(benchmark: String, warmupCount: Int, repeatCount: Int) : List<String> {
@@ -172,14 +172,13 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             }
             standardOutput = output
         }
-        val benchmarks = output.toString().lines()
+        val benchmarks = output.toString().lines().filter { it.isNotEmpty() }.filter { !it.contains("[logging]")}
         val filterArgs = filter.splitCommaSeparatedOption("-f")
         val filterRegexArgs = filterRegex.splitCommaSeparatedOption("-fr")
         val regexes = filterRegexArgs.map { it.toRegex() }
         val benchmarksToRun = if (filterArgs.isNotEmpty() || regexes.isNotEmpty()) {
-            benchmarks.filter { benchmark -> benchmark in filterArgs || regexes.any { it.matches(benchmark) } }.filter { it.isNotEmpty() }
-        } else benchmarks.filter { !it.isEmpty() }
-
+            benchmarks.filter { benchmark -> benchmark in filterArgs || regexes.any { it.matches(benchmark) } }
+        } else benchmarks
         val results = benchmarksToRun.flatMap { benchmark ->
             when (repeatingType) {
                 BenchmarkRepeatingType.INTERNAL -> listOf(execBenchmarkOnce(benchmark, warmupCount, repeatCount))

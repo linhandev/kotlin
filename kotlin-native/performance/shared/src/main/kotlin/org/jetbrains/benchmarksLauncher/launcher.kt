@@ -212,7 +212,7 @@ object BenchmarksRunner {
     }
 
     fun collect(results: List<BenchmarkResult>, arguments: BenchmarkArguments) {
-        arguments.output?.let { JsonReportCreator(results).printJsonReport(it) }
+        JsonReportCreator(results).printJsonReport(arguments.output)
     }
 
     fun runBenchmarks(args: Array<String>,
