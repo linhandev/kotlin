@@ -191,15 +191,20 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
     override fun filterStaticLibraries(binaries: List<String>) = binaries.filter { it.isUnixStaticLib }
 
     override fun LinkerArguments.finalLinkCommands(): List<Command> {
-        require(sanitizer == null) {
-            "Sanitizers are unsupported"
+        if (sanitizer != null && sanitizer !in listOf(SanitizerKind.ADDRESS)) {
+            require(false) {
+                "Only ADDRESS sanitizer is supported on OHOS, got: $sanitizer"
+            }
         }
+
         if (kind == LinkerOutputKind.STATIC_LIBRARY)
             return staticGnuArCommands(ar, executable, objectFiles, libraries)
 
         val dynamic = kind == LinkerOutputKind.DYNAMIC_LIBRARY
         val targetToolchain = absoluteTargetToolchain
         val crtPrefix = "$absoluteTargetSysRoot/$crtFilesLocation"
+        // TODO: support other ohos.arch
+        val targetLib = "$targetToolchain/lib/clang/19/lib/aarch64-linux-ohos"
         // TODO: Can we extract more to the konan.configurables?
         return listOf(Command(absoluteLinker).apply {
             +"--sysroot=${absoluteTargetSysRoot}"
@@ -231,14 +236,15 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             when (sanitizer) {
                 null -> {}
                 SanitizerKind.ADDRESS -> {
-                    +"-lrt"
-                    +provideCompilerRtLibrary("asan")!!
-                    +provideCompilerRtLibrary("asan_cxx")!!
+                    +"$targetLib/libclang_rt.asan.so"
+                    +"$targetLib/libclang_rt.asan-preinit.a"
+                    +"$targetLib/libclang_rt.builtins.a"
+                    +"$targetLib/clang_rt.crtend.o"
                 }
                 SanitizerKind.THREAD -> {
-                    +"-lrt"
-                    +provideCompilerRtLibrary("tsan")!!
-                    +provideCompilerRtLibrary("tsan_cxx")!!
+                    require(false) {
+                        "Thread sanitizer is unsupported on OHOS yet."
+                    }
                 }
             }
         })

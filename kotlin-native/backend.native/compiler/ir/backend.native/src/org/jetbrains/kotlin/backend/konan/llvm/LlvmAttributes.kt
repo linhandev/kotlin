@@ -101,4 +101,5 @@ sealed class LlvmFunctionAttribute(private val llvmAttributeName: String) : Llvm
     object NoInline : LlvmFunctionAttribute("noinline")
     object AlwaysInline : LlvmFunctionAttribute("alwaysinline")
     object SanitizeThread : LlvmFunctionAttribute("sanitize_thread")
+    object SanitizeAddress : LlvmFunctionAttribute("sanitize_address")
 }
