@@ -1,0 +1,20 @@
+KaUsualClassType:
+  abbreviation: null
+  annotations: []
+  classId: <local>/B.C
+  nullability: NON_NULLABLE
+  qualifiers: [
+    KaResolvedClassTypeQualifier:
+      name: B
+      symbol: KaNamedClassSymbol(<local>/B)
+      typeArguments: []
+    KaResolvedClassTypeQualifier:
+      name: C
+      symbol: KaNamedClassSymbol(<local>/C)
+      typeArguments: []
+  ]
+  symbol: KaNamedClassSymbol(<local>/C)
+  typeArguments: []
+
+Rendered type:
+B.C

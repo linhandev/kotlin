@@ -1,0 +1,3 @@
+KtDestructuringDeclarationEntry(120,124): 'val1'
+  KtDestructuringDeclarationReference:
+    val `<error property>`: ERROR(Destructuring declarations are only allowed for local variables/values)

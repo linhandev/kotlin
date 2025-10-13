@@ -1,0 +1,16 @@
+//
+// Source
+// ------------------------------------------
+
+import androidx.compose.runtime.Composable  
+@Composable 
+fun Example() {}
+
+//
+// Transformed IR
+// ------------------------------------------
+
+TestKt {
+    Example (Landroidx/compose/runtime/Composer;I)V null
+    Example$lambda$0 (ILandroidx/compose/runtime/Composer;I)Lkotlin/Unit; null
+}
