@@ -50,6 +50,7 @@ add_executable(runtime
 	src/main/cpp/Types.cpp
 	src/main/cpp/Weak.cpp
 	src/main/cpp/Worker.cpp
+	src/main/cpp/BuildIdUtils.cpp
 	src/main/cpp/dlmalloc/malloc.cpp
 	src/main/cpp/dtoa/cbigint.cpp
 	src/main/cpp/dtoa/dblparse.cpp
