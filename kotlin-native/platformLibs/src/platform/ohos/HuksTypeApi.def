@@ -1,0 +1,6 @@
+package = platform.HuksTypeApi
+headers = huks/native_huks_type.h
+headerFilter = huks/native_huks_type.h
+linkerOpts = -lhuks_ndk.z
+language = C++
+compilerOpts = -std=c++17
