@@ -417,6 +417,19 @@ fun main() {
                 model()
             }
         }
+
+        // CAPI tests
+        testGroup("native/native.tests/tests-gen", "native/native.tests/testData/capi") {
+            testClass<AbstractNativeBlackBoxTest>(
+                suiteTestClassName = "OhosCAPITestGenerated",
+                annotations = listOf(
+                    *capi(),
+                    provider<UseStandardTestCaseGroupProvider>(),
+                )
+            ) {
+                model()
+            }
+        }
     }
 }
 
@@ -577,3 +590,7 @@ private fun stress() = arrayOf(
         "propertyValue" to "15m"
     )
 )
+private fun capi() = arrayOf(
+    annotation(Tag::class.java, "capi"),
+)
+
