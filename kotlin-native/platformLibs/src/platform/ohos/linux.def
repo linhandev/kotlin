@@ -1,3 +1,4 @@
+# Kept for compatability with KuiklyBase-kotlin
 package = platform.linux
 headers = aio.h byteswap.h cpio.h crypt.h \
 	elf.h endian.h features.h fmtmsg.h \

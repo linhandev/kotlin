@@ -1,3 +1,4 @@
+# Kept for compatability with KuiklyBase-kotlin
 depends = posix
 package = platform.ohos
 headers = hilog/log.h hiappevent/hiappevent.h napi/native_api.h napi/common.h \
