@@ -83,7 +83,7 @@ enabledTargets(platformManager).forEach { target ->
             )
             df.file?.let { this.defFile.set(it) }
             df.config.depends.forEach { defName ->
-                this.klibFiles.from(tasks.named(interopTaskName(defFileToLibName(targetName, defName), targetName)))
+                this.klibFiles.from(tasks.named<Sync>(defFileToLibName(targetName, defName)))
             }
             this.extraOpts.addAll(
                     "-Xpurge-user-libs",

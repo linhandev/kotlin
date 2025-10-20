@@ -1,3 +1,4 @@
+# Kept for compatability with KuiklyBase-kotlin
 depends = glesCommon posix
 package = platform.gles3
 headers = GLES3/gl3.h GLES3/gl3platform.h
