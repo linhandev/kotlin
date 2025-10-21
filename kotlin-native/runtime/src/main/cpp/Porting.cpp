@@ -70,7 +70,6 @@ void consoleWriteUtf8(const char* utf8, uint32_t sizeBytes) {
   }
 // region Tencent Code
 #elif KONAN_OHOS
-  ::write(STDOUT_FILENO, utf8, sizeBytes);
   OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "Konan_main", "%{public}s", utf8);
 // endregion
 #else
@@ -88,7 +87,6 @@ void consoleErrorUtf8(const char* utf8, uint32_t sizeBytes) {
   }
 // region Tencent Code
 #elif KONAN_OHOS
-  ::write(STDERR_FILENO, utf8, sizeBytes);
   OH_LOG_Print(LOG_APP, LOG_ERROR, LOG_DOMAIN, "Konan_main", "%{public}s", utf8);
 // endregion
 #else
