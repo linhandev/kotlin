@@ -35,7 +35,10 @@ native {
 
     val ldflags = mutableListOf<String>()
     if (HostManager.hostIsMac) {
-        ldflags.addAll(listOf("-Xlinker", "-lto_library", "-Xlinker", "KT-69382"))
+        // region @Tencent: We have to use the real path of libLTO.dylib building with Xcode 16.3 and later.
+        val libLTOPath: String = findProperty("konan.libLTOPath").toString()
+        ldflags.addAll(listOf("-Xlinker", "-lto_library", "-Xlinker", libLTOPath))
+        // endregion
     }
 
     target(solib("callbacks"), objSet) {

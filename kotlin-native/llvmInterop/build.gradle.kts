@@ -23,7 +23,11 @@ kotlinNativeInterop {
             //
             // To enforce linking with proper libc++, pass the default path explicitly:
             linkerOpts("-L${hostPlatform.absoluteTargetSysRoot}/usr/lib")
-            linkerOpts("-Xlinker", "-lto_library", "-Xlinker", "KT-69382")
+
+            // region @Tencent: We have to use the real path of libLTO.dylib building with Xcode 16.3 and later.
+            val libLTOPath: String = findProperty("konan.libLTOPath").toString()
+            linkerOpts("-Xlinker", "-lto_library", "-Xlinker", libLTOPath)
+            // endregion
         }
         linkerOpts("-L$llvmDir/lib", "-L${rootProject.project(":kotlin-native:llvmDebugInfoC").layout.buildDirectory.get().asFile}", "-L${rootProject.project(":kotlin-native:libllvmext").layout.buildDirectory.get().asFile}")
     }

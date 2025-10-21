@@ -71,6 +71,13 @@ def hostName = PlatformInfo.hostName
 def targetList = EnabledTargetsKt.enabledTargets(platformManager).collect { it.visibleName } as List
 def cacheableTargetNames = platformManager.hostPlatform.cacheableTargets
 
+// region @Tencent: Argument of '-lto_library' should end with 'libLTO.dylib' since Xcode 16.3, 
+//                  no matter whether it exists or not.  
+if (PlatformInfo.isMac() && !hasProperty("konan.libLTOPath")) {
+    rootProject.extensions.add("konan.libLTOPath", "/dummy/libLTO.dylib")
+}
+// endregion
+
 configurations {
     ftpAntTask
     distPack

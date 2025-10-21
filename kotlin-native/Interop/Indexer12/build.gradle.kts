@@ -36,7 +36,10 @@ val cflags = mutableListOf( "-I${nativeDependencies.llvm12Path}/include",
 
 val ldflags = mutableListOf("${nativeDependencies.llvm12Path}/$libclang", "-L${libclangextDir.absolutePath}", "-lclangext12")
 if (HostManager.hostIsMac) {
-    ldflags.addAll(listOf("-Xlinker", "-lto_library", "-Xlinker", "KT-69382"))
+    // region @Tencent: We have to use the real path of libLTO.dylib building with Xcode 16.3 and later.
+    val libLTOPath: String = findProperty("konan.libLTOPath").toString()
+    ldflags.addAll(listOf("-Xlinker", "-lto_library", "-Xlinker", libLTOPath))
+    // endregion
 }
 
 
