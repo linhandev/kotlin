@@ -68,7 +68,7 @@ std::string concatFatalMessage(std::vector<std::string> soFiles, std::vector<std
     } else {
         addressTmp = " " + address;
     }
-    if (message.length() + soFilesStr.length() + addressLine.length() + soFileStrTmp.length() + addressTmp.length() + 22 < 1023) {
+    if (message.length() + soFilesStr.length() + addressLine.length() + soFileStrTmp.length() + addressTmp.length() + 22 < 1004) {
         soFilesStr += soFilesStr == "" ? soFileStrTmp : soFileStrTmp == "" ? "" : "," + soFileStrTmp;
         addressLine += addressTmp;
     } else {
@@ -128,7 +128,7 @@ void ReportBacktraceToOhosLog(KRef exception) {
       }
     }
   std::string fatalMessage = concatFatalMessage(soFiles, addresses, message);
-  set_fatal_message(fatalMessage.substr(0, 1023).c_str());
+  set_fatal_message(fatalMessage.substr(0, 1004).c_str());
 }
 
 #endif
