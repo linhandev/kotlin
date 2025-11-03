@@ -11,7 +11,7 @@ on:
         required: false
         type: string
 env:
-  artifact_version: ohos-2
+  artifact_version: ohos-3
 
 jobs:
   build:
@@ -102,7 +102,7 @@ jobs:
           command: |
             pip install requests
 
-            ./repo init -u https://gitee.com/OpenHarmony/manifest.git -b master -m llvm-19.1.7-toolchain.xml
+            ./repo init -u https://gitcode.com/OpenHarmony/manifest.git -b master -m llvm-19.1.7-toolchain.xml
             ./repo sync -c
             ./repo forall -c 'git lfs pull'
 
