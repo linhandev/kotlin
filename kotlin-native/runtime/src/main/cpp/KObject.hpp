@@ -8,13 +8,14 @@
 #include "Memory.h"
 #include "TypeInfo.h"
 #include "TypeLayout.hpp"
+#include "Types.h"
 #include "Utils.hpp"
 
 namespace kotlin {
 
 // CRT hash implamentation
 #ifdef USE_CRT
-static constexpr size_t kCRTHashSlotSize = sizeof(int32_t);
+typedef KInt CRTHash;
 #endif
 
 struct KObject : private Pinned {
@@ -33,7 +34,7 @@ struct KObject : private Pinned {
             RuntimeAssert(typeInfo_ != nullptr, "Cannot call size() on KObject::descriptor(nullptr)");
             auto size = typeInfo_->instanceSize_;
 #ifdef USE_CRT
-            size += kCRTHashSlotSize; // CRT implementation extra 4 bytes used to cache hash code
+            size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
 #endif
             return size;
         }
@@ -84,7 +85,7 @@ struct KArray : private Pinned {
             auto elementsSize = elementSize * count_;
             auto size = AlignUp<uint64_t>(AlignUp(sizeof(ArrayHeader), elementAlignment) + elementsSize, alignment());
 #ifdef USE_CRT
-            size += kCRTHashSlotSize; // CRT implementation extra 4 bytes used to cache hash code
+            size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
 #endif
             return size;
         }
