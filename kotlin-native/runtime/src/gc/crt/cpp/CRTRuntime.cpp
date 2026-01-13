@@ -13,20 +13,11 @@
  * limitations under the License.
  */
 
-#include "log/log.h"
-#include "common_components/common_runtime/base_runtime_param.h"
 #include "CRTRuntime.hpp"
-#include "Logging.hpp"
-#include "../../alloc/crt/cpp/KNRootVisitor.hpp"
-#include "../../alloc/crt/cpp/KNBaseObject.hpp"
-#include "../../alloc/crt/cpp/KNFinalizer.hpp"
+#include "alloc/crt/cpp/KNRootVisitor.hpp"
+#include "alloc/crt/cpp/KNBaseObject.hpp"
+#include "alloc/crt/cpp/KNFinalizer.hpp"
 #include <map>
-
-// Provide definitions for Log static members since they're not exported from libcrt.so
-namespace common {
-Level Log::level_ = Level::ERROR;
-ComponentMark Log::components_ = static_cast<ComponentMark>(Component::ALL);
-}
 
 #ifndef _WIN32
 #include <dlfcn.h>
@@ -41,7 +32,7 @@ namespace kotlin {
 extern "C" char end;
 #endif
 
-static void initAddressScope() {
+void initAddressScope() {
 #ifndef _WIN32
     Dl_info info;
     int succ = ::dladdr((void*)&initAddressScope, &info);
@@ -63,29 +54,6 @@ static void initAddressScope() {
 #endif
 }
 
-namespace crt {
-static std::map<std::string, Level> logLevels = {
-    {"debug", Level::DEBUG},
-    {"info", Level::INFO},
-    {"fatal", Level::FATAL},
-    {"fatal_without_abort", Level::FATAL_WITHOUT_ABORT},
-    {"verbose", Level::VERBOSE},
-    {"warn", Level::WARN},
-    {"error", Level::ERROR},
-};
-} // namespace crt
-
-inline static void InitLog() {
-  const char* env = std::getenv("CRT_LOG_LEVEL");
-  std::string logLevelStr = env != nullptr ? std::string(env) : "error";
-  std::transform(logLevelStr.begin(), logLevelStr.end(), logLevelStr.begin(), ::tolower);
-  common::LogOptions options = {
-    .level = crt::logLevels[logLevelStr],
-    .component = static_cast<ComponentMark>(Component::ALL),
-  };
-  common::Log::Initialize(options);
-}
-
 inline static bool IsEnableSTWGC() {
   const char* env = std::getenv("CRT_GC_MODE");
   std::string mode = env != nullptr ? std::string(env) : "cmc";
@@ -102,7 +70,7 @@ bool InitCRTRuntime() {
     initialized = true;
 
     initAddressScope();
-    common::RuntimeParam param = common::BaseRuntimeParam::DefaultRuntimeParam();
+    common::RuntimeParam param = common::DefaultRuntimeParam();
     // param.gcParam.enableGC = false;
     // param.gcParam.enableStwGC = true;
     param.heapParam.heapSize = 4ULL * common::MB;
@@ -113,8 +81,7 @@ bool InitCRTRuntime() {
     common::BaseRuntime::GetInstance()->InitFromDynamic(param);
     common::BaseObject::RegisterKotlin(&common::KNBaseObjectOperator::Instance());
     common::BaseRoots::Register<common::LanguageType::KOTLIN>(&common::KNRootsVisitor::Instance());
-    common::BaseFinalizerProcessor::RegisterFinalizationInterface(&common::KNFinalizationInterface::Instance());
-    // InitLog();
+    common::RegisterFinalizationInterface(&common::KNFinalizationInterface::Instance());
     return true;
 }
 

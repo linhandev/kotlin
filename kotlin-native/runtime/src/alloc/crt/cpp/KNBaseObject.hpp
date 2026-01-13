@@ -67,7 +67,7 @@ private:
         const uintptr_t addr = reinterpret_cast<uintptr_t>(obj);
         // We assume only base pointer here, so it must be 8-bytes aligned.
         // Dervived pointers are collected elsewhere
-        if (!common::Heap::IsHeapAddress(addr) || (addr & 7ul) != 0) {
+        if (!common::IsHeapAddress(addr) || (addr & 7ul) != 0) {
             return false;
         }
         auto commonObj = reinterpret_cast<const common::BaseObject*>(obj);
@@ -85,7 +85,7 @@ private:
 
 // helper function for KNBaseObjectOperator::ForEachRefField
 static inline void processFieldInMark(const RefFieldVisitor& visitor, ObjHeader* object, ObjHeader*& field) noexcept {
-    if (common::Heap::IsHeapAddress(field)) {
+    if (common::IsHeapAddress(field)) {
         visitor(reinterpret_cast<common::RefField<>&>(field));
     }
 }

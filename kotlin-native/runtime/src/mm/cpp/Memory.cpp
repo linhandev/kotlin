@@ -30,10 +30,8 @@
 #ifdef USE_CRT
 #include "alloc/crt/cpp/CRTFastpathUtils.hpp"
 #include "common_interfaces/base_runtime.h"
-#include "mutator/mutator.h"
+#include "common_interfaces/thread/mutator_base.h"
 #endif
-
-#define ENABLE_STACKMAP 1
 
 using namespace kotlin;
 
@@ -685,16 +683,16 @@ void kotlin::compactObjectPoolInCurrentThread() noexcept {
 
 RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj) {
 #ifdef USE_CRT
-    if (common::Heap::IsHeapAddress(obj)) {
-        common::Heap::GetHeap().GetCollector().AddRawPointerObject(reinterpret_cast<common::BaseObject*>(obj));
+    if (common::IsHeapAddress(obj)) {
+        common::BaseObjectPinned(reinterpret_cast<common::BaseObject*>(obj));
     }
 #endif
 }
 
 RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCUnpin(KRef thiz, KRef obj) {
 #ifdef USE_CRT
-    if (common::Heap::IsHeapAddress(obj)) {
-        common::Heap::GetHeap().GetCollector().RemoveRawPointerObject(reinterpret_cast<common::BaseObject*>(obj));
+    if (common::IsHeapAddress(obj)) {
+        common::BaseObjectUnPinned(reinterpret_cast<common::BaseObject*>(obj));
     }
 #endif
 }

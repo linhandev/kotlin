@@ -26,18 +26,14 @@
 #include "Memory.h"
 #include "CRTFastpathUtils.hpp"
 
-#include "common_components/heap/allocator/regional_heap.h"
 #include "common_interfaces/heap/heap_allocator.h"
-#include "common_components/heap/heap.h"
-#include "common_components/heap/allocator/region_desc.h"
-#include "macros.h"
-#include "mutator/thread_local.h"
+#include "HeapInterface.hpp"
 #include "KNBaseObject.hpp"
 
 namespace kotlin::alloc {
 
 CRTAllocator::CRTAllocator() noexcept {
-    crtTls = common::ThreadLocal::GetThreadLocalData();
+    crtTls = common::GetThreadLocalData();
 #ifdef ENABLE_GC_FASTPATH
     common::SetThreadLocalDataToFixedReg(reinterpret_cast<uintptr_t>(crtTls));
 #endif
@@ -48,31 +44,31 @@ CRTAllocator::~CRTAllocator() {
     // heap_.AddToFinalizerQueue(std::move(finalizerQueue_));
 }
 
-static NO_INLINE common::Address AllocFromCMCSlowPath(size_t size, common::ThreadLocalData* tls) {
+static NO_INLINE common::Address AllocFromCMCSlowPath(size_t size, void* tls) {
     auto allocPtr = common::HeapAllocator::Allocate(size, common::LanguageType::KOTLIN);
 
 #ifdef ENABLE_GC_FASTPATH
-    common::UpdateThreadLocalDataReg(tls->mutator);
+    common::UpdateThreadLocalDataReg(*reinterpret_cast<common::MutatorBase**>(reinterpret_cast<uintptr_t>(tls) + common::TLS_MUTATOR_OFF));
 #endif
     return allocPtr;
 }
 
 uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
+    size_t allocSize = common::HeapAllocateSize(size);
     // TODO: maybe cause an extra instruction compared to directly loading from x28. Review later
-    common::ThreadLocalData* tls = reinterpret_cast<common::ThreadLocalData*>(crtTls);
-    size_t allocSize = common::RegionalHeap::ToAllocatedSize(size);
+    auto tls = reinterpret_cast<uintptr_t>(crtTls);
+    auto buffer = *reinterpret_cast<uintptr_t*>(tls + common::TLS_ALLOC_BUFFER_OFF);
+    auto regionAddr = *reinterpret_cast<uintptr_t*>(buffer + common::ALLOC_BUFFER_REGION_OFF);
 
-    common::RegionDesc* region = tls->buffer->GetRegion();
-    auto allocPtr = region->GetRegionAllocPtr();
-    uintptr_t regionEnd = region->GetRegionEnd();
-    auto regionPtr = reinterpret_cast<uintptr_t*>(region);
+    uintptr_t allocPtr = *reinterpret_cast<uintptr_t*>(regionAddr + common::REGION_DESC_ALLOC_OFF);
+    uintptr_t regionEnd = *reinterpret_cast<uintptr_t*>(regionAddr + common::REGION_DESC_END_OFF);
 
     auto endOfAlloc = allocPtr + allocSize;
     if (UNLIKELY(endOfAlloc > regionEnd)) {
-        allocPtr = AllocFromCMCSlowPath(size, tls);
+        allocPtr = AllocFromCMCSlowPath(size, crtTls);
     } else {
         RuntimeAssert(allocPtr == common::HeapAllocator::Allocate(size, common::LanguageType::KOTLIN), "FastAlloc mismatch");
-        *regionPtr = endOfAlloc; // same as `region->metadata.allocPtr = endOfAlloc`
+        *reinterpret_cast<uintptr_t*>(regionAddr + common::REGION_DESC_ALLOC_OFF) = endOfAlloc;
     }
     return reinterpret_cast<uint8_t*>(allocPtr);
 }

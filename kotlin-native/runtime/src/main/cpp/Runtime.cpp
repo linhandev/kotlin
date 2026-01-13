@@ -4,7 +4,6 @@
  */
 
 #include "base/common.h"
-#include "common_components/log/log_base.h"
 #include "std_support/Atomic.hpp"
 #include "Cleaner.h"
 #include "CompilerConstants.hpp"

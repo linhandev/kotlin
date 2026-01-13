@@ -35,13 +35,13 @@ std::pair<size_t, size_t> KNRootsVisitor::StackRange(kotlin::mm::ThreadData& thr
         }
         currentFrame = currentFrame->previous;
     }
-    minFrame = minFrame / common::COMMON_PAGE_SIZE * common::COMMON_PAGE_SIZE;
-    maxFrame = common::AlignUp<uintptr_t>(maxFrame, common::COMMON_PAGE_SIZE);
+    constexpr size_t GENERAL_PAGE_SIZE = 4096;
+    minFrame = common::RoundDown<GENERAL_PAGE_SIZE>(minFrame);
+    maxFrame = common::RoundUp<GENERAL_PAGE_SIZE>(maxFrame);
     return std::make_pair(minFrame, maxFrame);
 }
 
 void KNRootsVisitor::CollectRootSetAndFixDerivedPtr(const common::RefFieldVisitor& visitorFunc) {
-    ASSERT(common::Heap::GetHeap().GetGCPhase() == common::GCPhase::GC_PHASE_FINAL_MARK);
     ForwardedRootMap preForwardRootMap;
     RecordingObjectVisitor recordingObjectVisitor{&preForwardRootMap, visitorFunc};
     FixDerivedPtrVisitor fixDerivedPtrVisitor{&preForwardRootMap};

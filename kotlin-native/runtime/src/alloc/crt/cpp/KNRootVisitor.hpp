@@ -14,6 +14,7 @@
  */
 #pragma once
 
+#include <map>
 #include "RootSet.hpp"
 #include "common_interfaces/objects/base_object.h"
 #include "common_interfaces/objects/base_state_word.h"
@@ -30,7 +31,7 @@ namespace common {
 class KNRootsVisitor : public common::RootsRegistryInterface, private kotlin::Pinned {
 public:
     void VisitGlobalRoots(const RefFieldVisitor& visitor) {
-        auto phase = Heap::GetHeap().GetGCPhase();
+        auto phase = common::GetGCPhase();
         if (phase == common::GCPhase::GC_PHASE_FINAL_MARK) {
             CollectRootSetAndFixDerivedPtr(visitor);
             return;
@@ -73,7 +74,7 @@ private:
     // Will be removed once stackmap is ready.
     static bool isValidObjHeader(void* ptr) noexcept {
         auto& refField = reinterpret_cast<common::RefField<>&>(ptr);
-        return common::Heap::IsHeapAddress(ptr) && common::KNBaseObjectOperator::Instance().IsValidObject(refField.GetTargetObject());
+        return common::IsHeapAddress(ptr) && common::KNBaseObjectOperator::Instance().IsValidObject(refField.GetTargetObject());
     }
 
     // A map used to record all base pointer during roots traversal, this will later be used to help identify dervied ptr
@@ -108,7 +109,7 @@ private:
 
         bool operator()(ObjHeader*& object) const {
             auto& refField = reinterpret_cast<common::RefField<>&>(object);
-            if (!common::Heap::IsHeapAddress(object)) {
+            if (!common::IsHeapAddress(object)) {
                 return false;
             }
             // In ambiguous stack scan we can see dirty data from last GC cycle, skip those
@@ -149,7 +150,7 @@ private:
         ForwardedRootMap* rootMap_;
 
         bool operator()(ObjHeader*& stackRef) const {
-            if (!common::Heap::IsHeapAddress(stackRef)) {
+            if (!common::IsHeapAddress(stackRef)) {
                 return false;
             }
             uintptr_t addr = reinterpret_cast<uintptr_t>(stackRef);

@@ -283,7 +283,6 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
                 this.arguments.add("-I${nativeRoot.dir("runtime/src/main/cpp").asFile.absolutePath}")
                 this.arguments.add("-I${thirdParty.dir("common-rt").asFile.absolutePath}")
                 this.arguments.add("-I${thirdParty.dir("common-rt/common_interfaces").asFile.absolutePath}")
-                this.arguments.add("-I${thirdParty.dir("common-rt/common_components").asFile.absolutePath}")
                 this.arguments.add("-I${thirdParty.dir("common-rt/libpandabase").asFile.absolutePath}")
                 this.arguments.add("-I${thirdParty.dir("common-rt/libpandabase/utils").asFile.absolutePath}")
                 this.arguments.add("-I${thirdParty.dir("common-rt/third_party_bounds_checking_function/include").asFile.absolutePath}")

@@ -8,10 +8,10 @@
 #include <cstdlib>
 #include "Memory.h"
 #include "std_support/Atomic.hpp"
+
 #ifdef USE_CRT
 #include "macros.h"
-#include "common_interfaces/base_runtime.h"
-#include "common_components/heap/heap.h"
+#include "alloc/crt/cpp/HeapInterface.hpp"
 #endif
 
 #if __has_feature(thread_sanitizer)
@@ -45,17 +45,17 @@ public:
     DirectRefAccessor() = delete;
     DirectRefAccessor& operator=(const DirectRefAccessor&) = delete;
 
-explicit DirectRefAccessor(ObjHeader*& fieldRef) noexcept : refPtr_(&fieldRef) {}
+    explicit DirectRefAccessor(ObjHeader*& fieldRef) noexcept : refPtr_(&fieldRef) {}
     explicit DirectRefAccessor(ObjHeader** fieldPtr) noexcept : refPtr_(fieldPtr) {}
     explicit DirectRefAccessor(ObjHeader** fieldPtr, ObjHeader *thisPtr) noexcept : refPtr_(fieldPtr), this_(thisPtr) {}
     DirectRefAccessor(const DirectRefAccessor& other) noexcept : DirectRefAccessor(other.refPtr_) {}
 
     ObjHeader** location() const noexcept { return refPtr_; }
 
-    PERFORMANCE_INLINE operator ObjHeader*() const noexcept { return load(); }
-    PERFORMANCE_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
+    ALWAYS_INLINE operator ObjHeader*() const noexcept { return load(); }
+    ALWAYS_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
 
-    PERFORMANCE_INLINE ObjHeader* load() const noexcept {
+    ALWAYS_INLINE ObjHeader* load() const noexcept {
 #if STRICT_ATOMICS_IN_HEAP
         // Consume stores in the object, that were released on the object's allocation
         // See `ObjectOps.cpp`
@@ -75,14 +75,16 @@ explicit DirectRefAccessor(ObjHeader*& fieldRef) noexcept : refPtr_(&fieldRef) {
 #endif
     }
 
-ALWAYS_INLINE void store(ObjHeader* desired) noexcept {
+    ALWAYS_INLINE void store(ObjHeader* desired) noexcept {
 #ifdef USE_CRT
         if (this_) {
-            if (common::Heap::IsHeapAddress(desired)) {
+            // NOTE:  to filter out cache primitive which is not on heap but in program data section
+            // Be very carefull, this could let us miss obvious wrong value
+            if (common::IsHeapAddress(desired)) {
                 common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
             }
         }
-#endif
+#endif // USE_CRT
 #if STRICT_ATOMICS_IN_HEAP
         storeAtomic(desired, std::memory_order_relaxed);
 #else
@@ -90,7 +92,7 @@ ALWAYS_INLINE void store(ObjHeader* desired) noexcept {
 #endif
     }
 
-ALWAYS_INLINE auto atomic() noexcept {
+    ALWAYS_INLINE auto atomic() noexcept {
         return std_support::atomic_ref{*refPtr_};
     }
     ALWAYS_INLINE auto atomic() const noexcept {
@@ -104,10 +106,10 @@ ALWAYS_INLINE auto atomic() noexcept {
         return atomic().load(order);
 #endif
     }
-ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
 #ifdef USE_CRT
         if (this_) {
-            if (common::Heap::IsHeapAddress(desired)) {
+            if (common::IsHeapAddress(desired)) {
                 common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
             }
         }
@@ -116,26 +118,32 @@ ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noex
     }
     ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
 #ifdef USE_CRT
+        //TODO: Make sure swapBarrier is implemented correctly in CRT
         if (this_) {
-            if (common::Heap::IsHeapAddress(desired)) {
+            if (common::IsHeapAddress(desired)) {
                 common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
             }
         }
-#endif
         return atomic().exchange(desired, order);
+#else
+        return atomic().exchange(desired, order);
+#endif
     }
-ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
 #ifdef USE_CRT
+        // Canonicalize
         ObjHeader* cur = reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this_, refPtr_));
         if (cur != expected) {
+            // value has been moved, simply return false and update expected
             expected = cur;
             return false;
         }
 
+        // Till this point all values are to-space, we can simply use CAS to try install the value
         bool ok = atomic().compare_exchange_strong(expected, desired, order);
         if (ok) {
             if (this_) {
-                if (common::Heap::IsHeapAddress(desired)) {
+                if (common::IsHeapAddress(desired)) {
                     common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
                 }
             }
@@ -175,9 +183,9 @@ public:
     void beforeStore(ObjHeader* value) noexcept;
     void afterStore(ObjHeader* value) noexcept;
 
-    PERFORMANCE_INLINE operator ObjHeader*() noexcept { return load(); }
+    ALWAYS_INLINE operator ObjHeader*() noexcept { return load(); }
 
-    PERFORMANCE_INLINE ObjHeader* load() noexcept {
+    ALWAYS_INLINE ObjHeader* load() noexcept {
         AssertThreadState(ThreadState::kRunnable);
         beforeLoad();
         auto result = direct_.load();
@@ -185,7 +193,7 @@ public:
         return result;
     }
 
-    PERFORMANCE_INLINE ObjHeader* loadAtomic(std::memory_order order) noexcept {
+    ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
         beforeLoad();
         auto result = direct_.loadAtomic(order);
@@ -193,23 +201,23 @@ public:
         return result;
     }
 
-    PERFORMANCE_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
+    ALWAYS_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
 
-    PERFORMANCE_INLINE void store(ObjHeader* desired) noexcept {
+    ALWAYS_INLINE void store(ObjHeader* desired) noexcept {
         AssertThreadState(ThreadState::kRunnable);
         beforeStore(desired);
         direct_.store(desired);
         afterStore(desired);
     }
 
-    PERFORMANCE_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
         beforeStore(desired);
         direct_.storeAtomic(desired, order);
         afterStore(desired);
     }
 
-    PERFORMANCE_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
         beforeLoad();
         beforeStore(desired);
@@ -219,7 +227,7 @@ public:
         return result;
     }
 
-    PERFORMANCE_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
         beforeLoad();
         beforeStore(desired);

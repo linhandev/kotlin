@@ -19,7 +19,7 @@ static_assert(sizeof(ObjHeader*) == sizeof(KLong));
 RUNTIME_NOTHROW extern "C" void Konan_initWeakReferenceCRTImpl(ObjHeader* weakRef, ObjHeader* referred) {
     uintptr_t addr = reinterpret_cast<uintptr_t>(weakRef);
     KLong* field = reinterpret_cast<KLong*>(addr + sizeof(ObjHeader));
-    *field = reinterpret_cast<KLong>(referred) | common::Barrier::TAG_WEAK;
+    *field = reinterpret_cast<KLong>(referred) | common::WEAK_REF_TAG;
     reinterpret_cast<common::KNBaseObject*>(weakRef)->SetWeakRefImplObjectFlag(true);
 }
 

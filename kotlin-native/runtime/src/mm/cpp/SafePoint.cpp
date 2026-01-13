@@ -18,16 +18,8 @@
 #include "ThreadState.hpp"
 #ifdef USE_CRT
 #include "alloc/crt/cpp/CRTFastpathUtils.hpp"
-#include "common_components/mutator/mutator.h"
-#include "common_components/mutator/mutator.inline.h"
-#include "common_interfaces/thread/mutator_base.h"
-#include "common_interfaces/thread/mutator_base-inl.h"
-#include "common_interfaces/thread/thread_holder.h"
-#include "common_interfaces/thread/thread_holder-inl.h"
+#include "alloc/crt/cpp/HeapInterface.hpp"
 #endif
-
-#include "StackTrace.hpp"
-#include <iostream>
 
 // TODO: Remove after the bootstrap that brings changes in ClangArgs.kt
 #ifndef KONAN_SUPPORTS_SIGNPOSTS
@@ -51,21 +43,17 @@ void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl);
 #endif // ENABLE_GC_FASTPATH
 #elif defined(__x86_64__)
 #define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "rbx", "r12", "r13", "r14", "r15");
-#elif defined(__arm__)
-#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory");
-#elif defined(__i386__)
-#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory");
 #endif // __aarch64__
 
-static NO_INLINE void SafePointSlowPath(common::Mutator* mutator) {
+static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
     CRT_REGISTERS_CLOBBERS;
     FrameOverlay slot;
     mm::ThreadData* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
 
     threadData->shadowStack().EnterFrame(reinterpret_cast<ObjHeader**>(&slot), 0, 2);
 
-    // DoLeaveSaferegion will set state to running and handle STW request if needed
-    mutator->GetThreadHolder()->TransferToRunning();
+    common::MutatorBase* mutator = reinterpret_cast<common::MutatorBase*>(mutatorPtr);
+    mutator->DoLeaveSaferegion();
 #ifdef ENABLE_GC_FASTPATH
     common::UpdateThreadLocalDataReg(mutator);
 #endif
@@ -188,9 +176,9 @@ ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPath
 #ifdef USE_CRT
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     // avoid use `common::ThreadLocal::GetThreadLocalData` if CRT dynamic link
-    auto* tls = (common::ThreadLocalData*)(EvalCRTTLS(threadData->allocator().impl()));
-    if (UNLIKELY(tls->mutator->GetSafepointActiveState())) {
-        SafePointSlowPath(tls->mutator);
+    void* tls = EvalCRTTLS(threadData->allocator().impl());
+    if (UNLIKELY(common::IsSafePointActive(tls))) {
+        SafePointSlowPath(threadData->GetThreadHolder()->GetMutator());
     }
 #else
     auto action = safePointAction.load(fastPathOrder);

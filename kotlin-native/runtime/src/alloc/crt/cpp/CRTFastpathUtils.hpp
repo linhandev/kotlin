@@ -39,7 +39,7 @@ static inline void SetThreadLocalDataToFixedReg(uintptr_t tls) {
 static inline void ClearThreadLocalDataInFixedReg() {
     __asm__ volatile("eor x28, x28, x28");
 }
-static inline void UpdateThreadLocalDataReg(Mutator* mutator) {
+static inline void UpdateThreadLocalDataReg(common::MutatorBase* mutator) {
     uintptr_t maskBits = mutator->GetMutatorPhase() > 8 ? 1 : 0;
     __asm__ volatile("bfi x28, %0, #62, #1" : : "r"(maskBits));
 }
