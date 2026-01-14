@@ -48,7 +48,7 @@ static NO_INLINE common::Address AllocFromCMCSlowPath(size_t size, void* tls) {
     auto allocPtr = common::HeapAllocator::Allocate(size, common::LanguageType::KOTLIN);
 
 #ifdef ENABLE_GC_FASTPATH
-    common::UpdateThreadLocalDataReg(*reinterpret_cast<common::MutatorBase**>(reinterpret_cast<uintptr_t>(tls) + common::TLS_MUTATOR_OFF));
+    common::UpdateThreadLocalDataReg(*reinterpret_cast<common::MutatorBase**>((char*)tls + common::TLS_MUTATOR_OFF));
 #endif
     return allocPtr;
 }

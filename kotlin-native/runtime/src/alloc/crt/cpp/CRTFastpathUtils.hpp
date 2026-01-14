@@ -12,6 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#ifndef CRT_ALLOC_CPP_CRTFASTPATHUTILS_HPP_
+#define CRT_ALLOC_CPP_CRTFASTPATHUTILS_HPP_
 
 #include "common_components/mutator/mutator.h"
 
@@ -45,3 +47,4 @@ static inline void UpdateThreadLocalDataReg(common::MutatorBase* mutator) {
 }
 #endif
 } // namespace common
+#endif
