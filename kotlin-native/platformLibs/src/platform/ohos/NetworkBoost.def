@@ -1,8 +1,0 @@
-package = platform.NetworkBoostKit.NetworkBoost
-headers = NetworkBoostKit/network_boost_handover.h \
-    NetworkBoostKit/network_boost_quality.h
-headerFilter = NetworkBoostKit/**
-linkerOpts = -lnetwork_boost
-language = C++
-compilerOpts = -std=c++17
-#harmonyOS SDK Only

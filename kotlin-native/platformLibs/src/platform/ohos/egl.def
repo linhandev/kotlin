@@ -1,6 +1,0 @@
-# Kept for compatability with KuiklyBase-kotlin
-depends = glesCommon posix
-package = platform.egl
-headers = EGL/egl.h EGL/eglext.h EGL/eglplatform.h
-headerFilter = EGL/**
-linkerOpts = -lEGL

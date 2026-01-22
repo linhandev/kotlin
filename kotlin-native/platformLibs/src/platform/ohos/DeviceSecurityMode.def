@@ -1,7 +1,0 @@
-package = platform.DeviceSecurityKit.DeviceSecurityMode
-headers = DeviceSecurityKit/device_security_mode.h
-headerFilter = DeviceSecurityKit/device_security_mode.h
-linkerOpts = -ldevice_security_mode_ndk.z
-language = C++
-compilerOpts = -std=c++17
-#harmonyOS SDK Only

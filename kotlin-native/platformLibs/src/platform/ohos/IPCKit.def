@@ -1,7 +1,0 @@
-package = platform.IPCKit
-headers = IPCKit/ipc_kit.h
-headerFilter = IPCKit/ipc_kit.h
-depends = OHIPCErrorCode OHIPCParcel OHIPCRemoteObject OHIPCSkeleton
-linkerOpts = -lipc_capi
-language = C++
-compilerOpts = -std=c++17

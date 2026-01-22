@@ -1,7 +1,0 @@
-package = platform.AppGalleryKit.ModuleInstall
-headers = AppGalleryKit/module_install.h
-headerFilter = AppGalleryKit/module_install.h
-linkerOpts = -lhmsmoduleinstall
-language = C++
-compilerOpts = -std=c++17
-#harmonyOS SDK Only

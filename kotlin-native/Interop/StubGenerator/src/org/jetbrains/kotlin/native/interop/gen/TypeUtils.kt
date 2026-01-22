@@ -28,7 +28,6 @@ fun Type.getStringRepresentation(): String = when (this) {
     VoidType -> "void"
     CharType -> "char"
     CBoolType -> "_Bool"
-    CPPBoolType -> "bool"
     ObjCBoolType -> "BOOL"
     is IntegerType -> this.spelling
     is FloatingType -> this.spelling
@@ -71,11 +70,6 @@ private fun getStringRepresentationOfPointee(type: Type): String? {
             null
         } else {
             unwrapped.decl.spelling
-        }
-        is EnumType -> if (unwrapped.def.isAnonymous) {
-            unwrapped.def.baseType.getStringRepresentation()
-        } else {
-            unwrapped.def.spelling
         }
         else -> null
     }

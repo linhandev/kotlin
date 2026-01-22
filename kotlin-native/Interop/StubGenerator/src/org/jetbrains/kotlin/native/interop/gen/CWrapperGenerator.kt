@@ -86,15 +86,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
                 if (unwrappedReturnType is PointerType && unwrappedReturnType.isLVReference) "&" else ""
 
         val parameters = function.parameters.mapIndexed { index, parameter ->
-            val paramType = parameter.type
-            val unwrappedParamType = paramType.unwrapTypedefs()
-
-            val type = when {
-                unwrappedParamType is RecordType && paramType !is PointerType && paramType !is Typedef -> {
-                    "${parameter.type.stringRepresentation}*"
-                }
-                else -> parameter.type.stringRepresentation
-            }
+            val type = parameter.type.stringRepresentation
             Parameter(type, "p$index")
         }
         val argumentTypes = function.parameters.map { parameter ->

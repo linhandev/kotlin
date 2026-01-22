@@ -1,6 +1,0 @@
-package = platform.BasicServicesKit.OHScan
-headers = BasicServicesKit/ohscan.h
-headerFilter = BasicServicesKit/ohscan.h
-linkerOpts = -lohscan
-language = C++
-compilerOpts = -std=c++17

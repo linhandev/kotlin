@@ -1,7 +1,0 @@
-package = platform.ArkUI.RenderNodeUtils
-headers = arkui/native_render.h
-headerFilter = arkui/native_render.h
-depends = ArkUI_NativeModule
-linkerOpts = -lace_ndk.z
-language = C++
-compilerOpts = -std=c++17
