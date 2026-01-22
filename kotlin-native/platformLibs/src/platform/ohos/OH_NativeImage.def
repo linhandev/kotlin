@@ -1,0 +1,6 @@
+package = platform.ArkGraphics2D.OHNativeImage
+headers = native_image/native_image.h
+headerFilter = native_image/native_image.h
+linkerOpts = -lnative_image
+language = C++
+compilerOpts = -std=c++17
