@@ -12,9 +12,7 @@ plugins {
 }
 
 nativeDependenciesDownloader {
-    // region Tencent Code
-    repositoryURL.set("https://kotlinnativeohos.online/download")
-    // endregion
+    repositoryURL.set("https://maven.eazytec-cloud.com/nexus/repository/file-storage")
     dependenciesDirectory.set(DependencyDirectories.getDependenciesRoot(kotlinBuildProperties.konanDataDir))
 
     allTargets {}

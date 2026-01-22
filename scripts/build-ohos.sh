@@ -27,7 +27,7 @@ ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
 cd "$ROOT_DIR"
 
 # Settings
-DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-ohos-01}
+DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-ez-ohos-0001}
 
 echo "========================================"
 echo "🚀 Build Config"
