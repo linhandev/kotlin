@@ -1,0 +1,6 @@
+package = platform.AbilityKit.NativeBundle
+headers = bundle/native_interface_bundle.h
+headerFilter = bundle/native_interface_bundle.h
+linkerOpts = -lbundle_ndk.z
+language = C++
+compilerOpts = -std=c++17
