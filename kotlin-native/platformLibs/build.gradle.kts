@@ -29,6 +29,22 @@ fun defFileToLibName(target: String, name: String) = "$target-$name"
 private fun interopTaskName(libName: String, targetName: String) = "compileKonan${libName.capitalized}${targetName.capitalized}"
 private fun cacheTaskName(target: String, name: String) = "${defFileToLibName(target, name)}Cache"
 
+// Recursively collect all transitive dependencies
+private fun collectAllDependencies(defName: String, target: KonanTarget, visited: MutableSet<String> = mutableSetOf()): Set<String> {
+    if (defName in visited) return emptySet()
+    visited.add(defName)
+    
+    val defFile = target.defFiles().find { it.name == defName } ?: return emptySet()
+    val allDeps = mutableSetOf<String>()
+    
+    defFile.config.depends.forEach { depName ->
+        allDeps.add(depName)
+        allDeps.addAll(collectAllDependencies(depName, target, visited))
+    }
+    
+    return allDeps
+}
+
 private abstract class CompilePlatformLibsSemaphore : BuildService<BuildServiceParameters.None>
 private abstract class CachePlatformLibsSemaphore : BuildService<BuildServiceParameters.None>
 
@@ -92,8 +108,19 @@ enabledTargets(platformManager).forEach { target ->
                     layout.buildDirectory.dir("konan/libs/$targetName/${fileNamePrefix}${df.name}")
             )
             df.file?.let { this.defFile.set(it) }
-            df.config.depends.forEach { defName ->
-                this.klibFiles.from(tasks.named(interopTaskName(defFileToLibName(targetName, defName), targetName)))
+            // Collect all transitive dependencies
+            val allDependencies = collectAllDependencies(df.name, target)
+            allDependencies.forEach { defName ->
+                val depTaskName = interopTaskName(defFileToLibName(targetName, defName), targetName)
+                val depLibName = defFileToLibName(targetName, defName)
+                val depFileNamePrefix = PlatformLibsInfo.namePrefix
+                val depArtifactName = "${depFileNamePrefix}${defName}"
+                // Use installed klib directory (where cinterop looks for klibs)
+                val depInstalledDir = nativeDistribution.map { it.platformLib(name = depArtifactName, target = targetName) }
+                this.klibFiles.from(depInstalledDir)
+                // Ensure both build and install tasks run first
+                dependsOn(tasks.named(depTaskName))
+                dependsOn(tasks.named<Sync>(depLibName))
             }
             this.extraOpts.addAll(
                     "-Xpurge-user-libs",

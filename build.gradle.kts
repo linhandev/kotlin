@@ -1099,6 +1099,8 @@ tasks {
         commandLine = getMvnwCmd() + listOf(
             "clean", "deploy", "--activate-profiles=noTest",
             "-Dinvoker.skip=true", "-DskipTests",
+            "-Ddeploy-repo=local",
+            "-Ddeploy-url=file://${rootProject.projectDir.resolve("build/repo")}",
             "-Ddeploy-snapshot-repo=local",
             "-Ddeploy-snapshot-url=file://${rootProject.projectDir.resolve("build/repo")}"
         )
