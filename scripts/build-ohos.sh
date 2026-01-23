@@ -21,13 +21,16 @@ set -e # 遇到错误立即退出
 
 START_TIME=$(date +%s)
 
+unset M2_HOME
+unset MAVEN_HOME
+
 # --- Configuration ---
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
 ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
 cd "$ROOT_DIR"
 
 # Settings
-DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-ez-ohos-0001}
+DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-ez-01}
 
 echo "========================================"
 echo "🚀 Build Config"
