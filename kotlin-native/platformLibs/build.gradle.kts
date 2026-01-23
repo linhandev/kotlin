@@ -12,6 +12,9 @@ import org.jetbrains.kotlin.nativeDistribution.nativeDistribution
 import org.jetbrains.kotlin.platformLibs.*
 import org.jetbrains.kotlin.platformManager
 import org.jetbrains.kotlin.utils.capitalized
+import java.util.Properties
+import java.io.FileInputStream
+import java.io.File
 
 plugins {
     id("base")

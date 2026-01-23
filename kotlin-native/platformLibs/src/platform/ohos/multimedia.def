@@ -53,3 +53,5 @@ headers = multimedia/player_framework/native_avcodec_audiodecoder.h \
     multimedia/media_library/media_asset_change_request_capi.h \
     multimedia/media_library/media_asset_capi.h
 headerFilter = multimedia/**
+language = C++
+compilerOpts = -std=c++17

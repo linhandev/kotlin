@@ -27,3 +27,5 @@ headers = ConnectivityKit/wifi/oh_wifi.h \
           arkui/native_interface.h \
           arkui/drawable_descriptor.h
 headerFilter = arkui/** inputmethod/** network/** window_manager/** ConnectivityKit/wifi/oh_wifi.h
+language = C++
+compilerOpts = -std=c++17
