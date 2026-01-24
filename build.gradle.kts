@@ -1097,12 +1097,11 @@ tasks {
         group = "publishing"
         workingDir = rootProject.projectDir.resolve("libraries")
         commandLine = getMvnwCmd() + listOf(
-            "clean", "deploy", "--activate-profiles=noTest",
+            "clean", "deploy", "--activate-profiles=noTest,local-bootstrap",
             "-Dinvoker.skip=true", "-DskipTests",
-            "-Ddeploy-repo=local",
-            "-Ddeploy-url=file://${rootProject.projectDir.resolve("build/repo")}",
             "-Ddeploy-snapshot-repo=local",
-            "-Ddeploy-snapshot-url=file://${rootProject.projectDir.resolve("build/repo")}"
+            "-Ddeploy-snapshot-url=file://${rootProject.projectDir.resolve("build/repo")}",
+            "-Dlocal-bootstrap-url=file://${rootProject.projectDir.resolve("build/repo")}",
         )
 
         val jdkToolchain1_8 = getToolchainJdkHomeFor(JdkMajorVersion.JDK_1_8)

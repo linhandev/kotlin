@@ -30,7 +30,7 @@ ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
 cd "$ROOT_DIR"
 
 # Settings
-DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-ez-01}
+DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-OH-001}
 
 echo "========================================"
 echo "🚀 Build Config"
@@ -91,17 +91,21 @@ function readHostArch() {
 }
 
 function GRADLE_NATIVE() {
-  # Added --refresh-dependencies to ensure local artifacts are found.
-  ./gradlew \
-      -PdeployVersion="$DEPLOY_VERSION" \
-      -Pversions.kotlin-native="$DEPLOY_VERSION" \
-      -PkonanVersion="$DEPLOY_VERSION" \
-      -Pbootstrap.kotlin.version="$DEPLOY_VERSION" \
-      -Pkotlin.native.enabled=true \
-      -Pbootstrap.local=true \
-      -Pbootstrap.local.version="$DEPLOY_VERSION" \
-      --dependency-verification=off \
-      "$@"
+  # 构建 Gradle 命令参数
+  local GRADLE_ARGS=(
+    -PdeployVersion="$DEPLOY_VERSION"
+    -Pversions.kotlin-native="$DEPLOY_VERSION"
+    -PkonanVersion="$DEPLOY_VERSION"
+    -Pkotlin.native.enabled=true
+    --dependency-verification=off
+  )
+  
+  # 使用本地 bootstrap
+  GRADLE_ARGS+=(-Pbootstrap.kotlin.version="$DEPLOY_VERSION")
+  GRADLE_ARGS+=(-Pbootstrap.local=true)
+  GRADLE_ARGS+=(-Pbootstrap.local.version="$DEPLOY_VERSION")
+  
+  ./gradlew "${GRADLE_ARGS[@]}" "$@"
 }
 
 # --- Main Build Script ---
