@@ -167,7 +167,7 @@ if [[ -e "$ROOT_DIR/local.properties" ]]; then
 fi
 echo "kotlin.build.isObsoleteJdkOverrideEnabled=true" >> "$ROOT_DIR/local.properties"
 
-./gradlew --stop
+
 
 # 为 Maven deploy 生成临时 settings.xml（不落库，不依赖项目内 settings.xml）
 TMP_MAVEN_SETTINGS_FILE="$(mktemp -t eazytec-mvn-settings.XXXXXX.xml)"
@@ -187,8 +187,14 @@ cat > "$TMP_MAVEN_SETTINGS_FILE" <<EOF
 </settings>
 EOF
 
-# 1. Publish Bootstrap Libs
-stepBegin "Publish bootstrap Kotlin libs to remote repository: '$MAVEN_REPO_URL'."
+./gradlew --stop
+
+# 更新版本号
+"$ROOT_DIR/libraries/mvnw" -DnewVersion="$DEPLOY_VERSION" -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
+
+# 1. Publish Bootstrap Libs (publishToMavenLocal)
+stepBegin "Publish bootstrap Kotlin libs to Maven Local (~/.m2/repository)."
+./gradlew publishToMavenLocal
 
 # 构建 Gradle 发布参数
 PUBLISH_ARGS=(
@@ -211,17 +217,12 @@ PUBLISH_ARGS+=(-Pkotlin.build.deploy-password="$MAVEN_PASSWORD")
 echo "   Using remote repository for bootstrap: $MAVEN_REPO_URL"
 echo "   Publishing to remote repository: $MAVEN_REPO_URL"
 
-# 合并为一次 Gradle 调用，避免重复初始化
-# 注意：root 的 'publish' 任务会依赖 ':mvnPublish'（调用 libraries/mvnw），而该任务在未正确设置 deploy-url 时会报：
-#   Unsupported transport protocol (${deploy-url})
-# Maven 发布由脚本 Step 2 负责，因此这里显式排除 mvnPublish，避免互相干扰。
-./gradlew "${PUBLISH_ARGS[@]}" publishToMavenLocal publish install -x mvnPublish
+./gradlew "${PUBLISH_ARGS[@]}" publish install -x mvnPublish
 stepEnd
 
 # 2. Build & Publish Maven Parts
 stepBegin "Build maven part and publish to remote repository: '$MAVEN_REPO_URL'."
-# 更新版本号
-"$ROOT_DIR/libraries/mvnw" -DnewVersion="$DEPLOY_VERSION" -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
+
 
 # 构建 Maven 命令参数
 MVN_DEPLOY_ARGS=(
