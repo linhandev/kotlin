@@ -194,7 +194,6 @@ EOF
 
 # 1. Publish Bootstrap Libs (publishToMavenLocal)
 stepBegin "Publish bootstrap Kotlin libs to Maven Local (~/.m2/repository)."
-./gradlew publishToMavenLocal
 
 # 构建 Gradle 发布参数
 PUBLISH_ARGS=(
@@ -205,22 +204,25 @@ PUBLISH_ARGS=(
   --dependency-verification=off
 )
 
-# 使用远程仓库作为 bootstrap 源（版本使用 DEPLOY_VERSION）
-PUBLISH_ARGS+=(-Pbootstrap.kotlin.version="$DEPLOY_VERSION")
-PUBLISH_ARGS+=(-Pbootstrap.kotlin.repo="$MAVEN_REPO_URL")
-# 添加发布相关属性
+PUBLISH_ARGS+=(-Pbootstrap.local=false)
+
+# 添加发布相关属性（发布到远端 Maven 仓库）
 PUBLISH_ARGS+=(-Pdeploy-url="$MAVEN_REPO_URL")
 PUBLISH_ARGS+=(-Pkotlin.build.deploy-url="$MAVEN_REPO_URL")
 PUBLISH_ARGS+=(-Pkotlin.build.deploy-username="$MAVEN_USERNAME")
 PUBLISH_ARGS+=(-Pkotlin.build.deploy-password="$MAVEN_PASSWORD")
 
-echo "   Using remote repository for bootstrap: $MAVEN_REPO_URL"
 echo "   Publishing to remote repository: $MAVEN_REPO_URL"
 
+./gradlew publishToMavenLocal
+stepEnd
+
+# 2. Publish Bootstrap Libs (Gradle publish/install, exclude mvnPublish)
+stepBegin "Publish bootstrap Kotlin libs via Gradle (publish + install), excluding mvnPublish."
 ./gradlew "${PUBLISH_ARGS[@]}" publish install -x mvnPublish
 stepEnd
 
-# 2. Build & Publish Maven Parts
+# 3. Build & Publish Maven Parts
 stepBegin "Build maven part and publish to remote repository: '$MAVEN_REPO_URL'."
 
 
@@ -242,7 +244,7 @@ stepEnd
 # --- Critical Check: Skip BOM check for remote deployment ---
 echo "🔍 Remote deployment mode. Skipping local BOM check."
 
-# 3. Build & Publish Kotlin Native
+# 4. Build & Publish Kotlin Native
 stepBegin "Build & publish Kotlin Native (clean + bundle + publish)."
 if [[ -d "./kotlin-native/dist" ]]; then
   rm -Rf ./kotlin-native/dist
