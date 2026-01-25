@@ -57,8 +57,15 @@
                 <plugin>
                     <artifactId>maven-archetype-plugin</artifactId>
                     <version>3.0.1</version>
+                    <configuration>
+                        <skip>${skipArchetypeITs}</skip>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+    <properties>
+        <skipArchetypeITs>false</skipArchetypeITs>
+    </properties>
 </project>

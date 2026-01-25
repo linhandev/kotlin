@@ -42,7 +42,7 @@ private fun shouldEnforceFramePointer(context: Context): Boolean {
 
     return when (context.config.target.family) {
         Family.OSX, Family.IOS, Family.WATCHOS, Family.TVOS -> context.shouldContainLocationDebugInfo()
-        Family.LINUX, Family.MINGW, Family.ANDROID -> false
+        Family.LINUX, Family.MINGW, Family.ANDROID, Family.OHOS -> false
     }
 }
 
@@ -102,4 +102,5 @@ sealed class LlvmFunctionAttribute(private val llvmAttributeName: String) : Llvm
     object Ssp : LlvmFunctionAttribute("ssp")
     object SspStrong : LlvmFunctionAttribute("sspstrong")
     object SspReq : LlvmFunctionAttribute("sspreq")
+    object SanitizeAddress : LlvmFunctionAttribute("sanitize_address")
 }

@@ -15,4 +15,16 @@
     <description>Kotlin single-module JVM project archetype</description>
     <artifactId>kotlin-archetype-jvm</artifactId>
     <packaging>maven-archetype</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-archetype-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <skip>${skipArchetypeITs}</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
