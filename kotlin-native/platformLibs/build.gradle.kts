@@ -12,6 +12,9 @@ import org.jetbrains.kotlin.nativeDistribution.nativeDistribution
 import org.jetbrains.kotlin.platformLibs.*
 import org.jetbrains.kotlin.platformManager
 import org.jetbrains.kotlin.utils.capitalized
+import java.util.Properties
+import java.io.FileInputStream
+import java.io.File
 
 plugins {
     id("base")
@@ -25,6 +28,22 @@ fun defFileToLibName(target: String, name: String) = "$target-$name"
 
 private fun interopTaskName(libName: String, targetName: String) = "compileKonan${libName.capitalized}${targetName.capitalized}"
 private fun cacheTaskName(target: String, name: String) = "${defFileToLibName(target, name)}Cache"
+
+// Recursively collect all transitive dependencies
+private fun collectAllDependencies(defName: String, target: KonanTarget, visited: MutableSet<String> = mutableSetOf()): Set<String> {
+    if (defName in visited) return emptySet()
+    visited.add(defName)
+    
+    val defFile = target.defFiles().find { it.name == defName } ?: return emptySet()
+    val allDeps = mutableSetOf<String>()
+    
+    defFile.config.depends.forEach { depName ->
+        allDeps.add(depName)
+        allDeps.addAll(collectAllDependencies(depName, target, visited))
+    }
+    
+    return allDeps
+}
 
 private abstract class CompilePlatformLibsSemaphore : BuildService<BuildServiceParameters.None>
 private abstract class CachePlatformLibsSemaphore : BuildService<BuildServiceParameters.None>
@@ -48,6 +67,13 @@ if (HostManager.host == KonanTarget.MACOS_ARM64) {
 }
 
 val cacheableTargetNames = platformManager.hostPlatform.cacheableTargets
+
+val konanPropertiesFile = File(projectDir.parentFile, "konan/konan.properties")
+val konanProperties = Properties().apply {
+    if (konanPropertiesFile.exists()) {
+        FileInputStream(konanPropertiesFile).use { load(it) }
+    }
+}
 
 val updateDefFileDependenciesTask = tasks.register("updateDefFileDependencies")
 val updateDefFileTasksPerFamily = if (HostManager.hostIsMac) {
@@ -82,8 +108,19 @@ enabledTargets(platformManager).forEach { target ->
                     layout.buildDirectory.dir("konan/libs/$targetName/${fileNamePrefix}${df.name}")
             )
             df.file?.let { this.defFile.set(it) }
-            df.config.depends.forEach { defName ->
-                this.klibFiles.from(tasks.named(interopTaskName(defFileToLibName(targetName, defName), targetName)))
+            // Collect all transitive dependencies
+            val allDependencies = collectAllDependencies(df.name, target)
+            allDependencies.forEach { defName ->
+                val depTaskName = interopTaskName(defFileToLibName(targetName, defName), targetName)
+                val depLibName = defFileToLibName(targetName, defName)
+                val depFileNamePrefix = PlatformLibsInfo.namePrefix
+                val depArtifactName = "${depFileNamePrefix}${defName}"
+                // Use installed klib directory (where cinterop looks for klibs)
+                val depInstalledDir = nativeDistribution.map { it.platformLib(name = depArtifactName, target = targetName) }
+                this.klibFiles.from(depInstalledDir)
+                // Ensure both build and install tasks run first
+                dependsOn(tasks.named(depTaskName))
+                dependsOn(tasks.named<Sync>(depLibName))
             }
             this.extraOpts.addAll(
                     "-Xpurge-user-libs",
@@ -99,6 +136,31 @@ enabledTargets(platformManager).forEach { target ->
                 this.extraOpts.addAll("-compiler-option", "-fmodules-cache-path=$fmodulesCache")
             }
 
+            // Add the HarmonyOS SDK path to the def files for all OHOS targets
+            if (target.family == Family.OHOS) {
+                val konanDataDir = System.getenv("KONAN_DATA_DIR")?.let {
+                    it.replace("~", System.getProperty("user.home"))
+                } ?: "${System.getProperty("user.home")}/.konan"
+
+                val sysrootName = when (targetName) {
+                    "ohos_arm64" -> konanProperties.getProperty("targetSysRoot2.ohos_arm64")
+                    "ohos_x64" -> konanProperties.getProperty("targetSysRoot2.ohos_x64")
+                    else -> null
+                }
+
+                if (sysrootName != null) {
+                    val includePath = "$konanDataDir/dependencies/$sysrootName/usr/include"
+                    val libPath = when (targetName) {
+                        "ohos_arm64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/aarch64-linux-ohos"
+                        "ohos_x64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
+                        else -> null
+                    }
+                    if (libPath != null) {
+                        this.extraOpts.addAll("-compiler-option", "-I$includePath")
+                        this.extraOpts.addAll("-linker-option", "-L$libPath")
+                    }
+                }
+            }
             usesService(compilePlatformLibsSemaphore)
         }
 

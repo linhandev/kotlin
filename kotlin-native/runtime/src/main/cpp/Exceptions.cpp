@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <iostream>
+#include <sstream>
 
 #include <exception>
 #include <unistd.h>
@@ -31,6 +33,106 @@
 #include "Types.h"
 #include "Utils.hpp"
 #include "ObjCExceptions.h"
+#include "BuildIdUtils.h"
+
+// region Tencent Code
+#ifdef KONAN_OHOS
+// TODO: When ohos dfx raises length limit on set_fatal_message, print the full kotlin stack trace instead
+// of just the addresses.
+
+#include "Natives.h"
+#include <dlfcn.h>
+
+extern "C" OBJ_GETTER(Kotlin_Throwable_getStackTrace, KRef throwable);
+extern "C" __attribute__((weak)) void set_fatal_message(const char* msg);
+
+std::string concatFatalMessage(std::vector<std::string> soFiles, std::vector<std::string> addresses, std::string message) {
+  std::string soFilesStr;
+  std::string addressesStr;
+  std::string preIndex;
+  std::string addressLine;
+  for (size_t i = 0; i < addresses.size(); ++i) {
+    std::string index = addresses[i].substr(0, addresses[i].find(' '));
+    std::string address = addresses[i].substr(addresses[i].find(' ') + 1);
+    std::string soInfo = soFiles[std::stoi(index)];
+    std::string soFileStrTmp;
+    std::string addressTmp;
+
+    if (soFilesStr.find(soInfo) == std::string::npos) {
+        soFileStrTmp = soInfo;
+    }
+
+    if (preIndex.empty() || preIndex != index) {
+        preIndex = index;
+        addressTmp = "\n[" + index + "] " + address;
+    } else {
+        addressTmp = " " + address;
+    }
+    if (message.length() + soFilesStr.length() + addressLine.length() + soFileStrTmp.length() + addressTmp.length() + 22 < 1004) {
+        soFilesStr += soFilesStr == "" ? soFileStrTmp : soFileStrTmp == "" ? "" : "," + soFileStrTmp;
+        addressLine += addressTmp;
+    } else {
+        break;
+    }
+  }
+
+  addressesStr += addressLine.empty() ? "" : addressLine;
+  return message + "sofiles:\n" + soFilesStr + "\n" + "addresses:" + addressesStr;
+}
+
+void ReportBacktraceToOhosLog(KRef exception) {
+  if (set_fatal_message == nullptr) return;
+
+  ObjHolder stackTraceHolder;
+  ArrayHeader* stackTrace = Kotlin_Throwable_getStackTrace(exception, stackTraceHolder.slot())->array();
+  Dl_info info;
+
+  pid_t pid = getpid();
+  std::vector<MapsEntry> mapCache = BuildIdUtils::parseMapsFile(pid);
+
+  std::string message = "\nUncaught Kotlin exception:\n";
+  std::vector<std::string> soFiles;
+  std::vector<std::string> addresses;
+
+  for (uint32_t index = 0; index < stackTrace->count_; ++index) {
+      KNativePtr ptr = *PrimitiveArrayAddressOfElementAt<KNativePtr>(stackTrace, index);
+      if (dladdr(ptr, &info) != 0) {
+        std::vector<uint8_t> buildId;
+        std::string soPath = BuildIdUtils::findSoPathFromMaps(reinterpret_cast<uintptr_t>(ptr), mapCache);
+
+        size_t lastSlashPos = soPath.find_last_of("/");
+
+        std::string soFileName = soPath.substr(lastSlashPos + 1);
+        std::string buildIdStr = BuildIdUtils::getSoBuildId(soPath, buildId);
+        std::string soInfo = buildIdStr.empty() ? soFileName : soFileName + "(" + buildIdStr + ")";
+
+        uintptr_t offset = reinterpret_cast<uintptr_t>(ptr) - reinterpret_cast<uintptr_t>(info.dli_fbase) - 1;
+        std::string addr = "";
+        std::stringstream ss;
+        ss << std::hex << offset;
+        addr = "0x" + ss.str();
+
+        int index = -1;
+        for (size_t i = 0; i < soFiles.size(); i++) {
+            if (soFiles[i] == soInfo) {
+                index = static_cast<int>(i);
+                break;
+            }
+        }
+
+        if (index == -1) {
+            soFiles.push_back(soInfo);
+            index = soFiles.size() - 1;
+        }
+        addresses.push_back(std::to_string(index) + " " + addr);
+      }
+    }
+  std::string fatalMessage = concatFatalMessage(soFiles, addresses, message);
+  set_fatal_message(fatalMessage.substr(0, 1004).c_str());
+}
+
+#endif
+// endregion
 
 // Defined in RuntimeUtils.kt
 extern "C" void Kotlin_runUnhandledExceptionHook(KRef exception);
@@ -86,6 +188,11 @@ void RUNTIME_NORETURN terminateWithUnhandledException(KRef exception) {
 #if KONAN_REPORT_BACKTRACE_TO_IOS_CRASH_LOG
         ReportBacktraceToIosCrashLog(exception);
 #endif
+// region Tencent Code
+#ifdef KONAN_OHOS
+        ReportBacktraceToOhosLog(exception);
+#endif
+// endregion
 
         kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative);
 

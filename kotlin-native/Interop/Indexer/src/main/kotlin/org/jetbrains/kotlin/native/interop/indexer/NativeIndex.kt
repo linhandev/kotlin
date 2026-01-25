@@ -364,6 +364,8 @@ open class BoolType: PrimitiveType
 
 object CBoolType : BoolType()
 
+object CPPBoolType : BoolType()
+
 object ObjCBoolType : BoolType()
 // We omit `const` qualifier for IntegerType and FloatingType to make `CBridgeGen` simpler.
 // See KT-28102.
