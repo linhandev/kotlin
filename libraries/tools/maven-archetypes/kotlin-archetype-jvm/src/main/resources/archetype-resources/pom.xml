@@ -15,6 +15,7 @@
         <kotlin.version>${kotlinVersion}</kotlin.version>
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.13.1</junit.version>
+        <kotlin.compiler.execution.strategy>in-process</kotlin.compiler.execution.strategy>
     </properties>
 
     <dependencies>
@@ -46,6 +47,9 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
+                <configuration>
+                    <executionStrategy>${kotlin.compiler.execution.strategy}</executionStrategy>
+                </configuration>
                 <executions>
                     <execution>
                         <id>compile</id>
