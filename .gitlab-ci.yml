@@ -30,8 +30,6 @@ build:ohos:macos:
     - echo "JDK_18: $JDK_18"
     - echo "DEPLOY_VERSION: $DEPLOY_VERSION"
     - echo "========================================"
-    
-    # Verify JDK 1.8 is available
     - |
       if [ -z "$JDK_18" ] || [ ! -d "$JDK_18" ]; then
         echo "⚠️  JDK_18 not set or not found, trying to auto-detect..."
@@ -46,8 +44,6 @@ build:ohos:macos:
       export JAVA_HOME="$JDK_18"
       export PATH="$JAVA_HOME/bin:$PATH"
       java -version
-    
-    # Verify Xcode is configured (if needed)
     - |
       if [ -d "/Applications/Xcode.app" ]; then
         echo "✅ Xcode.app found"
@@ -55,14 +51,8 @@ build:ohos:macos:
       else
         echo "⚠️  Xcode.app not found (may be needed for some builds)"
       fi
-    
-    # Make build script executable
     - chmod +x scripts/build-ohos.sh
-    
-    # Run the build script
     - bash scripts/build-ohos.sh
-    
-    # Verify build artifacts exist
     - |
       echo "========================================"
       echo "📦 Verifying build artifacts..."
@@ -74,7 +64,6 @@ build:ohos:macos:
         echo "❌ Missing: kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
         exit 1
       fi
-      
       if [ -f "kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" ]; then
         echo "✅ Found: kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
         ls -lh "kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
