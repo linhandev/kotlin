@@ -1,118 +1,56 @@
-# GitLab CI/CD Configuration for Kotlin Native OHOS Build
-# This pipeline builds Kotlin Native for macOS (aarch64) on feature/ohos-arm64 branch
-
 stages:
   - build
   - package
 
 variables:
   DEPLOY_VERSION: "2.2.21-ez-01"
-  # Set JDK 1.8 path for macOS
   JDK_18: "/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
-  # Alternative JDK paths (adjust based on your runner's JDK installation)
-  # JDK_18: "$(/usr/libexec/java_home -v 1.8)"
 
-# Build job - runs only on feature/ohos-arm64 branch
-build:ohos:macos:
+build_ohos_macos:
   stage: build
   tags:
     - mac-ci
   only:
     - feature/ohos-arm64
+  before_script:
+    - echo "Starting Kotlin Native OHOS Build"
+    - 'echo "Branch: ${CI_COMMIT_REF_NAME}"'
+    - 'echo "Commit: ${CI_COMMIT_SHA}"'
+    - 'echo "OS: $(uname -s)"'
+    - 'echo "Arch: $(uname -m)"'
+    - 'export JDK_18="${JDK_18}"'
+    - 'export JAVA_HOME="${JDK_18}"'
+    - 'export PATH="${JAVA_HOME}/bin:${PATH}"'
+    - java -version
   script:
-    - echo "========================================"
-    - echo "🚀 Starting Kotlin Native OHOS Build"
-    - echo "Branch: $CI_COMMIT_REF_NAME"
-    - echo "Commit: $CI_COMMIT_SHA"
-    - echo "Runner: $CI_RUNNER_DESCRIPTION"
-    - echo "OS: $(uname -s)"
-    - echo "Arch: $(uname -m)"
-    - echo "JDK_18: $JDK_18"
-    - echo "DEPLOY_VERSION: $DEPLOY_VERSION"
-    - echo "========================================"
-    - |
-      if [ -z "$JDK_18" ] || [ ! -d "$JDK_18" ]; then
-        echo "⚠️  JDK_18 not set or not found, trying to auto-detect..."
-        export JDK_18=$(/usr/libexec/java_home -v 1.8 2>/dev/null || echo "")
-        if [ -z "$JDK_18" ]; then
-          echo "❌ Error: JDK 1.8 is required but not found."
-          echo "Please install JDK 8 and set JDK_18 environment variable."
-          exit 1
-        fi
-      fi
-      echo "✅ Using JDK 1.8 at: $JDK_18"
-      export JAVA_HOME="$JDK_18"
-      export PATH="$JAVA_HOME/bin:$PATH"
-      java -version
-    - |
-      if [ -d "/Applications/Xcode.app" ]; then
-        echo "✅ Xcode.app found"
-        xcode-select -p || echo "⚠️  xcode-select may need configuration"
-      else
-        echo "⚠️  Xcode.app not found (may be needed for some builds)"
-      fi
     - chmod +x scripts/build-ohos.sh
     - bash scripts/build-ohos.sh
-    - |
-      echo "========================================"
-      echo "📦 Verifying build artifacts..."
-      echo "========================================"
-      if [ -f "kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" ]; then
-        echo "✅ Found: kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
-        ls -lh "kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
-      else
-        echo "❌ Missing: kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
-        exit 1
-      fi
-      if [ -f "kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" ]; then
-        echo "✅ Found: kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
-        ls -lh "kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
-      else
-        echo "❌ Missing: kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz"
-        exit 1
-      fi
-      echo "========================================"
-  
+    - 'test -f "kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" || (echo "Missing: kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" && exit 1)'
+    - 'test -f "kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" || (echo "Missing: kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" && exit 1)'
+    - 'ls -lh kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz'
+    - 'ls -lh kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz'
   artifacts:
     name: "kotlin-native-ohos-macos-${CI_COMMIT_SHORT_SHA}"
     paths:
       - kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz
       - kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz
     expire_in: 30 days
-    reports:
-      # Optional: Add test reports if you have tests
-      # junit: test-reports/*.xml
     when: on_success
-  
-  after_script:
-    - echo "========================================"
-    - echo "📊 Build Summary"
-    - echo "========================================"
-    - echo "Build completed at: $(date)"
-    - echo "Artifacts:"
-    - ls -lh kotlin-native/*.tar.gz 2>/dev/null || echo "No artifacts found"
-    - echo "========================================"
 
-# Optional: Package job to create a release archive
-package:artifacts:
+package_artifacts:
   stage: package
   tags:
     - mac-ci
   only:
     - feature/ohos-arm64
   dependencies:
-    - build:ohos:macos
+    - build_ohos_macos
   script:
-    - echo "📦 Packaging artifacts..."
-    - |
-      mkdir -p dist
-      cp kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz dist/
-      cp kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz dist/
-      cd dist
-      tar -czf kotlin-native-ohos-macos-${DEPLOY_VERSION}-${CI_COMMIT_SHORT_SHA}.tar.gz *.tar.gz
-      ls -lh
-      cd ..
-  
+    - echo "Packaging artifacts..."
+    - mkdir -p dist
+    - cp kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz dist/
+    - cp kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz dist/
+    - cd dist && tar -czf kotlin-native-ohos-macos-${DEPLOY_VERSION}-${CI_COMMIT_SHORT_SHA}.tar.gz *.tar.gz && ls -lh && cd ..
   artifacts:
     name: "kotlin-native-ohos-macos-package-${CI_COMMIT_SHORT_SHA}"
     paths:
