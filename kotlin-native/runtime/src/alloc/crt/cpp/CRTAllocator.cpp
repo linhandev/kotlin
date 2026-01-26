@@ -39,10 +39,7 @@ CRTAllocator::CRTAllocator() noexcept {
 #endif
 }
 
-CRTAllocator::~CRTAllocator() {
-    // TOOD:
-    // heap_.AddToFinalizerQueue(std::move(finalizerQueue_));
-}
+CRTAllocator::~CRTAllocator() {}
 
 static NO_INLINE common::Address AllocFromCMCSlowPath(size_t size, void* tls) {
     auto allocPtr = common::HeapAllocator::Allocate(size, common::LanguageType::KOTLIN);
@@ -76,16 +73,14 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
 ALWAYS_INLINE ObjHeader* CRTAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
     RuntimeAssert(!typeInfo->IsArray(), "Must not be an array");
     auto descriptor = CRTHeapObject::descriptorFrom(typeInfo);
-    uint8_t* memory = AllocFromCMC(descriptor.size());
-    std::memset(memory, 0, descriptor.size());
-    auto& heapObject = *descriptor.construct(memory);
-    ObjHeader* object = heapObject.object();
+    auto& heapObject = *descriptor.construct(AllocFromCMC(descriptor.size()));
+    auto* object = heapObject.object();
+    object->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
+    auto* kobj = reinterpret_cast<common::KNBaseObject*>(object);
     if (typeInfo->flags_ & TF_HAS_FINALIZER) {
-        object->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
-    } else {
-        object->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
+        common::BaseFinalizerProcessor::RegisterFinalizableObject(kobj);
     }
-    reinterpret_cast<common::KNBaseObject*>(object)->SetLanguageBitAsKotlin();
+    kobj->SetLanguageBitAsKotlin();
     return object;
 }
 

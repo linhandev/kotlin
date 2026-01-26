@@ -36,6 +36,7 @@
 #undef LIBCRT_STANDALONE
 
 #include "common_components/common_runtime/base_runtime_param.h"
+#include "common_interfaces/objects/base_finalization.h"
 #include "common_components/mutator/thread_local.h"
 
 namespace common {
@@ -52,7 +53,13 @@ static inline RuntimeParam DefaultRuntimeParam() {
 
 constexpr size_t BASE_OBJECT_ALIGNED = 8;
 constexpr size_t HEADER_SIZE = 0; // no header for arkcommon object
-constexpr size_t WEAK_REF_TAG = 1;
+
+// tags from CRT common::RefField
+constexpr size_t REF_FIELD_TAG_WEAK = 1;
+constexpr size_t REF_FIELD_REF_UNDEFINED = 2;
+
+// not simply ~WEAK_REF_TAG as upon clearing weakref CRT will write REF_UNDEFINED instead of 0
+constexpr size_t WEAK_REF_TAGS_MASK = ~(REF_FIELD_TAG_WEAK | REF_FIELD_REF_UNDEFINED);
 
 constexpr size_t TLS_ALLOC_BUFFER_OFF = 0; // reinterpret_cast<uintptr_t>(&((ThreadLocalData*)0)->buffer);
 constexpr size_t TLS_MUTATOR_OFF = sizeof(void*); // reinterpret_cast<uintptr_t>(&((ThreadLocalData*)0)->mutator);

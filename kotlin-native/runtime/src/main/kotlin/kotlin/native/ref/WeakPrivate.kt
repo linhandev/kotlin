@@ -69,10 +69,13 @@ internal class PermanentWeakReferenceImpl(val referred: Any): kotlin.native.ref.
 internal fun makePermanentWeakReferenceImpl(referred: Any) = PermanentWeakReferenceImpl(referred)
 
 // CRT implementation
-@GCUnsafeCall("Konan_initWeakReferenceCRTImpl")
-@Escapes(0b01)
-external internal fun initWeakReferenceImpl(weakRef : Any, referent : Any)
+internal class CRTWeakReferenceImpl: WeakReferenceImpl() {
+    internal var referred: Long = 0 // specially handled in runtime code to account for tagging
 
-@GCUnsafeCall("Konan_derefWeakReferenceCRTImpl")
-@Escapes(0b01)
-external internal fun derefWeakReferenceImpl(weakRef: Any): Any?
+    @GCUnsafeCall("Konan_CRTWeakReferenceImpl_get")
+    @Escapes(0b11) // CRTWeakReferenceImpl return value must escape for weak reference machinery
+    external override fun get(): Any?
+}
+
+@ExportForCppRuntime
+internal fun makeCRTWeakReferenceImpl() = CRTWeakReferenceImpl()

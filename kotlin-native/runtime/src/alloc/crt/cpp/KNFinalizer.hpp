@@ -14,6 +14,8 @@
  */
 #pragma once
 
+#include "FinalizerHooks.hpp"
+#include "Runtime.h"
 #include "Utils.hpp"
 #include "common_interfaces/objects/base_finalization.h"
 
@@ -21,8 +23,8 @@ namespace common {
 
 class KNFinalizationInterface : public common::BaseFinalizationInterface, private kotlin::Pinned {
 public:
-    void attachCurrentThread() override {}
-    void invokeFinalizer(BaseObject* obj) const override {}
+    void attachCurrentThread() override { Kotlin_initRuntimeIfNeeded(); }
+    void invokeFinalizer(BaseObject* obj) const override { kotlin::RunFinalizers(reinterpret_cast<ObjHeader*>(obj)); }
 
     static KNFinalizationInterface& Instance() {
         static KNFinalizationInterface instance;

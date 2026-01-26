@@ -460,6 +460,74 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         } ?: false
     }
 
+internal val runtimeNativeLibraries: List<String> = mutableListOf<String>().apply {
+        if (debug) add("debug.bc")
+        add("runtime.bc")
+        add("mm.bc")
+        add("common_alloc.bc")
+        add("common_gc.bc")
+        add("common_gcScheduler.bc")
+        when (gcSchedulerType) {
+            GCSchedulerType.MANUAL -> {
+                add("manual_gcScheduler.bc")
+            }
+            GCSchedulerType.ADAPTIVE -> {
+                add("adaptive_gcScheduler.bc")
+            }
+            GCSchedulerType.AGGRESSIVE -> {
+                add("aggressive_gcScheduler.bc")
+            }
+            GCSchedulerType.DISABLED, GCSchedulerType.WITH_TIMER, GCSchedulerType.ON_SAFE_POINTS -> {
+                throw IllegalStateException("Deprecated options must have already been handled")
+            }
+        }
+        if (allocationMode == AllocationMode.CUSTOM) {
+            when (gc) {
+                GC.STOP_THE_WORLD_MARK_AND_SWEEP -> add("same_thread_ms_gc_custom.bc")
+                GC.NOOP -> add("noop_gc_custom.bc")
+                GC.PARALLEL_MARK_CONCURRENT_SWEEP -> add("pmcs_gc_custom.bc")
+                GC.CONCURRENT_MARK_AND_SWEEP -> add("concurrent_ms_gc_custom.bc")
+                GC.CONCURRENT_MARK_AND_COPY -> error("CRT allocator must always be enabled along with CMC GC");
+            }
+        } else {
+            when (gc) {
+                GC.STOP_THE_WORLD_MARK_AND_SWEEP -> add("same_thread_ms_gc.bc")
+                GC.NOOP -> add("noop_gc.bc")
+                GC.PARALLEL_MARK_CONCURRENT_SWEEP -> add("pmcs_gc.bc")
+                GC.CONCURRENT_MARK_AND_SWEEP -> add("concurrent_ms_gc.bc")
+                GC.CONCURRENT_MARK_AND_COPY -> add("cmc_gc.bc")
+            }
+        }
+        if (target.supportsCoreSymbolication()) {
+            add("source_info_core_symbolication.bc")
+        }
+        if (target.supportsLibBacktrace()) {
+            add("source_info_libbacktrace.bc")
+            add("libbacktrace.bc")
+        }
+        when (allocationMode) {
+            AllocationMode.STD -> {
+                add("legacy_alloc.bc")
+                add("std_alloc.bc")
+            }
+            AllocationMode.CUSTOM -> {
+                add("custom_alloc.bc")
+            }
+            AllocationMode.CRT -> {
+                add("crt_alloc.bc")
+            }
+        }
+        if ((allocationMode == AllocationMode.CRT) != (gc == GC.CONCURRENT_MARK_AND_COPY)) {
+            error("CRT allocator must always be enabled along with CMC GC");
+        }
+        when (checkStateAtExternalCalls) {
+            true -> add("impl_externalCallsChecker.bc")
+            false -> add("noop_externalCallsChecker.bc")
+        }
+    }.map {
+        File(distribution.defaultNatives(target)).child(it).absolutePath
+    }
+
     internal val runtimeBitcodePath: String by lazy {
         File(distribution.defaultNatives(target)).child("libruntime.bc").absolutePath
     }
