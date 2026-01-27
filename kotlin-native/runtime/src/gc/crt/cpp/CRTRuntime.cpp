@@ -14,6 +14,7 @@
  */
 
 #include "CRTRuntime.hpp"
+#include "base_runtime.h"
 #include "alloc/crt/cpp/KNRootVisitor.hpp"
 #include "alloc/crt/cpp/KNBaseObject.hpp"
 #include "alloc/crt/cpp/KNFinalizer.hpp"

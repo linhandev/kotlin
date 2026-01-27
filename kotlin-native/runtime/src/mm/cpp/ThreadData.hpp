@@ -21,12 +21,13 @@
 #include "ThreadSuspension.hpp"
 #include "Logging.hpp"
 
-#include "Runtime.h"
-#include "VerifyKotlinStack.hpp"
-
 #ifdef USE_CRT
 #include "common_interfaces/thread/thread_holder-inl.h"
+#else
+namespace common { class ThreadHolder; }
 #endif
+#include "Runtime.h"
+#include "VerifyKotlinStack.hpp"
 
 struct ObjHeader;
 
@@ -190,8 +191,31 @@ public:
     }
     void SetThreadHolder(common::ThreadHolder *holder) {
         threadHolder = holder;
+        void* mutator = threadHolder->GetMutator();
+        reinterpret_cast<common::MutatorBase*>(mutator)->SetThread(this);
+        RuntimeAssert(reinterpret_cast<common::MutatorBase*>(mutator)->GetThread() == this, "unknown error");
+    }
+    void ClearThreadHolder() {
+        threadHolder->UnbindMutator();
+        common::ThreadHolder::DestroyThreadHolder(threadHolder);
+        threadHolder = nullptr;
     }
 #endif // USE_CRT
+
+    // outside the #ifdef USE_CRT for KNRootsVisitor::VisitMutatorRoots
+    static ThreadData* EvalKotlinThreadData(common::ThreadHolder* threadHolder) {
+#ifdef USE_CRT
+        auto* mutator = reinterpret_cast<common::MutatorBase*>(threadHolder->GetMutator());
+        auto* result = reinterpret_cast<ThreadData*>(mutator->GetThread());
+        if (result == nullptr) {
+            return nullptr;
+        }
+        RuntimeAssert(result->threadHolder == threadHolder, "threadHolder must be bound correctly");
+        return result;
+#else
+        return nullptr;
+#endif // USE_CRT
+    }
 
 private:
     const uintptr_t threadId_;

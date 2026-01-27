@@ -3,7 +3,6 @@
  * that can be found in the LICENSE file.
  */
 
-#include "base/common.h"
 #include "std_support/Atomic.hpp"
 #include "Cleaner.h"
 #include "CompilerConstants.hpp"
@@ -26,7 +25,13 @@
 #include <thread>
 
 #ifdef USE_CRT
-#include "CRTRuntime.hpp"
+#include "base/common.h"
+#include "gc/crt/cpp/CRTRuntime.hpp"
+#endif
+
+#define FILE_WRITER 0
+#if FILE_WRITER
+#include "FileWriter.h"
 #endif
 
 using namespace kotlin;
