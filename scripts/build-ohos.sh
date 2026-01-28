@@ -1,8 +1,8 @@
 #!/bin/zsh
 
 #
-# Tencent is pleased to support the open source community by making TDS-KuiklyBase available.
-# Copyright (C) 2025 THL A29 Limited, a Tencent company. All rights reserved.
+# Eazytec is pleased to support the open source community by making CPF-KMP-CMP available.
+# Copyright (C) 2026 Eazytec. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-set -e # 遇到错误立即退出
+set -e # Exit immediately on error
 
 START_TIME=$(date +%s)
 
@@ -75,7 +75,6 @@ function cleanUp() {
     echo "   Restored local.properties."
   fi
   # Optional: Stop Gradle daemon on exit
-  # ./gradlew --stop
 }
 
 # Register cleanUp to run on ANY exit
@@ -91,7 +90,7 @@ function readHostArch() {
 }
 
 function GRADLE_NATIVE() {
-  # 构建 Gradle 命令参数
+  # Build Gradle command arguments
   local GRADLE_ARGS=(
     -PdeployVersion="$DEPLOY_VERSION"
     -Pversions.kotlin-native="$DEPLOY_VERSION"
@@ -100,7 +99,7 @@ function GRADLE_NATIVE() {
     --dependency-verification=off
   )
   
-  # 使用本地 bootstrap
+  # Use local bootstrap
   GRADLE_ARGS+=(-Pbootstrap.kotlin.version="$DEPLOY_VERSION")
   GRADLE_ARGS+=(-Pbootstrap.local=true)
   GRADLE_ARGS+=(-Pbootstrap.local.version="$DEPLOY_VERSION")
@@ -121,28 +120,28 @@ echo "kotlin.build.isObsoleteJdkOverrideEnabled=true" >> "$ROOT_DIR/local.proper
 # Stop existing daemons
 ./gradlew --stop
 
-# 1. Publish Bootstrap Libs
-stepBegin "Publish bootstrap Kotlin libs to local dir: 'build/repo'."
-./gradlew publishToMavenLocal
-./gradlew publish install \
-    -Pkotlin.native.enabled=false \
-    -PdeployVersion="$DEPLOY_VERSION" \
-    -Pversions.kotlin-native="$DEPLOY_VERSION" \
-    -PkonanVersion="$DEPLOY_VERSION" \
-    -Pbootstrap.local=false
+# Update versions in pom.xml
+"$ROOT_DIR/libraries/mvnw" -DnewVersion=$DEPLOY_VERSION -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
+
+# 1. Build part of kotlin and publish it to the local maven repository and to build/repo directory
+stepBegin "Build part of kotlin and publish it to the local maven repository and to build/repo directory"
+./gradlew \
+  -Pkotlin.native.enabled=false \
+  -PdeployVersion=$DEPLOY_VERSION \
+  -Pversions.kotlin-native=$DEPLOY_VERSION \
+  -PkonanVersion=$DEPLOY_VERSION \
+  -Pbootstrap.local=false \
+  -Pteamcity=true \
+  publish publishToMavenLocal
 stepEnd
 
-# 2. Build & Publish Maven Parts
-stepBegin "Build maven part and publish to 'build/repo'."
-# 更新版本号
-"$ROOT_DIR/libraries/mvnw" -DnewVersion="$DEPLOY_VERSION" -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
-
-# 关键修复：使用 deploy 而不是 install，并指定 altDeploymentRepository 指向 build/repo
+# 2. Build maven part and publish it to the same build/repo
+stepBegin "Build maven part and publish it to the same build/repo"
 "$ROOT_DIR/libraries/mvnw" \
   -f "$ROOT_DIR/libraries/pom.xml" \
   clean deploy \
-  -DskipTests \
-  -DaltDeploymentRepository="local::default::file://$ROOT_DIR/build/repo"
+  -Ddeploy-url=file://$ROOT_DIR/build/repo \
+  -DskipTests
 stepEnd
 
 # --- Critical Check: Verify BOM Existence ---
@@ -161,7 +160,7 @@ stepBegin "Clean Kotlin Native dist."
 if [[ -d "./kotlin-native/dist" ]]; then
   rm -Rf ./kotlin-native/dist
 fi
-# 使用 --refresh-dependencies 强制刷新缓存
+# Use --refresh-dependencies to force refresh cache
 GRADLE_NATIVE :kotlin-native:clean --refresh-dependencies
 stepEnd
 

@@ -17,24 +17,24 @@
 # limitations under the License.
 #
 #
-# 使用说明：
+# Usage:
 # 
-# 远程构建（发布到远程 Maven 仓库）：
+# Remote build (publish to remote Maven repository):
 #    export MAVEN_REPO_URL="https://maven.eazytec-cloud.com/nexus/repository/maven-releases/"
-#    export MAVEN_REPO_ID="nexus-releases"
+#    export MAVEN_REPO_ID="deploy-server"
 #    export DEPLOY_VERSION="2.2.21-ez-001"
-#    export DEPLOY_VERSION="2.2.21-ez-001" && export MAVEN_USERNAME="your-username" && export MAVEN_PASSWORD="your-password" && bash scripts/build-ohos-remote.sh
+#    export MAVEN_USERNAME="your-username"
+#    export MAVEN_PASSWORD="your-password"
+#    bash scripts/build-ohos-remote.sh
 #
-# 环境变量说明：
-#   - MAVEN_REPO_URL: 远程 Maven 仓库 URL（必需）
-#   - MAVEN_REPO_ID: Maven 仓库 ID（默认: nexus-releases）
-#   - DEPLOY_VERSION: 部署版本号（必需）
-#   - MAVEN_USERNAME: Maven 仓库用户名（必需）
-#   - MAVEN_PASSWORD: Maven 仓库密码（必需）
-#   - GRADLE_STOP_DAEMON: 是否在开始时停止 Gradle daemon（可选；默认 0，不停止以加速初始化）
-#   - GRADLE_REFRESH_DEPS: 是否启用 --refresh-dependencies（可选；默认 0，不刷新以加速）
+# Environment variables:
+#   - MAVEN_REPO_URL: Remote Maven repository URL (optional; default is set in script)
+#   - MAVEN_REPO_ID: Maven server id in settings.xml (optional; default: deploy-server)
+#   - DEPLOY_VERSION: Deployment version (required)
+#   - MAVEN_USERNAME: Maven repository username (required)
+#   - MAVEN_PASSWORD: Maven repository password (required)
 
-set -e # 遇到错误立即退出
+set -e # Exit immediately on error
 
 START_TIME=$(date +%s)
 
@@ -49,13 +49,13 @@ cd "$ROOT_DIR"
 # Settings
 DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-OH-001}
 
-# Maven 仓库配置
+# Maven repository configuration
 MAVEN_REPO_URL=${MAVEN_REPO_URL:-"https://maven.eazytec-cloud.com/nexus/repository/maven-releases"}
-MAVEN_REPO_ID=${MAVEN_REPO_ID:-"nexus-releases"}
+MAVEN_REPO_ID=${MAVEN_REPO_ID:-"deploy-server"}
 MAVEN_USERNAME=${MAVEN_USERNAME:-""}
 MAVEN_PASSWORD=${MAVEN_PASSWORD:-""}
 
-# 验证必需的环境变量
+# Validate required environment variables
 if [[ -z "$MAVEN_USERNAME" ]]; then
   echo "❌ Error: MAVEN_USERNAME is required."
   echo "   Please set: export MAVEN_USERNAME=\"your-username\""
@@ -75,9 +75,6 @@ echo "DEPLOY_VERSION = $DEPLOY_VERSION"
 echo "ARCH           = $(uname -m)"
 echo "MAVEN_REPO_URL = $MAVEN_REPO_URL"
 echo "MAVEN_REPO_ID  = $MAVEN_REPO_ID"
-echo "MAVEN_USERNAME = $MAVEN_USERNAME"
-echo "GRADLE_STOP_DAEMON  = $GRADLE_STOP_DAEMON"
-echo "GRADLE_REFRESH_DEPS = $GRADLE_REFRESH_DEPS"
 echo "========================================"
 
 # Check JDK 1.8
@@ -115,10 +112,6 @@ function cleanUp() {
     mv "$ROOT_DIR/local.properties.bk" "$ROOT_DIR/local.properties"
     echo "   Restored local.properties."
   fi
-  if [[ -n "$TMP_MAVEN_SETTINGS_FILE" && -f "$TMP_MAVEN_SETTINGS_FILE" ]]; then
-    rm -f "$TMP_MAVEN_SETTINGS_FILE"
-    echo "   Removed temp Maven settings."
-  fi
   # Optional: Stop Gradle daemon on exit
   # ./gradlew --stop
 }
@@ -136,7 +129,7 @@ function readHostArch() {
 }
 
 function GRADLE_NATIVE() {
-  # 构建 Gradle 命令参数
+  # Build Gradle command arguments
   local GRADLE_ARGS=(
     -PdeployVersion="$DEPLOY_VERSION"
     -Pversions.kotlin-native="$DEPLOY_VERSION"
@@ -145,10 +138,10 @@ function GRADLE_NATIVE() {
     --dependency-verification=off
   )
   
-  # 使用远程仓库作为 bootstrap 源（版本使用 DEPLOY_VERSION）
+  # Use remote repository as bootstrap source (version uses DEPLOY_VERSION)
   GRADLE_ARGS+=(-Pbootstrap.kotlin.version="$DEPLOY_VERSION")
   GRADLE_ARGS+=(-Pbootstrap.kotlin.repo="$MAVEN_REPO_URL")
-  # 添加发布相关属性
+  # Add publishing related properties
   GRADLE_ARGS+=(-Pdeploy-url="$MAVEN_REPO_URL")
   GRADLE_ARGS+=(-Pkotlin.build.deploy-url="$MAVEN_REPO_URL")
   GRADLE_ARGS+=(-Pkotlin.build.deploy-username="$MAVEN_USERNAME")
@@ -167,85 +160,65 @@ if [[ -e "$ROOT_DIR/local.properties" ]]; then
 fi
 echo "kotlin.build.isObsoleteJdkOverrideEnabled=true" >> "$ROOT_DIR/local.properties"
 
+# Reuse project Maven settings.xml for deploy credentials
+MVN_SETTINGS_FILE="$ROOT_DIR/libraries/maven-settings.xml"
+if [[ ! -f "$MVN_SETTINGS_FILE" ]]; then
+  echo "❌ Error: Maven settings file not found: $MVN_SETTINGS_FILE"
+  exit 1
+fi
 
-
-# 为 Maven deploy 生成临时 settings.xml（不落库，不依赖项目内 settings.xml）
-TMP_MAVEN_SETTINGS_FILE="$(mktemp -t eazytec-mvn-settings.XXXXXX.xml)"
-cat > "$TMP_MAVEN_SETTINGS_FILE" <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-          http://maven.apache.org/xsd/settings-1.0.0.xsd">
-  <servers>
-    <server>
-      <id>${MAVEN_REPO_ID}</id>
-      <username>${MAVEN_USERNAME}</username>
-      <password>${MAVEN_PASSWORD}</password>
-    </server>
-  </servers>
-</settings>
-EOF
-
+# Stop existing daemons
 ./gradlew --stop
 
-# 更新版本号
+# Update versions in pom.xml
 "$ROOT_DIR/libraries/mvnw" -DnewVersion="$DEPLOY_VERSION" -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
 
-# 1. Publish Bootstrap Libs (publishToMavenLocal)
-stepBegin "Publish bootstrap Kotlin libs to Maven Local (~/.m2/repository)."
-
-# 构建 Gradle 发布参数
+# 1. Build part of kotlin and publish it to the local maven repository and to build/repo directory
+stepBegin "Build part of kotlin and publish it to the local maven repository and to build/repo directory"
+# Build Gradle publishing arguments
 PUBLISH_ARGS=(
   -Pkotlin.native.enabled=false
   -PdeployVersion="$DEPLOY_VERSION"
   -Pversions.kotlin-native="$DEPLOY_VERSION"
   -PkonanVersion="$DEPLOY_VERSION"
-  --dependency-verification=off
+  -Pbootstrap.local=false
+  -Pteamcity=true
 )
 
-PUBLISH_ARGS+=(-Pbootstrap.local=false)
-
-# 添加发布相关属性（发布到远端 Maven 仓库）
+# Add publishing related properties (publish to remote Maven repository)
 PUBLISH_ARGS+=(-Pdeploy-url="$MAVEN_REPO_URL")
 PUBLISH_ARGS+=(-Pkotlin.build.deploy-url="$MAVEN_REPO_URL")
 PUBLISH_ARGS+=(-Pkotlin.build.deploy-username="$MAVEN_USERNAME")
 PUBLISH_ARGS+=(-Pkotlin.build.deploy-password="$MAVEN_PASSWORD")
 
-echo "   Publishing to remote repository: $MAVEN_REPO_URL"
-
-./gradlew publishToMavenLocal
+./gradlew "${PUBLISH_ARGS[@]}" publish publishToMavenLocal 
 stepEnd
 
-# 2. Publish Bootstrap Libs (Gradle publish/install, exclude mvnPublish)
-stepBegin "Publish bootstrap Kotlin libs via Gradle (publish + install), excluding mvnPublish."
-./gradlew "${PUBLISH_ARGS[@]}" publish install -x mvnPublish
-stepEnd
-
-# 3. Build & Publish Maven Parts
-stepBegin "Build maven part and publish to remote repository: '$MAVEN_REPO_URL'."
+# 2. Build maven part and publish it to the same build/repo
+stepBegin "Build maven part and publish it to the same build/repo"
 
 
-# 构建 Maven 命令参数
+# Build Maven command arguments
 MVN_DEPLOY_ARGS=(
   -f "$ROOT_DIR/libraries/pom.xml"
   clean deploy
   -DskipTests
+  -Dkotlin.build.deploy-username="$MAVEN_USERNAME"
+  -Dkotlin.build.deploy-password="$MAVEN_PASSWORD"
   -DaltDeploymentRepository="$MAVEN_REPO_ID::default::$MAVEN_REPO_URL"
 )
 
 echo "   Deploying to remote repository: $MAVEN_REPO_URL (id: $MAVEN_REPO_ID)"
-echo "   Using username: $MAVEN_USERNAME"
 
-# 执行 Maven deploy：server 凭证必须来自 settings.xml，这里使用脚本生成的临时 settings.xml
-"$ROOT_DIR/libraries/mvnw" -s "$TMP_MAVEN_SETTINGS_FILE" "${MVN_DEPLOY_ARGS[@]}"
+# Execute Maven deploy: server credentials are resolved from libraries/maven-settings.xml
+"$ROOT_DIR/libraries/mvnw" -s "$MVN_SETTINGS_FILE" "${MVN_DEPLOY_ARGS[@]}"
 stepEnd
 
 # --- Critical Check: Skip BOM check for remote deployment ---
 echo "🔍 Remote deployment mode. Skipping local BOM check."
 
-# 4. Build & Publish Kotlin Native
-stepBegin "Build & publish Kotlin Native (clean + bundle + publish)."
+# 3. Build & Publish Kotlin Native
+stepBegin "Build Kotlin Native and publish it to the remote repository"
 if [[ -d "./kotlin-native/dist" ]]; then
   rm -Rf ./kotlin-native/dist
 fi
