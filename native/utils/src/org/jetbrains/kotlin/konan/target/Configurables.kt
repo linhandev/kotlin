@@ -131,3 +131,19 @@ interface GccConfigurables : Configurables, ClangFlags {
 }
 
 interface AndroidConfigurables : Configurables, ClangFlags
+
+interface OhosConfigurables : Configurables, ClangFlags {
+    val gccToolchain get() = targetString("gccToolchain")
+    val absoluteGccToolchain get() = absolute(gccToolchain)
+    
+    override val targetToolchain get() = hostTargetString("targetToolchain")
+
+    val libClangArgs get() = targetList("libClangArgs")
+    val dynamicLinker get() = targetString("dynamicLinker")!!
+    val abiSpecificLibraries get() = targetList("abiSpecificLibraries")
+    val crtFilesLocation get() = targetString("crtFilesLocation")!!
+
+    val linker get() = hostTargetString("linker")
+    val linkerHostSpecificFlags get() = hostTargetList("linkerHostSpecificFlags")
+    val absoluteLinker get() = absolute(linker)
+}

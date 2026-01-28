@@ -573,6 +573,10 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
             }
         }
 
+        if (library.language == Language.CPP && underlying is CBoolType) {
+            return CPPBoolType
+        }
+
 
 
         if ((underlying is RecordType && underlying.decl.spelling.split(' ').last() == name) ||
@@ -651,7 +655,14 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
             }
         }
 
-        CXTypeKind.CXType_Bool -> CBoolType
+        CXTypeKind.CXType_Bool -> {
+            // In C++ mode, use CPPBoolType; in C mode, use CBoolType
+            if (library.language == Language.CPP) {
+                CPPBoolType
+            } else {
+                CBoolType
+            }
+        }
 
         else -> UnsupportedType
     }
