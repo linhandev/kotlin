@@ -1,4 +1,4 @@
-package = platform.ArkGraphics2D.OHNativeImage
+package = platform.ArkGraphics2D.OH_NativeImage
 headers = native_image/native_image.h
 headerFilter = native_image/native_image.h
 linkerOpts = -lnative_image

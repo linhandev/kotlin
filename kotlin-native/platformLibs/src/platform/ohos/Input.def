@@ -1,4 +1,4 @@
-package = platform.InputKit.input
+package = platform.InputKit.Input
 headers = multimodalinput/oh_input_manager.h multimodalinput/oh_axis_type.h multimodalinput/oh_key_code.h
 headerFilter = multimodalinput/**
 linkerOpts = -lohinput

@@ -1,4 +1,4 @@
-package = platform.IPCKit
+package = platform.IPCKit.IPCKit
 headers = IPCKit/ipc_kit.h
 headerFilter = IPCKit/ipc_kit.h
 depends = OHIPCErrorCode OHIPCParcel OHIPCRemoteObject OHIPCSkeleton

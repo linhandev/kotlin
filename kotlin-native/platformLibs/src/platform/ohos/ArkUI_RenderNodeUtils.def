@@ -1,4 +1,4 @@
-package = platform.ArkUI.RenderNodeUtils
+package = platform.ArkUI.ArkUI_RenderNodeUtils
 headers = arkui/native_render.h
 headerFilter = arkui/native_render.h
 depends = ArkUI_NativeModule

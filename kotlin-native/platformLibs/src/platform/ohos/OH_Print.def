@@ -1,4 +1,4 @@
-package = platform.BasicServicesKit.OHPrints
+package = platform.BasicServicesKit.OH_Print
 headers = BasicServicesKit/ohprint.h
 headerFilter = BasicServicesKit/ohprint.h
 linkerOpts = -lohprint

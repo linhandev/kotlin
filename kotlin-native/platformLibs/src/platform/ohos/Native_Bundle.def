@@ -1,4 +1,4 @@
-package = platform.AbilityKit.NativeBundle
+package = platform.AbilityKit.Native_Bundle
 headers = bundle/native_interface_bundle.h
 headerFilter = bundle/native_interface_bundle.h
 linkerOpts = -lbundle_ndk.z

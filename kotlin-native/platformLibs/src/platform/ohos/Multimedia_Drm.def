@@ -1,4 +1,4 @@
-package = platform.AVCodecKit.MultimediaDrm
+package = platform.AVCodecKit.Multimedia_Drm
 headers = multimedia/player_framework/native_cencinfo.h
 headerFilter = multimedia/player_framework/native_cencinfo.h
 depends = Core

@@ -1,4 +1,4 @@
-package = platform.BasicServicesKit.OHScan
+package = platform.BasicServicesKit.OH_Scan
 headers = BasicServicesKit/ohscan.h
 headerFilter = BasicServicesKit/ohscan.h
 linkerOpts = -lohscan

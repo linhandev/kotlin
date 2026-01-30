@@ -5,5 +5,3 @@ depends = Core
 linkerOpts = -lnative_media_codecbase
 language = C++
 compilerOpts = -std=c++17
-language = C++
-compilerOpts = -std=c++17
