@@ -58,28 +58,28 @@ fun Type.getStringRepresentation(): String = when (this) {
     else -> throw NotImplementedError()
 }
 
-fun getPointerTypeStringRepresentation(pointee: Type): String =
-        (getStringRepresentationOfPointee(pointee) ?: "void") + "*"
+fun getPointerTypeStringRepresentation(pointee: Type, language: Language? = null): String =
+        (getStringRepresentationOfPointee(pointee, language) ?: "void") + "*"
 
-private fun getStringRepresentationOfPointee(type: Type): String? {
-    val unwrapped = type.unwrapTypedefs()
-
-    return when (unwrapped) {
-        is PrimitiveType -> unwrapped.getStringRepresentation()
-        is PointerType -> getStringRepresentationOfPointee(unwrapped.pointeeType)?.plus("*")
-        is RecordType -> if (unwrapped.decl.isAnonymous || unwrapped.decl.spelling == "struct __va_list_tag") {
-            null
-        } else {
-            unwrapped.decl.spelling
+        private fun getStringRepresentationOfPointee(type: Type, language: Language? = null): String? {
+            val unwrapped = type.unwrapTypedefs()
+        
+            return when (unwrapped) {
+                is PrimitiveType -> unwrapped.getStringRepresentation()
+                is PointerType -> getStringRepresentationOfPointee(unwrapped.pointeeType, language)?.plus("*")
+                is RecordType -> if (unwrapped.decl.isAnonymous || unwrapped.decl.spelling == "struct __va_list_tag") {
+                    null
+                } else {
+                    unwrapped.decl.spelling
+                }
+                is EnumType -> {
+                    if (language != Language.CPP) null
+                    else if (unwrapped.def.isAnonymous) unwrapped.def.baseType.getStringRepresentation()
+                    else unwrapped.def.spelling
+                }
+                else -> null
+            }
         }
-        is EnumType -> if (unwrapped.def.isAnonymous) {
-            unwrapped.def.baseType.getStringRepresentation()
-        } else {
-            unwrapped.def.spelling
-        }
-        else -> null
-    }
-}
 
 private val ObjCQualifiedPointer.protocolQualifier: String
     get() = if (this.protocols.isEmpty()) "" else " <${protocols.joinToString { it.name }}>"
