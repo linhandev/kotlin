@@ -1,0 +1,45 @@
+stages:
+  - build
+
+variables:
+  DEPLOY_VERSION: "2.2.21-ez-sf002"
+  JDK_18: "/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
+  JDK_11: "/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home"
+
+build_ohos_macos:
+  stage: build
+  tags:
+    - mac-ci
+  only:
+    - feature/cicd-ohos-arm64
+  before_script:
+    - echo "Starting Kotlin Native OHOS Build"
+    - 'echo "Branch: ${CI_COMMIT_REF_NAME}"'
+    - 'echo "Commit: ${CI_COMMIT_SHA}"'
+    - 'echo "OS: $(uname -s)"'
+    - 'echo "Arch: $(uname -m)"'
+    - 'export JDK_18="${JDK_18}"'
+    - 'export JDK_11="${JDK_11}"'
+    - 'export JDK_11_0="${JDK_11}"'
+    - 'export JAVA_HOME="${JDK_18}"'
+    - 'export PATH="${JAVA_HOME}/bin:${PATH}"'
+    - 'export HTTP_PROXY="http://127.0.0.1:7897"'
+    - 'export HTTPS_PROXY="http://127.0.0.1:7897"'
+    - 'export http_proxy="http://127.0.0.1:7897"'
+    - 'export https_proxy="http://127.0.0.1:7897"'
+    - java -version
+  script:
+    - 'cd "$CI_PROJECT_DIR" || cd /Users/chb/gitlab-runner/builds/gmj1tWVBH/0/eazytec_kmptpc/kmptpc_kotlin'
+    - chmod +x scripts/build-ohos.sh
+    - 'JAVA_HOME="${JDK_11}" PATH="${JDK_11}/bin:${PATH}" bash scripts/build-ohos.sh'
+    - 'test -f "kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" || (echo "Missing: kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" && exit 1)'
+    - 'test -f "kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" || (echo "Missing: kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" && exit 1)'
+    - 'ls -lh kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz'
+    - 'ls -lh kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz'
+  artifacts:
+    name: "kotlin-native-ohos-macos-${CI_COMMIT_SHORT_SHA}"
+    paths:
+      - kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz
+      - kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz
+    expire_in: 30 days
+    when: on_success

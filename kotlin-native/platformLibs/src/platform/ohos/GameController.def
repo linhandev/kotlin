@@ -1,0 +1,7 @@
+package = platform.GameControllerKit.GameController
+headers = GameControllerKit/game_controller_type.h GameControllerKit/game_device.h GameControllerKit/game_device_event.h GameControllerKit/game_pad.h GameControllerKit/game_pad_event.h
+headerFilter = GameControllerKit/**
+depends = Core
+linkerOpts = -lohgame_controller.z
+language = C++
+compilerOpts = -std=c++17
