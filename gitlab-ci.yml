@@ -11,7 +11,7 @@ build_ohos_macos:
   tags:
     - mac-ci
   only:
-    - feature/cicd-ohos-arm64
+    - feature/SF-1.1.0
   before_script:
     - echo "Starting Kotlin Native OHOS Build"
     - 'echo "Branch: ${CI_COMMIT_REF_NAME}"'
