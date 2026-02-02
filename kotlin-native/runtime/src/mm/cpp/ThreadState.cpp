@@ -52,19 +52,3 @@ ALWAYS_INLINE void kotlin::AssertThreadState(MemoryState* thread, std::initializ
 ThreadState kotlin::GetThreadState(MemoryState* thread) noexcept {
     return thread->GetThreadData()->state();
 }
-
-#ifdef USE_CRT
-namespace kotlin {
-ThreadState SwitchThreadStateNoSafePointCheck(MemoryState* thread, ThreadState newState, bool reentrant) noexcept {
-    RuntimeAssert(thread != nullptr, "thread must not be nullptr");
-    auto threadData = thread->GetThreadData();
-    RuntimeAssert(threadData != nullptr, "threadData must not be nullptr");
-    auto oldState = threadData->suspensionData().setStateNoSafePoint(newState);
-    // TODO(perf): Mesaure the impact of this assert in debug and opt modes.
-    RuntimeAssert(internal::isStateSwitchAllowed(oldState, newState, reentrant),
-                  "Illegal thread state switch. Old state: %s. New state: %s.",
-                  ThreadStateName(oldState), ThreadStateName(newState));
-    return oldState;
-}
-} // namespace kotlin
-#endif
