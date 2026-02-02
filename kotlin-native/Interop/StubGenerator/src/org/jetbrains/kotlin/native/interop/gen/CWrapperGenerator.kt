@@ -53,6 +53,42 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
 
     private val Type.stringRepresentation get() = this.getStringRepresentation()
 
+     // ohos cpp support:
+     // Detects pointer-to-pointer with const pointee (e.g. const char**); stringRepresentation drops const.
+     private fun needsConstPtrPtr(type: Type): Boolean {
+        val unwrapped = type.unwrapTypedefs()
+        return when (unwrapped) {
+            is PointerType -> {
+                val inner = unwrapped.pointeeType.unwrapTypedefs()
+                inner is PointerType && inner.pointeeIsConst
+            }
+            is IncompleteArrayType -> {
+                val elem = unwrapped.elemType.unwrapTypedefs()
+                elem is PointerType && elem.pointeeIsConst
+            }
+            else -> false
+        }
+    }
+
+    // ohos cpp support:
+    // Generates const T** type string; avoids duplicate "const const".
+    private fun generateConstPtrPtrType(type: Type): String {
+        val unwrapped = type.unwrapTypedefs()
+        val baseType = when (unwrapped) {
+            is PointerType -> {
+                val inner = unwrapped.pointeeType.unwrapTypedefs()
+                if (inner is PointerType) inner.pointeeType.stringRepresentation else "void"
+            }
+            is IncompleteArrayType -> {
+                val elem = unwrapped.elemType.unwrapTypedefs()
+                if (elem is PointerType) elem.pointeeType.stringRepresentation else "void"
+            }
+            else -> "void"
+        }
+        val constPrefix = if (baseType.startsWith("const ")) "" else "const "
+        return "$constPrefix$baseType**"
+    }
+
     private fun createCCalleeWrapper(function: FunctionDecl, symbolName: String): List<String> {
         assert(context.configuration.library.language != Language.CPP)
 
@@ -90,9 +126,17 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val unwrappedParamType = paramType.unwrapTypedefs()
 
             val type = when {
+                // ohos cpp support:
+                // If struct is passed by value (and not a typedef alias), convert to pointer
+                // in wrapper function parameter declaration.
                 unwrappedParamType is RecordType && paramType !is PointerType && paramType !is Typedef -> {
                     "${parameter.type.stringRepresentation}*"
                 }
+                // ohos cpp support:
+                // For nested pointer types with const pointee (e.g., const char**), use const T**
+                needsConstPtrPtr(paramType) -> generateConstPtrPtrType(paramType)
+                // For va_list typedef, use "va_list" instead of implementation details
+                paramType is Typedef && paramType.def.name == "va_list" -> "va_list"
                 else -> parameter.type.stringRepresentation
             }
             Parameter(type, "p$index")
@@ -105,6 +149,9 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val cppRefTypePrefix =
                         if (unwrappedType is PointerType && unwrappedType.isLVReference) "*" else ""
             val typeExpression = when {
+                // ohos cpp support:
+                // Cast const char** at call site; parameterTypeText would drop const
+                needsConstPtrPtr(type) -> "(${generateConstPtrPtrType(type)})"
                 type is Typedef ->
                     "(${type.def.name})"
                 type is PointerType && type.spelling != null ->

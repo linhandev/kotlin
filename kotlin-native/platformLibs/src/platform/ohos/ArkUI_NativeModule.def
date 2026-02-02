@@ -3,5 +3,3 @@ headers = arkui/native_dialog.h arkui/drag_and_drop.h arkui/native_node.h arkui/
 headerFilter = arkui/**
 depends = ArkTS_Napi_NativeModule Drawing Image_NativeModule UDMF
 linkerOpts = -lace_ndk.z
-language = C++
-compilerOpts = -std=c++17

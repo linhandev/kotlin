@@ -72,6 +72,9 @@ fun getPointerTypeStringRepresentation(pointee: Type, language: Language? = null
                 } else {
                     unwrapped.decl.spelling
                 }
+
+                // ohos cpp support:
+                // Enum pointer and enum reference types are converted to enum pointer instead of Void*
                 is EnumType -> {
                     if (language != Language.CPP) null
                     else if (unwrapped.def.isAnonymous) unwrapped.def.baseType.getStringRepresentation()
