@@ -39,26 +39,27 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
     private data class Parameter(val type: String, val name: String)
 
     private fun createWrapper(
-            symbolName: String,
-            wrapperName: String,
-            returnType: String,
-            parameters: List<Parameter>,
-            body: String
-    ): List<String> = listOf(
+        symbolName: String,
+        wrapperName: String,
+        returnType: String,
+        parameters: List<Parameter>,
+        body: String,
+    ): List<String> {
+        // 支持多行 body：按行缩进后再拼接到头尾和符号绑定。
         val bodyLines = body.lines().filter { it.isNotEmpty() }
         val indentedBodyLines = bodyLines.map { "\t$it" }
+
         val header = listOf(
-                "__attribute__((always_inline))",
-                "$returnType $wrapperName(${parameters.joinToString { "${it.type} ${it.name}" }}) {"
+            "__attribute__((always_inline))",
+            "$returnType $wrapperName(${parameters.joinToString { "${it.type} ${it.name}" }}) {"
         )
-        val footer = listOf(
-                "}",
-        )
+        val footer = listOf("}")
+
         return header +
-                indentedBodyLines +
-                footer +
-                bindSymbolToFunction(symbolName, wrapperName)
-    )
+            indentedBodyLines +
+            footer +
+            bindSymbolToFunction(symbolName, wrapperName)
+    }
 
     private val Type.stringRepresentation get() = this.getStringRepresentation()
 
