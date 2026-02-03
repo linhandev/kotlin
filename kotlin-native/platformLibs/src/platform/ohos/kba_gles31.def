@@ -1,0 +1,7 @@
+# Kept for compatability with KuiklyBase-kotlin (renamed from gles31.def)
+depends = kba_gles3 kba_glesCommon kba_posix
+package = platform.gles31
+headers = GLES3/gl31.h
+headerFilter = GLES3/**
+linkerOpts = -lGLESv3
+

@@ -1,5 +1,5 @@
-# Kept for compatability with KuiklyBase-kotlin
-depends = posix
+# Kept for compatability with KuiklyBase-kotlin (renamed from devices.def)
+depends = kba_posix
 package = platform.devices
 headers = ConnectivityKit/bluetooth/oh_bluetooth.h \
           sensors/oh_sensor_type.h \
@@ -51,3 +51,4 @@ headers = ConnectivityKit/bluetooth/oh_bluetooth.h \
           ohcamera/photo_native.h
 language = C++
 compilerOpts = -std=c++17
+

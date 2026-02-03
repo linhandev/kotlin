@@ -1,5 +1,5 @@
-# Kept for compatability with KuiklyBase-kotlin
-depends = posix
+# Kept for compatability with KuiklyBase-kotlin (renamed from multimedia.def)
+depends = kba_posix
 package = platform.multimedia
 headers = multimedia/player_framework/native_avcodec_audiodecoder.h \
     multimedia/player_framework/native_avcodec_audioencoder.h \
@@ -55,3 +55,4 @@ headers = multimedia/player_framework/native_avcodec_audiodecoder.h \
 headerFilter = multimedia/**
 language = C++
 compilerOpts = -std=c++17
+

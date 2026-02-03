@@ -143,22 +143,35 @@ enabledTargets(platformManager).forEach { target ->
                     it.replace("~", System.getProperty("user.home"))
                 } ?: "${System.getProperty("user.home")}/.konan"
 
-                val sysrootName = when (targetName) {
-                    "ohos_arm64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos_arm64")
-                    "ohos_x64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos_x64")
-                    else -> null
-                }
+                val isKbaDef = df.name.startsWith("kba_")
 
-                if (sysrootName != null) {
-                    val includePath = "$konanDataDir/dependencies/$sysrootName/usr/include"
-                    val libPath = when (targetName) {
-                        "ohos_arm64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/aarch64-linux-ohos"
-                        "ohos_x64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
+                if (isKbaDef) {
+                    // kba_* defs: use kbaTargetSysRoot as the only sysroot by overriding targetSysRoot.
+                    val kbaSysrootName = konanProperties.getProperty("kbaTargetSysRoot.ohos")
+                    if (kbaSysrootName != null) {
+                        val sysrootDir = "$konanDataDir/dependencies/$kbaSysrootName"
+                        this.extraOpts.addAll("-compiler-option", "--sysroot=$sysrootDir")
+                        this.extraOpts.addAll("-linker-option", "--sysroot=$sysrootDir")
+                    }
+                } else {
+                    // Non-kba defs: keep using additionalTargetSysRoot as extra include/lib search paths.
+                    val sysrootName = when (targetName) {
+                        "ohos_arm64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos_arm64")
+                        "ohos_x64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos_x64")
                         else -> null
                     }
-                    if (libPath != null) {
-                        this.extraOpts.addAll("-compiler-option", "-I$includePath")
-                        this.extraOpts.addAll("-linker-option", "-L$libPath")
+
+                    if (sysrootName != null) {
+                        val includePath = "$konanDataDir/dependencies/$sysrootName/usr/include"
+                        val libPath = when (targetName) {
+                            "ohos_arm64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/aarch64-linux-ohos"
+                            "ohos_x64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
+                            else -> null
+                        }
+                        if (libPath != null) {
+                            this.extraOpts.addAll("-compiler-option", "-I$includePath")
+                            this.extraOpts.addAll("-linker-option", "-L$libPath")
+                        }
                     }
                 }
             }

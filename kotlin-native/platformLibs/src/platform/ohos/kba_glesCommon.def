@@ -1,0 +1,6 @@
+# Kept for compatability with KuiklyBase-kotlin (renamed from glesCommon.def)
+depends = kba_posix
+package = platform.glescommon
+headers = KHR/khrplatform.h
+headerFilter = KHR/**
+

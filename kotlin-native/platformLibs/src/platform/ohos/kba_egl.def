@@ -1,0 +1,7 @@
+# Kept for compatability with KuiklyBase-kotlin (renamed from egl.def)
+depends = kba_glesCommon kba_posix
+package = platform.egl
+headers = EGL/egl.h EGL/eglext.h EGL/eglplatform.h
+headerFilter = EGL/**
+linkerOpts = -lEGL
+

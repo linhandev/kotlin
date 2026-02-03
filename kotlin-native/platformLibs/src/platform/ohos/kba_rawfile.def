@@ -1,7 +1,8 @@
-# Kept for compatability with KuiklyBase-kotlin, origional name was rawfile.def
-depends = posix
+# Kept for compatability with KuiklyBase-kotlin (renamed from rawfile.def)
+depends = kba_posix
 package = platform.rawfile
 headers = rawfile/raw_dir.h rawfile/raw_file_manager.h rawfile/raw_file.h
 headerFilter = rawfile/**
 language = C++
 compilerOpts = -std=c++17
+

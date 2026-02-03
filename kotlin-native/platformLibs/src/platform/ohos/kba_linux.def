@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin
+# Kept for compatability with KuiklyBase-kotlin (renamed from linux.def)
 package = platform.linux
 headers = aio.h byteswap.h cpio.h crypt.h \
 	elf.h endian.h features.h fmtmsg.h \
@@ -33,5 +33,5 @@ headers = aio.h byteswap.h cpio.h crypt.h \
 headers.x86-64 = sys/debugreg.h sys/reg.h sys/io.h sys/perm.h sys/kdaemon.h
 
 compilerOpts = -D_ANSI_SOURCE -D_POSIX_C_SOURCE=199309 -D_BSD_SOURCE -D_XOPEN_SOURCE=700
-depends = posix
+depends = kba_posix
 

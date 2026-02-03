@@ -1,0 +1,5 @@
+# Kept for compatability with KuiklyBase-kotlin (renamed from iconv.def)
+depends = kba_posix
+package = platform.iconv
+headers = iconv.h
+
