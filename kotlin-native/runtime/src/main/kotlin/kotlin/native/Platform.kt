@@ -17,6 +17,7 @@ public enum class OsFamily {
     MACOSX,
     IOS,
     LINUX,
+    OHOS,
     WINDOWS,
     ANDROID,
     WASM,
