@@ -4,3 +4,4 @@ headerFilter = LocationKit/**
 linkerOpts = -llocation_ndk
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

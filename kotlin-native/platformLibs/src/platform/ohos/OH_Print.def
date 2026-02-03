@@ -4,3 +4,4 @@ headerFilter = BasicServicesKit/ohprint.h
 linkerOpts = -lohprint
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -5,3 +5,4 @@ depends = Core NativeWindow OHAudio
 linkerOpts = -lavplayer
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

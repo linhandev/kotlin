@@ -143,6 +143,10 @@ class DefFile(val file:File?, val config:DefFileConfig, val manifestAddendProper
         val userSetupHint by lazy {
             properties.getProperty("userSetupHint")
         }
+
+        val enableUndefinedApiProtection by lazy {
+            properties.getProperty("enableUndefinedApiProtection")?.toBoolean() ?: false
+        }
     }
 }
 

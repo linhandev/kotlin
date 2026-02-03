@@ -144,6 +144,17 @@ void ThrowException(KRef exception) {
   ExceptionObjHolder::Throw(exception);
 }
 
+void ThrowIllegalStateExceptionFromCString(const char* message) {
+  fflush(stderr);
+  // Called from cinterop stub (Native state). Use CalledFromNativeGuard so Kotlin_initRuntimeIfNeeded()
+  // runs and thread is registered before we switch to Runnable and call Kotlin code.
+  kotlin::CalledFromNativeGuard guard(/* reentrant = */ true);
+  ObjHolder holder;
+  std::string fullMessage = std::string("Missing OHOS API symbol: ") + (message ? message : "");
+  CreateStringFromCString(fullMessage.c_str(), holder.slot());
+  ThrowIllegalStateExceptionWithMessage(holder.obj());
+}
+
 void HandleCurrentExceptionWhenLeavingKotlinCode() {
   try {
       std::rethrow_exception(std::current_exception());

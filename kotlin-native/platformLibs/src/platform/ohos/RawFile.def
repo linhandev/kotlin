@@ -5,3 +5,4 @@ depends = ArkTS_Napi_NativeModule
 linkerOpts = -lrawfile.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

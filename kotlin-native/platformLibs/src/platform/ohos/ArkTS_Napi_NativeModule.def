@@ -1,7 +1,5 @@
 package = platform.System.ArkTS_Napi_NativeModule
 headers = napi/common.h napi/native_api.h \
     js_native_api_types.h js_native_api.h node_api_types.h node_api.h
-headerFilter = napi/**
+headerFilter = napi/**  js_native_api_types.h js_native_api.h node_api_types.h node_api.h
 linkerOpts = -lace_napi.z
-language = C++
-compilerOpts = -std=c++17

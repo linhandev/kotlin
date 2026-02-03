@@ -5,3 +5,4 @@ linkerOpts = -lbundle_ndk.z
 depends = ArkUI_NativeModule
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -4,3 +4,4 @@ headerFilter = multimedia/player_framework/**
 linkerOpts = -lnative_media_core
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

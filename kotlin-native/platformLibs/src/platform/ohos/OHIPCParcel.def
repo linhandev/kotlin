@@ -4,3 +4,4 @@ headerFilter = IPCKit/ipc_cparcel.h
 linkerOpts = -lipc_capi
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

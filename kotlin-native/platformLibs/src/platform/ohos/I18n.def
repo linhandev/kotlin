@@ -4,3 +4,4 @@ headerFilter = i18n/**
 linkerOpts = -lohi18n
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

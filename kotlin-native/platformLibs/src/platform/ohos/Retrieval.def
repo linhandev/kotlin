@@ -9,5 +9,6 @@ headerFilter = dataaugmentation/retrieval/**
 linkerOpts = -lnative_aip_retrieval_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
 #harmonyOS SDK Only 
 

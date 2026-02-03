@@ -5,3 +5,4 @@ depends = Image_NativeModule MediaAssetManager OH_NativeBuffer
 linkerOpts = -lohcamera
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

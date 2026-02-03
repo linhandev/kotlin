@@ -1088,8 +1088,17 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
         val isDefined = (clang_Cursor_isNull(definitionCursor) == 0)
 
         val isVararg = clang_Cursor_isVariadic(cursor) != 0
+        val declarationSpelling =  if (library.language == Language.CPP) getFunctionDeclarationSpelling(cursor, name) else null
+        return FunctionDecl(name, parameters, returnType, isVararg, declarationSpelling)
+    }
 
-        return FunctionDecl(name, parameters, returnType, isVararg)
+    private fun getFunctionDeclarationSpelling(cursor: CValue<CXCursor>, name: String): String {
+        val cursorType = clang_getCursorType(cursor)
+        val typeSpelling = clang_getTypeSpelling(cursorType).convertAndDispose()
+        if (typeSpelling.isEmpty()) return ""
+        val decl = if (" (" in typeSpelling) typeSpelling.replaceFirst(" (", " $name(")
+        else typeSpelling.replaceFirst("(", " $name(")
+        return decl
     }
 
     private fun getObjCMethod(cursor: CValue<CXCursor>): ObjCMethod? {

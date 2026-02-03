@@ -6,4 +6,5 @@ headerFilter = FASTKit/**
 linkerOpts = -lfast_solver
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
 #harmonyOS SDK Only

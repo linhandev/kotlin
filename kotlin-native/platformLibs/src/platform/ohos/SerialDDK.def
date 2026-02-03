@@ -4,3 +4,4 @@ headerFilter = usb_serial/**
 linkerOpts = -lusb_serial_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

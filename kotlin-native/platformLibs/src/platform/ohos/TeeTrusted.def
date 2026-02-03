@@ -3,3 +3,4 @@ headers = TEEKit/tee/tee_defines.h TEEKit/tee/tee_apm_api.h TEEKit/tee/pthread_a
 headerFilter = TEEKit/tee/**
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

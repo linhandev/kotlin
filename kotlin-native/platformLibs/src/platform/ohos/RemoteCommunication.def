@@ -4,4 +4,5 @@ headerFilter = RemoteCommunicationKit/rcp.h
 linkerOpts = -lrcp_c
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
 #harmonyOS SDK Only

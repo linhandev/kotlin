@@ -4,3 +4,4 @@ headerFilter = huks/native_huks_type.h
 linkerOpts = -lhuks_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

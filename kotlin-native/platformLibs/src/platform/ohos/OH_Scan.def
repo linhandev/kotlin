@@ -4,3 +4,4 @@ headerFilter = BasicServicesKit/ohscan.h
 linkerOpts = -lohscan
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

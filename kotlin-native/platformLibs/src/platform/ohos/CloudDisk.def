@@ -4,3 +4,4 @@ headerFilter = filemanagement/clouddiskmanager/**
 linkerOpts = -lohclouddiskmanager
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

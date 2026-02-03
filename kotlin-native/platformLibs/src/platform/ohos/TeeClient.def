@@ -4,3 +4,4 @@ headerFilter = TEEKit/tee_client/**
 linkerOpts = -lteec
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

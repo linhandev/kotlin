@@ -5,3 +5,4 @@ depends = Core
 linkerOpts = -lnative_media_avcencinfo
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

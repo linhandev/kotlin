@@ -5,3 +5,4 @@ depends = ArkUI_NativeModule
 linkerOpts = -lace_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

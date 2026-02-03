@@ -15,7 +15,8 @@ internal data class CCalleeWrapper(val lines: List<String>)
 internal class CWrappersGenerator(private val context: StubIrContext) {
 
     private var currentFunctionWrapperId = 0
-
+    private val enableUndefinedApiProtection: Boolean = context.configuration.enableUndefinedApiProtection
+    private var preambleEmitted = false
     private val packageName =
             context.configuration.pkgName.replace(INVALID_CLANG_IDENTIFIER_REGEX, "_")
 
@@ -44,11 +45,19 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             parameters: List<Parameter>,
             body: String
     ): List<String> = listOf(
-            "__attribute__((always_inline))",
-            "$returnType $wrapperName(${parameters.joinToString { "${it.type} ${it.name}" }}) {",
-            "\t$body",
-            "}",
-            *bindSymbolToFunction(symbolName, wrapperName).toTypedArray()
+        val bodyLines = body.lines().filter { it.isNotEmpty() }
+        val indentedBodyLines = bodyLines.map { "\t$it" }
+        val header = listOf(
+                "__attribute__((always_inline))",
+                "$returnType $wrapperName(${parameters.joinToString { "${it.type} ${it.name}" }}) {"
+        )
+        val footer = listOf(
+                "}",
+        )
+        return header +
+                indentedBodyLines +
+                footer +
+                bindSymbolToFunction(symbolName, wrapperName)
     )
 
     private val Type.stringRepresentation get() = this.getStringRepresentation()
@@ -89,6 +98,21 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         return "$constPrefix$baseType**"
     }
 
+    // ohos cpp support:
+    // Per-def preamble for undefined-API
+    private fun generatePreambleLines(): List<String> {
+        if (!enableUndefinedApiProtection || context.configuration.library.language != Language.CPP) return emptyList()
+        return listOf(
+            "// ========== undefined API protection preamble (weak symbol + func != nullptr) ==========",
+            "#include <mutex>",
+            "namespace ohos { namespace interop {",
+            "extern \"C\" void ThrowIllegalStateExceptionFromCString(const char* message);",
+            "} }",
+            ""
+        )
+    }
+
+
     private fun createCCalleeWrapper(function: FunctionDecl, symbolName: String): List<String> {
         assert(context.configuration.library.language != Language.CPP)
 
@@ -111,9 +135,19 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         return createWrapper(symbolName, wrapperName, returnType, parameters, wrapperBody)
     }
 
-    private fun createCppCalleeWrapper(function: FunctionDecl, symbolName: String): List<String> {
+    private data class CppWrapperCommon(
+        val wrapperName: String,
+        val returnType: String,
+        val returnTypePrefix: String,
+        val parameters: List<Parameter>,
+        val argumentTypes: List<String>,
+        val callExpression: String,
+        val fullName: String,
+    )
+
+    private fun buildCppCalleeWrapperCommon(function: FunctionDecl): CppWrapperCommon {
         assert(context.configuration.library.language == Language.CPP)
-        
+
         val wrapperName = generateFunctionWrapperName(function.name)
 
         val returnType = function.returnType.stringRepresentation
@@ -141,11 +175,12 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             }
             Parameter(type, "p$index")
         }
+
         val argumentTypes = function.parameters.map { parameter ->
             val parameterTypeText = parameter.type.stringRepresentation
             val type = parameter.type
             val unwrappedType = type.unwrapTypedefs()
-            
+
             val cppRefTypePrefix =
                         if (unwrappedType is PointerType && unwrappedType.isLVReference) "*" else ""
             val typeExpression = when {
@@ -167,33 +202,89 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             typeExpression
         }
 
-        val callExpression = with (function) {
+        val callExpression = run {
             assert(argumentTypes.size == parameters.size)
             val arguments = argumentTypes.mapIndexed { index, type ->
                 "${type}(${parameters[index].name})"
             }
-            "${fullName}(${arguments.joinToString()})"
+            "${function.fullName}(${arguments.joinToString()})"
         }
 
-        val wrapperBody = if (function.returnType.unwrapTypedefs() is VoidType) {
-            "$callExpression;"
-        } else {
-            "return (${returnType})$returnTypePrefix($callExpression);"
-        }
-        return createWrapper(symbolName, wrapperName, returnType, parameters, wrapperBody)
+        return CppWrapperCommon(
+            wrapperName = wrapperName,
+            returnType = returnType,
+            returnTypePrefix = returnTypePrefix,
+            parameters = parameters,
+            argumentTypes = argumentTypes,
+            callExpression = callExpression,
+            fullName = function.fullName,
+        )
     }
 
-    fun generateCCalleeWrapper(function: FunctionDecl, symbolName: String): CCalleeWrapper =
-            if (function.isVararg) {
-                CCalleeWrapper(bindSymbolToFunction(symbolName, function.name))
+    private fun createCppCalleeWrapper(function: FunctionDecl, symbolName: String): List<String> {
+        val common = buildCppCalleeWrapperCommon(function)
+
+        val wrapperBody = if (function.returnType.unwrapTypedefs() is VoidType) {
+            "${common.callExpression};"
+        } else {
+            "return (${common.returnType})${common.returnTypePrefix}(${common.callExpression});"
+        }
+        return createWrapper(symbolName, common.wrapperName, common.returnType, common.parameters, wrapperBody)
+    }
+
+    private fun createCppCalleeWrapperWithFallback(function: FunctionDecl, symbolName: String): List<String> {
+        val common = buildCppCalleeWrapperCommon(function)
+
+        val symbolLiteral = function.name.replace("\\", "\\\\").replace("\"", "\\\"")
+        val body = buildString {
+            append("static bool symbol_ok = false;")
+            append("\n")
+            append("static std::once_flag once;")
+            append("\n")
+            // 使用弱符号：如果目标函数在当前系统不存在，&fullName 将为 nullptr。
+            append("std::call_once(once, [] { symbol_ok = &${common.fullName} != nullptr; });")
+            append("\n")
+            append("if (!symbol_ok) ohos::interop::ThrowIllegalStateExceptionFromCString(\"$symbolLiteral\");")
+            append("\n")
+            if (function.returnType.unwrapTypedefs() is VoidType) {
+                append("${common.callExpression};")
             } else {
-                val wrapper = if (context.configuration.library.language == Language.CPP) {
-                    createCppCalleeWrapper(function, symbolName)
-                } else {
-                    createCCalleeWrapper(function, symbolName)
-                }
-                CCalleeWrapper(wrapper)
+                append("return (${common.returnType})${common.returnTypePrefix}(${common.callExpression});")
             }
+        }
+        return createWrapper(symbolName, common.wrapperName, common.returnType, common.parameters, body)
+    }
+
+    fun generateCCalleeWrapper(function: FunctionDecl, symbolName: String): CCalleeWrapper {
+        if (function.isVararg) {
+            return CCalleeWrapper(bindSymbolToFunction(symbolName, function.name))
+        }
+
+        val isCpp = context.configuration.library.language == Language.CPP
+        if (enableUndefinedApiProtection && isCpp) {
+            val preamble = if (!preambleEmitted) {
+                preambleEmitted = true
+                generatePreambleLines()
+            } else {
+                emptyList()
+            }
+
+            val weakDecl = function.declarationSpelling
+                ?.takeIf { it.isNotBlank() }
+                ?.let { "extern \"C\" __attribute__((weak)) $it;" }
+
+            val wrapper = createCppCalleeWrapperWithFallback(function, symbolName)
+            val wrapperLines = if (weakDecl != null) listOf(weakDecl) + wrapper else wrapper
+
+            return CCalleeWrapper(preamble + wrapperLines)
+        }
+        val wrapperLines = if (isCpp) {
+            createCppCalleeWrapper(function, symbolName)
+        } else {
+            createCCalleeWrapper(function, symbolName)
+        }
+        return CCalleeWrapper(wrapperLines)
+    }
 
     fun generateCGlobalGetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {
         val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")

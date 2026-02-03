@@ -4,3 +4,4 @@ headerFilter = ark_runtime/**
 linkerOpts = -ljsvm
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -5,3 +5,4 @@ depends = Image_NativeModule
 linkerOpts = -lmedia_asset_manager
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

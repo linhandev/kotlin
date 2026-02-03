@@ -4,3 +4,4 @@ headerFilter = ddk/** usb/**
 linkerOpts = -lddk_base.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

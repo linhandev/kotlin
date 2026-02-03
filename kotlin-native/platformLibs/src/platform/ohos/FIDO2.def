@@ -4,5 +4,6 @@ headerFilter = OnlineAuthenticationKit/fido2_api.h
 linkerOpts = -lfido2_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
 #harmonyOS SDK Only
 
