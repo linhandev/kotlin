@@ -104,8 +104,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
     private fun generatePreambleLines(): List<String> {
         if (!enableUndefinedApiProtection || context.configuration.library.language != Language.CPP) return emptyList()
         return listOf(
-            "// ========== undefined API protection preamble (weak symbol + func != nullptr) ==========",
-            "#include <mutex>",
+            "// ========== undefined API protection preamble (weak symbol + &func == nullptr check) ==========",
             "namespace ohos { namespace interop {",
             "extern \"C\" void ThrowIllegalStateExceptionFromCString(const char* message);",
             "} }",
@@ -238,20 +237,19 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
 
         val symbolLiteral = function.name.replace("\\", "\\\\").replace("\"", "\\\"")
         val body = buildString {
-            append("static bool symbol_ok = false;")
+            append("if (&${common.fullName} == nullptr) {")
             append("\n")
-            append("static std::once_flag once;")
+            append("    ohos::interop::ThrowIllegalStateExceptionFromCString(\"$symbolLiteral\");")
             append("\n")
-            // 使用弱符号：如果目标函数在当前系统不存在，&fullName 将为 nullptr。
-            append("std::call_once(once, [] { symbol_ok = &${common.fullName} != nullptr; });")
-            append("\n")
-            append("if (!symbol_ok) ohos::interop::ThrowIllegalStateExceptionFromCString(\"$symbolLiteral\");")
+            append("} else {")
             append("\n")
             if (function.returnType.unwrapTypedefs() is VoidType) {
-                append("${common.callExpression};")
+                append("    ${common.callExpression};")
             } else {
-                append("return (${common.returnType})${common.returnTypePrefix}(${common.callExpression});")
+                append("    return (${common.returnType})${common.returnTypePrefix}(${common.callExpression});")
             }
+            append("\n")
+            append("}")
         }
         return createWrapper(symbolName, common.wrapperName, common.returnType, common.parameters, body)
     }
