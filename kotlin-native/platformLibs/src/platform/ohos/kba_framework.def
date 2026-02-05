@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from framework.def)
-depends = kba_posix
+depends = posix
 package = platform.framework
 headers = ark_runtime/jsvm.h \
           ark_runtime/jsvm_types.h \

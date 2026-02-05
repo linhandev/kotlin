@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from native.def)
-depends = kba_posix
+depends = posix
 package = platform.native
 headers =  native_buffer/native_buffer.h native_image/native_image.h \
     native_window/buffer_handle.h native_window/external_window.h \

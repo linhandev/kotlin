@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from gles32.def)
-depends = kba_gles3 kba_glesCommon kba_posix
+depends = kba_gles3 kba_glesCommon posix
 package = platform.gles32
 headers = GLES3/gl32.h
 headerFilter = GLES3/**

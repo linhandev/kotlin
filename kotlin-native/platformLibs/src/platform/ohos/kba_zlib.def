@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from zlib.def)
-depends = kba_posix
+depends = posix
 package = platform.zlib
 headers = zconf.h zlib.h
 headerFilter = zlib.h

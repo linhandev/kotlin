@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from rawfile.def)
-depends = kba_posix
+depends = posix
 package = platform.rawfile
 headers = rawfile/raw_dir.h rawfile/raw_file_manager.h rawfile/raw_file.h
 headerFilter = rawfile/**

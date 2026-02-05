@@ -143,7 +143,7 @@ enabledTargets(platformManager).forEach { target ->
                     it.replace("~", System.getProperty("user.home"))
                 } ?: "${System.getProperty("user.home")}/.konan"
 
-                val isKbaDef = df.name.startsWith("kba_")
+                val isKbaDef = df.name.startsWith("kba_") || df.name == "ohos"
 
                 if (isKbaDef) {
                     // kba_* defs: use kbaTargetSysRoot as the only sysroot by overriding targetSysRoot.

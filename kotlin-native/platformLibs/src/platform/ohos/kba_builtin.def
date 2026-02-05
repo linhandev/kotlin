@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from builtin.def)
-depends = kba_posix
+depends = posix
 package = platform.builtin
 headerFilter =
 language = C

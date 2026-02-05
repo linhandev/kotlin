@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from mtd.def)
-depends = kba_posix
+depends = posix
 package = platform.mtd
 headers = mtd/inftl-user.h mtd/mtd-abi.h \
           mtd/mtd-user.h mtd/nftl-user.h

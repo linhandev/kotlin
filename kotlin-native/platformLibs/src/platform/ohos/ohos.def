@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from ohos.def)
-depends = kba_posix
+depends = posix
 package = platform.ohos
 headers = hilog/log.h hiappevent/hiappevent.h napi/native_api.h napi/common.h \
     js_native_api_types.h js_native_api.h node_api_types.h node_api.h \

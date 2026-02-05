@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from devices.def)
-depends = kba_posix
+depends = posix
 package = platform.devices
 headers = ConnectivityKit/bluetooth/oh_bluetooth.h \
           sensors/oh_sensor_type.h \

@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from video.def)
-depends = kba_posix
+depends = posix
 package = platform.video
 headers = video/edid.h video/sisfb.h video/uvesafb.h
 headerFilter = video/**

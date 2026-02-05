@@ -1,5 +1,5 @@
 # Kept for compatability with KuiklyBase-kotlin (renamed from basic.def)
-depends = kba_posix
+depends = posix
 package = platform.basic
 headers = ConnectivityKit/wifi/oh_wifi.h \
           window_manager/oh_display_info.h \
