@@ -26,6 +26,7 @@
 #include "KAssert.h"
 #include "Exceptions.h"
 #include "ExecFormat.h"
+#include "KString.h"
 #include "Memory.h"
 #include <std_support/Atomic.hpp>
 #include "concurrent/Mutex.hpp"
