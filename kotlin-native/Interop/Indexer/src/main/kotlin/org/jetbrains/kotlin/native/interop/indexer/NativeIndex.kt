@@ -324,7 +324,7 @@ data class Parameter(val name: String?, val type: Type, val nsConsumed: Boolean)
  */
 class FunctionDecl(val name: String, val parameters: List<Parameter>, val returnType: Type,
                    val isVararg: Boolean,
-                   val parentName: String? = null
+                   val parentName: String? = null,
                    val declarationSpelling: String? = null) {
 
     val fullName: String = parentName?.let { "$parentName::$name" } ?: name
