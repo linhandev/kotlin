@@ -31,7 +31,7 @@ build_ohos_macos:
   script:
     - 'cd "$CI_PROJECT_DIR" || cd /Users/chb/gitlab-runner/builds/gmj1tWVBH/0/eazytec_kmptpc/kmptpc_kotlin'
     - chmod +x scripts/build-ohos-remote.sh
-    - 'JAVA_HOME="${JDK_11}" PATH="${JDK_11}/bin:${PATH}" bash scripts/build-ohos.sh'
+    - 'JAVA_HOME="${JDK_11}" PATH="${JDK_11}/bin:${PATH}" bash scripts/build-ohos-remote.sh'
     - 'test -f "kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" || (echo "Missing: kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" && exit 1)'
     - 'test -f "kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" || (echo "Missing: kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" && exit 1)'
     - 'ls -lh kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz'
