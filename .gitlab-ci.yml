@@ -31,6 +31,22 @@ build_ohos_macos:
   script:
     - 'cd "$CI_PROJECT_DIR" || cd /Users/chb/gitlab-runner/builds/gmj1tWVBH/0/eazytec_kmptpc/kmptpc_kotlin'
     - chmod +x scripts/build-ohos-remote.sh
+    # 验证必需的环境变量
+    - |
+      if [[ -z "$MAVEN_USERNAME" ]]; then
+        echo "❌ Error: MAVEN_USERNAME environment variable is not set."
+        echo "   Please set it in GitLab CI/CD variables or in GitLab Runner environment."
+        exit 1
+      fi
+      if [[ -z "$MAVEN_PASSWORD" ]]; then
+        echo "❌ Error: MAVEN_PASSWORD environment variable is not set."
+        echo "   Please set it in GitLab CI/CD variables or in GitLab Runner environment."
+        exit 1
+      fi
+    # 导出环境变量并执行构建脚本
+    - 'export DEPLOY_VERSION="${DEPLOY_VERSION}"'
+    - 'export MAVEN_USERNAME="${MAVEN_USERNAME}"'
+    - 'export MAVEN_PASSWORD="${MAVEN_PASSWORD}"'
     - 'JAVA_HOME="${JDK_11}" PATH="${JDK_11}/bin:${PATH}" bash scripts/build-ohos-remote.sh'
     - 'test -f "kotlin-native/kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" || (echo "Missing: kotlin-native-macos-aarch64-${DEPLOY_VERSION}.tar.gz" && exit 1)'
     - 'test -f "kotlin-native/kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" || (echo "Missing: kotlin-native-prebuilt-macos-aarch64-${DEPLOY_VERSION}.tar.gz" && exit 1)'
