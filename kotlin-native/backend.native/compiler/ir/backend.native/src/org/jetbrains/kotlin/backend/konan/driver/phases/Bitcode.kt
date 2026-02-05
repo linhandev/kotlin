@@ -97,6 +97,11 @@ internal val StackProtectorPhase = createSimpleNamedCompilerPhase<OptimizationSt
         op = ::applySspAttributes
 )
 
+internal val AddressSanitizerPhase = optimizationPipelinePass(
+        name = "AddressSanitizerPhase",
+        pipeline = ::AddressSanitizerPipeline
+)
+
 internal val RemoveRedundantSafepointsPhase = createSimpleNamedCompilerPhase<BitcodePostProcessingContext, Unit>(
         name = "RemoveRedundantSafepoints",
         postactions = getDefaultLlvmModuleActions(),
