@@ -2,7 +2,7 @@ stages:
   - build
 
 variables:
-  DEPLOY_VERSION: "2.2.21-ez-sf002"
+  DEPLOY_VERSION: "2.2.21-sf-001"
   JDK_18: "/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
   JDK_11: "/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home"
 

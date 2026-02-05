@@ -16,7 +16,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
 
     private var currentFunctionWrapperId = 0
     private val enableUndefinedApiProtection: Boolean = context.configuration.enableUndefinedApiProtection
-    private var preambleEmitted = false
     private val packageName =
             context.configuration.pkgName.replace(INVALID_CLANG_IDENTIFIER_REGEX, "_")
 
@@ -259,12 +258,9 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
 
         val isCpp = context.configuration.library.language == Language.CPP
         if (enableUndefinedApiProtection && isCpp) {
-            val preamble = if (!preambleEmitted) {
-                preambleEmitted = true
-                generatePreambleLines()
-            } else {
-                emptyList()
-            }
+            // Emit preamble for every wrapper that uses ThrowIllegalStateExceptionFromCString so that
+            // when fragments are compiled separately (e.g. by Indexer) the namespace is visible.
+            val preamble = generatePreambleLines()
 
             val weakDecl = function.declarationSpelling
                 ?.takeIf { it.isNotBlank() }
