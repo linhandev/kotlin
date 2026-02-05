@@ -1089,7 +1089,7 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
 
         val isVararg = clang_Cursor_isVariadic(cursor) != 0
         val declarationSpelling =  if (library.language == Language.CPP) getFunctionDeclarationSpelling(cursor, name) else null
-        return FunctionDecl(name, parameters, returnType, isVararg, declarationSpelling)
+        return FunctionDecl(name, parameters, returnType, isVararg, null, declarationSpelling)
     }
 
     private fun getFunctionDeclarationSpelling(cursor: CValue<CXCursor>, name: String): String {

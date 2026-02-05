@@ -142,7 +142,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         val parameters: List<Parameter>,
         val argumentTypes: List<String>,
         val callExpression: String,
-        val fullName: String,
     )
 
     private fun buildCppCalleeWrapperCommon(function: FunctionDecl): CppWrapperCommon {
@@ -207,7 +206,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val arguments = argumentTypes.mapIndexed { index, type ->
                 "${type}(${parameters[index].name})"
             }
-            "${function.fullName}(${arguments.joinToString()})"
+            "${function.name}(${arguments.joinToString()})"
         }
 
         return CppWrapperCommon(
@@ -217,7 +216,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             parameters = parameters,
             argumentTypes = argumentTypes,
             callExpression = callExpression,
-            fullName = function.fullName,
         )
     }
 
@@ -237,7 +235,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
 
         val symbolLiteral = function.name.replace("\\", "\\\\").replace("\"", "\\\"")
         val body = buildString {
-            append("if (&${common.fullName} == nullptr) {")
+            append("if (&${function.name} == nullptr) {")
             append("\n")
             append("    ohos::interop::ThrowIllegalStateExceptionFromCString(\"$symbolLiteral\");")
             append("\n")
