@@ -29,6 +29,7 @@
 #include "common_interfaces/heap/heap_allocator.h"
 #include "HeapInterface.hpp"
 #include "KNBaseObject.hpp"
+#include "MemoryManagerSwitch.hpp"
 
 namespace kotlin::alloc {
 
@@ -104,10 +105,11 @@ size_t CRTAllocator::GetAllocatedHeapSize(ObjHeader* object) noexcept {
 
 } // namespace kotlin::alloc
 
-#ifdef USE_CRT
 // TODO: CRT hash code implementation
-static std::atomic<KInt> CRTGlobalHashIndex = 0xc0000001;
 RUNTIME_NOTHROW extern "C" KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz) {
+    assertUseCRT();
+
+    static std::atomic<KInt> CRTGlobalHashIndex = 0xc0000001;
     // Only object (i.e., non-primitive) can be hashed. Therefore if thiz does not belong to heap
     // it must be (when there is no Escape-analysis) a compiler-generated cached boxing value, which reside
     // in the text section of the program, which is not editable or movable.
@@ -137,4 +139,3 @@ RUNTIME_NOTHROW extern "C" KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz) {
     }
     return *hash;
 }
-#endif

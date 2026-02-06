@@ -20,6 +20,7 @@
 #include "Types.h"
 #include "Exceptions.h"
 #include "Memory.h"
+#include "MemoryManagerSwitch.hpp"
 
 constexpr size_t alignUp(size_t size, size_t alignment) {
   return (size + alignment - 1) & ~(alignment - 1);
@@ -28,26 +29,25 @@ constexpr size_t alignUp(size_t size, size_t alignment) {
 template <typename T, bool barrier = false>
 inline T* AddressOfElementAt(ArrayHeader* obj, KInt index) {
     int8_t* body = reinterpret_cast<int8_t*>(obj) + alignUp(sizeof(ArrayHeader), alignof(T));
-#ifdef USE_CRT
+    auto res = reinterpret_cast<T*>(body) + index;
     if constexpr (barrier) {
-        auto res = reinterpret_cast<T*>(body) + index;
-        ReadHeapRef(res, obj->obj());
-        return res;
+        checkUseCRT<CheckMode::Fast>([=] { // TODO: #9, until then it better be fast
+            ReadHeapRef(res, obj->obj());
+        });
     }
-#endif
-    return reinterpret_cast<T*>(body) + index;
+    return res;
 }
 
 template <typename T, bool barrier = false>
 inline const T* AddressOfElementAt(const ArrayHeader* obj, KInt index) {
     const int8_t* body = reinterpret_cast<const int8_t*>(obj) + alignUp(sizeof(ArrayHeader), alignof(T));
-#ifdef USE_CRT
+    auto res = reinterpret_cast<const T*>(body) + index;
     if constexpr (barrier) {
-        auto res = reinterpret_cast<const T*>(body) + index;
-        ReadHeapRef(const_cast<T*>(res), const_cast<T>(obj->obj()));
+        checkUseCRT<CheckMode::Fast>([=] { // TODO: #9, until then it better be fast
+            ReadHeapRef(const_cast<T*>(res), const_cast<T>(obj->obj()));
+        });
     }
-#endif
-    return reinterpret_cast<const T*>(body) + index;
+    return res;
 }
 
 inline KByte* ByteArrayAddressOfElementAt(ArrayHeader* obj, KInt index) {

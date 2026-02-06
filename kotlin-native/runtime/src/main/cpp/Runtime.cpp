@@ -26,7 +26,7 @@
 
 #ifdef USE_CRT
 #include "base/common.h"
-#include "gc/crt/cpp/CRTRuntime.hpp"
+#include "CRTRuntime.hpp"
 #endif
 
 #define FILE_WRITER 0

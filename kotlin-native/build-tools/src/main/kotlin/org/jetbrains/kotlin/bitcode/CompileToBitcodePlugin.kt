@@ -152,7 +152,7 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
     }
 
     // TODO: These should be set by the plugin users.
-    val isCRTBuild = project.kotlinBuildProperties.getBoolean("kotlin.native.CRT", true)
+val isCRTBuild = project.kotlinBuildProperties.getBoolean("kotlin.native.CRT", true)
     val isGcFastPathEnabled = project.kotlinBuildProperties.getBoolean("kotlin.native.gc_fastpath", true)
     val isNativeRuntimeDebugInfoEnabled = project.kotlinBuildProperties.getBoolean("kotlin.native.isNativeRuntimeDebugInfoEnabled", false)
 

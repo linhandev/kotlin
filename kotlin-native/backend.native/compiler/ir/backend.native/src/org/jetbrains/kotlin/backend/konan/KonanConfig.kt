@@ -447,8 +447,35 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         }
     }
 
-    val minidumpLocation by lazy {
+val minidumpLocation by lazy {
         configuration.get(BinaryOptions.minidumpLocation)
+    }
+
+    val memoryManagerMode: MemoryManagerMode by lazy {
+        when (configuration.get(BinaryOptions.runtimeSwitchMemoryManager)) {
+            true -> {
+                if (allocationMode != AllocationMode.CUSTOM) {
+                    configuration.report(CompilerMessageSeverity.ERROR,
+                            "Run-time switching of memory manager is only supported with -Xallocator=custom")
+                }
+                if (gc == GC.CONCURRENT_MARK_AND_COPY) {
+                    configuration.report(CompilerMessageSeverity.ERROR,
+                            "Run-time switching of memory manager requires -Xbinary=gc={noop|stwms|pmcs|cms} to set a non-CMC backup GC")
+                }
+                MemoryManagerMode.RUNTIME_SWITCH
+            }
+            else -> {
+                if (gc == GC.CONCURRENT_MARK_AND_COPY || allocationMode == AllocationMode.CRT) {
+                    if (gc != GC.CONCURRENT_MARK_AND_COPY || allocationMode != AllocationMode.CRT) {
+                        configuration.report(CompilerMessageSeverity.ERROR,
+                                "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")
+                    }
+                    MemoryManagerMode.CRT
+                } else {
+                    MemoryManagerMode.NATIVE
+                }
+            }
+        }
     }
 
     val swiftExport by lazy {
@@ -487,7 +514,8 @@ internal val runtimeNativeLibraries: List<String> = mutableListOf<String>().appl
                 GC.NOOP -> add("noop_gc_custom.bc")
                 GC.PARALLEL_MARK_CONCURRENT_SWEEP -> add("pmcs_gc_custom.bc")
                 GC.CONCURRENT_MARK_AND_SWEEP -> add("concurrent_ms_gc_custom.bc")
-                GC.CONCURRENT_MARK_AND_COPY -> error("CRT allocator must always be enabled along with CMC GC");
+                GC.CONCURRENT_MARK_AND_COPY -> configuration.report(CompilerMessageSeverity.ERROR,
+                        "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")
             }
         } else {
             when (gc) {
@@ -518,7 +546,8 @@ internal val runtimeNativeLibraries: List<String> = mutableListOf<String>().appl
             }
         }
         if ((allocationMode == AllocationMode.CRT) != (gc == GC.CONCURRENT_MARK_AND_COPY)) {
-            error("CRT allocator must always be enabled along with CMC GC");
+            configuration.report(CompilerMessageSeverity.ERROR,
+                    "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")
         }
         when (checkStateAtExternalCalls) {
             true -> add("impl_externalCallsChecker.bc")
@@ -631,6 +660,8 @@ internal val runtimeNativeLibraries: List<String> = mutableListOf<String>().appl
             append("-gc_scheduler${gcSchedulerType.name}")
         if (runtimeAssertsMode != RuntimeAssertsMode.IGNORE)
             append("-runtime_asserts${runtimeAssertsMode.name}")
+        if (memoryManagerMode != MemoryManagerMode.NATIVE)
+            append("-memory_manager${memoryManagerMode.name}")
         if (disableMmap != defaultDisableMmap)
             append("-disable_mmap${if (disableMmap) "TRUE" else "FALSE"}")
         if (gcMarkSingleThreaded != defaultGcMarkSingleThreaded)
