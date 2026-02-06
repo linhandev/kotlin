@@ -14,90 +14,92 @@
  * limitations under the License.
  */
 
-package org.jetbrains.kotlin.native.interop.gen
+ package org.jetbrains.kotlin.native.interop.gen
 
-import org.jetbrains.kotlin.native.interop.indexer.*
-
-/**
- * Returns the expression which could be used for this type in C code.
- * Note: the resulting string doesn't exactly represent this type, but it is enough for current purposes.
- *
- * TODO: use libclang to implement?
- */
-fun Type.getStringRepresentation(): String = when (this) {
-    VoidType -> "void"
-    CharType -> "char"
-    CBoolType -> "_Bool"
-    CPPBoolType -> "bool"
-    ObjCBoolType -> "BOOL"
-    is IntegerType -> this.spelling
-    is FloatingType -> this.spelling
-
-    is VectorType -> this.spelling
-    is PointerType -> getPointerTypeStringRepresentation(this.pointeeType)
-    is ArrayType -> getPointerTypeStringRepresentation(this.elemType)
-
-    is RecordType -> this.decl.spelling
-
-    is EnumType -> if (this.def.isAnonymous) {
-        this.def.baseType.getStringRepresentation()
-    } else {
-        this.def.spelling
-    }
-
-    is Typedef -> this.def.aliased.getStringRepresentation()
-
-    is ObjCPointer -> when (this) {
-        is ObjCIdType -> "id$protocolQualifier"
-        is ObjCClassPointer -> "Class$protocolQualifier"
-        is ObjCObjectPointer -> "${def.name}$protocolQualifier*"
-        is ObjCInstanceType -> TODO(this.toString()) // Must have already been handled.
-        is ObjCBlockPointer -> "id"
-    }
-
-    else -> throw NotImplementedError()
-}
-
-fun getPointerTypeStringRepresentation(pointee: Type, language: Language? = null): String =
-        (getStringRepresentationOfPointee(pointee, language) ?: "void") + "*"
-
-        private fun getStringRepresentationOfPointee(type: Type, language: Language? = null): String? {
-            val unwrapped = type.unwrapTypedefs()
-        
-            return when (unwrapped) {
-                is PrimitiveType -> unwrapped.getStringRepresentation()
-                is PointerType -> getStringRepresentationOfPointee(unwrapped.pointeeType, language)?.plus("*")
-                is RecordType -> if (unwrapped.decl.isAnonymous || unwrapped.decl.spelling == "struct __va_list_tag") {
-                    null
-                } else {
-                    unwrapped.decl.spelling
-                }
-
-                // ohos cpp support:
-                // Enum pointer and enum reference types are converted to enum pointer instead of Void*
-                is EnumType -> {
-                    if (language != Language.CPP) null
-                    else if (unwrapped.def.isAnonymous) unwrapped.def.baseType.getStringRepresentation()
-                    else unwrapped.def.spelling
-                }
-                else -> null
-            }
-        }
-
-private val ObjCQualifiedPointer.protocolQualifier: String
-    get() = if (this.protocols.isEmpty()) "" else " <${protocols.joinToString { it.name }}>"
-
-fun blockTypeStringRepresentation(type: ObjCBlockPointer): String {
-    return buildString {
-        append(type.returnType.getStringRepresentation())
-        append("(^)")
-        append("(")
-        val blockParameters = if (type.parameterTypes.isEmpty()) {
-            "void"
-        } else {
-            type.parameterTypes.joinToString { it.getStringRepresentation() }
-        }
-        append(blockParameters)
-        append(")")
-    }
-}
+ import org.jetbrains.kotlin.native.interop.indexer.*
+ 
+ /**
+  * Returns the expression which could be used for this type in C code.
+  * Note: the resulting string doesn't exactly represent this type, but it is enough for current purposes.
+  * @param language When Language.CPP, enum pointee types in pointers/references get proper enum name instead of void.
+  *
+  * TODO: use libclang to implement?
+  */
+ fun Type.getStringRepresentation(language: Language? = null): String = when (this) {
+     VoidType -> "void"
+     CharType -> "char"
+     CBoolType -> "_Bool"
+     CPPBoolType -> "bool"
+     ObjCBoolType -> "BOOL"
+     is IntegerType -> this.spelling
+     is FloatingType -> this.spelling
+ 
+     is VectorType -> this.spelling
+     is PointerType -> getPointerTypeStringRepresentation(this.pointeeType, language)
+     is ArrayType -> getPointerTypeStringRepresentation(this.elemType, language)
+ 
+     is RecordType -> this.decl.spelling
+ 
+     is EnumType -> if (this.def.isAnonymous) {
+         this.def.baseType.getStringRepresentation(language)
+     } else {
+         this.def.spelling
+     }
+ 
+     is Typedef -> this.def.aliased.getStringRepresentation(language)
+ 
+     is ObjCPointer -> when (this) {
+         is ObjCIdType -> "id$protocolQualifier"
+         is ObjCClassPointer -> "Class$protocolQualifier"
+         is ObjCObjectPointer -> "${def.name}$protocolQualifier*"
+         is ObjCInstanceType -> TODO(this.toString()) // Must have already been handled.
+         is ObjCBlockPointer -> "id"
+     }
+ 
+     else -> throw NotImplementedError()
+ }
+ 
+ fun getPointerTypeStringRepresentation(pointee: Type, language: Language? = null): String =
+         (getStringRepresentationOfPointee(pointee, language) ?: "void") + "*"
+ 
+         private fun getStringRepresentationOfPointee(type: Type, language: Language? = null): String? {
+             val unwrapped = type.unwrapTypedefs()
+         
+             return when (unwrapped) {
+                 is PrimitiveType -> unwrapped.getStringRepresentation()
+                 is PointerType -> getStringRepresentationOfPointee(unwrapped.pointeeType, language)?.plus("*")
+                 is RecordType -> if (unwrapped.decl.isAnonymous || unwrapped.decl.spelling == "struct __va_list_tag") {
+                     null
+                 } else {
+                     unwrapped.decl.spelling
+                 }
+ 
+                 // ohos cpp support:
+                 // Enum pointer and enum reference types are converted to enum pointer instead of Void*
+                 is EnumType -> {
+                     if (language != Language.CPP) null
+                     else if (unwrapped.def.isAnonymous) unwrapped.def.baseType.getStringRepresentation()
+                     else unwrapped.def.spelling
+                 }
+                 else -> null
+             }
+         }
+ 
+ private val ObjCQualifiedPointer.protocolQualifier: String
+     get() = if (this.protocols.isEmpty()) "" else " <${protocols.joinToString { it.name }}>"
+ 
+ fun blockTypeStringRepresentation(type: ObjCBlockPointer): String {
+     return buildString {
+         append(type.returnType.getStringRepresentation())
+         append("(^)")
+         append("(")
+         val blockParameters = if (type.parameterTypes.isEmpty()) {
+             "void"
+         } else {
+             type.parameterTypes.joinToString { it.getStringRepresentation() }
+         }
+         append(blockParameters)
+         append(")")
+     }
+ }
+ 

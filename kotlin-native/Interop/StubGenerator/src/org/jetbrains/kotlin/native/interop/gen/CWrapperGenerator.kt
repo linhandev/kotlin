@@ -81,16 +81,16 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
 
     // ohos cpp support:
     // Generates const T** type string; avoids duplicate "const const".
-    private fun generateConstPtrPtrType(type: Type): String {
+    private fun generateConstPtrPtrType(type: Type, language: Language? = null): String {
         val unwrapped = type.unwrapTypedefs()
         val baseType = when (unwrapped) {
             is PointerType -> {
                 val inner = unwrapped.pointeeType.unwrapTypedefs()
-                if (inner is PointerType) inner.pointeeType.stringRepresentation else "void"
+                if (inner is PointerType) inner.pointeeType.getStringRepresentation(language) else "void"
             }
             is IncompleteArrayType -> {
                 val elem = unwrapped.elemType.unwrapTypedefs()
-                if (elem is PointerType) elem.pointeeType.stringRepresentation else "void"
+                if (elem is PointerType) elem.pointeeType.getStringRepresentation(language) else "void"
             }
             else -> "void"
         }
@@ -146,9 +146,10 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
     private fun buildCppCalleeWrapperCommon(function: FunctionDecl): CppWrapperCommon {
         assert(context.configuration.library.language == Language.CPP)
 
+        val cppLanguage = context.configuration.library.language
         val wrapperName = generateFunctionWrapperName(function.name)
 
-        val returnType = function.returnType.stringRepresentation
+        val returnType = function.returnType.getStringRepresentation(cppLanguage)
         val unwrappedReturnType = function.returnType.unwrapTypedefs()
         val returnTypePrefix =
                 if (unwrappedReturnType is PointerType && unwrappedReturnType.isLVReference) "&" else ""
@@ -162,20 +163,20 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
                 // If struct is passed by value (and not a typedef alias), convert to pointer
                 // in wrapper function parameter declaration.
                 unwrappedParamType is RecordType && paramType !is PointerType && paramType !is Typedef -> {
-                    "${parameter.type.stringRepresentation}*"
+                    "${parameter.type.getStringRepresentation(cppLanguage)}*"
                 }
                 // ohos cpp support:
                 // For nested pointer types with const pointee (e.g., const char**), use const T**
-                needsConstPtrPtr(paramType) -> generateConstPtrPtrType(paramType)
+                needsConstPtrPtr(paramType) -> generateConstPtrPtrType(paramType, cppLanguage)
                 // For va_list typedef, use "va_list" instead of implementation details
                 paramType is Typedef && paramType.def.name == "va_list" -> "va_list"
-                else -> parameter.type.stringRepresentation
+                else -> parameter.type.getStringRepresentation(cppLanguage)
             }
             Parameter(type, "p$index")
         }
 
         val argumentTypes = function.parameters.map { parameter ->
-            val parameterTypeText = parameter.type.stringRepresentation
+            val parameterTypeText = parameter.type.getStringRepresentation(cppLanguage)
             val type = parameter.type
             val unwrappedType = type.unwrapTypedefs()
 
@@ -184,7 +185,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val typeExpression = when {
                 // ohos cpp support:
                 // Cast const char** at call site; parameterTypeText would drop const
-                needsConstPtrPtr(type) -> "(${generateConstPtrPtrType(type)})"
+                needsConstPtrPtr(type) -> "(${generateConstPtrPtrType(type, cppLanguage)})"
                 type is Typedef ->
                     "(${type.def.name})"
                 type is PointerType && type.spelling != null ->
