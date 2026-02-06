@@ -26,6 +26,18 @@ build_ohos_macos:
     - git config --global http.proxy http://127.0.0.1:7897
     - git config --global https.proxy http://127.0.0.1:7897
     - java -version
+    - 'export HTTP_PROXY="http://127.0.0.1:7897"'
+    - 'export HTTPS_PROXY="http://127.0.0.1:7897"'
+    - 'export http_proxy="http://127.0.0.1:7897"'
+    - 'export https_proxy="http://127.0.0.1:7897"'
+    # 配置 Gradle 使用代理
+    - |
+     cat >> ~/.gradle/gradle.properties << EOF
+     systemProp.http.proxyHost=127.0.0.1
+     systemProp.http.proxyPort=7897
+     systemProp.https.proxyHost=127.0.0.1
+     systemProp.https.proxyPort=7897
+     EOF
   script:
     - 'cd "$CI_PROJECT_DIR" || cd /Users/chb/gitlab-runner/builds/gmj1tWVBH/0/eazytec_kmptpc/kmptpc_kotlin'
     - chmod +x scripts/build-ohos-remote.sh
