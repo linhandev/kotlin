@@ -4,3 +4,4 @@ headerFilter = hicollie/hicollie.h
 linkerOpts = -lohhicollie
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

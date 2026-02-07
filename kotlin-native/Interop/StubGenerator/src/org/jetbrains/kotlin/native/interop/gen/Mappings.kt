@@ -202,7 +202,7 @@ sealed class TypeInfo {
             get() = BridgedType.NATIVE_PTR
 
         override fun cFromBridged(expr: NativeExpression, scope: NativeScope, nativeBacked: NativeBacked) =
-                "(${getPointerTypeStringRepresentation(cPointee)})$expr"
+                "(${getPointerTypeStringRepresentation(cPointee, scope.language)})$expr"
 
         override fun constructPointedType(valueType: KotlinType) = KotlinTypes.cPointerVarOf.typeWith(valueType)
     }

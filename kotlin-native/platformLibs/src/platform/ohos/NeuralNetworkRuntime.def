@@ -4,3 +4,4 @@ headerFilter = neural_network_runtime/**
 linkerOpts = -lneural_network_core -lneural_network_runtime
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

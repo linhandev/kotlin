@@ -9,4 +9,5 @@ headerFilter = graphics_game_sdk/**
 linkerOpts = -labr -lopengtx -lframegeneration
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
 #harmonyOS SDK Only

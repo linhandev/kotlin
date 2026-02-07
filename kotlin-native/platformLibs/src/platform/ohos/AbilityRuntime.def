@@ -5,3 +5,4 @@ depends = AbilityBase Image_NativeModule
 linkerOpts = -lability_runtime
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

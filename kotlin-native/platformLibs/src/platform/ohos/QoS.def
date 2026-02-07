@@ -4,3 +4,4 @@ headerFilter = qos/qos.h
 linkerOpts = -lqos
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

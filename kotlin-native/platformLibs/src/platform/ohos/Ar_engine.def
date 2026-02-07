@@ -1,0 +1,9 @@
+package = platform.AREngine.AREngine
+depends = OH_NativeBuffer
+headers = ar/ar_engine_core.h
+headerFilter = ar/ar_engine_core.h
+linkerOpts = -larengine_ndk.z
+language = C++
+compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
+#harmonyOS SDK Only

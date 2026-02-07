@@ -4,3 +4,4 @@ headerFilter = telephony/cellular_data/** telephony/core_service/**
 linkerOpts = -ltelephony_data -ltelephony_radio
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

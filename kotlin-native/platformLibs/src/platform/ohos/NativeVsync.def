@@ -4,3 +4,4 @@ headerFilter = native_vsync/native_vsync.h
 linkerOpts = -lnative_vsync
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

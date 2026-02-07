@@ -4,4 +4,5 @@ headerFilter = DeviceSecurityKit/security_antivirus.h
 linkerOpts = -lsecurityantivirus_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
 #harmonyOS SDK Only

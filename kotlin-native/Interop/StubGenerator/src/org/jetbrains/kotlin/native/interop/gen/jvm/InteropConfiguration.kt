@@ -34,7 +34,13 @@ class InteropConfiguration(
         val allowedOverloadsForCFunctions: Set<String>,
         val disableDesignatedInitializerChecks: Boolean,
         val disableExperimentalAnnotation: Boolean,
-        val target: KonanTarget
+        val target: KonanTarget,
+
+        /**
+         * When true, use fallback wrapper loads the SO at first call,
+         * Controlled by `enableUndefinedApiProtection` in the .def file.
+         */
+        val enableUndefinedApiProtection: Boolean = false,
 )
 
 enum class KotlinPlatform {

@@ -4,3 +4,4 @@ headerFilter = native_color_space_manager/native_color_space_manager.h
 linkerOpts = -lnative_color_space_manager
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

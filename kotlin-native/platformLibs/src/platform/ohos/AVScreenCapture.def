@@ -5,3 +5,4 @@ depends = Core NativeWindow
 linkerOpts = -lnative_avscreen_capture
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

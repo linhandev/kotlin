@@ -1100,7 +1100,7 @@ tasks {
             "clean", "deploy", "--activate-profiles=noTest",
             "-Dinvoker.skip=true", "-DskipTests",
             "-Ddeploy-snapshot-repo=local",
-            "-Ddeploy-snapshot-url=file://${rootProject.projectDir.resolve("build/repo")}"
+            "-Ddeploy-snapshot-url=file://${rootProject.projectDir.resolve("build/repo")}",
         )
 
         val jdkToolchain1_8 = getToolchainJdkHomeFor(JdkMajorVersion.JDK_1_8)

@@ -88,6 +88,29 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
         if (freeCompilerArgs.assertionsMode.assertionsEnabledWith(optimizationMode))
             add("-enable-assertions")
 
+
+        // For OHOS targets, also add HMS sysroot's lib path as a linker search directory.
+        // This mirrors the logic in kotlin-native/platformLibs/build.gradle.kts so that
+        // native.tests (blackbox tests) can find HarmonyOS-only libs such as libhiai_foundation.so.
+        if (targets.testTarget.family == Family.OHOS) {
+            val props = home.properties
+            val sysrootKey = "additionalTargetSysRoot.${targets.testTarget.name}"
+            val sysrootName = props.getProperty(sysrootKey)
+            if (sysrootName != null) {
+                val konanDataDir = System.getenv("KONAN_DATA_DIR")
+                    ?.replace("~", System.getProperty("user.home"))
+                    ?: "${System.getProperty("user.home")}/.konan"
+                val libPath = when (targets.testTarget) {
+                    KonanTarget.OHOS_ARM64 -> "$konanDataDir/dependencies/$sysrootName/usr/lib/aarch64-linux-ohos"
+                   // KonanTarget.OHOS_X64 -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
+                    else -> null
+                }
+                if (libPath != null) {
+                    add("-linker-option", "-L$libPath")
+                }
+            }
+        }
+
         add(irValidationCompilerOptions)
 
         threadStateChecker.compilerFlag?.let { compilerFlag -> add(compilerFlag) }

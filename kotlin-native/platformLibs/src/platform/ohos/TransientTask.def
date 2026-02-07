@@ -4,3 +4,4 @@ headerFilter = transient_task/**
 linkerOpts = -ltransient_task
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -4,3 +4,4 @@ headerFilter = scsi_peripheral/**
 linkerOpts = -lscsi.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

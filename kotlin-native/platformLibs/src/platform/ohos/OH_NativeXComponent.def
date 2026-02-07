@@ -1,7 +1,8 @@
-package = platform.ArkUI.OHNativeXComponent
+package = platform.ArkUI.OH_NativeXComponent
 headers = ace/xcomponent/native_interface_xcomponent.h ace/xcomponent/native_xcomponent_key_event.h
 headerFilter = ace/xcomponent/**
-depends = ArkUI_Accessibility ArkUI_EventModule ArkUI_NativeModule
+depends = ArkUI_Accessibility ArkUI_NativeModule
 linkerOpts = -lace_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -4,3 +4,4 @@ headerFilter = AbilityKit/ability_base/**
 linkerOpts = -lability_base_want
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

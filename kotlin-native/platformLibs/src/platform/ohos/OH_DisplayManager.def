@@ -5,3 +5,4 @@ depends = Image_NativeModule
 linkerOpts = -lnative_display_manager
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
