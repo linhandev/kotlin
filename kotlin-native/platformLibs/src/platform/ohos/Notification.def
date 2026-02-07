@@ -1,4 +1,4 @@
-package = platform.NotificationKit.Notification
+package = platform.NotificationKit.NOTIFICATION
 headers = NotificationKit/notification.h
 headerFilter = NotificationKit/notification.h
 linkerOpts = -lohnotification
