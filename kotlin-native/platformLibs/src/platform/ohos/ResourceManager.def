@@ -1,4 +1,4 @@
-package = platform.LocalizationKit.ResourceManager
+package = platform.LocalizationKit.Resourcemanager
 headers = resourcemanager/resmgr_common.h resourcemanager/ohresmgr.h
 headerFilter = resourcemanager/**
 depends = ArkUI_NativeModule RawFile

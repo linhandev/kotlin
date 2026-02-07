@@ -1,11 +1,11 @@
 package = platform.CANNKit.CANN
 depends = NeuralNetworkRuntime
-headers = hiai_foundation/hiai_tensor.h \
-    hiai_foundation/hiai_helper.h \
-    hiai_foundation/hiai_options.h \
-    hiai_foundation/hiai_single_op.h \
-    hiai_foundation/hiai_aipp_param.h
-headerFilter = hiai_foundation/**
+headers = CANNKit/hiai_tensor.h \
+    CANNKit/hiai_helper.h \
+    CANNKit/hiai_options.h \
+    CANNKit/hiai_single_op.h \
+    CANNKit/hiai_aipp_param.h
+headerFilter = CANNKit/**
 linkerOpts = -lhiai_foundation
 language = C++
 compilerOpts = -std=c++17

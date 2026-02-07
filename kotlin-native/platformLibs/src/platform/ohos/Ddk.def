@@ -1,6 +1,6 @@
 package = platform.DriverDevelopmentKit.Ddk
-headers = ddk/ddk_types.h ddk/ddk_api.h usb/ddk_types.h
-headerFilter = ddk/** usb/**
+headers = ddk/ddk_types.h ddk/ddk_api.h
+headerFilter = ddk/**
 linkerOpts = -lddk_base.z
 language = C++
 compilerOpts = -std=c++17
