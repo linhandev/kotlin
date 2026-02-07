@@ -3,7 +3,7 @@ headers = FASTKit/fast_ads_segment_map.h \
            FASTKit/fast_common_def.h \
            FASTKit/fast_solver_rect_partition.h
 headerFilter = FASTKit/**
-linkerOpts = -lfast_solver
+linkerOpts = -lfast_solver -lfast_ads
 language = C++
 compilerOpts = -std=c++17
 enableUndefinedApiProtection = true

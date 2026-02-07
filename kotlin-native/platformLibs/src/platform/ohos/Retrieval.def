@@ -1,5 +1,5 @@
 package = platform.DataAugmentationKit.Retrieval
-depends = AIP RDB
+depends = RDB
 headers = dataaugmentation/retrieval/aip_retrieval.h \
     dataaugmentation/retrieval/aip_retrieval_condition.h \
     dataaugmentation/retrieval/aip_retrieval_condition_vector.h \
