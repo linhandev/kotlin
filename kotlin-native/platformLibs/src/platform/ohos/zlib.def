@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin
+# Kept for compatability with KuiklyBase-kotlin (renamed from zlib.def)
 depends = posix
 package = platform.zlib
 headers = zconf.h zlib.h
@@ -33,3 +33,4 @@ static inline int inflateInit2(z_streamp strm, int windowBits) {
 static inline int inflateBackInit(z_streamp strm, int windowBits, unsigned char *window) {
     return inflateBackInit_(strm, windowBits, window, ZLIB_VERSION, (int)sizeof(z_stream));
 }
+

@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin
+# Kept for compatability with KuiklyBase-kotlin (renamed from video.def)
 depends = posix
 package = platform.video
 headers = video/edid.h video/sisfb.h video/uvesafb.h
