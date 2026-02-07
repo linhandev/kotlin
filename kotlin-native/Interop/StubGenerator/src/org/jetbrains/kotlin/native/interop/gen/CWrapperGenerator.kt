@@ -15,7 +15,7 @@ internal data class CCalleeWrapper(val lines: List<String>)
 internal class CWrappersGenerator(private val context: StubIrContext) {
 
     private var currentFunctionWrapperId = 0
-
+    private val enableUndefinedApiProtection: Boolean = context.configuration.enableUndefinedApiProtection
     private val packageName =
             context.configuration.pkgName.replace(INVALID_CLANG_IDENTIFIER_REGEX, "_")
 
@@ -38,20 +38,79 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
     private data class Parameter(val type: String, val name: String)
 
     private fun createWrapper(
-            symbolName: String,
-            wrapperName: String,
-            returnType: String,
-            parameters: List<Parameter>,
-            body: String
-    ): List<String> = listOf(
+        symbolName: String,
+        wrapperName: String,
+        returnType: String,
+        parameters: List<Parameter>,
+        body: String,
+    ): List<String> {
+        // 支持多行 body：按行缩进后再拼接到头尾和符号绑定。
+        val bodyLines = body.lines().filter { it.isNotEmpty() }
+        val indentedBodyLines = bodyLines.map { "\t$it" }
+
+        val header = listOf(
             "__attribute__((always_inline))",
-            "$returnType $wrapperName(${parameters.joinToString { "${it.type} ${it.name}" }}) {",
-            "\t$body",
-            "}",
-            *bindSymbolToFunction(symbolName, wrapperName).toTypedArray()
-    )
+            "$returnType $wrapperName(${parameters.joinToString { "${it.type} ${it.name}" }}) {"
+        )
+        val footer = listOf("}")
+
+        return header +
+            indentedBodyLines +
+            footer +
+            bindSymbolToFunction(symbolName, wrapperName)
+    }
 
     private val Type.stringRepresentation get() = this.getStringRepresentation()
+
+     // ohos cpp support:
+     // Detects pointer-to-pointer with const pointee (e.g. const char**); stringRepresentation drops const.
+     private fun needsConstPtrPtr(type: Type): Boolean {
+        val unwrapped = type.unwrapTypedefs()
+        return when (unwrapped) {
+            is PointerType -> {
+                val inner = unwrapped.pointeeType.unwrapTypedefs()
+                inner is PointerType && inner.pointeeIsConst
+            }
+            is IncompleteArrayType -> {
+                val elem = unwrapped.elemType.unwrapTypedefs()
+                elem is PointerType && elem.pointeeIsConst
+            }
+            else -> false
+        }
+    }
+
+    // ohos cpp support:
+    // Generates const T** type string; avoids duplicate "const const".
+    private fun generateConstPtrPtrType(type: Type, language: Language? = null): String {
+        val unwrapped = type.unwrapTypedefs()
+        val baseType = when (unwrapped) {
+            is PointerType -> {
+                val inner = unwrapped.pointeeType.unwrapTypedefs()
+                if (inner is PointerType) inner.pointeeType.getStringRepresentation(language) else "void"
+            }
+            is IncompleteArrayType -> {
+                val elem = unwrapped.elemType.unwrapTypedefs()
+                if (elem is PointerType) elem.pointeeType.getStringRepresentation(language) else "void"
+            }
+            else -> "void"
+        }
+        val constPrefix = if (baseType.startsWith("const ")) "" else "const "
+        return "$constPrefix$baseType**"
+    }
+
+    // ohos cpp support:
+    // Per-def preamble for undefined-API
+    private fun generatePreambleLines(): List<String> {
+        if (!enableUndefinedApiProtection || context.configuration.library.language != Language.CPP) return emptyList()
+        return listOf(
+            "// ========== undefined API protection preamble (weak symbol + &func == nullptr check) ==========",
+            "namespace ohos { namespace interop {",
+            "extern \"C\" void ThrowIllegalStateExceptionFromCString(const char* message);",
+            "} }",
+            ""
+        )
+    }
+
 
     private fun createCCalleeWrapper(function: FunctionDecl, symbolName: String): List<String> {
         assert(context.configuration.library.language != Language.CPP)
@@ -75,12 +134,22 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         return createWrapper(symbolName, wrapperName, returnType, parameters, wrapperBody)
     }
 
-    private fun createCppCalleeWrapper(function: FunctionDecl, symbolName: String): List<String> {
+    private data class CppWrapperCommon(
+        val wrapperName: String,
+        val returnType: String,
+        val returnTypePrefix: String,
+        val parameters: List<Parameter>,
+        val argumentTypes: List<String>,
+        val callExpression: String,
+    )
+
+    private fun buildCppCalleeWrapperCommon(function: FunctionDecl): CppWrapperCommon {
         assert(context.configuration.library.language == Language.CPP)
-        
+
+        val cppLanguage = context.configuration.library.language
         val wrapperName = generateFunctionWrapperName(function.name)
 
-        val returnType = function.returnType.stringRepresentation
+        val returnType = function.returnType.getStringRepresentation(cppLanguage)
         val unwrappedReturnType = function.returnType.unwrapTypedefs()
         val returnTypePrefix =
                 if (unwrappedReturnType is PointerType && unwrappedReturnType.isLVReference) "&" else ""
@@ -90,21 +159,33 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val unwrappedParamType = paramType.unwrapTypedefs()
 
             val type = when {
+                // ohos cpp support:
+                // If struct is passed by value (and not a typedef alias), convert to pointer
+                // in wrapper function parameter declaration.
                 unwrappedParamType is RecordType && paramType !is PointerType && paramType !is Typedef -> {
-                    "${parameter.type.stringRepresentation}*"
+                    "${parameter.type.getStringRepresentation(cppLanguage)}*"
                 }
-                else -> parameter.type.stringRepresentation
+                // ohos cpp support:
+                // For nested pointer types with const pointee (e.g., const char**), use const T**
+                needsConstPtrPtr(paramType) -> generateConstPtrPtrType(paramType, cppLanguage)
+                // For va_list typedef, use "va_list" instead of implementation details
+                paramType is Typedef && paramType.def.name == "va_list" -> "va_list"
+                else -> parameter.type.getStringRepresentation(cppLanguage)
             }
             Parameter(type, "p$index")
         }
+
         val argumentTypes = function.parameters.map { parameter ->
-            val parameterTypeText = parameter.type.stringRepresentation
+            val parameterTypeText = parameter.type.getStringRepresentation(cppLanguage)
             val type = parameter.type
             val unwrappedType = type.unwrapTypedefs()
-            
+
             val cppRefTypePrefix =
                         if (unwrappedType is PointerType && unwrappedType.isLVReference) "*" else ""
             val typeExpression = when {
+                // ohos cpp support:
+                // Cast const char** at call site; parameterTypeText would drop const
+                needsConstPtrPtr(type) -> "(${generateConstPtrPtrType(type, cppLanguage)})"
                 type is Typedef ->
                     "(${type.def.name})"
                 type is PointerType && type.spelling != null ->
@@ -120,33 +201,84 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             typeExpression
         }
 
-        val callExpression = with (function) {
+        val callExpression = run {
             assert(argumentTypes.size == parameters.size)
             val arguments = argumentTypes.mapIndexed { index, type ->
                 "${type}(${parameters[index].name})"
             }
-            "${fullName}(${arguments.joinToString()})"
+            "${function.name}(${arguments.joinToString()})"
         }
 
-        val wrapperBody = if (function.returnType.unwrapTypedefs() is VoidType) {
-            "$callExpression;"
-        } else {
-            "return (${returnType})$returnTypePrefix($callExpression);"
-        }
-        return createWrapper(symbolName, wrapperName, returnType, parameters, wrapperBody)
+        return CppWrapperCommon(
+            wrapperName = wrapperName,
+            returnType = returnType,
+            returnTypePrefix = returnTypePrefix,
+            parameters = parameters,
+            argumentTypes = argumentTypes,
+            callExpression = callExpression,
+        )
     }
 
-    fun generateCCalleeWrapper(function: FunctionDecl, symbolName: String): CCalleeWrapper =
-            if (function.isVararg) {
-                CCalleeWrapper(bindSymbolToFunction(symbolName, function.name))
+    private fun createCppCalleeWrapper(function: FunctionDecl, symbolName: String): List<String> {
+        val common = buildCppCalleeWrapperCommon(function)
+
+        val wrapperBody = if (function.returnType.unwrapTypedefs() is VoidType) {
+            "${common.callExpression};"
+        } else {
+            "return (${common.returnType})${common.returnTypePrefix}(${common.callExpression});"
+        }
+        return createWrapper(symbolName, common.wrapperName, common.returnType, common.parameters, wrapperBody)
+    }
+
+    private fun createCppCalleeWrapperWithFallback(function: FunctionDecl, symbolName: String): List<String> {
+        val common = buildCppCalleeWrapperCommon(function)
+
+        val symbolLiteral = function.name.replace("\\", "\\\\").replace("\"", "\\\"")
+        val body = buildString {
+            append("if (&${function.name} == nullptr) {")
+            append("\n")
+            append("    ohos::interop::ThrowIllegalStateExceptionFromCString(\"$symbolLiteral\");")
+            append("\n")
+            append("} else {")
+            append("\n")
+            if (function.returnType.unwrapTypedefs() is VoidType) {
+                append("    ${common.callExpression};")
             } else {
-                val wrapper = if (context.configuration.library.language == Language.CPP) {
-                    createCppCalleeWrapper(function, symbolName)
-                } else {
-                    createCCalleeWrapper(function, symbolName)
-                }
-                CCalleeWrapper(wrapper)
+                append("    return (${common.returnType})${common.returnTypePrefix}(${common.callExpression});")
             }
+            append("\n")
+            append("}")
+        }
+        return createWrapper(symbolName, common.wrapperName, common.returnType, common.parameters, body)
+    }
+
+    fun generateCCalleeWrapper(function: FunctionDecl, symbolName: String): CCalleeWrapper {
+        if (function.isVararg) {
+            return CCalleeWrapper(bindSymbolToFunction(symbolName, function.name))
+        }
+
+        val isCpp = context.configuration.library.language == Language.CPP
+        if (enableUndefinedApiProtection && isCpp) {
+            // Emit preamble for every wrapper that uses ThrowIllegalStateExceptionFromCString so that
+            // when fragments are compiled separately (e.g. by Indexer) the namespace is visible.
+            val preamble = generatePreambleLines()
+
+            val weakDecl = function.declarationSpelling
+                ?.takeIf { it.isNotBlank() }
+                ?.let { "extern \"C\" __attribute__((weak)) $it;" }
+
+            val wrapper = createCppCalleeWrapperWithFallback(function, symbolName)
+            val wrapperLines = if (weakDecl != null) listOf(weakDecl) + wrapper else wrapper
+
+            return CCalleeWrapper(preamble + wrapperLines)
+        }
+        val wrapperLines = if (isCpp) {
+            createCppCalleeWrapper(function, symbolName)
+        } else {
+            createCCalleeWrapper(function, symbolName)
+        }
+        return CCalleeWrapper(wrapperLines)
+    }
 
     fun generateCGlobalGetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {
         val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")

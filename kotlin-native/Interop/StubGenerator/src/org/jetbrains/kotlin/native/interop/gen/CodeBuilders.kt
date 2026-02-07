@@ -16,8 +16,12 @@
 
 package org.jetbrains.kotlin.native.interop.gen
 
+
+import org.jetbrains.kotlin.native.interop.indexer.Language
+
 interface NativeScope {
     val mappingBridgeGenerator: MappingBridgeGenerator
+    val language: Language
 }
 
 class NativeCodeBuilder(val scope: NativeScope) {

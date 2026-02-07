@@ -4,3 +4,4 @@ headerFilter = hilog/log.h
 linkerOpts = -lhilog_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

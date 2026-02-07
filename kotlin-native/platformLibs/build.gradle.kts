@@ -136,28 +136,42 @@ enabledTargets(platformManager).forEach { target ->
                 this.extraOpts.addAll("-compiler-option", "-fmodules-cache-path=$fmodulesCache")
             }
 
-            // Add the HarmonyOS SDK path to the def files for all OHOS targets
+            // HarmonyOS only: parse and inject two sysroot (additionalTargetSysRoot) configs for OHOS
+            // targets, used for include/lib paths in def files. Omit or remove this block if not using HarmonyOS.
             if (target.family == Family.OHOS) {
                 val konanDataDir = System.getenv("KONAN_DATA_DIR")?.let {
                     it.replace("~", System.getProperty("user.home"))
                 } ?: "${System.getProperty("user.home")}/.konan"
 
-                val sysrootName = when (targetName) {
-                    "ohos_arm64" -> konanProperties.getProperty("targetSysRoot2.ohos_arm64")
-                    "ohos_x64" -> konanProperties.getProperty("targetSysRoot2.ohos_x64")
-                    else -> null
-                }
+                val isKbaDef = df.name.startsWith("kba_") || df.name == "ohos"
 
-                if (sysrootName != null) {
-                    val includePath = "$konanDataDir/dependencies/$sysrootName/usr/include"
-                    val libPath = when (targetName) {
-                        "ohos_arm64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/aarch64-linux-ohos"
-                        "ohos_x64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
+                if (isKbaDef) {
+                    // kba_* defs: use kbaTargetSysRoot as the only sysroot by overriding targetSysRoot.
+                    val kbaSysrootName = konanProperties.getProperty("kbaTargetSysRoot.ohos")
+                    if (kbaSysrootName != null) {
+                        val sysrootDir = "$konanDataDir/dependencies/$kbaSysrootName"
+                        this.extraOpts.addAll("-compiler-option", "--sysroot=$sysrootDir")
+                        this.extraOpts.addAll("-linker-option", "--sysroot=$sysrootDir")
+                    }
+                } else {
+                    // Non-kba defs: keep using additionalTargetSysRoot as extra include/lib search paths.
+                    val sysrootName = when (targetName) {
+                        "ohos_arm64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos_arm64")
+                        "ohos_x64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos_x64")
                         else -> null
                     }
-                    if (libPath != null) {
-                        this.extraOpts.addAll("-compiler-option", "-I$includePath")
-                        this.extraOpts.addAll("-linker-option", "-L$libPath")
+
+                    if (sysrootName != null) {
+                        val includePath = "$konanDataDir/dependencies/$sysrootName/usr/include"
+                        val libPath = when (targetName) {
+                            "ohos_arm64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/aarch64-linux-ohos"
+                            "ohos_x64" -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
+                            else -> null
+                        }
+                        if (libPath != null) {
+                            this.extraOpts.addAll("-compiler-option", "-I$includePath")
+                            this.extraOpts.addAll("-linker-option", "-L$libPath")
+                        }
                     }
                 }
             }

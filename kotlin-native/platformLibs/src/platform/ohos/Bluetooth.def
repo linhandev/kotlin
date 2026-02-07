@@ -4,3 +4,4 @@ headerFilter = ConnectivityKit/bluetooth/oh_bluetooth.h
 linkerOpts = -lbluetooth_ndk
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

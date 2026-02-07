@@ -5,3 +5,4 @@ depends = ArkTS_Napi_NativeModule RawFile
 linkerOpts = -limage_ndk.z -limage_packer_ndk.z -limage_receiver_ndk.z -limage_source_ndk.z -lpixelmap_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

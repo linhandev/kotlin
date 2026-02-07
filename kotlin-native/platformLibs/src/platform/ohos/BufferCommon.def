@@ -4,3 +4,4 @@ headerFilter = native_buffer/buffer_common.h
 linkerOpts = -lnative_buffer
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

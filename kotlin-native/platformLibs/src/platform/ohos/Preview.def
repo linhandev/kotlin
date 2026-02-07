@@ -5,4 +5,5 @@ headerFilter = PreviewKit/**
 linkerOpts = -lopen_file_boost
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
 #harmonyOS SDK Only

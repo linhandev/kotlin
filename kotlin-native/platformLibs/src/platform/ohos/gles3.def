@@ -4,3 +4,4 @@ package = platform.gles3
 headers = GLES3/gl3.h GLES3/gl3platform.h
 headerFilter = GLES3/**
 linkerOpts = -lGLESv3
+

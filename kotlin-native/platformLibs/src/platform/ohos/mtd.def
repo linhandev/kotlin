@@ -4,3 +4,4 @@ package = platform.mtd
 headers = mtd/inftl-user.h mtd/mtd-abi.h \
           mtd/mtd-user.h mtd/nftl-user.h
 headerFilter = mtd/**
+

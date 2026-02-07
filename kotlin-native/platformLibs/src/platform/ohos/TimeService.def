@@ -4,3 +4,4 @@ headerFilter = BasicServicesKit/time_service.h
 linkerOpts = -ltime_service_ndk
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

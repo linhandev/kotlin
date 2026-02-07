@@ -4,3 +4,4 @@ headerFilter = distributedhardware/device_manager/**
 linkerOpts = -ldevicemanager_ndk
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -97,3 +97,4 @@ static inline int builtin_popcountll(long long x) {
 static inline void builtin_clear_cache(void* begin, void* end) {
     __builtin___clear_cache(begin, end);
 }
+

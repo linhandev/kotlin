@@ -46,6 +46,7 @@ val Settings.testProcessExecutor: Executor
                     }
                 }
                 configurables.target == hostTarget -> HostExecutor()
+                configurables.target.family == Family.OHOS -> OhosExecutor()
                 configurables is ConfigurablesWithEmulator -> EmulatorExecutor(configurables)
                 configurables is AppleConfigurables && configurables.targetTriple.isSimulator -> XcodeSimulatorExecutor(configurables)
                 configurables is AppleConfigurables && RosettaExecutor.availableFor(configurables) -> RosettaExecutor(configurables)

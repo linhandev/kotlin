@@ -5,3 +5,4 @@ depends = AVSinkBase Core OHAudio
 linkerOpts = -llowpower_avsink
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

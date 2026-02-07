@@ -4,3 +4,4 @@ headerFilter = multimedia/video_processing_engine/**
 linkerOpts = -lvideo_processing
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

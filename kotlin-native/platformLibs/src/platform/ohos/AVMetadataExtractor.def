@@ -5,3 +5,4 @@ depends = CodecBase Core Image_NativeModule
 linkerOpts = -lavmetadata_extractor
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

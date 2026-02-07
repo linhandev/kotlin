@@ -207,7 +207,9 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
         val targetLib = "$targetToolchain/lib/clang/19/lib/aarch64-linux-ohos"
         // TODO: Can we extract more to the konan.configurables?
         return listOf(Command(absoluteLinker).apply {
-            +"--sysroot=${absoluteTargetSysRoot}"
+            if (linkerArgs.none { it.startsWith("--sysroot=") }) {
+                +"--sysroot=${absoluteTargetSysRoot}"
+            }
             +"-export-dynamic"
             +"-z"
             +"relro"
