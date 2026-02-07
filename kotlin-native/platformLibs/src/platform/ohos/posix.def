@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin (renamed from posix.def)
+# Kept for compatability with KuiklyBase-kotlin
 package = platform.posix
 headers = alloca.h ar.h assert.h complex.h ctype.h dirent.h dlfcn.h err.h errno.h fcntl.h \
     fenv.h fnmatch.h ftw.h getopt.h grp.h inttypes.h libgen.h limits.h \
@@ -79,4 +79,3 @@ static int init_sockets() {
 
 static void deinit_sockets() {
 }
-

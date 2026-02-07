@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin (renamed from gles32.def)
+# Kept for compatability with KuiklyBase-kotlin
 depends = gles3 glesCommon posix
 package = platform.gles32
 headers = GLES3/gl32.h
