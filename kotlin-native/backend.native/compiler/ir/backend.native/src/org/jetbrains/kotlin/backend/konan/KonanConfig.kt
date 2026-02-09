@@ -131,6 +131,12 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         configuration.get(KonanConfigKeys.RUNTIME_LOGS) != null
     }
 
+    val splitBCfile: UInt
+        get() = if (target == KonanTarget.OHOS_ARM64) configuration.get(BinaryOptions.splitBCfile) ?: 2u else 1u
+
+    val llvmSplitPath: String
+        get() = configuration.get(BinaryOptions.llvmSplitPath) ?: "${platform.absoluteLlvmHome}/bin/llvm-split"
+
     val runtimeLogs: Map<LoggingTag, LoggingLevel> by lazy {
         val default = LoggingTag.entries.associateWith { LoggingLevel.None }
 
