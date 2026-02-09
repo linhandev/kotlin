@@ -1,4 +1,4 @@
-package = platform.System.Init
+package = platform.BasicServicesKit.Init
 headers = syscap_ndk.h
 headerFilter = syscap_ndk.h
 linkerOpts = -ldeviceinfo_ndk.z
