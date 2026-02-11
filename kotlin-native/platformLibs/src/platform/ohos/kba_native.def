@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin
+# Kept for compatability with KuiklyBase-kotlin (renamed from native.def)
 depends = posix
 package = platform.native
 headers =  native_buffer/native_buffer.h native_image/native_image.h \
@@ -21,3 +21,4 @@ headers =  native_buffer/native_buffer.h native_image/native_image.h \
     native_color_space_manager/native_color_space_manager.h
 language = C++
 compilerOpts = -std=c++17
+

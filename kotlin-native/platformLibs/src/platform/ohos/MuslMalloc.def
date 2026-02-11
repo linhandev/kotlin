@@ -1,0 +1,4 @@
+package = platform.CstandardLibrary.MuslMalloc
+headers = malloc.h
+headerFilter = malloc.h
+linkerOpts = -lc

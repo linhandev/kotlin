@@ -4,4 +4,5 @@ headerFilter = dataaugmentation/aip_error_code.h
 linkerOpts = -lnative_aip_retrieval_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
 # harmonyOS SDK Only 

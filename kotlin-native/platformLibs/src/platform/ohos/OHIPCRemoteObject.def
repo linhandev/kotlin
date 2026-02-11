@@ -5,3 +5,4 @@ depends = OHIPCParcel
 linkerOpts = -lipc_capi
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

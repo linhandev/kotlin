@@ -1,6 +1,7 @@
-package = platform.BasicServicesKit.OHCommonEvent
+package = platform.BasicServicesKit.OH_CommonEvent
 headers = BasicServicesKit/oh_commonevent.h BasicServicesKit/oh_commonevent_support.h
 headerFilter = BasicServicesKit/**
 linkerOpts = -lohcommonevent
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

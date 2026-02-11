@@ -5,3 +5,4 @@ depends = OHIPCParcel
 linkerOpts = -lchild_process
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

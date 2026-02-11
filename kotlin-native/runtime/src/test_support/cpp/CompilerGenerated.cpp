@@ -195,6 +195,10 @@ void RUNTIME_NORETURN ThrowIllegalStateExceptionWithMessage(KConstRef message) {
     throw std::runtime_error("Not implemented for tests");
 }
 
+void RUNTIME_NORETURN ThrowIllegalStateExceptionFromCString(const char* message) {
+    throw std::runtime_error(message ? std::string("Not implemented for tests: ") + message : "Not implemented for tests");
+}
+
 void RUNTIME_NORETURN ThrowFileFailedToInitializeException(KRef reason) {
     throw std::runtime_error("Not implemented for tests");
 }

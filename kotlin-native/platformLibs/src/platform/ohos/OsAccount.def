@@ -4,3 +4,4 @@ headerFilter = BasicServicesKit/**
 linkerOpts = -los_account_ndk
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
