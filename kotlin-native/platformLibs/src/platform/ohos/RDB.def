@@ -4,3 +4,4 @@ headerFilter = database/data/** database/rdb/**
 linkerOpts = -lnative_rdb_ndk.z
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -5,3 +5,4 @@ depends = CodecBase Core
 linkerOpts = -lavtranscoder
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

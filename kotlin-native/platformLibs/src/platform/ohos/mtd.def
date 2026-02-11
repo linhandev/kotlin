@@ -1,6 +1,7 @@
-# Kept for compatability with KuiklyBase-kotlin
+# Kept for compatability with KuiklyBase-kotlin (renamed from mtd.def)
 depends = posix
 package = platform.mtd
 headers = mtd/inftl-user.h mtd/mtd-abi.h \
           mtd/mtd-user.h mtd/nftl-user.h
 headerFilter = mtd/**
+

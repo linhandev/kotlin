@@ -326,6 +326,7 @@ private fun processCLib(
             allowedOverloadsForCFunctions = def.config.allowedOverloadsForCFunctions.toSet(),
             disableDesignatedInitializerChecks = def.config.disableDesignatedInitializerChecks,
             disableExperimentalAnnotation = cinteropArguments.disableExperimentalAnnotation ?: false,
+            enableUndefinedApiProtection = def.config.enableUndefinedApiProtection,
             target = target
     )
 

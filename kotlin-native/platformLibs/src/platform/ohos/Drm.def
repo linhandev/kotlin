@@ -4,3 +4,4 @@ headerFilter = multimedia/drm_framework/**
 linkerOpts = -lnative_drm
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

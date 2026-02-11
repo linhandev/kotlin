@@ -5,3 +5,4 @@ depends = BufferCommon
 linkerOpts = -lnative_window
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

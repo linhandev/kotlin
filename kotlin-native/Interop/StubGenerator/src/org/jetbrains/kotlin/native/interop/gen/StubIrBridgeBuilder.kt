@@ -58,6 +58,8 @@ class StubIrBridgeBuilder(
                     topLevelNativeScope = object : NativeScope {
                         override val mappingBridgeGenerator: MappingBridgeGenerator
                             get() = this@StubIrBridgeBuilder.mappingBridgeGenerator
+                        override val language: Language
+                            get() = context.configuration.library.language
                     },
                     topLevelKotlinScope = kotlinFile
             )

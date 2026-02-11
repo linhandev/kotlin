@@ -4,3 +4,4 @@ headerFilter = multimedia/av_session/**
 linkerOpts = -lohavsession
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -5,3 +5,4 @@ depends = Core Image_NativeModule
 linkerOpts = -lavimage_generator
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

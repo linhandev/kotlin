@@ -4,3 +4,4 @@ headerFilter = filemanagement/environment/** filemanagement/file_uri/** filemana
 language = C++
 compilerOpts = -std=c++17
 linkerOpts = -lohfileio
+enableUndefinedApiProtection = true

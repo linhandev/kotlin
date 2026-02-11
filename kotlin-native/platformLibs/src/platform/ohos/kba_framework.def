@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin
+# Kept for compatability with KuiklyBase-kotlin (renamed from framework.def)
 depends = posix
 package = platform.framework
 headers = ark_runtime/jsvm.h \
@@ -58,3 +58,4 @@ headers = ark_runtime/jsvm.h \
           window_manager/oh_display_capture.h
 headerFilter = BasicServicesKit/** database/** window_manager/** ark_runtime/** ohaudio/** hiappevent/** network/** \
                filemanagement/** NotificationKit/notification.h IPCKit/**
+

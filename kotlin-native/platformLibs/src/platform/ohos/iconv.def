@@ -1,4 +1,5 @@
-# Kept for compatability with KuiklyBase-kotlin
+# Kept for compatability with KuiklyBase-kotlin (renamed from iconv.def)
 depends = posix
 package = platform.iconv
 headers = iconv.h
+

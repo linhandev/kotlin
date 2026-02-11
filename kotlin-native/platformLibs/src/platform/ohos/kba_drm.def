@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin, origional name was drm.def
+# Kept for compatability with KuiklyBase-kotlin  (renamed from drm.def)
 depends = posix
 package = platform.drm
 headers = drm/drm.h drm/amdgpu_drm.h drm/armada_drm.h drm/drm_fourcc.h \
@@ -9,3 +9,4 @@ headers = drm/drm.h drm/amdgpu_drm.h drm/armada_drm.h drm/drm_fourcc.h \
           drm/tegra_drm.h drm/v3d_drm.h drm/vc4_drm.h drm/vgem_drm.h \
           drm/via_drm.h drm/virtgpu_drm.h drm/vmwgfx_drm.h
 headerFilter = drm/**
+
