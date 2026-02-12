@@ -44,7 +44,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         parameters: List<Parameter>,
         body: String,
     ): List<String> {
-        // 支持多行 body：按行缩进后再拼接到头尾和符号绑定。
         val bodyLines = body.lines().filter { it.isNotEmpty() }
         val indentedBodyLines = bodyLines.map { "\t$it" }
 

@@ -38,32 +38,22 @@
      private val hdcPath = findHdcPath()
      private val deviceExePath = "/data/local/tmp/test.kexe"
  
-     /** Use HDC_PATH if set and executable; otherwise "hdc" (script already does full discovery). */
+    /**
+     * Use HDC_PATH if set and executable; otherwise fall back to "hdc".
+     *
+     * Why this "peculiar" env-based path:
+     * - Our test harness (`scripts/test-capi.sh`) performs the actual hdc discovery (SDK install, toolchains, PATH, CI),
+     *   and exports `HDC_PATH` pointing to the chosen binary.
+     * - Reusing it here keeps local/CI behavior consistent and avoids duplicating that discovery logic in Kotlin.
+     */
      private fun findHdcPath(): String {
          val env = System.getenv("HDC_PATH")
          if (env != null && File(env).canExecute()) return env
          return "hdc"
      }
-  
-     private val LD_PRELOAD = "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so"
- 
-     /**
-      * When set to "true", run with LD_LIBRARY_PATH=/system/lib64:/vendor/lib64 so the process
-      * loads only system-provided .so (e.g. to verify "missing symbol" crash without weak fallback).
-      * Optional override: OHOS_LD_LIBRARY_PATH (e.g. /system/lib64:/vendor/lib64).
-      */
-     private fun shellEnvForExecution(): List<String> {
-         val useSystemLibs = System.getenv("OHOS_USE_SYSTEM_LIBS") == "true"
-         val libPath = System.getenv("OHOS_LD_LIBRARY_PATH")
-             ?: if (useSystemLibs) "/system/lib64:/vendor/lib64" else null
-         val envs = mutableListOf<String>()
-         if (libPath != null) {
-             envs.add("LD_LIBRARY_PATH=$libPath")
-             logger.info("OHOS execution: using LD_LIBRARY_PATH=$libPath (system libs only)")
-         }
-         envs.add(LD_PRELOAD)
-         return envs
-     }
+
+    private val LD_PRELOAD =
+        "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so"
   
      override fun execute(request: ExecuteRequest): ExecuteResponse {
          val localExePath = request.executableAbsolutePath
@@ -74,13 +64,10 @@
          executeHdcCommand("shell", "rm", deviceExePath)
          executeHdcCommand("file", "send", localExePath, deviceExePath)
          executeHdcCommand("shell", "chmod", "a+x", deviceExePath)
- 
-         // 用 sh -c "cmd 2>&1" 在设备上合并 stderr 到 stdout，否则动态链接器错误（如 Error loading shared library）
-         // 只写 stderr 时 hdc 可能不转发，导致主机端捕获不到
-         val envPart = shellEnvForExecution().joinToString(" ")
+
          val exeAndArgs = listOf(deviceExePath) + request.args
          val cmdOnDevice = exeAndArgs.joinToString(" ") { arg -> shellEscape(arg) }
-         val fullCmd = "$envPart $cmdOnDevice 2>&1"
+        val fullCmd = "$LD_PRELOAD $cmdOnDevice 2>&1"
          val args = listOf("shell", "sh", "-c", fullCmd)
  
          val captureOut = ByteArrayOutputStream()

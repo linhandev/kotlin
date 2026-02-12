@@ -138,6 +138,8 @@ enabledTargets(platformManager).forEach { target ->
 
             // HarmonyOS only: parse and inject two sysroot (additionalTargetSysRoot) configs for OHOS
             // targets, used for include/lib paths in def files. Omit or remove this block if not using HarmonyOS.
+            // OHOS provides two sysroots (OpenHarmony and Harmony), so we need to configure two sets of paths.
+            
             if (target.family == Family.OHOS) {
                 val konanDataDir = (System.getenv("KONAN_DATA_DIR")?.let {
                     File(it.replace("~", System.getProperty("user.home")))
