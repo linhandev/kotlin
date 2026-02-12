@@ -198,6 +198,27 @@ internal fun checkLlvmModuleExternalCalls(generationState: NativeGenerationState
 }
 
 // this should be a separate pass, to handle DCE correctly
+// Accepts module as explicit parameter to operate on the correct module (e.g., moduleTmp in parallel path)
+internal fun addFunctionsListSymbolForCheckerCoroutines(generationState: NativeGenerationState, module: LLVMModuleRef) {
+    val llvm = generationState.llvm
+    
+    // Create StaticData bound to the target module, not the original one
+    val moduleStaticData = StaticData(module, llvm)
+
+    val functions = getFunctions(module)
+            .filter { !it.isExternalFunction() }
+            .map { constPointer(it).bitcast(llvm.int8PtrType) }
+            .toList()
+    val functionsArray = moduleStaticData.placeGlobalConstArray("", llvm.int8PtrType, functions)
+    moduleStaticData.getGlobal(functionListGlobal)
+            ?.setInitializer(functionsArray)
+            ?: throw IllegalStateException("$functionListGlobal global not found")
+    moduleStaticData.getGlobal(functionListSizesGlobal)
+            ?.setInitializer(llvm.constInt32(functions.size))
+            ?: throw IllegalStateException("$functionListSizesGlobal global not found")
+    verifyModule(module)
+}
+
 internal fun addFunctionsListSymbolForChecker(generationState: NativeGenerationState) {
     val llvm = generationState.llvm
     val staticData = llvm.staticData

@@ -281,8 +281,16 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBitcodeBackend(context: Bitcod
         val bitcodeFile = tempFiles.create(context.config.shortModuleName ?: "out", ".bc").javaFile()
         val outputPath = context.config.outputPath
         val outputFiles = OutputFiles(outputPath, context.config.target, context.config.produce)
-        bitcodeEngine.runBitcodePostProcessing()
-        runPhase(WriteBitcodeFilePhase, WriteBitcodeFileInput(context.llvm.module, bitcodeFile))
+        if (context.config.splitBCfile == 1u) {
+            newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
+        } else {
+            newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessingCoroutines(bitcodeFile) }
+        }
+        if (context.config.splitBCfile == 1u) {
+            runPhase(WriteBitcodeFilePhase, WriteBitcodeFileInput(context.llvm.module, bitcodeFile))
+        } else {
+            println("=== Skipping WriteBitcodeFilePhase because splitBCfile is enabled ===")
+        }
         val moduleCompilationOutput = ModuleCompilationOutput(bitcodeFile, dependencies)
         compileAndLink(moduleCompilationOutput, outputFiles.mainFileName, outputFiles, tempFiles)
     }
@@ -384,14 +392,20 @@ internal fun PhaseEngine<NativeGenerationState>.compileModule(
     if (checkExternalCalls) {
         runPhase(CheckExternalCallsPhase)
     }
-    newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
-    if (checkExternalCalls) {
-        runPhase(RewriteExternalCallsCheckerGlobals)
+
+    if (context.config.splitBCfile == 1u) {
+        newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
+        // Run post-optimization phases for serial path
+        if (checkExternalCalls) {
+            runPhase(RewriteExternalCallsCheckerGlobals)
+        }
+        if (context.config.produce.isFullCache) {
+            runPhase(SaveAdditionalCacheInfoPhase)
+        }
+        runPhase(WriteBitcodeFilePhase, WriteBitcodeFileInput(context.llvm.module, bitcodeFile))
+    } else {
+        newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessingCoroutines(bitcodeFile) }
     }
-    if (context.config.produce.isFullCache) {
-        runPhase(SaveAdditionalCacheInfoPhase)
-    }
-    runPhase(WriteBitcodeFilePhase, WriteBitcodeFileInput(context.llvm.module, bitcodeFile))
 }
 
 

@@ -11,6 +11,7 @@ dependencies {
     compileOnly(project(":compiler:cli-common"))
     compileOnly(commonDependency("org.jetbrains.intellij.deps:log4j")) { isTransitive = false }
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation(commonDependency("com.fasterxml:aalto-xml")) { isTransitive = false }
     implementation(commonDependency("org.codehaus.woodstox:stax2-api")) { isTransitive = false }
     implementation(libs.intellij.fastutil) { isTransitive = false }
