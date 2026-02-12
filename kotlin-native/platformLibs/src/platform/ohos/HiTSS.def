@@ -1,6 +1,0 @@
-package = platform.System.HiTss
-headers = tss2/tss2_common.h tss2/tss2_mu.h tss2/tss2_sys.h tss2/tss2_tcti.h tss2/tss2_tctildr.h tss2/tss2_tpm2_types.h
-headerFilter = tss2/**
-language = C++
-compilerOpts = -std=c++17
-enableUndefinedApiProtection = true

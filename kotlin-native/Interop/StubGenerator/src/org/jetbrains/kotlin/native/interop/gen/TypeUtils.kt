@@ -74,7 +74,7 @@
                      unwrapped.decl.spelling
                  }
  
-                 // ohos cpp support:
+                 // cpp support:
                  // Enum pointer and enum reference types are converted to enum pointer instead of Void*
                  is EnumType -> {
                      if (language != Language.CPP) null

@@ -62,7 +62,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
 
     private val Type.stringRepresentation get() = this.getStringRepresentation()
 
-     // ohos cpp support:
      // Detects pointer-to-pointer with const pointee (e.g. const char**); stringRepresentation drops const.
      private fun needsConstPtrPtr(type: Type): Boolean {
         val unwrapped = type.unwrapTypedefs()
@@ -79,7 +78,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         }
     }
 
-    // ohos cpp support:
     // Generates const T** type string; avoids duplicate "const const".
     private fun generateConstPtrPtrType(type: Type, language: Language? = null): String {
         val unwrapped = type.unwrapTypedefs()
@@ -98,7 +96,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         return "$constPrefix$baseType**"
     }
 
-    // ohos cpp support:
     // Per-def preamble for undefined-API
     private fun generatePreambleLines(): List<String> {
         if (!enableUndefinedApiProtection || context.configuration.library.language != Language.CPP) return emptyList()
@@ -159,13 +156,11 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val unwrappedParamType = paramType.unwrapTypedefs()
 
             val type = when {
-                // ohos cpp support:
                 // If struct is passed by value (and not a typedef alias), convert to pointer
                 // in wrapper function parameter declaration.
                 unwrappedParamType is RecordType && paramType !is PointerType && paramType !is Typedef -> {
                     "${parameter.type.getStringRepresentation(cppLanguage)}*"
                 }
-                // ohos cpp support:
                 // For nested pointer types with const pointee (e.g., const char**), use const T**
                 needsConstPtrPtr(paramType) -> generateConstPtrPtrType(paramType, cppLanguage)
                 // For va_list typedef, use "va_list" instead of implementation details
@@ -183,7 +178,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val cppRefTypePrefix =
                         if (unwrappedType is PointerType && unwrappedType.isLVReference) "*" else ""
             val typeExpression = when {
-                // ohos cpp support:
                 // Cast const char** at call site; parameterTypeText would drop const
                 needsConstPtrPtr(type) -> "(${generateConstPtrPtrType(type, cppLanguage)})"
                 type is Typedef ->
@@ -237,7 +231,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         val body = buildString {
             append("if (&${function.name} == nullptr) {")
             append("\n")
-            append("    ohos::interop::ThrowIllegalStateExceptionFromCString(\"$symbolLiteral\");")
+            append("    ohos::interop::ThrowIllegalStateExceptionFromCString(\"Missing API symbol: $symbolLiteral\");")
             append("\n")
             append("} else {")
             append("\n")
