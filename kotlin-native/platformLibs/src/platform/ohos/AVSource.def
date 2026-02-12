@@ -5,3 +5,4 @@ depends = CodecBase Core
 linkerOpts = -lnative_media_avsource
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

@@ -4,3 +4,4 @@ headerFilter = native_fence/native_fence.h
 linkerOpts = -lnative_fence
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

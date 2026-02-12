@@ -4,3 +4,4 @@ headerFilter = network/netstack/** network/netstack/net_ssl/**
 linkerOpts = -lnet_http -lnet_ssl -lnet_websocket
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

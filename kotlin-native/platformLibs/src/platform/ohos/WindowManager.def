@@ -5,3 +5,4 @@ depends = Input
 linkerOpts = -lnative_window_manager
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

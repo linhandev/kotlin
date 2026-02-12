@@ -5,3 +5,4 @@ depends = Image_NativeModule NativeWindow OH_NativeBuffer
 linkerOpts = -limage_effect
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

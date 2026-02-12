@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin
+# Kept for compatability with KuiklyBase-kotlin (renamed from basic.def)
 depends = posix
 package = platform.basic
 headers = ConnectivityKit/wifi/oh_wifi.h \
@@ -29,3 +29,4 @@ headers = ConnectivityKit/wifi/oh_wifi.h \
 headerFilter = arkui/** inputmethod/** network/** window_manager/** ConnectivityKit/wifi/oh_wifi.h
 language = C++
 compilerOpts = -std=c++17
+

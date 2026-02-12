@@ -5,3 +5,4 @@ depends = CodecBase
 linkerOpts = -lnative_media_venc
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

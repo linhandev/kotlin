@@ -4,3 +4,4 @@ headerFilter = native_effect/**
 linkerOpts = -lnative_effect
 language = C++
 compilerOpts = -std=c++17
+enableUndefinedApiProtection = true
