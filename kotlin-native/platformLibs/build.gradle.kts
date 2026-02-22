@@ -151,25 +151,25 @@ enabledTargets(platformManager).forEach { target ->
                     // kba_* defs: use kbaTargetSysRoot as the only sysroot by overriding targetSysRoot.
                     val kbaSysrootName = konanProperties.getProperty("kbaTargetSysRoot.ohos")
                     if (kbaSysrootName != null) {
-                        val sysrootDir = File(konanDataDir, "dependencies").resolve(kbaSysrootName).absolutePath
-                        this.extraOpts.addAll("-compiler-option", "--sysroot=$sysrootDir")
-                        this.extraOpts.addAll("-linker-option", "--sysroot=$sysrootDir")
+                        val sysrootDir = File(konanDataDir, "dependencies").resolve(kbaSysrootName).invariantSeparatorsPath
+                        this.extraOpts.addAll("-compiler-option", "--sysroot", "-compiler-option", sysrootDir)
+                        this.extraOpts.addAll("-linker-option", "--sysroot", "-linker-option", sysrootDir)
                     }
                 } else {
                     // Non-kba defs: keep using additionalTargetSysRoot as extra include/lib search paths.
                     val sysrootName = konanProperties.getProperty("additionalTargetSysRoot.$targetName")
-                        ?: konanProperties.getProperty("additionalTargetSysRoot.ohos")
+ 	                         ?: konanProperties.getProperty("additionalTargetSysRoot.ohos")
 
                     if (sysrootName != null) {
-                        val includePath = File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/include").absolutePath
+                        val includePath = File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/include").invariantSeparatorsPath
                         val libPath = when (targetName) {
-                            "ohos_arm64" -> File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/lib/aarch64-linux-ohos").absolutePath
-                            "ohos_x64" -> File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/lib/x86_64-linux-ohos").absolutePath
+                            "ohos_arm64" -> File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/lib/aarch64-linux-ohos").invariantSeparatorsPath
+                            "ohos_x64" -> File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/lib/x86_64-linux-ohos").invariantSeparatorsPath
                             else -> null
                         }
                         if (libPath != null) {
-                            this.extraOpts.addAll("-compiler-option", "-I$includePath")
-                            this.extraOpts.addAll("-linker-option", "-L$libPath")
+                            this.extraOpts.addAll("-compiler-option", "-I", "-compiler-option", includePath)
+                            this.extraOpts.addAll("-linker-option", "-L", "-linker-option", libPath)
                         }
                     }
                 }
