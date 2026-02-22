@@ -410,4 +410,13 @@ interface KotlinHierarchyBuilder {
      * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
      */
     fun withOhosArm64()
+
+    // region Eeaytec Code
+    /**
+     * Only includes Kotlin's Ohos/ohosX64 target in this [group].
+     *
+     * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
+     */
+    fun withOhosX64()
+    // endregion
 }

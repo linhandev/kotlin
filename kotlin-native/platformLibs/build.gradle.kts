@@ -157,11 +157,8 @@ enabledTargets(platformManager).forEach { target ->
                     }
                 } else {
                     // Non-kba defs: keep using additionalTargetSysRoot as extra include/lib search paths.
-                    val sysrootName = when (targetName) {
-                        "ohos_arm64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos")
-                        "ohos_x64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos")
-                        else -> null
-                    }
+                    val sysrootName = konanProperties.getProperty("additionalTargetSysRoot.$targetName")
+                        ?: konanProperties.getProperty("additionalTargetSysRoot.ohos")
 
                     if (sysrootName != null) {
                         val includePath = File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/include").absolutePath

@@ -463,6 +463,7 @@ interface KotlinMultiplatformSourceSetConventions {
      * ```kotlin
      * kotlin {
      *    ohosArm64()
+     *    ohosX64()
      *
      *    sourceSets {
      *      ohosMain.dependencies {
@@ -486,6 +487,7 @@ interface KotlinMultiplatformSourceSetConventions {
      * ```kotlin
      * kotlin {
      *    ohosArm64()
+     *    ohosX64()
      *
      *    sourceSets {
      *      ohosTest.dependencies {
@@ -1440,6 +1442,54 @@ interface KotlinMultiplatformSourceSetConventions {
      * @since 2.0.20
      */
     val NamedDomainObjectContainer<KotlinSourceSet>.ohosArm64Test: NamedDomainObjectProvider<KotlinSourceSet>
+
+    // region Eeaytec Code
+    /**
+     * Static accessor for the main Kotlin Source Set of ohosX64 target.
+     * Declare ohosX64 target to access this source set.
+     * If ohosX64 target wasn't declared, accessing this source set will cause a runtime error during configuration time.
+     *
+     * Sample:
+     *
+     * ```kotlin
+     * kotlin {
+     *    ohosX64() // Target is declared, ohosX64Main source set is created
+     *
+     *    sourceSets {
+     *      ohosX64Main.dependencies {
+     *          // Add ohosX64Main dependencies here
+     *      }
+     *    }
+     * }
+     * ```
+     * 
+     * @since 2.0.20
+     */
+    val NamedDomainObjectContainer<KotlinSourceSet>.ohosX64Main: NamedDomainObjectProvider<KotlinSourceSet>
+
+    /**
+     * Static accessor for the test Kotlin Source Set of ohosX64 target.
+     * Declare ohosX64 target to access this source set.
+     * If ohosX64 target wasn't declared, accessing this source set will cause a runtime error during configuration time.
+     *
+     * Sample:
+     *
+     * ```kotlin
+     * kotlin {
+     *    ohosX64() // Target is declared, ohosX64Test source set is created
+     *
+     *    sourceSets {
+     *      ohosX64Test.dependencies {
+     *          // Add ohosX64Test dependencies here
+     *      }
+     *    }
+     * }
+     * ```
+     *
+     * @since 2.0.20
+     */
+    val NamedDomainObjectContainer<KotlinSourceSet>.ohosX64Test: NamedDomainObjectProvider<KotlinSourceSet>
+    // endregion
     
     /**
      * Static accessor for the main Kotlin Source Set of tvosArm64 target.
