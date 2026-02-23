@@ -259,6 +259,12 @@ private class KotlinHierarchyBuilderImpl(
         it is KotlinNativeTarget && it.konanTarget == KonanTarget.OHOS_ARM64
     }
 
+    // region Eeaytec Code
+    override fun withOhosX64() = withTargets { 
+        it is KotlinNativeTarget && it.konanTarget == KonanTarget.OHOS_X64 
+    }
+    // endregion
+
     override fun toString(): String {
         return "KotlinHierarchyBuilder($node)"
     }

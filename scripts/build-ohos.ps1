@@ -20,6 +20,31 @@ $ErrorActionPreference = "Stop"
 
 $START_TIME = Get-Date
 
+<#
+.SYNOPSIS
+    Removes a directory recursively. On Windows, handles long paths by using
+    robocopy mirror trick when Remove-Item fails (e.g. path too long).
+#>
+function Remove-DirectoryRecurseSafe {
+    param([string]$Path)
+    if (-not (Test-Path $Path)) { return }
+    $ErrorActionPreference = "Continue"
+    try {
+        Remove-Item -Path $Path -Recurse -Force -ErrorAction Stop
+    } catch {
+        # Windows path-too-long or similar: use robocopy mirror trick
+        $emptyDir = Join-Path ([System.IO.Path]::GetTempPath()) ([System.Guid]::NewGuid().ToString("N"))
+        New-Item -ItemType Directory -Path $emptyDir -Force | Out-Null
+        try {
+            & robocopy $emptyDir $Path /MIR /NFL /NDL /NJH /NJS /NC /NS /NP 2>&1 | Out-Null
+            Remove-Item -Path $Path -Recurse -Force -ErrorAction SilentlyContinue
+        } finally {
+            if (Test-Path $emptyDir) { Remove-Item -Path $emptyDir -Recurse -Force -ErrorAction SilentlyContinue }
+        }
+    }
+    $ErrorActionPreference = "Stop"
+}
+
 $env:M2_HOME = $null
 $env:MAVEN_HOME = $null
 
@@ -167,7 +192,7 @@ try {
     StepBegin "Clean Kotlin Native dist."
     $nativeDist = Join-Path $ROOT_DIR "kotlin-native\dist"
     if (Test-Path $nativeDist) {
-        Remove-Item -Path $nativeDist -Recurse -Force
+        Remove-DirectoryRecurseSafe -Path $nativeDist
     }
     # Use --refresh-dependencies to force refresh cache
     Invoke-GradleNative ":kotlin-native:clean", "--refresh-dependencies"

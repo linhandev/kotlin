@@ -203,8 +203,14 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
         val dynamic = kind == LinkerOutputKind.DYNAMIC_LIBRARY
         val targetToolchain = absoluteTargetToolchain
         val crtPrefix = "$absoluteTargetSysRoot/$crtFilesLocation"
-        // TODO: support other ohos.arch
-        val targetLib = "$targetToolchain/lib/clang/19/lib/aarch64-linux-ohos"
+        val targetLib = when (target) {
+            KonanTarget.OHOS_X64 -> "$targetToolchain/lib/clang/19/lib/x86_64-linux-ohos"
+            else -> "$targetToolchain/lib/clang/19/lib/aarch64-linux-ohos"
+        }
+        val targetLibDir = when (target) {
+            KonanTarget.OHOS_X64 -> "x86_64-linux-ohos"
+            else -> "aarch64-linux-ohos"
+        }
         // TODO: Can we extract more to the konan.configurables?
         return listOf(Command(absoluteLinker).apply {
             if (linkerArgs.none { it.startsWith("--sysroot=") }) {
@@ -224,8 +230,8 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             +"$crtPrefix/crti.o"
             +"$crtPrefix/crtn.o"
             +"--hash-style=gnu"
-            +"-L${targetToolchain}/lib/aarch64-linux-ohos"
-            +"-L${targetToolchain}/lib/aarch64-linux-ohos/c++"
+            +"-L${targetToolchain}/lib/$targetLibDir"
+            +"-L${targetToolchain}/lib/$targetLibDir/c++"
             +specificLibs
             if (optimize) +linkerOptimizationFlags
             if (!debug) +linkerNoDebugFlags
@@ -235,12 +241,13 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             +libraries
             +linkerArgs
             +linkerKonanFlags
+            // Always link builtins library for OHOS (contains __cpu_model and other compiler builtins)
+            +"$targetLib/libclang_rt.builtins.a"
             when (sanitizer) {
                 null -> {}
                 SanitizerKind.ADDRESS -> {
                     +"$targetLib/libclang_rt.asan.so"
                     +"$targetLib/libclang_rt.asan-preinit.a"
-                    +"$targetLib/libclang_rt.builtins.a"
                     +"$targetLib/clang_rt.crtend.o"
                 }
                 SanitizerKind.THREAD -> {
