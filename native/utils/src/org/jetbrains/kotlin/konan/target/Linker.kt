@@ -241,8 +241,8 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             +libraries
             +linkerArgs
             +linkerKonanFlags
-            // Always link builtins library for OHOS (contains __cpu_model and other compiler builtins)
-            +"$targetLib/libclang_rt.builtins.a"
+            // ohos_x64: LLVM codegen may reference __cpu_model for CPU feature dispatching.
+            if (target == KonanTarget.OHOS_X64) +"$targetLib/libclang_rt.builtins.a"
             when (sanitizer) {
                 null -> {}
                 SanitizerKind.ADDRESS -> {
