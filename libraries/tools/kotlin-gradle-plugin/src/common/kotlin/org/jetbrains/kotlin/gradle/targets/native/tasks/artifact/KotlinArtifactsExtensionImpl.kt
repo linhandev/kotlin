@@ -55,9 +55,7 @@ abstract class KotlinArtifactsExtensionImpl @Inject constructor(project: Project
     val macosArm64 = KonanTarget.MACOS_ARM64
     val linuxArm64 = KonanTarget.LINUX_ARM64
     val ohosArm64 = KonanTarget.OHOS_ARM64
-    // region Eeaytec Code
     val ohosX64 = KonanTarget.OHOS_X64
-    // endregion
 
     @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
     val linuxArm32Hfp = KonanTarget.LINUX_ARM32_HFP

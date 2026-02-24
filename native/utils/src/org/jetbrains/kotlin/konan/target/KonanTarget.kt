@@ -34,9 +34,7 @@ sealed class KonanTarget(override val name: String, val family: Family, val arch
     object MACOS_ARM64 : KonanTarget("macos_arm64", Family.OSX, Architecture.ARM64)
     object LINUX_ARM64 : KonanTarget("linux_arm64", Family.LINUX, Architecture.ARM64)
     object OHOS_ARM64 : KonanTarget("ohos_arm64", Family.OHOS, Architecture.ARM64)
-     // region Eeaytec Code
-     object OHOS_X64 : KonanTarget("ohos_x64", Family.OHOS, Architecture.X64)
-     // endregion
+    object OHOS_X64 : KonanTarget("ohos_x64", Family.OHOS, Architecture.X64)
  
 
     object LINUX_ARM32_HFP : KonanTarget("linux_arm32_hfp", Family.LINUX, Architecture.ARM32)
@@ -57,9 +55,7 @@ sealed class KonanTarget(override val name: String, val family: Family, val arch
                 MACOS_X64, MACOS_ARM64,
                 LINUX_ARM64, LINUX_ARM32_HFP,
                 OHOS_ARM64,
-                // region Eeaytec Code
                 OHOS_X64
-                // endregion
             ).associateBy { it.name }
         }
 

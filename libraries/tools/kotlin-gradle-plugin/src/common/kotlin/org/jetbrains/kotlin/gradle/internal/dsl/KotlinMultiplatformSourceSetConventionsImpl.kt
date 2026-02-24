@@ -154,16 +154,13 @@ internal object KotlinMultiplatformSourceSetConventionsImpl : KotlinMultiplatfor
 
     override val NamedDomainObjectContainer<KotlinSourceSet>.mingwX64Test by KotlinSourceSetConvention
 
-    // region Tencent Code
     override val NamedDomainObjectContainer<KotlinSourceSet>.ohosArm64Main by KotlinSourceSetConvention
 
     override val NamedDomainObjectContainer<KotlinSourceSet>.ohosArm64Test by KotlinSourceSetConvention
-    // endregion
     
-    // region Eeaytec Code
     override val NamedDomainObjectContainer<KotlinSourceSet>.ohosX64Main by KotlinSourceSetConvention
+    
     override val NamedDomainObjectContainer<KotlinSourceSet>.ohosX64Test by KotlinSourceSetConvention
-    // endregion
 
     override val NamedDomainObjectContainer<KotlinSourceSet>.tvosArm64Main by KotlinSourceSetConvention
 

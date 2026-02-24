@@ -1443,7 +1443,6 @@ interface KotlinMultiplatformSourceSetConventions {
      */
     val NamedDomainObjectContainer<KotlinSourceSet>.ohosArm64Test: NamedDomainObjectProvider<KotlinSourceSet>
 
-    // region Eeaytec Code
     /**
      * Static accessor for the main Kotlin Source Set of ohosX64 target.
      * Declare ohosX64 target to access this source set.
@@ -1489,7 +1488,6 @@ interface KotlinMultiplatformSourceSetConventions {
      * @since 2.0.20
      */
     val NamedDomainObjectContainer<KotlinSourceSet>.ohosX64Test: NamedDomainObjectProvider<KotlinSourceSet>
-    // endregion
     
     /**
      * Static accessor for the main Kotlin Source Set of tvosArm64 target.

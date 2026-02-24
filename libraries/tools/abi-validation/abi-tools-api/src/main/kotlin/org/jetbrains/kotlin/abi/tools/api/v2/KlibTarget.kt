@@ -132,7 +132,5 @@ internal val konanTargetNameMapping = mapOf(
     "wasm-wasi" to "wasmWasi",
     "wasm-js" to "wasmJs",
     "ohos_arm64" to "ohosArm64",
-    // region Eeaytec Code
     "ohos_x64" to "ohosX64"
-    // endregion
 )

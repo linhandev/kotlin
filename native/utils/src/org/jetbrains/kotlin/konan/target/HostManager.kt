@@ -58,9 +58,7 @@ open class HostManager() {
         ANDROID_ARM32,
         ANDROID_ARM64,
         OHOS_ARM64,
-        // region Eeaytec Code
         OHOS_X64,
-        // endregion
     )
 
     private val appleTargets = setOf(
