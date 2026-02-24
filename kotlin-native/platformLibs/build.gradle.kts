@@ -161,13 +161,11 @@ enabledTargets(platformManager).forEach { target ->
  	                         ?: konanProperties.getProperty("additionalTargetSysRoot.ohos")
 
                     if (sysrootName != null) {
-                        val includePath = File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/include").invariantSeparatorsPath
-                        val libPath = when (targetName) {
-                            "ohos_arm64" -> File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/lib/aarch64-linux-ohos").invariantSeparatorsPath
-                            "ohos_x64" -> File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/lib/x86_64-linux-ohos").invariantSeparatorsPath
-                            else -> null
-                        }
-                        if (libPath != null) {
+                        val sysrootDir = File(konanDataDir, "dependencies").resolve(sysrootName)
+                        val includePath = File(sysrootDir, "usr/include").invariantSeparatorsPath
+                        val libSubPath = konanProperties.getProperty("abiSpecificLibraries.$targetName")
+                        if (libSubPath != null) {
+                            val libPath = File(sysrootDir, libSubPath).invariantSeparatorsPath
                             this.extraOpts.addAll("-compiler-option", "-I", "-compiler-option", includePath)
                             this.extraOpts.addAll("-linker-option", "-L", "-linker-option", libPath)
                         }
