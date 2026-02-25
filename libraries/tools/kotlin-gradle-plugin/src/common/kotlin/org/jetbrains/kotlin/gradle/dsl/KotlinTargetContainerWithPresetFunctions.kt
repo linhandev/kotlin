@@ -36,6 +36,17 @@ interface KotlinTargetContainerWithPresetFunctions : KotlinTargetsContainer {
     fun ohosArm64(configure: Action<KotlinNativeTarget>) = ohosArm64 { configure.execute(this) }
     // endregion
 
+    // region Eeaytec
+    fun ohosX64(
+        name: String = "ohosX64",
+        configure: KotlinNativeTarget.() -> Unit = { }
+    ): KotlinNativeTarget
+    fun ohosX64() = ohosX64("ohosX64") { }
+    fun ohosX64(name: String) = ohosX64(name) { }
+    fun ohosX64(name: String, configure: Action<KotlinNativeTarget>) = ohosX64(name) { configure.execute(this) }
+    fun ohosX64(configure: Action<KotlinNativeTarget>) = ohosX64 { configure.execute(this) }
+    // endregion
+
     fun jvm(
         name: String = "jvm",
         configure: KotlinJvmTarget.() -> Unit = { }
@@ -437,7 +448,19 @@ internal abstract class DefaultKotlinTargetContainerWithPresetFunctions @Inject 
         presets.getByName("ohosArm64") as KotlinNativeTargetPreset,
         configure
     )
-    // endregion    
+    // endregion
+
+    // region Eeaytec
+    override fun ohosX64(
+        name: String,
+        configure: KotlinNativeTarget.() -> Unit
+    ): KotlinNativeTarget = configureOrCreate(
+        name,
+        @Suppress("DEPRECATION_ERROR")
+        presets.getByName("ohosX64") as KotlinNativeTargetPreset,
+        configure
+    )
+    // endregion
     
     override fun jvm(
         name: String,

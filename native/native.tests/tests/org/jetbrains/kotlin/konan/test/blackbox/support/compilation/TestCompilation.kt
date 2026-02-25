@@ -102,7 +102,7 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
                     ?: "${System.getProperty("user.home")}/.konan"
                 val libPath = when (targets.testTarget) {
                     KonanTarget.OHOS_ARM64 -> "$konanDataDir/dependencies/$sysrootName/usr/lib/aarch64-linux-ohos"
-                   // KonanTarget.OHOS_X64 -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
+                    KonanTarget.OHOS_X64 -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
                     else -> null
                 }
                 if (libPath != null) {
