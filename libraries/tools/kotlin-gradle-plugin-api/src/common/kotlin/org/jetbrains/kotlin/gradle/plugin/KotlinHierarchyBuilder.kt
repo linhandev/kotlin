@@ -404,10 +404,20 @@ interface KotlinHierarchyBuilder {
      */
     fun withLinuxArm64()
 
+    // TODO(@xiezhi): Replace the doc links below with our own OHOS targets documentation
+    //  once available, as OHOS targets are not listed in the official Kotlin docs.
+
     /**
      * Only includes Kotlin's Ohos/ohosArm64 target in this [group].
      *
      * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
      */
     fun withOhosArm64()
+
+    /**
+     * Only includes Kotlin's Ohos/ohosX64 target in this [group].
+     *
+     * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
+     */
+    fun withOhosX64()
 }
