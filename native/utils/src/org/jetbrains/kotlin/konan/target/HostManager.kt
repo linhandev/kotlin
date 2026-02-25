@@ -58,6 +58,7 @@ open class HostManager() {
         ANDROID_ARM32,
         ANDROID_ARM64,
         OHOS_ARM64,
+        OHOS_X64,
     )
 
     private val appleTargets = setOf(

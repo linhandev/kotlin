@@ -190,7 +190,7 @@ sealed class ClangArgs(
         // Special case for parsing with the bundled clang.
         // Note that the SDK clang would be used for most tasks.
         listOf("-isystem", "${configurables.absoluteTargetToolchain}/include/libcxx-ohos/include/c++/v1",
-                "-isystem", "${configurables.absoluteTargetSysRoot}/usr/include/aarch64-linux-ohos",
+                "-isystem", "${configurables.absoluteTargetSysRoot}/usr/include/${configurables.targetTriple}",
                 "-isystem", "${configurables.absoluteTargetToolchain}/lib/clang/${configurables.llvmVersion}/include")
     } else {
         // libclang works not exactly the same way as the clang binary and
