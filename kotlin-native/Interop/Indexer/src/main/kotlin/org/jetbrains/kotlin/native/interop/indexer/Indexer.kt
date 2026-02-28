@@ -617,6 +617,7 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
         }
 
         CXTypeKind.CXType_UChar, CXTypeKind.CXType_UShort,
+        CXTypeKind.CXType_Char16, CXTypeKind.CXType_Char32,
         CXTypeKind.CXType_UInt, CXTypeKind.CXType_ULong, CXTypeKind.CXType_ULongLong -> IntegerType(
                 size = type.getSize().toInt(),
                 isSigned = false,
@@ -971,7 +972,9 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
 
             CXIdxEntity_Variable -> {
                 val parentKind = info.semanticContainer!!.pointed.cursor.kind
-                if (parentKind == CXCursorKind.CXCursor_TranslationUnit || parentKind == CXCursorKind.CXCursor_Namespace) {
+                if (parentKind == CXCursorKind.CXCursor_TranslationUnit 
+                    || parentKind == CXCursorKind.CXCursor_Namespace
+                    || (parentKind == CXCursorKind.CXCursor_LinkageSpec && this.library.language == Language.CPP)) {
                     // Top-level or namespace member. Skip class static members - they are loaded by visitClass
                     globalById.getOrPut(getDeclarationId(cursor)) {
                         GlobalDecl(
