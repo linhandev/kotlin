@@ -2,3 +2,6 @@ package = platform.ArkTS.ArkTS_Napi_NativeModule
 headers = napi/common.h napi/native_api.h
 headerFilter = napi/**
 linkerOpts = -lace_napi.z
+language = C++
+compilerOpts = -std=c++17
+enableUndefinedApiProtection = true

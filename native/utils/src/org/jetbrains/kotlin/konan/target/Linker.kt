@@ -233,6 +233,9 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             +"-L${targetToolchain}/lib/$targetLibDir"
             +"-L${targetToolchain}/lib/$targetLibDir/c++"
             +specificLibs
+            additionalTargetSysRoot?.let { name ->
+                +"-L${absolute(name)}/usr/lib/$targetLibDir"
+            }
             if (optimize) +linkerOptimizationFlags
             if (!debug) +linkerNoDebugFlags
             if (dynamic) +linkerDynamicFlags

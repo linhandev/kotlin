@@ -94,8 +94,7 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
         // native.tests (blackbox tests) can find HarmonyOS-only libs such as libhiai_foundation.so.
         if (targets.testTarget.family == Family.OHOS) {
             val props = home.properties
-            val sysrootKey = "additionalTargetSysRoot.${targets.testTarget.name}"
-            val sysrootName = props.getProperty(sysrootKey)
+            val sysrootName = props.getProperty("additionalTargetSysRoot.ohos")
             if (sysrootName != null) {
                 val konanDataDir = System.getenv("KONAN_DATA_DIR")
                     ?.replace("~", System.getProperty("user.home"))

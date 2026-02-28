@@ -145,8 +145,15 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         val cppLanguage = context.configuration.library.language
         val wrapperName = generateFunctionWrapperName(function.name)
 
-        val returnType = function.returnType.getStringRepresentation(cppLanguage)
         val unwrappedReturnType = function.returnType.unwrapTypedefs()
+        val returnType = when {
+            // Resolve C++ ambiguity when the function name equals the return struct name (e.g. mallinfo mallinfo()):
+            // the cast (X)(X()) can be parsed with the first X as the function; use "struct X" for the type.
+            unwrappedReturnType is RecordType && unwrappedReturnType.decl.spelling == function.name ->
+                "struct ${unwrappedReturnType.decl.spelling}"
+            else ->
+                function.returnType.getStringRepresentation(cppLanguage)
+        }
         val returnTypePrefix =
                 if (unwrappedReturnType is PointerType && unwrappedReturnType.isLVReference) "&" else ""
 
@@ -155,11 +162,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val unwrappedParamType = paramType.unwrapTypedefs()
 
             val type = when {
-                // If struct is passed by value (and not a typedef alias), convert to pointer
-                // in wrapper function parameter declaration.
-                unwrappedParamType is RecordType && paramType !is PointerType && paramType !is Typedef -> {
-                    "${parameter.type.getStringRepresentation(cppLanguage)}*"
-                }
                 // For nested pointer types with const pointee (e.g., const char**), use const T**
                 needsConstPtrPtr(paramType) -> generateConstPtrPtrType(paramType, cppLanguage)
                 // For va_list typedef, use "va_list" instead of implementation details
@@ -186,7 +188,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
                 unwrappedType is EnumType ->
                     "(${unwrappedType.def.spelling})"
                 unwrappedType is RecordType ->
-                    "*(${unwrappedType.decl.spelling}*)"
+                    "(${unwrappedType.decl.spelling})"
                 else ->
                     "$cppRefTypePrefix($parameterTypeText)"
             }
@@ -275,7 +277,15 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
 
     fun generateCGlobalGetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {
         val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")
-        val returnType = globalDecl.type.stringRepresentation
+        // C++ support: preserve const on pointee so e.g. extern const char* generates "const char*" return type (C++ rejects char* = const char*).
+        val returnType = if (context.configuration.library.language == Language.CPP) {
+            when (val t = globalDecl.type) {
+                is PointerType -> if (t.pointeeIsConst) "const ${t.pointeeType.stringRepresentation}*" else t.stringRepresentation
+                else -> globalDecl.type.stringRepresentation
+            }
+        } else {
+            globalDecl.type.stringRepresentation
+        }
         val wrapperBody = "return ${globalDecl.name};"
         val wrapper = createWrapper(symbolName, wrapperName, returnType, emptyList(), wrapperBody)
         return CCalleeWrapper(wrapper)
