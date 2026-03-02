@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin (renamed from zlib.def)
+# Kept for compatability with KuiklyBase-kotlin
 depends = posix
 package = platform.zlib
 headers = zconf.h zlib.h

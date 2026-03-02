@@ -98,13 +98,14 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
     // Per-def preamble for undefined-API
     private fun generatePreambleLines(): List<String> {
         if (!enableUndefinedApiProtection || context.configuration.library.language != Language.CPP) return emptyList()
-        return listOf(
-            "// ========== undefined API protection preamble (weak symbol + &func == nullptr check) ==========",
-            "namespace ohos { namespace interop {",
-            "extern \"C\" void ThrowIllegalStateExceptionFromCString(const char* message);",
-            "} }",
-            ""
-        )
+        return """
+            // ========== undefined API protection preamble (weak symbol + &func == nullptr check) ==========
+            namespace ohos {
+                namespace interop {
+                    extern "C" void ThrowIllegalStateExceptionFromCString(const char* message);
+                }
+            }
+        """.trimIndent().lines()
     }
 
 

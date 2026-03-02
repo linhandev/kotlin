@@ -1,4 +1,4 @@
-# Kept for compatability with KuiklyBase-kotlin (renamed from sles.def)
+# Kept for compatability with KuiklyBase-kotlin
 depends = posix
 package = platform.sles
 headers = SLES/OpenSLES.h SLES/OpenSLES_OpenHarmony.h SLES/OpenSLES_Platform.h
