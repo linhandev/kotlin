@@ -200,6 +200,13 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
         if (kind == LinkerOutputKind.STATIC_LIBRARY)
             return staticGnuArCommands(ar, executable, objectFiles, libraries)
 
+        // Fix: ld.lld error=7, Argument list too long.
+        val librariesArgs = if (libraries.isEmpty()) {
+            libraries
+        } else tempFiles.create("libraries").let { librariesListFile ->
+            librariesListFile.writeLines(libraries)
+            listOf("@${librariesListFile.absolutePath}")
+        }
         val dynamic = kind == LinkerOutputKind.DYNAMIC_LIBRARY
         val targetToolchain = absoluteTargetToolchain
         val crtPrefix = "$absoluteTargetSysRoot/$crtFilesLocation"
@@ -238,7 +245,8 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             if (dynamic) +linkerDynamicFlags
             if (dynamic) +"--soname=${File(executable).name}"
             +objectFiles
-            +libraries
+//            +libraries
+            +librariesArgs
             +linkerArgs
             +linkerKonanFlags
             // ohos_x64: LLVM codegen may reference __cpu_model for CPU feature dispatching.
