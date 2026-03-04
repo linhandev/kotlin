@@ -49,6 +49,8 @@ private fun staticGnuArCommands(ar: String, executable: ExecutableFile,
                     },
                     Command("cmd", "/c", "del", "/q", temp))
         }
+        // Fix: When cache is enabled, static library symbols embedded in cinterop cache are not found during app runtime.
+        /*
         HostManager.hostIsLinux || HostManager.hostIsMac -> listOf(
                      Command(ar, "cqT", executable).apply {
                         +objectFiles
@@ -57,6 +59,20 @@ private fun staticGnuArCommands(ar: String, executable: ExecutableFile,
                      Command("/bin/sh", "-c").apply {
                         +"printf 'create $executable\\naddlib $executable\\nsave\\nend' | $ar -M"
                      })
+        */
+        HostManager.hostIsLinux || HostManager.hostIsMac -> {
+            // Create a regular archive and use [L] modifier for adding libraries
+            // to flatten nested archives. The [L] modifier extracts archive contents
+            // instead of adding archives as-is, ensuring .a inputs are properly processed.
+            val commands = mutableListOf<Command>()
+            if (objectFiles.isNotEmpty()) {
+                commands.add(Command(ar, "qcs", executable).apply { +objectFiles })
+            }
+            if (libraries.isNotEmpty()) {
+                commands.add(Command(ar, "qsL", executable).apply { +libraries })
+            }
+            commands
+        }
         else -> TODO("Unsupported host ${HostManager.host}")
     }
 
