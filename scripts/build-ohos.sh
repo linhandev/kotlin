@@ -50,6 +50,13 @@ if [ -z "$JDK_18" ]; then
   exit 1
 fi
 
+# Maven wrapper requires unzip: without it, it downloads .tar.gz but validates with the .zip checksum → failure
+if ! command -v unzip >/dev/null 2>&1; then
+  echo "❌ Error: unzip is required."
+  echo "   Please install unzip and re-run."
+  exit 1
+fi
+
 STEP=1
 STEP_MESSAGE=""
 
