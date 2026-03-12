@@ -212,6 +212,9 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBackend(backendContext: Contex
                     } else null
                     // TODO: Make this work if we first compile all the fragments and only after that run the link phases.
                     generationStateEngine.compileModule(fragment.irModule, backendContext.irBuiltIns, bitcodeFile, cExportFiles)
+                    if (generationState.config.emitRuntimeOpt.value == 1) {
+                        java.io.File(generationState.config.runtimeBitcodePath).copyTo(java.io.File(bitcodeFile.path),true)
+                    }
                     // Split here
                     val dependenciesTrackingResult = generationState.dependenciesTracker.collectResult()
                     val depsFilePath = config.writeSerializedDependencies

@@ -132,10 +132,46 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     }
 
     val splitBCfile: UInt
-        get() = if (target == KonanTarget.OHOS_ARM64) configuration.get(BinaryOptions.splitBCfile) ?: 2u else 1u
+        get() = if (target == KonanTarget.OHOS_ARM64) configuration.get(BinaryOptions.splitBCfile) ?: 1u else 1u
 
     val llvmSplitPath: String
         get() = configuration.get(BinaryOptions.llvmSplitPath) ?: "${platform.absoluteLlvmHome}/bin/llvm-split"
+
+    val emitStdlib: Boolean get() = configuration.get(BinaryOptions.emitStdlib) ?: false
+
+    val emitRuntime: Boolean get() = configuration.get(BinaryOptions.emitRuntime) ?: false
+
+    val emitRuntimeOpt: RuntimeEmissionMode
+        get() = configuration.get(BinaryOptions.emitRuntimeOpt)
+                ?: when {
+                    configuration.get(BinaryOptions.emitRuntime) == true -> RuntimeEmissionMode.RUNTIME
+                    moduleIncludeOnly.isNotEmpty() -> RuntimeEmissionMode.NORUNTIME
+                    else -> RuntimeEmissionMode.ALL
+                }
+    
+    val moduleIncludes: Map<String, List<String>>
+        get() = configuration.get(BinaryOptions.moduleIncludes)?: emptyMap()
+
+    val runtimeName: String
+        get() = configuration.get(BinaryOptions.runtimeName) ?: "runtime"
+
+    val stdlibName: String
+        get() = configuration.get(BinaryOptions.stdlibName) ?: "std"
+
+    val outputModule: String?
+        get() = configuration.get(BinaryOptions.outputModule)
+
+    val moduleIncludeOnly: List<String>
+        get() {
+            if (emitStdlib) return listOf(
+                "stdlib",
+                "org.jetbrains.kotlin.native.platform.posix",
+                "org.jetbrains.kotlin.native.platform.linux",
+                "org.jetbrains.kotlin.native.platform.ohos",
+            )
+            val outputModule = configuration.get(BinaryOptions.outputModule) ?: return emptyList()
+            return moduleIncludes[outputModule] ?: emptyList()
+        }
 
     val runtimeLogs: Map<LoggingTag, LoggingLevel> by lazy {
         val default = LoggingTag.entries.associateWith { LoggingLevel.None }
@@ -418,6 +454,10 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
                 false
             } else it
         } ?: false
+    }
+
+    internal val runtimeBitcodePath: String by lazy {
+        File(distribution.defaultNatives(target)).child("libruntime.bc").absolutePath
     }
 
     internal val runtimeLinkageStrategy: RuntimeLinkageStrategy by lazy {
