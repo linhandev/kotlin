@@ -60,6 +60,60 @@ public class NativeGCTestGenerated extends AbstractNativeBlackBoxTest {
   }
 
   @Test
+  @TestMetadata("crt_array_read_barrier.kt")
+  public void testCrt_array_read_barrier() {
+    runTest("native/native.tests/testData/gc/crt_array_read_barrier.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_boundary_frame.kt")
+  public void testCrt_boundary_frame() {
+    runTest("native/native.tests/testData/gc/crt_boundary_frame.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_cached_boxed_value.kt")
+  public void testCrt_cached_boxed_value() {
+    runTest("native/native.tests/testData/gc/crt_cached_boxed_value.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_cinterop_boundary.kt")
+  public void testCrt_cinterop_boundary() {
+    runTest("native/native.tests/testData/gc/crt_cinterop_boundary.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_daemon_shutdown.kt")
+  public void testCrt_daemon_shutdown() {
+    runTest("native/native.tests/testData/gc/crt_daemon_shutdown.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_field_forwarding.kt")
+  public void testCrt_field_forwarding() {
+    runTest("native/native.tests/testData/gc/crt_field_forwarding.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_global_roots_concurrent.kt")
+  public void testCrt_global_roots_concurrent() {
+    runTest("native/native.tests/testData/gc/crt_global_roots_concurrent.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_r2k_boundary.kt")
+  public void testCrt_r2k_boundary() {
+    runTest("native/native.tests/testData/gc/crt_r2k_boundary.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_stable_ref_lifecycle.kt")
+  public void testCrt_stable_ref_lifecycle() {
+    runTest("native/native.tests/testData/gc/crt_stable_ref_lifecycle.kt");
+  }
+
+  @Test
   @TestMetadata("cycles0.kt")
   public void testCycles0() {
     runTest("native/native.tests/testData/gc/cycles0.kt");
