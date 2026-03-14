@@ -16,6 +16,7 @@ import org.jetbrains.kotlin.backend.konan.serialization.PartialCacheInfo
 import org.jetbrains.kotlin.cli.common.config.kotlinSourceRoots
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.config.KlibConfigurationKeys
+import org.jetbrains.kotlin.config.incrementalCompilation
 import org.jetbrains.kotlin.ir.IrBuiltIns
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrDeclaration
@@ -447,6 +448,15 @@ internal fun <C : PhaseContext> PhaseEngine<C>.compileAndLink(
     runPhase(LinkerPhase, linkerPhaseInput)
     if (context.config.produce.isCache) {
         runPhase(FinalizeCachePhase, outputFiles)
+    }
+
+    if (Family.OHOS == context.config.target.family &&
+            CompilerOutputKind.DYNAMIC == context.config.produce &&
+            context.config.debug &&
+            context.config.configuration.incrementalCompilation) {
+        val debugOptimizationInput = DebugInfoGCCompressInput(
+                binaryFile = linkerOutputFile)
+        runPhase(DebugInfoGCCompressPhase, debugOptimizationInput)
     }
 }
 
