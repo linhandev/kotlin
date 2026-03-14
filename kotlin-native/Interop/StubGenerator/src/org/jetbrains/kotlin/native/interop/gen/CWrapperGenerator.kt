@@ -147,14 +147,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         val wrapperName = generateFunctionWrapperName(function.name)
 
         val unwrappedReturnType = function.returnType.unwrapTypedefs()
-        val returnType = when {
-            // Resolve C++ ambiguity when the function name equals the return struct name (e.g. mallinfo mallinfo()):
-            // the cast (X)(X()) can be parsed with the first X as the function; use "struct X" for the type.
-            unwrappedReturnType is RecordType && unwrappedReturnType.decl.spelling == function.name ->
-                "struct ${unwrappedReturnType.decl.spelling}"
-            else ->
-                function.returnType.getStringRepresentation(cppLanguage)
-        }
+        val returnType = function.returnType.getStringRepresentation(cppLanguage)
         val returnTypePrefix =
                 if (unwrappedReturnType is PointerType && unwrappedReturnType.isLVReference) "&" else ""
 
@@ -276,6 +269,32 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         return CCalleeWrapper(wrapperLines)
     }
 
+    //  C++ Support: Weak Global Constants 
+    private fun globalWeakDeclLine(globalDecl: GlobalDecl): String? {
+        if (!enableUndefinedApiProtection || context.configuration.library.language != Language.CPP) return null
+        if (!globalDecl.isDeclarationOnly) return null
+        val spelling = globalDecl.declarationSpelling?.takeIf { it.isNotBlank() } ?: return null
+        return "extern \"C\" __attribute__((weak)) $spelling;"
+    }
+
+    private fun globalGetterFallbackBody(globalDecl: GlobalDecl, returnStatement: String): String {
+        val msg = "Missing symbol: ${globalDecl.name.replace("\\", "\\\\").replace("\"", "\\\"")}"
+        return "if (&${globalDecl.name} == nullptr) { ohos::interop::ThrowIllegalStateExceptionFromCString(\"$msg\"); }\n\t$returnStatement"
+    }
+
+     private fun buildWeakGlobalGetterLines(
+        globalDecl: GlobalDecl,
+        symbolName: String,
+        returnType: String,
+        body: String
+    ): List<String> {
+        val preamble = generatePreambleLines()
+        val weakDecl = globalWeakDeclLine(globalDecl)!!
+        val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")
+        val wrapper = createWrapper(symbolName, wrapperName, returnType, emptyList(), body)
+        return preamble + listOf(weakDecl) + wrapper
+    }
+
     fun generateCGlobalGetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {
         val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")
         // C++ support: preserve const on pointee so e.g. extern const char* generates "const char*" return type (C++ rejects char* = const char*).
@@ -287,17 +306,24 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         } else {
             globalDecl.type.stringRepresentation
         }
-        val wrapperBody = "return ${globalDecl.name};"
-        val wrapper = createWrapper(symbolName, wrapperName, returnType, emptyList(), wrapperBody)
-        return CCalleeWrapper(wrapper)
+        val weakDecl = globalWeakDeclLine(globalDecl)
+        val lines = if (weakDecl != null) {
+            buildWeakGlobalGetterLines(globalDecl, symbolName, returnType, globalGetterFallbackBody(globalDecl, "return ${globalDecl.name};"))
+        } else {
+            createWrapper(symbolName, wrapperName, returnType, emptyList(), "return ${globalDecl.name};")
+        }
+        return CCalleeWrapper(lines)
     }
 
     fun generateCGlobalByPointerGetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {
         val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")
         val returnType = "void*"
-        val wrapperBody = "return &${globalDecl.name};"
-        val wrapper = createWrapper(symbolName, wrapperName, returnType, emptyList(), wrapperBody)
-        return CCalleeWrapper(wrapper)
+        val lines = if (weakDecl != null) {
+            buildWeakGlobalGetterLines(globalDecl, symbolName, returnType, globalGetterFallbackBody(globalDecl, "return &${globalDecl.name};"))
+        } else {
+            createWrapper(symbolName, wrapperName, returnType, emptyList(), "return &${globalDecl.name};")
+        }
+        return CCalleeWrapper(lines)
     }
 
     fun generateCGlobalSetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {

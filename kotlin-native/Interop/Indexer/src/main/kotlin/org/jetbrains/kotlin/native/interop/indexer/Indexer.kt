@@ -981,7 +981,9 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
                                 name = entityName!!,
                                 type = convertCursorType(cursor),
                                 isConst = clang_isConstQualifiedType(clang_getCursorType(cursor)) != 0,
-                                parentName = null
+                                parentName = null,
+                                declarationSpelling = getGlobalDeclarationSpelling(cursor, entityName!!).ifEmpty { null },
+                                isDeclarationOnly = !clang_Cursor_isNull(clang_Cursor_getVarDeclInitializer(cursor)) == 0
                         )
                     }
                 }
@@ -1102,6 +1104,13 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
         val decl = if (" (" in typeSpelling) typeSpelling.replaceFirst(" (", " $name(")
         else typeSpelling.replaceFirst("(", " $name(")
         return decl
+    }
+
+    private fun getGlobalDeclarationSpelling(cursor: CValue<CXCursor>, name: String): String {
+        val cursorType = clang_getCursorType(cursor)
+        val typeSpelling = clang_getTypeSpelling(cursorType).convertAndDispose()
+        if (typeSpelling.isEmpty()) return ""
+        return "$typeSpelling $name"
     }
 
     private fun getObjCMethod(cursor: CValue<CXCursor>): ObjCMethod? {
