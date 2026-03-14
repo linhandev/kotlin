@@ -316,6 +316,9 @@ internal class PropertiesProvider private constructor(private val project: Proje
             key.removePrefix(KOTLIN_NATIVE_BINARY_OPTION_PREFIX)
         }
 
+    val nativeOhosDebuginfoGcCompress: Boolean?
+        get() = booleanProperty(PropertyNames.KOTLIN_NATIVE_OHOS_DEBUGINFO_GC_COMPRESS)
+
     /**
      * Allows a user to specify additional arguments of a JVM executing KLIB commonizer.
      */
@@ -743,6 +746,7 @@ internal class PropertiesProvider private constructor(private val project: Proje
         val KOTLIN_NATIVE_DEPENDENCY_PROPAGATION = property("kotlin.native.enableDependencyPropagation")
         val KOTLIN_NATIVE_CACHE_ORCHESTRATION = property("kotlin.native.cacheOrchestration")
         val KOTLIN_NATIVE_PARALLEL_THREADS = property("kotlin.native.parallelThreads")
+        val KOTLIN_NATIVE_OHOS_DEBUGINFO_GC_COMPRESS = property("kotlin.native.ohos.debuginfo.gc-compress")
         val KOTLIN_NATIVE_INCREMENTAL_COMPILATION = property("kotlin.incremental.native")
         val KOTLIN_MPP_ENABLE_OPTIMISTIC_NUMBER_COMMONIZATION = property("kotlin.mpp.enableOptimisticNumberCommonization")
         val KOTLIN_MPP_ENABLE_PLATFORM_INTEGER_COMMONIZATION = property("kotlin.mpp.enablePlatformIntegerCommonization")

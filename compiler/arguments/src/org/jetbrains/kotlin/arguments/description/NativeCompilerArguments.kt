@@ -1064,4 +1064,16 @@ The default value is 1.""".asReleaseDependent()
             introducedVersion = KotlinReleaseVersion.v2_0_20,
         )
     }
+
+    compilerArgument {
+        name = "Xnative-ohos-debuginfo-gc-compress"
+        compilerName = "nativeOhosDebuginfoGcCompress"
+        description = "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (single option, no per-target).".asReleaseDependent()
+        valueType = StringType.defaultNull
+        valueDescription = "<value>".asReleaseDependent()
+
+        lifecycle(
+            introducedVersion = KotlinReleaseVersion.v2_2_0,
+        )
+    }
 }

@@ -153,5 +153,7 @@ class KonanConfigKeys {
         val MANIFEST_NATIVE_TARGETS: CompilerConfigurationKey<Collection<KonanTarget>?> = CompilerConfigurationKey.create("value of native_targets property to write in manifest")
         val LLVM_MODULE_PASSES: CompilerConfigurationKey<String?> = CompilerConfigurationKey.create("llvm passes to run instead of module optimization pipeline")
         val LLVM_LTO_PASSES: CompilerConfigurationKey<String?> = CompilerConfigurationKey.create("llvm passes to run instead of LTO optimization pipeline")
+        /** Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (boolean), passed via -Xnative-ohos-debuginfo-gc-compress. */
+        val NATIVE_OHOS_DEBUGINFO_GC_COMPRESS: CompilerConfigurationKey<Boolean?> = CompilerConfigurationKey.create("native ohos debuginfo gc-compress option")
     }
 }

@@ -983,6 +983,17 @@ The default value is 1.""",
             field = value
         }
 
+    @Argument(
+        value = "-Xnative-ohos-debuginfo-gc-compress",
+        valueDescription = "<value>",
+        description = "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (single option, no per-target).",
+    )
+    var nativeOhosDebuginfoGcCompress: String? = null
+        set(value) {
+            checkFrozen()
+            field = if (value.isNullOrEmpty()) null else value
+        }
+
     @get:Transient
     @field:kotlin.jvm.Transient
     override val configurator: CommonCompilerArgumentsConfigurator = K2NativeCompilerArgumentsConfigurator()

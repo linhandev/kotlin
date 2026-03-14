@@ -10923,6 +10923,37 @@
                                             "deprecatedVersion": null,
                                             "removedVersion": null
                                         }
+                                    },
+                                    {
+                                        "name": "Xnative-ohos-debuginfo-gc-compress",
+                                        "shortName": null,
+                                        "deprecatedName": null,
+                                        "description": {
+                                            "current": "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (single option, no per-target).",
+                                            "valueInVersions": []
+                                        },
+                                        "delimiter": null,
+                                        "valueType": {
+                                            "type": "org.jetbrains.kotlin.arguments.dsl.types.StringType",
+                                            "isNullable": {
+                                                "current": true,
+                                                "valueInVersions": []
+                                            },
+                                            "defaultValue": {
+                                                "current": null,
+                                                "valueInVersions": []
+                                            }
+                                        },
+                                        "valueDescription": {
+                                            "current": "<value>",
+                                            "valueInVersions": []
+                                        },
+                                        "releaseVersionsMetadata": {
+                                            "introducedVersion": "2.2.0",
+                                            "stabilizedVersion": null,
+                                            "deprecatedVersion": null,
+                                            "removedVersion": null
+                                        }
                                     }
                                 ],
                                 "nestedLevels": []

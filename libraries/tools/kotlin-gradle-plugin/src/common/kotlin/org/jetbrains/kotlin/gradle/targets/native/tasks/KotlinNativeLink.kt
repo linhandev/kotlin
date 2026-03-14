@@ -26,6 +26,7 @@ import org.jetbrains.kotlin.compilerRunner.addBuildMetricsForTaskAction
 import org.jetbrains.kotlin.compilerRunner.getKonanCacheKind
 import org.jetbrains.kotlin.compilerRunner.getKonanCacheOrchestration
 import org.jetbrains.kotlin.compilerRunner.getKonanParallelThreads
+import org.jetbrains.kotlin.compilerRunner.getNativeOhosDebuginfoGcCompress
 import org.jetbrains.kotlin.compilerRunner.isKonanIncrementalCompilationEnabled
 import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.*
@@ -293,6 +294,7 @@ constructor(
             args.mainPackage = entryPoint
             args.singleLinkerArguments = (linkerOpts + additionalLinkerOpts).toTypedArray()
             args.binaryOptions = binaryOptions.map { (key, value) -> "$key=$value" }.toTypedArray()
+            args.nativeOhosDebuginfoGcCompress = project.getNativeOhosDebuginfoGcCompress()?.toString()
             args.staticFramework = isStaticFramework
             args.konanDataDir = kotlinNativeProvider.get().konanDataDir.orNull
 
