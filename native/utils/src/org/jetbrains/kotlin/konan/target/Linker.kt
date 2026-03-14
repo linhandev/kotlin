@@ -180,11 +180,9 @@ class AndroidLinker(targetProperties: AndroidConfigurables)
 class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProperties), OhosConfigurables by targetProperties {
 
     private val specificLibs = abiSpecificLibraries.map { "-L${absoluteTargetSysRoot}/$it" }
-    private val ar = if (HostManager.hostIsLinux) {
-        "$absoluteTargetToolchain/bin/ar"
-    } else {
-        "$absoluteTargetToolchain/bin/llvm-ar"
-    }
+    
+    // OHOS LLVM toolchain only provides llvm-ar, not ar (same on Linux).
+    private val ar = "$absoluteTargetToolchain/bin/llvm-ar"
 
     override val useCompilerDriverAsLinker: Boolean get() = true
 
