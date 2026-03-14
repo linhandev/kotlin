@@ -272,6 +272,8 @@ constructor(
         project.layout.buildDirectory.get().asFile
     )
 
+    private val nativeOhosDebuginfoGcCompressValue: String? = project.getNativeOhosDebuginfoGcCompress()?.toString()
+
     override fun createCompilerArguments(context: CreateCompilerArgumentsContext) = context.create<K2NativeCompilerArguments> {
         val compilerPlugins = listOfNotNull(
             compilerPluginClasspath?.let { CompilerPluginData(it, compilerPluginOptions) },
@@ -294,7 +296,7 @@ constructor(
             args.mainPackage = entryPoint
             args.singleLinkerArguments = (linkerOpts + additionalLinkerOpts).toTypedArray()
             args.binaryOptions = binaryOptions.map { (key, value) -> "$key=$value" }.toTypedArray()
-            args.nativeOhosDebuginfoGcCompress = project.getNativeOhosDebuginfoGcCompress()?.toString()
+            args.nativeOhosDebuginfoGcCompress = nativeOhosDebuginfoGcCompressValue
             args.staticFramework = isStaticFramework
             args.konanDataDir = kotlinNativeProvider.get().konanDataDir.orNull
 
