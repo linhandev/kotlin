@@ -318,6 +318,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
     fun generateCGlobalByPointerGetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {
         val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")
         val returnType = "void*"
+        val weakDecl = globalWeakDeclLine(globalDecl)
         val lines = if (weakDecl != null) {
             buildWeakGlobalGetterLines(globalDecl, symbolName, returnType, globalGetterFallbackBody(globalDecl, "return &${globalDecl.name};"))
         } else {

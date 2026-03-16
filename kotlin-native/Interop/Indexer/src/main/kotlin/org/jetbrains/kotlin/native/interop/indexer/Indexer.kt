@@ -983,7 +983,7 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
                                 isConst = clang_isConstQualifiedType(clang_getCursorType(cursor)) != 0,
                                 parentName = null,
                                 declarationSpelling = getGlobalDeclarationSpelling(cursor, entityName!!).ifEmpty { null },
-                                isDeclarationOnly = !clang_Cursor_isNull(clang_Cursor_getVarDeclInitializer(cursor)) == 0
+                                isDeclarationOnly = clang_Cursor_isNull(clang_Cursor_getVarDeclInitializer(cursor)) != 0
                         )
                     }
                 }
