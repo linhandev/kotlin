@@ -1,6 +1,8 @@
 // KIND: STANDALONE
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.native.internal.InternalForKotlinNative,kotlin.experimental.ExperimentalNativeApi,kotlinx.cinterop.ExperimentalForeignApi -Xbinary=gc=cmc -Xallocator=crt -friend-modules=kotlin-native/dist/klib/common/stdlib
+// NOTE: -friend-modules uses a relative path (resolved from project root). StandardTestCaseGroupProvider does not
+// support $KOTLIN_NATIVE_DISTRIBUTION$ substitution. Gradle sets cwd to project root, so this works for ./gradlew runs.
 
 // Regression test for CRT GC issue 002 (kRuntimeToKotlin entry boundary frame scanning).
 // Combines cinterop (C wrapper) + @ExportForCppRuntime (genuine kRuntimeToKotlin frame).

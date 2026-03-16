@@ -68,14 +68,15 @@ val boxStartSignal = AtomicInt(0)
 
         GC.collect()
 
+        for (future in futures) {
+            assertTrue(future.result, "Cached boxed value check failed in round $round")
+        }
+
+        // Refresh boxed values for the next round, after workers have completed (happens-after future.result)
         for (i in 0 until 128) {
             holders[i].intVal = i
             holders[i].boolVal = (i % 2 == 0)
             boxedArray[i] = i
-        }
-
-        for (future in futures) {
-            assertTrue(future.result, "Cached boxed value check failed in round $round")
         }
 
         for (w in workers) {

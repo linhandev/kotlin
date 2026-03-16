@@ -30,7 +30,8 @@ val shutdownCompleted = AtomicInt(0)
             for (i in 0 until SHUTDOWN_ITERATIONS) {
                 val payload = AllocPayload(idx * SHUTDOWN_ITERATIONS + i)
                 val sum = payload.data.sum()
-                if (sum < 0 && i > SHUTDOWN_ITERATIONS) {
+                // Ensure compiler doesn't optimize away sum computation (prevents dead-code elimination of data access)
+                if (sum < 0 && payload.id < 0) {
                     throw RuntimeException("unexpected")
                 }
 
