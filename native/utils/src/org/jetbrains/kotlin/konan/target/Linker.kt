@@ -261,7 +261,6 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             if (dynamic) +linkerDynamicFlags
             if (dynamic) +"--soname=${File(executable).name}"
             +objectFiles
-//            +libraries
             +librariesArgs
             +linkerArgs
             +linkerKonanFlags
