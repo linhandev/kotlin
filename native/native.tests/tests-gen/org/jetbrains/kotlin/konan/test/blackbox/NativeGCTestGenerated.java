@@ -84,9 +84,27 @@ public class NativeGCTestGenerated extends AbstractNativeBlackBoxTest {
   }
 
   @Test
+  @TestMetadata("crt_compaction_verify.kt")
+  public void testCrt_compaction_verify() {
+    runTest("native/native.tests/testData/gc/crt_compaction_verify.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_concurrent_mutation.kt")
+  public void testCrt_concurrent_mutation() {
+    runTest("native/native.tests/testData/gc/crt_concurrent_mutation.kt");
+  }
+
+  @Test
   @TestMetadata("crt_daemon_shutdown.kt")
   public void testCrt_daemon_shutdown() {
     runTest("native/native.tests/testData/gc/crt_daemon_shutdown.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_deep_stack_scan.kt")
+  public void testCrt_deep_stack_scan() {
+    runTest("native/native.tests/testData/gc/crt_deep_stack_scan.kt");
   }
 
   @Test
@@ -102,6 +120,18 @@ public class NativeGCTestGenerated extends AbstractNativeBlackBoxTest {
   }
 
   @Test
+  @TestMetadata("crt_k2n_boundary_stress.kt")
+  public void testCrt_k2n_boundary_stress() {
+    runTest("native/native.tests/testData/gc/crt_k2n_boundary_stress.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_pinning_stress.kt")
+  public void testCrt_pinning_stress() {
+    runTest("native/native.tests/testData/gc/crt_pinning_stress.kt");
+  }
+
+  @Test
   @TestMetadata("crt_r2k_boundary.kt")
   public void testCrt_r2k_boundary() {
     runTest("native/native.tests/testData/gc/crt_r2k_boundary.kt");
@@ -111,6 +141,12 @@ public class NativeGCTestGenerated extends AbstractNativeBlackBoxTest {
   @TestMetadata("crt_stable_ref_lifecycle.kt")
   public void testCrt_stable_ref_lifecycle() {
     runTest("native/native.tests/testData/gc/crt_stable_ref_lifecycle.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_weakref_clearing_timing.kt")
+  public void testCrt_weakref_clearing_timing() {
+    runTest("native/native.tests/testData/gc/crt_weakref_clearing_timing.kt");
   }
 
   @Test
