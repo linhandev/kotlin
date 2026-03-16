@@ -272,7 +272,7 @@ constructor(
         project.layout.buildDirectory.get().asFile
     )
 
-    private val nativeOhosDebuginfoGcCompressValue: String? = project.getNativeOhosDebuginfoGcCompress()?.toString()
+    private val nativeOhosDebuginfoGcCompressValue: Boolean? = project.getNativeOhosDebuginfoGcCompress()
 
     override fun createCompilerArguments(context: CreateCompilerArgumentsContext) = context.create<K2NativeCompilerArguments> {
         val compilerPlugins = listOfNotNull(

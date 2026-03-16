@@ -10929,12 +10929,12 @@
                                         "shortName": null,
                                         "deprecatedName": null,
                                         "description": {
-                                            "current": "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (single option, no per-target).",
+                                            "current": "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (boolean). Unset means null; set to true or false.",
                                             "valueInVersions": []
                                         },
                                         "delimiter": null,
                                         "valueType": {
-                                            "type": "org.jetbrains.kotlin.arguments.dsl.types.StringType",
+                                            "type": "org.jetbrains.kotlin.arguments.dsl.types.BooleanType",
                                             "isNullable": {
                                                 "current": true,
                                                 "valueInVersions": []
@@ -10945,7 +10945,7 @@
                                             }
                                         },
                                         "valueDescription": {
-                                            "current": "<value>",
+                                            "current": null,
                                             "valueInVersions": []
                                         },
                                         "releaseVersionsMetadata": {

@@ -985,13 +985,12 @@ The default value is 1.""",
 
     @Argument(
         value = "-Xnative-ohos-debuginfo-gc-compress",
-        valueDescription = "<value>",
-        description = "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (single option, no per-target).",
+        description = "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (boolean). Unset means null; set to true or false.",
     )
-    var nativeOhosDebuginfoGcCompress: String? = null
+    var nativeOhosDebuginfoGcCompress: Boolean? = null
         set(value) {
             checkFrozen()
-            field = if (value.isNullOrEmpty()) null else value
+            field = value
         }
 
     @get:Transient
