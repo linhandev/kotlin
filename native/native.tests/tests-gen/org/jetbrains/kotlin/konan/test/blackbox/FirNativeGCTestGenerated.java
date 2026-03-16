@@ -82,6 +82,12 @@ public class FirNativeGCTestGenerated extends AbstractNativeBlackBoxTest {
   }
 
   @Test
+  @TestMetadata("crt_cleaner_complex_graph.kt")
+  public void testCrt_cleaner_complex_graph() {
+    runTest("native/native.tests/testData/gc/crt_cleaner_complex_graph.kt");
+  }
+
+  @Test
   @TestMetadata("crt_compaction_verify.kt")
   public void testCrt_compaction_verify() {
     runTest("native/native.tests/testData/gc/crt_compaction_verify.kt");
@@ -109,6 +115,12 @@ public class FirNativeGCTestGenerated extends AbstractNativeBlackBoxTest {
   @TestMetadata("crt_field_forwarding.kt")
   public void testCrt_field_forwarding() {
     runTest("native/native.tests/testData/gc/crt_field_forwarding.kt");
+  }
+
+  @Test
+  @TestMetadata("crt_finalizer_ordering.kt")
+  public void testCrt_finalizer_ordering() {
+    runTest("native/native.tests/testData/gc/crt_finalizer_ordering.kt");
   }
 
   @Test
