@@ -10929,7 +10929,7 @@
                                         "shortName": null,
                                         "deprecatedName": null,
                                         "description": {
-                                            "current": "kotlin.native.debuginfo.minify (boolean) in gradle.properties: defaults to true if unspecified (valid values: true/false). Only effective for OHOS target.",
+                                            "current": "kotlin.native.debuginfo.minify in gradle.properties: defaults to true if unspecified (valid values: true/false). Only effective for OpenHarmony.",
                                             "valueInVersions": []
                                         },
                                         "delimiter": null,
