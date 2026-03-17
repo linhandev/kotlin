@@ -215,6 +215,7 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
     put(FAKE_OVERRIDE_VALIDATOR, arguments.fakeOverrideValidator)
     putIfNotNull(PRE_LINK_CACHES, parsePreLinkCachesValue(this@setupFromArguments, arguments.preLinkCaches))
     putIfNotNull(OVERRIDE_KONAN_PROPERTIES, parseOverrideKonanProperties(arguments, this@setupFromArguments))
+    putIfNotNull(NATIVE_DEBUGINFO_MINIFY, arguments.nativeDebuginfoMinify)
     when (arguments.destroyRuntimeMode) {
         null -> {}
         "legacy" -> {
