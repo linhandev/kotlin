@@ -49,14 +49,20 @@ private fun staticGnuArCommands(ar: String, executable: ExecutableFile,
                     },
                     Command("cmd", "/c", "del", "/q", temp))
         }
-        HostManager.hostIsLinux || HostManager.hostIsMac -> listOf(
-                     Command(ar, "cqT", executable).apply {
-                        +objectFiles
-                        +libraries
-                     },
-                     Command("/bin/sh", "-c").apply {
-                        +"printf 'create $executable\\naddlib $executable\\nsave\\nend' | $ar -M"
-                     })
+        // Fix: Flatten nested .a files to make them recognizable by llvm ld.
+        HostManager.hostIsLinux || HostManager.hostIsMac -> {
+            // Create a regular archive and use [L] modifier for adding libraries
+            // to flatten nested archives. The [L] modifier extracts archive contents
+            // instead of adding archives as-is, ensuring .a inputs are properly processed.
+            val commands = mutableListOf<Command>()
+            if (objectFiles.isNotEmpty()) {
+                commands.add(Command(ar, "qcs", executable).apply { +objectFiles })
+            }
+            if (libraries.isNotEmpty()) {
+                commands.add(Command(ar, "qsL", executable).apply { +libraries })
+            }
+            commands
+        }
         else -> TODO("Unsupported host ${HostManager.host}")
     }
 
@@ -200,6 +206,13 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
         if (kind == LinkerOutputKind.STATIC_LIBRARY)
             return staticGnuArCommands(ar, executable, objectFiles, libraries)
 
+        // Fix: ld.lld error=7, Argument list too long.
+        val librariesArgs = if (libraries.isEmpty() || libraries.size <= 16) {
+            libraries
+        } else tempFiles.create("libraries").let { librariesListFile ->
+            librariesListFile.writeLines(libraries)
+            listOf("@${librariesListFile.absolutePath}")
+        }
         val dynamic = kind == LinkerOutputKind.DYNAMIC_LIBRARY
         val targetToolchain = absoluteTargetToolchain
         val crtPrefix = "$absoluteTargetSysRoot/$crtFilesLocation"
@@ -238,7 +251,7 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             if (dynamic) +linkerDynamicFlags
             if (dynamic) +"--soname=${File(executable).name}"
             +objectFiles
-            +libraries
+            +librariesArgs
             +linkerArgs
             +linkerKonanFlags
             // ohos_x64: LLVM codegen may reference __cpu_model for CPU feature dispatching.

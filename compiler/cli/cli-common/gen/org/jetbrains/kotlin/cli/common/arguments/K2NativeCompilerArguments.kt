@@ -983,6 +983,16 @@ The default value is 1.""",
             field = value
         }
 
+    @Argument(
+        value = "-Xnative-debuginfo-minify",
+        description = "kotlin.native.debuginfo.minify in gradle.properties: defaults to true if unspecified (valid values: true/false). Only effective for ohos targets.",
+    )
+    var nativeDebuginfoMinify: Boolean? = null
+        set(value) {
+            checkFrozen()
+            field = value
+        }
+
     @get:Transient
     @field:kotlin.jvm.Transient
     override val configurator: CommonCompilerArgumentsConfigurator = K2NativeCompilerArgumentsConfigurator()
