@@ -1,0 +1,15 @@
+A1.1: Simple base-only + base+derived mix
+A1.2: Interleaved 5 base-only + 3 base+derived
+A1.3: Mixed array types (int/long/string/obj)
+A1.4: Deep nesting arr[i][j].field.subfield
+A1.5: Repeated GC with accumulating mixed roots
+A2.1: Single value likely in register
+A2.2: Loop with register-held object
+A2.3: Multiple register candidates
+A2.4: Inline function register root
+A8.1: Deep C recursion with K callback (10 levels)
+A8.2: Very deep C recursion (50 levels) then K callback
+A8.3: Alternating K→C→K→C→K nesting
+Combined: Mixed roots at deep K↔C nesting (5 levels)
+Combined: Register pressure + mixed base/derived
+PASS
