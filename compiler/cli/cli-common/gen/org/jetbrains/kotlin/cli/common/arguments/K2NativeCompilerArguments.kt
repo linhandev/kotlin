@@ -985,7 +985,7 @@ The default value is 1.""",
 
     @Argument(
         value = "-Xnative-debuginfo-minify",
-        description = "Value of kotlin.native.debuginfo.minify from gradle.properties (boolean). Unset means null; set to true or false. Only has effect on Ohos targets (ohos_arm64, ohos_x64).",
+        description = "kotlin.native.debuginfo.minify in gradle.properties: defaults to true if unspecified (valid values: true/false). Only effective for ohos targets.",
     )
     var nativeDebuginfoMinify: Boolean? = null
         set(value) {

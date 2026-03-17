@@ -26,18 +26,19 @@ import java.nio.file.Paths
 internal data class DebugInfoGCCompress(
         private val context: PhaseContext
 ) {
+
     fun getGCCommandLine(inputFile: String, outputFile: String): Command? {
         val toolchainDir = context.config.platform.configurables.absoluteTargetToolchain
         val llvmHomeDir = context.config.platform.configurables.absoluteLlvmHome
-        var dwarfutilPath: Path = Paths.get(toolchainDir).resolve("bin").resolve("llvm-dwarfutil")
+        var dwarfUtilPath: Path = Paths.get(toolchainDir).resolve("bin").resolve("llvm-dwarfutil")
 
-        if (!Files.exists(dwarfutilPath)) {
-            dwarfutilPath = Paths.get(llvmHomeDir).resolve("bin").resolve("llvm-dwarfutil")
+        if (!Files.exists(dwarfUtilPath)) {
+            dwarfUtilPath = Paths.get(llvmHomeDir).resolve("bin").resolve("llvm-dwarfutil")
         }
 
-        dwarfutilPath = dwarfutilPath.toAbsolutePath()
-        if (Files.exists(dwarfutilPath) && Files.exists(Paths.get(inputFile))) {
-            return Command(dwarfutilPath.toString()).apply {
+        dwarfUtilPath = dwarfUtilPath.toAbsolutePath()
+        if (Files.exists(dwarfUtilPath)) {
+            return Command(dwarfUtilPath.toString()).apply {
                 +"--garbage-collection"
                 +"--odr-deduplication"
                 +"--build-accelerator=DWARF"
@@ -45,7 +46,7 @@ internal data class DebugInfoGCCompress(
                 +outputFile
             }
         } else {
-            context.reportCompilationWarning("llvm-dwarfutil not found at: ${dwarfutilPath}")
+            context.reportCompilationWarning("llvm-dwarfutil not found at: ${dwarfUtilPath}")
             return null
         }
     }
@@ -53,20 +54,20 @@ internal data class DebugInfoGCCompress(
     fun getCompressCommandLine(inputFile: String): Command? {
         val toolchainDir = context.config.platform.configurables.absoluteTargetToolchain
         val llvmHomeDir = context.config.platform.configurables.absoluteLlvmHome
-        var objcopyPath: Path = Paths.get(toolchainDir).resolve("bin").resolve("llvm-objcopy")
+        var objCopyPath: Path = Paths.get(toolchainDir).resolve("bin").resolve("llvm-objcopy")
 
-        if (!Files.exists(objcopyPath)) {
-            objcopyPath = Paths.get(llvmHomeDir).resolve("bin").resolve("llvm-objcopy")
+        if (!Files.exists(objCopyPath)) {
+            objCopyPath = Paths.get(llvmHomeDir).resolve("bin").resolve("llvm-objcopy")
         }
 
-        objcopyPath = objcopyPath.toAbsolutePath()
-        if (Files.exists(objcopyPath) && Files.exists(Paths.get(inputFile))) {
-            return Command(objcopyPath.toString()).apply {
+        objCopyPath = objCopyPath.toAbsolutePath()
+        if (Files.exists(objCopyPath)) {
+            return Command(objCopyPath.toString()).apply {
                 +"--compress-debug-sections"
                 +inputFile
             }
         } else {
-            context.reportCompilationWarning("llvm-objcopy not found at: ${objcopyPath}")
+            context.reportCompilationWarning("llvm-objcopy not found at: ${objCopyPath}")
             return null
         }
     }
