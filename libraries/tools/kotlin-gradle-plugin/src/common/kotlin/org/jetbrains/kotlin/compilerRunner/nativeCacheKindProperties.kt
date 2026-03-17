@@ -38,6 +38,6 @@ internal fun Project.getKonanParallelThreads(): Int {
     return PropertiesProvider(this).nativeParallelThreads ?: 4
 }
 
-internal fun Project.getNativeOhosDebuginfoGcCompress(): Boolean? {
-    return PropertiesProvider(this).nativeOhosDebuginfoGcCompress
+internal fun Project.getNativeDebuginfoMinify(): Boolean? {
+    return PropertiesProvider(this).nativeDebuginfoMinify
 }

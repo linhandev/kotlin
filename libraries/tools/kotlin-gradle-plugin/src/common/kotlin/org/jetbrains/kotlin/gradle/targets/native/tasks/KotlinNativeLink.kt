@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.compilerRunner.addBuildMetricsForTaskAction
 import org.jetbrains.kotlin.compilerRunner.getKonanCacheKind
 import org.jetbrains.kotlin.compilerRunner.getKonanCacheOrchestration
 import org.jetbrains.kotlin.compilerRunner.getKonanParallelThreads
-import org.jetbrains.kotlin.compilerRunner.getNativeOhosDebuginfoGcCompress
+import org.jetbrains.kotlin.compilerRunner.getNativeDebuginfoMinify
 import org.jetbrains.kotlin.compilerRunner.isKonanIncrementalCompilationEnabled
 import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.*
@@ -51,6 +51,7 @@ import org.jetbrains.kotlin.gradle.utils.*
 import org.jetbrains.kotlin.internal.compilerRunner.native.KotlinNativeCompilerRunner
 import org.jetbrains.kotlin.internal.compilerRunner.native.KotlinNativeToolRunner
 import org.jetbrains.kotlin.konan.target.CompilerOutputKind
+import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.project.model.LanguageSettings
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.toLowerCaseAsciiOnly
 import java.io.File
@@ -272,7 +273,7 @@ constructor(
         project.layout.buildDirectory.get().asFile
     )
 
-    private val nativeOhosDebuginfoGcCompressValue: Boolean? = project.getNativeOhosDebuginfoGcCompress()
+    private val nativeDebuginfoMinifyValue: Boolean? = project.getNativeDebuginfoMinify()
 
     override fun createCompilerArguments(context: CreateCompilerArgumentsContext) = context.create<K2NativeCompilerArguments> {
         val compilerPlugins = listOfNotNull(
@@ -296,10 +297,22 @@ constructor(
             args.mainPackage = entryPoint
             args.singleLinkerArguments = (linkerOpts + additionalLinkerOpts).toTypedArray()
             args.binaryOptions = binaryOptions.map { (key, value) -> "$key=$value" }.toTypedArray()
-            args.nativeOhosDebuginfoGcCompress = nativeOhosDebuginfoGcCompressValue
+            if (nativeDebuginfoMinifyValue != null && konanTarget.family != Family.OHOS) {
+                logger.warn(
+                    "kotlin.native.debuginfo.minify: This property is used to remove unreferenced debug information and compress debug information. " +
+                            "This option only applies to OHOS targets."
+                )
+            }
+            args.nativeDebuginfoMinify = nativeDebuginfoMinifyValue
             args.staticFramework = isStaticFramework
             args.konanDataDir = kotlinNativeProvider.get().konanDataDir.orNull
-
+            val nativeDebuginfoMinifyFromCli = toolOptions.freeCompilerArgs.get().any { it.startsWith("-Xnative-debuginfo-minify") }
+            if (nativeDebuginfoMinifyFromCli && konanTarget.family != Family.OHOS) {
+                logger.warn(
+                    "-Xnative-debuginfo-minify: This flag is used to remove unreferenced debug information and compress debug information. " +
+                            "This option only applies to OHOS targets."
+                )
+            }
             KotlinCommonCompilerToolOptionsHelper.fillCompilerArguments(toolOptions, args)
         }
 

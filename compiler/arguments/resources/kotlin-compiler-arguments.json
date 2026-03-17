@@ -10925,11 +10925,11 @@
                                         }
                                     },
                                     {
-                                        "name": "Xnative-ohos-debuginfo-gc-compress",
+                                        "name": "Xnative-debuginfo-minify",
                                         "shortName": null,
                                         "deprecatedName": null,
                                         "description": {
-                                            "current": "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (boolean). Unset means null; set to true or false.",
+                                            "current": "Value of kotlin.native.debuginfo.minify from gradle.properties (boolean). Unset means null; set to true or false. Only has effect on Ohos targets (ohos_arm64, ohos_x64).",
                                             "valueInVersions": []
                                         },
                                         "delimiter": null,

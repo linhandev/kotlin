@@ -207,7 +207,7 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             return staticGnuArCommands(ar, executable, objectFiles, libraries)
 
         // Fix: ld.lld error=7, Argument list too long.
-        val librariesArgs = if (libraries.isEmpty()) {
+        val librariesArgs = if (libraries.isEmpty() || libraries.size <= 16) {
             libraries
         } else tempFiles.create("libraries").let { librariesListFile ->
             librariesListFile.writeLines(libraries)

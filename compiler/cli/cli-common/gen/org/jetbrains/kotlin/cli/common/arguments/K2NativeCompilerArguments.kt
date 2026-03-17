@@ -984,10 +984,10 @@ The default value is 1.""",
         }
 
     @Argument(
-        value = "-Xnative-ohos-debuginfo-gc-compress",
-        description = "Value of kotlin.native.ohos.debuginfo.gc-compress from gradle.properties (boolean). Unset means null; set to true or false.",
+        value = "-Xnative-debuginfo-minify",
+        description = "Value of kotlin.native.debuginfo.minify from gradle.properties (boolean). Unset means null; set to true or false. Only has effect on Ohos targets (ohos_arm64, ohos_x64).",
     )
-    var nativeOhosDebuginfoGcCompress: Boolean? = null
+    var nativeDebuginfoMinify: Boolean? = null
         set(value) {
             checkFrozen()
             field = value

@@ -450,13 +450,13 @@ internal fun <C : PhaseContext> PhaseEngine<C>.compileAndLink(
         runPhase(FinalizeCachePhase, outputFiles)
     }
 
-    // Default: nativeOhosDebuginfoGcCompress = true.
-    val nativeOhosDebuginfoGcCompress: Boolean = context.config.configuration.get(KonanConfigKeys.NATIVE_OHOS_DEBUGINFO_GC_COMPRESS) ?: true
+    // Default: nativeDebuginfoMinify = true.
+    val nativeDebuginfoMinify: Boolean = context.config.configuration.get(KonanConfigKeys.NATIVE_DEBUGINFO_MINIFY) ?: true
     if (Family.OHOS == context.config.target.family &&
             CompilerOutputKind.DYNAMIC == context.config.produce &&
             context.config.debug &&
             context.config.configuration.incrementalCompilation &&
-            nativeOhosDebuginfoGcCompress == true) {
+            nativeDebuginfoMinify) {
         val debugOptimizationInput = DebugInfoGCCompressInput(
                 binaryFile = linkerOutputFile)
         runPhase(DebugInfoGCCompressPhase, debugOptimizationInput)

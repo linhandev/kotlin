@@ -1,11 +1,12 @@
-/*
- * Copyright 2010-2021 bifrosteco
- *
+/**
+ * Eazytec is pleased to support the open source community by making CPF-KMP-CMP available.
+ * Copyright (C) 2026 Eazytec. All rights reserved.
+
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,25 +18,27 @@
 package org.jetbrains.kotlin.backend.konan
 
 import org.jetbrains.kotlin.konan.exec.Command
-import java.io.File
-import org.jetbrains.kotlin.konan.target.OhosConfigurables
+import org.jetbrains.kotlin.backend.konan.driver.PhaseContext
+import org.jetbrains.kotlin.backend.common.reportCompilationWarning
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
-data class DebugInfoGCCompress(
-        private val config: KonanConfig
+internal data class DebugInfoGCCompress(
+        private val context: PhaseContext
 ) {
-    /**
-     * 将命令转换为命令行参数列表
-     */
     fun getGCCommandLine(inputFile: String, outputFile: String): Command? {
-        val dwarfutilFile = "/bin/llvm-dwarfutil"
-        var dwarfutilPath = config.platform.configurables .absoluteTargetToolchain + dwarfutilFile
+        val toolchainDir = context.config.platform.configurables.absoluteTargetToolchain
+        val llvmHomeDir = context.config.platform.configurables.absoluteLlvmHome
+        var dwarfutilPath: Path = Paths.get(toolchainDir).resolve("bin").resolve("llvm-dwarfutil")
 
-        if (!File(dwarfutilPath).exists()) {
-            dwarfutilPath = config.platform.configurables .absoluteLlvmHome + dwarfutilFile
+        if (!Files.exists(dwarfutilPath)) {
+            dwarfutilPath = Paths.get(llvmHomeDir).resolve("bin").resolve("llvm-dwarfutil")
         }
 
-        if (File(dwarfutilPath).exists()) {
-            return Command(dwarfutilPath).apply {
+        dwarfutilPath = dwarfutilPath.toAbsolutePath()
+        if (Files.exists(dwarfutilPath) && Files.exists(Paths.get(inputFile))) {
+            return Command(dwarfutilPath.toString()).apply {
                 +"--garbage-collection"
                 +"--odr-deduplication"
                 +"--build-accelerator=DWARF"
@@ -43,28 +46,28 @@ data class DebugInfoGCCompress(
                 +outputFile
             }
         } else {
-            println("Warning: llvm-dwarfutil not found at: $dwarfutilPath")
-
+            context.reportCompilationWarning("llvm-dwarfutil not found at: ${dwarfutilPath}")
             return null
         }
     }
 
-    fun getCompressCommandLine(inputFile: String, outputFile: String): Command? {
-        val objcopy = "/bin/llvm-objcopy"
-        var objcopyPath = config.platform.configurables.absoluteTargetToolchain + objcopy
+    fun getCompressCommandLine(inputFile: String): Command? {
+        val toolchainDir = context.config.platform.configurables.absoluteTargetToolchain
+        val llvmHomeDir = context.config.platform.configurables.absoluteLlvmHome
+        var objcopyPath: Path = Paths.get(toolchainDir).resolve("bin").resolve("llvm-objcopy")
 
-        if (!File(objcopyPath).exists()) {
-            objcopyPath = config.platform.configurables.absoluteLlvmHome + objcopy
+        if (!Files.exists(objcopyPath)) {
+            objcopyPath = Paths.get(llvmHomeDir).resolve("bin").resolve("llvm-objcopy")
         }
 
-        if (File(objcopyPath).exists() && File(inputFile).exists()) {
-            return Command(objcopyPath).apply {
+        objcopyPath = objcopyPath.toAbsolutePath()
+        if (Files.exists(objcopyPath) && Files.exists(Paths.get(inputFile))) {
+            return Command(objcopyPath.toString()).apply {
                 +"--compress-debug-sections"
                 +inputFile
-                +outputFile
             }
         } else {
-            println("Warning: llvm-objcopy not found at: $objcopyPath")
+            context.reportCompilationWarning("llvm-objcopy not found at: ${objcopyPath}")
             return null
         }
     }
