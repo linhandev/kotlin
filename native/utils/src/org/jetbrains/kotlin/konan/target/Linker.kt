@@ -49,17 +49,7 @@ private fun staticGnuArCommands(ar: String, executable: ExecutableFile,
                     },
                     Command("cmd", "/c", "del", "/q", temp))
         }
-        // Fix: When cache is enabled, static library symbols embedded in cinterop cache are not found during app runtime.
-        /*
-        HostManager.hostIsLinux || HostManager.hostIsMac -> listOf(
-                     Command(ar, "cqT", executable).apply {
-                        +objectFiles
-                        +libraries
-                     },
-                     Command("/bin/sh", "-c").apply {
-                        +"printf 'create $executable\\naddlib $executable\\nsave\\nend' | $ar -M"
-                     })
-        */
+        // Fix: Flatten nested .a files to make them recognizable by llvm ld.
         HostManager.hostIsLinux || HostManager.hostIsMac -> {
             // Create a regular archive and use [L] modifier for adding libraries
             // to flatten nested archives. The [L] modifier extracts archive contents
