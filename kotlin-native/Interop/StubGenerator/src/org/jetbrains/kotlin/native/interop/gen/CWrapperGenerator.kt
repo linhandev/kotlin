@@ -147,7 +147,12 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         val wrapperName = generateFunctionWrapperName(function.name)
 
         val unwrappedReturnType = function.returnType.unwrapTypedefs()
-        val returnType = function.returnType.getStringRepresentation(cppLanguage)
+        val returnType = when {
+            unwrappedReturnType is RecordType && unwrappedReturnType.decl.spelling == function.name ->
+                "struct ${unwrappedReturnType.decl.spelling}"
+            else ->
+                function.returnType.getStringRepresentation(cppLanguage)
+        }
         val returnTypePrefix =
                 if (unwrappedReturnType is PointerType && unwrappedReturnType.isLVReference) "&" else ""
 
