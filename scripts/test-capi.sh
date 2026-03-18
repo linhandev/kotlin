@@ -352,12 +352,14 @@ fi
 # You can copy the .so from the SDK toolchain, e.g. $SDK/toolchains/llvm/lib/aarch64-linux-ohos/libc++_shared.so
 
 # ========== Gradle wrapper (pass JDK/HDC etc.) ==========
+CAPI_EXCLUDE_NAPI_OPTS="-Pkotlin.native.runtime.excludeNapi=true"
 GRADLE_NATIVE() {
   env JDK_18="$JDK_18" HDC_PATH="$HDC_PATH" HARMONY_HDC="$HARMONY_HDC" \
   ./gradlew $GRADLE_VERSION_OPTS \
       -Pkotlin.native.enabled=true \
       -Pbootstrap.local=true \
       --dependency-verification=off \
+      $CAPI_EXCLUDE_NAPI_OPTS \
       "$@"
 }
 
