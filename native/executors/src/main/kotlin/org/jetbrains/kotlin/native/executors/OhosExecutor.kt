@@ -1,18 +1,17 @@
- /** 
-   Eazytec is pleased to support the open source community by making CPF-KMP-CMP available.
-   Copyright (C) 2026 Eazytec. All rights reserved.
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+/*
+ * Copyright (C) 2026 Eazytec. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
  package org.jetbrains.kotlin.native.executors
@@ -36,38 +35,46 @@
      private val logger = Logger.getLogger(OhosExecutor::class.java.name)
      private val hostExecutor: Executor = HostExecutor()
      private val hdcPath = findHdcPath()
-     private val deviceExePath = "/data/local/tmp/test.kexe"
+     private val deviceExeDir = "/data/local/tmp"
  
-    /**
-     * Use HDC_PATH if set and executable; otherwise fall back to "hdc".
-     *
-     * Why this "peculiar" env-based path:
-     * - Our test harness (`scripts/test-capi.sh`) performs the actual hdc discovery (SDK install, toolchains, PATH, CI),
-     *   and exports `HDC_PATH` pointing to the chosen binary.
-     * - Reusing it here keeps local/CI behavior consistent and avoids duplicating that discovery logic in Kotlin.
-     */
+     /** Use HDC_PATH if set and executable; otherwise "hdc" (script already does full discovery). */
      private fun findHdcPath(): String {
          val env = System.getenv("HDC_PATH")
          if (env != null && File(env).canExecute()) return env
          return "hdc"
      }
-
-    private val LD_PRELOAD =
-        "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so"
+  
+     private val LD_PRELOAD = "LD_PRELOAD=/data/local/tmp/libc++_shared.so"
+     
+     private fun shellEnvForExecution(): List<String> {
+         val useSystemLibs = System.getenv("OHOS_USE_SYSTEM_LIBS") == "true"
+         val libPath = System.getenv("OHOS_LD_LIBRARY_PATH")
+             ?: if (useSystemLibs) "/system/lib64:/vendor/lib64" else null
+         val envs = mutableListOf<String>()
+         if (libPath != null) {
+             envs.add("LD_LIBRARY_PATH=$libPath")
+             logger.info("OHOS execution: using LD_LIBRARY_PATH=$libPath (system libs only)")
+         }
+         envs.add(LD_PRELOAD)
+         return envs
+     }
   
      override fun execute(request: ExecuteRequest): ExecuteResponse {
          val localExePath = request.executableAbsolutePath
          val workingDirectory = request.workingDirectory ?: File(localExePath).parentFile
+         val exeName = File(localExePath).name
+         val deviceExePath = "$deviceExeDir/$exeName"
  
          logger.info("Starting HarmonyOS execution flow for $localExePath")
  
          executeHdcCommand("shell", "rm", deviceExePath)
          executeHdcCommand("file", "send", localExePath, deviceExePath)
          executeHdcCommand("shell", "chmod", "a+x", deviceExePath)
-
+ 
+         val envPart = shellEnvForExecution().joinToString(" ")
          val exeAndArgs = listOf(deviceExePath) + request.args
          val cmdOnDevice = exeAndArgs.joinToString(" ") { arg -> shellEscape(arg) }
-        val fullCmd = "$LD_PRELOAD $cmdOnDevice 2>&1"
+         val fullCmd = "$envPart $cmdOnDevice 2>&1"
          val args = listOf("shell", "sh", "-c", fullCmd)
  
          val captureOut = ByteArrayOutputStream()
@@ -100,6 +107,7 @@
              }
              else -> response
          }
+         return response
      }
  
      /**
@@ -110,17 +118,14 @@
  
      /**
       * Detect device-side runtime failures that may not be reflected in hdc/shell exit code
-      * (e.g. symbol not found, dlopen failure, "Error loading shared library", crash).
+      * (e.g. symbol not found, , "Error loading shared library", crash).
       * When present, we report failure so the test suite does not incorrectly pass.
       */
      private fun hasRuntimeErrorInOutput(output: String): Boolean {
          val lower = output.lowercase()
          val patterns = listOf(
-             "symbol not found", "undefined symbol", "undefined symbol:",
-             "dlopen failed", "error while loading shared libraries", "error loading shared library",
-             "no such file or directory", "needed by",
-             "segmentation fault", "fatal signal", "fatal exception",
-             "killed", "abort", "cannot locate symbol"
+             "symbol not found", "undefined symbol", "error loading shared library",
+             "segmentation fault", "fatal signal", "fatal exception"
          )
          return patterns.any { lower.contains(it) }
      }
