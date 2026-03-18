@@ -93,21 +93,27 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
         // This mirrors the logic in kotlin-native/platformLibs/build.gradle.kts so that
         // native.tests (blackbox tests) can find HarmonyOS-only libs such as libhiai_foundation.so.
         if (targets.testTarget.family == Family.OHOS) {
-            val props = home.properties
-            val sysrootName = props.getProperty("additionalTargetSysRoot.ohos")
-            if (sysrootName != null) {
-                val konanDataDir = System.getenv("KONAN_DATA_DIR")
-                    ?.replace("~", System.getProperty("user.home"))
+            val konanDataDir = File(
+                System.getenv("KONAN_DATA_DIR")?.replace("~", System.getProperty("user.home"))
                     ?: "${System.getProperty("user.home")}/.konan"
+            )
+            val sysrootName = when (targets.testTarget) {
+                KonanTarget.OHOS_ARM64, KonanTarget.OHOS_X64 -> home.properties.getProperty("additionalTargetSysRoot.ohos")
+                else -> null
+            }
+            if (sysrootName != null) {
+                val sysrootBase = File(File(konanDataDir, "dependencies"), sysrootName)
+                val includePath = File(sysrootBase, "usr/include").absolutePath
                 val libPath = when (targets.testTarget) {
-                    KonanTarget.OHOS_ARM64 -> "$konanDataDir/dependencies/$sysrootName/usr/lib/aarch64-linux-ohos"
-                    KonanTarget.OHOS_X64 -> "$konanDataDir/dependencies/$sysrootName/usr/lib/x86_64-linux-ohos"
+                    KonanTarget.OHOS_ARM64 -> File(sysrootBase, "usr/lib/aarch64-linux-ohos").absolutePath
+                    KonanTarget.OHOS_X64 -> File(sysrootBase, "usr/lib/x86_64-linux-ohos").absolutePath
                     else -> null
                 }
                 if (libPath != null) {
-                    add("-linker-option", "-L$libPath")
+                    add("-linker-option", "-L", "-linker-option", libPath)
                 }
             }
+            
         }
 
         add(irValidationCompilerOptions)
