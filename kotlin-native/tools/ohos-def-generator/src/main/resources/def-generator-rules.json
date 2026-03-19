@@ -79,6 +79,8 @@
     "rawfile": "RawFile"
   },
   "packageOverride": {
+    "JSVM": "platform.ArkRuntime.JSVM",
+    "MuslMalloc": "platform.CStandardLibrary.MuslMalloc",
     "Notification": "platform.NotificationKit.NOTIFICATION",
     "Preferences": "platform.ArkData.Preferences",
     "RawFile": "platform.LocalizationKit.RawFile",
