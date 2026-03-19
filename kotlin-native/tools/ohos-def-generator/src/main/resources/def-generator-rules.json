@@ -1,5 +1,6 @@
 {
   "excludedHeaders": [
+    "multimedia/image_framework/image_pixel_map_napi.h",
     "IPCKit/ipc_kit.h",
     "StoreKit/module_install.h",
     "CryptoArchitectureKit/crypto_architecture_kit.h",
