@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 
@@ -38,98 +39,205 @@
 
 // region Tencent Code
 #ifdef KONAN_OHOS
-// TODO: When ohos dfx raises length limit on set_fatal_message, print the full kotlin stack trace instead
-// of just the addresses.
 
 #include "Natives.h"
+#include "KString.h"
+#include "CompilerConstants.hpp"
 #include <dlfcn.h>
+#include <deviceinfo.h>
+#include "hidebug/hidebug.h"
+#include "hidebug/hidebug_type.h"
 
 extern "C" OBJ_GETTER(Kotlin_Throwable_getStackTrace, KRef throwable);
+extern "C" OBJ_GETTER(Kotlin_Throwable_getMessage, KRef throwable);
 extern "C" __attribute__((weak)) void set_fatal_message(const char* msg);
 
-std::string concatFatalMessage(std::vector<std::string> soFiles, std::vector<std::string> addresses, std::string message) {
-  std::string soFilesStr;
-  std::string addressesStr;
-  std::string preIndex;
-  std::string addressLine;
-  for (size_t i = 0; i < addresses.size(); ++i) {
-    std::string index = addresses[i].substr(0, addresses[i].find(' '));
-    std::string address = addresses[i].substr(addresses[i].find(' ') + 1);
-    std::string soInfo = soFiles[std::stoi(index)];
-    std::string soFileStrTmp;
-    std::string addressTmp;
+constexpr int OHOS_HIDEBUG_MIN_API = 23;
+constexpr unsigned long LARGE_BUFFER_SIZE = 64 * 1024;
+constexpr unsigned long LARGE_BUFFER_RESERVED = 20;
+constexpr unsigned long SMALL_BUFFER_SIZE = 1004;
+constexpr int FRAME_NO_WIDTH = 2;
+constexpr int PC_ADDR_WIDTH = 16;
 
-    if (soFilesStr.find(soInfo) == std::string::npos) {
-        soFileStrTmp = soInfo;
-    }
-
-    if (preIndex.empty() || preIndex != index) {
-        preIndex = index;
-        addressTmp = "\n[" + index + "] " + address;
+unsigned long getFatalMessageSize()
+{
+    int apiVersion = OH_GetSdkApiVersion();
+    if (apiVersion >= OHOS_HIDEBUG_MIN_API) {
+        return LARGE_BUFFER_SIZE - LARGE_BUFFER_RESERVED;
     } else {
-        addressTmp = " " + address;
+        return SMALL_BUFFER_SIZE;
     }
-    if (message.length() + soFilesStr.length() + addressLine.length() + soFileStrTmp.length() + addressTmp.length() + 22 < 1004) {
-        soFilesStr += soFilesStr == "" ? soFileStrTmp : soFileStrTmp == "" ? "" : "," + soFileStrTmp;
-        addressLine += addressTmp;
-    } else {
-        break;
-    }
-  }
-
-  addressesStr += addressLine.empty() ? "" : addressLine;
-  return message + "sofiles:\n" + soFilesStr + "\n" + "addresses:" + addressesStr;
 }
 
-void ReportBacktraceToOhosLog(KRef exception) {
-  if (set_fatal_message == nullptr) return;
+/**
+ * @brief Build a human-readable exception summary: "ClassName: message".
+ * @param exception The Kotlin exception object.
+ * @return A string like "kotlin.IllegalStateException: something went wrong",
+ *         or "unknown" if the information cannot be safely retrieved.
+ */
+static std::string getExceptionSummary(KRef exception)
+{
+    if (exception == nullptr || exception->type_info() == nullptr) {
+        return "unknown";
+    }
 
-  ObjHolder stackTraceHolder;
-  ArrayHeader* stackTrace = Kotlin_Throwable_getStackTrace(exception, stackTraceHolder.slot())->array();
-  Dl_info info;
+    std::string summary = exception->type_info()->fqName();
 
-  pid_t pid = getpid();
-  std::vector<MapsEntry> mapCache = BuildIdUtils::parseMapsFile(pid);
+    ObjHolder messageHolder;
+    KRef message = Kotlin_Throwable_getMessage(exception, messageHolder.slot());
+    if (message != nullptr) {
+        summary += ": ";
+        summary += kotlin::to_string<KStringConversionMode::UNCHECKED>(message);
+    }
 
-  std::string message = "\nUncaught Kotlin exception:\n";
-  std::vector<std::string> soFiles;
-  std::vector<std::string> addresses;
+    return summary;
+}
 
-  for (uint32_t index = 0; index < stackTrace->count_; ++index) {
-      KNativePtr ptr = *PrimitiveArrayAddressOfElementAt<KNativePtr>(stackTrace, index);
-      if (dladdr(ptr, &info) != 0) {
+// API >= OHOS_HIDEBUG_MIN_API (64K): standard readable backtrace format, e.g.:
+//   #00 pc 00000000001a3f00 libA.so(buildid) (symbolName+0x10) (MyFile.kt:42)
+//   #01 pc 0000000000002b4c libB.so(buildid)
+
+static std::string buildStandardBacktrace(ArrayHeader* stackTrace, Dl_info& info,
+                                          std::vector<MapsEntry>& mapCache,
+                                          unsigned long messageSize,
+                                          const std::string& reason)
+{
+    std::string result = "\nUncaught Kotlin exception at following addresses:\n";
+    result += "Reason: " + reason + "\n";
+    uint32_t frameNo = 0;
+
+    for (uint32_t i = 0; i < stackTrace->count_; ++i) {
+        KNativePtr ptr = *PrimitiveArrayAddressOfElementAt<KNativePtr>(stackTrace, i);
+        if (dladdr(ptr, &info) == 0) {
+            continue;
+        }
+
         std::vector<uint8_t> buildId;
         std::string soPath = BuildIdUtils::findSoPathFromMaps(reinterpret_cast<uintptr_t>(ptr), mapCache);
-
-        size_t lastSlashPos = soPath.find_last_of("/");
-
-        std::string soFileName = soPath.substr(lastSlashPos + 1);
+        std::string soFileName = soPath.substr(soPath.find_last_of("/") + 1);
         std::string buildIdStr = BuildIdUtils::getSoBuildId(soPath, buildId);
         std::string soInfo = buildIdStr.empty() ? soFileName : soFileName + "(" + buildIdStr + ")";
 
         uintptr_t offset = reinterpret_cast<uintptr_t>(ptr) - reinterpret_cast<uintptr_t>(info.dli_fbase) - 1;
-        std::string addr = "";
+        std::stringstream ss;
+        ss << "#" << std::setw(FRAME_NO_WIDTH) << std::setfill('0') << frameNo
+           << " pc " << std::setw(PC_ADDR_WIDTH) << std::setfill('0') << std::hex << offset
+           << " " << soInfo;
+
+        if (info.dli_sname != nullptr) {
+            uintptr_t symOffset = reinterpret_cast<uintptr_t>(ptr) - reinterpret_cast<uintptr_t>(info.dli_saddr);
+            ss << " (" << info.dli_sname << "+0x" << std::hex << symOffset << ")";
+        }
+
+        ss << "\n";
+
+        std::string line = ss.str();
+        if (result.length() + line.length() >= messageSize) {
+            break;
+        }
+        result += line;
+        frameNo++;
+    }
+
+    return result;
+}
+
+// API < 23 (1004 bytes): compressed format to fit within the small buffer.
+// Format: sofiles:\nlib1.so(id1),lib2.so(id2)\naddresses:\n[0] 0x1a 0x2b\n[1] 0x3c
+static std::string buildCompressedBacktrace(ArrayHeader* stackTrace, Dl_info& info,
+                                            std::vector<MapsEntry>& mapCache,
+                                            unsigned long messageSize,
+                                            const std::string& reason)
+{
+    std::string message = "\nUncaught Kotlin exception:\nReason: " + reason + "\n";
+    std::vector<std::string> soFiles;
+    std::string soFilesStr;
+    std::string addressLine;
+    std::string preIndex;
+    // Fixed-format overhead: "sofiles:\n" (8) + "\n" (1) + "addresses:" (10) + small buffer (3) = 22
+    constexpr size_t FATAL_MESSAGE_FORMAT_OVERHEAD = 22;
+    size_t fixedOverhead = message.length() + FATAL_MESSAGE_FORMAT_OVERHEAD;
+
+    for (uint32_t i = 0; i < stackTrace->count_; ++i) {
+        KNativePtr ptr = *PrimitiveArrayAddressOfElementAt<KNativePtr>(stackTrace, i);
+        if (dladdr(ptr, &info) == 0) {
+            continue;
+        }
+
+        std::vector<uint8_t> buildId;
+        std::string soPath = BuildIdUtils::findSoPathFromMaps(reinterpret_cast<uintptr_t>(ptr), mapCache);
+        std::string soFileName = soPath.substr(soPath.find_last_of("/") + 1);
+        std::string buildIdStr = BuildIdUtils::getSoBuildId(soPath, buildId);
+        std::string soInfo = buildIdStr.empty() ? soFileName : soFileName + "(" + buildIdStr + ")";
+
+        uintptr_t offset = reinterpret_cast<uintptr_t>(ptr) - reinterpret_cast<uintptr_t>(info.dli_fbase) - 1;
         std::stringstream ss;
         ss << std::hex << offset;
-        addr = "0x" + ss.str();
+        std::string addr = "0x" + ss.str();
 
-        int index = -1;
-        for (size_t i = 0; i < soFiles.size(); i++) {
-            if (soFiles[i] == soInfo) {
-                index = static_cast<int>(i);
+        int soIndex = -1;
+        for (size_t j = 0; j < soFiles.size(); ++j) {
+            if (soFiles[j] == soInfo) {
+                soIndex = static_cast<int>(j);
                 break;
             }
         }
-
-        if (index == -1) {
+        if (soIndex == -1) {
             soFiles.push_back(soInfo);
-            index = soFiles.size() - 1;
+            soIndex = static_cast<int>(soFiles.size() - 1);
         }
-        addresses.push_back(std::to_string(index) + " " + addr);
-      }
+
+        std::string indexStr = std::to_string(soIndex);
+        std::string soFileStrTmp = (soFilesStr.find(soInfo) == std::string::npos) ? soInfo : "";
+        std::string addressTmp = (preIndex.empty() || preIndex != indexStr)
+            ? "\n[" + indexStr + "] " + addr
+            : " " + addr;
+
+        size_t totalLen = fixedOverhead + soFilesStr.length() + addressLine.length()
+            + soFileStrTmp.length() + addressTmp.length();
+        if (totalLen >= messageSize) {
+            break;
+        }
+
+        soFilesStr += soFilesStr.empty() ? soFileStrTmp : (soFileStrTmp.empty() ? "" : "," + soFileStrTmp);
+        addressLine += addressTmp;
+        preIndex = indexStr;
     }
-  std::string fatalMessage = concatFatalMessage(soFiles, addresses, message);
-  set_fatal_message(fatalMessage.substr(0, 1004).c_str());
+
+    std::string result = message + "sofiles:\n" + soFilesStr + "\n"
+        + "addresses:" + (addressLine.empty() ? "" : addressLine);
+    return result;
+}
+
+void ReportBacktraceToOhosLog(KRef exception)
+{
+    if (&set_fatal_message == nullptr && &OH_HiDebug_SetCrashObj == nullptr) {
+        return;
+    }
+
+    ObjHolder stackTraceHolder;
+    ArrayHeader* stackTrace = Kotlin_Throwable_getStackTrace(exception, stackTraceHolder.slot())->array();
+    Dl_info info;
+
+    pid_t pid = getpid();
+    std::vector<MapsEntry> mapCache = BuildIdUtils::parseMapsFile(pid);
+
+    int apiVersion = OH_GetSdkApiVersion();
+    unsigned long messageSize = getFatalMessageSize();
+    std::string reason = getExceptionSummary(exception);
+
+    std::string fatalMessage = (apiVersion >= OHOS_HIDEBUG_MIN_API)
+        ? buildStandardBacktrace(stackTrace, info, mapCache, messageSize, reason)
+        : buildCompressedBacktrace(stackTrace, info, mapCache, messageSize, reason);
+
+    static std::string truncated;
+    truncated.assign(fatalMessage, 0, messageSize);
+    if (apiVersion >= OHOS_HIDEBUG_MIN_API && &OH_HiDebug_SetCrashObj != nullptr) {
+        OH_HiDebug_SetCrashObj(HiDebug_CrashObjType::HIDEBUG_CRASHOBJ_STRING,
+                               (void*)truncated.c_str());
+    } else if (&set_fatal_message != nullptr) {
+        set_fatal_message(truncated.c_str());
+    }
 }
 
 #endif
