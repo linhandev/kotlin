@@ -25,6 +25,17 @@ import org.jetbrains.kotlin.konan.file.*
 typealias ObjectFile = String
 typealias ExecutableFile = String
 
+/**
+ * True when [ar] is LLVM's archiver (`llvm-ar` / `llvm-ar.exe`).
+ * On Windows (including Gradle launched from Git Bash), [HostManager.hostIsMingw] is still true; GNU `ar`
+ * keeps the cmd.exe MRI pipeline, while `llvm-ar` uses direct `qcs`/`qsL` to avoid broken `cmd /c` paths
+ * for OHOS SDK and similar toolchains.
+ */
+private fun usesLlvmArchiver(ar: String): Boolean {
+    val fileName = ar.replace('\\', '/').substringAfterLast('/').removeSuffix(".exe")
+    return fileName == "llvm-ar"
+}
+
 enum class LinkerOutputKind {
     DYNAMIC_LIBRARY,
     STATIC_LIBRARY,
@@ -36,7 +47,7 @@ enum class LinkerOutputKind {
 // This way we ensure .a inputs are properly processed.
 private fun staticGnuArCommands(ar: String, executable: ExecutableFile,
                                 objectFiles: List<ObjectFile>, libraries: List<String>) = when {
-        HostManager.hostIsMingw -> {
+        HostManager.hostIsMingw && !usesLlvmArchiver(ar) -> {
             val temp = executable.replace('/', '\\') + "__"
             val arWindows = ar.replace('/', '\\')
             listOf(
@@ -50,7 +61,8 @@ private fun staticGnuArCommands(ar: String, executable: ExecutableFile,
                     Command("cmd", "/c", "del", "/q", temp))
         }
         // Fix: Flatten nested .a files to make them recognizable by llvm ld.
-        HostManager.hostIsLinux || HostManager.hostIsMac -> {
+        // Windows host + llvm-ar (e.g. OHOS from Git Bash): same as Unix; do not use cmd.exe MRI pipeline.
+        HostManager.hostIsLinux || HostManager.hostIsMac || HostManager.hostIsMingw -> {
             // Create a regular archive and use [L] modifier for adding libraries
             // to flatten nested archives. The [L] modifier extracts archive contents
             // instead of adding archives as-is, ensuring .a inputs are properly processed.
