@@ -21,6 +21,22 @@ object BinaryOptions : BinaryOptionRegistry() {
 
     val llvmSplitPath by stringOption()
 
+    val moduleIncludeOnly by listStringOption()
+
+    val emitRuntimeOpt by option<RuntimeEmissionMode>()
+
+    val emitRuntime by booleanOption()
+
+    val emitStdlib by booleanOption()
+
+    val moduleIncludes by dictStringOption()
+
+    val runtimeName by stringOption()
+
+    val stdlibName by stringOption()
+
+    val outputModule by stringOption()
+
     val memoryModel by option<MemoryModel>()
 
     val freezing by option<Freezing>()
@@ -183,6 +199,76 @@ open class BinaryOptionRegistry {
     protected inline fun <reified T : Enum<T>> option(noinline shortcut : (T) -> String? = { null }, noinline hideValue: (T) -> Boolean = { false }): PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, CompilerConfigurationKey<T>>> =
             PropertyDelegateProvider { _, property ->
                 val option = BinaryOption(property.name, EnumValueParser(enumValues<T>().toList(), shortcut, hideValue))
+                register(option)
+                ReadOnlyProperty { _, _ ->
+                    option.compilerConfigurationKey
+                }
+            }
+
+    protected fun listStringOption(): PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, CompilerConfigurationKey<List<String>>>> =
+            PropertyDelegateProvider { _, property ->
+                val option = BinaryOption(property.name, object : BinaryOption.ValueParser<List<String>> {
+                override fun parse(value: String): List<String> {
+                    val content = value.trim().removePrefix("[").removeSuffix("]").trim()
+                    if (content.isEmpty()) return emptyList()
+                    return content.split(";", " ").map { it.trim() }.filter { it.isNotEmpty() }
+                }
+                override val validValuesHint: String?
+                    get() = "semicolon-separated list, optionally wrapped in brackets: [a;b;c] or a;b;c"
+                })
+                register(option)
+                ReadOnlyProperty { _, _ ->
+                    option.compilerConfigurationKey
+                }
+            }
+            
+    protected fun dictStringOption(): PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, CompilerConfigurationKey<Map<String, List<String>>>>> =
+            PropertyDelegateProvider { _, property ->
+                val option = BinaryOption(property.name, object : BinaryOption.ValueParser<Map<String, List<String>>> {
+                override fun parse(value: String): Map<String, List<String>> {
+                    val content = value.trim().removePrefix("{").removeSuffix("}").trim()
+                    if (content.isEmpty()) return emptyMap()
+                    val entries = mutableListOf<String>()
+                    var depth = 0
+                    var start = 0
+                    for (index in content.indices) {
+                        when (content[index]) {
+                            '[' -> depth++
+                            ']' -> if (depth > 0) depth--
+                            ';' -> if (depth == 0) {
+                                entries += content.substring(start, index).trim()
+                                start = index + 1
+                            }
+                        }
+                    }
+                    entries += content.substring(start).trim()
+
+                    val result = linkedMapOf<String, List<String>>()
+                    for (entry in entries) {
+                        if (entry.isEmpty()) continue
+                        val colonIndex = entry.indexOf(':')
+                        if (colonIndex <= 0) return emptyMap()
+
+                        val key = entry.substring(0, colonIndex).trim()
+                        if (key.isEmpty()) return emptyMap()
+
+                        val rawValue = entry.substring(colonIndex + 1).trim()
+                        if (!rawValue.startsWith("[") || !rawValue.endsWith("]")) return emptyMap()
+
+                        val valueStr = rawValue.removePrefix("[").removeSuffix("]").trim()
+                        val values = if (valueStr.isEmpty()) {
+                            emptyList()
+                        } else {
+                            valueStr.split(";").map { it.trim() }.filter { it.isNotEmpty() }
+                        }
+                        result[key] = values
+                    }
+
+                    return result
+                }
+                override val validValuesHint: String?
+                    get() = "dictionary format: {A:[a;b;c];B:[d;e]}"
+                })
                 register(option)
                 ReadOnlyProperty { _, _ ->
                     option.compilerConfigurationKey
