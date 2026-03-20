@@ -32,7 +32,8 @@ typealias ExecutableFile = String
  * for OHOS SDK and similar toolchains.
  */
 private fun usesLlvmArchiver(ar: String): Boolean {
-    val fileName = ar.replace('\\', '/').substringAfterLast('/').removeSuffix(".exe")
+    val fileName = ar.replace('\\', '/').substringAfterLast('/').lowercase()
+        .removeSuffix(".exe")
     return fileName == "llvm-ar"
 }
 
