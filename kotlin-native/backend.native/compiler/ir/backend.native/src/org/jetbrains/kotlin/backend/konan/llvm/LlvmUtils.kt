@@ -243,7 +243,7 @@ internal fun ContextUtils.addKotlinThreadLocal(name: String, type: LLVMTypeRef, 
         // TODO: This will break if Workers get decoupled from host threads.
         GlobalAddressAccess(LLVMAddGlobal(llvm.module, type, name)!!.also {
             LLVMSetThreadLocalMode(it, LLVMThreadLocalMode.LLVMGeneralDynamicTLSModel)
-            LLVMSetLinkage(it, LLVMLinkage.LLVMInternalLinkage)
+            LLVMSetLinkage(it, if (context.config.moduleIncludeOnly.isNotEmpty()) LLVMLinkage.LLVMExternalLinkage else LLVMLinkage.LLVMInternalLinkage)
             LLVMSetAlignment(it, alignment)
         })
     }

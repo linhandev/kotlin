@@ -10,11 +10,13 @@ import org.jetbrains.kotlin.backend.common.pop
 import org.jetbrains.kotlin.backend.common.push
 import org.jetbrains.kotlin.backend.konan.*
 import org.jetbrains.kotlin.backend.konan.descriptors.getPackageFragments
+import org.jetbrains.kotlin.backend.konan.ir.konanLibrary
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptor
 import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
 import org.jetbrains.kotlin.ir.util.referenceFunction
+import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.isChildOf
@@ -388,6 +390,7 @@ internal class CAdapterGenerator(
     private val scopes = mutableListOf<ExportedElementScope>()
     internal val prefix = typeTranslator.prefix
     private val paramNamesRecorded = mutableMapOf<String, Int>()
+    private val moduleIncludeOnly: Set<String> = context.config.moduleIncludeOnly.toSet()
 
     internal val symbolTable get() = context.symbolTable!!
 
@@ -423,12 +426,14 @@ internal class CAdapterGenerator(
 
     override fun visitFunctionDescriptor(descriptor: FunctionDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldIncludeModule(descriptor.module)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
 
     override fun visitClassDescriptor(descriptor: ClassDescriptor, ignored: Void?): Boolean {
         if (!isExportedClass(descriptor)) return true
+        if (!shouldIncludeModule(descriptor.module)) return true
         // TODO: fix me!
         val shortName = descriptor.fqNameSafe.shortName()
         if (shortName.isSpecial || shortName.asString().contains("<anonymous>"))
@@ -509,6 +514,11 @@ internal class CAdapterGenerator(
     override fun visitTypeAliasDescriptor(descriptor: TypeAliasDescriptor, ignored: Void?) = true
 
     override fun visitPackageFragmentDescriptor(descriptor: PackageFragmentDescriptor, ignored: Void?): Boolean {
+        // Skip if module is filtered out
+        if (!shouldIncludeModule(descriptor.module)) {
+            return true
+        }
+
         val fqName = descriptor.fqName
         val packageScope = getPackageScope(fqName)
         scopes.push(packageScope)
@@ -517,8 +527,11 @@ internal class CAdapterGenerator(
         for (currentPackageFragment in currentPackageFragments) {
             if (!seenPackageFragments.contains(currentPackageFragment) &&
                     currentPackageFragment.fqName.isChildOf(descriptor.fqName)) {
-                visitChildren(currentPackageFragment)
-                seenPackageFragments += currentPackageFragment
+                // Double check module filtering before visiting
+                if (shouldIncludeModule(currentPackageFragment.module)) {
+                    visitChildren(currentPackageFragment)
+                    seenPackageFragments += currentPackageFragment
+                }
             }
         }
         scopes.pop()
@@ -535,12 +548,55 @@ internal class CAdapterGenerator(
 
     private val moduleDescriptors = mutableSetOf<ModuleDescriptor>()
 
+    /**
+     * Logic is consistent with other filtering implementations in the codebase.
+     */
+    private fun shouldIncludeModule(module: ModuleDescriptor): Boolean {
+        // If no filtering configured, include all modules
+        if (moduleIncludeOnly.isEmpty()) {
+            println("[CAdapterGenerator] No module filtering configured, including all modules")
+            return true
+        }
+
+        val library = module.konanLibrary
+        val libraryName = library?.uniqueName
+
+        // For modules without a library (e.g., main module)
+        if (libraryName == null) {
+            // Exclude main module if moduleIncludeOnly is set (only include specified libraries)
+            val include = moduleIncludeOnly.isEmpty()
+            println("[CAdapterGenerator] Module without library (main module): include=$include, moduleIncludeOnly=$moduleIncludeOnly")
+            return include
+        }
+
+        // only include modules in that list
+        if (moduleIncludeOnly.isNotEmpty()) {
+            val include = moduleIncludeOnly.any { libraryName.contains(it, ignoreCase = true) }
+            println("[CAdapterGenerator] Checking module '$libraryName' against moduleIncludeOnly=$moduleIncludeOnly: include=$include")
+            return include
+        }
+
+        return true
+    }
+
     fun buildExports(moduleDescriptor: ModuleDescriptor): CAdapterExportedElements {
         scopes.push(ExportedElementScope(ScopeKind.TOP, "kotlin"))
         moduleDescriptors += moduleDescriptor
         moduleDescriptors += moduleDescriptor.getExportedDependencies(context.config)
 
-        currentPackageFragments = moduleDescriptors.flatMap { it.getPackageFragments() }.toSet().sortedWith(
+        // Filter modules based on moduleIncludeOnly configuration
+        val filteredModules = if (moduleIncludeOnly.isEmpty()) {
+            println("[CAdapterGenerator] No module filtering, including all ${moduleDescriptors.size} modules")
+            moduleDescriptors
+        } else {
+            moduleDescriptors.filter { module ->
+                val include = shouldIncludeModule(module)
+                println("[CAdapterGenerator] Module '${module.name}': include=$include")
+                include
+            }
+        }
+
+        currentPackageFragments = filteredModules.flatMap { it.getPackageFragments() }.toSet().sortedWith(
                 Comparator { o1, o2 ->
                     o1.fqName.toString().compareTo(o2.fqName.toString())
                 })
