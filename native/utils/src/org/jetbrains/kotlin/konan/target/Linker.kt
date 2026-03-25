@@ -49,7 +49,6 @@ private fun staticGnuArCommands(ar: String, executable: ExecutableFile,
                     },
                     Command("cmd", "/c", "del", "/q", temp))
         }
-        // Fix: Flatten nested .a files to make them recognizable by llvm ld.
         HostManager.hostIsLinux || HostManager.hostIsMac -> {
             // Create a regular archive and use [L] modifier for adding libraries
             // to flatten nested archives. The [L] modifier extracts archive contents
