@@ -24,8 +24,8 @@
 using namespace kotlin;
 
 // ArkTS safe integer range: [-(2^53-1), 2^53-1] = [-9007199254740991, 9007199254740991]
-static constexpr long long kArkTSSafeIntegerMax = (1LL << 53) - 1;
-static constexpr long long kArkTSSafeIntegerMin = -kArkTSSafeIntegerMax;
+static constexpr long long ARKTS_SAFE_INTEGER_MAX = (1LL << 53) - 1;
+static constexpr long long ARKTS_SAFE_INTEGER_MIN = -ARKTS_SAFE_INTEGER_MAX;
 
 extern "C" {
     /**
@@ -111,11 +111,11 @@ extern "C" {
      */
     KNativePtr Kotlin_napi_create_int64(KNativePtr env, KLong value) {
         // Check if it is within the ArkTS safe integer range
-        if (value < kArkTSSafeIntegerMin || value > kArkTSSafeIntegerMax) {
+        if (value < ARKTS_SAFE_INTEGER_MIN || value > ARKTS_SAFE_INTEGER_MAX) {
             OH_LOG_Print(LOG_APP, LOG_ERROR, NAPI_LOG_DOMAIN, NAPI_LOG_TAG,
                 "Kotlin Long value out of ArkTS safe integer range [%{public}lld, %{public}lld] "
                 "in createValueFromLong, Value: %{public}lld",
-                kArkTSSafeIntegerMin, kArkTSSafeIntegerMax, (long long)value);
+                ARKTS_SAFE_INTEGER_MIN, ARKTS_SAFE_INTEGER_MAX, (long long)value);
             return nullptr;
         }
 
@@ -218,6 +218,94 @@ extern "C" {
             return 0.0;
         }
         return (KDouble)result;
+    }
+
+    /**
+     * @brief String conversion: Kotlin String -> ArkTS string.
+     * @param thiz The Kotlin String instance to convert.
+     * @param env Current running virtual machine context.
+     * @return A napi_value representing an ArkTS string.
+     */
+    KNativePtr Kotlin_String_toNapiValue(KConstRef thiz, KNativePtr env) {
+        auto header = StringHeader::of(thiz);
+        napi_value result = nullptr;
+        napi_status status = napi_ok;
+        switch (header->encoding()) {
+            case StringEncoding::kLatin1: {
+                const char* latin1Chars = reinterpret_cast<const char*>(header->data());
+                // Latin1 Each character is 1 byte
+                size_t length = header->size();
+                status = napi_create_string_latin1((napi_env)env, latin1Chars, length, &result);
+                break;
+            }
+            case StringEncoding::kUTF16: {
+                const char16_t* utf16Chars = reinterpret_cast<const char16_t*>(header->data());
+                // For UTF-16, size() returns the number of bytes and needs to be converted to the number of characters
+                size_t length = header->size() / sizeof(char16_t);
+                status = napi_create_string_utf16((napi_env)env, utf16Chars, length, &result);
+                break;
+            }
+            default:
+                OH_LOG_Print(LOG_APP, LOG_ERROR, NAPI_LOG_DOMAIN, NAPI_LOG_TAG,
+                    "Unsupported Kotlin string encoding in createValueFromString.");
+                return nullptr;
+        }
+
+        if (status != napi_ok) {
+            OH_LOG_Print(LOG_APP, LOG_ERROR, NAPI_LOG_DOMAIN, NAPI_LOG_TAG,
+                "napi_create_string failed createValueFromString, status: %{public}d",
+                status);
+            return nullptr;
+        }
+
+        return (KNativePtr)result;
+    }
+
+    /**
+     * @brief String conversion: ArkTS string -> Kotlin String.
+     * @param env Current running virtual machine context.
+     * @param value The ArkTS string to convert.
+     * @return A Kotlin string object.
+     */
+    OBJ_GETTER(Kotlin_napi_get_kotlin_string_utf16, KNativePtr env, KNativePtr value) {
+        // Get the string length (excluding the null terminator)
+        size_t str_size;
+        napi_status status = napi_get_value_string_utf16(
+                (napi_env)env,
+                (napi_value)value,
+                NULL, 0, &str_size
+        );
+        if (status != napi_ok) {
+            OH_LOG_Print(LOG_APP, LOG_ERROR, NAPI_LOG_DOMAIN, NAPI_LOG_TAG,
+                "Failed to get UTF-16 string length in getStringFromValue, status: %{public}d",
+                status);
+            RETURN_OBJ(nullptr);
+        }
+
+        // Create an uninitialized UTF-16 string
+        ObjHeader* result;
+        KRef kotlinString = CreateUninitializedString(StringEncoding::kUTF16, (uint32_t)str_size, &result);
+
+        // Get the data pointer from the Kotlin string
+        char16_t* data = reinterpret_cast<char16_t*>(StringHeader::of(kotlinString)->data());
+
+        // Now get the string directly from napi into the Kotlin string's buffer
+        size_t str_size_read;
+        status = napi_get_value_string_utf16(
+                (napi_env)env,
+                (napi_value)value,
+                data,
+                str_size + 1, &str_size_read
+        );
+
+        if (status != napi_ok) {
+            OH_LOG_Print(LOG_APP, LOG_ERROR, NAPI_LOG_DOMAIN, NAPI_LOG_TAG,
+                "Failed to read UTF-16 string content in getStringFromValue, status: %{public}d",
+                status);
+            RETURN_OBJ(nullptr);
+        }
+
+        RETURN_OBJ(kotlinString);
     }
 }
 
