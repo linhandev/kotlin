@@ -160,6 +160,7 @@ extern "C" {
 #endif
 typedef AS1 ObjHeader * HeapObjPtr;
 typedef const AS1 ObjHeader * ConstHeapObjPtr;
+typedef AS1 ObjHeader * AS1 * HeapDerivedPtr;
 
 #define OBJ_RESULT __result__
 #define OBJ_GETTER0(name) HeapObjPtr name(HeapObjPtr* OBJ_RESULT)
@@ -239,7 +240,8 @@ void UpdateHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW
 // Updates volatile heap/static data location.
 void UpdateVolatileHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapObjPtr* location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
-bool CompareAndSetVolatileHeapRef(HeapObjPtr* location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+// bool CompareAndSetVolatileHeapRef(HeapObjPtr* location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
 OBJ_GETTER(GetAndSetVolatileHeapRef, HeapObjPtr* location, HeapObjPtr newValue) RUNTIME_NOTHROW;
 
 // Updates location if it is null, atomically.
