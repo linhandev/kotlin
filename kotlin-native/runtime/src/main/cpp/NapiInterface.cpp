@@ -282,6 +282,10 @@ extern "C" {
             RETURN_OBJ(nullptr);
         }
 
+        if (str_size == 0) {
+            RETURN_RESULT_OF0(TheEmptyString);
+        }
+
         // Create an uninitialized UTF-16 string
         ObjHeader* result;
         KRef kotlinString = CreateUninitializedString(StringEncoding::kUTF16, (uint32_t)str_size, &result);
