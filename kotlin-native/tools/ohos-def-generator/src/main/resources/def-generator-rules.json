@@ -139,5 +139,18 @@
   "moduleHeadersExtra": {
     "WindowManager": ["cstddef"],
     "Netstack": ["cstddef", "cstdint"]
+  },
+  "moduleHeadersOverride": {
+    "ArkTS_Napi_NativeModule": [
+      "napi/common.h",
+      "napi/native_api.h",
+      "node_api.h",
+      "node_api_types.h",
+      "js_native_api.h",
+      "js_native_api_types.h"
+    ]
+  },
+  "moduleHeaderFilterOverride": {
+    "ArkTS_Napi_NativeModule": "napi/** node_api.h node_api_types.h js_native_api.h js_native_api_types.h"
   }
 }

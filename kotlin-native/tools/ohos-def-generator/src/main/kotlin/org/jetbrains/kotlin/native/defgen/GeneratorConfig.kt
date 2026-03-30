@@ -39,6 +39,10 @@ data class GeneratorRulesConfig(
     val moduleLinkerOptsOverride: Map<String, String> = emptyMap(),
     /** Extra headers per module: key is .def filename without extension, e.g. Netstack, WindowManager */
     val moduleHeadersExtra: Map<String, List<String>> = emptyMap(),
+    /** Full headers list (exact order); when non-empty, replaces scanned headers for that module */
+    val moduleHeadersOverride: Map<String, List<String>> = emptyMap(),
+    /** Exact headerFilter string; when set, replaces derived filter for that module */
+    val moduleHeaderFilterOverride: Map<String, String> = emptyMap(),
     val moduleHeaderSkipLibrary: Map<String, Set<String>> = emptyMap(),
     val moduleFixedDependencies: Map<String, List<String>> = emptyMap(),
     val moduleKitOverride: Map<String, String> = emptyMap()
@@ -48,6 +52,9 @@ data class GeneratorRulesConfig(
 
     fun getModuleHeadersExtra(moduleName: String): List<String> =
         moduleHeadersExtra[moduleName] ?: emptyList()
+
+    fun getModuleHeadersOverride(defFileName: String): List<String> =
+        moduleHeadersOverride[defFileName] ?: emptyList()
 
     fun getModuleHeaderSkipLibrary(moduleName: String): Set<String> =
         moduleHeaderSkipLibrary[moduleName] ?: emptySet()
@@ -83,6 +90,8 @@ object GeneratorConfigLoader {
             moduleHeaderExclude = root.getMapOfStringSet("moduleHeaderExclude"),
             moduleLinkerOptsOverride = root.getStringMap("moduleLinkerOptsOverride"),
             moduleHeadersExtra = root.getMapOfStringList("moduleHeadersExtra"),
+            moduleHeadersOverride = root.getMapOfStringList("moduleHeadersOverride"),
+            moduleHeaderFilterOverride = root.getStringMap("moduleHeaderFilterOverride"),
             moduleHeaderSkipLibrary = root.getMapOfStringSet("moduleHeaderSkipLibrary"),
             moduleFixedDependencies = root.getMapOfStringList("moduleFixedDependencies"),
             moduleKitOverride = root.getStringMap("moduleKitOverride")

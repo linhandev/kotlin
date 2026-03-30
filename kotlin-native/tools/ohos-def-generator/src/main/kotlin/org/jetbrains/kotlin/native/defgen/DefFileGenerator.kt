@@ -65,23 +65,30 @@ class DefFileGenerator(
         // Build package name
         val packageName = buildPackageName(module)
         
+        val defFileName = normalizeModuleName(module.moduleName)  // Same as xxx.def filename, for config key lookup
+        val headersOverride = rules.getModuleHeadersOverride(defFileName)
+        val headerFilterOverride = rules.moduleHeaderFilterOverride[defFileName]
+        
         val excludeSet = rules.getModuleHeaderExclude(module.moduleName)
         val effectiveHeaderFiles = if (excludeSet.isEmpty()) module.headerFiles
         else module.headerFiles.filter { it !in excludeSet }
         
-        val headerFilter = buildHeaderFilter(effectiveHeaderFiles)
+        val headersForFilter = if (headersOverride.isNotEmpty()) headersOverride else effectiveHeaderFiles
+        val headerFilter = headerFilterOverride ?: buildHeaderFilter(headersForFilter)
         
         val sortedDeps = module.dependencies
             .map { normalizeModuleName(it) }
             .sorted()
         
-        val defFileName = normalizeModuleName(module.moduleName)  // Same as xxx.def filename, for config key lookup
         val rawLinkerOpts = rules.moduleLinkerOptsOverride[defFileName] ?: rules.moduleLinkerOptsOverride[module.moduleName] ?: module.getLinkerOpts()
         val linkerOpts = applyLinkerOptsMapping(rawLinkerOpts)
         
         val extraHeaders = rules.getModuleHeadersExtra(defFileName)
-        val headers = if (extraHeaders.isEmpty()) effectiveHeaderFiles.sorted()
-        else (effectiveHeaderFiles.toList() + extraHeaders).sorted()
+        val headers = when {
+            headersOverride.isNotEmpty() -> headersOverride
+            extraHeaders.isEmpty() -> effectiveHeaderFiles.sorted()
+            else -> (effectiveHeaderFiles.toList() + extraHeaders).sorted()
+        }
         
         return DefConfig(
             moduleName = module.moduleName,
