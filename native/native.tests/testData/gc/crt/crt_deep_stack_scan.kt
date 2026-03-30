@@ -3,8 +3,7 @@
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi -Xbinary=gc=cmc -Xallocator=crt
 
 // Tests stackmap scanning correctness with deep recursion (5000 frames).
-// Risk: stackmap scanning 5000 frames may hit performance/correctness issues;
-// LLVM optimizations may place variables in registers, evading stack scanning.
+// Risk: stackmap scanning 5000 frames may hit performance/correctness issues.
 
 @file:OptIn(kotlin.experimental.ExperimentalNativeApi::class, kotlin.native.runtime.NativeRuntimeApi::class)
 

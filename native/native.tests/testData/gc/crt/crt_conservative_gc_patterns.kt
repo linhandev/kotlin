@@ -117,8 +117,10 @@ fun makeTree(depth: Int, value: Int): TreeNode {
             else liveCount.incrementAndGet()
         }
     }
-    // Some should have been collected (not all alive)
-    assertTrue(deadCount.value > 0 || liveCount.value > 0, "T5: No WeakRefs processed")
+    // Verify at least some WeakRefs exist (dead or alive).
+    // Note: deadCount > 0 is not guaranteed — CRT GC may not collect WeakRefs
+    // in this scenario due to stack frame holding temporary references.
+    assertTrue(deadCount.value > 0 || liveCount.value > 0, "T5: No WeakRefs observed")
 
     // === Test 6: Verify GC reclaims memory ===
     // Allocate large amount, drop refs, GC, allocate again — should work

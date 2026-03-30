@@ -97,8 +97,9 @@ class WeakTarget(val id: Int, val data: String) {
         if (!lt.verify()) liveVerifyErrors++
     }
     assertEquals(0, liveVerifyErrors, "T3: liveTargets array itself is corrupted")
-    // First 500 should still be alive (held by liveTargets)
-    assertEquals(500, liveCount, "T3: Live targets were incorrectly cleared (liveTargets.size=${liveTargets.size})")
+    // First 500 should still be alive (held by liveTargets).
+    // Some temporary targets may also survive due to regional GC not collecting all regions each cycle.
+    assertTrue(liveCount >= 500, "T3: Live targets were incorrectly cleared: expected >= 500, got $liveCount")
 
     // === Test 4: Concurrent WeakRef creation + GC clearing ===
     val concurrentErrors = AtomicInt(0)

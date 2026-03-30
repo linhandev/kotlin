@@ -21,7 +21,10 @@ import kotlin.native.concurrent.Worker
 
 class ByteContainer(val id: Int) {
     var bytes: ByteArray? = null
-    fun verify(): Boolean = bytes == null || bytes!!.size > 0
+    fun verify(): Boolean {
+        val b = bytes
+        return b == null || b.size > 0
+    }
 }
 
 const val LOST_BUCKETS = 16384

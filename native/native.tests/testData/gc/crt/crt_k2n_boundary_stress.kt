@@ -2,21 +2,17 @@
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi,kotlinx.cinterop.ExperimentalForeignApi -Xbinary=gc=cmc -Xallocator=crt
 
-// Tests K2N boundary behavior under high-frequency GC pressure.
-// Simulates tight K→N→K "sandwich" patterns where thread state transitions
-// (Runnable↔Native) happen rapidly while concurrent GC attempts STW pauses.
-// Risk: STW may not correctly pause threads at K2N/N2K boundaries,
-// or thread state transitions may race with GC phase changes.
+// Tests StableRef create/access/dispose under high-frequency GC pressure.
+// Multiple workers rapidly create and dispose StableRef while concurrent GC
+// attempts STW pauses. Verifies that externally-rooted objects survive GC
+// and that object references remain valid after StableRef disposal.
 
 @file:OptIn(kotlin.experimental.ExperimentalNativeApi::class, kotlin.native.runtime.NativeRuntimeApi::class, kotlinx.cinterop.ExperimentalForeignApi::class)
 
 import kotlin.test.*
-import kotlin.concurrent.AtomicInt
 import kotlin.native.runtime.GC
 import kotlin.native.concurrent.Worker
 import kotlinx.cinterop.StableRef
-
-val lockErrors = AtomicInt(0)
 
 class BoundaryObj(val id: Int, val payload: String) {
     fun verify(): Boolean = payload == "boundary-$id"

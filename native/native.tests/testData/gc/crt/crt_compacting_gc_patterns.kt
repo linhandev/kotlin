@@ -3,7 +3,7 @@
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi -Xbinary=gc=cmc -Xallocator=crt
 
 // Tests concurrent compacting GC stress patterns relevant to CRT's CMC GC.
-// Key patterns: humongous allocation + fragmentation, load-reference-barrier
+// Key patterns: humongous allocation + fragmentation, read barrier
 // correctness, concurrent evacuation during mutation.
 
 @file:OptIn(kotlin.experimental.ExperimentalNativeApi::class, kotlin.native.runtime.NativeRuntimeApi::class)
@@ -110,8 +110,8 @@ val compactErrors = AtomicInt(0)
         assertTrue(tree.verify(), "T2: Tree ${tree.id} root corrupted after concurrent evacuation")
     }
 
-    // === Test 3: Colored pointer / load-reference-barrier test ===
-    // Rapidly read and write object references to stress load-reference-barrier
+    // === Test 3: Concurrent read/write reference stress ===
+    // Rapidly read and write object references to stress read barrier
     val sharedRefs = Array(100) { AtomicReference<CompactObj?>(CompactObj(it, "co-$it", emptyArray())) }
 
     val workers3 = Array(4) { Worker.start() }
@@ -133,10 +133,10 @@ val compactErrors = AtomicInt(0)
     }
     for (f in futures3) f.result
     for (w in workers3) w.requestTermination().result
-    assertEquals(0, compactErrors.value, "T3: Load-reference-barrier errors")
+    assertEquals(0, compactErrors.value, "T3: Read barrier errors")
 
-    // === Test 4: String dedup pattern ===
-    // Many identical strings — test that GC handles string dedup/intern correctly
+    // === Test 4: String survival after GC ===
+    // Many identical strings — test that GC handles string objects correctly
     val strings = Array(5000) { "dedup-test-string-value" }
     GC.collect()
     for (i in strings.indices) {

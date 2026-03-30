@@ -2,7 +2,7 @@
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi -Xbinary=gc=cmc -Xallocator=crt
 
-// Regression test for CRT GC issue 004 (cached boxed value barrier crash).
+// Tests cached boxed value correctness under concurrent GC.
 // Frequently boxes small-range values (Int 0..127, Boolean, Byte) and assigns them to
 // object fields and array elements. Concurrently triggers GC and reads back values,
 // verifying correctness and no SIGSEGV.

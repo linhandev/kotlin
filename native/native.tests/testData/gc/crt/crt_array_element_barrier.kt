@@ -4,9 +4,9 @@
 
 // Tests write barrier correctness specifically for array element stores.
 // Array element writes (arr[i] = obj) use a different code path than field writes;
-// the SATB barrier must fire for old values being overwritten in array slots.
-// Also tests derived pointers: accessing arr[i].field creates a derived pointer
-// that must be updated if arr[i] is moved by GC.
+// the write barrier must fire for old values being overwritten in array slots.
+// Also tests field access through array elements: accessing arr[i].field may create
+// a potential derived pointer that must remain valid if arr[i] is moved by GC.
 
 @file:OptIn(kotlin.experimental.ExperimentalNativeApi::class, kotlin.native.runtime.NativeRuntimeApi::class)
 
@@ -24,7 +24,7 @@ class ArrElement(val id: Int, val payload: String) {
     val arr = Array(1000) { ArrElement(it, "elem-$it") }
 
     for (round in 0 until 20) {
-        // Overwrite every element — old values must be SATB-logged
+        // Overwrite every element — old values must be tracked by write barrier
         for (i in arr.indices) {
             arr[i] = ArrElement(round * 1000 + i, "elem-${round * 1000 + i}")
         }
@@ -35,26 +35,26 @@ class ArrElement(val id: Int, val payload: String) {
         }
     }
 
-    // === Test 2: Derived pointer — access arr[i].field after GC ===
+    // === Test 2: Field access through array element after GC ===
     val arr2 = Array(2000) { ArrElement(it, "elem-$it") }
     GC.collect()
     GC.collect()
 
-    // Access field through array element (derived pointer)
+    // Access field through array element
     var t2Errors = 0
     for (i in arr2.indices) {
-        val payload = arr2[i].payload // derived pointer: base=arr2[i], offset=payload field
+        val payload = arr2[i].payload
         if (payload != "elem-$i") t2Errors++
     }
-    assertEquals(0, t2Errors, "T2: Derived pointer through array element failed")
+    assertEquals(0, t2Errors, "T2: Field access through array element failed")
 
     // === Test 3: Swap array elements (both old values need barrier) ===
     val arr3 = Array(500) { ArrElement(it, "elem-$it") }
     for (round in 0 until 50) {
         for (i in 0 until arr3.size - 1 step 2) {
             val temp = arr3[i]
-            arr3[i] = arr3[i + 1]    // SATB must log old arr3[i]
-            arr3[i + 1] = temp        // SATB must log old arr3[i+1]
+            arr3[i] = arr3[i + 1]    // write barrier must log old arr3[i]
+            arr3[i + 1] = temp        // write barrier must log old arr3[i+1]
         }
         if (round % 5 == 0) GC.collect()
     }

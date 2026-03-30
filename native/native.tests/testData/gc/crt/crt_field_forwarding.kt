@@ -2,9 +2,9 @@
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi -Xbinary=gc=cmc -Xallocator=crt
 
-// Regression test for CRT GC issue 005 (derived pointer after object move).
+// Tests field access correctness after object relocation.
 // Creates deep nested object chains and concurrently traverses them while GC runs,
-// verifying that derived pointers (field offsets) remain valid after object relocation.
+// verifying that field references remain valid after object relocation.
 
 import kotlin.test.*
 import kotlin.concurrent.AtomicInt

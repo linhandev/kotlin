@@ -2,9 +2,9 @@
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi -Xbinary=gc=cmc -Xallocator=crt
 
-// Tests CRT SATB write barrier correctness during concurrent object graph mutation.
-// Risk: SATB barrier asm goto fastpath may skip slow_path, losing old-value logging,
-// causing white subgraphs to be reclaimed while still reachable.
+// Tests CRT write barrier correctness during concurrent object graph mutation.
+// Risk: write barrier may miss old-value tracking, causing subgraphs to be
+// reclaimed while still reachable.
 
 @file:OptIn(kotlin.experimental.ExperimentalNativeApi::class, kotlin.native.runtime.NativeRuntimeApi::class)
 
@@ -84,7 +84,7 @@ const val LIST_LENGTH = 100
 
                         // Splice: insert a new node between cur and oldNext
                         // This is the critical mutation: overwriting cur.next (old value = oldNext)
-                        // SATB barrier must log oldNext before overwrite
+                        // Write barrier must track oldNext before overwrite
                         val newNode = LNode(10000 + workerIdx * 10000 + round * 100 + steps)
                         newNode.next.value = oldNext
                         cur.next.value = newNode  // <-- write barrier fires here

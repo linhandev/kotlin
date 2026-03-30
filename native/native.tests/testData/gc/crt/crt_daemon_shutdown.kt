@@ -2,9 +2,10 @@
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi -Xbinary=gc=cmc -Xallocator=crt
 
-// Regression test for CRT GC issue 006 (CRT destruction order deadlock/abort).
+// Tests CRT GC destruction ordering during shutdown.
 // Starts multiple worker threads that continuously allocate objects and trigger GC.
-// Main thread exits normally without waiting for all workers, verifying no abort or deadlock.
+// Main thread waits for all workers to complete, then starts new workers to verify
+// GC remains functional after worker shutdown, verifying no abort or deadlock.
 
 import kotlin.test.*
 import kotlin.concurrent.AtomicInt

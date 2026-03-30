@@ -58,6 +58,25 @@ val klibTest = nativeTest("klibTest", "klib")
 val standaloneTest = nativeTest("standaloneTest", "standalone")
 val gcTest = nativeTest("gcTest", "gc")
 val capiTest = nativeTest("capiTest", "capi")
+val crtGcTest = nativeTest("crtGcTest", "crt-gc") {
+    doFirst {
+        val libcrtPath = System.getenv("LIBCRT_PATH")
+        if (libcrtPath.isNullOrBlank()) {
+            throw GradleException(
+                "LIBCRT_PATH environment variable is not set. " +
+                "CRT GC tests require libcrt.so. Set it to the directory containing libcrt.so, e.g.:\n" +
+                "  LIBCRT_PATH=\$(pwd)/third-party/common-rt/out ./gradlew :native:native.tests:crtGcTest ..."
+            )
+        }
+        val libcrtFile = file("$libcrtPath/libcrt.so")
+        if (!libcrtFile.exists()) {
+            throw GradleException(
+                "libcrt.so not found at $libcrtFile. " +
+                "Build it first: cd third-party/common-rt && bash build.sh --ohos=..."
+            )
+        }
+    }
+}
 
 val testTags = findProperty("kotlin.native.tests.tags")?.toString()
 // Note: arbitrary JUnit tag expressions can be used in this property.

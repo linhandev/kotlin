@@ -96,7 +96,7 @@ class Payload(val id: Int, val data: String) {
 }
 
 // ============================================================
-// T3: Fill with different objects in sequence (SATB barrier for old values)
+// T3: Fill with different objects in sequence (write barrier for old values)
 // ============================================================
 @Test fun testArrayFillSequential() {
     val size = 100
@@ -122,7 +122,7 @@ class Payload(val id: Int, val data: String) {
                 break
             }
         }
-        // Verify old saved references are still valid (SATB must have logged them)
+        // Verify old saved references are still valid (write barrier must have tracked them)
         for (old in oldValues) {
             if (!old.verify()) {
                 errors++
@@ -261,15 +261,3 @@ class Payload(val id: Int, val data: String) {
     println("T6 PASS")
 }
 
-// ============================================================
-// Runner
-// ============================================================
-@Test fun testCrtArrayFillBarrier() {
-    testArrayFillBasic()
-    testArrayFillPartial()
-    testArrayFillSequential()
-    testArrayFillConcurrent()
-    testArrayCopyInto()
-    testArrayFillLarge()
-    println("PASS")
-}

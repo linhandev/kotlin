@@ -94,7 +94,7 @@ fun verifyCycle(head: CycleNode, expectedSize: Int): Boolean {
     GC.collect()
     assertTrue(verifyCycle(postCycle, 100), "T4: Post-discard cycle corrupted")
 
-    // === Test 5: Concurrent cycle mutation + GC ===
+    // === Test 5: Concurrent cycle traversal + GC ===
     val sharedCycle = AtomicReference(buildCircularList(50, 500000))
     val cycleErrors = AtomicInt(0)
 

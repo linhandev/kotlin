@@ -13,6 +13,8 @@ import kotlin.concurrent.AtomicInt
 import kotlin.native.runtime.GC
 import kotlin.native.concurrent.Worker
 
+var largeObjectSink: LongArray? = null
+
 @Test fun testLargeObjectStress() {
     // === Test 1: Large array allocation + GC ===
     for (round in 0 until 5) {
@@ -89,10 +91,11 @@ import kotlin.native.concurrent.Worker
 
     // === Test 6: Rapid large alloc/dealloc cycle (fragmentation stress) ===
     for (round in 0 until 50) {
-        // Allocate and immediately release large objects
-        val temp = LongArray(100_000) { round.toLong() }
+        // Allocate large objects; assign to global to prevent compiler optimization
+        largeObjectSink = LongArray(100_000) { round.toLong() }
         if (round % 10 == 0) GC.collect()
     }
+    largeObjectSink = null
     // After heavy fragmentation, verify allocation still works
     val postFragArray = LongArray(500_000) { it.toLong() }
     GC.collect()

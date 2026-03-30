@@ -44,13 +44,13 @@ class MapValue(val id: Int, val data: String) {
     assertEquals(10000, map.size, "T1: HashMap size wrong")
 
     // === Test 2: HashMap iteration + GC ===
-    GC.collect()
     var iterCount = 0
     var iterErrors = 0
     for ((k, v) in map) {
         if (!v.verify()) iterErrors++
         if (k.id != v.id) iterErrors++
         iterCount++
+        if (iterCount % 500 == 0) GC.collect()
     }
     assertEquals(10000, iterCount, "T2: Iterator count wrong")
     assertEquals(0, iterErrors, "T2: Iterator saw corrupted entries")

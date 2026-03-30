@@ -3,7 +3,7 @@
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi -Xbinary=gc=cmc -Xallocator=crt
 
 // Tests reference integrity after CRT compaction (From→To-space copy).
-// Risk: CRT forwarding pointer update may miss derived pointers, array elements,
+// Risk: CRT forwarding pointer update may miss references in array elements
 // or cross-region references, causing stale pointers after compaction.
 
 @file:OptIn(kotlin.experimental.ExperimentalNativeApi::class, kotlin.native.runtime.NativeRuntimeApi::class)
@@ -105,7 +105,7 @@ fun verifyMesh(nodes: Array<MeshNode>): Int {
         assertEquals(0, errors, "T2: Large mesh corrupted at round $round")
     }
 
-    // === Test 3: Array elements — derived pointers into arrays ===
+    // === Test 3: Array elements — references through arrays ===
     val arrayHolder = Array(500) { MeshNode(2000 + it) }
     // Cross-reference: array elements point to mesh nodes
     for (i in 0 until 500) {

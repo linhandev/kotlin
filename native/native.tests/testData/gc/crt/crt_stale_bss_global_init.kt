@@ -1,3 +1,7 @@
+// KIND: STANDALONE
+// DISABLE_NATIVE: gcType=NOOP
+// FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi -Xbinary=gc=cmc -Xallocator=crt
+
 /**
  * Regression test: .bss slot becomes stale after GC compaction during
  * object singleton constructor.
@@ -9,6 +13,8 @@
  *
  * Triggers async heuristic GC via allocation pressure (>20MB threshold).
  */
+
+import kotlin.test.*
 
 object HeavySingleton {
     val name: String
@@ -25,9 +31,9 @@ object HeavySingleton {
     }
 }
 
-fun main() {
+@Test fun testStaleBssGlobalInit() {
     val s = HeavySingleton
-    require(s.name == "test") { "BUG: name=${s.name}" }
-    require(s.data.sum() == 1225) { "BUG: sum=${s.data.sum()}" }
-    println("OK")
+    assertEquals("test", s.name, "BUG: name=${s.name}")
+    assertEquals(1225, s.data.sum(), "BUG: sum=${s.data.sum()}")
+    println("PASS")
 }

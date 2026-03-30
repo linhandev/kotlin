@@ -2,10 +2,10 @@
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi,kotlin.ExperimentalStdlibApi -Xbinary=gc=cmc -Xallocator=crt
 
-// Regression test for CRT GC issues 005 (AS1 derived pointer loss) and 007 (Array read barrier).
+// Tests array read correctness during concurrent GC-triggered object relocation.
 // Creates a large array with many elements, then concurrently reads array elements from multiple
 // workers while main thread triggers GC (causing potential object moves). Verifies data consistency.
-// Test includes both regular array access AND AtomicArray access (issue 007 specifically).
+// Test includes both regular array access and AtomicArray access.
 
 import kotlin.test.*
 import kotlin.concurrent.AtomicInt
@@ -78,7 +78,7 @@ fun regularArrayTest(round: Int): Boolean {
 val aarbReadyCount = AtomicInt(0)
 val aarbStartSignal = AtomicInt(0)
 
-// Test 2: AtomicArray access with concurrent GC (exercises ReadVolatileHeapRef / issue 007)
+// Test 2: AtomicArray access with concurrent GC (exercises ReadVolatileHeapRef)
 @OptIn(kotlin.native.runtime.NativeRuntimeApi::class, kotlin.experimental.ExperimentalNativeApi::class)
 fun atomicArrayTest(round: Int): Boolean {
     val atomicArr = AtomicArray(1000) { i -> Element(i, i.toLong() * 31 + 7) }

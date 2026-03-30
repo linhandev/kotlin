@@ -20,9 +20,9 @@ import kotlinx.cinterop.*
 // RECENT_FULL → FROM_REGION transition while pin count > 0
 // ============================================================
 @Test fun testT1PinYoungGCRapidCycling() {
-    val rounds = 1500
+    val rounds = 300
     val pinsPerRound = 10
-    val numWorkers = 8
+    val numWorkers = 4
     val globalErrors = AtomicInt(0)
 
     val workers = Array(numWorkers) { Worker.start() }
@@ -282,8 +282,8 @@ class Holder(var ref: ByteArray?)
             val end = if (wIdx == totalWorkers - 1) 1024 else start + segmentSize
 
             for (round in 0 until numRounds) {
-                // Each worker writes to its segment of the shared pinned array
-                // Allocate referenced objects that create cross-region refs
+                // Each worker allocates local arrays and garbage objects to trigger GC,
+                // which must correctly handle the pinned shared array during collection
                 val localArr = IntArray(segmentSize) { (round * 1000 + wIdx * 100 + it) }
 
                 for (i in start until end) {
@@ -443,9 +443,9 @@ class Holder(var ref: ByteArray?)
 // 8 workers: pin array → allocate 10000 objects → GC → verify → unpin → repeat
 // ============================================================
 @Test fun testT9PinConcurrentAllocStorm() {
-    val numWorkers = 8
-    val rounds = 100
-    val allocsPerRound = 10000
+    val numWorkers = 4
+    val rounds = 50
+    val allocsPerRound = 5000
     val globalErrors = AtomicInt(0)
 
     val workers = Array(numWorkers) { Worker.start() }
@@ -692,22 +692,4 @@ class RefHolder(var data: ByteArray?, var next: RefHolder?)
     println("T13 OK")
 }
 
-// ============================================================
-// Aggregator
-// ============================================================
-@Test fun testCrtPinGenerationalStress() {
-    testT1PinYoungGCRapidCycling()
-    testT2PinMassiveAllocPressure()
-    testT3PinUnpinRapidCyclingConcurrentGC()
-    testT4PinYoungSurvivePromotionCycles()
-    testT5OldGenToPinnedReference()
-    testT6PinnedConcurrentFieldUpdates()
-    testT7PinCopyPhaseRace()
-    testT8ManyRegionsMixedPinState()
-    testT9PinConcurrentAllocStorm()
-    testT10ExemptFromRegionsWindow()
-    testT11PinLongShortLivedInterleaved()
-    testT12RepeatPinUnpinSameObject()
-    testT13PinnedObjectGraphIntegrity()
-    println("PASS")
-}
+

@@ -2,7 +2,7 @@
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi -Xbinary=gc=cmc -Xallocator=crt
 
-// Regression test for CRT GC issues 001 (global root missed scan) and 003 (shadow stack missed scan).
+// Tests global root and shadow stack scanning correctness under concurrent GC.
 // Multiple worker threads concurrently create globally-reachable objects while the main thread
 // repeatedly triggers GC.collect(). Verifies that all global objects survive GC and non-global
 // objects are properly collected.

@@ -106,7 +106,7 @@ sealed class SealedEvent {
         assertTrue(s.area() > 0, "T3: Shape dispatch on Drawable failed")
     }
 
-    // === Test 4: Large polymorphic array ===
+    // === Test 4: Large polymorphic array with interleaved GC ===
     val bigArray = Array<Shape>(3000) { i ->
         when (i % 3) {
             0 -> Circle(i.toDouble())
@@ -115,16 +115,43 @@ sealed class SealedEvent {
         }
     }
 
-    repeat(5) { GC.collect() }
-
     var t4Errors = 0
     for (i in bigArray.indices) {
+        if (i % 500 == 0) GC.collect()
         if (!bigArray[i].verify()) t4Errors++
-        // Verify dispatch still works
         val area = bigArray[i].area()
-        if (area < 0) t4Errors++ // should never happen for positive inputs
+        if (area < 0) t4Errors++
     }
     assertEquals(0, t4Errors, "T4: Large polymorphic array errors")
+
+    // === Test 4b: identityHashCode + interface dispatch ===
+    // Calculating identityHashCode installs ExtraObject on some objects.
+    // Verify that ExtraObject does not interfere with vtable/itable dispatch.
+    val hashTargets = Array<Shape>(100) { i ->
+        when (i % 3) {
+            0 -> Circle((i + 1).toDouble())
+            1 -> Rect((i + 1).toDouble(), (i + 2).toDouble())
+            else -> Triangle((i + 1).toDouble(), (i + 2).toDouble())
+        }
+    }
+    // Force ExtraObject installation on a subset
+    for (i in hashTargets.indices) {
+        if (i % 2 == 0) hashTargets[i].hashCode()
+    }
+    GC.collect()
+    var t4bErrors = 0
+    for (i in hashTargets.indices) {
+        if (!hashTargets[i].verify()) t4bErrors++
+        val area = hashTargets[i].area()
+        if (area <= 0) t4bErrors++
+        // Type check must still work
+        when (val s = hashTargets[i]) {
+            is Circle -> if (s.radius <= 0) t4bErrors++
+            is Rect -> if (s.w <= 0) t4bErrors++
+            is Triangle -> if (s.base <= 0) t4bErrors++
+        }
+    }
+    assertEquals(0, t4bErrors, "T4b: identityHashCode + dispatch errors")
 
     // === Test 5: Concurrent interface dispatch + GC ===
     val dispatchErrors = AtomicInt(0)
@@ -137,13 +164,12 @@ sealed class SealedEvent {
     }
 
     val workers = Array(4) { Worker.start() }
-    val futures = workers.mapIndexed { idx, worker ->
-        worker.execute(kotlin.native.concurrent.TransferMode.SAFE, { Triple(idx, sharedShapes, dispatchErrors) }) { (workerIdx, shapes, errors) ->
+    val futures = workers.map { worker ->
+        worker.execute(kotlin.native.concurrent.TransferMode.SAFE, { Pair(sharedShapes, dispatchErrors) }) { (shapes, errors) ->
             for (round in 0 until 100) {
                 for (s in shapes) {
                     if (!s.verify()) errors.incrementAndGet()
-                    s.area() // dispatch call
-                    s.name() // another dispatch
+                    if (s.area() < 0) errors.incrementAndGet()
                 }
                 if (round % 20 == 0) GC.collect()
             }

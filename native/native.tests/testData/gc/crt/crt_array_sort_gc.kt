@@ -3,7 +3,7 @@
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi -Xbinary=gc=cmc -Xallocator=crt
 
 // Tests GC safety during array sorting operations.
-// Risk: Sort algorithms swap array elements creating temporary derived pointers;
+// Risk: Sort algorithms swap array elements creating temporary references;
 // if GC fires mid-swap, element references may become stale.
 // Also tests Array.copyInto which uses bulk memory operations.
 

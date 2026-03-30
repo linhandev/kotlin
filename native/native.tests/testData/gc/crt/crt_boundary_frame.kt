@@ -2,9 +2,8 @@
 // DISABLE_NATIVE: gcType=NOOP
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.experimental.ExperimentalNativeApi,kotlinx.cinterop.ExperimentalForeignApi -Xbinary=gc=cmc -Xallocator=crt
 
-// Regression test for CRT GC issue 002 (boundary frame scanning).
 // Tests that objects held on stack across frame boundaries (Worker tasks, nested GC)
-// survive GC. Worker.execute creates R2K (Runtime→Kotlin) boundary frames, which
+// survive GC. Worker.execute creates R2K (Runtime->Kotlin) boundary frames, which
 // exercises the FrameKind-based boundary traversal system.
 
 import kotlin.test.*
@@ -126,8 +125,7 @@ fun workerBoundaryTest(round: Int): Boolean {
     return allOk
 }
 
-// Test 4: Nested worker tasks — multiple R2K boundary frames on same thread.
-// Worker creates sub-objects at different depths, each requiring frame boundary handling.
+// Test 4: Multiple allocate-GC-verify cycles within a single worker boundary frame.
 @OptIn(kotlin.native.runtime.NativeRuntimeApi::class)
 fun nestedWorkerGCTest(round: Int): Boolean {
     val worker = Worker.start()
