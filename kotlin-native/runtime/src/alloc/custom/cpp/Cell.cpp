@@ -10,7 +10,7 @@
 
 #include "CustomLogging.hpp"
 #include "KAssert.h"
-#include "AllocationSize.hpp"
+#include "GCApi.hpp"
 
 namespace kotlin::alloc {
 
@@ -43,6 +43,11 @@ void Cell::Deallocate() noexcept {
 
 Cell* Cell::Next() noexcept {
     return this + size_;
+}
+
+void Cell::ReleasePages() noexcept {
+    ZeroAndReleasePages(data_, (size_ - 1) *sizeof(Cell));
+    isAllocated_ = false;
 }
 
 } // namespace kotlin::alloc

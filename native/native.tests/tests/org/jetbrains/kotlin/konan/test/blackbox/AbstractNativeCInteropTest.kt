@@ -155,6 +155,9 @@ abstract class AbstractNativeCInteropTest : AbstractNativeCInteropBaseTest() {
             KonanTarget.WATCHOS_DEVICE_ARM64 -> "CPointerByteVar"
             KonanTarget.WATCHOS_SIMULATOR_ARM64 -> "CPointerByteVar"
             KonanTarget.WATCHOS_X64 -> "X64"
+	    else -> {
+	        throw UnsupportedOperationException("Unsupported target platform")
+	    }
         }
         return testPathFull.resolve("contents.gold.${goldenFilePart}.txt")
     }

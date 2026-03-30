@@ -353,6 +353,34 @@ fun IrConstructorCall.getAnnotationStringValue(name: String): String {
     return (arguments[parameter.indexInParameters] as IrConst).value as String
 }
 
+/**
+ * 从注解构造函数调用中获取指定名称的布尔值。
+ *
+ * @param name 参数的名称。
+ * @return 参数的布尔值，或 null 如果找不到
+ */
+fun IrConstructorCall.getAnnotationBooleanValue(name: String): Boolean? {
+    val parameter = symbol.owner.parameters.firstOrNull { it.name.asString() == name }
+        ?: return null
+
+    val argument = arguments[parameter.indexInParameters]
+    if (argument != null) {
+        val value = (argument as? IrConst)?.value
+        if (value is Boolean) {
+            return value
+        }
+    } else {
+        val defaultValueExpression = parameter.defaultValue?.expression
+        if (defaultValueExpression != null) {
+            val value = (defaultValueExpression as? IrConst)?.value
+            if (value is Boolean) {
+                return value
+            }
+        }
+    }
+    return null
+}
+
 inline fun <reified T> IrConstructorCall.getAnnotationValueOrNull(name: String): T? =
     getAnnotationValueOrNullImpl(name) as T?
 

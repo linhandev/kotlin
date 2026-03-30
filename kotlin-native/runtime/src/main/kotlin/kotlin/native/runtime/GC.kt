@@ -413,4 +413,28 @@ public object GC {
     @GCUnsafeCall("Kotlin_native_internal_GC_setPauseOnTargetHeapOverflow")
     @Escapes.Nothing
     private external fun setPauseOnTargetHeapOverflow(value: Boolean)
+
+    public var concurrentMarkValidation: Boolean
+        get() = getConcurrentMarkValidation()
+        set(value) = setConcurrentMarkValidation(value)
+
+    @GCUnsafeCall("Kotlin_native_internal_GC_getConcurrentMarkValidation")
+    @Escapes.Nothing
+    private external fun getConcurrentMarkValidation(): Boolean
+
+    @GCUnsafeCall("Kotlin_native_internal_GC_setConcurrentMarkValidation")
+    @Escapes.Nothing
+    private external fun setConcurrentMarkValidation(value: Boolean)
+
+    public var verifyKotlinStack: Boolean
+        get() = getVerifyKotlinStack()
+        set(value) = setVerifyKotlinStack(value)
+
+    @GCUnsafeCall("Kotlin_native_internal_GC_getVerifyKotlinStack")
+    @Escapes.Nothing
+    private external fun getVerifyKotlinStack(): Boolean
+
+    @GCUnsafeCall("Kotlin_native_internal_GC_setVerifyKotlinStack")
+    @Escapes.Nothing
+    private external fun setVerifyKotlinStack(value: Boolean)
 }

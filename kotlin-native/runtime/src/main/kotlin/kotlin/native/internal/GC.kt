@@ -146,6 +146,9 @@ object GC {
      */
     var autotune: Boolean by kotlin.native.runtime.GC::autotune
 
+    var concurrentMarkValidation: Boolean by kotlin.native.runtime.GC::concurrentMarkValidation
+
+    var verifyKotlinStack: Boolean by kotlin.native.runtime.GC::verifyKotlinStack
 
     /**
      * Deprecated and unused.

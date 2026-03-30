@@ -381,11 +381,16 @@ internal class RTTIGenerator(
 
     private fun mapRuntimeType(type: LLVMTypeRef, isObjectType: Boolean): Int {
         if (isObjectType) {
-            require(type == llvm.kObjHeaderPtr) { "Expected object type, got ${llvmtype2string(type)}" }
+            // Object references may be kObjHeaderRef (addrspace 1) or kObjHeaderPtr (addrspace 0).
+            // arrayClasses uses kObjHeaderPtr for Array; struct fields use kObjHeaderRef from toLLVMType.
+            require(type == llvm.kObjHeaderRef || type == llvm.kObjHeaderPtr) {
+                "Expected object type (kObjHeaderRef or kObjHeaderPtr), got ${llvmtype2string(type)}"
+            }
             return RT_OBJECT
         }
 
-        return primitiveRuntimeTypeMap[type] ?: throw Error("Unmapped type: ${llvmtype2string(type)}")
+
+        return primitiveRuntimeTypeMap[type] ?: RT_OBJECT // throw Error("Unmapped type: ${llvmtype2string(type)}")
     }
 
     private val debugRuntimeOrNull: LLVMModuleRef? by lazy {

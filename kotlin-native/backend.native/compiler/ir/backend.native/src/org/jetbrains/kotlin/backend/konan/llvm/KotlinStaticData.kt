@@ -44,6 +44,8 @@ internal class KotlinStaticData(override val generationState: NativeGenerationSt
         // value should be of struct type with first element having the object/array header layout
         return global.pointer.getElementPtr(llvm, global.type, 0).bitcast(kObjHeaderPtr)
     }
+//    private fun createRef(objHeaderPtr: ConstPointer) = objHeaderPtr.bitcast(kObjHeaderPtr)
+    private fun createRef(objHeaderPtr: ConstPointer) = objHeaderPtr.addrbitcast(kObjHeaderRef)
 
     private fun createKotlinStringLiteral(value: String): ConstPointer {
         val (encodingFlag, encoded) = if (generationState.config.latin1Strings && value.all { it.code in 0..255 }) {
@@ -68,7 +70,7 @@ internal class KotlinStaticData(override val generationState: NativeGenerationSt
                 llvm.constInt16(((if (hashCode == 0) 1 else 0) or (2 * (encoded.size % 2)) or (encodingFlag shl 12)).toShort()),
                 ConstArray(llvm.int8Type, data.map(llvm::constInt8))
         )
-        return createConstant(header)
+        return createRef(createConstant(header))
     }
 
     fun kotlinStringLiteral(value: String) = stringLiterals.getOrPut(value) { createKotlinStringLiteral(value) }
@@ -78,8 +80,22 @@ internal class KotlinStaticData(override val generationState: NativeGenerationSt
 
     fun createConstKotlinArray(arrayClass: IrClass, elements: List<ConstValue>): ConstPointer {
         val arrayHeader = arrayHeader(arrayClass.typeInfoPtr, elements.size)
+        val bodyElementType: LLVMTypeRef = elements.firstOrNull()?.llvmType ?: llvm.int8Type
+        var newelements = elements.toMutableList()
+        val bodyElementTypeKind = LLVMGetTypeKind(bodyElementType)
+        for (i in 0 until newelements.size) {
+            val element = newelements[i]
+            val elementTypeKind = LLVMGetTypeKind(element.llvmType)
+            if (elementTypeKind == LLVMTypeKind.LLVMPointerTypeKind && bodyElementTypeKind == LLVMTypeKind.LLVMPointerTypeKind) {
+                val bodyElementTypeKindAddrspace = LLVMGetPointerAddressSpace(bodyElementType)
+                val elementTypeKindAddrspace = LLVMGetPointerAddressSpace(element.llvmType)
+                if (bodyElementTypeKindAddrspace != elementTypeKindAddrspace) {
+                    newelements[i] = constPointer(LLVMConstAddrSpaceCast(element.llvm, bodyElementType)!!)
+                }   
+            }   
+        }
         // (use [0 x i8] as body if there are no elements)
-        val arrayBody = ConstArray(elements.firstOrNull()?.llvmType ?: llvm.int8Type, elements)
+        val arrayBody = ConstArray(bodyElementType, newelements)
         return createConstant(llvm.struct(arrayHeader, arrayBody))
     }
 
@@ -101,7 +117,7 @@ internal class KotlinStaticData(override val generationState: NativeGenerationSt
         }
         val global = this.placeGlobal(kind.llvmName, objHeader, isExported = true)
         global.setConstant(true)
-        return global.pointer
+        return createRef(global.pointer)
     }
 
     fun unique(kind: UniqueKind): ConstPointer {
@@ -110,7 +126,7 @@ internal class KotlinStaticData(override val generationState: NativeGenerationSt
             UniqueKind.EMPTY_ARRAY -> context.symbols.array.owner
         }
         return if (isExternal(descriptor)) {
-            constPointer(importGlobal(kind.llvmName, runtime.objHeaderType, descriptor))
+            createRef(constPointer(importGlobal(kind.llvmName, runtime.objHeaderType, descriptor)))
         } else {
             generationState.llvmDeclarations.forUnique(kind).pointer
         }

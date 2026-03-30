@@ -49,6 +49,11 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
             TAG_RES_KMP_HEAP_MASK, true);
     }
     #endif
+
+    // 尝试在这里加上tag设置
+    KNStateWord *word = reinterpret_cast<KNStateWord*>(object);
+    word->SetValid();
+
     return object;
 }
 
@@ -67,6 +72,10 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
             TAG_RES_KMP_HEAP_MASK, true);
     }
     #endif
+    // 尝试在这里加上tag设置
+    KNStateWord *word = reinterpret_cast<KNStateWord*>(array);
+    word->SetValid();
+
     return array;
 }
 

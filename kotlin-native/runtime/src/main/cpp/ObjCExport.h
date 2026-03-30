@@ -56,12 +56,12 @@ id objc_retain(id self);
 id objc_retainBlock(id self);
 void objc_release(id self);
 
-id Kotlin_ObjCExport_refToObjC(ObjHeader* obj);
-id Kotlin_ObjCExport_refToLocalObjC(ObjHeader* obj);
-id Kotlin_ObjCExport_refToRetainedObjC(ObjHeader* obj);
-id Kotlin_ObjCExport_CreateRetainedNSStringFromKString(ObjHeader* str);
-id Kotlin_ObjCExport_convertUnitToRetained(ObjHeader* unitInstance);
-id Kotlin_ObjCExport_GetAssociatedObject(ObjHeader* obj);
+id Kotlin_ObjCExport_refToObjC(HeapObjPtr obj);
+id Kotlin_ObjCExport_refToLocalObjC(HeapObjPtr obj);
+id Kotlin_ObjCExport_refToRetainedObjC(HeapObjPtr obj);
+id Kotlin_ObjCExport_CreateRetainedNSStringFromKString(HeapObjPtr str);
+id Kotlin_ObjCExport_convertUnitToRetained(HeapObjPtr unitInstance);
+id Kotlin_ObjCExport_GetAssociatedObject(HeapObjPtr obj);
 void Kotlin_ObjCExport_AbstractMethodCalled(id self, SEL selector);
 void Kotlin_ObjCExport_AbstractClassConstructorCalled(id self, const TypeInfo *clazz);
 OBJ_GETTER(Kotlin_ObjCExport_refFromObjC, id obj);
@@ -79,21 +79,21 @@ Class Kotlin_ObjCExport_GetOrCreateObjCClass(const TypeInfo *typeInfo);
 
 } // extern "C"
 
-inline static id GetAssociatedObject(ObjHeader* obj) {
-    return (id)obj->GetAssociatedObject();
+inline static id GetAssociatedObject(HeapObjPtr obj) {
+    return (id)((const ObjHeader *)obj)->GetAssociatedObject();
 }
 
 // Note: this function shall not be used on shared objects.
-inline static void SetAssociatedObject(ObjHeader* obj, id value) {
-    obj->SetAssociatedObject((void*)value);
+inline static void SetAssociatedObject(HeapObjPtr obj, id value) {
+    ((ObjHeader *)obj)->SetAssociatedObject((void*)value);
 }
 
-inline static id AtomicCompareAndSwapAssociatedObject(ObjHeader* obj, id expectedValue, id newValue) {
-    return static_cast<id>(obj->CasAssociatedObject(expectedValue, newValue));
+inline static id AtomicCompareAndSwapAssociatedObject(HeapObjPtr obj, id expectedValue, id newValue) {
+    return static_cast<id>(((ObjHeader *)obj)->CasAssociatedObject(expectedValue, newValue));
 }
 
 inline static OBJ_GETTER(AllocInstanceWithAssociatedObject, const TypeInfo* typeInfo, id associatedObject) {
-  ObjHeader* result = AllocInstance(typeInfo, OBJ_RESULT);
+  HeapObjPtr result = AllocInstance(typeInfo, OBJ_RESULT);
   SetAssociatedObject(result, associatedObject);
   return result;
 }

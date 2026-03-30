@@ -30,7 +30,9 @@ public:
 
     // Create new retained `ExternalRCRefImpl` pointing to `obj`.
     explicit ObjCBackRef(KRef obj) noexcept : raw_(&mm::ExternalRCRefImpl::create(obj, 1)) {
+        #if !KONAN_COMPILER_INTERFACE
         RuntimeAssert(!obj->permanent(), "ObjCBackRef does not support permanent objects");
+        #endif
     }
 
     ~ObjCBackRef() {

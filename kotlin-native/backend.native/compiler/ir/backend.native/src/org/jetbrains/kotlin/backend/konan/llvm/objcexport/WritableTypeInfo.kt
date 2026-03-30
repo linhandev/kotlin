@@ -18,6 +18,7 @@ import org.jetbrains.kotlin.backend.konan.llvm.bitcast
 import org.jetbrains.kotlin.backend.konan.llvm.functionType
 import org.jetbrains.kotlin.backend.konan.llvm.isExported
 import org.jetbrains.kotlin.backend.konan.llvm.kObjHeaderPtr
+import org.jetbrains.kotlin.backend.konan.llvm.kObjHeaderRef
 import org.jetbrains.kotlin.backend.konan.llvm.llvmType
 import org.jetbrains.kotlin.backend.konan.llvm.pointerType
 import org.jetbrains.kotlin.backend.konan.llvm.replaceExternalWeakOrCommonGlobal
@@ -139,9 +140,12 @@ private fun CodeGenerator.buildWritableTypeInfoValue(
         typeAdapter: ConstPointer?
 ): Struct {
     if (convertToRetained != null) {
-        val expectedType = pointerType(functionType(llvm.int8PtrType, false, kObjHeaderPtr))
-        assert(convertToRetained.llvmType == expectedType) {
-            "Expected: ${LLVMPrintTypeToString(expectedType)!!.toKString()} " +
+        // convertToRetained accepts ObjHeader in either address space: kObjHeaderPtr (0) or kObjHeaderRef (1).
+        // Different configs (e.g. ObjC blocks vs gc-only) may produce either.
+        val expectedTypePtr = pointerType(functionType(llvm.int8PtrType, false, kObjHeaderPtr))
+        val expectedTypeRef = pointerType(functionType(llvm.int8PtrType, false, kObjHeaderRef))
+        assert(convertToRetained.llvmType == expectedTypePtr || convertToRetained.llvmType == expectedTypeRef) {
+            "Expected: ${LLVMPrintTypeToString(expectedTypePtr)!!.toKString()} or ${LLVMPrintTypeToString(expectedTypeRef)!!.toKString()} " +
                     "found: ${LLVMPrintTypeToString(convertToRetained.llvmType)!!.toKString()}"
         }
     }

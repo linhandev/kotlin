@@ -5,6 +5,7 @@
 
 #include "Types.h"
 #include "Exceptions.h"
+#include "Runtime.h"
 
 extern "C" {
 
@@ -76,6 +77,7 @@ OBJ_GETTER(Kotlin_TypeInfo_findAssociatedObject, KNativePtr typeInfo, KNativePtr
 
   for (int index = 0; associatedObjects[index].key != nullptr; ++index) {
     if (associatedObjects[index].key == key) {
+      InitGlobalsFrameGuard initGlobalsGuard;
       RETURN_RESULT_OF0(associatedObjects[index].getAssociatedObjectInstance);
     }
   }

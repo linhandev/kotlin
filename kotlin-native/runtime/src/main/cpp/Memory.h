@@ -33,6 +33,14 @@
 #define OHOS_RESTRACE_MIN_API 21
 #endif
 
+#if KONAN_NEED_SMALL_BINARY
+  // Currently, codegen places a lot of unnecessary calls to MM functions.
+  // By forcing NO_INLINE on these functions we keep binaries from growing too big.
+  #define CODEGEN_INLINE_POLICY NO_INLINE
+#else
+  #define CODEGEN_INLINE_POLICY ALWAYS_INLINE
+#endif
+
 typedef enum {
     OBJECT_TAG_HEAP = 0,
     OBJECT_TAG_PERMANENT = 1, // Must match to permanentTag() in Kotlin.
@@ -54,6 +62,7 @@ struct ObjHeader {
   // Returns `nullptr` if it's not a meta object.
   static MetaObjHeader* AsMetaObject(TypeInfo* typeInfo) noexcept {
       auto* typeInfoOrMeta = clearPointerBits(typeInfo, OBJECT_TAG_MASK);
+      typeInfoOrMeta = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfoOrMeta) & 0xffffffffffff);
       if (typeInfoOrMeta != typeInfoOrMeta->typeInfo_) {
           return reinterpret_cast<MetaObjHeader*>(typeInfoOrMeta);
       } else {
@@ -149,19 +158,21 @@ struct FrameOverlay;
 #ifdef __cplusplus
 extern "C" {
 #endif
+typedef AS1 ObjHeader * HeapObjPtr;
+typedef const AS1 ObjHeader * ConstHeapObjPtr;
 
 #define OBJ_RESULT __result__
-#define OBJ_GETTER0(name) ObjHeader* name(ObjHeader** OBJ_RESULT)
-#define OBJ_GETTER(name, ...) ObjHeader* name(__VA_ARGS__, ObjHeader** OBJ_RESULT)
-#define RETURN_OBJ(value) { ObjHeader* __obj = value; \
+#define OBJ_GETTER0(name) HeapObjPtr name(HeapObjPtr* OBJ_RESULT)
+#define OBJ_GETTER(name, ...) HeapObjPtr name(__VA_ARGS__, HeapObjPtr* OBJ_RESULT)
+#define RETURN_OBJ(value) { HeapObjPtr __obj = value; \
     UpdateReturnRef(OBJ_RESULT, __obj);               \
     return __obj; }
 #define RETURN_RESULT_OF0(name) {       \
-    ObjHeader* __obj = name(OBJ_RESULT);  \
+    HeapObjPtr __obj = name(OBJ_RESULT);  \
     return __obj;                         \
   }
 #define RETURN_RESULT_OF(name, ...) {                   \
-    ObjHeader* __result = name(__VA_ARGS__, OBJ_RESULT);  \
+    HeapObjPtr __result = name(__VA_ARGS__, OBJ_RESULT);  \
     return __result;                                      \
   }
 
@@ -191,7 +202,7 @@ OBJ_GETTER(AllocArrayInstance, const TypeInfo* type_info, int32_t elements);
 // `initialValue` may be `nullptr`, which signifies that the appropriate initial value was already
 // set by static initialization.
 // TODO: When global initialization becomes lazy, this signature won't do.
-void InitAndRegisterGlobal(ObjHeader** location, const ObjHeader* initialValue) RUNTIME_NOTHROW;
+void InitAndRegisterGlobal(HeapObjPtr* location, ConstHeapObjPtr initialValue) RUNTIME_NOTHROW;
 
 //
 // Object reference management.
@@ -216,33 +227,33 @@ void InitAndRegisterGlobal(ObjHeader** location, const ObjHeader* initialValue) 
 //
 
 // Zeroes heap location.
-void ZeroHeapRef(ObjHeader** location) RUNTIME_NOTHROW;
+void ZeroHeapRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Zeroes an array.
 void ZeroArrayRefs(ArrayHeader* array) RUNTIME_NOTHROW;
 // Zeroes stack location.
-void ZeroStackRef(ObjHeader** location) RUNTIME_NOTHROW;
+void ZeroStackRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Updates stack location.
-void UpdateStackRef(ObjHeader** location, const ObjHeader* object) RUNTIME_NOTHROW;
+void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates heap/static data location.
-void UpdateHeapRef(ObjHeader** location, const ObjHeader* object) RUNTIME_NOTHROW;
+void UpdateHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
-void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object) RUNTIME_NOTHROW;
-OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) RUNTIME_NOTHROW;
-bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) RUNTIME_NOTHROW;
-OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue) RUNTIME_NOTHROW;
+void UpdateVolatileHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapObjPtr* location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+bool CompareAndSetVolatileHeapRef(HeapObjPtr* location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+OBJ_GETTER(GetAndSetVolatileHeapRef, HeapObjPtr* location, HeapObjPtr newValue) RUNTIME_NOTHROW;
 
 // Updates location if it is null, atomically.
 // Updates reference in return slot.
-void UpdateReturnRef(ObjHeader** returnSlot, const ObjHeader* object) RUNTIME_NOTHROW;
+void UpdateReturnRef(HeapObjPtr* returnSlot, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+OBJ_GETTER(ReadHeapRefNoLock, HeapObjPtr object, int32_t index);
 // Called on frame enter, if it has object slots.
-void EnterFrame(ObjHeader** start, int parameters, int count) RUNTIME_NOTHROW;
+void EnterFrame(HeapObjPtr* start, int parameters, int count) RUNTIME_NOTHROW;
 // Called on frame leave, if it has object slots.
-void LeaveFrame(ObjHeader** start, int parameters, int count) RUNTIME_NOTHROW;
+void LeaveFrame(HeapObjPtr* start, int parameters, int count) RUNTIME_NOTHROW;
 // Set current frame in case if exception caught.
-void SetCurrentFrame(ObjHeader** start) RUNTIME_NOTHROW;
+void SetCurrentFrame(HeapObjPtr* start) RUNTIME_NOTHROW;
 FrameOverlay* getCurrentFrame() RUNTIME_NOTHROW;
-void CheckCurrentFrame(ObjHeader** frame) RUNTIME_NOTHROW;
-
+ALWAYS_INLINE void CheckCurrentFrame(HeapObjPtr* frame) RUNTIME_NOTHROW;
 // Add TLS object storage, called by the generated code.
 void AddTLSRecord(MemoryState* memory, void** key, int size) RUNTIME_NOTHROW;
 // Allocate storage for TLS. `AddTLSRecord` cannot be called after this.
@@ -250,29 +261,117 @@ void CommitTLSStorage(MemoryState* memory) RUNTIME_NOTHROW;
 // Clear TLS object storage.
 void ClearTLS(MemoryState* memory) RUNTIME_NOTHROW;
 // Lookup element in TLS object storage.
-ObjHeader** LookupTLS(void** key, int index) RUNTIME_NOTHROW;
+HeapObjPtr* LookupTLS(void** key, int index) RUNTIME_NOTHROW;
 
-void Kotlin_native_internal_GC_collect(ObjHeader*);
-void Kotlin_native_internal_GC_setTuneThreshold(ObjHeader*, bool value);
-bool Kotlin_native_internal_GC_getTuneThreshold(ObjHeader*);
-RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHeader*, int fd);
-
+void Kotlin_native_internal_GC_collect(HeapObjPtr);
+void Kotlin_native_internal_GC_setTuneThreshold(HeapObjPtr, bool value);
+bool Kotlin_native_internal_GC_getTuneThreshold(HeapObjPtr);
+RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(HeapObjPtr, int fd);
 void PerformFullGC(MemoryState* memory) RUNTIME_NOTHROW;
 
 // Sets state of the current thread to NATIVE (used by the new MM).
-RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative();
+CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative();
 // Sets state of the current thread to RUNNABLE (used by the new MM).
-RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable();
+CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable();
 // No-inline versions of the functions above are used in debug mode to workaround KT-67567 
 // by outlining certain CAS instructions from user code:
 NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative_debug();
 NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable_debug();
 
 // Safe point callbacks from Kotlin code generator.
-void Kotlin_mm_safePointFunctionPrologue() RUNTIME_NOTHROW;
-void Kotlin_mm_safePointWhileLoopBody() RUNTIME_NOTHROW;
+CODEGEN_INLINE_POLICY void Kotlin_mm_safePointFunctionPrologue() RUNTIME_NOTHROW;
+CODEGEN_INLINE_POLICY void Kotlin_mm_safePointWhileLoopBody() RUNTIME_NOTHROW;
 
-RUNTIME_NOTHROW void DisposeRegularWeakReferenceImpl(ObjHeader* counter);
+enum class FrameKind : uint8_t {
+    kCppFrameMask = 0x40,
+    kK2X = 1,
+    kWeakRef = kCppFrameMask | 2,
+    kSafePoint = 3,
+    kNativeState = 4,
+    kRuntimeToKotlin = 5,
+    kInitGlobals = kCppFrameMask | 6,
+    kWorkerJob = kCppFrameMask | 7,
+    kGlobalInitAdapter = kCppFrameMask | 8,
+    kUnmanagedMask = 0x80,
+    kCExport = kUnmanagedMask | kCppFrameMask | 0,
+    kBoxing = kUnmanagedMask | kCppFrameMask | 1,
+    kUnboxing = kUnmanagedMask | kCppFrameMask | 2,
+    kDisposeStableRef = kUnmanagedMask | kCppFrameMask | 3,
+    kIsInstance = kUnmanagedMask | kCppFrameMask | 4,
+    kClassInstance = kUnmanagedMask | kCppFrameMask | 5,
+    kEnumEntry = kUnmanagedMask | kCppFrameMask | 6,
+};
+
+constexpr inline bool IsPreviousFrameUnmanaged(FrameKind kind) noexcept {
+    return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::kUnmanagedMask)) != 0;
+}
+
+constexpr inline bool IsKotlinFrame(FrameKind kind) noexcept {
+    return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::kCppFrameMask)) == 0;
+}
+
+constexpr inline bool IsEntryFrame(FrameKind kind) noexcept {
+    return kind == FrameKind::kRuntimeToKotlin || kind == FrameKind::kInitGlobals ||
+           kind == FrameKind::kWorkerJob || IsPreviousFrameUnmanaged(kind);
+}
+
+constexpr inline bool IsExitFrame(FrameKind kind) noexcept {
+    switch (kind) {
+        case FrameKind::kK2X:
+        case FrameKind::kWeakRef:
+        case FrameKind::kSafePoint:
+        case FrameKind::kNativeState:
+        case FrameKind::kGlobalInitAdapter:
+            return true;
+        default:
+            return false;
+    }
+}
+
+RUNTIME_NOTHROW void DisposeRegularWeakReferenceImpl(HeapObjPtr counter);
+
+RUNTIME_NOTHROW void SaveStackFrameR2KExportForCppRuntime();
+RUNTIME_NOTHROW void RestoreStackFrameR2KExportForCppRuntime();
+
+RUNTIME_NOTHROW void SaveStackFrameK2RK2X();
+RUNTIME_NOTHROW void RestoreStackFrameK2RK2X();
+
+RUNTIME_NOTHROW void SaveStackFrameK2NNativeState();
+RUNTIME_NOTHROW void RestoreStackFrameK2NNativeState();
+
+RUNTIME_NOTHROW void SaveStackFrameK2RSafePoint();
+RUNTIME_NOTHROW void RestoreStackFrameK2RSafePoint();
+
+RUNTIME_NOTHROW void SaveStackFrameR2KInitGlobals();
+RUNTIME_NOTHROW void RestoreStackFrameR2KInitGlobals();
+
+RUNTIME_NOTHROW void SaveStackFrameR2KGlobalInitAdapter();
+RUNTIME_NOTHROW void RestoreStackFrameR2KGlobalInitAdapter();
+
+RUNTIME_NOTHROW void SaveStackFrameR2KWorkerJob();
+RUNTIME_NOTHROW void RestoreStackFrameR2KWorkerJob();
+
+RUNTIME_NOTHROW void SaveStackFrameN2KBoxing();
+RUNTIME_NOTHROW void RestoreStackFrameN2KBoxing();
+
+RUNTIME_NOTHROW void SaveStackFrameN2KDisposeStableRef();
+RUNTIME_NOTHROW void RestoreStackFrameN2KDisposeStableRef();
+
+RUNTIME_NOTHROW void SaveStackFrameN2KIsInstance();
+RUNTIME_NOTHROW void RestoreStackFrameN2KIsInstance();
+
+RUNTIME_NOTHROW void SaveStackFrameN2KUnboxing();
+RUNTIME_NOTHROW void RestoreStackFrameN2KUnboxing();
+
+RUNTIME_NOTHROW void SaveStackFrameN2KClassInstance();
+RUNTIME_NOTHROW void RestoreStackFrameN2KClassInstance();
+
+RUNTIME_NOTHROW void SaveStackFrameN2KEnumEntry();
+RUNTIME_NOTHROW void RestoreStackFrameN2KEnumEntry();
+
+RUNTIME_NOTHROW void SaveStackFrameN2KCExport();
+RUNTIME_NOTHROW void RestoreStackFrameN2KCExport();
+RUNTIME_NOTHROW void RestoreStackFrameN2KCExportCatch();
 
 #ifdef __cplusplus
 }
@@ -293,7 +392,7 @@ class ObjHolder {
      EnterFrame(frame(), 0, sizeof(*this)/sizeof(void*));
    }
 
-   explicit ObjHolder(const ObjHeader* obj) {
+   explicit ObjHolder(ConstHeapObjPtr obj) {
      EnterFrame(frame(), 0, sizeof(*this)/sizeof(void*));
      ::UpdateStackRef(slot(), obj);
    }
@@ -302,28 +401,28 @@ class ObjHolder {
      LeaveFrame(frame(), 0, sizeof(*this)/sizeof(void*));
    }
 
-   ObjHeader* obj() { return obj_; }
+   HeapObjPtr obj() { return obj_; }
 
-   const ObjHeader* obj() const { return obj_; }
+   ConstHeapObjPtr obj() const { return obj_; }
 
-   ObjHeader** slot() {
+   HeapObjPtr* slot() {
      return &obj_;
    }
 
    void clear() { ::ZeroStackRef(&obj_); }
 
  private:
-   ObjHeader** frame() { return reinterpret_cast<ObjHeader**>(&frame_); }
+   HeapObjPtr* frame() { return reinterpret_cast<HeapObjPtr*>(&frame_); }
 
    FrameOverlay frame_;
-   ObjHeader* obj_;
+   HeapObjPtr obj_;
 };
 
 class ExceptionObjHolder {
 public:
-    static void Throw(ObjHeader* exception) RUNTIME_NORETURN;
+    static void Throw(HeapObjPtr exception) RUNTIME_NORETURN;
 
-    ObjHeader* GetExceptionObject() noexcept;
+    HeapObjPtr GetExceptionObject() noexcept;
 
     // Exceptions are not on a hot path, so having virtual dispatch is fine.
     virtual ~ExceptionObjHolder() = default;
@@ -436,7 +535,7 @@ private:
 class CurrentFrameGuard : Pinned {
 public:
     CurrentFrameGuard() : frame_(getCurrentFrame()) {}
-    ~CurrentFrameGuard() { SetCurrentFrame(reinterpret_cast<ObjHeader**>(frame_)); }
+    ~CurrentFrameGuard() { SetCurrentFrame(reinterpret_cast<HeapObjPtr*>(frame_)); }
 private:
     FrameOverlay* frame_;
 };
@@ -456,6 +555,8 @@ public:
             backingGuard_ = kotlin::ThreadStateGuard(kotlin::ThreadState::kNative, reentrant);
         }
     }
+    ~NativeOrUnregisteredThreadGuard() noexcept {
+    }
 
 private:
     ThreadStateGuard backingGuard_;
@@ -473,8 +574,8 @@ void compactObjectPoolInCurrentThread() noexcept;
 
 } // namespace kotlin
 
-RUNTIME_NOTHROW extern "C" void Kotlin_processObjectInMark(void* state, ObjHeader* object);
-RUNTIME_NOTHROW extern "C" void Kotlin_processArrayInMark(void* state, ObjHeader* object);
-RUNTIME_NOTHROW extern "C" void Kotlin_processEmptyObjectInMark(void* state, ObjHeader* object);
+RUNTIME_NOTHROW ALWAYS_INLINE extern "C" void Kotlin_processObjectInMark(void* state, HeapObjPtr object);
+RUNTIME_NOTHROW ALWAYS_INLINE extern "C" void Kotlin_processArrayInMark(void* state, HeapObjPtr object);
+RUNTIME_NOTHROW ALWAYS_INLINE extern "C" void Kotlin_processEmptyObjectInMark(void* state, HeapObjPtr object);
 
 #endif // RUNTIME_MEMORY_H

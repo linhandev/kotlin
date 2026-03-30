@@ -17,6 +17,11 @@
 #include "TypeLayout.hpp"
 #include "Utils.hpp"
 
+#if KONAN_LINUX || KONAN_OHOS
+extern "C" uint8_t __LLVM_StackMaps;
+#else
+extern "C" uint8_t _LLVM_StackMaps;
+#endif
 namespace kotlin {
 
 namespace alloc {

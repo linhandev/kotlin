@@ -47,7 +47,15 @@ public:
     // Called by the GC thread.
     void updateBoundaries(size_t aliveBytes) noexcept {
         if (config_.autoTune.load()) {
-            double targetHeapBytes = static_cast<double>(aliveBytes) / config_.targetHeapUtilization;
+            double oldTargetHeapSize = config_.targetHeapBytes.load(std::memory_order_relaxed);
+            double threshold1 = static_cast<double>(aliveBytes) / config_.targetHeapUtilization;
+            double targetHeapBytes = (threshold1 + oldTargetHeapSize) / 2;
+            RuntimeLogInfo({kTagGC}, "Epoch: targetHeapBytes_ =: %d %d %d %d",
+                           (uint32_t)aliveBytes/1024/1024,
+                           (uint32_t)oldTargetHeapSize/1024/1024,
+                           (uint32_t)threshold1/1024/1024,
+                           (uint32_t)targetHeapBytes/1024/1024);
+
             if (!std::isfinite(targetHeapBytes)) {
                 // This shouldn't happen in practice: targetHeapUtilization is in (0, 1]. But in case it does, don't touch anything.
                 return;
