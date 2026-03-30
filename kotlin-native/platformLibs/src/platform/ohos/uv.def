@@ -1,0 +1,3 @@
+depends = posix
+package = platform.uv
+headers = uv.h

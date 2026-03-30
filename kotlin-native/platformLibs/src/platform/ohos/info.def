@@ -1,0 +1,5 @@
+depends = posix
+package = platform.info
+headers = info/application_target_sdk_version.h info/device_api_version.h info/fatal_message.h
+headerFilter = info/**
+linkerOpts = -lc
