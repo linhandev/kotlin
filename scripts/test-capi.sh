@@ -34,7 +34,7 @@ if [ -n "$DEPLOY_VERSION" ]; then
 fi
 
 # Space-separated list: tests supported on emulator
-EMULATOR_SUPPORTED_TESTS="AIPTest AVCapabilityTest AVDemuxerTest AVMuxerTest AVSourceTest AbilityAccessControlTest AbilityBaseTest AssetApiTest AudioCodecTest AudioDecoderTest AudioEncoderTest BackgroundProcessManagerTest CertManagerTest CloudDiskTest CodecBaseTest CoreTest CryptoAsymCipherApiTest CryptoAsymKeyApiTest CryptoCommonApiTest CryptoDigestApiTest CryptoKdfApiTest CryptoKeyAgreementApiTest CryptoMacApiTest CryptoRandApiTest CryptoSignatureApiTest CryptoSymCipherApiTest CryptoSymKeyApiTest DeviceInfoTest DeviceManagerTest DlpPermissionApiTest EglTest EnvironmentTest FASTTest FileIOTest FileShareTest FileUriTest Gles3Test Gles31Test Gles32Test GlescommonTest HiCollieTest HiLogTest HitraceTest HuksKeyApiTest HuksParamSetApiTest I18nTest IconvTest InitTest InputMethodTest Kba_drmTest LocationTest MemoryTest ModuleInstallTest MtdTest Multimedia_DrmTest MuslMallocTest NativeColorSpaceManagerTest NetConnectionTest NetstackTest NeuralNetworkRuntimeTest OHAVSessionTest OHAudioSuiteTest OHAudioTest OHIPCErrorCodeTest OH_BatteryInfoTest OH_CommonEventTest OsAccountTest PreviewTest QoSTest PosixTest RDBTest SensorTest ServiceCollaborationTest SoundTest TelephonyTest TimeServiceTest TransientTaskTest VibratorTest VideoDecoderTest VideoEncoderTest VideoProcessingTest VideoTest WifiTest"
+EMULATOR_SUPPORTED_TESTS="AIPTest AVCapabilityTest AVDemuxerTest AVMuxerTest AVSourceTest AbilityAccessControlTest AbilityBaseTest AssetApiTest AudioCodecTest AudioDecoderTest AudioEncoderTest BackgroundProcessManagerTest CertManagerTest CloudDiskTest CodecBaseTest CoreTest CryptoAsymCipherApiTest CryptoAsymKeyApiTest CryptoCommonApiTest CryptoDigestApiTest CryptoKdfApiTest CryptoKeyAgreementApiTest CryptoMacApiTest CryptoRandApiTest CryptoSignatureApiTest CryptoSymCipherApiTest CryptoSymKeyApiTest DeviceInfoTest DeviceManagerTest DlpPermissionApiTest EglTest EnvironmentTest FASTTest FileIOTest FileShareTest FileUriTest Gles3Test Gles31Test Gles32Test GlescommonTest HiCollieTest HiLogTest HitraceTest HuksKeyApiTest HuksParamSetApiTest I18nTest IconvTest InitTest InputMethodTest Direct_RenderTest LocationTest MemoryTest ModuleInstallTest MtdTest Multimedia_DrmTest MuslMallocTest NativeColorSpaceManagerTest NetConnectionTest NetstackTest NeuralNetworkRuntimeTest OHAVSessionTest OHAudioSuiteTest OHAudioTest OHIPCErrorCodeTest OH_BatteryInfoTest OH_CommonEventTest OsAccountTest PreviewTest QoSTest PosixTest RDBTest SensorTest ServiceCollaborationTest SoundTest TelephonyTest TimeServiceTest TransientTaskTest VibratorTest VideoDecoderTest VideoEncoderTest VideoProcessingTest VideoTest WifiTest InfoTest"
 
 # ========== Minimum API level per test class ==========
 # get_min_api TEST_NAME -> 17|18|20|21|22 (default 17). Edit case list when adding MIN_API_*.
@@ -49,7 +49,7 @@ get_min_api() {
 }
 
 # Space-separated list: tests that only run on PC (use -p/--pc)
-PC_ONLY_TESTS="HidDdkTest HuksExternalCryptoApiTest PreviewTest SCSIPeripheralDDKTest SecurityAntivirusTest SecurityAuditTest USBSerialDDKTest UsbDDKTest BaseDdkTest Kba_devicesTest"
+PC_ONLY_TESTS="HidDdkTest HuksExternalCryptoApiTest PreviewTest SCSIPeripheralDDKTest SecurityAntivirusTest SecurityAuditTest USBSerialDDKTest UsbDDKTest BaseDdkTest"
 
 # Helper: is $1 in space-separated list $2
 _is_in_list() { case " $2 " in *" $1 "*) return 0;; *) return 1;; esac; }
