@@ -209,7 +209,10 @@ open class StubsBuildingContextImpl(
     val EnumDef.kotlinName: String
         get() = if (spelling.startsWith("enum ")) {
             spelling.substringAfter(' ')
-        } else {
+        } else if(spelling.startsWith("(unnamed enum ")) {
+            // fixed the issue of anonymous enumeration class conversion failure in C++
+            spelling
+        }else {
             assert (!isAnonymous)
             spelling
         }
