@@ -270,9 +270,13 @@ extern "C" {
     OBJ_GETTER(Kotlin_napi_get_kotlin_string_utf16, KNativePtr env, KNativePtr value) {
         // Get the string length (excluding the null terminator)
         size_t str_size;
+
+        napi_env napiEnv = reinterpret_cast<napi_env>(env);
+        napi_value napiValue = reinterpret_cast<napi_value>(value);
+
         napi_status status = napi_get_value_string_utf16(
-                (napi_env)env,
-                (napi_value)value,
+                napiEnv,
+                napiValue,
                 NULL, 0, &str_size
         );
         if (status != napi_ok) {
@@ -285,19 +289,18 @@ extern "C" {
         if (str_size == 0) {
             RETURN_RESULT_OF0(TheEmptyString);
         }
-
         // Create an uninitialized UTF-16 string
-        ObjHeader* result;
-        KRef kotlinString = CreateUninitializedString(StringEncoding::kUTF16, (uint32_t)str_size, &result);
+        // Allocate str_size+1 to reserve space for the null terminator written by napi_get_value_string_utf16
+        KRef kotlinString = CreateUninitializedString(StringEncoding::kUTF16, (uint32_t)(str_size + 1), OBJ_RESULT);
 
+        StringHeader* kotlinHeader = StringHeader::of(kotlinString);
         // Get the data pointer from the Kotlin string
-        char16_t* data = reinterpret_cast<char16_t*>(StringHeader::of(kotlinString)->data());
-
+        char16_t* data = reinterpret_cast<char16_t*>(kotlinHeader->data());
         // Now get the string directly from napi into the Kotlin string's buffer
         size_t str_size_read;
         status = napi_get_value_string_utf16(
-                (napi_env)env,
-                (napi_value)value,
+                napiEnv,
+                napiValue,
                 data,
                 str_size + 1, &str_size_read
         );
@@ -309,6 +312,9 @@ extern "C" {
             RETURN_OBJ(nullptr);
         }
 
+        // Adjust “count_” to exclude the null terminator.
+        // The value of “count_” is calculated following the implementation in StringHeader::size().
+        kotlinHeader->count_ = str_size + (kotlinHeader->extraLength (kotlinHeader->flags_) / sizeof(KChar));
         RETURN_OBJ(kotlinString);
     }
 }
