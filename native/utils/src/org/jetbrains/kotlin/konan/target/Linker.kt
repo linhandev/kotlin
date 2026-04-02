@@ -386,6 +386,7 @@ class MacOSBasedLinker(targetProperties: AppleConfigurables)
             +platformVersionFlags()
             +listOf("-syslibroot", absoluteTargetSysRoot, "-o", executable)
             +objectFiles
+
             if (optimize) +linkerOptimizationFlags
             if (!debug) +linkerNoDebugFlags
             if (dynamic) +linkerDynamicFlags

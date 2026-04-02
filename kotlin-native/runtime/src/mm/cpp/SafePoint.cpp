@@ -47,7 +47,9 @@ public:
         os_signpost_interval_begin(logObject, id_, SAFEPOINT_SIGNPOST_NAME, "thread id: %" PRIuPTR, threadData.threadId());
     }
 
-    ~SafePointSignpostInterval() { os_signpost_interval_end(logObject, id_, SAFEPOINT_SIGNPOST_NAME); }
+    ~SafePointSignpostInterval() {
+        os_signpost_interval_end(logObject, id_, SAFEPOINT_SIGNPOST_NAME);
+    }
 
 private:
     static os_log_t logObject;
@@ -88,10 +90,12 @@ ALWAYS_INLINE void slowPathImpl(mm::ThreadData& threadData) noexcept {
 }
 
 NO_INLINE void slowPath() noexcept {
+    RuntimeSetLastFrame1();
     slowPathImpl(*mm::ThreadRegistry::Instance().CurrentThreadData());
 }
 
 NO_INLINE void slowPath(mm::ThreadData& threadData) noexcept {
+    threadData.RuntimeSetLastFrame();
     slowPathImpl(threadData);
 }
 
@@ -119,6 +123,20 @@ void decrementActiveCount() noexcept {
 
 } // namespace
 
+extern "C" void slowPathStub();
+
+extern "C" NO_INLINE RUNTIME_EXPORT void CslowPath() {
+    slowPath();
+}
+
+ALWAYS_INLINE void mm::safePointStub(std::memory_order fastPathOrder) noexcept {
+    AssertThreadState(ThreadState::kRunnable);
+    auto action = safePointAction.load(fastPathOrder);
+    if (__builtin_expect(action != nullptr, false)) {
+        slowPathStub();
+    }
+}
+
 mm::SafePointActivator::SafePointActivator() noexcept : active_(true) {
     incrementActiveCount();
 }
@@ -129,19 +147,13 @@ mm::SafePointActivator::~SafePointActivator() {
     }
 }
 
-ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPathOrder) noexcept
+PERFORMANCE_INLINE void mm::safePoint(std::memory_order fastPathOrder) noexcept
 {
     mm::DisallowSafepointScope::AssertAllowSafepoint(GetMemoryState());
     AssertThreadState(ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
     if (__builtin_expect(action != nullptr, false)) {
-        if (needSavedFrame) {
-            SaveStackFrameK2RSafePoint();
-        }
         slowPath();
-        if (needSavedFrame) {
-            RestoreStackFrameK2RSafePoint();
-        }
     }
 }
 

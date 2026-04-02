@@ -24,11 +24,13 @@
 #include <vector>
 
 #include <pthread.h>
+#include "Common.h"
 #include "PthreadUtils.h"
 
 #include "Exceptions.h"
 #include "ExternalRCRef.hpp"
 #include "KAssert.h"
+#include "KotlinCallScope.h"
 #include "Memory.h"
 #include "Natives.h"
 #include "Runtime.h"
@@ -329,6 +331,7 @@ class State {
     pthread_cond_destroy(&cond_);
   }
 
+  HAS_SAFEPOINT
   Worker* addWorkerUnlocked(WorkerExceptionHandling exceptionHandling, mm::OwningExternalRCRef name, WorkerKind kind) {
     Worker* worker = nullptr;
     {
@@ -675,6 +678,7 @@ void Future::cancelUnlocked(MemoryState* memoryState) {
 // Defined in RuntimeUtils.kt.
 extern "C" void ReportUnhandledException(KRef e);
 
+HAS_SAFEPOINT
 KInt startWorker(WorkerExceptionHandling exceptionHandling, mm::OwningExternalRCRef name) {
   Worker* worker = theState()->addWorkerUnlocked(exceptionHandling, std::move(name), WorkerKind::kNative);
   if (worker == nullptr) return -1;
@@ -682,26 +686,31 @@ KInt startWorker(WorkerExceptionHandling exceptionHandling, mm::OwningExternalRC
   return worker->id();
 }
 
+HAS_SAFEPOINT
 KInt currentWorker() {
   if (g_worker == nullptr) ThrowWorkerAlreadyTerminated();
   return ::g_worker->id();
 }
 
+HAS_SAFEPOINT
 KInt execute(KInt id, mm::OwningExternalRCRef jobArgument, ExecuteJob jobFunction) {
   Future* future = theState()->addJobToWorkerUnlocked(id, jobFunction, std::move(jobArgument), false);
   if (future == nullptr) ThrowWorkerAlreadyTerminated();
   return future->id();
 }
 
+HAS_SAFEPOINT
 void executeAfter(KInt id, mm::OwningExternalRCRef job, KLong afterMicroseconds) {
   if (!theState()->executeJobAfterInWorkerUnlocked(id, std::move(job), afterMicroseconds))
     ThrowWorkerAlreadyTerminated();
 }
 
+HAS_SAFEPOINT
 KBoolean processQueue(KInt id) {
    return theState()->processQueueUnlocked(id);
 }
 
+HAS_SAFEPOINT
 KBoolean park(KInt id, KLong timeoutMicroseconds, KBoolean process) {
    return theState()->parkUnlocked(id, timeoutMicroseconds, process);
 }
@@ -725,18 +734,22 @@ KInt requestTermination(KInt id, KBoolean processScheduledJobs) {
   return future->id();
 }
 
+HAS_SAFEPOINT
 KBoolean waitForAnyFuture(KInt version, KInt millis) {
   return theState()->waitForAnyFuture(version, millis);
 }
 
+HAS_SAFEPOINT
 KInt versionToken() {
   return theState()->versionToken();
 }
 
+HAS_SAFEPOINT
 KULong platformThreadId(KInt id) {
     return theState()->getWorkerPlatformThreadIdUnlocked(id);
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER0(activeWorkers) {
     RETURN_RESULT_OF0(theState()->getActiveWorkers);
 }
@@ -959,7 +972,7 @@ bool Worker::park(KLong timeoutMicroseconds, bool process) {
   return processQueueElement(false) >= JOB_REGULAR;
 }
 
-JobKind Worker::processQueueElement(bool blocking) {
+RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
   if (terminated_) return JOB_TERMINATE;
   Job job = getJob(blocking);
   switch (job.kind) {
@@ -999,9 +1012,30 @@ JobKind Worker::processQueueElement(bool blocking) {
       bool ok = true;
       try {
           objc_support::AutoreleasePool autoreleasePool;
-          SaveStackFrameR2KWorkerJob();
-          result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
-          RestoreStackFrameR2KWorkerJob();
+          {
+              KotlinCallScope scope;
+              // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
+              // Global symbols are exported as .quad pointers in __DATA,__const (see bottom of file).
+              #if KONAN_MACOSX
+                asm volatile(".alt_entry _unwindPCStartForWorkerStub\n"
+                    ".global _unwindPCStartForWorkerStub\n"
+                    "_unwindPCStartForWorkerStub:");
+              #else
+                asm("  .p2align 3\n"
+                    "  .global unwindPCStartForWorkerStub\n"
+                    "unwindPCStartForWorkerStub:");
+              #endif
+              result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
+              #if KONAN_MACOSX
+                asm volatile(".alt_entry _unwindPCEndForWorkerStub\n"
+                    ".global _unwindPCEndForWorkerStub\n"
+                    "_unwindPCEndForWorkerStub:");
+              #else
+                asm("  .p2align 3\n"
+                    "  .global unwindPCEndForWorkerStub\n"
+                    "unwindPCEndForWorkerStub:");
+              #endif
+          }
       } catch (ExceptionObjHolder& e) {
         ok = false;
         switch (exceptionHandling()) {
@@ -1024,70 +1058,109 @@ JobKind Worker::processQueueElement(bool blocking) {
 }
 
 extern "C" {
-
+HAS_SAFEPOINT
 KInt Kotlin_Worker_startInternal(KBoolean errorReporting, mm::RawExternalRCRef* name) {
     return startWorker(errorReporting ? WorkerExceptionHandling::kDefault : WorkerExceptionHandling::kIgnore, mm::OwningExternalRCRef(name));
 }
 
+HAS_SAFEPOINT
 KInt Kotlin_Worker_currentInternal() {
   return currentWorker();
 }
 
+HAS_SAFEPOINT
 KInt Kotlin_Worker_requestTerminationWorkerInternal(KInt id, KBoolean processScheduledJobs) {
   return requestTermination(id, processScheduledJobs);
 }
 
+HAS_SAFEPOINT
 KInt Kotlin_Worker_executeInternal(KInt id, mm::RawExternalRCRef* jobArgument, ExecuteJob job) {
   return execute(id, mm::OwningExternalRCRef(jobArgument), job);
 }
 
+HAS_SAFEPOINT
 void Kotlin_Worker_executeAfterInternal(KInt id, mm::RawExternalRCRef* job, KLong afterMicroseconds) {
   executeAfter(id, mm::OwningExternalRCRef(job), afterMicroseconds);
 }
 
+HAS_SAFEPOINT
 KBoolean Kotlin_Worker_processQueueInternal(KInt id) {
   return processQueue(id);
 }
 
+HAS_SAFEPOINT
 KBoolean Kotlin_Worker_parkInternal(KInt id, KLong timeoutMicroseconds, KBoolean process) {
   return park(id, timeoutMicroseconds, process);
 }
 
+HAS_SAFEPOINT
 mm::RawExternalRCRef* Kotlin_Worker_getNameInternal(KInt id) {
     return getWorkerName(id);
 }
 
+HAS_SAFEPOINT
 KInt Kotlin_Worker_stateOfFuture(KInt id) {
   return stateOfFuture(id);
 }
 
+HAS_SAFEPOINT
 mm::RawExternalRCRef* Kotlin_Worker_consumeFuture(KInt id) {
     return consumeFuture(id).detach();
 }
 
+HAS_SAFEPOINT
 KBoolean Kotlin_Worker_waitForAnyFuture(KInt versionToken, KInt millis) {
   return waitForAnyFuture(versionToken, millis);
 }
 
+HAS_SAFEPOINT
 KInt Kotlin_Worker_versionToken() {
   return versionToken();
 }
 
+HAS_SAFEPOINT
 void Kotlin_Worker_waitTermination(KInt id) {
     WaitNativeWorkerTermination(id);
 }
 
+HAS_SAFEPOINT
 KULong Kotlin_Worker_getPlatformThreadIdInternal(KInt id) {
     return platformThreadId(id);
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER0(Kotlin_Worker_getActiveWorkersInternal) {
     RETURN_RESULT_OF0(activeWorkers);
 }
 
-OBJ_GETTER(Kotlin_Worker_invokeCFunction, ExecuteJob job, KRef jobArgument) {
+HAS_SAFEPOINT
+NO_INLINE OBJ_GETTER(Kotlin_Worker_invokeCFunction, ExecuteJob job, KRef jobArgument) {
     CurrentFrameGuard guard;
-    RETURN_RESULT_OF(job, jobArgument);
+    HeapObjPtr result;
+    {
+        KotlinCallScope scope;
+#if KONAN_MACOSX
+        asm volatile(".alt_entry _unwindPCStartForInvokeCFunction\n"
+            ".global _unwindPCStartForInvokeCFunction\n"
+            "_unwindPCStartForInvokeCFunction:");
+#else
+        asm("  .p2align 3\n"
+            "  .global unwindPCStartForInvokeCFunction\n"
+            "unwindPCStartForInvokeCFunction:");
+#endif
+        result = job(jobArgument, __result__);
+#if KONAN_MACOSX
+        asm volatile(".alt_entry _unwindPCEndForInvokeCFunction\n"
+            ".global _unwindPCEndForInvokeCFunction\n"
+            "_unwindPCEndForInvokeCFunction:");
+#else
+        asm("  .p2align 3\n"
+            "  .global unwindPCEndForInvokeCFunction\n"
+            "unwindPCEndForInvokeCFunction:");
+#endif
+    }
+    return result;
 }
 
 }  // extern "C"
+

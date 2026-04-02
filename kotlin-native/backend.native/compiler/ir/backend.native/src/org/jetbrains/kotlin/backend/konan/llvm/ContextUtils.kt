@@ -355,6 +355,20 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
         return LlvmCallable(functionType, returnsObjectType, function, attributesCopier)
     }
 
+    private fun importStubFunction(name: String, otherModule: LLVMModuleRef, returnsObjectType: Boolean): LlvmCallable {
+        val externalFunction = LLVMGetNamedFunction(otherModule, name) ?: throw Error("function $name not found")
+
+        val attributesCopier = LlvmFunctionAttributeProvider.copyFromExternal(externalFunction)
+
+        val functionType = getGlobalFunctionType(externalFunction)
+        val newName = name + "Stub"
+        val function = LLVMAddFunction(module, newName, functionType)!!
+
+        attributesCopier.addFunctionAttributes(function)
+
+        return LlvmCallable(functionType, returnsObjectType, function, attributesCopier)
+    }
+
     private fun importMemset(): LlvmCallable {
         val functionType = functionType(voidType, false, int8PtrType, int8Type, int32Type, int1Type)
         return llvmIntrinsic(
@@ -423,8 +437,12 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     }
 
     private fun importRtFunction(name: String, returnsObjectType: Boolean) = importFunction(name, runtime.llvmModule, returnsObjectType)
+    private fun importRtStubFunction(name: String, returnsObjectType: Boolean = false) = importStubFunction(name, runtime.llvmModule, returnsObjectType)
 
     val allocInstanceFunction = importRtFunction("AllocInstance", true)
+    val allocInstanceFunctionStub = importRtStubFunction("AllocInstance", true)
+    val Kotlin_mm_safePointFunctionPrologueStub = importRtStubFunction("Kotlin_mm_safePointFunctionPrologue", false)
+    val Kotlin_mm_safePointWhileLoopBodyStub = importRtStubFunction("Kotlin_mm_safePointWhileLoopBody", false)
     val allocArrayFunction = importRtFunction("AllocArrayInstance", true)
     val initAndRegisterGlobalFunction = importRtFunction("InitAndRegisterGlobal", false)
     val updateHeapRefFunction = importRtFunction("UpdateHeapRef", false)
@@ -509,41 +527,7 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     val Kotlin_arrayGetElementAddress by lazy { importRtFunction("Kotlin_arrayGetElementAddress", false) }
     val Kotlin_intArrayGetElementAddress by lazy { importRtFunction("Kotlin_intArrayGetElementAddress", false) }
     val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
-    val saveThreadLastKotlinFrame2 by lazy { importRtFunction("SaveThreadLastKotlinFrame2", false) }
-    val restoreThreadLastKotlinFrame2 by lazy { importRtFunction("RestoreThreadLastKotlinFrame2", false) }
-
-    val saveStackFrameR2KExportForCppRuntime by lazy { importRtFunction("SaveStackFrameR2KExportForCppRuntime", false) }
-    val restoreStackFrameN2KNativeToKotlin by lazy { importRtFunction("RestoreStackFrameR2KExportForCppRuntime", false) }
-
-    val saveStackFrameR2KInitGlobals by lazy { importRtFunction("SaveStackFrameR2KInitGlobals", false) }
-    val restoreStackFrameR2KInitGlobals by lazy { importRtFunction("RestoreStackFrameR2KInitGlobals", false) }
-
-    val saveStackFrameK2RK2X by lazy { importRtFunction("SaveStackFrameK2RK2X", false) }
-    val restoreStackFrameK2RK2X by lazy { importRtFunction("RestoreStackFrameK2RK2X", false) }
-
-    val saveStackFrameK2NNativeState by lazy { importRtFunction("SaveStackFrameK2NNativeState", false) }
-    val restoreStackFrameK2NNativeState by lazy { importRtFunction("RestoreStackFrameK2NNativeState", false) }
-
-    val saveStackFrameN2KBoxing by lazy { importRtFunction("SaveStackFrameN2KBoxing", false) }
-    val restoreStackFrameN2KBoxing by lazy { importRtFunction("RestoreStackFrameN2KBoxing", false) }
-
-    val saveStackFrameN2KDisposeStableRef by lazy { importRtFunction("SaveStackFrameN2KDisposeStableRef", false) }
-    val restoreStackFrameN2KDisposeStableRef by lazy { importRtFunction("RestoreStackFrameN2KDisposeStableRef", false) }
-
-    val saveStackFrameN2KIsInstance by lazy { importRtFunction("SaveStackFrameN2KIsInstance", false) }
-    val restoreStackFrameN2KIsInstance by lazy { importRtFunction("RestoreStackFrameN2KIsInstance", false) }
-
-    val saveStackFrameN2KUnboxing by lazy { importRtFunction("SaveStackFrameN2KUnboxing", false) }
-    val restoreStackFrameN2KUnboxing by lazy { importRtFunction("RestoreStackFrameN2KUnboxing", false) }
-
-    val saveStackFrameN2KClassInstance by lazy { importRtFunction("SaveStackFrameN2KClassInstance", false) }
-    val restoreStackFrameN2KClassInstance by lazy { importRtFunction("RestoreStackFrameN2KClassInstance", false) }
-
-    val saveStackFrameN2KEnumEntry by lazy { importRtFunction("SaveStackFrameN2KEnumEntry", false) }
-    val restoreStackFrameN2KEnumEntry by lazy { importRtFunction("RestoreStackFrameN2KEnumEntry", false) }
-
-    val saveStackFrameN2KCExport by lazy { importRtFunction("SaveStackFrameN2KCExport", false) }
-    val restoreStackFrameN2KCExport by lazy { importRtFunction("RestoreStackFrameN2KCExport", false) }
+    val setLastFrameReliable by lazy { importRtFunction("SetLastFrameReliable", false) }
 
     val usedFunctions = mutableListOf<LlvmCallable>()
     val usedGlobals = mutableListOf<LLVMValueRef>()

@@ -54,10 +54,12 @@ void Kotlin_native_NumberConverter_bigIntDigitGeneratorInstImpl (KRef results,
                                                          KBoolean mantissaIsZero,
                                                          KInt p);
 
+NO_SAFEPOINT
 KDouble Kotlin_native_NumberConverter_ceil(KDouble x) {
   return ceil(x);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_IntArray_set(KRef thiz, KInt index, KInt value);
 
 KDouble Kotlin_native_long_bits_to_double(KLong x);

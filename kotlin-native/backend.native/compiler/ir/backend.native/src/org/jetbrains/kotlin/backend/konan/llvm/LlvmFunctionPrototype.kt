@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.ir.declarations.IrDeclaration
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.types.isNothing
 import org.jetbrains.kotlin.ir.util.*
+import org.jetbrains.kotlin.name.NativeRuntimeNames
 
 /**
  * Add attributes to LLVM function declaration and its invocation.
@@ -95,15 +96,27 @@ private class LlvmFunctionAttributesCopier(private val externalFunction: LLVMVal
 
 private fun addCallSiteAttributesAtIndex(context: LLVMContextRef, callSite: LLVMValueRef, index: Int, attributes: List<LlvmAttribute>) {
     attributes.forEach { attribute ->
-        val llvmAttributeRef = createLlvmEnumAttribute(context, attribute.asAttributeKindId())
-        LLVMAddCallSiteAttribute(callSite, index, llvmAttributeRef)
+        if (attribute.asAttributeKindId().value == 0) {
+            val functionAttribute = attribute as? LlvmFunctionAttribute
+            val llvmAttributeRef2 = LLVMCreateStringAttribute(context, functionAttribute?.attributeKey, functionAttribute?.attributeKey!!.length, functionAttribute?.attributeValue, functionAttribute?.attributeValue!!.length)
+            LLVMAddCallSiteAttribute(callSite, index, llvmAttributeRef2)
+        } else {
+            val llvmAttributeRef = createLlvmEnumAttribute(context, attribute.asAttributeKindId())
+            LLVMAddCallSiteAttribute(callSite, index, llvmAttributeRef)
+        }
     }
 }
 
 private fun addDeclarationAttributesAtIndex(context: LLVMContextRef, function: LLVMValueRef, index: Int, attributes: List<LlvmAttribute>) {
     attributes.forEach { attribute ->
-        val llvmAttributeRef = createLlvmEnumAttribute(context, attribute.asAttributeKindId())
-        LLVMAddAttributeAtIndex(function, index, llvmAttributeRef)
+        if (attribute.asAttributeKindId().value == 0) {
+            val functionAttribute = attribute as? LlvmFunctionAttribute
+            val llvmAttributeRef2 = LLVMCreateStringAttribute(context, functionAttribute?.attributeKey, functionAttribute?.attributeKey!!.length, functionAttribute?.attributeValue, functionAttribute?.attributeValue!!.length)
+             LLVMAddAttributeAtIndex(function, index, llvmAttributeRef2)
+        } else {
+            val llvmAttributeRef = createLlvmEnumAttribute(context, attribute.asAttributeKindId())
+            LLVMAddAttributeAtIndex(function, index, llvmAttributeRef)
+        }
     }
 }
 
@@ -129,7 +142,7 @@ internal fun LlvmFunctionSignature(irFunction: IrSimpleFunction, contextUtils: C
     require(!irFunction.isSuspend) { "Suspend functions should be lowered out at this point" }
 
     if (returnType.isObjectType)
-        parameterTypes.add(LlvmParamType(contextUtils.kObjHeaderRefPtr)) 
+        parameterTypes.add(LlvmParamType(contextUtils.kObjHeaderRefPtr))
 
     return LlvmFunctionSignature(
             returnType = returnType,
@@ -244,5 +257,10 @@ private fun inferFunctionAttributes(contextUtils: ContextUtils, irFunction: IrSi
             }
             if (mustNotInline(contextUtils.context, irFunction)) {
                 add(LlvmFunctionAttribute.NoInline)
+            }
+            add(LlvmFunctionAttribute.KFunc)
+            val classId = NativeRuntimeNames.Annotations.exportForCppRuntimeClassId
+            if (irFunction.hasAnnotation(classId)) {
+                add(LlvmFunctionAttribute.ExportForCppRuntimeKFunc)
             }
         }

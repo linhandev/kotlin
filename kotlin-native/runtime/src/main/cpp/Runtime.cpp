@@ -3,6 +3,7 @@
  * that can be found in the LICENSE file.
  */
 
+#include "DisallowSafepointScope.h"
 #include "std_support/Atomic.hpp"
 #include "Cleaner.h"
 #include "CompilerConstants.hpp"
@@ -20,6 +21,7 @@
 #ifdef KONAN_OHOS
 #include "ArkTSInit.h"
 #endif
+#include "KotlinCallScope.h"
 #include <atomic>
 #include <cstdint>
 #include <cstdlib>
@@ -66,20 +68,34 @@ enum {
   DEINIT_GLOBALS = 3
 };
 
-void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
+NO_INLINE void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
   InitNode* currentNode = initHeadNode;
+#if KONAN_MACOSX
+  asm volatile(".alt_entry _unwindPCStartForInitOrDeinitGlobalVariables\n"
+      ".global _unwindPCStartForInitOrDeinitGlobalVariables\n"
+      "_unwindPCStartForInitOrDeinitGlobalVariables:");
+#else
+  asm("  .p2align 3\n"
+      "  .global unwindPCStartForInitOrDeinitGlobalVariables\n"
+      "unwindPCStartForInitOrDeinitGlobalVariables:");
+#endif
   while (currentNode != nullptr) {
-    SaveStackFrameR2KInitGlobals();
-    currentNode->init(initialize, memory);
-    RestoreStackFrameR2KInitGlobals();
+    {
+      KotlinCallScope scope;
+      currentNode->init(initialize, memory);
+    }
     currentNode = currentNode->next;
   }
+#if KONAN_MACOSX
+  asm volatile(".alt_entry _unwindPCEndForInitOrDeinitGlobalVariables\n"
+      ".global _unwindPCEndForInitOrDeinitGlobalVariables\n"
+      "_unwindPCEndForInitOrDeinitGlobalVariables:");
+#else
+  asm("  .p2align 3\n"
+      "  .global unwindPCEndForInitOrDeinitGlobalVariables\n"
+      "unwindPCEndForInitOrDeinitGlobalVariables:");
+#endif
 }
-
-struct GlobalInitAdapterGuard {
-    ALWAYS_INLINE GlobalInitAdapterGuard() { SaveStackFrameR2KGlobalInitAdapter(); }
-    ALWAYS_INLINE ~GlobalInitAdapterGuard() { RestoreStackFrameR2KGlobalInitAdapter(); }
-};
 
 KBoolean g_checkLeaks = false;
 KBoolean g_checkLeakedCleaners = false;
@@ -468,8 +484,8 @@ static void CallInitGlobalAwaitInitialized(uintptr_t* state) {
     if (localState == FILE_FAILED_TO_INITIALIZE) ThrowFileFailedToInitializeException(nullptr);
 }
 
+HAS_SAFEPOINT
 NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
-    GlobalInitAdapterGuard adapterGuard;
     uintptr_t localState = std_support::atomic_ref{*state}.load(std::memory_order_acquire);
     if (localState == FILE_INITIALIZED) return;
     if (localState == FILE_FAILED_TO_INITIALIZE)
@@ -485,8 +501,30 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
         // actual initialization
         try {
             CurrentFrameGuard guard;
-            InitGlobalsFrameGuard initGlobalsGuard;
-            init();
+            {
+                KotlinCallScope scope;
+                // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
+                // Global symbols are exported as .quad pointers in __DATA,__const (see bottom of file).
+#if KONAN_MACOSX
+            asm volatile(".alt_entry _unwindPCStartForCallInitGlobalPossiblyLock\n"
+                ".global _unwindPCStartForCallInitGlobalPossiblyLock\n"
+                "_unwindPCStartForCallInitGlobalPossiblyLock:");
+#else
+            asm("  .p2align 3\n"
+                "  .global unwindPCStartForCallInitGlobalPossiblyLock\n"
+                "unwindPCStartForCallInitGlobalPossiblyLock:");
+#endif
+                init();
+#if KONAN_MACOSX
+            asm volatile(".alt_entry _unwindPCEndForCallInitGlobalPossiblyLock\n"
+                ".global _unwindPCEndForCallInitGlobalPossiblyLock\n"
+                "_unwindPCEndForCallInitGlobalPossiblyLock:");
+#else
+            asm("  .p2align 3\n"
+                "  .global unwindPCEndForCallInitGlobalPossiblyLock\n"
+                "unwindPCEndForCallInitGlobalPossiblyLock:");
+#endif
+            }
         } catch (ExceptionObjHolder& e) {
             ObjHolder holder;
             auto *exception = Kotlin_getExceptionObject(&e, holder.slot());
@@ -499,15 +537,35 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
     }
 }
 
+HAS_SAFEPOINT
 void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState, void (*init)()) {
-    GlobalInitAdapterGuard adapterGuard;
     if (*localState == FILE_FAILED_TO_INITIALIZE || (globalState != nullptr && *globalState == FILE_FAILED_TO_INITIALIZE))
         ThrowFileFailedToInitializeException(nullptr);
     *localState = FILE_INITIALIZED;
     try {
         CurrentFrameGuard guard;
-        InitGlobalsFrameGuard initGlobalsGuard;
-        init();
+        {
+            KotlinCallScope scope;
+#if KONAN_MACOSX
+        asm volatile(".alt_entry _unwindPCStartForCallInitThreadLocal\n"
+            ".global _unwindPCStartForCallInitThreadLocal\n"
+            "_unwindPCStartForCallInitThreadLocal:");
+#else
+        asm("  .p2align 3\n"
+            "  .global unwindPCStartForCallInitThreadLocal\n"
+            "unwindPCStartForCallInitThreadLocal:");
+#endif
+            init();
+#if KONAN_MACOSX
+        asm volatile(".alt_entry _unwindPCEndForCallInitThreadLocal\n"
+            ".global _unwindPCEndForCallInitThreadLocal\n"
+            "_unwindPCEndForCallInitThreadLocal:");
+#else
+        asm("  .p2align 3\n"
+            "  .global unwindPCEndForCallInitThreadLocal\n"
+            "unwindPCEndForCallInitThreadLocal:");
+#endif
+        }
     } catch(ExceptionObjHolder& e) {
         ObjHolder holder;
         auto *exception = Kotlin_getExceptionObject(&e, holder.slot());
@@ -517,3 +575,4 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
 }
 
 }  // extern "C"
+

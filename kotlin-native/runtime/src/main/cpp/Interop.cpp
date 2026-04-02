@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
+#include "DisallowSafepointScope.h"
 #include "KString.h"
 #include "Memory.h"
 
 using namespace kotlin;
 
+HAS_SAFEPOINT
 extern "C" OBJ_GETTER(Kotlin_CString_toKStringFromUtf8Impl, const char* cstring) {
   RETURN_RESULT_OF(CreateStringFromCString, cstring);
 }

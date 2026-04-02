@@ -22,11 +22,13 @@
 #include "Memory.h"
 #include "Natives.h"
 #include "Types.h"
+#include "DisallowSafepointScope.h"
 
 extern "C" void checkRangeIndexes(KInt from, KInt to, KInt size);
 
 namespace {
 
+HAS_SAFEPOINT_THROW
 PERFORMANCE_INLINE inline void boundsCheck(const ArrayHeader* array, KInt index) {
   // We couldn't have created an array bigger than max KInt value.
   // So if index is < 0, conversion to an unsigned value would make it bigger
@@ -37,6 +39,7 @@ PERFORMANCE_INLINE inline void boundsCheck(const ArrayHeader* array, KInt index)
 }
 
 template<typename T>
+HAS_SAFEPOINT_THROW
 inline void fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, T value) {
   ArrayHeader* array = thiz->array();
   checkRangeIndexes(fromIndex, toIndex, array->count_);
@@ -47,6 +50,7 @@ inline void fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, T value) {
 }
 
 template<typename T>
+HAS_SAFEPOINT_THROW
 inline void copyImpl(KConstRef thiz, KInt fromIndex,
                      KRef destination, KInt toIndex, KInt count) {
   const ArrayHeader* array = thiz->array();
@@ -63,6 +67,7 @@ inline void copyImpl(KConstRef thiz, KInt fromIndex,
 
 
 template <class T, bool BoundsCheck = true>
+HAS_SAFEPOINT_THROW
 inline void PrimitiveArraySet(KRef thiz, KInt index, T value) {
   ArrayHeader* array = thiz->array();
   if (BoundsCheck)
@@ -71,6 +76,7 @@ inline void PrimitiveArraySet(KRef thiz, KInt index, T value) {
 }
 
 template <class T, bool BoundsCheck = true>
+HAS_SAFEPOINT_THROW
 inline T PrimitiveArrayGet(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (BoundsCheck)
@@ -79,6 +85,7 @@ inline T PrimitiveArrayGet(KConstRef thiz, KInt index) {
 }
 
 template<bool BoundsCheck = true>
+HAS_SAFEPOINT_THROW
 PERFORMANCE_INLINE const KRef* Kotlin_Array_get_value(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (BoundsCheck)
@@ -87,6 +94,7 @@ PERFORMANCE_INLINE const KRef* Kotlin_Array_get_value(KConstRef thiz, KInt index
 }
 
 template<bool BoundsCheck = true>
+HAS_SAFEPOINT_THROW
 PERFORMANCE_INLINE void Kotlin_Array_set_value(KRef thiz, KInt index, KConstRef value) {
   ArrayHeader* array = thiz->array();
   if (BoundsCheck)
@@ -95,6 +103,7 @@ PERFORMANCE_INLINE void Kotlin_Array_set_value(KRef thiz, KInt index, KConstRef 
 }
 
 template<bool BoundsCheck = true>
+HAS_SAFEPOINT_THROW
 PERFORMANCE_INLINE KByte Kotlin_ByteArray_get_value(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (BoundsCheck)
@@ -103,6 +112,7 @@ PERFORMANCE_INLINE KByte Kotlin_ByteArray_get_value(KConstRef thiz, KInt index) 
 }
 
 template<bool BoundsCheck = true>
+HAS_SAFEPOINT_THROW
 PERFORMANCE_INLINE void Kotlin_ByteArray_set_value(KRef thiz, KInt index, KByte value) {
   ArrayHeader* array = thiz->array();
   if (BoundsCheck)
@@ -120,27 +130,33 @@ extern const ObjHeader theEmptyArray;
 // TODO: those must be compiler intrinsics afterwards.
 
 // Array.kt
+HAS_SAFEPOINT_THROW
 OBJ_GETTER(Kotlin_Array_get, KConstRef thiz, KInt index) {
   RETURN_OBJ(*Kotlin_Array_get_value(thiz, index));
 }
 
+HAS_SAFEPOINT_THROW
 OBJ_GETTER(Kotlin_Array_get_without_BoundCheck, KConstRef thiz, KInt index){
   RETURN_OBJ(*Kotlin_Array_get_value<false>(thiz, index));
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_Array_set(KRef thiz, KInt index, KConstRef value) {
   Kotlin_Array_set_value(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_Array_set_without_BoundCheck(KRef thiz, KInt index, KConstRef value) {
   Kotlin_Array_set_value<false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_Array_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_Array_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KRef value) {
   ArrayHeader* array = thiz->array();
   checkRangeIndexes(fromIndex, toIndex, array->count_);
@@ -149,6 +165,7 @@ void Kotlin_Array_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KRef value) 
   }
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_Array_copyImpl(KConstRef thiz, KInt fromIndex,
                            KRef destination, KInt toIndex, KInt count) {
   const ArrayHeader* array = thiz->array();
@@ -172,31 +189,38 @@ void Kotlin_Array_copyImpl(KConstRef thiz, KInt fromIndex,
 }
 
 // Arrays.kt
+NO_SAFEPOINT
 OBJ_GETTER0(Kotlin_emptyArray) {
   RETURN_OBJ(const_cast<ObjHeader*>(&theEmptyArray));
 }
 
+HAS_SAFEPOINT_THROW
 KByte Kotlin_ByteArray_get(KConstRef thiz, KInt index) {
   return Kotlin_ByteArray_get_value(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KByte Kotlin_ByteArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return Kotlin_ByteArray_get_value<false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_set(KRef thiz, KInt index, KByte value) {
   Kotlin_ByteArray_set_value(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_set_without_BoundCheck(KRef thiz, KInt index, KByte value) {
   Kotlin_ByteArray_set_value<false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_ByteArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 KChar Kotlin_ByteArray_getCharAt(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 1 >= array->count_) {
@@ -215,6 +239,7 @@ KChar Kotlin_ByteArray_getCharAt(KConstRef thiz, KInt index) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 KShort Kotlin_ByteArray_getShortAt(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 1 >= array->count_) {
@@ -233,6 +258,7 @@ KShort Kotlin_ByteArray_getShortAt(KConstRef thiz, KInt index) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 KInt Kotlin_ByteArray_getIntAt(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 3 >= array->count_) {
@@ -252,6 +278,7 @@ KInt Kotlin_ByteArray_getIntAt(KConstRef thiz, KInt index) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 KLong Kotlin_ByteArray_getLongAt(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 7 >= array->count_) {
@@ -273,6 +300,7 @@ KLong Kotlin_ByteArray_getLongAt(KConstRef thiz, KInt index) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 KFloat Kotlin_ByteArray_getFloatAt(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 3 >= array->count_) {
@@ -302,6 +330,7 @@ KFloat Kotlin_ByteArray_getFloatAt(KConstRef thiz, KInt index) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 KDouble Kotlin_ByteArray_getDoubleAt(KConstRef thiz, KInt index) {
   const ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 7 >= array->count_) {
@@ -338,6 +367,7 @@ KDouble Kotlin_ByteArray_getDoubleAt(KConstRef thiz, KInt index) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_setCharAt(KRef thiz, KInt index, KChar value) {
   ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 1 >= array->count_) {
@@ -355,6 +385,7 @@ void Kotlin_ByteArray_setCharAt(KRef thiz, KInt index, KChar value) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_setShortAt(KRef thiz, KInt index, KShort value) {
   ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 1 >= array->count_) {
@@ -372,6 +403,7 @@ void Kotlin_ByteArray_setShortAt(KRef thiz, KInt index, KShort value) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_setIntAt(KRef thiz, KInt index, KInt value) {
   ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 3 >= array->count_) {
@@ -391,6 +423,7 @@ void Kotlin_ByteArray_setIntAt(KRef thiz, KInt index, KInt value) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_setLongAt(KRef thiz, KInt index, KLong value) {
   ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 7 >= array->count_) {
@@ -414,6 +447,7 @@ void Kotlin_ByteArray_setLongAt(KRef thiz, KInt index, KLong value) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_setFloatAt(KRef thiz, KInt index, KFloat value) {
   ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 3 >= array->count_) {
@@ -435,6 +469,7 @@ void Kotlin_ByteArray_setFloatAt(KRef thiz, KInt index, KFloat value) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_setDoubleAt(KRef thiz, KInt index, KDouble value) {
   ArrayHeader* array = thiz->array();
   if (index < 0 || static_cast<uint32_t>(index) + 7 >= array->count_) {
@@ -460,22 +495,27 @@ void Kotlin_ByteArray_setDoubleAt(KRef thiz, KInt index, KDouble value) {
 #endif  // KONAN_NO_UNALIGNED_ACCESS
 }
 
+HAS_SAFEPOINT_THROW
 KChar Kotlin_CharArray_get(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KChar>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KChar Kotlin_CharArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KChar, false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_CharArray_set(KRef thiz, KInt index, KChar value) {
   PrimitiveArraySet(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_CharArray_set_without_BoundCheck(KRef thiz, KInt index, KChar value) {
   PrimitiveArraySet<KChar, false>(thiz, index, value);
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER(Kotlin_CharArray_copyOf, KConstRef thiz, KInt newSize) {
   const ArrayHeader* array = thiz->array();
   if (newSize < 0) {
@@ -490,230 +530,283 @@ OBJ_GETTER(Kotlin_CharArray_copyOf, KConstRef thiz, KInt newSize) {
   RETURN_OBJ(result->obj());
 }
 
+NO_SAFEPOINT
 KInt Kotlin_CharArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 KShort Kotlin_ShortArray_get(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KShort>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KShort Kotlin_ShortArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KShort, false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ShortArray_set(KRef thiz, KInt index, KShort value) {
   PrimitiveArraySet(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ShortArray_set_without_BoundCheck(KRef thiz, KInt index, KShort value) {
   PrimitiveArraySet<KShort, false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_ShortArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 KInt Kotlin_IntArray_get(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KInt>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KInt Kotlin_IntArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KInt, false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_IntArray_set(KRef thiz, KInt index, KInt value) {
   PrimitiveArraySet(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_IntArray_set_without_BoundCheck(KRef thiz, KInt index, KInt value) {
   PrimitiveArraySet<KInt, false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_IntArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KByte value) {
   fillImpl<KByte>(thiz, fromIndex, toIndex, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ShortArray_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KShort value) {
   fillImpl<KShort>(thiz, fromIndex, toIndex, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_CharArray_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KChar value) {
   fillImpl<KChar>(thiz, fromIndex, toIndex, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_IntArray_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KInt value) {
   fillImpl<KInt>(thiz, fromIndex, toIndex, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_LongArray_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KLong value) {
   fillImpl<KLong>(thiz, fromIndex, toIndex, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_FloatArray_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KFloat value) {
   fillImpl<KFloat>(thiz, fromIndex, toIndex, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_DoubleArray_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KDouble value) {
   fillImpl<KDouble>(thiz, fromIndex, toIndex, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_BooleanArray_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KBoolean value) {
   fillImpl<KBoolean>(thiz, fromIndex, toIndex, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ByteArray_copyImpl(KConstRef thiz, KInt fromIndex,
                               KRef destination, KInt toIndex, KInt count) {
   copyImpl<KByte>(thiz, fromIndex, destination, toIndex, count);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_ShortArray_copyImpl(KConstRef thiz, KInt fromIndex,
                               KRef destination, KInt toIndex, KInt count) {
   copyImpl<KShort>(thiz, fromIndex, destination, toIndex, count);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_CharArray_copyImpl(KConstRef thiz, KInt fromIndex,
                               KRef destination, KInt toIndex, KInt count) {
   copyImpl<KChar>(thiz, fromIndex, destination, toIndex, count);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_IntArray_copyImpl(KConstRef thiz, KInt fromIndex,
                               KRef destination, KInt toIndex, KInt count) {
   copyImpl<KInt>(thiz, fromIndex, destination, toIndex, count);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_LongArray_copyImpl(KConstRef thiz, KInt fromIndex,
                               KRef destination, KInt toIndex, KInt count) {
   copyImpl<KLong>(thiz, fromIndex, destination, toIndex, count);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_FloatArray_copyImpl(KConstRef thiz, KInt fromIndex,
                               KRef destination, KInt toIndex, KInt count) {
   copyImpl<KFloat>(thiz, fromIndex, destination, toIndex, count);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_DoubleArray_copyImpl(KConstRef thiz, KInt fromIndex,
                               KRef destination, KInt toIndex, KInt count) {
   copyImpl<KDouble>(thiz, fromIndex, destination, toIndex, count);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_BooleanArray_copyImpl(KConstRef thiz, KInt fromIndex,
                               KRef destination, KInt toIndex, KInt count) {
   copyImpl<KBoolean>(thiz, fromIndex, destination, toIndex, count);
 }
 
+HAS_SAFEPOINT_THROW
 KLong Kotlin_LongArray_get(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KLong>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KLong Kotlin_LongArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KLong, false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_LongArray_set(KRef thiz, KInt index, KLong value) {
   PrimitiveArraySet(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_LongArray_set_without_BoundCheck(KRef thiz, KInt index, KLong value) {
   PrimitiveArraySet<KLong, false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_LongArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 KFloat Kotlin_FloatArray_get(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KFloat>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KFloat Kotlin_FloatArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KFloat, false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_FloatArray_set(KRef thiz, KInt index, KFloat value) {
   PrimitiveArraySet(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_FloatArray_set_without_BoundCheck(KRef thiz, KInt index, KFloat value) {
   PrimitiveArraySet<KFloat, false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_FloatArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 KDouble Kotlin_DoubleArray_get(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KDouble>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KDouble Kotlin_DoubleArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KDouble, false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_DoubleArray_set(KRef thiz, KInt index, KDouble value) {
   PrimitiveArraySet(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_DoubleArray_set_without_BoundCheck(KRef thiz, KInt index, KDouble value) {
   PrimitiveArraySet<KDouble, false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_DoubleArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 KBoolean Kotlin_BooleanArray_get(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KBoolean>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KBoolean Kotlin_BooleanArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KBoolean, false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_BooleanArray_set(KRef thiz, KInt index, KBoolean value) {
   PrimitiveArraySet(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_BooleanArray_set_without_BoundCheck(KRef thiz, KInt index, KBoolean value) {
   PrimitiveArraySet<KBoolean, false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_BooleanArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_NativePtrArray_get(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KNativePtr>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_NativePtrArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
   return PrimitiveArrayGet<KNativePtr, false>(thiz, index);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_NativePtrArray_set(KRef thiz, KInt index, KNativePtr value) {
   PrimitiveArraySet(thiz, index, value);
 }
 
+HAS_SAFEPOINT_THROW
 void Kotlin_NativePtrArray_set_without_BoundCheck(KRef thiz, KInt index, KNativePtr value) {
   PrimitiveArraySet<KNativePtr, false>(thiz, index, value);
 }
 
+NO_SAFEPOINT
 KInt Kotlin_NativePtrArray_getArrayLength(KConstRef thiz) {
   const ArrayHeader* array = thiz->array();
   return array->count_;
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER(Kotlin_ImmutableBlob_toByteArray, KConstRef thiz, KInt startIndex, KInt endIndex) {
   const ArrayHeader* array = thiz->array();
   if (startIndex < 0 || static_cast<uint32_t>(endIndex) > array->count_ || startIndex > endIndex) {
@@ -727,6 +820,7 @@ OBJ_GETTER(Kotlin_ImmutableBlob_toByteArray, KConstRef thiz, KInt startIndex, KI
   RETURN_OBJ(result->obj());
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_ImmutableBlob_asCPointerImpl(KRef thiz, KInt offset) {
   ArrayHeader* array = thiz->array();
   // We couldn't have created an array bigger than max KInt value.
@@ -738,6 +832,7 @@ KNativePtr Kotlin_ImmutableBlob_asCPointerImpl(KRef thiz, KInt offset) {
   return PrimitiveArrayAddressOfElementAt<KByte>(array, offset);
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getByteArrayAddressOfElement(KRef thiz, KInt index) {
   ArrayHeader* array = thiz->array();
   boundsCheck(array, index);
@@ -745,6 +840,7 @@ KNativePtr Kotlin_Arrays_getByteArrayAddressOfElement(KRef thiz, KInt index) {
   return AddressOfElementAt<KByte>(array, index);
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getCharArrayAddressOfElement (KRef thiz, KInt index) {
   ArrayHeader* array = thiz->array();
   boundsCheck(array, index);
@@ -752,6 +848,7 @@ KNativePtr Kotlin_Arrays_getCharArrayAddressOfElement (KRef thiz, KInt index) {
   return CharArrayAddressOfElementAt(array, index);
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getShortArrayAddressOfElement(KRef thiz, KInt index) {
   ArrayHeader* array = thiz->array();
   boundsCheck(array, index);
@@ -759,6 +856,7 @@ KNativePtr Kotlin_Arrays_getShortArrayAddressOfElement(KRef thiz, KInt index) {
   return AddressOfElementAt<KShort>(array, index);
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getIntArrayAddressOfElement(KRef thiz, KInt index) {
   ArrayHeader* array = thiz->array();
   boundsCheck(array, index);
@@ -766,6 +864,7 @@ KNativePtr Kotlin_Arrays_getIntArrayAddressOfElement(KRef thiz, KInt index) {
   return AddressOfElementAt<KInt>(array, index);
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getLongArrayAddressOfElement(KRef thiz, KInt index) {
   ArrayHeader* array = thiz->array();
   boundsCheck(array, index);
@@ -773,6 +872,7 @@ KNativePtr Kotlin_Arrays_getLongArrayAddressOfElement(KRef thiz, KInt index) {
   return AddressOfElementAt<KLong>(array, index);
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getFloatArrayAddressOfElement(KRef thiz, KInt index) {
   ArrayHeader* array = thiz->array();
   boundsCheck(array, index);
@@ -780,6 +880,7 @@ KNativePtr Kotlin_Arrays_getFloatArrayAddressOfElement(KRef thiz, KInt index) {
   return AddressOfElementAt<KFloat>(array, index);
 }
 
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getDoubleArrayAddressOfElement(KRef thiz, KInt index) {
   ArrayHeader* array = thiz->array();
   boundsCheck(array, index);

@@ -99,6 +99,12 @@ internal class Linker(
         return flags
     }
 
+    private fun stubObjectsForTarget(): List<String> {
+        if (target != KonanTarget.OHOS_ARM64 && target != KonanTarget.MACOS_ARM64) return emptyList()
+        val stubsDir = "${config.distribution.konanHome}/konan/targets/${target.name}/stubs_objs"
+        return listOf("N2KStub.o", "K2NStub.o", "K2RStub.o", "KonanStartStub.o").map { "$stubsDir/$it" }
+    }
+
     private fun asLinkerArgs(args: List<String>): List<String> {
         if (linker.useCompilerDriverAsLinker) {
             return args
@@ -172,10 +178,15 @@ internal class Linker(
                 caches.dynamic +
                 libraryProvidedLinkerFlags + additionalLinkerArgs + moduleIncludesFlags
 
+        // Stub .o files (N2KStub / K2NStub / K2RStub / KonanStartStub) live under the runtime-resolved
+        // Kotlin/Native distribution dir, not under any property-file constant. Resolve them here so
+        // Linker (in native/utils) does not need to know about kotlinNativeHome.
+        val stubObjects = stubObjectsForTarget()
+
         return with(linker) {
             LinkerArguments(
                     tempFiles = tempFiles,
-                    objectFiles = objectFiles,
+                    objectFiles = objectFiles + stubObjects,
                     executable = executable,
                     libraries = linker.linkStaticLibraries(includedBinaries) + caches.static,
                     linkerArgs = linkerArgs,

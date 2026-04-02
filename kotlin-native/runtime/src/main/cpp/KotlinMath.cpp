@@ -18,6 +18,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include "DisallowSafepointScope.h"
 #include "DoubleConversions.h"
 #include "Exceptions.h"
 #include "Types.h"
@@ -96,18 +97,29 @@ extern "C" {
 
 // region Double math.
 
+NO_SAFEPOINT
 KDouble Kotlin_math_sin(KDouble x) { return sin(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_cos(KDouble x) { return cos(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_tan(KDouble x) { return tan(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_asin(KDouble x) { return asin(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_acos(KDouble x) { return acos(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_atan(KDouble x) { return atan(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_atan2(KDouble y, KDouble x) { return atan2(y, x); }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_sinh(KDouble x) { return sinh(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_cosh(KDouble x) { return cosh(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_tanh(KDouble x) { return tanh(x); }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_asinh(KDouble x) {
 #if (KONAN_NEED_ASINH_ACOSH)
     return custom_asinh(x);
@@ -116,6 +128,7 @@ KDouble Kotlin_math_asinh(KDouble x) {
 #endif
 }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_acosh(KDouble x) {
 #if (KONAN_NEED_ASINH_ACOSH)
     return custom_acosh(x);
@@ -124,33 +137,48 @@ KDouble Kotlin_math_acosh(KDouble x) {
 #endif
 }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_atanh(KDouble x) { return atanh(x); }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_hypot(KDouble x, KDouble y) {
   if (isinf(x) || isinf(y)) return INFINITY;
   if (isnan(x) || isnan(y)) return NAN;
   return hypot(x, y);
 }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_sqrt(KDouble x) { return sqrt(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_exp(KDouble x) { return exp(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_expm1(KDouble x) { return expm1(x); }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_ln(KDouble x) { return log(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_log10(KDouble x) { return log10(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_log2(KDouble x) { return log2(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_ln1p(KDouble x) { return log1p(x); }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_ceil(KDouble x) { return ceil(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_floor(KDouble x) { return floor(x); }
+NO_SAFEPOINT
 KDouble Kotlin_math_round(KDouble x) { return rint(x); }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_abs(KDouble x) { return fabs(x); }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_cbrt(KDouble x) { return cbrt(x); }
 
 // extensions
 
+NO_SAFEPOINT
 KDouble Kotlin_math_Double_pow(KDouble thiz, KDouble x) {
   // Kotlin corner cases
   if (x == 0.0 || x == -0.0) return 1.0;
@@ -158,33 +186,50 @@ KDouble Kotlin_math_Double_pow(KDouble thiz, KDouble x) {
   return pow(thiz, x);
 }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_Double_IEEErem(KDouble thiz, KDouble divisor) { return remainder(thiz, divisor); }
+NO_SAFEPOINT
 KDouble Kotlin_math_Double_withSign(KDouble thiz, KDouble sign) { return copysign(thiz, sign); }
 
+NO_SAFEPOINT
 KDouble Kotlin_math_Double_nextUp(KDouble thiz) { return nextafter(thiz, HUGE_VAL); }
+NO_SAFEPOINT
 KDouble Kotlin_math_Double_nextDown(KDouble thiz) { return nextafter(thiz, -HUGE_VAL); }
+NO_SAFEPOINT
 KDouble Kotlin_math_Double_nextTowards(KDouble thiz, KDouble to) {
     return (thiz == to) ? to : nextafter(thiz, to);
 }
 
+NO_SAFEPOINT
 KBoolean Kotlin_math_Double_signBit(KDouble thiz) { return signbit(thiz) != 0; }
 
 // endregion
 
 // region Float math.
 
+NO_SAFEPOINT
 KFloat Kotlin_math_sinf(KFloat x) { return sinf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_cosf(KFloat x) { return cosf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_tanf(KFloat x) { return tanf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_asinf(KFloat x) { return asinf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_acosf(KFloat x) { return acosf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_atanf(KFloat x) { return atanf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_atan2f(KFloat y, KFloat x) { return atan2f(y, x); }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_sinhf(KFloat x) { return sinhf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_coshf(KFloat x) { return coshf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_tanhf(KFloat x) { return tanhf(x); }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_asinhf(KFloat x) {
 #if (KONAN_NEED_ASINH_ACOSH)
     return (KFloat)custom_asinh((KDouble)x);
@@ -193,6 +238,7 @@ KFloat Kotlin_math_asinhf(KFloat x) {
 #endif
 }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_acoshf(KFloat x) {
 #if (KONAN_NEED_ASINH_ACOSH)
     return (KFloat)custom_acosh((KDouble)x);
@@ -201,33 +247,48 @@ KFloat Kotlin_math_acoshf(KFloat x) {
 #endif
 }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_atanhf(KFloat x) { return atanhf(x); }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_hypotf(KFloat x, KFloat y) {
   if (isinf(x) || isinf(y)) return INFINITY;
   if (isnan(x) || isnan(y)) return NAN;
   return hypotf(x, y);
 }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_sqrtf(KFloat x) { return sqrtf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_expf(KFloat x) { return expf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_expm1f(KFloat x) { return expm1f(x); }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_lnf(KFloat x) { return logf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_log10f(KFloat x) { return log10f(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_log2f(KFloat x) { return log2f(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_ln1pf(KFloat x) { return log1pf(x); }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_ceilf(KFloat x) { return ceilf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_floorf(KFloat x) { return floorf(x); }
+NO_SAFEPOINT
 KFloat Kotlin_math_roundf(KFloat x) { return rintf(x); }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_absf(KFloat x) { return fabsf(x); }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_cbrtf(KFloat x) { return cbrtf(x); }
 
 // extensions
 
+NO_SAFEPOINT
 KFloat Kotlin_math_Float_pow(KFloat thiz, KFloat x) {
   // Kotlin corner cases
   if (x == 0.0 || x == -0.0) return 1.0;
@@ -235,22 +296,31 @@ KFloat Kotlin_math_Float_pow(KFloat thiz, KFloat x) {
   return powf(thiz, x);
 }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_Float_IEEErem(KFloat thiz, KFloat divisor) { return remainderf(thiz, divisor); }
+NO_SAFEPOINT
 KFloat Kotlin_math_Float_withSign(KFloat thiz, KFloat sign) { return copysignf(thiz, sign); }
 
+NO_SAFEPOINT
 KFloat Kotlin_math_Float_nextUp(KFloat thiz) { return nextafterf(thiz, HUGE_VALF); }
+NO_SAFEPOINT
 KFloat Kotlin_math_Float_nextDown(KFloat thiz) { return nextafterf(thiz, -HUGE_VALF); }
+NO_SAFEPOINT
 KFloat Kotlin_math_Float_nextTowards(KFloat thiz, KFloat to) {
     return (thiz == to) ? to : nextafterf(thiz, to);
 }
 
+NO_SAFEPOINT
 KBoolean Kotlin_math_Float_signBit(KFloat thiz) { return signbit(thiz) != 0; }
 
 // endregion
 
 // region Integer math.
 
+NO_SAFEPOINT
 KInt Kotlin_math_absi(KInt x) { return __builtin_elementwise_abs(x); }
+
+NO_SAFEPOINT
 KLong Kotlin_math_absl(KLong x) { return __builtin_elementwise_abs(x); }
 
 // endregion

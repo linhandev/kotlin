@@ -43,6 +43,7 @@ using namespace kotlin;
 
 #define DEFAULT_WIDTH MAX_ACCURACY_WIDTH
 
+NO_SAFEPOINT
 extern "C" KFloat Kotlin_native_int_bits_to_float(KInt x) {
   union {
     int32_t x;
@@ -541,6 +542,7 @@ OutOfMemory:
 #pragma optimize("",on)         /*restore optimizations */
 #endif
 
+HAS_SAFEPOINT_THROW
 extern "C" KFloat
 Kotlin_native_FloatingPointParser_parseFloatImpl(KConstRef s, KInt e)
 {

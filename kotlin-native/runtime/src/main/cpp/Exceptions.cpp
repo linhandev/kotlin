@@ -24,6 +24,7 @@
 #include <exception>
 #include <unistd.h>
 
+#include "DisallowSafepointScope.h"
 #include "KAssert.h"
 #include "Exceptions.h"
 #include "ExecFormat.h"
@@ -256,6 +257,7 @@ void ReportBacktraceToOhosLog(KRef exception)
 extern "C" void Kotlin_runUnhandledExceptionHook(KRef exception);
 extern "C" void ReportUnhandledException(KRef exception);
 
+NO_SAFEPOINT
 void ThrowException(KRef exception) {
   RuntimeAssert(exception != nullptr && IsInstanceInternal(exception, theThrowableTypeInfo),
                 "Throwing something non-throwable");
@@ -273,6 +275,7 @@ void ThrowIllegalStateExceptionFromCString(const char* message) {
   ThrowIllegalStateExceptionWithMessage(holder.obj());
 }
 
+NO_SAFEPOINT
 void HandleCurrentExceptionWhenLeavingKotlinCode() {
   try {
       std::rethrow_exception(std::current_exception());
@@ -305,6 +308,7 @@ class {
     }
 } concurrentTerminateWrapper;
 
+NO_SAFEPOINT
 void RUNTIME_NORETURN terminateWithUnhandledException(KRef exception) {
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     concurrentTerminateWrapper([exception]() {
@@ -332,6 +336,7 @@ void RUNTIME_NORETURN terminateWithUnhandledException(KRef exception) {
     });
 }
 
+HAS_SAFEPOINT
 void processUnhandledException(KRef exception) noexcept {
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     try {
@@ -414,22 +419,26 @@ void SetKonanTerminateHandler() {
   TerminateHandler::install();
 }
 
+NO_SAFEPOINT
 extern "C" void RUNTIME_NORETURN Kotlin_terminateWithUnhandledException(KRef exception) {
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     terminateWithUnhandledException(exception);
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_processUnhandledException(KRef exception) {
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     processUnhandledException(exception);
 }
 
+HAS_SAFEPOINT
 void kotlin::ProcessUnhandledException(KRef exception) noexcept {
     // This may be called from any state, do reentrant state switch to runnable.
     kotlin::ThreadStateGuard guard(kotlin::ThreadState::kRunnable, /* reentrant = */ true);
     processUnhandledException(exception);
 }
 
+HAS_SAFEPOINT
 void RUNTIME_NORETURN kotlin::TerminateWithUnhandledException(KRef exception) noexcept {
     // This may be called from any state, do reentrant state switch to runnable.
     kotlin::ThreadStateGuard guard(kotlin::ThreadState::kRunnable, /* reentrant = */ true);

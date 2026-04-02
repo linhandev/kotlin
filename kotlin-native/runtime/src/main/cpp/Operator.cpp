@@ -26,6 +26,7 @@ extern "C" {
 
 //--- Float -------------------------------------------------------------------//
 
+NO_SAFEPOINT
 PERFORMANCE_INLINE KInt    Kotlin_Float_toInt(KFloat a) {
   if (isnan(a)) return 0;
   if (a >= (KFloat) INT32_MAX) return INT32_MAX;
@@ -33,6 +34,7 @@ PERFORMANCE_INLINE KInt    Kotlin_Float_toInt(KFloat a) {
   return a;
 }
 
+NO_SAFEPOINT
 PERFORMANCE_INLINE KLong   Kotlin_Float_toLong(KFloat a) {
   if (isnan(a)) return 0;
   if (a >= (KFloat) INT64_MAX) return INT64_MAX;
@@ -40,14 +42,18 @@ PERFORMANCE_INLINE KLong   Kotlin_Float_toLong(KFloat a) {
   return a;
 }
 
+NO_SAFEPOINT
 PERFORMANCE_INLINE KByte   Kotlin_Float_toByte(KFloat a) { return (KByte)  Kotlin_Float_toInt(a); }
+NO_SAFEPOINT
 PERFORMANCE_INLINE KShort  Kotlin_Float_toShort(KFloat a) { return (KShort) Kotlin_Float_toInt(a); }
 
+NO_SAFEPOINT
 PERFORMANCE_INLINE KBoolean Kotlin_Float_isNaN(KFloat a)          { return isnan(a); }
+NO_SAFEPOINT
 PERFORMANCE_INLINE KBoolean Kotlin_Float_isInfinite(KFloat a)          { return isinf(a); }
 
 //--- Double ------------------------------------------------------------------//
-
+NO_SAFEPOINT
 PERFORMANCE_INLINE KInt Kotlin_Double_toInt(KDouble a) {
   if (isnan(a)) return 0;
   if (a >= (KDouble) INT32_MAX) return INT32_MAX;
@@ -55,6 +61,7 @@ PERFORMANCE_INLINE KInt Kotlin_Double_toInt(KDouble a) {
   return a;
 }
 
+NO_SAFEPOINT
 PERFORMANCE_INLINE KLong Kotlin_Double_toLong(KDouble a) {
   if (isnan(a)) return 0;
   if (a >= (KDouble) INT64_MAX) return INT64_MAX;
@@ -62,18 +69,26 @@ PERFORMANCE_INLINE KLong Kotlin_Double_toLong(KDouble a) {
   return a;
 }
 
+NO_SAFEPOINT
 ALWAYS_INLINE KBoolean Kotlin_Double_isNaN(KDouble a)          { return isnan(a); }
+NO_SAFEPOINT
 ALWAYS_INLINE KBoolean Kotlin_Double_isInfinite(KDouble a)          { return isinf(a); }
 
 //--- Bit operations ---------------------------------------------------------//
 
+NO_SAFEPOINT
 ALWAYS_INLINE KInt Kotlin_Int_countOneBits(KInt value) { return __builtin_popcount(value); }
+NO_SAFEPOINT
 ALWAYS_INLINE KInt Kotlin_Long_countOneBits(KLong value) { return __builtin_popcountll(value); }
 
+NO_SAFEPOINT
 ALWAYS_INLINE KInt Kotlin_Int_countTrailingZeroBits(KInt value) { return __builtin_ctz(value); }
+NO_SAFEPOINT
 ALWAYS_INLINE KInt Kotlin_Long_countTrailingZeroBits(KLong value) { return __builtin_ctzll(value); }
 
+NO_SAFEPOINT
 ALWAYS_INLINE KInt Kotlin_Int_countLeadingZeroBits(KInt value) { return __builtin_clz(value); }
+NO_SAFEPOINT
 ALWAYS_INLINE KInt Kotlin_Long_countLeadingZeroBits(KLong value) { return __builtin_clzll(value); }
 
 }  // extern "C"

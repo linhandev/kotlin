@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 
+#include "Common.h"
 #include "KAssert.h"
 #include "Memory.h"
 #include "Natives.h"
@@ -37,6 +38,7 @@ using namespace kotlin;
 
 namespace {
 
+HAS_SAFEPOINT_THROW
 std::string kStringToUtf8(KConstRef message) {
     if (message->type_info() != theStringTypeInfo) {
         ThrowClassCastException(message, theStringTypeInfo);
@@ -55,6 +57,7 @@ std::string kStringToUtf8(KConstRef message) {
 extern "C" {
 
 // io/Console.kt
+HAS_SAFEPOINT
 void Kotlin_io_Console_print(KConstRef message) {
     // TODO: system stdout must be aware about UTF-8.
     auto utf8 = kStringToUtf8(message);
@@ -62,6 +65,7 @@ void Kotlin_io_Console_print(KConstRef message) {
     konan::consoleWriteUtf8(utf8.c_str(), utf8.size());
 }
 
+HAS_SAFEPOINT
 void Kotlin_io_Console_printToStdErr(KConstRef message) {
     // TODO: system stderr must be aware about UTF-8.
     auto utf8 = kStringToUtf8(message);
@@ -69,6 +73,7 @@ void Kotlin_io_Console_printToStdErr(KConstRef message) {
     konan::consoleErrorUtf8(utf8.c_str(), utf8.size());
 }
 
+HAS_SAFEPOINT
 void Kotlin_io_Console_println(KConstRef message) {
     Kotlin_io_Console_print(message);
 #ifndef KONAN_ANDROID
@@ -81,6 +86,7 @@ void Kotlin_io_Console_println(KConstRef message) {
 #endif
 }
 
+HAS_SAFEPOINT
 void Kotlin_io_Console_printlnToStdErr(KConstRef message) {
     Kotlin_io_Console_printToStdErr(message);
 #ifndef KONAN_ANDROID
@@ -93,16 +99,19 @@ void Kotlin_io_Console_printlnToStdErr(KConstRef message) {
 #endif
 }
 
+HAS_SAFEPOINT
 void Kotlin_io_Console_println0() {
     kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative);
     konan::consoleWriteUtf8("\n", 1);
 }
 
+HAS_SAFEPOINT
 void Kotlin_io_Console_println0ToStdErr() {
     kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative);
     konan::consoleErrorUtf8("\n", 1);
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER0(Kotlin_io_Console_readLine) {
     char data[4096];
     int32_t result;
@@ -116,6 +125,7 @@ OBJ_GETTER0(Kotlin_io_Console_readLine) {
     RETURN_RESULT_OF(CreateStringFromCString, data);
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER0(Kotlin_io_Console_readlnOrNull) {
     std::vector<char> data;
     data.reserve(16);
