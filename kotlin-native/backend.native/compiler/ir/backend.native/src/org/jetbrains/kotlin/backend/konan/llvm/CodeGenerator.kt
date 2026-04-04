@@ -174,6 +174,9 @@ internal inline fun generateFunctionNoRuntime(
         code: FunctionGenerationContext.() -> Unit,
 ) : LlvmCallable {
     val function = codegen.addFunction(functionProto)
+    if (functionProto.name.startsWith("_Konan_init_")) {
+        function.clearGcCollector()
+    }
     val functionGenerationContext = DefaultFunctionGenerationContext(function, codegen, null, null,
             switchToRunnable = false, needSafePoint = true)
     try {

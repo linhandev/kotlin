@@ -90,6 +90,11 @@ class LlvmCallable(val functionType: LLVMTypeRef, val returnsObjectType: Boolean
         LLVMIsAFunction(llvmValue) != null && isFunctionNoUnwind(llvmValue)
     }
 
+    /** Clears LLVM GC collector name (module ctors must not use kotlin-native stackmap protocol on ELF OHOS). */
+    fun clearGcCollector() {
+        LLVMSetGC(llvmValue, null)
+    }
+
     // these functions are potentially unsafe, as they need to use same attribute provider when converted to callable
     internal fun toConstPointer() = constPointer(llvmValue)
     internal fun asCallback() = llvmValue
