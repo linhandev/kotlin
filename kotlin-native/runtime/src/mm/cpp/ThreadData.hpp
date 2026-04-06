@@ -11,6 +11,8 @@
 #include <stack>
 #include <sstream>
 
+#include "DisallowSafepointScope.h"
+#include "HandleScope.h"
 #include "GlobalData.hpp"
 #include "GlobalsRegistry.hpp"
 #include "GC.hpp"
@@ -163,6 +165,9 @@ public:
 
     const KotlinFrame& GetLastKotlinFrame() const { return lastKotlinFrame_; }
 
+    DisallowSafepointScopeData& GetDisallowSafepointScopeData() { return disAllowSafepointScopeData_; }
+    HandleScopeData& GetHandleScopeData() { return handleScopeData_; }
+
     void Publish() noexcept {
         // TODO: These use separate locks, which is inefficient.
         globalsThreadQueue_.Publish();
@@ -190,6 +195,9 @@ private:
     std::vector<void*> funcPCs_;
 
     KotlinFrame lastKotlinFrame_{};
+
+    DisallowSafepointScopeData disAllowSafepointScopeData_;
+    HandleScopeData handleScopeData_;
 };
 
 } // namespace mm

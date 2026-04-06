@@ -78,7 +78,11 @@ private:
     uint64_t epoch_;
     explicit GCHandle(uint64_t epoch) : epoch_(epoch) {}
 
-    void threadRootSetCollected(mm::ThreadData& threadData, uint64_t threadLocalReferences, uint64_t stackReferences);
+    void ThreadRootSetCollected(
+            mm::ThreadData& threadData,
+            uint64_t threadLocalReferences,
+            uint64_t stackReferences,
+            uint64_t kHandleReferences);
     void globalRootSetCollected(uint64_t globalReferences, uint64_t stableReferences);
     void swept(SweepStats stats, uint64_t markedCount) noexcept;
     void sweptExtraObjects(SweepStats stats) noexcept;
@@ -218,6 +222,7 @@ class GCHandle::GCThreadRootSetScope : public GCStageScopeBase {
     mm::ThreadData& threadData_;
     uint64_t stackRoots_ = 0;
     uint64_t threadLocalRoots_ = 0;
+    uint64_t kHandleRoots_ = 0;
 
 public:
     explicit GCThreadRootSetScope(GCHandle handle, mm::ThreadData& threadData);
@@ -231,6 +236,10 @@ public:
     void addThreadLocalRoot() {
         requireValid();
         threadLocalRoots_++;
+    }
+    void AddKHandleRoot() {
+        requireValid();
+        kHandleRoots_++;
     }
 };
 

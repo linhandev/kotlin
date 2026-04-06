@@ -57,8 +57,8 @@ public class RootSetStatistics(
         public val threadLocalReferences: Long,
         public val stackReferences: Long,
         public val globalReferences: Long,
-        public val stableReferences: Long
-)
+        public val stableReferences: Long,
+        public val kHandleReferences: Long)
 
 /**
  * This class represents statistics about the single run of the garbage collector.
@@ -187,8 +187,8 @@ private class GCInfoBuilder() {
     }
 
     @ExportForCppRuntime("Kotlin_Internal_GC_GCInfoBuilder_setRootSet")
-    private fun setRootSet(threadLocalReferences: Long, stackReferences: Long, globalReferences: Long, stableReferences: Long) {
-        rootSet = RootSetStatistics(threadLocalReferences, stackReferences, globalReferences, stableReferences)
+    private fun setRootSet(threadLocalReferences: Long, stackReferences: Long, globalReferences: Long, stableReferences: Long, kHandleReferences: Long) {
+        rootSet = RootSetStatistics(threadLocalReferences, stackReferences, globalReferences, stableReferences, kHandleReferences)
     }
 
     @ExportForCppRuntime("Kotlin_Internal_GC_GCInfoBuilder_setMarkStats")

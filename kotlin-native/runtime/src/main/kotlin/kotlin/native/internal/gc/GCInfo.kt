@@ -44,7 +44,8 @@ public class RootSetStatistics(
         val threadLocalReferences: Long,
         val stackReferences: Long,
         val globalReferences: Long,
-        val stableReferences: Long
+        val stableReferences: Long,
+        val kHandleReferences: Long
 )
 
 /**
@@ -113,7 +114,8 @@ public class GCInfo(
                                     it.threadLocalReferences,
                                     it.stackReferences,
                                     it.globalReferences,
-                                    it.stableReferences
+                                    it.stableReferences,
+                                    it.kHandleReferences
                             )
                         },
                         info.memoryUsageBefore.mapValues { (_, v) ->

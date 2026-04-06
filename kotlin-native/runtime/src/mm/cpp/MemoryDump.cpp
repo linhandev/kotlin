@@ -323,6 +323,8 @@ private:
                 return 1;
             case ThreadRootSet::Source::kTLS:
                 return 2;
+            case ThreadRootSet::Source::kHandle:
+                return 3;
         }
     }
 

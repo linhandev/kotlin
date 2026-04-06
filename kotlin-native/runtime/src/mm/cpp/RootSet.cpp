@@ -36,6 +36,8 @@ mm::ThreadRootSet::Value mm::ThreadRootSet::Iterator::operator*() noexcept {
             return {*stackIterator_, Source::kStack};
         case Phase::kTLS:
             return {**tlsIterator_, Source::kTLS};
+        case Phase::kHandle:
+            return {*reinterpret_cast<ObjHeader**>(*kHandleIterator_), Source::kHandle};
         case Phase::kDone:
             RuntimeFail("Cannot dereference");
     }
@@ -49,6 +51,10 @@ mm::ThreadRootSet::Iterator& mm::ThreadRootSet::Iterator::operator++() noexcept 
             return *this;
         case Phase::kTLS:
             ++tlsIterator_;
+            Init();
+            return *this;
+        case Phase::kHandle:
+            ++kHandleIterator_;
             Init();
             return *this;
         case Phase::kDone:
@@ -68,6 +74,8 @@ bool mm::ThreadRootSet::Iterator::operator==(const Iterator& rhs) const noexcept
             return stackIterator_ == rhs.stackIterator_;
         case Phase::kTLS:
             return tlsIterator_ == rhs.tlsIterator_;
+        case Phase::kHandle:
+            return kHandleIterator_ == rhs.kHandleIterator_;
     }
 }
 
@@ -81,6 +89,13 @@ void mm::ThreadRootSet::Iterator::Init() noexcept {
                 break;
             case Phase::kTLS:
                 if (tlsIterator_ != owner_.tls_.end()) return;
+                phase_ = Phase::kHandle;
+                kHandleIterator_ = owner_.handleScopeData_.begin();
+                break;
+            case Phase::kHandle:
+                if (kHandleIterator_ != owner_.handleScopeData_.end()) {
+                    return;
+                }
                 phase_ = Phase::kDone;
                 break;
             case Phase::kDone:
@@ -155,7 +170,11 @@ void mm::GlobalRootSet::Iterator::Init() noexcept {
     }
 }
 
-mm::ThreadRootSet::ThreadRootSet(ThreadData& threadData) noexcept : ThreadRootSet(threadData.shadowStack(), threadData.tls()) {}
+mm::ThreadRootSet::ThreadRootSet(ThreadData& threadData) noexcept :
+        ThreadRootSet(
+                threadData.shadowStack(),
+                threadData.tls(),
+                threadData.GetHandleScopeData()) {}
 
 mm::GlobalRootSet::GlobalRootSet() noexcept :
     GlobalRootSet(mm::GlobalData::Instance().globalsRegistry(), mm::GlobalData::Instance().externalRCRefRegistry()) {}
