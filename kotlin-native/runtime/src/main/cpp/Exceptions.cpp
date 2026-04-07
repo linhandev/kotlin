@@ -44,24 +44,34 @@
 #include "KString.h"
 #include "CompilerConstants.hpp"
 #include <dlfcn.h>
-#include <deviceinfo.h>
-#include "hidebug/hidebug.h"
-#include "hidebug/hidebug_type.h"
 
 extern "C" OBJ_GETTER(Kotlin_Throwable_getStackTrace, KRef throwable);
 extern "C" OBJ_GETTER(Kotlin_Throwable_getMessage, KRef throwable);
 extern "C" __attribute__((weak)) void set_fatal_message(const char* msg);
+extern "C" __attribute__((weak)) int OH_GetSdkApiVersion(void);
+extern "C" __attribute__((weak)) int OH_HiDebug_SetCrashObj(int type, void* value);
 
 constexpr int OHOS_HIDEBUG_MIN_API = 23;
+constexpr int OHOS_HIDEBUG_CRASHOBJ_STRING = 0;
 constexpr unsigned long LARGE_BUFFER_SIZE = 64 * 1024;
 constexpr unsigned long LARGE_BUFFER_RESERVED = 20;
 constexpr unsigned long SMALL_BUFFER_SIZE = 1004;
 constexpr int FRAME_NO_WIDTH = 2;
 constexpr int PC_ADDR_WIDTH = 16;
 
+static int getOhosApiVersionSafely()
+{
+    // OH_GetSdkApiVersion may be unavailable on older OHOS runtime images.
+    // Guard the call to avoid jumping to an unmapped address during unwind.
+    if (&OH_GetSdkApiVersion == nullptr) {
+        return 0;
+    }
+    return OH_GetSdkApiVersion();
+}
+
 unsigned long getFatalMessageSize()
 {
-    int apiVersion = OH_GetSdkApiVersion();
+    int apiVersion = getOhosApiVersionSafely();
     if (apiVersion >= OHOS_HIDEBUG_MIN_API) {
         return LARGE_BUFFER_SIZE - LARGE_BUFFER_RESERVED;
     } else {
@@ -222,7 +232,7 @@ void ReportBacktraceToOhosLog(KRef exception)
     pid_t pid = getpid();
     std::vector<MapsEntry> mapCache = BuildIdUtils::parseMapsFile(pid);
 
-    int apiVersion = OH_GetSdkApiVersion();
+    int apiVersion = getOhosApiVersionSafely();
     unsigned long messageSize = getFatalMessageSize();
     std::string reason = getExceptionSummary(exception);
 
@@ -233,8 +243,7 @@ void ReportBacktraceToOhosLog(KRef exception)
     static std::string truncated;
     truncated.assign(fatalMessage, 0, messageSize);
     if (apiVersion >= OHOS_HIDEBUG_MIN_API && &OH_HiDebug_SetCrashObj != nullptr) {
-        OH_HiDebug_SetCrashObj(HiDebug_CrashObjType::HIDEBUG_CRASHOBJ_STRING,
-                               (void*)truncated.c_str());
+        OH_HiDebug_SetCrashObj(OHOS_HIDEBUG_CRASHOBJ_STRING, (void*)truncated.c_str());
     } else if (&set_fatal_message != nullptr) {
         set_fatal_message(truncated.c_str());
     }
