@@ -6,11 +6,16 @@ package org.jetbrains.kotlin.backend.konan
 
 import llvm.*
 import org.jetbrains.kotlin.backend.konan.driver.PhaseContext
+import org.jetbrains.kotlin.backend.konan.driver.utilities.createTempFiles
+import org.jetbrains.kotlin.backend.konan.driver.phases.WriteBitcodeFilePhase
+import org.jetbrains.kotlin.backend.konan.driver.phases.WriteBitcodeFileInput
+import org.jetbrains.kotlin.backend.konan.ir.konanLibrary
 import org.jetbrains.kotlin.backend.konan.llvm.*
 import org.jetbrains.kotlin.backend.konan.llvm.objc.patchObjCRuntimeModule
 import org.jetbrains.kotlin.backend.konan.llvm.runtime.RuntimeModule
 import org.jetbrains.kotlin.backend.konan.llvm.runtime.linkRuntimeModules
 import org.jetbrains.kotlin.backend.konan.serialization.CacheDeserializationStrategy
+import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.konan.file.isBitcode
 import org.jetbrains.kotlin.konan.target.CompilerOutputKind
 import org.jetbrains.kotlin.konan.target.Family
@@ -48,12 +53,29 @@ internal val CacheDeserializationStrategy?.containsKFunctionImpl: Boolean
     get() = this?.contains(KonanFqNames.internalPackageName, "KFunctionImpl.kt") != false
 
 internal val NativeGenerationState.shouldDefineFunctionClasses: Boolean
-    get() = producedLlvmModuleContainsStdlib && cacheDeserializationStrategy.containsKFunctionImpl
+    get() {
+        val moduleIncludeOnly = context.config.moduleIncludeOnly
+        if (moduleIncludeOnly.isNotEmpty()) {
+            val stdlibName = context.stdlibModule.konanLibrary?.uniqueName
+            if (stdlibName != null) {
+                if (moduleIncludeOnly.isNotEmpty() && stdlibName !in moduleIncludeOnly) return false
+            }
+        }
+        return producedLlvmModuleContainsStdlib && cacheDeserializationStrategy.containsKFunctionImpl
+    }
 
 internal val NativeGenerationState.shouldDefineCachedBoxes: Boolean
-    get() = producedLlvmModuleContainsStdlib &&
-            cacheDeserializationStrategy?.contains(KonanFqNames.internalPackageName, "Boxing.kt") != false
-
+    get() {
+        val moduleIncludeOnly = context.config.moduleIncludeOnly
+        if (moduleIncludeOnly.isNotEmpty()) {
+            val stdlibName = context.stdlibModule.konanLibrary?.uniqueName
+            if (stdlibName != null) {
+                if (moduleIncludeOnly.isNotEmpty() && stdlibName !in moduleIncludeOnly) return false
+            }
+        }
+        return producedLlvmModuleContainsStdlib &&
+                cacheDeserializationStrategy?.contains(KonanFqNames.internalPackageName, "Boxing.kt") != false
+    }
 internal val CacheDeserializationStrategy?.containsRuntime: Boolean
     get() = this?.contains(KonanFqNames.internalPackageName, "Runtime.kt") != false
 
@@ -198,16 +220,37 @@ private fun linkAllDependencies(generationState: NativeGenerationState, generate
     val (runtimeModules, additionalModules) = collectLlvmModules(generationState, generatedBitcodeFiles)
     // TODO: Possibly slow, maybe to a separate phase?
     val optimizedRuntimeModules = linkRuntimeModules(generationState, runtimeModules)
+    val finalModules = when (generationState.config.emitRuntimeOpt) {
+        RuntimeEmissionMode.ALL -> {
+            optimizedRuntimeModules + additionalModules
+        }
+        RuntimeEmissionMode.RUNTIME -> {
+            optimizedRuntimeModules
+        }
+        RuntimeEmissionMode.NORUNTIME -> {
+            additionalModules
+        }
+    }
 
     // When the main module `generationState.llvmModule` is very large it is much faster to
     // link all the auxiliary modules together first before linking with the main module.
-    val linkedModules = (optimizedRuntimeModules + additionalModules).reduceOrNull { acc, module ->
+    val linkedModules = finalModules.reduceOrNull { acc, module ->
         val failed = llvmLinkModules2(generationState, acc, module)
         if (failed != 0) {
             error("Failed to link ${module.getName()}")
         }
         return@reduceOrNull acc
     }
+
+    if (generationState.config.emitRuntimeOpt.value == 1 && linkedModules != null) {
+        val runtimeBitcodeFile = java.io.File(generationState.config.runtimeBitcodePath)
+        runtimeBitcodeFile.parentFile?.mkdirs()
+
+        //Instead of writeBitcodeFilePhase
+        insertAliasToEntryPoint(generationState, linkedModules)
+        LLVMWriteBitcodeToFile(linkedModules, runtimeBitcodeFile.canonicalPath)
+    }
+
     linkedModules?.let {
         val failed = llvmLinkModules2(generationState, generationState.llvmModule, it)
         if (failed != 0) {

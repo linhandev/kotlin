@@ -26,10 +26,18 @@ if (HostManager.host == KonanTarget.MACOS_ARM64) {
     project.configureJvmToolchain(JdkMajorVersion.JDK_17_0)
 }
 
+val breakpadRepo = providers.gradleProperty("breakpadGitRepo")
+        .orElse(providers.environmentVariable("BREAKPAD_GIT_REPO"))
+        .getOrElse("https://github.com/google/breakpad.git")
+
+val breakpadRevision = providers.gradleProperty("breakpadGitRevision")
+        .orElse(providers.environmentVariable("BREAKPAD_GIT_REVISION"))
+        .getOrElse("v2024.02.16")
+
 val downloadBreakpad = tasks.register<GitDownloadTask>("downloadBreakpad") {
     description = "Retrieves Breakpad sources"
-    repository.set(URI.create("https://github.com/google/breakpad.git"))
-    revision.set("v2024.02.16")
+    repository.set(URI.create(breakpadRepo))
+    revision.set(breakpadRevision)
     outputDirectory.set(layout.buildDirectory.dir("breakpad"))
 }
 

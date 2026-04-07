@@ -63,6 +63,42 @@ internal class Linker(
         return runLinker(outputFile, objectFiles, includedBinaries, libraryProvidedLinkerFlags, caches)
     }
 
+    private fun buildModuleIncludesLinkerFlags(): List<String> {
+        val moduleIncludeOnly = config.moduleIncludeOnly
+        val moduleIncludes = config.moduleIncludes
+        val runtimeName = config.runtimeName
+        val stdlibName = config.stdlibName
+        val outputModule = config.outputModule
+        if (moduleIncludeOnly.isEmpty()) return emptyList()
+
+        val stubsDir = tempFiles.create("module_stub_libs")
+        stubsDir.mkdirs()
+
+        val stubModules = moduleIncludes.keys.toMutableSet()
+        stubModules += runtimeName
+        stubModules += stdlibName
+
+        for (moduleName in stubModules) {
+            val stubSo = File(stubsDir, "lib${moduleName}.so")
+            if (!stubSo.exists) {
+                val compilerCmd = config.clang.clangCXX(
+                        "-shared", "-nostdlib",
+                        "-o", stubSo.absolutePath,
+                        "-x", "c", "/dev/null"
+                )
+                val result = Command(compilerCmd).getResult(withErrors = false, handleError = false)
+            }
+        }
+
+        val flags = mutableListOf("-L${stubsDir.absolutePath}")
+        for (moduleName in moduleIncludes.keys.filter { it != outputModule}) {
+            flags += "-l${moduleName}"
+        }
+        flags += "-l${runtimeName}"
+        flags += "-l${stdlibName}"
+        return flags
+    }
+
     private fun asLinkerArgs(args: List<String>): List<String> {
         if (linker.useCompilerDriverAsLinker) {
             return args
@@ -131,9 +167,10 @@ internal class Linker(
         }
         File(executable).delete()
 
+        val moduleIncludesFlags = buildModuleIncludesLinkerFlags()
         val linkerArgs = asLinkerArgs(config.configuration.getNotNull(KonanConfigKeys.LINKER_ARGS)) +
                 caches.dynamic +
-                libraryProvidedLinkerFlags + additionalLinkerArgs
+                libraryProvidedLinkerFlags + additionalLinkerArgs + moduleIncludesFlags
 
         return with(linker) {
             LinkerArguments(
