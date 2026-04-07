@@ -45,6 +45,16 @@ data class GeneratorRulesConfig(
     val moduleHeaderFilterOverride: Map<String, String> = emptyMap(),
     val moduleHeaderSkipLibrary: Map<String, Set<String>> = emptyMap(),
     val moduleFixedDependencies: Map<String, List<String>> = emptyMap(),
+    /**
+     * Extra `depends` entries merged with scanned dependencies (key = .def basename, e.g. NetConnection).
+     * Values are written verbatim to match platform .def names (e.g. `posix`).
+     */
+    val moduleDefaultDependencies: Map<String, List<String>> = emptyMap(),
+    /**
+     * `depends` targets that exist in kotlin-native platformLibs but are never emitted by this generator;
+     * excluded from "missing dependency" validation.
+     */
+    val dependencyAllowlist: Set<String> = emptySet(),
     val moduleKitOverride: Map<String, String> = emptyMap()
 ) {
     fun getModuleHeaderExclude(moduleName: String): Set<String> =
@@ -58,6 +68,9 @@ data class GeneratorRulesConfig(
 
     fun getModuleHeaderSkipLibrary(moduleName: String): Set<String> =
         moduleHeaderSkipLibrary[moduleName] ?: emptySet()
+
+    fun getModuleDefaultDependencies(defFileName: String): List<String> =
+        moduleDefaultDependencies[defFileName] ?: emptyList()
 }
 
 object GeneratorConfigLoader {
@@ -94,6 +107,8 @@ object GeneratorConfigLoader {
             moduleHeaderFilterOverride = root.getStringMap("moduleHeaderFilterOverride"),
             moduleHeaderSkipLibrary = root.getMapOfStringSet("moduleHeaderSkipLibrary"),
             moduleFixedDependencies = root.getMapOfStringList("moduleFixedDependencies"),
+            moduleDefaultDependencies = root.getMapOfStringList("moduleDefaultDependencies"),
+            dependencyAllowlist = root.getStringSet("dependencyAllowlist"),
             moduleKitOverride = root.getStringMap("moduleKitOverride")
         )
     }

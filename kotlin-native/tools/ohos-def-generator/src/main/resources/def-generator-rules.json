@@ -152,5 +152,34 @@
   },
   "moduleHeaderFilterOverride": {
     "ArkTS_Napi_NativeModule": "napi/** node_api.h node_api_types.h js_native_api.h js_native_api_types.h"
-  }
+  },
+  "moduleDefaultDependencies": {
+    "NetConnection": ["posix"],
+    "FFRT": ["posix"],
+    "JSVM": ["posix"],
+    "CloudDisk": ["posix"],
+    "XEngine": ["vulkan", "gles3"],
+    "OHAudio": ["posix"],
+    "GraphicsAccelerate": ["vulkan"],
+    "TeeClient": ["posix"]
+  },
+  "dependencyAllowlist": [
+    "posix",
+    "vulkan",
+    "gles3",
+    "glesCommon",
+    "gles31",
+    "gles32",
+    "egl",
+    "linux",
+    "zlib",
+    "builtin",
+    "iconv",
+    "uv",
+    "direct_render",
+    "video",
+    "sound",
+    "sles",
+    "mtd"
+  ]
 }

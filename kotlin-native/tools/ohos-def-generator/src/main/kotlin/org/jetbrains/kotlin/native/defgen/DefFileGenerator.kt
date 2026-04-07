@@ -76,9 +76,9 @@ class DefFileGenerator(
         val headersForFilter = if (headersOverride.isNotEmpty()) headersOverride else effectiveHeaderFiles
         val headerFilter = headerFilterOverride ?: buildHeaderFilter(headersForFilter)
         
-        val sortedDeps = module.dependencies
-            .map { normalizeModuleName(it) }
-            .sorted()
+        val scannedDeps = module.dependencies.map { normalizeModuleName(it) }.toSet()
+        val defaultDeps = rules.getModuleDefaultDependencies(defFileName)
+        val sortedDeps = (scannedDeps + defaultDeps).sorted()
         
         val rawLinkerOpts = rules.moduleLinkerOptsOverride[defFileName] ?: rules.moduleLinkerOptsOverride[module.moduleName] ?: module.getLinkerOpts()
         val linkerOpts = applyLinkerOptsMapping(rawLinkerOpts)

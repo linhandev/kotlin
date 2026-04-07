@@ -117,7 +117,7 @@ class DependencyChecker(
         
         configs.forEach { config ->
             config.depends.forEach { dep ->
-                if (!moduleNames.contains(dep)) {
+                if (!moduleNames.contains(dep) && dep !in rules.dependencyAllowlist) {
                     missingDeps.getOrPut(config.moduleName) { mutableListOf() }.add(dep)
                 }
             }
