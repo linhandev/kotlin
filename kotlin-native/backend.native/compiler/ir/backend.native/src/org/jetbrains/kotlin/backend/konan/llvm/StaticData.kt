@@ -53,6 +53,12 @@ internal open class StaticData(val module: LLVMModuleRef, private val llvm: Code
                 return Global(llvmGlobal)
             }
 
+            fun getOrCreateExternal(staticData: StaticData, type: LLVMTypeRef, name: String): Global {
+                LLVMGetNamedGlobal(staticData.module, name)?.let { return Global(it) }
+                val llvmGlobal = LLVMAddGlobal(staticData.module, type, name)!!
+                return Global(llvmGlobal)
+            }
+
             fun get(module: LLVMModuleRef, name: String): Global? {
                 val llvmGlobal = LLVMGetNamedGlobal(module, name) ?: return null
                 return Global(llvmGlobal)
@@ -108,6 +114,10 @@ internal open class StaticData(val module: LLVMModuleRef, private val llvm: Code
      */
     fun createGlobal(type: LLVMTypeRef, name: String, isExported: Boolean = false): Global {
         return Global.create(this, type, name, isExported)
+    }
+
+    fun getOrCreateExternalGlobal(type: LLVMTypeRef, name: String): Global {
+        return Global.getOrCreateExternal(this, type, name)
     }
 
     /**

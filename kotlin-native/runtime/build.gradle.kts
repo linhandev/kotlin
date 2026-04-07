@@ -26,10 +26,18 @@ if (HostManager.host == KonanTarget.MACOS_ARM64) {
     project.configureJvmToolchain(JdkMajorVersion.JDK_17_0)
 }
 
+val breakpadRepo = providers.gradleProperty("breakpadGitRepo")
+        .orElse(providers.environmentVariable("BREAKPAD_GIT_REPO"))
+        .getOrElse("https://github.com/google/breakpad.git")
+
+val breakpadRevision = providers.gradleProperty("breakpadGitRevision")
+        .orElse(providers.environmentVariable("BREAKPAD_GIT_REVISION"))
+        .getOrElse("v2024.02.16")
+
 val downloadBreakpad = tasks.register<GitDownloadTask>("downloadBreakpad") {
     description = "Retrieves Breakpad sources"
-    repository.set(URI.create("https://github.com/google/breakpad.git"))
-    revision.set("v2024.02.16")
+    repository.set(URI.create(breakpadRepo))
+    revision.set(breakpadRevision)
     outputDirectory.set(layout.buildDirectory.dir("breakpad"))
 }
 
@@ -62,6 +70,10 @@ bitcode {
             headersDirs.from("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/breakpad/cpp", "src/crashHandler/common/cpp")
             sourceSets {
                 main {
+                    // When -Pkotlin.native.runtime.excludeNapi=true, exclude NapiInterface.cpp
+                    if (project.findProperty("kotlin.native.runtime.excludeNapi") == "true") {
+                        inputFiles.exclude("NapiInterface.cpp")
+                    }
                     // TODO: Split out out `base` module and merge it together with `main` into `runtime.bc`
                     if (sanitizer == null) {
                         outputFile.set(layout.buildDirectory.file("bitcode/main/$target/runtime.bc"))

@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.ir.visitors.IrVisitorVoid
 import org.jetbrains.kotlin.ir.visitors.acceptChildrenVoid
 import org.jetbrains.kotlin.library.KotlinLibrary
+import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import kotlin.math.min
@@ -138,6 +139,47 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
 
     val uniques = mutableMapOf<UniqueKind, UniqueLlvmDeclarations>()
 
+    /**
+     * Declaration should be excluded from code generation based on
+     * moduleIncludeOnly configuration options.
+     */
+    private fun shouldExcludeFromCodegen(declaration: IrDeclaration): Boolean {
+        val library = declaration.konanLibrary ?: return false
+        val libraryName = library.uniqueName
+        val moduleIncludeOnly = context.config.moduleIncludeOnly
+
+        if (moduleIncludeOnly.isNotEmpty()) {
+            return libraryName !in moduleIncludeOnly
+        }
+
+        return false
+    }
+
+    // Declaration should use external linkage only when this compilation unit doesn't generate its definition.
+    private fun shouldForceExternalLinkage(declaration: IrDeclaration): Boolean {
+        val moduleIncludeOnly = context.config.moduleIncludeOnly
+        val library = declaration.konanLibrary
+
+        if (moduleIncludeOnly.isEmpty()) {
+            return false
+        }
+
+        // In split compilation mode, force external linkage for all public API declarations
+        if (declaration is IrDeclarationWithVisibility && !declaration.visibility.isPublicAPI) {
+            return false
+        }
+
+        // Library code: check if body will be generated in this compilation unit
+        val libraryName = library?.uniqueName ?: return false
+        val willGenerateBody = when {
+            moduleIncludeOnly.isNotEmpty() -> libraryName in moduleIncludeOnly
+            else -> true
+        }
+
+        // If we're generating the body, use external linkage so other .so files can call it
+        return true
+    }
+
     class Namer(val prefix: String) {
         private val names = mutableMapOf<IrDeclaration, Name>()
         private val counts = mutableMapOf<FqName, Int>()
@@ -251,6 +293,9 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
 
     private fun createClassDeclarations(declaration: IrClass): ClassLlvmDeclarations {
         val internalName = qualifyInternalName(declaration)
+        val excludedFromCodegen = shouldExcludeFromCodegen(declaration)
+        val isSplitSoMode = context.config.moduleIncludeOnly.isNotEmpty()
+        val useGetOrCreateExternal = isSplitSoMode && !declaration.isExported()
 
         val fields =
             if (context.config.packFields)
@@ -294,7 +339,11 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
                     LLVMArrayType(llvm.int8PtrType, context.getLayoutBuilder(declaration).vtableEntries.size)!!
             )
 
-            typeInfoGlobal = staticData.createGlobal(typeInfoWithVtableType, typeInfoSymbolName, declaration.isExported())
+            typeInfoGlobal = if (useGetOrCreateExternal) {
+                staticData.getOrCreateExternalGlobal(typeInfoWithVtableType, typeInfoSymbolName)
+            } else {
+                staticData.createGlobal(typeInfoWithVtableType, typeInfoSymbolName, declaration.isExported())
+            }
 
             // Other LLVM modules might import this global as a TypeInfo global.
             // This works only if there is no gap between the beginning of the global and the TypeInfo part,
@@ -320,9 +369,11 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
             typeInfoPtr = typeInfoGlobal.pointer.getElementPtr(llvm, typeInfoWithVtableType, 0)
 
         } else {
-            typeInfoGlobal = staticData.createGlobal(runtime.typeInfoType,
-                    typeInfoSymbolName,
-                    isExported = declaration.isExported())
+            typeInfoGlobal = if (useGetOrCreateExternal) {
+                staticData.getOrCreateExternalGlobal(runtime.typeInfoType, typeInfoSymbolName)
+            } else {
+                staticData.createGlobal(runtime.typeInfoType, typeInfoSymbolName, isExported = declaration.isExported())
+            }
 
             typeInfoPtr = typeInfoGlobal.pointer
         }
@@ -337,6 +388,17 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         }
 
         val writableTypeInfoGlobal = generateWritableTypeInfoForClass(declaration)
+
+        if (isSplitSoMode) {
+            typeInfoGlobal.setLinkage(LLVMLinkage.LLVMExternalLinkage)
+            if (!excludedFromCodegen) {
+                // Add to llvm.used so LLVMAddInternalizePass preserves ExternalLinkage.
+                llvm.usedGlobals += typeInfoGlobal.pointer.llvm
+                if (writableTypeInfoGlobal != null) {
+                    llvm.usedGlobals += writableTypeInfoGlobal.llvm
+                }
+            }
+        }
 
         return ClassLlvmDeclarations(
                 ObjectBodyType(bodyType, objectFieldIndices),
@@ -397,6 +459,7 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
     override fun visitField(declaration: IrField) {
         super.visitField(declaration)
 
+        val moduleIncludeOnly = context.config.moduleIncludeOnly
         val containingClass = declaration.parent as? IrClass
         if (containingClass != null && !declaration.isStatic) {
             if (!containingClass.requiresRtti()) return
@@ -419,7 +482,15 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
             val storage = if (declaration.storageKind == FieldStorageKind.THREAD_LOCAL) {
                 addKotlinThreadLocal(name, declaration.type.toLLVMType(llvm), alignmnet, declaration.type.binaryTypeIsReference())
             } else {
-                addKotlinGlobal(name, declaration.type.toLLVMType(llvm), alignmnet, isExported = false)
+                if (moduleIncludeOnly.isEmpty()) {
+                    addKotlinGlobal(name, declaration.type.toLLVMType(llvm), alignmnet, isExported = false)
+                } else {
+                    addKotlinGlobal(name, declaration.type.toLLVMType(llvm), alignmnet, isExported = true).also { globalStorage ->
+                        if (!shouldExcludeFromCodegen(declaration)) {
+                            llvm.usedGlobals += (globalStorage as GlobalAddressAccess).getAddress(null)
+                        }
+                    }
+                }
             }
 
             declaration.metadata = KonanMetadata.StaticField(declaration, StaticFieldLlvmDeclarations(storage, alignmnet))
@@ -431,6 +502,7 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
 
         if (!declaration.isReal) return
 
+        var generatedSymbolName: String? = null
         val llvmFunction = if (declaration.isExternal) {
             if (declaration.isTypedIntrinsic || declaration.isObjCBridgeBased()
                     // All call-sites to external accessors to interop properties
@@ -464,12 +536,22 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
                     declaration.computePrivateSymbolName(containerName)
                 }
             }
-
-            val proto = LlvmFunctionProto(declaration, symbolName, this, linkageOf(declaration))
+            generatedSymbolName = symbolName
+            val linkage = if (shouldForceExternalLinkage(declaration) || shouldExcludeFromCodegen(declaration)) {
+                LLVMLinkage.LLVMExternalLinkage
+            } else {
+                linkageOf(declaration)
+            }
+            val proto = LlvmFunctionProto(declaration, symbolName, this, linkage)
             context.log {
                 "Creating llvm function ${symbolName} for ${declaration.render()}"
             }
             proto.createLlvmFunction(context, llvm.module)
+        }
+
+        val shouldPreserveInLlvmUsedForSplit = context.config.moduleIncludeOnly.isNotEmpty() && !(generatedSymbolName?.contains('@') ?: false)
+        if (shouldPreserveInLlvmUsedForSplit) {
+            llvm.usedFunctions.add(llvmFunction)
         }
 
         declaration.metadata = KonanMetadata.Function(declaration, llvmFunction)
