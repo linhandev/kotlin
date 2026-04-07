@@ -553,10 +553,15 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
 
         if (underlying == UnsupportedType) return underlying
 
-        if (clang_getCursorLexicalParent(declCursor).kind != CXCursorKind.CXCursor_TranslationUnit) {
-            // Objective-C type parameters are represented as non-top-level typedefs.
-            // Erase for now:
-            return underlying
+        val lexicalParent = clang_getCursorLexicalParent(declCursor)
+        if (lexicalParent.kind != CXCursorKind.CXCursor_TranslationUnit) {
+            val isCppExternCBlockTypedef = library.language == Language.CPP &&
+                    lexicalParent.kind == CXCursorKind.CXCursor_LinkageSpec
+            if (!isCppExternCBlockTypedef) {
+                // Objective-C type parameters are represented as non-top-level typedefs.
+                // Erase for now:
+                return underlying
+            }
         }
 
         if (library.language == Language.OBJECTIVE_C) {

@@ -1,9 +1,8 @@
-# Kept for compatability with KuiklyBase-kotlin
 package = platform.linux
 headers = aio.h byteswap.h cpio.h crypt.h \
 	elf.h endian.h features.h fmtmsg.h \
     glob.h ifaddrs.h langinfo.h lastlog.h \
-	libintl.h link.h malloc.h mntent.h \
+	libintl.h link.h mntent.h \
 	monetary.h mqueue.h \
 	nl_types.h pty.h \
 	spawn.h stdc-predef.h stdio_ext.h syscall.h \

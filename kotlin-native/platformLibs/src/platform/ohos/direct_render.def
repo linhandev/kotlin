@@ -9,4 +9,3 @@ headers = drm/drm.h drm/amdgpu_drm.h drm/armada_drm.h drm/drm_fourcc.h \
           drm/tegra_drm.h drm/v3d_drm.h drm/vc4_drm.h drm/vgem_drm.h \
           drm/via_drm.h drm/virtgpu_drm.h drm/vmwgfx_drm.h
 headerFilter = drm/**
-

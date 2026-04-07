@@ -237,9 +237,7 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
         }
         // TODO: Can we extract more to the konan.configurables?
         return listOf(Command(absoluteLinker).apply {
-            if (linkerArgs.none { it.startsWith("--sysroot=") }) {
-                +"--sysroot=${absoluteTargetSysRoot}"
-            }
+            +"--sysroot=${absoluteTargetSysRoot}"
             +"-export-dynamic"
             +"-z"
             +"relro"

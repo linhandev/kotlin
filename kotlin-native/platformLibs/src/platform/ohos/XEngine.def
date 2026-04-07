@@ -19,4 +19,5 @@ linkerOpts = -lxengine
 language = C++
 compilerOpts = -std=c++17
 enableUndefinedApiProtection = true
+depends = vulkan gles3
 #harmonyOS SDK Only

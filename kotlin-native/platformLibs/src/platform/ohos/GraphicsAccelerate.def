@@ -10,4 +10,5 @@ linkerOpts = -labr -lopengtx -lframegeneration
 language = C++
 compilerOpts = -std=c++17
 enableUndefinedApiProtection = true
+depends = vulkan
 #harmonyOS SDK Only
