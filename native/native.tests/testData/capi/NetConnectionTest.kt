@@ -16,6 +16,7 @@
 import kotlin.test.*
 import kotlinx.cinterop.*
 import platform.NetworkKit.NetConnection.*
+import platform.posix.addrinfo
 
 @OptIn(
     kotlin.experimental.ExperimentalNativeApi::class,
@@ -113,7 +114,7 @@ class NetConnectionTest {
 
     @Test
     fun testGetAddrInfo_FreeDnsResult_GetAllNets_BindSocket() { memScoped {
-        val resPtr = alloc<CPointerVar<platform.NetworkKit.NetConnection.addrinfo>>()
+        val resPtr = alloc<CPointerVar<addrinfo>>()
         assertNotNull(OH_NetConn_GetAddrInfo(null, null, null, resPtr.ptr, 0))
         OH_NetConn_FreeDnsResult(resPtr.value)
         val list = alloc<NetConn_NetHandleList>()
