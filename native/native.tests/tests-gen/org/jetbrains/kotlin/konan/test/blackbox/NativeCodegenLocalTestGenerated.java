@@ -24,10 +24,6 @@ import java.util.regex.Pattern;
 @ClassicPipeline()
 @UseExtTestCaseGroupProvider()
 public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTest {
-  // @Test
-  // public void testAllFilesPresentInCodegen() {
-  //   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
-  // }
 
   @Test
   @TestMetadata("kt62262.kt")
@@ -953,455 +949,95 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     }
   }
 
-  // @Nested
-  // @TestMetadata("native/native.tests/testData/codegen/fileCheck")
-  // @TestDataPath("$PROJECT_ROOT")
-  // @ClassicPipeline()
-  // @UseExtTestCaseGroupProvider()
-  // public class FileCheck {
-  //   @Test
-  //   @TestMetadata("adopted_function_reference.kt")
-  //   public void testAdopted_function_reference() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/adopted_function_reference.kt");
-  //   }
-
-  //   @Test
-  //   public void testAllFilesPresentInFileCheck() {
-  //     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/fileCheck"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
-  //   }
-
-    @Test
-    @TestMetadata("assertDisabled.kt")
-    public void testAssertDisabled() {
-      runTest("native/native.tests/testData/codegen/fileCheck/assertDisabled.kt");
-    }
-
-    @Test
-    @TestMetadata("assertDisabledInConditionAndMessage.kt")
-    public void testAssertDisabledInConditionAndMessage() {
-      runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInConditionAndMessage.kt");
-    }
-
-    @Test
-    @TestMetadata("assertDisabledInlined.kt")
-    public void testAssertDisabledInlined() {
-      runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlined.kt");
-    }
-
-    @Test
-    @TestMetadata("assertDisabledInlinedCrossModule.kt")
-    public void testAssertDisabledInlinedCrossModule() {
-      runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlinedCrossModule.kt");
-    }
-
-  //   @Test
-  //   @TestMetadata("atomics.kt")
-  //   public void testAtomics() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/atomics.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("bce.kt")
-  //   public void testBce() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/bce.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("bridges.kt")
-  //   public void testBridges() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/bridges.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("constants_merge.kt")
-  //   public void testConstants_merge() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/constants_merge.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("default_parameters_dont_box.kt")
-  //   public void testDefault_parameters_dont_box() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/default_parameters_dont_box.kt");
-  //   }
-
-    @Test
-    @TestMetadata("delegated_references_are_const.kt")
-    public void testDelegated_references_are_const() {
-      runTest("native/native.tests/testData/codegen/fileCheck/delegated_references_are_const.kt");
-    }
-
-    @Test
-    @TestMetadata("enumWithDifferentFileOrder.kt")
-    public void testEnumWithDifferentFileOrder() {
-      runTest("native/native.tests/testData/codegen/fileCheck/enumWithDifferentFileOrder.kt");
-    }
-
-  //   @Test
-  //   @TestMetadata("enum_when.kt")
-  //   public void testEnum_when() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/enum_when.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("escape_analysis.kt")
-  //   public void testEscape_analysis() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/escape_analysis.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("filecheck_expected_failure.kt")
-  //   public void testFilecheck_expected_failure() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/filecheck_expected_failure.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("force_arm_instruction_set.kt")
-  //   public void testForce_arm_instruction_set() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/force_arm_instruction_set.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("function_attributes_at_callsite.kt")
-  //   public void testFunction_attributes_at_callsite() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/function_attributes_at_callsite.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("generic_function_references.kt")
-  //   public void testGeneric_function_references() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/generic_function_references.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("generic_safe_casts.kt")
-  //   public void testGeneric_safe_casts() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/generic_safe_casts.kt");
-  //   }
-
-    @Test
-    @TestMetadata("inline.kt")
-    public void testInline() {
-      runTest("native/native.tests/testData/codegen/fileCheck/inline.kt");
-    }
-
-    @Test
-    @TestMetadata("inline_property.kt")
-    public void testInline_property() {
-      runTest("native/native.tests/testData/codegen/fileCheck/inline_property.kt");
-    }
-
-  //   @Test
-  //   @TestMetadata("intrinsics.kt")
-  //   public void testIntrinsics() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/intrinsics.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt49847_class.kt")
-  //   public void testKt49847_class() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt49847_class.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt49847_generic.kt")
-  //   public void testKt49847_generic() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt49847_generic.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt49847_generic_receiver.kt")
-  //   public void testKt49847_generic_receiver() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt49847_generic_receiver.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt49847_sam_Any.kt")
-  //   public void testKt49847_sam_Any() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt49847_sam_Any.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt49847_sam_Any_generic.kt")
-  //   public void testKt49847_sam_Any_generic() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt49847_sam_Any_generic.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt49847_sam_Int.kt")
-  //   public void testKt49847_sam_Int() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt49847_sam_Int.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt49847_sam_Int_generic.kt")
-  //   public void testKt49847_sam_Int_generic() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt49847_sam_Int_generic.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt49847_simple_function_reference.kt")
-  //   public void testKt49847_simple_function_reference() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt49847_simple_function_reference.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt58654.kt")
-  //   public void testKt58654() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt58654.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("kt68034.kt")
-  //   public void testKt68034() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/kt68034.kt");
-  //   }
-
-    @Test
-    @TestMetadata("noLocalClassesInInlineFunctionExtraction.kt")
-    public void testNoLocalClassesInInlineFunctionExtraction() {
-      runTest("native/native.tests/testData/codegen/fileCheck/noLocalClassesInInlineFunctionExtraction.kt");
-    }
-
-  //   @Test
-  //   @TestMetadata("no_frame_on_constant_object_access.kt")
-  //   public void testNo_frame_on_constant_object_access() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/no_frame_on_constant_object_access.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("redundant_safepoints.kt")
-  //   public void testRedundant_safepoints() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/redundant_safepoints.kt");
-  //   }
-
-    @Test
-    @TestMetadata("remove_redundant_type_checks.kt")
-    public void testRemove_redundant_type_checks() {
-      runTest("native/native.tests/testData/codegen/fileCheck/remove_redundant_type_checks.kt");
-    }
-
-    @Test
-    @TestMetadata("runtime_attributes_compatible.kt")
-    public void testRuntime_attributes_compatible() {
-      runTest("native/native.tests/testData/codegen/fileCheck/runtime_attributes_compatible.kt");
-    }
-
-  //   @Test
-  //   @TestMetadata("replace_invoke_with_call.kt")
-  //   public void testReplace_invoke_with_call() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/replace_invoke_with_call.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("signext_zeroext0.kt")
-  //   public void testSignext_zeroext0() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/signext_zeroext0.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("single_tls_load.kt")
-  //   public void testSingle_tls_load() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/single_tls_load.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("smoke0.kt")
-  //   public void testSmoke0() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/smoke0.kt");
-  //   }
-
-    @Test
-    @TestMetadata("stackProtector_all.kt")
-    public void testStackProtector_all() {
-      runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_all.kt");
-    }
-
-    @Test
-    @TestMetadata("stackProtector_no.kt")
-    public void testStackProtector_no() {
-      runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_no.kt");
-    }
-
-    @Test
-    @TestMetadata("stackProtector_strong.kt")
-    public void testStackProtector_strong() {
-      runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_strong.kt");
-    }
-
-    @Test
-    @TestMetadata("stackProtector_yes.kt")
-    public void testStackProtector_yes() {
-      runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_yes.kt");
-    }
-
-  //   @Test
-  //   @TestMetadata("suspend_returnNothing.kt")
-  //   public void testSuspend_returnNothing() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/suspend_returnNothing.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("suspend_tailcalls_functions.kt")
-  //   public void testSuspend_tailcalls_functions() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/suspend_tailcalls_functions.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("suspend_tailcalls_lambdas.kt")
-  //   public void testSuspend_tailcalls_lambdas() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/suspend_tailcalls_lambdas.kt");
-  //   }
-
-  //   @Test
-  //   @TestMetadata("when.kt")
-  //   public void testWhen() {
-  //     runTest("native/native.tests/testData/codegen/fileCheck/when.kt");
-  //   }
-
-  //   @Nested
-  //   @TestMetadata("native/native.tests/testData/codegen/fileCheck/cinterop")
-  //   @TestDataPath("$PROJECT_ROOT")
-  //   @ClassicPipeline()
-  //   @UseExtTestCaseGroupProvider()
-  //   public class Cinterop {
-  //     @Test
-  //     public void testAllFilesPresentInCinterop() {
-  //       KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/fileCheck/cinterop"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
-  //     }
-
-  //     @Test
-  //     @TestMetadata("direct.kt")
-  //     public void testDirect() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/cinterop/direct.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("signext_zeroext_interop.kt")
-  //     public void testSignext_zeroext_interop() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/cinterop/signext_zeroext_interop.kt");
-  //     }
-  //   }
-
-  //   @Nested
-  //   @TestMetadata("native/native.tests/testData/codegen/fileCheck/kt53261")
-  //   @TestDataPath("$PROJECT_ROOT")
-  //   @ClassicPipeline()
-  //   @UseExtTestCaseGroupProvider()
-  //   public class Kt53261 {
-  //     @Test
-  //     public void testAllFilesPresentInKt53261() {
-  //       KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/fileCheck/kt53261"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_inline_unbox.kt")
-  //     public void testKt53261_inline_unbox() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_inline_unbox.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_CPointer.kt")
-  //     public void testKt53261_noinline_CPointer() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_CPointer.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_NativePointed.kt")
-  //     public void testKt53261_noinline_NativePointed() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_NativePointed.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_NonNullNativePtr.kt")
-  //     public void testKt53261_noinline_NonNullNativePtr() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_NonNullNativePtr.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_StableRef.kt")
-  //     public void testKt53261_noinline_StableRef() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_StableRef.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_UByteArray.kt")
-  //     public void testKt53261_noinline_UByteArray() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_UByteArray.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_UIntArray.kt")
-  //     public void testKt53261_noinline_UIntArray() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_UIntArray.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_ULongArray.kt")
-  //     public void testKt53261_noinline_ULongArray() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_ULongArray.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_UShortArray.kt")
-  //     public void testKt53261_noinline_UShortArray() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_UShortArray.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53261_noinline_value_unbox.kt")
-  //     public void testKt53261_noinline_value_unbox() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/kt53261/kt53261_noinline_value_unbox.kt");
-  //     }
-  //   }
-
-  //   @Nested
-  //   @TestMetadata("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing")
-  //   @TestDataPath("$PROJECT_ROOT")
-  //   @ClassicPipeline()
-  //   @UseExtTestCaseGroupProvider()
-  //   public class StringConcatenationTypeNarrowing {
-  //     @Test
-  //     public void testAllFilesPresentInStringConcatenationTypeNarrowing() {
-  //       KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53119_append_generated.kt")
-  //     public void testKt53119_append_generated() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_append_generated.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53119_append_manual.kt")
-  //     public void testKt53119_append_manual() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_append_manual.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53119_plus_extension.kt")
-  //     public void testKt53119_plus_extension() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_plus_extension.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53119_plus_generated_noescape.kt")
-  //     public void testKt53119_plus_generated_noescape() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_plus_generated_noescape.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53119_plus_member.kt")
-  //     public void testKt53119_plus_member() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_plus_member.kt");
-  //     }
-
-  //     @Test
-  //     @TestMetadata("kt53119_side_effect.kt")
-  //     public void testKt53119_side_effect() {
-  //       runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_side_effect.kt");
-  //     }
-  //   }
-  // }
+  @Test
+  @TestMetadata("assertDisabled.kt")
+  public void testAssertDisabled() {
+    runTest("native/native.tests/testData/codegen/fileCheck/assertDisabled.kt");
+  }
+
+  @Test
+  @TestMetadata("assertDisabledInConditionAndMessage.kt")
+  public void testAssertDisabledInConditionAndMessage() {
+    runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInConditionAndMessage.kt");
+  }
+
+  @Test
+  @TestMetadata("assertDisabledInlined.kt")
+  public void testAssertDisabledInlined() {
+    runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlined.kt");
+  }
+
+  @Test
+  @TestMetadata("assertDisabledInlinedCrossModule.kt")
+  public void testAssertDisabledInlinedCrossModule() {
+    runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlinedCrossModule.kt");
+  }
+
+  @Test
+  @TestMetadata("delegated_references_are_const.kt")
+  public void testDelegated_references_are_const() {
+    runTest("native/native.tests/testData/codegen/fileCheck/delegated_references_are_const.kt");
+  }
+
+  @Test
+  @TestMetadata("enumWithDifferentFileOrder.kt")
+  public void testEnumWithDifferentFileOrder() {
+    runTest("native/native.tests/testData/codegen/fileCheck/enumWithDifferentFileOrder.kt");
+  }
+
+  @Test
+  @TestMetadata("inline.kt")
+  public void testInline() {
+    runTest("native/native.tests/testData/codegen/fileCheck/inline.kt");
+  }
+
+  @Test
+  @TestMetadata("inline_property.kt")
+  public void testInline_property() {
+    runTest("native/native.tests/testData/codegen/fileCheck/inline_property.kt");
+  }
+
+  @Test
+  @TestMetadata("noLocalClassesInInlineFunctionExtraction.kt")
+  public void testNoLocalClassesInInlineFunctionExtraction() {
+    runTest("native/native.tests/testData/codegen/fileCheck/noLocalClassesInInlineFunctionExtraction.kt");
+  }
+
+  @Test
+  @TestMetadata("remove_redundant_type_checks.kt")
+  public void testRemove_redundant_type_checks() {
+    runTest("native/native.tests/testData/codegen/fileCheck/remove_redundant_type_checks.kt");
+  }
+
+  @Test
+  @TestMetadata("runtime_attributes_compatible.kt")
+  public void testRuntime_attributes_compatible() {
+    runTest("native/native.tests/testData/codegen/fileCheck/runtime_attributes_compatible.kt");
+  }
+
+  @Test
+  @TestMetadata("stackProtector_all.kt")
+  public void testStackProtector_all() {
+    runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_all.kt");
+  }
+
+  @Test
+  @TestMetadata("stackProtector_no.kt")
+  public void testStackProtector_no() {
+    runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_no.kt");
+  }
+
+  @Test
+  @TestMetadata("stackProtector_strong.kt")
+  public void testStackProtector_strong() {
+    runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_strong.kt");
+  }
+
+  @Test
+  @TestMetadata("stackProtector_yes.kt")
+  public void testStackProtector_yes() {
+    runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_yes.kt");
+  }
 
   @Nested
   @TestMetadata("native/native.tests/testData/codegen/funInterface")
