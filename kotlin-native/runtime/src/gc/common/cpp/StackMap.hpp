@@ -1,3 +1,8 @@
+/*
+ * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
+ */
+
 #pragma once
 
 #include <stdint.h>
@@ -25,8 +30,7 @@ struct StackMapHeader {
 };
 
 struct StkMapSizeRecord {
-//  uint64_t funcAddr_;
-// 相对于__LLVM_StackMaps的偏移
+  /** Byte offset of the function record from the start of the LLVM stack map section. */
   uint64_t funcAddrOffset_;
   uint64_t stackSize_;
   uint64_t recordCount_;
@@ -120,7 +124,6 @@ struct StkMapRecord {
 class DataInfo {
 public:
   explicit DataInfo(const uint8_t *data) : data_(data), offset_(0) {
-//        RuntimeLogInfo({kTagGC}, "[CRT] Run in DataInfo(): the data_ is %llu\n", (uintptr_t)data);
         if (reinterpret_cast<uint64_t>(data_) == 0) {
            RuntimeLogInfo({kTagGC}, "[CRT] Run in DataInfo(): the data_ is nullptr");
            std::abort();
@@ -165,4 +168,4 @@ private:
   std::vector<StkMapRecord> stkMapRecords_;
   std::unordered_map<uintptr_t, CallSiteInfo> pc2CallSiteInfo_;
 };
-};
+} // namespace kotlin::stackMap

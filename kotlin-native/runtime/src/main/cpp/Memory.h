@@ -239,9 +239,11 @@ void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHRO
 void UpdateHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
 void UpdateVolatileHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
-OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapObjPtr* location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapObjPtr* location, HeapObjPtr expectedValue,
+           HeapObjPtr newValue) RUNTIME_NOTHROW;
 // bool CompareAndSetVolatileHeapRef(HeapObjPtr* location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
-bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
+                                  HeapObjPtr newValue) RUNTIME_NOTHROW;
 OBJ_GETTER(GetAndSetVolatileHeapRef, HeapObjPtr* location, HeapObjPtr newValue) RUNTIME_NOTHROW;
 
 // Updates location if it is null, atomically.

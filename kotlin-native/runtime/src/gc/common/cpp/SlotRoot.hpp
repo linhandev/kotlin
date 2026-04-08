@@ -50,32 +50,6 @@ public:
         return *this;
     }
 
-    // void VisitGCRoots(const RootVisitor& visitor, const SlotDebugVisitor& debugFunc, uintptr_t base,
-    //                   std::list<Uptr>* rootsList = nullptr) const
-    // {
-    //     if (slotFormat != PURE_COMPRESSED_STACKMAP) {
-    //         VisitWAHGCRoots(visitor, debugFunc, base, rootsList);
-    //         return;
-    //     }
-    //     for (size_t i = 0; i < slotBits.size(); ++i) {
-    //         SlotBits bit = slotBits[i];
-    //         for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
-    //             if ((bit & LOWEST_BIT) == 0) {
-    //                 continue;
-    //             }
-    //             SlotBias bias = static_cast<int32_t>(i * BIT_SIZE + j) * BYTES_PER_SLOT + slotBias * BIAS_COEF;
-    //             SlotAddress slot = reinterpret_cast<SlotAddress>(static_cast<intptr_t>(base) + bias);
-    //             if (debugFunc != nullptr) {
-    //                 debugFunc(bias, slot->object);
-    //             }
-    //             if (rootsList != nullptr) {
-    //                 rootsList->push_back(reinterpret_cast<Uptr>(slot->object));
-    //             }
-    //             visitor(*slot);
-    //         }
-    //     }
-    // }
-
     void CollectSlotOffsets(std::vector<int32_t> &slotOffsets)
     {
         if (slotFormat != STACKMAP_BITMAP) {
@@ -97,54 +71,6 @@ public:
     ~SlotRoot() { std::vector<SlotBits>().swap(slotBits); }
 
 private:
-    // void VisitWAHGCRoots(const RootVisitor& visitor, const SlotDebugVisitor& debugFunc, uintptr_t base,
-    //     std::list<Uptr>* rootsList = nullptr) const
-    // {
-    //     constexpr uint32_t PureValWidth = 31;
-    //     constexpr uint32_t PureValBit = 1 << PureValWidth;
-    //     constexpr uint32_t PureValMask = PureValBit - 1;
-    //     constexpr uint32_t CompressTagBit = 1 << 30;
-    //     constexpr uint32_t CompressCntMask = CompressTagBit - 1;
-    //     SlotBias baseBias = slotBias * BIAS_COEF;
-
-    //     auto VisitOneSlot = [&](int32_t Idx) {
-    //         SlotBias bias = baseBias + static_cast<int32_t>(Idx) * BYTES_PER_SLOT;
-    //         SlotAddress slot = reinterpret_cast<SlotAddress>(static_cast<intptr_t>(base) + bias);
-    //         if (debugFunc != nullptr) {
-    //             debugFunc(bias, slot->object);
-    //         }
-    //         if (rootsList != nullptr) {
-    //             rootsList->push_back(reinterpret_cast<Uptr>(slot->object));
-    //         }
-    //         visitor(*slot);
-    //     };
-
-    //     auto ProcessOneSlotBits = [&](SlotBits bit) {
-    //         if (bit & PureValBit) {
-    //             bit &= PureValMask;
-    //             for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
-    //                 if ((bit & LOWEST_BIT) == 0) {
-    //                     continue;
-    //                 }
-    //                 VisitOneSlot(j);
-    //             }
-    //             baseBias += static_cast<int32_t>(PureValWidth) * BYTES_PER_SLOT;
-    //         } else {
-    //             bool isAllRef = (bit & CompressTagBit);
-    //             uint32_t bitNums = (bit & CompressCntMask) * PureValWidth;
-    //             if (isAllRef) {
-    //                 for (uint32_t j = 0; j < bitNums; ++j) {
-    //                     VisitOneSlot(j);
-    //                 }
-    //             }
-    //             baseBias += static_cast<int32_t>(bitNums) * BYTES_PER_SLOT;
-    //         }
-    //     };
-
-    //     for (SlotBits bit : slotBits) {
-    //         ProcessOneSlotBits(bit);
-    //     }
-    // }
     void CollectWAHSlotOffsets(std::vector<int32_t> &slotOffsets) const
     {
         constexpr uint32_t PureValWidth = 31;

@@ -51,12 +51,14 @@ void Free(void* ptr, size_t size) noexcept;
 
 size_t GetAllocatedBytes() noexcept;
 
-constexpr uintptr_t RoundDown(uintptr_t x, uintptr_t n) {
-  return (x & -n);
+constexpr uintptr_t RoundDown(uintptr_t x, uintptr_t n)
+{
+    return (x & -n);
 }
 
-constexpr uintptr_t RoundUp(uintptr_t x, uintptr_t n) {
-  return RoundDown(x + n - 1, n);
+constexpr uintptr_t RoundUp(uintptr_t x, uintptr_t n)
+{
+    return RoundDown(x + n - 1, n);
 }
 
 void ZeroAndReleasePages(void *address, size_t length) noexcept;

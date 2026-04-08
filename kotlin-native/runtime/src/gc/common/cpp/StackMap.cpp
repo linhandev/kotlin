@@ -1,3 +1,8 @@
+/*
+ * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
+ */
+
 #include "StackMap.hpp"
 
 #include <cstring>
@@ -121,24 +126,21 @@ void stackMap::StackMap::calcCallSite() {
         }
       }
     }
-//    OUT2FILE("StackMap", "InsnPC: %p, gc-live count: %lu, recordID: %d\n", (void*)insnPC, callsiteInfo.size(), recordId);
   };
   for (auto &stkSizeRecord : stkSizeRecords_) {
-    // uintptr_t funcAddr = stkSizeRecord.funcAddr_;
   #if KONAN_LINUX || KONAN_OHOS
     uintptr_t funcAddr = (int64_t)stkSizeRecord.funcAddrOffset_ + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
   #else
     uintptr_t funcAddr = (int64_t)stkSizeRecord.funcAddrOffset_ + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
   #endif
     uint64_t recordCount = stkSizeRecord.recordCount_;
-    // OUT2FILE("StackMap", "FunctionAddress: %p\n", (void*)funcAddr);
     for (uint64_t k = 0; k < recordCount; ++k) {
       calc(funcAddr, k);
     }
     recordNum += recordCount;
   }
 }
-}; // namespace kotlin
+} // namespace kotlin
 
 std::string kotlin::stackMap::Location::kindToString() const {
   switch (location_) {
