@@ -341,7 +341,7 @@ NO_INLINE void kotlin::PrintStackTraceStderr() {
     StackTrace trace = StackTrace<>::current(kSkipFrames);
     auto stackTraceStrings = GetStackTraceStrings(trace.data());
     for (auto& frame : stackTraceStrings) {
-       konan::consoleErrorUtf8(frame.c_str(), frame.size());
-       konan::consoleErrorf("\n");
+        konan::consoleErrorUtf8(frame.c_str(), frame.size());
+        konan::consoleErrorf("\n");
     } 
 }

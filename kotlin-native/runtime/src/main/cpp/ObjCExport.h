@@ -96,9 +96,9 @@ inline static id AtomicCompareAndSwapAssociatedObject(HeapObjPtr obj, id expecte
 }
 
 inline static OBJ_GETTER(AllocInstanceWithAssociatedObject, const TypeInfo* typeInfo, id associatedObject) {
-  HeapObjPtr result = AllocInstance(typeInfo, OBJ_RESULT);
-  SetAssociatedObject(result, associatedObject);
-  return result;
+    HeapObjPtr result = AllocInstance(typeInfo, OBJ_RESULT);
+    SetAssociatedObject(result, associatedObject);
+    return result;
 }
 
 #endif // KONAN_OBJC_INTEROP

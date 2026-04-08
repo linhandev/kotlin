@@ -395,37 +395,37 @@ struct FrameOverlay {
 // Class holding reference to an object, holding object during C++ scope.
 // TODO adopt ref accessors
 class ObjHolder {
- public:
-   ObjHolder() : obj_(nullptr) {
-     EnterFrame(frame(), 0, sizeof(*this)/sizeof(void*));
-   }
+public:
+    ObjHolder() : obj_(nullptr) {
+        EnterFrame(frame(), 0, sizeof(*this)/sizeof(void*));
+    }
 
-   explicit ObjHolder(ConstHeapObjPtr obj)
-   {
-     EnterFrame(frame(), 0, sizeof(*this)/sizeof(void*));
-     ::UpdateStackRef(slot(), obj);
-   }
+    explicit ObjHolder(ConstHeapObjPtr obj)
+    {
+        EnterFrame(frame(), 0, sizeof(*this)/sizeof(void*));
+        ::UpdateStackRef(slot(), obj);
+    }
 
-   ~ObjHolder() {
-     LeaveFrame(frame(), 0, sizeof(*this)/sizeof(void*));
-   }
+    ~ObjHolder() {
+        LeaveFrame(frame(), 0, sizeof(*this)/sizeof(void*));
+    }
 
-   HeapObjPtr obj() { return obj_; }
+    HeapObjPtr obj() { return obj_; }
 
-   ConstHeapObjPtr obj() const { return obj_; }
+    ConstHeapObjPtr obj() const { return obj_; }
 
-   HeapObjPtr* slot()
-   {
-     return &obj_;
-   }
+    HeapObjPtr* slot()
+    {
+        return &obj_;
+    }
 
-   void clear() { ::ZeroStackRef(&obj_); }
+    void clear() { ::ZeroStackRef(&obj_); }
 
- private:
-   HeapObjPtr* frame() { return reinterpret_cast<HeapObjPtr*>(&frame_); }
+private:
+    HeapObjPtr* frame() { return reinterpret_cast<HeapObjPtr*>(&frame_); }
 
-   FrameOverlay frame_;
-   HeapObjPtr obj_;
+    FrameOverlay frame_;
+    HeapObjPtr obj_;
 };
 
 class ExceptionObjHolder {

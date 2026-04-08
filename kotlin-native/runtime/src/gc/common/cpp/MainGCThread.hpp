@@ -103,7 +103,7 @@ private:
 
     void PerformFullGC(int64_t epoch) noexcept {
 #if DUMP_DEBUG_INFO
-	std::cout << "gc::ConcurrentMarkAndSweep::PerformFullGC" << std::endl;
+        std::cout << "gc::ConcurrentMarkAndSweep::PerformFullGC" << std::endl;
 #endif
         auto mainGCLock = mm::GlobalData::Instance().gc().gcLock();
 
@@ -113,7 +113,7 @@ private:
 
         stopTheWorld(gcHandle, "GC stop the world: mark");
 #if DUMP_DEBUG_INFO
-	std::cout << "stw1 start" << std::endl;
+        std::cout << "stw1 start" << std::endl;
 #endif
 
         gcScheduler_.onGCStart();
@@ -140,7 +140,7 @@ private:
 
         if (!GCTraits::kConcurrentSweep) {
 #if DUMP_DEBUG_INFO
-	    std::cout << "stw2 end" << std::endl;
+            std::cout << "stw2 end" << std::endl;
 #endif
             resumeTheWorld(gcHandle);
         }

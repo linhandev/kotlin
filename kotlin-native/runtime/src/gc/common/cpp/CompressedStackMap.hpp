@@ -102,11 +102,11 @@ public:
     static CompressedStackMapHead GetStackMapHead(uint8_t *stackmapStart, const PrologueVisitor& visitor)
     {
         uint64_t llvmStackMapSymbolStart = 0;
-  #if KONAN_LINUX || KONAN_OHOS
+    #if KONAN_LINUX || KONAN_OHOS
         llvmStackMapSymbolStart = reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
-  #else
+    #else
         llvmStackMapSymbolStart = reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
-  #endif
+    #endif
         uint64_t funcAddress = static_cast<uint64_t>(
             *reinterpret_cast<int64_t*>(stackmapStart) + static_cast<int64_t>(llvmStackMapSymbolStart));
         stackmapStart += 8; // skip funcAddress

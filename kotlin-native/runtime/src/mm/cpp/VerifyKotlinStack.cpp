@@ -61,10 +61,10 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
     uint64_t* fp = fpStack.back();
     if (IsKotlinFrame(kind)) {
         if (!IsKotlinFrameTag(fp)) {
-             RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: Pushed Kotlin Frame %p (kind %d) Missing/Invalid Tag! Found 0x%llx",
+            RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: Pushed Kotlin Frame %p (kind %d) Missing/Invalid Tag! Found 0x%llx",
                 fp, (int)kind, (unsigned long long)*(fp - 2));
-             threadData.printLastKotlinFrameLog();
-             abort();
+            threadData.printLastKotlinFrameLog();
+            abort();
         }
     }
     // TODO: 退栈时未清理 fp + 2 的值，导致校验了已执行结束函数的栈帧
@@ -126,12 +126,12 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
     while (fp != entryFp && fp != nullptr && limit-- > 0) {
         // Verify frame tag at *(fp - 2)
         if (!IsKotlinFrameTag(fp)) {
-             RuntimeLogInfo(
+            RuntimeLogInfo(
                 {kTagGC}, "VerifyKotlinStack: Missing/Invalid Tag on frame %p between Exit(%p) and Entry(%p). Found 0x%llx",
                 fp, exitFp, entryFp, (unsigned long long)*(fp - 2));
-             threadData.printLastKotlinFrameLog();
-             TryUnwindAggresively(threadData);
-             abort();
+            threadData.printLastKotlinFrameLog();
+            TryUnwindAggresively(threadData);
+            abort();
         }
         fp = (uint64_t*)*fp;
     }

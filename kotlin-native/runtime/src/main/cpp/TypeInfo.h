@@ -84,9 +84,9 @@ struct InterfaceTableRecord {
 class KNStateWord {
 public:
     struct GCStateWord {
-      uint64_t address_ : 59;
-      uint64_t valid_ : 1;
-      uint64_t remainded_ : 4;
+        uint64_t address_ : 59;
+        uint64_t valid_ : 1;
+        uint64_t remainded_ : 4;
     };
 
     void SetValid()
@@ -96,7 +96,7 @@ public:
 
     bool IsValid()
     {
-      return state_.valid_ == 1;
+        return state_.valid_ == 1;
     }
 private:
     GCStateWord state_;

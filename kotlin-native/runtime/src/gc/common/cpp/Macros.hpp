@@ -30,7 +30,7 @@ using SlotBias = int32_t;
 using BitsMapSize = uint32_t;
 
 enum StackMapFormat : uint8_t {
-  STACKMAP_BITMAP = 0,
-  STACKMAP_COMPRESSED_BITMAP = 1,
+    STACKMAP_BITMAP = 0,
+    STACKMAP_COMPRESSED_BITMAP = 1,
 };
 } // namespace kotlin::stackMap
