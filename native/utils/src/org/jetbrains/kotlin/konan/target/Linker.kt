@@ -237,9 +237,7 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
         }
         // TODO: Can we extract more to the konan.configurables?
         return listOf(Command(absoluteLinker).apply {
-            if (linkerArgs.none { it.startsWith("--sysroot=") }) {
-                +"--sysroot=${absoluteTargetSysRoot}"
-            }
+            +"--sysroot=${absoluteTargetSysRoot}"
             +"-export-dynamic"
             +"-z"
             +"relro"
@@ -257,6 +255,9 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             +"-L${targetToolchain}/lib/$targetLibDir"
             +"-L${targetToolchain}/lib/$targetLibDir/c++"
             +specificLibs
+            additionalTargetSysRoot?.let { name ->
+                +"-L${absolute(name)}/usr/lib/$targetLibDir"
+            }
             if (optimize) +linkerOptimizationFlags
             if (!debug) +linkerNoDebugFlags
             if (dynamic) +linkerDynamicFlags

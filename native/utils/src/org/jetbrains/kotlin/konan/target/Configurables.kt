@@ -146,4 +146,6 @@ interface OhosConfigurables : Configurables, ClangFlags {
     val linker get() = hostTargetString("linker")
     val linkerHostSpecificFlags get() = hostTargetList("linkerHostSpecificFlags")
     val absoluteLinker get() = absolute(linker)
+
+    val additionalTargetSysRoot get() = targetString("additionalTargetSysRoot.ohos")
 }

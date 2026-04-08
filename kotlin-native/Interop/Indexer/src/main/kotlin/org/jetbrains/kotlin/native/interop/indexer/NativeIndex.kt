@@ -348,7 +348,7 @@ class StringConstantDef(name: String, type: Type, val value: String) : ConstantD
 
 class WrappedMacroDef(name: String, val type: Type) : MacroDef(name)
 
-class GlobalDecl(val name: String, val type: Type, val isConst: Boolean, val parentName: String? = null) {
+class GlobalDecl(val name: String, val type: Type, val isConst: Boolean, val parentName: String? = null, val declarationSpelling: String? = null, val isDeclarationOnly: Boolean = false) {
     val fullName: String get() = parentName?.let { "$it::$name" } ?: name
 }
 

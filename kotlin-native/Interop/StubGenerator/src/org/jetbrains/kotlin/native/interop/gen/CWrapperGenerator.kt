@@ -98,13 +98,14 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
     // Per-def preamble for undefined-API
     private fun generatePreambleLines(): List<String> {
         if (!enableUndefinedApiProtection || context.configuration.library.language != Language.CPP) return emptyList()
-        return listOf(
-            "// ========== undefined API protection preamble (weak symbol + &func == nullptr check) ==========",
-            "namespace ohos { namespace interop {",
-            "extern \"C\" void ThrowIllegalStateExceptionFromCString(const char* message);",
-            "} }",
-            ""
-        )
+        return """
+            // ========== undefined API protection preamble (weak symbol + &func == nullptr check) ==========
+            namespace ohos {
+                namespace interop {
+                    extern "C" void ThrowIllegalStateExceptionFromCString(const char* message);
+                }
+            }
+        """.trimIndent().lines()
     }
 
 
@@ -145,8 +146,13 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         val cppLanguage = context.configuration.library.language
         val wrapperName = generateFunctionWrapperName(function.name)
 
-        val returnType = function.returnType.getStringRepresentation(cppLanguage)
         val unwrappedReturnType = function.returnType.unwrapTypedefs()
+        val returnType = when {
+            unwrappedReturnType is RecordType && unwrappedReturnType.decl.spelling == function.name ->
+                "struct ${unwrappedReturnType.decl.spelling}"
+            else ->
+                function.returnType.getStringRepresentation(cppLanguage)
+        }
         val returnTypePrefix =
                 if (unwrappedReturnType is PointerType && unwrappedReturnType.isLVReference) "&" else ""
 
@@ -155,11 +161,6 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
             val unwrappedParamType = paramType.unwrapTypedefs()
 
             val type = when {
-                // If struct is passed by value (and not a typedef alias), convert to pointer
-                // in wrapper function parameter declaration.
-                unwrappedParamType is RecordType && paramType !is PointerType && paramType !is Typedef -> {
-                    "${parameter.type.getStringRepresentation(cppLanguage)}*"
-                }
                 // For nested pointer types with const pointee (e.g., const char**), use const T**
                 needsConstPtrPtr(paramType) -> generateConstPtrPtrType(paramType, cppLanguage)
                 // For va_list typedef, use "va_list" instead of implementation details
@@ -186,7 +187,7 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
                 unwrappedType is EnumType ->
                     "(${unwrappedType.def.spelling})"
                 unwrappedType is RecordType ->
-                    "*(${unwrappedType.decl.spelling}*)"
+                    "(${unwrappedType.decl.spelling})"
                 else ->
                     "$cppRefTypePrefix($parameterTypeText)"
             }
@@ -273,20 +274,62 @@ internal class CWrappersGenerator(private val context: StubIrContext) {
         return CCalleeWrapper(wrapperLines)
     }
 
+    //  C++ Support: Weak Global Constants 
+    private fun globalWeakDeclLine(globalDecl: GlobalDecl): String? {
+        if (!enableUndefinedApiProtection || context.configuration.library.language != Language.CPP) return null
+        if (!globalDecl.isDeclarationOnly) return null
+        val spelling = globalDecl.declarationSpelling?.takeIf { it.isNotBlank() } ?: return null
+        return "extern \"C\" __attribute__((weak)) $spelling;"
+    }
+
+    private fun globalGetterFallbackBody(globalDecl: GlobalDecl, returnStatement: String): String {
+        val msg = "Missing symbol: ${globalDecl.name.replace("\\", "\\\\").replace("\"", "\\\"")}"
+        return "if (&${globalDecl.name} == nullptr) { ohos::interop::ThrowIllegalStateExceptionFromCString(\"$msg\"); }\n\t$returnStatement"
+    }
+
+     private fun buildWeakGlobalGetterLines(
+        globalDecl: GlobalDecl,
+        symbolName: String,
+        returnType: String,
+        body: String
+    ): List<String> {
+        val preamble = generatePreambleLines()
+        val weakDecl = globalWeakDeclLine(globalDecl)!!
+        val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")
+        val wrapper = createWrapper(symbolName, wrapperName, returnType, emptyList(), body)
+        return preamble + listOf(weakDecl) + wrapper
+    }
+
     fun generateCGlobalGetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {
         val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")
-        val returnType = globalDecl.type.stringRepresentation
-        val wrapperBody = "return ${globalDecl.name};"
-        val wrapper = createWrapper(symbolName, wrapperName, returnType, emptyList(), wrapperBody)
-        return CCalleeWrapper(wrapper)
+        // C++ support: preserve const on pointee so e.g. extern const char* generates "const char*" return type (C++ rejects char* = const char*).
+        val returnType = if (context.configuration.library.language == Language.CPP) {
+            when (val t = globalDecl.type) {
+                is PointerType -> if (t.pointeeIsConst) "const ${t.pointeeType.stringRepresentation}*" else t.stringRepresentation
+                else -> globalDecl.type.stringRepresentation
+            }
+        } else {
+            globalDecl.type.stringRepresentation
+        }
+        val weakDecl = globalWeakDeclLine(globalDecl)
+        val lines = if (weakDecl != null) {
+            buildWeakGlobalGetterLines(globalDecl, symbolName, returnType, globalGetterFallbackBody(globalDecl, "return ${globalDecl.name};"))
+        } else {
+            createWrapper(symbolName, wrapperName, returnType, emptyList(), "return ${globalDecl.name};")
+        }
+        return CCalleeWrapper(lines)
     }
 
     fun generateCGlobalByPointerGetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {
         val wrapperName = generateFunctionWrapperName("${globalDecl.name}_getter")
-        val returnType = "void*"
-        val wrapperBody = "return &${globalDecl.name};"
-        val wrapper = createWrapper(symbolName, wrapperName, returnType, emptyList(), wrapperBody)
-        return CCalleeWrapper(wrapper)
+        val weakDecl = globalWeakDeclLine(globalDecl)
+        val returnType = if (weakDecl != null && context.configuration.library.language == Language.CPP) "const void*" else "void*"
+        val lines = if (weakDecl != null) {
+            buildWeakGlobalGetterLines(globalDecl, symbolName, returnType, globalGetterFallbackBody(globalDecl, "return &${globalDecl.name};"))
+        } else {
+            createWrapper(symbolName, wrapperName, returnType, emptyList(), "return &${globalDecl.name};")
+        }
+        return CCalleeWrapper(lines)
     }
 
     fun generateCGlobalSetter(globalDecl: GlobalDecl, symbolName: String): CCalleeWrapper {

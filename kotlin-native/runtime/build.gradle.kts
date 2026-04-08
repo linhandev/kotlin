@@ -70,6 +70,10 @@ bitcode {
             headersDirs.from("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/breakpad/cpp", "src/crashHandler/common/cpp")
             sourceSets {
                 main {
+                    // When -Pkotlin.native.runtime.excludeNapi=true, exclude NapiInterface.cpp
+                    if (project.findProperty("kotlin.native.runtime.excludeNapi") == "true") {
+                        inputFiles.exclude("NapiInterface.cpp")
+                    }
                     // TODO: Split out out `base` module and merge it together with `main` into `runtime.bc`
                     if (sanitizer == null) {
                         outputFile.set(layout.buildDirectory.file("bitcode/main/$target/runtime.bc"))

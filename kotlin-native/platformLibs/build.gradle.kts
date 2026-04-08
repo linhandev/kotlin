@@ -145,30 +145,22 @@ enabledTargets(platformManager).forEach { target ->
                     File(it.replace("~", System.getProperty("user.home")))
                 } ?: File(System.getProperty("user.home"), ".konan")).absoluteFile
 
-                val isKbaDef = df.name.startsWith("kba_") || df.name == "ohos"
+                val sysrootName = when (targetName) {
+                    "ohos_arm64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos")
+                    "ohos_x64" -> konanProperties.getProperty("additionalTargetSysRoot.ohos")
+                    else -> null
+                }
 
-                if (isKbaDef) {
-                    // kba_* defs: use kbaTargetSysRoot as the only sysroot by overriding targetSysRoot.
-                    val kbaSysrootName = konanProperties.getProperty("kbaTargetSysRoot.ohos")
-                    if (kbaSysrootName != null) {
-                        val sysrootDir = File(konanDataDir, "dependencies").resolve(kbaSysrootName).invariantSeparatorsPath
-                        this.extraOpts.addAll("-compiler-option", "--sysroot", "-compiler-option", sysrootDir)
-                        this.extraOpts.addAll("-linker-option", "--sysroot", "-linker-option", sysrootDir)
+                if (sysrootName != null) {
+                    val includePath = File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/include").invariantSeparatorsPath
+                    val libPath = when (targetName) {
+                        "ohos_arm64" -> File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/lib/aarch64-linux-ohos").invariantSeparatorsPath
+                        "ohos_x64" -> File(File(konanDataDir, "dependencies").resolve(sysrootName), "usr/lib/x86_64-linux-ohos").invariantSeparatorsPath
+                        else -> null
                     }
-                } else {
-                    // Non-kba defs: keep using additionalTargetSysRoot as extra include/lib search paths.
-                    val sysrootName = konanProperties.getProperty("additionalTargetSysRoot.$targetName")
- 	                         ?: konanProperties.getProperty("additionalTargetSysRoot.ohos")
-
-                    if (sysrootName != null) {
-                        val sysrootDir = File(konanDataDir, "dependencies").resolve(sysrootName)
-                        val includePath = File(sysrootDir, "usr/include").invariantSeparatorsPath
-                        val libSubPath = konanProperties.getProperty("abiSpecificLibraries.$targetName")
-                        if (libSubPath != null) {
-                            val libPath = File(sysrootDir, libSubPath).invariantSeparatorsPath
-                            this.extraOpts.addAll("-compiler-option", "-I", "-compiler-option", includePath)
-                            this.extraOpts.addAll("-linker-option", "-L", "-linker-option", libPath)
-                        }
+                    if (libPath != null) {
+                        this.extraOpts.addAll("-compiler-option", "-I", "-compiler-option", includePath)
+                        this.extraOpts.addAll("-linker-option", "-L", "-linker-option", libPath)
                     }
                 }
             }

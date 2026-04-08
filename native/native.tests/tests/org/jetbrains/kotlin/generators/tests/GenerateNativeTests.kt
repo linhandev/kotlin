@@ -588,3 +588,11 @@ private fun stress() = arrayOf(
 )
 private fun codegenBox() = annotation(Tag::class.java, "codegen-box")
 private fun klibIrInliner() = annotation(Tag::class.java, KLIB_IR_INLINER)
+private fun capi() = arrayOf(
+    annotation(Tag::class.java, "capi"),
+    annotation(
+        EnforcedProperty::class.java,
+        "property" to ClassLevelProperty.TEST_KIND,
+        "propertyValue" to "STANDALONE"
+    ),
+)

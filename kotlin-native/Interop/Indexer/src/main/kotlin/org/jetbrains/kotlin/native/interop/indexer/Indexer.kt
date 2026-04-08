@@ -553,10 +553,15 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
 
         if (underlying == UnsupportedType) return underlying
 
-        if (clang_getCursorLexicalParent(declCursor).kind != CXCursorKind.CXCursor_TranslationUnit) {
-            // Objective-C type parameters are represented as non-top-level typedefs.
-            // Erase for now:
-            return underlying
+        val lexicalParent = clang_getCursorLexicalParent(declCursor)
+        if (lexicalParent.kind != CXCursorKind.CXCursor_TranslationUnit) {
+            val isCppExternCBlockTypedef = library.language == Language.CPP &&
+                    lexicalParent.kind == CXCursorKind.CXCursor_LinkageSpec
+            if (!isCppExternCBlockTypedef) {
+                // Objective-C type parameters are represented as non-top-level typedefs.
+                // Erase for now:
+                return underlying
+            }
         }
 
         if (library.language == Language.OBJECTIVE_C) {
@@ -617,6 +622,7 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
         }
 
         CXTypeKind.CXType_UChar, CXTypeKind.CXType_UShort,
+        CXTypeKind.CXType_Char16, CXTypeKind.CXType_Char32,
         CXTypeKind.CXType_UInt, CXTypeKind.CXType_ULong, CXTypeKind.CXType_ULongLong -> IntegerType(
                 size = type.getSize().toInt(),
                 isSigned = false,
@@ -971,14 +977,18 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
 
             CXIdxEntity_Variable -> {
                 val parentKind = info.semanticContainer!!.pointed.cursor.kind
-                if (parentKind == CXCursorKind.CXCursor_TranslationUnit || parentKind == CXCursorKind.CXCursor_Namespace) {
+                if (parentKind == CXCursorKind.CXCursor_TranslationUnit 
+                    || parentKind == CXCursorKind.CXCursor_Namespace
+                    || (parentKind == CXCursorKind.CXCursor_LinkageSpec && this.library.language == Language.CPP)) {
                     // Top-level or namespace member. Skip class static members - they are loaded by visitClass
                     globalById.getOrPut(getDeclarationId(cursor)) {
                         GlobalDecl(
                                 name = entityName!!,
                                 type = convertCursorType(cursor),
                                 isConst = clang_isConstQualifiedType(clang_getCursorType(cursor)) != 0,
-                                parentName = null
+                                parentName = null,
+                                declarationSpelling = getGlobalDeclarationSpelling(cursor, entityName!!).ifEmpty { null },
+                                isDeclarationOnly = clang_Cursor_isNull(clang_Cursor_getVarDeclInitializer(cursor)) != 0
                         )
                     }
                 }
@@ -1099,6 +1109,13 @@ public open class NativeIndexImpl(val library: NativeLibrary, val verbose: Boole
         val decl = if (" (" in typeSpelling) typeSpelling.replaceFirst(" (", " $name(")
         else typeSpelling.replaceFirst("(", " $name(")
         return decl
+    }
+
+    private fun getGlobalDeclarationSpelling(cursor: CValue<CXCursor>, name: String): String {
+        val cursorType = clang_getCursorType(cursor)
+        val typeSpelling = clang_getTypeSpelling(cursorType).convertAndDispose()
+        if (typeSpelling.isEmpty()) return ""
+        return "$typeSpelling $name"
     }
 
     private fun getObjCMethod(cursor: CValue<CXCursor>): ObjCMethod? {

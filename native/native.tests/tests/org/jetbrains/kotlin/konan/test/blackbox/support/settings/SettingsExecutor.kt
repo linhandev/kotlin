@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.konan.test.blackbox.support.settings
 
 import org.jetbrains.kotlin.konan.target.AppleConfigurables
 import org.jetbrains.kotlin.konan.target.ConfigurablesWithEmulator
+import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.KonanTarget
 import org.jetbrains.kotlin.konan.target.isSimulator
 import org.jetbrains.kotlin.konan.test.blackbox.support.ClassLevelProperty
