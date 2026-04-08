@@ -28,7 +28,8 @@ std::string statesToString(std::initializer_list<ThreadState> states) noexcept;
 const char* ThreadStateName(ThreadState state) noexcept;
 
 // Switches the state of the given thread to `newState` and returns the previous thread state.
-ALWAYS_INLINE inline ThreadState SwitchThreadState(mm::ThreadData* threadData, ThreadState newState, bool reentrant = false) noexcept {
+ALWAYS_INLINE inline ThreadState SwitchThreadState(mm::ThreadData* threadData, ThreadState newState, bool reentrant = false) noexcept
+{
     RuntimeAssert(threadData != nullptr, "threadData must not be nullptr");
 
     auto oldState = threadData->setState(newState);
@@ -39,14 +40,16 @@ ALWAYS_INLINE inline ThreadState SwitchThreadState(mm::ThreadData* threadData, T
     return oldState;
 }
 
-ALWAYS_INLINE inline bool IsSafePointFunctionProloguePc(const uint32_t* pc) noexcept {
+ALWAYS_INLINE inline bool IsSafePointFunctionProloguePc(const uint32_t* pc) noexcept
+{
     constexpr uintptr_t kMaxPrologueSize = 256;
     auto address = reinterpret_cast<uintptr_t>(pc);
     auto start = reinterpret_cast<uintptr_t>(&Kotlin_mm_safePointFunctionPrologue);
     return address >= start && address < start + kMaxPrologueSize;
 }
 
-ALWAYS_INLINE inline void SaveThreadLastKotlinFrame(mm::ThreadData* threadData, FrameKind kind) noexcept {
+ALWAYS_INLINE inline void SaveThreadLastKotlinFrame(mm::ThreadData* threadData, FrameKind kind) noexcept
+{
     RuntimeAssert(threadData != nullptr, "threadData must not be nullptr");
     uint64_t* fp = (uint64_t*)__builtin_frame_address(0);
     uint32_t* pc = (uint32_t*)*(fp + 1);
@@ -58,7 +61,8 @@ ALWAYS_INLINE inline void SaveThreadLastKotlinFrame(mm::ThreadData* threadData, 
     threadData->pushLastKotlinFrame(pc, fp, kind);
 }
 
-ALWAYS_INLINE inline void RestoreThreadLastKotlinFrame(mm::ThreadData* threadData, FrameKind kind) noexcept {
+ALWAYS_INLINE inline void RestoreThreadLastKotlinFrame(mm::ThreadData* threadData, FrameKind kind) noexcept
+{
     RuntimeAssert(threadData != nullptr, "threadData must not be nullptr");
     if (threadData == reinterpret_cast<mm::ThreadData*>(0x8)) return;
     threadData->popLastKotlinFrame(kind);

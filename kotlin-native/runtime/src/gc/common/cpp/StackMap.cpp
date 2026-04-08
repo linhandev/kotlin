@@ -31,7 +31,8 @@ extern "C" uint8_t _LLVM_StackMaps;
 namespace kotlin {
 stackMap::StackMap::~StackMap() {}
 
-void stackMap::StackMap::build() {
+void stackMap::StackMap::build()
+{
   header_ = llvmStackMaps_.read<StackMapHeader>();
   uint32_t numFunctions = llvmStackMaps_.read<uint32_t>();
   uint32_t numConstants = llvmStackMaps_.read<uint32_t>();
@@ -70,7 +71,8 @@ void stackMap::StackMap::build() {
   calcCallSite();
 }
 
-void stackMap::StackMap::print() {
+void stackMap::StackMap::print()
+{
 #if DUMP_DEBUG_INFO
   header_.print();
   for (auto &stkSizeRecord : stkSizeRecords_) {
@@ -93,7 +95,8 @@ void stackMap::StackMap::print() {
 #endif
 }
 
-void stackMap::StackMap::calcCallSite() {
+void stackMap::StackMap::calcCallSite()
+{
   uint64_t recordNum = 0;
   auto calc = [this, &recordNum](uintptr_t address, uint32_t recordId) {
     auto &record = stkMapRecords_[recordNum + recordId];
@@ -153,7 +156,8 @@ void stackMap::StackMap::calcCallSite() {
 }
 } // namespace kotlin
 
-std::string kotlin::stackMap::Location::kindToString() const {
+std::string kotlin::stackMap::Location::kindToString() const
+{
   switch (location_) {
   case Kind::REGISTER:
     return "Register";

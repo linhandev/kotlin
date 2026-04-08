@@ -121,7 +121,8 @@ struct StkMapRecord {
   StkMapRecordHeader header_;
   std::vector<Location> locations_;
   std::vector<LiveOuts> liveOuts_;
-  void print() const {
+  void print() const
+  {
     header_.print();
     for (auto &location : locations_) {
       location.print();
@@ -134,7 +135,8 @@ struct StkMapRecord {
 
 class DataInfo {
 public:
-  explicit DataInfo(const uint8_t *data) : data_(data), offset_(0) {
+  explicit DataInfo(const uint8_t *data) : data_(data), offset_(0)
+  {
         if (reinterpret_cast<uint64_t>(data_) == 0) {
            RuntimeLogInfo({kTagGC}, "[CRT] Run in DataInfo(): the data_ is nullptr");
            std::abort();
@@ -143,13 +145,15 @@ public:
   ~DataInfo() = default;
 
   template<class T>
-  T read() {
+  T read()
+  {
     T value = *reinterpret_cast<const T*>(data_ + offset_);
     offset_ += sizeof(T);
     return value;
   }
 
-  uint32_t getOffset() const {
+  uint32_t getOffset() const
+  {
     return offset_;
   }
 
@@ -167,7 +171,8 @@ public:
   void build();
   void print();
   void calcCallSite();
-  std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo() {
+  std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo()
+  {
     return pc2CallSiteInfo_;
   }
 

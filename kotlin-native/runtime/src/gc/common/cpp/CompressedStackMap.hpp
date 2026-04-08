@@ -210,7 +210,8 @@ public:
     StackMapBuilder(uint8_t *llvmStackMaps) : data_(llvmStackMaps) {}
     ~StackMapBuilder() = default;
 
-    void build() {
+    void build()
+    {
         PrologueRegisterClosure closure;
         PrologueVisitor visitor = [&closure](PrologueRegisterClosure::Type type, uint32_t value) {
             switch (type) {
@@ -236,7 +237,8 @@ public:
         }
     }
 
-    void collectHeapReferenceMap(std::unordered_map<int32_t, std::vector<int32_t>> &base2DerivedOffsets) {
+    void collectHeapReferenceMap(std::unordered_map<int32_t, std::vector<int32_t>> &base2DerivedOffsets)
+    {
         PrologueRegisterClosure closure;
         PrologueVisitor visitor = [&closure](PrologueRegisterClosure::Type type, uint32_t value) {
             switch (type) {
@@ -252,7 +254,8 @@ public:
         head.CollectStackMapEntry(startPC, framePC, base2DerivedOffsets);
     }
 
-    void print() {
+    void print()
+    {
 #if DUMP_DEBUG_INFO
         for (auto &pc2CallSiteInfo : pc2CallSiteInfo_) {
             std::cout << "function address: 0x" << std::hex << pc2CallSiteInfo.first << "\n";
@@ -264,7 +267,8 @@ public:
 #endif
     }
     void calcCallSite();
-    std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo() {
+    std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo()
+    {
         return pc2CallSiteInfo_;
     }
 

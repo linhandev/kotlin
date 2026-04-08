@@ -174,7 +174,8 @@ size_t kotlin::alloc::GetAllocatedBytes() noexcept {
 static uintptr_t kPageSize = sysconf(_SC_PAGESIZE);
 #endif
 
-void kotlin::alloc::ZeroAndReleasePages(void *address, size_t length) noexcept {
+void kotlin::alloc::ZeroAndReleasePages(void *address, size_t length) noexcept
+{
 #ifndef KONAN_WINDOWS
   if (length <= 0) {
     return;

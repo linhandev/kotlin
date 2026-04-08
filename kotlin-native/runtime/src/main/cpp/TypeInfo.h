@@ -89,11 +89,13 @@ public:
       uint64_t remainded_ : 4;
     };
 
-    void SetValid() {
+    void SetValid()
+    {
         state_.valid_ = 1;
     }
 
-    bool IsValid() {
+    bool IsValid()
+    {
       return state_.valid_ == 1;
     }
 private:

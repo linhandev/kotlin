@@ -306,20 +306,24 @@ enum class FrameKind : uint8_t {
     kEnumEntry = kUnmanagedMask | kCppFrameMask | 6,
 };
 
-constexpr inline bool IsPreviousFrameUnmanaged(FrameKind kind) noexcept {
+constexpr inline bool IsPreviousFrameUnmanaged(FrameKind kind) noexcept
+{
     return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::kUnmanagedMask)) != 0;
 }
 
-constexpr inline bool IsKotlinFrame(FrameKind kind) noexcept {
+constexpr inline bool IsKotlinFrame(FrameKind kind) noexcept
+{
     return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::kCppFrameMask)) == 0;
 }
 
-constexpr inline bool IsEntryFrame(FrameKind kind) noexcept {
+constexpr inline bool IsEntryFrame(FrameKind kind) noexcept
+{
     return kind == FrameKind::kRuntimeToKotlin || kind == FrameKind::kInitGlobals ||
            kind == FrameKind::kWorkerJob || IsPreviousFrameUnmanaged(kind);
 }
 
-constexpr inline bool IsExitFrame(FrameKind kind) noexcept {
+constexpr inline bool IsExitFrame(FrameKind kind) noexcept
+{
     switch (kind) {
         case FrameKind::kK2X:
         case FrameKind::kWeakRef:
@@ -396,7 +400,8 @@ class ObjHolder {
      EnterFrame(frame(), 0, sizeof(*this)/sizeof(void*));
    }
 
-   explicit ObjHolder(ConstHeapObjPtr obj) {
+   explicit ObjHolder(ConstHeapObjPtr obj)
+   {
      EnterFrame(frame(), 0, sizeof(*this)/sizeof(void*));
      ::UpdateStackRef(slot(), obj);
    }
@@ -409,7 +414,8 @@ class ObjHolder {
 
    ConstHeapObjPtr obj() const { return obj_; }
 
-   HeapObjPtr* slot() {
+   HeapObjPtr* slot()
+   {
      return &obj_;
    }
 

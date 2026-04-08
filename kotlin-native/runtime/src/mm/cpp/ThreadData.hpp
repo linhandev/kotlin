@@ -78,7 +78,8 @@ public:
 
     void setFuncPCs(std::vector<void*>& funcPCs) { funcPCs_ = funcPCs; }
     std::vector<void*>& getFuncPCs() { return funcPCs_; }
-    void pushLastKotlinFrame(uint32_t* pc, uint64_t* fp, FrameKind kind) {
+    void pushLastKotlinFrame(uint32_t* pc, uint64_t* fp, FrameKind kind)
+    {
         lastKotlinFrame_.pcStack_.emplace_back(pc);
         lastKotlinFrame_.fpStack_.emplace_back(fp);
         lastKotlinFrame_.kindStack_.emplace_back(static_cast<uint8_t>(kind));
@@ -90,7 +91,8 @@ public:
 #endif
     }
 
-    void popLastKotlinFrame(FrameKind kind) {
+    void popLastKotlinFrame(FrameKind kind)
+    {
         lastKotlinFrame_.counter++;
         if (lastKotlinFrame_.pcStack_.empty() || lastKotlinFrame_.fpStack_.empty()) {
             printLastKotlinFrameLog();
@@ -106,7 +108,8 @@ public:
         lastKotlinFrame_.kindStack_.pop_back();
     }
 
-    void printLastKotlinFrameLog() {
+    void printLastKotlinFrameLog()
+    {
         RuntimeLogInfo({kTagGC}, "[KotlinFrame] lastKotlinFrame_ log for thread %" PRIuPTR ":", threadId_);
         std::stringstream log_stream;
         log_stream << "[KotlinFrame] kindStack_ content: ";

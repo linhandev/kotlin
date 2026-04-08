@@ -34,23 +34,27 @@ public:
     static constexpr uint64_t KOTLIN_STACK_TAG = 0xBEEF;
     static constexpr uint64_t PAYLOAD_MASK = (1ULL << 48) - 1;
 
-    static constexpr bool IsKotlinFrameTag(uint64_t* fp) noexcept {
+    static constexpr bool IsKotlinFrameTag(uint64_t* fp) noexcept
+    {
         uint64_t val = *(fp - 2);
         return (val >> 48) == KOTLIN_STACK_TAG;
     }
 
-    static uint64_t GetKotlinFrameOffsetIndex(uint64_t* fp) noexcept {
+    static uint64_t GetKotlinFrameOffsetIndex(uint64_t* fp) noexcept
+    {
         uint64_t val = *(fp - 2);
         return val & PAYLOAD_MASK;
     }
 
-    static uint64_t GetKotlinFramePcOffset(uint64_t* fp, uint32_t *pc) noexcept {
+    static uint64_t GetKotlinFramePcOffset(uint64_t* fp, uint32_t *pc) noexcept
+    {
         uint32_t *funcStartPC = (uint32_t *)*(fp - 1);
         return reinterpret_cast<uintptr_t>(pc) - reinterpret_cast<uintptr_t>(funcStartPC);
     }
 
     // Called on SaveStackFrame (Entry into Kotlin)
-    static inline void OnPushFrame(ThreadData& threadData, FrameKind kind) noexcept {
+    static inline void OnPushFrame(ThreadData& threadData, FrameKind kind) noexcept
+    {
         if (__builtin_expect(!mm::GlobalData::Instance().gcScheduler().config().verifyKotlinStack.load(), 1)) {
             return;
         }
@@ -58,7 +62,8 @@ public:
     }
 
     // Called on RestoreStackFrame (Exit from Kotlin)
-    static inline void OnPopFrame(ThreadData& threadData, FrameKind kind) noexcept {
+    static inline void OnPopFrame(ThreadData& threadData, FrameKind kind) noexcept
+    {
         if (__builtin_expect(!mm::GlobalData::Instance().gcScheduler().config().verifyKotlinStack.load(), 1)) {
             return;
         }

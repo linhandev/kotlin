@@ -79,16 +79,19 @@ Class Kotlin_ObjCExport_GetOrCreateObjCClass(const TypeInfo *typeInfo);
 
 } // extern "C"
 
-inline static id GetAssociatedObject(HeapObjPtr obj) {
+inline static id GetAssociatedObject(HeapObjPtr obj)
+{
     return (id)((const ObjHeader *)obj)->GetAssociatedObject();
 }
 
 // Note: this function shall not be used on shared objects.
-inline static void SetAssociatedObject(HeapObjPtr obj, id value) {
+inline static void SetAssociatedObject(HeapObjPtr obj, id value)
+{
     ((ObjHeader *)obj)->SetAssociatedObject((void*)value);
 }
 
-inline static id AtomicCompareAndSwapAssociatedObject(HeapObjPtr obj, id expectedValue, id newValue) {
+inline static id AtomicCompareAndSwapAssociatedObject(HeapObjPtr obj, id expectedValue, id newValue)
+{
     return static_cast<id>(((ObjHeader *)obj)->CasAssociatedObject(expectedValue, newValue));
 }
 

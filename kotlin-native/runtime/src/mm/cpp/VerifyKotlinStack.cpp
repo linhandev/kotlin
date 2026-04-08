@@ -23,7 +23,8 @@
 
 namespace kotlin::mm {
 
-void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) noexcept {
+void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) noexcept
+{
     auto& fpStack = threadData.getLastKotlinFrame().fpStack_;
     size_t size = fpStack.size();
 
@@ -78,7 +79,8 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
     // }
 }
 
-void VerifyKotlinStack::OnPopFrameImpl(ThreadData& threadData, FrameKind kind) noexcept {
+void VerifyKotlinStack::OnPopFrameImpl(ThreadData& threadData, FrameKind kind) noexcept
+{
     auto& kindStack = threadData.getLastKotlinFrame().kindStack_;
 
     if (kindStack.empty()) {
@@ -96,7 +98,8 @@ void VerifyKotlinStack::OnPopFrameImpl(ThreadData& threadData, FrameKind kind) n
     // Parity check removed as per request (checked on push/scan).
 }
 
-void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept {
+void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
+{
     // Only scan when balanced (size is even)
     auto& fpStack = threadData.getLastKotlinFrame().fpStack_;
     auto& kindStack = threadData.getLastKotlinFrame().kindStack_;
@@ -151,7 +154,8 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept {
     }
 }
 
-void VerifyKotlinStack::TryUnwindAggresively(ThreadData& threadData) noexcept{
+void VerifyKotlinStack::TryUnwindAggresively(ThreadData& threadData) noexcept
+{
     auto& fpStack = threadData.getLastKotlinFrame().fpStack_;
     if (fpStack.size() < 2) {
         return ;

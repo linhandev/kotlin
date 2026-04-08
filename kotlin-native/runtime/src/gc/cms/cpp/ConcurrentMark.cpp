@@ -156,7 +156,8 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
     }
 }
 
-[[maybe_unused]] static uint64_t *GetStackMapAddress(uint64_t *fp, uint32_t *funcStartPC, mm::ThreadData& thread) {
+[[maybe_unused]] static uint64_t *GetStackMapAddress(uint64_t *fp, uint32_t *funcStartPC, mm::ThreadData& thread)
+{
     uint64_t stackMapOffsetIndex = *(fp - 2);
 
 #ifdef KOTLIN_VERIFY
@@ -188,11 +189,13 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
     return stackMapAddress;
 }
 
-bool ShouldMarkEntryCaller(FrameKind kind) {
+bool ShouldMarkEntryCaller(FrameKind kind)
+{
     return IsKotlinFrame(kind);
 }
 
-static void CollectStackMapBaseRoot(mm::ThreadData& thread, uint64_t* fp, uint32_t* pc, std::vector<int32_t> &baseRoots) {
+static void CollectStackMapBaseRoot(mm::ThreadData& thread, uint64_t* fp, uint32_t* pc, std::vector<int32_t> &baseRoots)
+{
 #if ENABLE_LAZY_STACKMAP
     uint32_t *funcStartPC = (uint32_t *)*(fp - 1);
     uint64_t *stackMapAddress = GetStackMapAddress(fp, funcStartPC, thread);

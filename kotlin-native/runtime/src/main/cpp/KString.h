@@ -59,7 +59,8 @@ struct StringHeader {
     using ConstRef = const StringHeader*;
     #endif
 
-    ALWAYS_INLINE static Ref of(KRef string) {
+    ALWAYS_INLINE static Ref of(KRef string)
+    {
         #if KONAN_COMPILER_INTERFACE
         return (Ref)string;
         #else
@@ -68,7 +69,8 @@ struct StringHeader {
         #endif
     }
 
-    ALWAYS_INLINE static ConstRef of(KConstRef string) {
+    ALWAYS_INLINE static ConstRef of(KConstRef string)
+    {
         #if KONAN_COMPILER_INTERFACE
         return (ConstRef)string;
         #else

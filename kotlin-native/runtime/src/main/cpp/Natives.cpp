@@ -64,7 +64,8 @@ NO_INLINE OBJ_GETTER0(Kotlin_getCurrentStackTrace) {
     RETURN_OBJ(result);
 }
 
-NO_INLINE OBJ_GETTER0(Kotlin_getEmptyStackTrace) {
+NO_INLINE OBJ_GETTER0(Kotlin_getEmptyStackTrace)
+{
     ObjHolder resultHolder;
     // create a size 0 array, no any stack informations are collected.
     ObjHeader *result = AllocArrayInstance(theNativePtrArrayTypeInfo, 0, resultHolder.slot());
