@@ -162,7 +162,9 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
 
 #ifdef KOTLIN_VERIFY
     if (!kotlin::mm::VerifyKotlinStack::IsKotlinFrameTag(fp)) {
-        RuntimeLogInfo({kTagGC}, "DFX error: unwind is not kotlin frame, stackMapOffsetIndex %llu, thread %" PRIuPTR ", aborting\n",
+        RuntimeLogInfo({kTagGC},
+            "DFX error: unwind is not kotlin frame,"
+            " stackMapOffsetIndex %llu, thread %" PRIuPTR ", aborting\n",
             (unsigned long long)stackMapOffsetIndex, thread.threadId());
         auto& currentKotlinFrame = thread.GetLastKotlinFrame();
         for (size_t i = 0; i < currentKotlinFrame.fpStack_.size(); i++) {
@@ -194,7 +196,9 @@ bool ShouldMarkEntryCaller(FrameKind kind)
     return IsKotlinFrame(kind);
 }
 
-static void CollectStackMapBaseRoot(mm::ThreadData& thread, uint64_t* fp, uint32_t* pc, std::vector<int32_t> &baseRoots)
+static void CollectStackMapBaseRoot(
+    mm::ThreadData& thread, uint64_t* fp,
+    uint32_t* pc, std::vector<int32_t> &baseRoots)
 {
 #if ENABLE_LAZY_STACKMAP
     uint32_t *funcStartPC = (uint32_t *)*(fp - 1);
@@ -218,7 +222,9 @@ static void CollectStackMapBaseRoot(mm::ThreadData& thread, uint64_t* fp, uint32
 }
 
 template <typename MarkTraits>
-ALWAYS_INLINE void ProcessStackFrame(typename MarkTraits::MarkQueue& markQueue, mm::ThreadData& thread, uint64_t* fp, uint32_t* pc) {
+ALWAYS_INLINE void ProcessStackFrame(
+    typename MarkTraits::MarkQueue& markQueue,
+    mm::ThreadData& thread, uint64_t* fp, uint32_t* pc) {
     std::vector<int32_t> baseRoots;
     CollectStackMapBaseRoot(thread, fp, pc, baseRoots);
     for (auto& baseRootOffset : baseRoots) {
@@ -237,7 +243,8 @@ ALWAYS_INLINE void ProcessStackFrame(typename MarkTraits::MarkQueue& markQueue, 
         [[maybe_unused]] bool result = gc::internal::collectRoot<MarkTraits>(markQueue, object);
 #if DUMP_DEBUG_INFO
         if (result) {
-            std::cout << "    Stackmap collecting stack root: 0x" << std::hex << (uintptr_t)(object) << std::dec << "\n";
+            std::cout << "    Stackmap collecting stack root: 0x"
+                << std::hex << (uintptr_t)(object) << std::dec << "\n";
         } else {
             std::cout << "    Stackmap skipping stack root: 0x" << std::hex << (uintptr_t)(object) << std::dec << "\n";
         }

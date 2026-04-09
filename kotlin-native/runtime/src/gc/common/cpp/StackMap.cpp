@@ -108,35 +108,37 @@ void stackMap::StackMap::CalcCallSite()
         }
 
         assert(recordHeader.numLocations > Location::constantDeoptCntIndex);
-        const int lastDeoptIndex = record.locations_[Location::constantDeoptCntIndex].offsetOrSmallConstant + Location::constantDeoptCntIndex;
+        const int lastDeoptIndex =
+            record.locations_[Location::constantDeoptCntIndex].offsetOrSmallConstant +
+            Location::constantDeoptCntIndex;
         assert(lastDeoptIndex == Location::constantDeoptCntIndex && "deopt count must be 0");
         CallSiteInfo &callsiteInfo = pc2CallSiteInfo_[insnPC];
         for (int i = Location::constantFirstElementIndex; i < recordHeader.numLocations; ++i) {
             auto &loc = record.locations_[i];
             if (i <= lastDeoptIndex) {
-
             } else {
                 switch (loc.location) {
-                case Location::Kind::REGISTER:
-                case Location::Kind::DIRECT: {
-                    assert(false && "not supported location kind currently");
-                    std::pair<uint16_t, int32_t> info(loc.dwarfRegNum, loc.offsetOrSmallConstant);
-                    callsiteInfo.emplace_back(info);
-                    break;
-                }
-                case Location::Kind::INDIRECT:
-                case Location::Kind::CONSTANT:
-                case Location::Kind::CONSTANTINDEX: {
-                    assert(loc.location == Location::Kind::INDIRECT && "only INDIRECT kind is supported currently");
-                    if (i % 2 == 0) { // derived ptr
+                    case Location::Kind::REGISTER:
+                    case Location::Kind::DIRECT: {
+                        assert(false && "not supported location kind currently");
+                        std::pair<uint16_t, int32_t> info(loc.dwarfRegNum, loc.offsetOrSmallConstant);
+                        callsiteInfo.emplace_back(info);
                         break;
                     }
-                    std::pair<uint16_t, int32_t> info(loc.dwarfRegNum, loc.offsetOrSmallConstant);
-                    callsiteInfo.emplace_back(info);
-                    break;
-                }
-                default:
-                    break;
+                    case Location::Kind::INDIRECT:
+                    case Location::Kind::CONSTANT:
+                    case Location::Kind::CONSTANTINDEX: {
+                        assert(loc.location == Location::Kind::INDIRECT &&
+                            "only INDIRECT kind is supported currently");
+                        if (i % 2 == 0) { // derived ptr
+                            break;
+                        }
+                        std::pair<uint16_t, int32_t> info(loc.dwarfRegNum, loc.offsetOrSmallConstant);
+                        callsiteInfo.emplace_back(info);
+                        break;
+                    }
+                    default:
+                        break;
                 }
             }
         }
@@ -159,17 +161,17 @@ void stackMap::StackMap::CalcCallSite()
 std::string kotlin::stackMap::Location::KindToString() const
 {
     switch (location) {
-    case Kind::REGISTER:
-        return "Register";
-    case Kind::DIRECT:
-        return "Direct";
-    case Kind::INDIRECT:
-        return "Indirect";
-    case Kind::CONSTANT:
-        return "Constant";
-    case Kind::CONSTANTINDEX:
-        return "ConstantIndex";
-    default:
-        return "unknown location";
+        case Kind::REGISTER:
+            return "Register";
+        case Kind::DIRECT:
+            return "Direct";
+        case Kind::INDIRECT:
+            return "Indirect";
+        case Kind::CONSTANT:
+            return "Constant";
+        case Kind::CONSTANTINDEX:
+            return "ConstantIndex";
+        default:
+            return "unknown location";
     }
 }

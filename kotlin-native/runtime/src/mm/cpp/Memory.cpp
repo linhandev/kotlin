@@ -95,7 +95,7 @@ extern "C" void DeinitMemory(MemoryState* state, bool destroyRuntime) {
     // the thread registery and waits for threads to suspend or go to the native state.
     AssertThreadState(state, ThreadState::kNative);
     auto* node = mm::FromMemoryState(state);
-    if (destroyRuntime) {      
+    if (destroyRuntime) {
         ThreadStateGuard guard(state, ThreadState::kRunnable);
         mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
         // TODO: Why not just destruct `GC` object and its thread data counterpart entirely?

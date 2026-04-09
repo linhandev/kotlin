@@ -33,8 +33,10 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
         // Pushed Entry: Stack should now be [..., Entry] (Odd size).
         if (size % 2 == 0) {
             RuntimeLogInfo(
-                    {kTagGC}, "VerifyKotlinStack: Parity Error on Push (Entry)! Expected ODD size after pushing Entry frame %d, got %zu",
-                    (int)kind, size);
+                {kTagGC},
+                "VerifyKotlinStack: Parity Error on Push (Entry)!"
+                " Expected ODD size after pushing Entry frame %d, got %zu",
+                (int)kind, size);
             threadData.PrintLastKotlinFrameLog();
             abort();
         }
@@ -42,15 +44,16 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
         // Pushed Exit: Stack should now be [..., Entry, Exit] (Even size).
         if (size % 2 != 0) {
             RuntimeLogInfo(
-                    {kTagGC}, "VerifyKotlinStack: Parity Error on Push (Exit)! Expected EVEN size after pushing Exit frame %d, got %zu",
-                    (int)kind, size);
+                {kTagGC},
+                "VerifyKotlinStack: Parity Error on Push (Exit)!"
+                " Expected EVEN size after pushing Exit frame %d, got %zu",
+                (int)kind, size);
             threadData.PrintLastKotlinFrameLog();
             abort();
         }
 
         // Immediate stack scan on Exit (when pair is closed)
         ScanStackForTag(threadData);
-
     } else {
         // Should not happen if kind is valid
         RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: Unknown FrameKind %d on Push", (int)kind);
@@ -61,7 +64,9 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
     uint64_t* fp = fpStack.back();
     if (IsKotlinFrame(kind)) {
         if (!IsKotlinFrameTag(fp)) {
-            RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: Pushed Kotlin Frame %p (kind %d) Missing/Invalid Tag! Found 0x%llx",
+            RuntimeLogInfo({kTagGC},
+                "VerifyKotlinStack: Pushed Kotlin Frame %p"
+                " (kind %d) Missing/Invalid Tag! Found 0x%llx",
                 fp, (int)kind, (unsigned long long)*(fp - 2));
             threadData.PrintLastKotlinFrameLog();
             abort();
@@ -71,8 +76,10 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
     // else {
     //     // Non-Kotlin frame should NOT have the tag
     //     if (IsKotlinFrameTag(fp)) {
-    //          RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: Pushed Non-Kotlin Frame %p (kind %d) Unexpectedly has Tag! Found 0x%llx",
-    //             fp, (int)kind, (unsigned long long)*(fp - 2));
+    //          RuntimeLogInfo({kTagGC},
+    //              "VerifyKotlinStack: Pushed Non-Kotlin Frame %p"
+    //              " (kind %d) Unexpectedly has Tag! Found 0x%llx",
+    //              fp, (int)kind, (unsigned long long)*(fp - 2));
     //          threadData.PrintLastKotlinFrameLog();
     //          abort();
     //     }
@@ -91,7 +98,10 @@ void VerifyKotlinStack::OnPopFrameImpl(ThreadData& threadData, FrameKind kind) n
     // Check: LIFO Match (Restore type must match Save type)
     FrameKind topKind = static_cast<FrameKind>(kindStack.back());
     if (topKind != kind) {
-        RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: FrameKind Mismatch on Pop! Expected %d (Top), got %d (Arg)", (int)topKind, (int)kind);
+        RuntimeLogInfo({kTagGC},
+            "VerifyKotlinStack: FrameKind Mismatch on Pop!"
+            " Expected %d (Top), got %d (Arg)",
+            (int)topKind, (int)kind);
         threadData.PrintLastKotlinFrameLog();
         abort();
     }
@@ -126,8 +136,9 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
     while (fp != entryFp && fp != nullptr && limit-- > 0) {
         // Verify frame tag at *(fp - 2)
         if (!IsKotlinFrameTag(fp)) {
-            RuntimeLogInfo(
-                {kTagGC}, "VerifyKotlinStack: Missing/Invalid Tag on frame %p between Exit(%p) and Entry(%p). Found 0x%llx",
+            RuntimeLogInfo({kTagGC},
+                "VerifyKotlinStack: Missing/Invalid Tag on frame %p"
+                " between Exit(%p) and Entry(%p). Found 0x%llx",
                 fp, exitFp, entryFp, (unsigned long long)*(fp - 2));
             threadData.PrintLastKotlinFrameLog();
             TryUnwindAggresively(threadData);
@@ -137,7 +148,10 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
     }
 
     if (limit <= 0) {
-        RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: Stack walk limit exceeded or loop detected between %p and %p", exitFp, entryFp);
+        RuntimeLogInfo({kTagGC},
+            "VerifyKotlinStack: Stack walk limit exceeded"
+            " or loop detected between %p and %p",
+            exitFp, entryFp);
         abort();
     }
 
@@ -166,7 +180,7 @@ void VerifyKotlinStack::TryUnwindAggresively(ThreadData& threadData) noexcept
     int idx = 0;
 
     // Try unwind
-    while(lastFp != firstFp && lastFp != nullptr) {
+    while (lastFp != firstFp && lastFp != nullptr) {
         if (IsKotlinFrameTag(lastFp)) {
             uint64_t offsetIndex = GetKotlinFrameOffsetIndex(lastFp);
             uint64_t pcOffset = GetKotlinFramePcOffset(lastFp, pc);

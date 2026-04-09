@@ -96,7 +96,10 @@ public:
         lastKotlinFrame_.counter++;
         if (lastKotlinFrame_.pcStack_.empty() || lastKotlinFrame_.fpStack_.empty()) {
             PrintLastKotlinFrameLog();
-            RuntimeLogInfo({kTagGC}, "[KotlinFrame] try to pop from empty lastKotlinFrame_ for thread %" PRIuPTR, threadId_);
+            RuntimeLogInfo({kTagGC},
+                "[KotlinFrame] try to pop from empty"
+                " lastKotlinFrame_ for thread %" PRIuPTR,
+                threadId_);
             abort();
         }
 #if ENABLE_VERIFY_STACK

@@ -47,7 +47,7 @@ Cell* Cell::Next() noexcept {
 
 void Cell::ReleasePages() noexcept
 {
-    ZeroAndReleasePages(data_, (size_ - 1) *sizeof(Cell));
+    ZeroAndReleasePages(data_, (size_ - 1) * sizeof(Cell));
     isAllocated_ = false;
 }
 

@@ -8,7 +8,6 @@
 #include "Runtime.h"
 
 extern "C" {
-
 // Note: keeping it for compatibility with external tools only, will be deprecated and removed in the future.
 RUNTIME_PURE RUNTIME_EXPORT RUNTIME_WEAK KBoolean IsInstance(const ObjHeader* obj, const TypeInfo* type_info) {
   return IsInstanceInternal(obj, type_info);

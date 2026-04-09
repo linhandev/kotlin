@@ -283,7 +283,10 @@ public:
     explicit RegTable(BitsManager&& bits) : TableAPI(bits) { Init(); }
     ~RegTable() = default;
 
-    uint32_t GetActiveRegBits(uint32_t row) const { return data.GetNext(row * rowBitsLen).GetBits(headerInfo[BITS_LEN]); }
+    uint32_t GetActiveRegBits(uint32_t row) const
+    {
+        return data.GetNext(row * rowBitsLen).GetBits(headerInfo[BITS_LEN]);
+    }
 
 private:
     void Init()
@@ -314,7 +317,9 @@ private:
 class SlotTable : public TableAPI {
 public:
     SlotTable() = default;
-    SlotTable(uint8_t* tableAddrStart, uint32_t tableBitStart, uint32_t format) : TableAPI(tableAddrStart, tableBitStart),
+    SlotTable(uint8_t* tableAddrStart,
+        uint32_t tableBitStart, uint32_t format) :
+        TableAPI(tableAddrStart, tableBitStart),
         slotFormat(format) { Init(); }
     SlotTable(const BitsManager& bits, uint32_t format) : TableAPI(bits), slotFormat(format) { Init(); }
     SlotTable(BitsManager&& bits, uint32_t format) : TableAPI(bits), slotFormat(format) { Init(); }

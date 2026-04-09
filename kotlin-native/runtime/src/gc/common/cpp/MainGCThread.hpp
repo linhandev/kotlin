@@ -38,14 +38,14 @@ class MainGCThread : private MoveOnly {
 public:
     MainGCThread(GCStateHolder& state, alloc::Allocator& allocator,
                  gcScheduler::GCScheduler& gcScheduler, typename GCTraits::Mark& mark) noexcept :
-            state_(state),
-            allocator_(allocator),
-            gcScheduler_(gcScheduler),
-            mark_(mark),
+        state_(state),
+        allocator_(allocator),
+        gcScheduler_(gcScheduler),
+        mark_(mark),
 #if ENABLE_LAZY_STACKMAP
-            thread_(std::string_view("Main GC thread"), [this] { body(); }) {
+        thread_(std::string_view("Main GC thread"), [this] { body(); }) {
 #else // ENABLE_LAZY_STACKMAP
-            thread_(std::string_view("Main GC thread"), [this] { body(); }),
+        thread_(std::string_view("Main GC thread"), [this] { body(); }),
 #if KONAN_LINUX || KONAN_OHOS
 
 #if ENABLE_COMPERSSED_STACKMAP
@@ -78,7 +78,6 @@ public:
 #endif // ENABLE_COMPERSSED_STACKMAP end
 #endif // KONAN_LINUX || KONAN_OHOS end
 #endif // ~ENABLE_LAZY_STACKMAP
-
             }
 #if ENABLE_LAZY_STACKMAP == 0
 #if ENABLE_COMPERSSED_STACKMAP

@@ -28,7 +28,10 @@ std::string statesToString(std::initializer_list<ThreadState> states) noexcept;
 const char* ThreadStateName(ThreadState state) noexcept;
 
 // Switches the state of the given thread to `newState` and returns the previous thread state.
-ALWAYS_INLINE inline ThreadState SwitchThreadState(mm::ThreadData* threadData, ThreadState newState, bool reentrant = false) noexcept
+ALWAYS_INLINE inline ThreadState SwitchThreadState(
+    mm::ThreadData* threadData,
+    ThreadState newState,
+    bool reentrant = false) noexcept
 {
     RuntimeAssert(threadData != nullptr, "threadData must not be nullptr");
 

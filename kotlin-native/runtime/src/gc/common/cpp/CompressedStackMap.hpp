@@ -183,7 +183,6 @@ public:
                 for (auto derived : elem.second) {
                     std::cout << "    register: 29, offset: " << elem.first
                                 << ", register: 29, offset: " << derived << std::endl;
-
                 }
             }
         }
@@ -277,7 +276,6 @@ protected:
     uintptr_t framePC = 0;
     uintptr_t stackBase = 0;
     uint64_t *funcStackMapAddr = nullptr;
-
 
     uint8_t *data_ = nullptr;
     std::unordered_map<uintptr_t, CallSiteInfo> pc2CallSiteInfo_;

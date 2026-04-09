@@ -35,8 +35,8 @@ struct StackMapHeader {
     uint8_t reserved1;
     uint16_t reserved2;
     void Print() const {
-        std::cout << "_LLVM_StackMaps version: "
-                  << static_cast<uint32_t>(version) << "\n";
+        std::cout << "_LLVM_StackMaps version: " <<
+                  static_cast<uint32_t>(version) << "\n";
     }
 };
 
@@ -51,9 +51,9 @@ struct StkMapSizeRecord {
 #else
         uintptr_t funcAddr = (int64_t)funcAddrOffset + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
 #endif
-        std::cout << "function address: 0x" << std::hex << funcAddr
-                  << "  stackSize: " << stackSize
-                  << "  recordCount: " << recordCount << "\n";
+        std::cout << "function address: 0x" << std::hex << funcAddr <<
+                  "  stackSize: " << stackSize <<
+                  "  recordCount: " << recordCount << "\n";
     }
 };
 
@@ -98,11 +98,10 @@ struct Location {
     std::string KindToString() const;
 
     void Print() const {
-        std::cout << "location_: " << KindToString() << " "
-                  << "locationSize_: " << std::dec << locationSize << " "
-                  << "dwarfRegNum_: " << dwarfRegNum << " "
-                  << "offsetOrSmallConstant: " << offsetOrSmallConstant << "\n";
-
+        std::cout << "location_: " << KindToString() << " " <<
+                  "locationSize_: " << std::dec << locationSize << " " <<
+                  "dwarfRegNum_: " << dwarfRegNum << " " <<
+                  "offsetOrSmallConstant: " << offsetOrSmallConstant << "\n";
     }
 };
 
@@ -111,9 +110,9 @@ struct LiveOuts {
     uint8_t reserved;
     uint8_t sizeInBytes;
     void Print() const {
-        std::cout << "dwarfRegNum_: " << dwarfRegNum << " "
-                  << "reserved_: " << std::dec << reserved << " "
-                  << "sizeInBytes_: " << sizeInBytes << "\n";
+        std::cout << "dwarfRegNum_: " << dwarfRegNum << " " <<
+                  "reserved_: " << std::dec << reserved << " " <<
+                  "sizeInBytes_: " << sizeInBytes << "\n";
     }
 };
 
@@ -135,7 +134,8 @@ struct StkMapRecord {
 
 class DataInfo {
 public:
-    explicit DataInfo(const uint8_t *data) : data_(data), offset_(0)
+    explicit DataInfo(const uint8_t *data) :
+        data_(data), offset_(0)
     {
         if (reinterpret_cast<uint64_t>(data_) == 0) {
             RuntimeLogInfo({kTagGC}, "[CRT] Run in DataInfo(): the data_ is nullptr");
@@ -165,7 +165,8 @@ private:
 struct StackMap {
 public:
     using CallSiteInfo = std::vector<std::pair<uint16_t, int32_t>>;
-    StackMap(uint8_t *llvmStackMaps) : llvmStackMaps(llvmStackMaps) {}
+    StackMap(uint8_t *llvmStackMaps) :
+        llvmStackMaps(llvmStackMaps) {}
     ~StackMap();
 
     void Build();

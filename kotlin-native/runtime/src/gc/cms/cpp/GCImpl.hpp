@@ -28,7 +28,6 @@ public:
     mark::ConcurrentMark mark_{};
     internal::MainGCThread<internal::CmsGCTraits> gcThread_;
     internal::MainGCThread<internal::CmsGCTraits> &gc() noexcept { return gcThread_; }
-
 };
 
 class GC::ThreadData::Impl : private Pinned {

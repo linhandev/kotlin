@@ -949,95 +949,95 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     }
   }
 
-  @Test
-  @TestMetadata("assertDisabled.kt")
-  public void testAssertDisabled() {
-    runTest("native/native.tests/testData/codegen/fileCheck/assertDisabled.kt");
-  }
+    @Test
+    @TestMetadata("assertDisabled.kt")
+    public void testAssertDisabled() {
+        runTest("native/native.tests/testData/codegen/fileCheck/assertDisabled.kt");
+    }
 
-  @Test
-  @TestMetadata("assertDisabledInConditionAndMessage.kt")
-  public void testAssertDisabledInConditionAndMessage() {
-    runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInConditionAndMessage.kt");
-  }
+    @Test
+    @TestMetadata("assertDisabledInConditionAndMessage.kt")
+    public void testAssertDisabledInConditionAndMessage() {
+        runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInConditionAndMessage.kt");
+    }
 
-  @Test
-  @TestMetadata("assertDisabledInlined.kt")
-  public void testAssertDisabledInlined() {
-    runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlined.kt");
-  }
+    @Test
+    @TestMetadata("assertDisabledInlined.kt")
+    public void testAssertDisabledInlined() {
+        runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlined.kt");
+    }
 
-  @Test
-  @TestMetadata("assertDisabledInlinedCrossModule.kt")
-  public void testAssertDisabledInlinedCrossModule() {
-    runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlinedCrossModule.kt");
-  }
+    @Test
+    @TestMetadata("assertDisabledInlinedCrossModule.kt")
+    public void testAssertDisabledInlinedCrossModule() {
+        runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlinedCrossModule.kt");
+    }
 
-  @Test
-  @TestMetadata("delegated_references_are_const.kt")
-  public void testDelegated_references_are_const() {
-    runTest("native/native.tests/testData/codegen/fileCheck/delegated_references_are_const.kt");
-  }
+    @Test
+    @TestMetadata("delegated_references_are_const.kt")
+    public void testDelegated_references_are_const() {
+        runTest("native/native.tests/testData/codegen/fileCheck/delegated_references_are_const.kt");
+    }
 
-  @Test
-  @TestMetadata("enumWithDifferentFileOrder.kt")
-  public void testEnumWithDifferentFileOrder() {
-    runTest("native/native.tests/testData/codegen/fileCheck/enumWithDifferentFileOrder.kt");
-  }
+    @Test
+    @TestMetadata("enumWithDifferentFileOrder.kt")
+    public void testEnumWithDifferentFileOrder() {
+        runTest("native/native.tests/testData/codegen/fileCheck/enumWithDifferentFileOrder.kt");
+    }
 
-  @Test
-  @TestMetadata("inline.kt")
-  public void testInline() {
-    runTest("native/native.tests/testData/codegen/fileCheck/inline.kt");
-  }
+    @Test
+    @TestMetadata("inline.kt")
+    public void testInline() {
+        runTest("native/native.tests/testData/codegen/fileCheck/inline.kt");
+    }
 
-  @Test
-  @TestMetadata("inline_property.kt")
-  public void testInline_property() {
-    runTest("native/native.tests/testData/codegen/fileCheck/inline_property.kt");
-  }
+    @Test
+    @TestMetadata("inline_property.kt")
+    public void testInline_property() {
+        runTest("native/native.tests/testData/codegen/fileCheck/inline_property.kt");
+    }
 
-  @Test
-  @TestMetadata("noLocalClassesInInlineFunctionExtraction.kt")
-  public void testNoLocalClassesInInlineFunctionExtraction() {
-    runTest("native/native.tests/testData/codegen/fileCheck/noLocalClassesInInlineFunctionExtraction.kt");
-  }
+    @Test
+    @TestMetadata("noLocalClassesInInlineFunctionExtraction.kt")
+    public void testNoLocalClassesInInlineFunctionExtraction() {
+        runTest("native/native.tests/testData/codegen/fileCheck/noLocalClassesInInlineFunctionExtraction.kt");
+    }
 
-  @Test
-  @TestMetadata("remove_redundant_type_checks.kt")
-  public void testRemove_redundant_type_checks() {
-    runTest("native/native.tests/testData/codegen/fileCheck/remove_redundant_type_checks.kt");
-  }
+    @Test
+    @TestMetadata("remove_redundant_type_checks.kt")
+    public void testRemove_redundant_type_checks() {
+        runTest("native/native.tests/testData/codegen/fileCheck/remove_redundant_type_checks.kt");
+    }
 
-  @Test
-  @TestMetadata("runtime_attributes_compatible.kt")
-  public void testRuntime_attributes_compatible() {
-    runTest("native/native.tests/testData/codegen/fileCheck/runtime_attributes_compatible.kt");
-  }
+    @Test
+    @TestMetadata("runtime_attributes_compatible.kt")
+    public void testRuntime_attributes_compatible() {
+        runTest("native/native.tests/testData/codegen/fileCheck/runtime_attributes_compatible.kt");
+    }
 
-  @Test
-  @TestMetadata("stackProtector_all.kt")
-  public void testStackProtector_all() {
-    runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_all.kt");
-  }
+    @Test
+    @TestMetadata("stackProtector_all.kt")
+    public void testStackProtector_all() {
+        runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_all.kt");
+    }
 
-  @Test
-  @TestMetadata("stackProtector_no.kt")
-  public void testStackProtector_no() {
-    runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_no.kt");
-  }
+    @Test
+    @TestMetadata("stackProtector_no.kt")
+    public void testStackProtector_no() {
+        runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_no.kt");
+    }
 
-  @Test
-  @TestMetadata("stackProtector_strong.kt")
-  public void testStackProtector_strong() {
-    runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_strong.kt");
-  }
+    @Test
+    @TestMetadata("stackProtector_strong.kt")
+    public void testStackProtector_strong() {
+        runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_strong.kt");
+    }
 
-  @Test
-  @TestMetadata("stackProtector_yes.kt")
-  public void testStackProtector_yes() {
-    runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_yes.kt");
-  }
+    @Test
+    @TestMetadata("stackProtector_yes.kt")
+    public void testStackProtector_yes() {
+        runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_yes.kt");
+    }
 
   @Nested
   @TestMetadata("native/native.tests/testData/codegen/funInterface")

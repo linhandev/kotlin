@@ -15,10 +15,14 @@ using namespace kotlin;
 
 mm::ThreadRootSet::Iterator::Iterator(begin_t, ThreadRootSet& owner) noexcept :
 #if !ENABLE_STACKMAP
-    owner_(owner), phase_(Phase::kStack), stackIterator_(owner_.stack_.begin())
+    owner_(owner),
+    phase_(Phase::kStack),
+    stackIterator_(owner_.stack_.begin())
 {
 #else
-    owner_(owner), phase_(Phase::kTLS), tlsIterator_(owner_.tls_.begin())
+    owner_(owner),
+    phase_(Phase::kTLS),
+    tlsIterator_(owner_.tls_.begin())
 {
 #endif
     Init();

@@ -343,5 +343,5 @@ NO_INLINE void kotlin::PrintStackTraceStderr() {
     for (auto& frame : stackTraceStrings) {
         konan::consoleErrorUtf8(frame.c_str(), frame.size());
         konan::consoleErrorf("\n");
-    } 
+    }
 }
