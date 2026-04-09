@@ -31,49 +31,49 @@ extern "C" uint8_t _LLVM_StackMaps;
 namespace kotlin::stackMap {
 
 struct StackMapHeader {
-    uint8_t version_;
-    uint8_t reserved1_;
-    uint16_t reserved2_;
-    void print() const {
+    uint8_t version;
+    uint8_t reserved1;
+    uint16_t reserved2;
+    void Print() const {
         std::cout << "_LLVM_StackMaps version: "
-                  << static_cast<uint32_t>(version_) << "\n";
+                  << static_cast<uint32_t>(version) << "\n";
     }
 };
 
 struct StkMapSizeRecord {
     /** Byte offset of the function record from the start of the LLVM stack map section. */
-    uint64_t funcAddrOffset_;
-    uint64_t stackSize_;
-    uint64_t recordCount_;
-    void print() const {
+    uint64_t funcAddrOffset;
+    uint64_t stackSize;
+    uint64_t recordCount;
+    void Print() const {
 #if KONAN_LINUX || KONAN_OHOS
-        uintptr_t funcAddr = (int64_t)funcAddrOffset_ + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
+        uintptr_t funcAddr = (int64_t)funcAddrOffset + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
 #else
-        uintptr_t funcAddr = (int64_t)funcAddrOffset_ + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
+        uintptr_t funcAddr = (int64_t)funcAddrOffset + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
 #endif
         std::cout << "function address: 0x" << std::hex << funcAddr
-                  << "  stackSize: " << stackSize_
-                  << "  recordCount: " << recordCount_ << "\n";
+                  << "  stackSize: " << stackSize
+                  << "  recordCount: " << recordCount << "\n";
     }
 };
 
 struct Constant {
-    int64_t constant_;
-    void print() const {
-        std::cout << "constant: 0x" << std::hex << constant_;
+    int64_t constant;
+    void Print() const {
+        std::cout << "constant: 0x" << std::hex << constant;
     }
 };
 
 struct StkMapRecordHeader {
-    uint64_t patchPointID_;
-    uint32_t instructionOffset_;
-    uint16_t reserved_;
-    uint16_t numLocations_;
-    void print() const {
-        std::cout << "CallsiteRecord id: " << patchPointID_ << "\n";
-        std::cout << "CallsiteRecord offset: " << instructionOffset_ << "\n";
-        std::cout << "CallsiteRecord reserved: " << reserved_ << "\n";
-        std::cout << "CallsiteRecord numLocations: " << numLocations_ << "\n";
+    uint64_t patchPointId;
+    uint32_t instructionOffset;
+    uint16_t reserved;
+    uint16_t numLocations;
+    void Print() const {
+        std::cout << "CallsiteRecord id: " << patchPointId << "\n";
+        std::cout << "CallsiteRecord offset: " << instructionOffset << "\n";
+        std::cout << "CallsiteRecord reserved: " << reserved << "\n";
+        std::cout << "CallsiteRecord numLocations: " << numLocations << "\n";
     }
 };
 
@@ -85,50 +85,50 @@ struct Location {
         CONSTANT = 4,
         CONSTANTINDEX = 5,
     };
-    static constexpr int CONSTANT_FIRST_ELEMENT_INDEX = 3;
-    static constexpr int CONSTANT_DEOPT_CNT_INDEX = 2;
+    static constexpr int constantFirstElementIndex = 3;
+    static constexpr int constantDeoptCntIndex = 2;
 
-    Kind location_;
-    uint8_t reserved0_;
-    uint16_t locationSize_;
-    uint16_t dwarfRegNum_;
-    uint16_t reserved1_;
-    int32_t offsetOrSmallConstant_;
+    Kind location;
+    uint8_t reserved0;
+    uint16_t locationSize;
+    uint16_t dwarfRegNum;
+    uint16_t reserved1;
+    int32_t offsetOrSmallConstant;
 
-    std::string kindToString() const;
+    std::string KindToString() const;
 
-    void print() const {
-        std::cout << "location_: " << kindToString() << " "
-                  << "locationSize_: " << std::dec << locationSize_ << " "
-                  << "dwarfRegNum_: " << dwarfRegNum_ << " "
-                  << "offsetOrSmallConstant: " << offsetOrSmallConstant_ << "\n";
+    void Print() const {
+        std::cout << "location_: " << KindToString() << " "
+                  << "locationSize_: " << std::dec << locationSize << " "
+                  << "dwarfRegNum_: " << dwarfRegNum << " "
+                  << "offsetOrSmallConstant: " << offsetOrSmallConstant << "\n";
 
     }
 };
 
 struct LiveOuts {
-    uint16_t dwarfRegNum_;
-    uint8_t reserved_;
-    uint8_t sizeInBytes_;
-    void print() const {
-        std::cout << "dwarfRegNum_: " << dwarfRegNum_ << " "
-                  << "reserved_: " << std::dec << reserved_ << " "
-                  << "sizeInBytes_: " << sizeInBytes_ << "\n";
+    uint16_t dwarfRegNum;
+    uint8_t reserved;
+    uint8_t sizeInBytes;
+    void Print() const {
+        std::cout << "dwarfRegNum_: " << dwarfRegNum << " "
+                  << "reserved_: " << std::dec << reserved << " "
+                  << "sizeInBytes_: " << sizeInBytes << "\n";
     }
 };
 
 struct StkMapRecord {
-    StkMapRecordHeader header_;
+    StkMapRecordHeader header;
     std::vector<Location> locations_;
     std::vector<LiveOuts> liveOuts_;
-    void print() const
+    void Print() const
     {
-        header_.print();
+        header.Print();
         for (auto &location : locations_) {
-            location.print();
+            location.Print();
         }
         for (auto liveOut : liveOuts_) {
-            liveOut.print();
+            liveOut.Print();
         }
     }
 };
@@ -145,14 +145,14 @@ public:
     ~DataInfo() = default;
 
     template<class T>
-    T read()
+    T Read()
     {
         T value = *reinterpret_cast<const T*>(data_ + offset_);
         offset_ += sizeof(T);
         return value;
     }
 
-    uint32_t getOffset() const
+    uint32_t GetOffset() const
     {
         return offset_;
     }
@@ -165,20 +165,20 @@ private:
 struct StackMap {
 public:
     using CallSiteInfo = std::vector<std::pair<uint16_t, int32_t>>;
-    StackMap(uint8_t *llvmStackMaps) : llvmStackMaps_(llvmStackMaps) {}
+    StackMap(uint8_t *llvmStackMaps) : llvmStackMaps(llvmStackMaps) {}
     ~StackMap();
 
-    void build();
-    void print();
-    void calcCallSite();
+    void Build();
+    void Print();
+    void CalcCallSite();
     std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo()
     {
         return pc2CallSiteInfo_;
     }
 
 private:
-    DataInfo llvmStackMaps_;
-    StackMapHeader header_;
+    DataInfo llvmStackMaps;
+    StackMapHeader header;
     std::vector<StkMapSizeRecord> stkSizeRecords_;
     std::vector<Constant> constants_;
     std::vector<StkMapRecord> stkMapRecords_;

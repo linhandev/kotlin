@@ -68,14 +68,14 @@ public:
     }
     ATTR_NO_INLINE BitsManager GetNext(uint32_t bitsLen) const
     {
-        uint32_t addrStep = bitsLen >> BITS_SHIFT_PER_BYTE;
-        constexpr uint32_t bitsMask = (1 << BITS_SHIFT_PER_BYTE) - 1;
+        uint32_t addrStep = bitsLen >> bitsShiftPerByte;
+        constexpr uint32_t bitsMask = (1 << bitsShiftPerByte) - 1;
         uint32_t bitPosStep = bitsLen & bitsMask;
         uint8_t* nextAddr = addr + addrStep;
         uint32_t nextBitPos = bitPos + bitPosStep;
-        if (nextBitPos >= BITS_NUM_PER_BYTE) {
+        if (nextBitPos >= bitsNumPerByte) {
             ++nextAddr;
-            nextBitPos -= BITS_NUM_PER_BYTE;
+            nextBitPos -= bitsNumPerByte;
         }
         return BitsManager(nextAddr, nextBitPos);
     }
@@ -87,15 +87,15 @@ private:
         constexpr uint32_t len = sizeof(uint32_t) / sizeof(uint8_t) + 1;
         uint64_t value = 0;
         uint32_t shiftSteps = 0;
-        for (uint32_t i = 0; i < len; ++i, shiftSteps += BITS_NUM_PER_BYTE) {
+        for (uint32_t i = 0; i < len; ++i, shiftSteps += bitsNumPerByte) {
             value |= static_cast<uint64_t>(addr[i]) << shiftSteps;
         }
         return value;
     }
-    static constexpr uint32_t BITS_NUM_PER_BYTE = 8;
-    static constexpr uint32_t BITS_SHIFT_PER_BYTE = 3;
-    static constexpr uint32_t BITS_NUM_HALF_BYTE = BITS_NUM_PER_BYTE >> 1;
-    static constexpr uint16_t HALF_BYTE_MASK = (1 << BITS_NUM_HALF_BYTE) - 1;
+    static constexpr uint32_t bitsNumPerByte = 8;
+    static constexpr uint32_t bitsShiftPerByte = 3;
+    static constexpr uint32_t bitsNumHalfByte = bitsNumPerByte >> 1;
+    static constexpr uint16_t halfByteMask = (1 << bitsNumHalfByte) - 1;
     uint8_t* addr{ nullptr };
     uint32_t bitPos{ 0 };
 };
@@ -391,16 +391,16 @@ private:
         uint32_t isPureVal;
         uint32_t isAllRef;
         VarValue cnts;
-        constexpr uint32_t PureValWidth = 31;
-        constexpr uint32_t PureValMask = 1 << PureValWidth;
-        constexpr uint32_t CompressTagBitPos = 30;
+        constexpr uint32_t pureValWidth = 31;
+        constexpr uint32_t pureValMask = 1 << pureValWidth;
+        constexpr uint32_t compressTagBitPos = 30;
         while (remainLen != 0) {
             isPureVal = bitMapBits.GetBits(1);
             bitMapBits = bitMapBits.GetNext(1);
             remainLen--;
             if (isPureVal) {
-                uint32_t pureValBits = std::min(remainLen, PureValWidth);
-                result.push_back(bitMapBits.GetBits(pureValBits) | PureValMask);
+                uint32_t pureValBits = std::min(remainLen, pureValWidth);
+                result.push_back(bitMapBits.GetBits(pureValBits) | pureValMask);
                 bitMapBits = bitMapBits.GetNext(pureValBits);
                 remainLen -= pureValBits;
             } else {
@@ -421,7 +421,7 @@ private:
                 if (cnts == 0) {
                     break;
                 }
-                result.push_back(cnts |= (isAllRef << CompressTagBitPos));
+                result.push_back(cnts |= (isAllRef << compressTagBitPos));
             }
         }
         return result;
@@ -496,14 +496,14 @@ public:
         return IdxSet();
     }
 
-    void CollectAllIdxSet(std::vector<IdxSet> &IdxSetVec) const
+    void CollectAllIdxSet(std::vector<IdxSet> &idxSetVec) const
     {
         uint32_t recordNum = headerInfo[RECORD_NUM];
 #if DUMP_DEBUG_INFO
         std::cout << "-------- wzl log callSiteNum recordNum: " << recordNum << std::endl;
 #endif
         for (uint32_t i = 0; i < recordNum; ++i) {
-            IdxSetVec.emplace_back(IdxSet(PCAt(i), RegIdxAt(i), SlotIdxAt(i), DerivePtrIdxAt(i)));
+            idxSetVec.emplace_back(IdxSet(PCAt(i), RegIdxAt(i), SlotIdxAt(i), DerivePtrIdxAt(i)));
         }
     }
 
@@ -513,30 +513,30 @@ public:
 private:
     void Init()
     {
-        data = ResolveHeader(headerInfo, HEADER_COL_NUM - STACK_ITEM_NUM).GetNext(headerInfo[PADDING_BITS_LEN -
-                                                                                                STACK_ITEM_NUM]);
-        rowBitsLen = PC_OFF_BITS + headerInfo[REG_BITS_LEN] + headerInfo[SLOT_BITS_LEN] +
+        data = ResolveHeader(headerInfo, HEADER_COL_NUM - stackItemNum).GetNext(headerInfo[PADDING_BITS_LEN -
+                                                                                                stackItemNum]);
+        rowBitsLen = pcOffBits + headerInfo[REG_BITS_LEN] + headerInfo[SLOT_BITS_LEN] +
                      headerInfo[DERIVE_PTR_BITS_LEN];
         nextTable = data.GetNext(rowBitsLen * headerInfo[RECORD_NUM]);
     }
     uint32_t PCAt(uint32_t row) const
     {
         auto bitsManager = data.GetNext(row * rowBitsLen);
-        return bitsManager.GetBits(PC_OFF_BITS);
+        return bitsManager.GetBits(pcOffBits);
     }
     uint32_t RegIdxAt(uint32_t row) const
     {
-        auto bitsManager = data.GetNext(row * rowBitsLen + PC_OFF_BITS);
+        auto bitsManager = data.GetNext(row * rowBitsLen + pcOffBits);
         return bitsManager.GetBits(headerInfo[REG_BITS_LEN]);
     }
     uint32_t SlotIdxAt(uint32_t row) const
     {
-        auto bitsManager = data.GetNext(row * rowBitsLen + PC_OFF_BITS + headerInfo[REG_BITS_LEN]);
+        auto bitsManager = data.GetNext(row * rowBitsLen + pcOffBits + headerInfo[REG_BITS_LEN]);
         return bitsManager.GetBits(headerInfo[SLOT_BITS_LEN]);
     }
     uint32_t DerivePtrIdxAt(uint32_t row) const
     {
-        uint32_t skipBitsLen = row * rowBitsLen + PC_OFF_BITS + headerInfo[REG_BITS_LEN] + headerInfo[SLOT_BITS_LEN];
+        uint32_t skipBitsLen = row * rowBitsLen + pcOffBits + headerInfo[REG_BITS_LEN] + headerInfo[SLOT_BITS_LEN];
         auto bitsManager = data.GetNext(skipBitsLen);
         return bitsManager.GetBits(headerInfo[DERIVE_PTR_BITS_LEN]);
     }
@@ -548,8 +548,8 @@ private:
         PADDING_BITS_LEN,
         HEADER_COL_NUM,
     };
-    static constexpr uint32_t STACK_ITEM_NUM = 0;
-    static constexpr uint32_t PC_OFF_BITS = 32;
+    static constexpr uint32_t stackItemNum = 0;
+    static constexpr uint32_t pcOffBits = 32;
     uint32_t headerInfo[HEADER_COL_NUM]{ 0 };
 };
 

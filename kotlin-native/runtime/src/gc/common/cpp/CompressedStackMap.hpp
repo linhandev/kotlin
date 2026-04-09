@@ -125,14 +125,14 @@ public:
     void CollectAllStackMapEntry(std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo) const
     {
         StackMapTable stackMapTable(prologue_.GetNextTable());
-        std::vector<IdxSet> IdxSetVec;
-        stackMapTable.CollectAllIdxSet(IdxSetVec);
+        std::vector<IdxSet> idxSetVec;
+        stackMapTable.CollectAllIdxSet(idxSetVec);
 
         RegTable regTable(stackMapTable.GetNextTable());
         SlotTable slotTable(regTable.GetNextTable(), slotFormat_);
         DerivedPtrTable derivedTable(slotTable.GetNextTable(), stackMapTable.GetRegBitsLen(),
                                      stackMapTable.GetSlotBitsLen());
-        for (auto idxSet : IdxSetVec) {
+        for (auto idxSet : idxSetVec) {
             CompressedStackMapEntry entry(idxSet, regTable, slotTable, derivedTable);
 #if DUMP_DEBUG_INFO
             std::cout << "----wzl log funcAddress: " << funcAddress_ + idxSet.pc << std::endl;
@@ -163,7 +163,7 @@ public:
         std::unordered_map<int32_t, std::vector<int32_t>> &base2DerivedOffsets) const
     {
         StackMapTable stackMapTable(prologue_.GetNextTable());
-        std::vector<IdxSet> IdxSetVec;
+        std::vector<IdxSet> idxSetVec;
         IdxSet idxSet = stackMapTable.GetIdxSet(startPC, curPC);
 
         RegTable regTable(stackMapTable.GetNextTable());
@@ -210,7 +210,7 @@ public:
     StackMapBuilder(uint8_t *llvmStackMaps) : data_(llvmStackMaps) {}
     ~StackMapBuilder() = default;
 
-    void build()
+    void Build()
     {
         PrologueRegisterClosure closure;
         PrologueVisitor visitor = [&closure](PrologueRegisterClosure::Type type, uint32_t value) {
@@ -254,7 +254,7 @@ public:
         head.CollectStackMapEntry(startPC, framePC, base2DerivedOffsets);
     }
 
-    void print()
+    void Print()
     {
 #if DUMP_DEBUG_INFO
         for (auto &pc2CallSiteInfo : pc2CallSiteInfo_) {
@@ -266,7 +266,7 @@ public:
         }
 #endif
     }
-    void calcCallSite();
+    void CalcCallSite();
     std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo()
     {
         return pc2CallSiteInfo_;

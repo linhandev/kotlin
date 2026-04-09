@@ -31,58 +31,58 @@ extern "C" uint8_t _LLVM_StackMaps;
 namespace kotlin {
 stackMap::StackMap::~StackMap() {}
 
-void stackMap::StackMap::build()
+void stackMap::StackMap::Build()
 {
-    header_ = llvmStackMaps_.read<StackMapHeader>();
-    uint32_t numFunctions = llvmStackMaps_.read<uint32_t>();
-    uint32_t numConstants = llvmStackMaps_.read<uint32_t>();
-    uint32_t numRecords = llvmStackMaps_.read<uint32_t>();
+    header = llvmStackMaps.Read<StackMapHeader>();
+    uint32_t numFunctions = llvmStackMaps.Read<uint32_t>();
+    uint32_t numConstants = llvmStackMaps.Read<uint32_t>();
+    uint32_t numRecords = llvmStackMaps.Read<uint32_t>();
 
     for (uint32_t i = 0; i < numFunctions; ++i) {
-        auto stkSizeRecord = llvmStackMaps_.read<StkMapSizeRecord>();
+        auto stkSizeRecord = llvmStackMaps.Read<StkMapSizeRecord>();
         stkSizeRecords_.push_back(stkSizeRecord);
     }
 
     for (uint32_t i = 0; i < numConstants; ++i) {
-        auto constant = llvmStackMaps_.read<Constant>();
+        auto constant = llvmStackMaps.Read<Constant>();
         constants_.push_back(constant);
     }
 
     for (uint32_t i = 0; i < numRecords; ++i) {
         StkMapRecord stkMapRecord;
-        stkMapRecord.header_ = llvmStackMaps_.read<StkMapRecordHeader>();
-        for (uint16_t i = 0; i < stkMapRecord.header_.numLocations_; ++i) {
-            auto location = llvmStackMaps_.read<Location>();
+        stkMapRecord.header = llvmStackMaps.Read<StkMapRecordHeader>();
+        for (uint16_t i = 0; i < stkMapRecord.header.numLocations; ++i) {
+            auto location = llvmStackMaps.Read<Location>();
             stkMapRecord.locations_.push_back(location);
         }
-        while (llvmStackMaps_.getOffset() & 7) {
-            llvmStackMaps_.read<uint16_t>();
+        while (llvmStackMaps.GetOffset() & 7) {
+            llvmStackMaps.Read<uint16_t>();
         }
-        uint32_t numLiveOuts = llvmStackMaps_.read<uint32_t>();
+        uint32_t numLiveOuts = llvmStackMaps.Read<uint32_t>();
         for (uint32_t i = 0; i < numLiveOuts; ++i) {
-            auto liveOut = llvmStackMaps_.read<LiveOuts>();
+            auto liveOut = llvmStackMaps.Read<LiveOuts>();
             stkMapRecord.liveOuts_.push_back(liveOut);
         }
-        while (llvmStackMaps_.getOffset() & 7) {
-            llvmStackMaps_.read<uint16_t>();
+        while (llvmStackMaps.GetOffset() & 7) {
+            llvmStackMaps.Read<uint16_t>();
         }
         stkMapRecords_.push_back(stkMapRecord);
     }
-    calcCallSite();
+    CalcCallSite();
 }
 
-void stackMap::StackMap::print()
+void stackMap::StackMap::Print()
 {
 #if DUMP_DEBUG_INFO
-    header_.print();
+    header.Print();
     for (auto &stkSizeRecord : stkSizeRecords_) {
-        stkSizeRecord.print();
+        stkSizeRecord.Print();
     }
     for (auto &constant : constants_) {
-        constant.print();
+        constant.Print();
     }
     for (auto &stkMapRecord : stkMapRecords_) {
-        stkMapRecord.print();
+        stkMapRecord.Print();
     }
 
     for (auto &pc2CallSiteInfo : pc2CallSiteInfo_) {
@@ -95,43 +95,43 @@ void stackMap::StackMap::print()
 #endif
 }
 
-void stackMap::StackMap::calcCallSite()
+void stackMap::StackMap::CalcCallSite()
 {
     uint64_t recordNum = 0;
     auto calc = [this, &recordNum](uintptr_t address, uint32_t recordId) {
         auto &record = stkMapRecords_[recordNum + recordId];
-        auto &recordHeader = record.header_;
-        uintptr_t insnPC = address + recordHeader.instructionOffset_;
+        auto &recordHeader = record.header;
+        uintptr_t insnPC = address + recordHeader.instructionOffset;
         if (pc2CallSiteInfo_.find(insnPC) == pc2CallSiteInfo_.end()) {
             auto p = std::pair<uintptr_t, CallSiteInfo>(insnPC, {});
             pc2CallSiteInfo_.insert(p);
         }
 
-        assert(recordHeader.numLocations_ > Location::CONSTANT_DEOPT_CNT_INDEX);
-        const int lastDeoptIndex = record.locations_[Location::CONSTANT_DEOPT_CNT_INDEX].offsetOrSmallConstant_ + Location::CONSTANT_DEOPT_CNT_INDEX;
-        assert(lastDeoptIndex == Location::CONSTANT_DEOPT_CNT_INDEX && "deopt count must be 0");
+        assert(recordHeader.numLocations > Location::constantDeoptCntIndex);
+        const int lastDeoptIndex = record.locations_[Location::constantDeoptCntIndex].offsetOrSmallConstant + Location::constantDeoptCntIndex;
+        assert(lastDeoptIndex == Location::constantDeoptCntIndex && "deopt count must be 0");
         CallSiteInfo &callsiteInfo = pc2CallSiteInfo_[insnPC];
-        for (int i = Location::CONSTANT_FIRST_ELEMENT_INDEX; i < recordHeader.numLocations_; ++i) {
+        for (int i = Location::constantFirstElementIndex; i < recordHeader.numLocations; ++i) {
             auto &loc = record.locations_[i];
             if (i <= lastDeoptIndex) {
 
             } else {
-                switch (loc.location_) {
+                switch (loc.location) {
                 case Location::Kind::REGISTER:
                 case Location::Kind::DIRECT: {
                     assert(false && "not supported location kind currently");
-                    std::pair<uint16_t, int32_t> info(loc.dwarfRegNum_, loc.offsetOrSmallConstant_);
+                    std::pair<uint16_t, int32_t> info(loc.dwarfRegNum, loc.offsetOrSmallConstant);
                     callsiteInfo.emplace_back(info);
                     break;
                 }
                 case Location::Kind::INDIRECT:
                 case Location::Kind::CONSTANT:
                 case Location::Kind::CONSTANTINDEX: {
-                    assert(loc.location_ == Location::Kind::INDIRECT && "only INDIRECT kind is supported currently");
+                    assert(loc.location == Location::Kind::INDIRECT && "only INDIRECT kind is supported currently");
                     if (i % 2 == 0) { // derived ptr
                         break;
                     }
-                    std::pair<uint16_t, int32_t> info(loc.dwarfRegNum_, loc.offsetOrSmallConstant_);
+                    std::pair<uint16_t, int32_t> info(loc.dwarfRegNum, loc.offsetOrSmallConstant);
                     callsiteInfo.emplace_back(info);
                     break;
                 }
@@ -143,11 +143,11 @@ void stackMap::StackMap::calcCallSite()
     };
     for (auto &stkSizeRecord : stkSizeRecords_) {
     #if KONAN_LINUX || KONAN_OHOS
-        uintptr_t funcAddr = (int64_t)stkSizeRecord.funcAddrOffset_ + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
+        uintptr_t funcAddr = (int64_t)stkSizeRecord.funcAddrOffset + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
     #else
-        uintptr_t funcAddr = (int64_t)stkSizeRecord.funcAddrOffset_ + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
+        uintptr_t funcAddr = (int64_t)stkSizeRecord.funcAddrOffset + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
     #endif
-        uint64_t recordCount = stkSizeRecord.recordCount_;
+        uint64_t recordCount = stkSizeRecord.recordCount;
         for (uint64_t k = 0; k < recordCount; ++k) {
             calc(funcAddr, k);
         }
@@ -156,9 +156,9 @@ void stackMap::StackMap::calcCallSite()
 }
 } // namespace kotlin
 
-std::string kotlin::stackMap::Location::kindToString() const
+std::string kotlin::stackMap::Location::KindToString() const
 {
-    switch (location_) {
+    switch (location) {
     case Kind::REGISTER:
         return "Register";
     case Kind::DIRECT:

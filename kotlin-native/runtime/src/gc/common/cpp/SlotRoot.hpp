@@ -70,10 +70,10 @@ public:
         for (size_t i = 0; i < slotBits.size(); ++i) {
             SlotBits bit = slotBits[i];
             for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
-                if ((bit & LOWEST_BIT) == 0) {
+                if ((bit & lowestBit) == 0) {
                     continue;
                 }
-                SlotBias bias = static_cast<int32_t>(i * BIT_SIZE + j) * BYTES_PER_SLOT + slotBias * BIAS_COEF;
+                SlotBias bias = static_cast<int32_t>(i * bitSize + j) * bytesPerSlot + slotBias * biasCoef;
                 slotOffsets.push_back(bias);
             }
         }
@@ -84,50 +84,50 @@ public:
 private:
     void CollectWAHSlotOffsets(std::vector<int32_t> &slotOffsets) const
     {
-        constexpr uint32_t PureValWidth = 31;
-        constexpr uint32_t PureValBit = 1 << PureValWidth;
-        constexpr uint32_t PureValMask = PureValBit - 1;
-        constexpr uint32_t CompressTagBit = 1 << 30;
-        constexpr uint32_t CompressCntMask = CompressTagBit - 1;
-        SlotBias baseBias = slotBias * BIAS_COEF;
+        constexpr uint32_t pureValWidth = 31;
+        constexpr uint32_t pureValBit = 1 << pureValWidth;
+        constexpr uint32_t pureValMask = pureValBit - 1;
+        constexpr uint32_t compressTagBit = 1 << 30;
+        constexpr uint32_t compressCntMask = compressTagBit - 1;
+        SlotBias baseBias = slotBias * biasCoef;
 
-        auto VisitOneSlot = [&](int32_t Idx) {
-            SlotBias bias = baseBias + static_cast<int32_t>(Idx) * BYTES_PER_SLOT;
+        auto VisitOneSlot = [&](int32_t idx) {
+            SlotBias bias = baseBias + static_cast<int32_t>(idx) * bytesPerSlot;
             slotOffsets.push_back(bias);
         };
 
-        auto ProcessOneSlotBits = [&](SlotBits bit) {
-            if (bit & PureValBit) {
-                bit &= PureValMask;
+        auto processOneSlotBits = [&](SlotBits bit) {
+            if (bit & pureValBit) {
+                bit &= pureValMask;
                 for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
-                    if ((bit & LOWEST_BIT) == 0) {
+                    if ((bit & lowestBit) == 0) {
                         continue;
                     }
                     VisitOneSlot(j);
                 }
-                baseBias += static_cast<int32_t>(PureValWidth) * BYTES_PER_SLOT;
+                baseBias += static_cast<int32_t>(pureValWidth) * bytesPerSlot;
             } else {
-                bool isAllRef = (bit & CompressTagBit);
-                uint32_t bitNums = (bit & CompressCntMask) * PureValWidth;
+                bool isAllRef = (bit & compressTagBit);
+                uint32_t bitNums = (bit & compressCntMask) * pureValWidth;
                 if (isAllRef) {
                     for (uint32_t j = 0; j < bitNums; ++j) {
                         VisitOneSlot(j);
                     }
                 }
-                baseBias += static_cast<int32_t>(bitNums) * BYTES_PER_SLOT;
+                baseBias += static_cast<int32_t>(bitNums) * bytesPerSlot;
             }
         };
 
         for (SlotBits bit : slotBits) {
-            ProcessOneSlotBits(bit);
+            processOneSlotBits(bit);
         }
     }
     SlotBias slotBias;
     std::vector<SlotBits> slotBits;
     uint32_t slotFormat;
-    constexpr static uint32_t BIT_SIZE = 32;
-    constexpr static SlotBits LOWEST_BIT = 0x1;
-    constexpr static int32_t BYTES_PER_SLOT = -8;
-    constexpr static int32_t BIAS_COEF = 1;
+    constexpr static uint32_t bitSize = 32;
+    constexpr static SlotBits lowestBit = 0x1;
+    constexpr static int32_t bytesPerSlot = -8;
+    constexpr static int32_t biasCoef = 1;
 };
 } // namespace kotlin::stackMap

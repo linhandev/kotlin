@@ -21,13 +21,13 @@ using namespace kotlin;
 #if KONAN_LINUX || KONAN_OHOS
 extern "C" uint8_t __LLVM_StackMaps;
 extern "C" uint8_t __LLVM_StackMap_Offsets;
-static uintptr_t stackMapsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMaps);
-static uintptr_t stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMap_Offsets);
+static uintptr_t g_stackMapsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMaps);
+static uintptr_t g_stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMap_Offsets);
 #else
 extern "C" uint8_t _LLVM_StackMaps;
 extern "C" uint8_t _LLVM_StackMap_Offsets;
-static uintptr_t stackMapsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMaps);
-static uintptr_t stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMap_Offsets);
+static uintptr_t g_stackMapsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMaps);
+static uintptr_t g_stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMap_Offsets);
 #endif
 
 #define DUMP_DEBUG_INFO 0
@@ -164,11 +164,11 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
     if (!kotlin::mm::VerifyKotlinStack::IsKotlinFrameTag(fp)) {
         RuntimeLogInfo({kTagGC}, "DFX error: unwind is not kotlin frame, stackMapOffsetIndex %llu, thread %" PRIuPTR ", aborting\n",
             (unsigned long long)stackMapOffsetIndex, thread.threadId());
-        auto& currentKotlinFrame = thread.getLastKotlinFrame();
+        auto& currentKotlinFrame = thread.GetLastKotlinFrame();
         for (size_t i = 0; i < currentKotlinFrame.fpStack_.size(); i++) {
             RuntimeLogInfo({kTagGC}, "[KotlinFrame] fpStack_[%zu]: %p\n", i, currentKotlinFrame.fpStack_[i]);
         }
-        thread.printLastKotlinFrameLog();
+        thread.PrintLastKotlinFrameLog();
         for (size_t i = 0; i < currentKotlinFrame.pcStack_.size(); i++) {
             RuntimeLogInfo({kTagGC}, "[KotlinFrame] pcStack_[%zu]: %p\n", i, currentKotlinFrame.pcStack_[i]);
         }
@@ -180,11 +180,11 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
         abort();
     }
 #endif
-    constexpr uint64_t PAYLOAD_MASK = (1ULL << 48) - 1;
-    stackMapOffsetIndex &= PAYLOAD_MASK;
+    constexpr uint64_t payloadMask = (1ULL << 48) - 1;
+    stackMapOffsetIndex &= payloadMask;
 
-    uint64_t actualOffset = *(reinterpret_cast<uint32_t*>(stackMapOffsetsSection) + stackMapOffsetIndex);
-    uint64_t *stackMapAddress = reinterpret_cast<uint64_t*>(stackMapsSection + actualOffset);
+    uint64_t actualOffset = *(reinterpret_cast<uint32_t*>(g_stackMapOffsetsSection) + stackMapOffsetIndex);
+    uint64_t *stackMapAddress = reinterpret_cast<uint64_t*>(g_stackMapsSection + actualOffset);
 
     return stackMapAddress;
 }
@@ -253,7 +253,7 @@ void gc::mark::ConcurrentMark::tryCollectRootSet(mm::ThreadData& thread, MarkTra
     gcData.publish();
     collectRootSetForThread<MarkTraits>(gcHandle(), markQueue, thread);
 
-    auto& currentKotlinFrame = thread.getLastKotlinFrame();
+    auto& currentKotlinFrame = thread.GetLastKotlinFrame();
     const auto& frameKinds = currentKotlinFrame.kindStack_;
     const size_t stackSize = currentKotlinFrame.fpStack_.size();
 

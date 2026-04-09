@@ -95,7 +95,7 @@ public:
     {
         lastKotlinFrame_.counter++;
         if (lastKotlinFrame_.pcStack_.empty() || lastKotlinFrame_.fpStack_.empty()) {
-            printLastKotlinFrameLog();
+            PrintLastKotlinFrameLog();
             RuntimeLogInfo({kTagGC}, "[KotlinFrame] try to pop from empty lastKotlinFrame_ for thread %" PRIuPTR, threadId_);
             abort();
         }
@@ -108,11 +108,11 @@ public:
         lastKotlinFrame_.kindStack_.pop_back();
     }
 
-    void printLastKotlinFrameLog()
+    void PrintLastKotlinFrameLog()
     {
         RuntimeLogInfo({kTagGC}, "[KotlinFrame] lastKotlinFrame_ log for thread %" PRIuPTR ":", threadId_);
-        std::stringstream log_stream;
-        log_stream << "[KotlinFrame] kindStack_ content: ";
+        std::stringstream logStream;
+        logStream << "[KotlinFrame] kindStack_ content: ";
 
         for (size_t i = 0; i < lastKotlinFrame_.kindStack_.size(); i++) {
             uint8_t value = lastKotlinFrame_.kindStack_[i];
@@ -140,13 +140,13 @@ public:
                 default: kindName = "Unknown"; break;
             }
 
-            log_stream << "[" << i << "]:" << kindName << "(" << stackType << ")"
+            logStream << "[" << i << "]:" << kindName << "(" << stackType << ")"
                       << " fp=" << lastKotlinFrame_.fpStack_[i]
                       << " pc=" << lastKotlinFrame_.pcStack_[i]
                       << (i < lastKotlinFrame_.kindStack_.size()-1 ? ", " : "");
         }
 
-        RuntimeLogInfo({kTagGC}, "%s", log_stream.str().c_str());
+        RuntimeLogInfo({kTagGC}, "%s", logStream.str().c_str());
 
         RuntimeLogInfo({kTagGC}, "[KotlinFrame] logIndex and corresponding frames for thread %" PRIuPTR ":", threadId_);
         for (size_t i = 0; i < lastKotlinFrame_.logIndex.size(); i++) {
@@ -158,7 +158,7 @@ public:
 #endif
     }
 
-    const KotlinFrame& getLastKotlinFrame() const { return lastKotlinFrame_; }
+    const KotlinFrame& GetLastKotlinFrame() const { return lastKotlinFrame_; }
 
     void Publish() noexcept {
         // TODO: These use separate locks, which is inefficient.

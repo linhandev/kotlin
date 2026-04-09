@@ -171,7 +171,7 @@ size_t kotlin::alloc::GetAllocatedBytes() noexcept {
 }
 
 #ifndef KONAN_WINDOWS
-static uintptr_t kPageSize = sysconf(_SC_PAGESIZE);
+static uintptr_t g_kPageSize = sysconf(_SC_PAGESIZE);
 #endif
 
 void kotlin::alloc::ZeroAndReleasePages(void *address, size_t length) noexcept
@@ -180,12 +180,12 @@ void kotlin::alloc::ZeroAndReleasePages(void *address, size_t length) noexcept
     if (length <= 0) {
         return;
     }
-    uint8_t* const mem_begin = reinterpret_cast<uint8_t*>(address);
-    uint8_t* const mem_end = mem_begin + length;
-    uint8_t* const page_begin = reinterpret_cast<uint8_t*>(kotlin::alloc::RoundUp(reinterpret_cast<uintptr_t>(mem_begin), kPageSize));
-    uint8_t* const page_end = reinterpret_cast<uint8_t*>(kotlin::alloc::RoundDown(reinterpret_cast<uintptr_t>(mem_end), kPageSize));
-    if (page_begin < page_end) {
-        madvise(page_begin, page_end - page_begin, MADV_DONTNEED);
+    uint8_t* const memBegin = reinterpret_cast<uint8_t*>(address);
+    uint8_t* const memEnd = memBegin + length;
+    uint8_t* const pageBegin = reinterpret_cast<uint8_t*>(kotlin::alloc::RoundUp(reinterpret_cast<uintptr_t>(memBegin), g_kPageSize));
+    uint8_t* const pageEnd = reinterpret_cast<uint8_t*>(kotlin::alloc::RoundDown(reinterpret_cast<uintptr_t>(memEnd), g_kPageSize));
+    if (pageBegin < pageEnd) {
+        madvise(pageBegin, pageEnd - pageBegin, MADV_DONTNEED);
     }
 #endif
 }

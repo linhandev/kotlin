@@ -31,19 +31,19 @@ class VerifyKotlinStack {
 public:
     // Magic number to look for in the stack.
     // 0xBEEF is a placeholder; needs to match what the compiler emits.
-    static constexpr uint64_t KOTLIN_STACK_TAG = 0xBEEF;
-    static constexpr uint64_t PAYLOAD_MASK = (1ULL << 48) - 1;
+    static constexpr uint64_t kotlinStackTag = 0xBEEF;
+    static constexpr uint64_t payloadMask = (1ULL << 48) - 1;
 
     static constexpr bool IsKotlinFrameTag(uint64_t* fp) noexcept
     {
         uint64_t val = *(fp - 2);
-        return (val >> 48) == KOTLIN_STACK_TAG;
+        return (val >> 48) == kotlinStackTag;
     }
 
     static uint64_t GetKotlinFrameOffsetIndex(uint64_t* fp) noexcept
     {
         uint64_t val = *(fp - 2);
-        return val & PAYLOAD_MASK;
+        return val & payloadMask;
     }
 
     static uint64_t GetKotlinFramePcOffset(uint64_t* fp, uint32_t *pc) noexcept

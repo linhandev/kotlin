@@ -50,30 +50,30 @@ public:
 
 #if ENABLE_COMPERSSED_STACKMAP
     compressStackMapBuilder_(&__LLVM_StackMaps) {
-    compressStackMapBuilder_.build();
+    compressStackMapBuilder_.Build();
 #if DUMP_DEBUG_INFO
-    compressStackMapBuilder_.print();
+    compressStackMapBuilder_.Print();
 #endif
 #else // else of ENABLE_COMPERSSED_STACKMAP
     stackMap_(&__LLVM_StackMaps) {
-    stackMap_.build();
+    stackMap_.Build();
 #if DUMP_DEBUG_INFO
-    stackMap_.print();
+    stackMap_.Print();
 #endif
 #endif // ENABLE_COMPERSSED_STACKMAP end
 
 #else // else of (KONAN_LINUX || KONAN_OHOS)
 #if ENABLE_COMPERSSED_STACKMAP
     compressStackMapBuilder_(&_LLVM_StackMaps) {
-    compressStackMapBuilder_.build();
+    compressStackMapBuilder_.Build();
 #if DUMP_DEBUG_INFO
-    compressStackMapBuilder_.print();
+    compressStackMapBuilder_.Print();
 #endif
 #else // else of ENABLE_COMPERSSED_STACKMAP
     stackMap_(&_LLVM_StackMaps) {
-    stackMap_.build();
+    stackMap_.Build();
 #if DUMP_DEBUG_INFO
-    stackMap_.print();
+    stackMap_.Print();
 #endif
 #endif // ENABLE_COMPERSSED_STACKMAP end
 #endif // KONAN_LINUX || KONAN_OHOS end
