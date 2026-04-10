@@ -68,14 +68,9 @@ static OHHiDebugSetCrashObjFn resolveOHHiDebugSetCrashObj()
     return fn;
 }
 
-static int getOhosApiVersion()
-{
-    return OH_GetSdkApiVersion();
-}
-
 unsigned long getFatalMessageSize()
 {
-    int apiVersion = getOhosApiVersion();
+    int apiVersion = OH_GetSdkApiVersion();
     if (apiVersion >= OHOS_HIDEBUG_MIN_API) {
         return LARGE_BUFFER_SIZE - LARGE_BUFFER_RESERVED;
     } else {
@@ -237,7 +232,7 @@ void ReportBacktraceToOhosLog(KRef exception)
     pid_t pid = getpid();
     std::vector<MapsEntry> mapCache = BuildIdUtils::parseMapsFile(pid);
 
-    int apiVersion = getOhosApiVersion();
+    int apiVersion = OH_GetSdkApiVersion();
     unsigned long messageSize = getFatalMessageSize();
     std::string reason = getExceptionSummary(exception);
 
