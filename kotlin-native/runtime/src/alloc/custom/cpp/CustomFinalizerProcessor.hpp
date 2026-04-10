@@ -34,8 +34,8 @@ struct FinalizerQueueTraits {
                 RunFinalizers(baseObject);
 #ifdef KONAN_OHOS
                 if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
-                    restrace(RES_KOTLIN_HEAP, (void*)baseObject, baseObject->typeInfoOrMeta_->instanceSize_,
-                        TAG_RES_KOTLIN_HEAP, false);
+                    restrace(RES_KMP_HEAP_MASK, (void*)baseObject, baseObject->typeInfoOrMeta_->instanceSize_,
+                        TAG_RES_KMP_HEAP_MASK, false);
                 }
 #endif
             } else {

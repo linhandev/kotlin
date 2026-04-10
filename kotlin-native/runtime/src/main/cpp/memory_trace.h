@@ -23,8 +23,8 @@
 extern "C" {
 #endif
 
-#define TAG_RES_KOTLIN_HEAP        "RES_KOTLIN_HEAP"
-#define RES_KOTLIN_HEAP            (1 << 33)
+#define TAG_RES_KMP_HEAP_MASK      "RES_KMP_HEAP_MASK"
+#define RES_KMP_HEAP_MASK          (1 << 19)
 
 void restrace(unsigned long long mask, void* addr, size_t size, const char* tag, bool is_using);
 #ifdef __cplusplus
