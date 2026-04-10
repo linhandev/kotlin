@@ -10,6 +10,12 @@
 #include <cstring>
 #include <new>
 
+#ifdef KONAN_OHOS
+#include "memory_trace.h"
+#include <deviceinfo.h>
+#define OHOS_RESTRACE_MIN_API 21
+#endif
+
 #include "CustomLogging.hpp"
 #include "ExtraObjectData.hpp"
 #include "KAssert.h"
@@ -43,6 +49,12 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
     } else {
         object->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
     }
+    #ifdef KONAN_OHOS
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+        restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_,
+            TAG_RES_KMP_HEAP_MASK, true);
+    }
+    #endif
     return object;
 }
 
@@ -55,6 +67,12 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
     ArrayHeader* array = heapArray.array();
     array->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
     array->count_ = count;
+    #ifdef KONAN_OHOS
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+        restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_,
+            TAG_RES_KMP_HEAP_MASK, true);
+    }
+    #endif
     return array;
 }
 
