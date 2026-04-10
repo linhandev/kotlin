@@ -32,6 +32,12 @@ struct FinalizerQueueTraits {
             auto* extraObject = cell->Data();
             if (auto* baseObject = extraObject->GetBaseObject()) {
                 RunFinalizers(baseObject);
+#ifdef KONAN_OHOS
+                if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+                    restrace(RES_KOTLIN_HEAP, (void*)baseObject, baseObject->typeInfoOrMeta_->instanceSize_,
+                        TAG_RES_KOTLIN_HEAP, false);
+                }
+#endif
             } else {
                 // This `ExtraObjectData` does not have an object attached. This means
                 // that the only finalization step is destroying it.

@@ -27,6 +27,12 @@
 #include "PointerBits.h"
 #include "Utils.hpp"
 
+#ifdef KONAN_OHOS
+#include "memory_trace.h"
+#include <deviceinfo.h>
+#define OHOS_RESTRACE_MIN_API 21
+#endif
+
 typedef enum {
     OBJECT_TAG_HEAP = 0,
     OBJECT_TAG_PERMANENT = 1, // Must match to permanentTag() in Kotlin.

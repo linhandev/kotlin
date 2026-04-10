@@ -141,7 +141,7 @@ void* kotlin::alloc::SafeAlloc(uint64_t size) noexcept {
     }
 #ifdef KONAN_OHOS
     if (prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
-        (unsigned long)memory, size, (unsigned long)"Kotlin heap") < 0) {
+        (unsigned long)memory, size, (unsigned long)"kotlin heap") < 0) {
         CustomAllocDebug("error while set vma anon name\n");
     }
 #endif

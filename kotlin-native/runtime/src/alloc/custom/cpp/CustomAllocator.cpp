@@ -10,12 +10,6 @@
 #include <cstring>
 #include <new>
 
-#ifdef KONAN_OHOS
-#include "memory_trace.h"
-#include <deviceinfo.h>
-#define OHOS_RESTRACE_MIN_API 21
-#endif
-
 #include "CustomLogging.hpp"
 #include "ExtraObjectData.hpp"
 #include "KAssert.h"
@@ -51,8 +45,8 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
     }
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
-        restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_,
-            TAG_RES_KMP_HEAP_MASK, true);
+        restrace(RES_KOTLIN_HEAP, (void*)object, object->typeInfoOrMeta_->instanceSize_,
+            TAG_RES_KOTLIN_HEAP, true);
     }
     #endif
     return object;
@@ -69,8 +63,8 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
     array->count_ = count;
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
-        restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_,
-            TAG_RES_KMP_HEAP_MASK, true);
+        restrace(RES_KOTLIN_HEAP, (void*)array, array->typeInfoOrMeta_->instanceSize_,
+            TAG_RES_KOTLIN_HEAP, true);
     }
     #endif
     return array;
