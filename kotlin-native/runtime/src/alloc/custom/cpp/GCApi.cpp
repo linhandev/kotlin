@@ -24,6 +24,10 @@
 #include <mach/vm_statistics.h>
 #endif
 
+#ifdef KONAN_OHOS
+#include <sys/prctl.h>
+#endif
+
 #include "CompilerConstants.hpp"
 #include "CustomAllocator.hpp"
 #include "CustomLogging.hpp"
@@ -135,6 +139,12 @@ void* kotlin::alloc::SafeAlloc(uint64_t size) noexcept {
         konan::consoleErrorf("Out of memory trying to allocate %" PRIu64 "bytes: %s. Aborting.\n", size, strerror(errno));
         std::abort();
     }
+#ifdef KONAN_OHOS
+    if (prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
+        (unsigned long)memory, size, (unsigned long)"kotlin heap") < 0) {
+        CustomAllocDebug("error while set vma anon name\n");
+    }
+#endif
     allocatedBytesCounter.fetch_add(static_cast<size_t>(size), std::memory_order_relaxed);
     CustomAllocDebug("SafeAlloc(%zu) = %p", static_cast<size_t>(size), memory);
     return memory;
