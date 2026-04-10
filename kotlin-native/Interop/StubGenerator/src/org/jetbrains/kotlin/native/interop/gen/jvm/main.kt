@@ -579,7 +579,7 @@ internal fun buildNativeLibrary(
             includes = includes,
             additionalPreambleLines = compilation.additionalPreambleLines,
             compilerArgs = compilation.compilerArgs,
-            headerToIdMapper = HeaderToIdMapper(sysRoot = tool.sysRoot),
+            headerToIdMapper = HeaderToIdMapper(tool.headerIdRootPaths()),
             language = compilation.language,
             excludeSystemLibs = excludeSystemLibs,
             headerExclusionPolicy = headerExclusionPolicy,

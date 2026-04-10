@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package org.jetbrains.kotlin.native.interop.indexer
+ package org.jetbrains.kotlin.native.interop.indexer
 
-import java.io.File
-
-class HeaderToIdMapper(sysRoot: String) {
-    private val headerPathToId = mutableMapOf<String, HeaderId>()
-    private val sysRoot = File(sysRoot).canonicalFile.toPath()
-
-    internal fun getHeaderId(filePath: String) = headerPathToId.getOrPut(filePath) {
-        val path = File(filePath).canonicalFile.toPath()
-        val headerIdValue = if (path.startsWith(sysRoot)) {
-            val relative = sysRoot.relativize(path)
-            relative.toString()
-        } else {
-            headerContentsHash(filePath)
-        }
-        HeaderId(headerIdValue)
-    }
-}
+ import java.io.File
+ 
+ /** Maps absolute header paths to stable [HeaderId]s; first matching prefix in [headerIdRoots] wins, else content hash. */
+ class HeaderToIdMapper(headerIdRoots: List<String>) {
+     private val headerPathToId = mutableMapOf<String, HeaderId>()
+     private val roots = headerIdRoots.map { File(it).canonicalFile.toPath() }.distinct()
+ 
+     init {
+         require(roots.isNotEmpty()) { "headerIdRoots must not be empty" }
+     }
+ 
+     internal fun getHeaderId(filePath: String) = headerPathToId.getOrPut(filePath) {
+         val path = File(filePath).canonicalFile.toPath()
+         val headerIdValue = roots.firstOrNull { path.startsWith(it) }?.let { root ->
+             root.relativize(path).toString()
+         } ?: headerContentsHash(filePath)
+         HeaderId(headerIdValue)
+     }
+ }
+ 
