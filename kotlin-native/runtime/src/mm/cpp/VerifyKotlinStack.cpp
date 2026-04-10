@@ -23,6 +23,8 @@
 
 namespace kotlin::mm {
 
+constexpr size_t FRAME_PAIR_SIZE = 2;
+
 void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) noexcept
 {
     auto& fpStack = threadData.GetLastKotlinFrame().fpStack_;
@@ -31,7 +33,7 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
     // Checked AFTER push.
     if (IsEntryFrame(kind)) {
         // Pushed Entry: Stack should now be [..., Entry] (Odd size).
-        if (size % 2 == 0) {
+        if (size % FRAME_PAIR_SIZE == 0) {
             RuntimeLogInfo(
                 {kTagGC},
                 "VerifyKotlinStack: Parity Error on Push (Entry)!"
@@ -42,7 +44,7 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
         }
     } else if (IsExitFrame(kind)) {
         // Pushed Exit: Stack should now be [..., Entry, Exit] (Even size).
-        if (size % 2 != 0) {
+        if (size % FRAME_PAIR_SIZE != 0) {
             RuntimeLogInfo(
                 {kTagGC},
                 "VerifyKotlinStack: Parity Error on Push (Exit)!"
@@ -67,7 +69,7 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
             RuntimeLogInfo({kTagGC},
                 "VerifyKotlinStack: Pushed Kotlin Frame %p"
                 " (kind %d) Missing/Invalid Tag! Found 0x%llx",
-                fp, (int)kind, (unsigned long long)*(fp - 2));
+                fp, (int)kind, (unsigned long long)*(fp - FRAME_TAG_SLOT));
             threadData.PrintLastKotlinFrameLog();
             abort();
         }
@@ -102,7 +104,7 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
     auto& fpStack = threadData.GetLastKotlinFrame().fpStack_;
     auto& kindStack = threadData.GetLastKotlinFrame().kindStack_;
     size_t size = fpStack.size();
-    if (size % 2 != 0 || size < 2) {
+    if (size % FRAME_PAIR_SIZE != 0 || size < FRAME_PAIR_SIZE) {
         abort();
     }
 
@@ -117,7 +119,7 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
     uint64_t* fp = exitFp;
     // Skip Cpp frame
     if (!IsKotlinFrame(static_cast<FrameKind>(kindStack.back()))) {
-        fp = (uint64_t*)*fp;
+        fp = reinterpret_cast<uint64_t*>(*fp);
     }
 
     int limit = 1000;
@@ -127,12 +129,12 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
             RuntimeLogInfo({kTagGC},
                 "VerifyKotlinStack: Missing/Invalid Tag on frame %p"
                 " between Exit(%p) and Entry(%p). Found 0x%llx",
-                fp, exitFp, entryFp, (unsigned long long)*(fp - 2));
+                fp, exitFp, entryFp, (unsigned long long)*(fp - FRAME_TAG_SLOT));
             threadData.PrintLastKotlinFrameLog();
             TryUnwindAggresively(threadData);
             abort();
         }
-        fp = (uint64_t*)*fp;
+        fp = reinterpret_cast<uint64_t*>(*fp);
     }
 
     if (limit <= 0) {
@@ -149,7 +151,7 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
         // Entry is Kotlin, verify its tag at *(entryFp - 2)
         if (!IsKotlinFrameTag(entryFp)) {
             RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: Entry Frame %p (kind %d) Missing Tag! Found 0x%llx",
-                entryFp, (int)entryKind, (unsigned long long)*(entryFp - 2));
+                entryFp, (int)entryKind, (unsigned long long)*(entryFp - FRAME_TAG_SLOT));
             threadData.PrintLastKotlinFrameLog();
             abort();
         }
@@ -159,7 +161,7 @@ void VerifyKotlinStack::ScanStackForTag(ThreadData& threadData) noexcept
 void VerifyKotlinStack::TryUnwindAggresively(ThreadData& threadData) noexcept
 {
     auto& fpStack = threadData.GetLastKotlinFrame().fpStack_;
-    if (fpStack.size() < 2) {
+    if (fpStack.size() < FRAME_PAIR_SIZE) {
         return ;
     }
     uint64_t *firstFp = fpStack[0];
@@ -179,8 +181,8 @@ void VerifyKotlinStack::TryUnwindAggresively(ThreadData& threadData) noexcept
             RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: #%d is R/N frame. pc at %p", idx, pc);
         }
 
-        pc = (uint32_t*)*(lastFp + 1);
-        lastFp = (uint64_t *)*lastFp;
+        pc = reinterpret_cast<uint32_t*>(*(lastFp + 1));
+        lastFp = reinterpret_cast<uint64_t*>(*lastFp);
         ++idx;
     }
 }

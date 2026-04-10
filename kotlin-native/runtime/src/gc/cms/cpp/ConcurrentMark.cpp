@@ -201,7 +201,7 @@ static void CollectStackMapBaseRoot(
     uint32_t* pc, std::vector<int32_t> &baseRoots)
 {
 #if ENABLE_LAZY_STACKMAP
-    uint32_t *funcStartPC = (uint32_t *)*(fp - 1);
+    uint32_t *funcStartPC = reinterpret_cast<uint32_t*>(*(fp - 1));
     uint64_t *stackMapAddress = GetStackMapAddress(fp, funcStartPC, thread);
     std::unordered_map<int32_t, std::vector<int32_t>> base2DerivedOffsets;
     stackMap::StackMapBuilder stackMapBuilder(reinterpret_cast<uintptr_t>(funcStartPC),

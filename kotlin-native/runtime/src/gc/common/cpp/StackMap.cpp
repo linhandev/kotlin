@@ -29,6 +29,8 @@ extern "C" uint8_t _LLVM_StackMaps;
 #endif
 
 namespace kotlin {
+
+constexpr uint32_t ALIGNMENT_8BYTE_MASK = 7;
 stackMap::StackMap::~StackMap() {}
 
 void stackMap::StackMap::Build()
@@ -55,7 +57,7 @@ void stackMap::StackMap::Build()
             auto location = llvmStackMaps.Read<Location>();
             stkMapRecord.locations_.push_back(location);
         }
-        while (llvmStackMaps.GetOffset() & 7) {
+        while (llvmStackMaps.GetOffset() & ALIGNMENT_8BYTE_MASK) {
             llvmStackMaps.Read<uint16_t>();
         }
         uint32_t numLiveOuts = llvmStackMaps.Read<uint32_t>();
@@ -63,7 +65,7 @@ void stackMap::StackMap::Build()
             auto liveOut = llvmStackMaps.Read<LiveOuts>();
             stkMapRecord.liveOuts_.push_back(liveOut);
         }
-        while (llvmStackMaps.GetOffset() & 7) {
+        while (llvmStackMaps.GetOffset() & ALIGNMENT_8BYTE_MASK) {
             llvmStackMaps.Read<uint16_t>();
         }
         stkMapRecords_.push_back(stkMapRecord);

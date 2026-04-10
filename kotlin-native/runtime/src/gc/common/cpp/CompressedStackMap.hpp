@@ -30,6 +30,10 @@ extern "C" uint8_t _LLVM_StackMaps;
 
 namespace kotlin::stackMap {
 
+constexpr uint32_t FUNC_ADDRESS_FIELD_SIZE = 8;
+constexpr uint32_t STACK_MAP_SIZE_FIELD_SIZE = 4;
+constexpr uint16_t DWARF_FP_REG = 29;
+
 using CallSiteInfo = std::vector<std::pair<uint16_t, int32_t>>;
 
 class CompressedStackMapEntry {
@@ -109,8 +113,8 @@ public:
     #endif
         uint64_t funcAddress = static_cast<uint64_t>(
             *reinterpret_cast<int64_t*>(stackmapStart) + static_cast<int64_t>(llvmStackMapSymbolStart));
-        stackmapStart += 8; // skip funcAddress
-        stackmapStart += 4; // skip stackMapSize
+        stackmapStart += FUNC_ADDRESS_FIELD_SIZE; // skip funcAddress
+        stackmapStart += STACK_MAP_SIZE_FIELD_SIZE; // skip stackMapSize
         StackMapHeaderVarInt stacksizeVarInt(stackmapStart, 0);
         StackMapHeaderVarInt compressedFormatVarInt(stacksizeVarInt.GetNextTable());
         uint32_t format = compressedFormatVarInt.GetStacksize();
@@ -142,7 +146,7 @@ public:
             uintptr_t curPC = funcAddress_ + idxSet.pc;
             CallSiteInfo callSiteInfo {};
             for (auto &elem : base2DerivedOffsets) {
-                callSiteInfo.emplace_back(std::pair<uint16_t, int32_t>(29, elem.first));
+                callSiteInfo.emplace_back(std::pair<uint16_t, int32_t>(DWARF_FP_REG, elem.first));
 #if DUMP_DEBUG_INFO
                 if (elem.second.empty()) {
                     std::cout << "    register: 29, offset: " << elem.first
@@ -226,7 +230,7 @@ public:
 #if DUMP_DEBUG_INFO
         std::cout << "-----wzl log funcCount: " << funcCount << std::endl;
 #endif
-        data_ += 8; // skip funcCount
+        data_ += FUNC_ADDRESS_FIELD_SIZE; // skip funcCount
         for (uint64_t i = 0; i < funcCount; ++i) {
             auto head = CompressedStackMapHead::GetStackMapHead(data_, visitor);
             head.CollectAllStackMapEntry(pc2CallSiteInfo_);

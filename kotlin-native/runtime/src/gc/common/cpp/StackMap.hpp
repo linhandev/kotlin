@@ -47,9 +47,9 @@ struct StkMapSizeRecord {
     uint64_t recordCount;
     void Print() const {
 #if KONAN_LINUX || KONAN_OHOS
-        uintptr_t funcAddr = (int64_t)funcAddrOffset + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
+        uintptr_t funcAddr = static_cast<int64_t>(funcAddrOffset) + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
 #else
-        uintptr_t funcAddr = (int64_t)funcAddrOffset + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
+        uintptr_t funcAddr = static_cast<int64_t>(funcAddrOffset) + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
 #endif
         std::cout << "function address: 0x" << std::hex << funcAddr <<
                   "  stackSize: " << stackSize <<

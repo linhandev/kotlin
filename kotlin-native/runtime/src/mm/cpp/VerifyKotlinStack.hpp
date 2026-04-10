@@ -32,23 +32,25 @@ public:
     // Magic number to look for in the stack.
     // 0xBEEF is a placeholder; needs to match what the compiler emits.
     static constexpr uint64_t kotlinStackTag = 0xBEEF;
-    static constexpr uint64_t payloadMask = (1ULL << 48) - 1;
+    static constexpr int TAG_SHIFT_BITS = 48;
+    static constexpr uint64_t payloadMask = (1ULL << TAG_SHIFT_BITS) - 1;
+    static constexpr int FRAME_TAG_SLOT = 2;
 
     static constexpr bool IsKotlinFrameTag(uint64_t* fp) noexcept
     {
-        uint64_t val = *(fp - 2);
-        return (val >> 48) == kotlinStackTag;
+        uint64_t val = *(fp - FRAME_TAG_SLOT);
+        return (val >> TAG_SHIFT_BITS) == kotlinStackTag;
     }
 
     static uint64_t GetKotlinFrameOffsetIndex(uint64_t* fp) noexcept
     {
-        uint64_t val = *(fp - 2);
+        uint64_t val = *(fp - FRAME_TAG_SLOT);
         return val & payloadMask;
     }
 
     static uint64_t GetKotlinFramePcOffset(uint64_t* fp, uint32_t *pc) noexcept
     {
-        uint32_t *funcStartPC = (uint32_t *)*(fp - 1);
+        uint32_t *funcStartPC = reinterpret_cast<uint32_t*>(*(fp - 1));
         return reinterpret_cast<uintptr_t>(pc) - reinterpret_cast<uintptr_t>(funcStartPC);
     }
 
