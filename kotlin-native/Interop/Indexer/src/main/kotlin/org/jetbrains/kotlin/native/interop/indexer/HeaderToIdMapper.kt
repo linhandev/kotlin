@@ -18,19 +18,15 @@ package org.jetbrains.kotlin.native.interop.indexer
 
 import java.io.File
 
-/** Maps absolute header paths to stable [HeaderId]s; first matching prefix in [headerIdRoots] wins, else content hash. */
-class HeaderToIdMapper(headerIdRoots: List<String>) {
+/** Maps absolute header paths to stable [HeaderId]s; first matching prefix in [sysRootPaths] wins, else content hash. */
+class HeaderToIdMapper(sysRootPaths: List<String>) {
     private val headerPathToId = mutableMapOf<String, HeaderId>()
-    private val roots = headerIdRoots.map { File(it).canonicalFile.toPath() }.distinct()
-
-    init {
-        require(roots.isNotEmpty()) { "headerIdRoots must not be empty" }
-    }
+    private val sysRoots = sysRootPaths.map { File(it).canonicalFile.toPath() }.distinct()
 
     internal fun getHeaderId(filePath: String) = headerPathToId.getOrPut(filePath) {
         val path = File(filePath).canonicalFile.toPath()
-        val headerIdValue = roots.firstOrNull { path.startsWith(it) }?.let { root ->
-            root.relativize(path).toString()
+        val headerIdValue = sysRoots.firstOrNull { path.startsWith(it) }?.let { sysRoot ->
+            sysRoot.relativize(path).toString()
         } ?: headerContentsHash(filePath)
         HeaderId(headerIdValue)
     }
