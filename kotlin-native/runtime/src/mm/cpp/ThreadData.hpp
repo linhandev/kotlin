@@ -120,26 +120,26 @@ public:
         for (size_t i = 0; i < lastKotlinFrame_.kindStack_.size(); i++) {
             uint8_t value = lastKotlinFrame_.kindStack_[i];
             FrameKind kind = static_cast<FrameKind>(value);
-            bool isUnmanaged = (value & static_cast<uint8_t>(FrameKind::kUnmanagedMask)) != 0;
+            bool isUnmanaged = (value & static_cast<uint8_t>(FrameKind::K_UNMANAGED_MASK)) != 0;
             const char* stackType = isUnmanaged ? "Unmanaged" : "Managed";
 
             const char* kindName = "Unknown";
             switch (kind) {
-                case FrameKind::kK2X: kindName = "K2X"; break;
-                case FrameKind::kWeakRef: kindName = "WeakRef"; break;
-                case FrameKind::kSafePoint: kindName = "SafePoint"; break;
-                case FrameKind::kNativeState: kindName = "NativeState"; break;
-                case FrameKind::kRuntimeToKotlin: kindName = "RuntimeToKotlin"; break;
-                case FrameKind::kInitGlobals: kindName = "InitGlobals"; break;
-                case FrameKind::kWorkerJob: kindName = "WorkerJob"; break;
-                case FrameKind::kGlobalInitAdapter: kindName = "GlobalInitAdapter"; break;
-                case FrameKind::kCExport: kindName = "CExport"; break;
-                case FrameKind::kBoxing: kindName = "Boxing"; break;
-                case FrameKind::kUnboxing: kindName = "Unboxing"; break;
-                case FrameKind::kDisposeStableRef: kindName = "DisposeStableRef"; break;
-                case FrameKind::kIsInstance: kindName = "IsInstance"; break;
-                case FrameKind::kClassInstance: kindName = "ClassInstance"; break;
-                case FrameKind::kEnumEntry: kindName = "EnumEntry"; break;
+                case FrameKind::K_K2X: kindName = "K2X"; break;
+                case FrameKind::K_WEAK_REF: kindName = "WeakRef"; break;
+                case FrameKind::K_SAFE_POINT: kindName = "SafePoint"; break;
+                case FrameKind::K_NATIVE_STATE: kindName = "NativeState"; break;
+                case FrameKind::K_RUNTIME_TO_KOTLIN: kindName = "RuntimeToKotlin"; break;
+                case FrameKind::K_INIT_GLOBALS: kindName = "InitGlobals"; break;
+                case FrameKind::K_WORKER_JOB: kindName = "WorkerJob"; break;
+                case FrameKind::K_GLOBAL_INIT_ADAPTER: kindName = "GlobalInitAdapter"; break;
+                case FrameKind::K_C_EXPORT: kindName = "CExport"; break;
+                case FrameKind::K_BOXING: kindName = "Boxing"; break;
+                case FrameKind::K_UNBOXING: kindName = "Unboxing"; break;
+                case FrameKind::K_DISPOSE_STABLE_REF: kindName = "DisposeStableRef"; break;
+                case FrameKind::K_IS_INSTANCE: kindName = "IsInstance"; break;
+                case FrameKind::K_CLASS_INSTANCE: kindName = "ClassInstance"; break;
+                case FrameKind::K_ENUM_ENTRY: kindName = "EnumEntry"; break;
                 default: kindName = "Unknown"; break;
             }
 

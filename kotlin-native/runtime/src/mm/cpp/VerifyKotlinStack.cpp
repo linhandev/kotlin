@@ -72,18 +72,6 @@ void VerifyKotlinStack::OnPushFrameImpl(ThreadData& threadData, FrameKind kind) 
             abort();
         }
     }
-    // TODO: 退栈时未清理 fp + 2 的值，导致校验了已执行结束函数的栈帧
-    // else {
-    //     // Non-Kotlin frame should NOT have the tag
-    //     if (IsKotlinFrameTag(fp)) {
-    //          RuntimeLogInfo({kTagGC},
-    //              "VerifyKotlinStack: Pushed Non-Kotlin Frame %p"
-    //              " (kind %d) Unexpectedly has Tag! Found 0x%llx",
-    //              fp, (int)kind, (unsigned long long)*(fp - 2));
-    //          threadData.PrintLastKotlinFrameLog();
-    //          abort();
-    //     }
-    // }
 }
 
 void VerifyKotlinStack::OnPopFrameImpl(ThreadData& threadData, FrameKind kind) noexcept

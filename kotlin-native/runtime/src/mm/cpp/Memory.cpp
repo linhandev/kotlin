@@ -177,7 +177,6 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRe
 }
 
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateReturnRef(ObjHeader** returnSlot, const ObjHeader* object) {
-    // if (returnSlot == nullptr) return;
     UpdateStackRef(returnSlot, object);
 }
 
@@ -436,119 +435,119 @@ extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable_de
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameR2KExportForCppRuntime() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kRuntimeToKotlin);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_RUNTIME_TO_KOTLIN);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameR2KExportForCppRuntime() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kRuntimeToKotlin);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_RUNTIME_TO_KOTLIN);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameK2RK2X() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kK2X);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_K2X);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameK2RK2X() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kK2X);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_K2X);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameK2NNativeState() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kNativeState);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_NATIVE_STATE);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameK2NNativeState() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kNativeState);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_NATIVE_STATE);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameK2RSafePoint() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kSafePoint);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_SAFE_POINT);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameK2RSafePoint() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kSafePoint);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_SAFE_POINT);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameR2KInitGlobals() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kInitGlobals);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_INIT_GLOBALS);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameR2KInitGlobals() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kInitGlobals);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_INIT_GLOBALS);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameR2KWorkerJob() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kWorkerJob);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_WORKER_JOB);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameR2KWorkerJob() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kWorkerJob);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_WORKER_JOB);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameR2KGlobalInitAdapter() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kGlobalInitAdapter);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_GLOBAL_INIT_ADAPTER);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameR2KGlobalInitAdapter() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kGlobalInitAdapter);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_GLOBAL_INIT_ADAPTER);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KBoxing() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kBoxing);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_BOXING);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KBoxing() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kBoxing);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_BOXING);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KDisposeStableRef() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kDisposeStableRef);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_DISPOSE_STABLE_REF);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KDisposeStableRef() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kDisposeStableRef);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_DISPOSE_STABLE_REF);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KIsInstance() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kIsInstance);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_IS_INSTANCE);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KIsInstance() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kIsInstance);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_IS_INSTANCE);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KUnboxing() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kUnboxing);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_UNBOXING);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KUnboxing() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kUnboxing);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_UNBOXING);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KClassInstance() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kClassInstance);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_CLASS_INSTANCE);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KClassInstance() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kClassInstance);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_CLASS_INSTANCE);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KEnumEntry() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kEnumEntry);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_ENUM_ENTRY);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KEnumEntry() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kEnumEntry);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_ENUM_ENTRY);
 }
 
 extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KCExport() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kCExport);
+    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_C_EXPORT);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KCExport() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kCExport);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_C_EXPORT);
 }
 
 extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KCExportCatch() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::kCExport);
+    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_C_EXPORT);
 }
 
 MemoryState* kotlin::mm::GetMemoryState() noexcept {

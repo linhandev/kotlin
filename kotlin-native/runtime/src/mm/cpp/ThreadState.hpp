@@ -57,7 +57,7 @@ ALWAYS_INLINE inline void SaveThreadLastKotlinFrame(mm::ThreadData* threadData, 
     uint64_t* fp = (uint64_t*)__builtin_frame_address(0);
     uint32_t* pc = (uint32_t*)*(fp + 1);
     fp = (uint64_t*)*fp;
-    if (kind == FrameKind::kSafePoint && IsSafePointFunctionProloguePc(pc)) {
+    if (kind == FrameKind::K_SAFE_POINT && IsSafePointFunctionProloguePc(pc)) {
         pc = (uint32_t*)*(fp + 1);
         fp = (uint64_t*)*fp;
     }

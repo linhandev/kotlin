@@ -91,7 +91,7 @@ private:
         constexpr uint32_t compressCntMask = compressTagBit - 1;
         SlotBias baseBias = slotBias * biasCoef;
 
-        auto VisitOneSlot = [&](int32_t idx) {
+        auto visitOneSlot = [&](int32_t idx) {
             SlotBias bias = baseBias + static_cast<int32_t>(idx) * bytesPerSlot;
             slotOffsets.push_back(bias);
         };
@@ -103,7 +103,7 @@ private:
                     if ((bit & lowestBit) == 0) {
                         continue;
                     }
-                    VisitOneSlot(j);
+                    visitOneSlot(j);
                 }
                 baseBias += static_cast<int32_t>(pureValWidth) * bytesPerSlot;
             } else {
@@ -111,7 +111,7 @@ private:
                 uint32_t bitNums = (bit & compressCntMask) * pureValWidth;
                 if (isAllRef) {
                     for (uint32_t j = 0; j < bitNums; ++j) {
-                        VisitOneSlot(j);
+                        visitOneSlot(j);
                     }
                 }
                 baseBias += static_cast<int32_t>(bitNums) * bytesPerSlot;

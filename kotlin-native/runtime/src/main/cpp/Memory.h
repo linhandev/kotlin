@@ -288,49 +288,49 @@ CODEGEN_INLINE_POLICY void Kotlin_mm_safePointFunctionPrologue() RUNTIME_NOTHROW
 CODEGEN_INLINE_POLICY void Kotlin_mm_safePointWhileLoopBody() RUNTIME_NOTHROW;
 
 enum class FrameKind : uint8_t {
-    kCppFrameMask = 0x40,
-    kK2X = 1,
-    kWeakRef = kCppFrameMask | 2,
-    kSafePoint = 3,
-    kNativeState = 4,
-    kRuntimeToKotlin = 5,
-    kInitGlobals = kCppFrameMask | 6,
-    kWorkerJob = kCppFrameMask | 7,
-    kGlobalInitAdapter = kCppFrameMask | 8,
-    kUnmanagedMask = 0x80,
-    kCExport = kUnmanagedMask | kCppFrameMask | 0,
-    kBoxing = kUnmanagedMask | kCppFrameMask | 1,
-    kUnboxing = kUnmanagedMask | kCppFrameMask | 2,
-    kDisposeStableRef = kUnmanagedMask | kCppFrameMask | 3,
-    kIsInstance = kUnmanagedMask | kCppFrameMask | 4,
-    kClassInstance = kUnmanagedMask | kCppFrameMask | 5,
-    kEnumEntry = kUnmanagedMask | kCppFrameMask | 6,
+    K_CPP_FRAME_MASK = 0x40,
+    K_K2X = 1,
+    K_WEAK_REF = K_CPP_FRAME_MASK | 2,
+    K_SAFE_POINT = 3,
+    K_NATIVE_STATE = 4,
+    K_RUNTIME_TO_KOTLIN = 5,
+    K_INIT_GLOBALS = K_CPP_FRAME_MASK | 6,
+    K_WORKER_JOB = K_CPP_FRAME_MASK | 7,
+    K_GLOBAL_INIT_ADAPTER = K_CPP_FRAME_MASK | 8,
+    K_UNMANAGED_MASK = 0x80,
+    K_C_EXPORT = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 0,
+    K_BOXING = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 1,
+    K_UNBOXING = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 2,
+    K_DISPOSE_STABLE_REF = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 3,
+    K_IS_INSTANCE = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 4,
+    K_CLASS_INSTANCE = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 5,
+    K_ENUM_ENTRY = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 6,
 };
 
 constexpr inline bool IsPreviousFrameUnmanaged(FrameKind kind) noexcept
 {
-    return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::kUnmanagedMask)) != 0;
+    return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::K_UNMANAGED_MASK)) != 0;
 }
 
 constexpr inline bool IsKotlinFrame(FrameKind kind) noexcept
 {
-    return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::kCppFrameMask)) == 0;
+    return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::K_CPP_FRAME_MASK)) == 0;
 }
 
 constexpr inline bool IsEntryFrame(FrameKind kind) noexcept
 {
-    return kind == FrameKind::kRuntimeToKotlin || kind == FrameKind::kInitGlobals ||
-           kind == FrameKind::kWorkerJob || IsPreviousFrameUnmanaged(kind);
+    return kind == FrameKind::K_RUNTIME_TO_KOTLIN || kind == FrameKind::K_INIT_GLOBALS ||
+           kind == FrameKind::K_WORKER_JOB || IsPreviousFrameUnmanaged(kind);
 }
 
 constexpr inline bool IsExitFrame(FrameKind kind) noexcept
 {
     switch (kind) {
-        case FrameKind::kK2X:
-        case FrameKind::kWeakRef:
-        case FrameKind::kSafePoint:
-        case FrameKind::kNativeState:
-        case FrameKind::kGlobalInitAdapter:
+        case FrameKind::K_K2X:
+        case FrameKind::K_WEAK_REF:
+        case FrameKind::K_SAFE_POINT:
+        case FrameKind::K_NATIVE_STATE:
+        case FrameKind::K_GLOBAL_INIT_ADAPTER:
             return true;
         default:
             return false;
