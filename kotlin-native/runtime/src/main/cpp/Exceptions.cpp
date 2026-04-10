@@ -59,6 +59,15 @@ constexpr unsigned long SMALL_BUFFER_SIZE = 1004;
 constexpr int FRAME_NO_WIDTH = 2;
 constexpr int PC_ADDR_WIDTH = 16;
 
+using OHHiDebugSetCrashObjFn = uint64_t (*)(HiDebug_CrashObjType type, void* addr);
+
+static OHHiDebugSetCrashObjFn resolveOHHiDebugSetCrashObj()
+{
+    static OHHiDebugSetCrashObjFn fn =
+        reinterpret_cast<OHHiDebugSetCrashObjFn>(dlsym(RTLD_DEFAULT, "OH_HiDebug_SetCrashObj"));
+    return fn;
+}
+
 unsigned long getFatalMessageSize()
 {
     int apiVersion = OH_GetSdkApiVersion();
@@ -211,7 +220,8 @@ static std::string buildCompressedBacktrace(ArrayHeader* stackTrace, Dl_info& in
 
 void ReportBacktraceToOhosLog(KRef exception)
 {
-    if (&set_fatal_message == nullptr && &OH_HiDebug_SetCrashObj == nullptr) {
+    OHHiDebugSetCrashObjFn setCrashObj = resolveOHHiDebugSetCrashObj();
+    if (&set_fatal_message == nullptr && setCrashObj == nullptr) {
         return;
     }
 
@@ -232,9 +242,8 @@ void ReportBacktraceToOhosLog(KRef exception)
 
     static std::string truncated;
     truncated.assign(fatalMessage, 0, messageSize);
-    if (apiVersion >= OHOS_HIDEBUG_MIN_API && &OH_HiDebug_SetCrashObj != nullptr) {
-        OH_HiDebug_SetCrashObj(HiDebug_CrashObjType::HIDEBUG_CRASHOBJ_STRING,
-                               (void*)truncated.c_str());
+    if (apiVersion >= OHOS_HIDEBUG_MIN_API && setCrashObj != nullptr) {
+        setCrashObj(HIDEBUG_CRASHOBJ_STRING, (void*)truncated.c_str());
     } else if (&set_fatal_message != nullptr) {
         set_fatal_message(truncated.c_str());
     }
