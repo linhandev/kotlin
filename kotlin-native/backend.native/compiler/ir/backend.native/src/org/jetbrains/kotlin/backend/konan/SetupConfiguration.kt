@@ -245,10 +245,6 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
             null
         }
     }
-    if (gcFromArgument != null) {
-        val newValue = gcFromArgument.shortcut ?: "$gcFromArgument".lowercase()
-        // report(WARNING, "-Xgc=${arguments.gc} compiler argument is deprecated. Use -Xbinary=gc=${newValue} instead")
-    }
     // TODO: revise priority and/or report conflicting values.
     if (get(BinaryOptions.gc) == null) {
         putIfNotNull(BinaryOptions.gc, gcFromArgument)

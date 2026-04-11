@@ -47,12 +47,9 @@ internal fun ConstPointer.addrbitcast(toType: LLVMTypeRef) = constPointer(LLVMCo
 
 internal class ConstArray(elementType: LLVMTypeRef?, val elements: List<ConstValue>) : ConstValue {
     init {
-        // 在 BlockPointerSupport.kt 中修改了 ObjC 的函数签名返回值，导致此处函数一致的校验不通过，注释此处校验
-        // elements.forEach {
-        //     assert(it.llvmType == elementType) {
-        //         "Expected element type: ${llvmtype2string(elementType)}, actual: ${llvmtype2string(it.llvmType)}"
-        //     }
-        // }
+        // ObjC function signature return type was changed in
+        // BlockPointerSupport.kt, causing the consistency check
+        // here to fail; disabled this check
     }
     override val llvm = LLVMConstArray(elementType, elements.map { it.llvm }.toCValues(), elements.size)!!
 }
@@ -89,12 +86,6 @@ internal open class Struct(val type: LLVMTypeRef?, val elements: List<ConstValue
         if (element == null) {
             LLVMConstNull(expectedType)!!
         } else {
-            // element.llvm.also {
-            //      assert(it.type == expectedType) {
-            //          "Unexpected type at $index: expected ${LLVMPrintTypeToString(expectedType)!!.toKString()} " +
-            //                  "got ${LLVMPrintTypeToString(it.type)!!.toKString()}"
-            //      }
-            // }
             element.llvm
         }
     }.toCValues(), elements.size)!!
@@ -142,7 +133,7 @@ internal val RuntimeAware.kObjHeaderPtrPtr: LLVMTypeRef
 internal val RuntimeAware.kObjHeaderRefReturnType: LlvmRetType
     get() = LlvmRetType(kObjHeaderRef, isObjectType = true)
 
-// 新增kObjHeaderRefPtr
+// Added kObjHeaderRefPtr
 internal val RuntimeAware.kObjHeaderRefPtr: LLVMTypeRef
     get() = kObjHeaderPtrPtr
 internal val RuntimeAware.kArrayHeader: LLVMTypeRef
@@ -174,16 +165,11 @@ internal val RuntimeAware.kNothingFakeValue: LLVMValueRef
 
 internal fun pointerType(pointeeType: LLVMTypeRef) = LLVMPointerType(pointeeType, 0)!!
 
-// internal fun ReferencesType(pointeeType: LLVMTypeRef) = LLVMPointerType(pointeeType, 1)!!
-
 internal fun ReferencesType(pointeeType: LLVMTypeRef) : LLVMTypeRef {
     val typeName = llvmtype2string(pointeeType)
-   // println("$typeName")
     if (typeName.contains("%struct.ObjHeader")) {
-     //       println("Output ReferencesType1")
-        return LLVMPointerType(pointeeType, 1)!! 
+        return LLVMPointerType(pointeeType, 1)!!
     } else {
-       //     println("Output ReferencesType0")
         return LLVMPointerType(pointeeType, 0)!!
     }
 }
@@ -221,7 +207,6 @@ internal fun ContextUtils.addGlobal(name: String, type: LLVMTypeRef, isExported:
     if (isExported)
         assert(LLVMGetNamedGlobal(llvm.module, name) == null)
 
-    // println("Adding global: $name, type: ${llvmtype2string(type)}")
     return LLVMAddGlobal(llvm.module, type, name)!!
 }
 

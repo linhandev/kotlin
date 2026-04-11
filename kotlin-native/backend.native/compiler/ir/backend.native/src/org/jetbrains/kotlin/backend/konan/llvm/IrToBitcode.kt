@@ -1068,7 +1068,9 @@ internal class CodeGeneratorVisitor(
                     initializer == null || declaration.hasNonConstInitializer -> LLVMConstNull(type)
                     else -> {
                         val evaluated = evaluateExpression(initializer)
-                        // 只有当类型不同，且都是指针类型，且地址空间不同时，才进行地址空间转换
+                        // Only perform address space conversion when
+                        // types differ, both are pointer types,
+                        // and address spaces differ
                         if (evaluated.type != type &&
                             LLVMGetTypeKind(evaluated.type) == LLVMTypeKind.LLVMPointerTypeKind &&
                             LLVMGetTypeKind(type) == LLVMTypeKind.LLVMPointerTypeKind &&
@@ -1772,7 +1774,6 @@ internal class CodeGeneratorVisitor(
                 positionAtEnd(bbExit)
                 appendingTo(resultInstanceOfBB) { br(bbExit) }
                 appendingTo(resultNullBB) { br(bbExit) }
-                // require(resultNull.type == resultInstanceOf.type)
                 val result = phi(resultNull.type)
                 addPhiIncoming(result, resultNullBB to resultNull, resultInstanceOfBB to resultInstanceOf)
                 result
@@ -1929,7 +1930,8 @@ internal class CodeGeneratorVisitor(
         val alignment: Int
         if (thisPtr != null) {
             require(!value.symbol.owner.isStatic) { "Unexpected receiver for a static field: ${value.render()}" }
-            // 接受 kObjHeaderPtr (addr 0) 或 kObjHeaderRef (addr 1)，cherry-pick 的 ptr/ref 双类型
+            // Accept kObjHeaderPtr (addr 0) or kObjHeaderRef (addr 1),
+            // the dual ptr/ref types from cherry-pick
             require(thisPtr.type == codegen.kObjHeaderPtr || thisPtr.type == codegen.kObjHeaderRef) {
                 LLVMPrintTypeToString(thisPtr.type)?.toKString().toString()
             }

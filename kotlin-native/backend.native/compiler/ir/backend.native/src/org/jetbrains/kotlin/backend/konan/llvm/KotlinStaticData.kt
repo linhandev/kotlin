@@ -44,7 +44,6 @@ internal class KotlinStaticData(override val generationState: NativeGenerationSt
         // value should be of struct type with first element having the object/array header layout
         return global.pointer.getElementPtr(llvm, global.type, 0).bitcast(kObjHeaderPtr)
     }
-//    private fun createRef(objHeaderPtr: ConstPointer) = objHeaderPtr.bitcast(kObjHeaderPtr)
     private fun createRef(objHeaderPtr: ConstPointer) = objHeaderPtr.addrbitcast(kObjHeaderRef)
 
     private fun createKotlinStringLiteral(value: String): ConstPointer {

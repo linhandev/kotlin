@@ -390,7 +390,7 @@ internal class RTTIGenerator(
         }
 
 
-        return primitiveRuntimeTypeMap[type] ?: RT_OBJECT // throw Error("Unmapped type: ${llvmtype2string(type)}")
+        return primitiveRuntimeTypeMap[type] ?: RT_OBJECT
     }
 
     private val debugRuntimeOrNull: LLVMModuleRef? by lazy {

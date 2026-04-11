@@ -354,10 +354,10 @@ fun IrConstructorCall.getAnnotationStringValue(name: String): String {
 }
 
 /**
- * 从注解构造函数调用中获取指定名称的布尔值。
+ * Retrieves a boolean value with the specified name from an annotation constructor call.
  *
- * @param name 参数的名称。
- * @return 参数的布尔值，或 null 如果找不到
+ * @param name the name of the parameter.
+ * @return the boolean value of the parameter, or null if not found
  */
 fun IrConstructorCall.getAnnotationBooleanValue(name: String): Boolean? {
     val parameter = symbol.owner.parameters.firstOrNull { it.name.asString() == name }

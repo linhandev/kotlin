@@ -719,15 +719,6 @@ internal abstract class FunctionGenerationContext(
     fun load(type: LLVMTypeRef, address: LLVMValueRef, name: String = "",
              memoryOrder: LLVMAtomicOrdering? = null, alignment: Int? = null
     ): LLVMValueRef {
-        val tyName = llvmtype2string(type)
-        val addressTy = LLVMTypeOf(address)
-        val addrTyName = llvmtype2string(addressTy)
-        if (tyName.contains("%struct.ObjHeader addrspace(1)*") &&
-            addrTyName.contains("%struct.ObjHeader**")) {
-        //    println("Output in load0")
-        //    println("tyName: ${tyName}")
-        //    println("addrTyName: ${addrTyName}")
-        }
         return applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
     }
 
@@ -741,21 +732,13 @@ internal abstract class FunctionGenerationContext(
             memoryOrder: LLVMAtomicOrdering? = null,
             alignment: Int? = null
     ): LLVMValueRef {
-        val tyName = llvmtype2string(type)
         val addressTy = LLVMTypeOf(address)!!
-        val addrTyName = llvmtype2string(addressTy)
-        if (tyName.contains("%struct.ObjHeader addrspace(1)*") &&
-            addrTyName.contains("%struct.ObjHeader**")) {
-        //    println("Output in load1")
-        //    println("tyName: ${tyName}")
-        //    println("addrTyName: ${addrTyName}")
-        }
-
-        // 需要新增一个cast.
-        // 1. 判断是否是二级指针
+        // Need to add a cast.
+        // 1. Check if this is a double pointer
         val tyLayCount = GetLayOutOfPointer(addressTy, 0)
         if (tyLayCount == 2) {
-            // 2. 判断内部指针和type类型是否匹配. LLVM 19 opaque pointer 时 elementTy 为 null，跳过
+            // 2. Check if the inner pointer matches the type.
+            // In LLVM 19 opaque pointer mode, elementTy is null; skip.
             val elementTy = LLVMGetElementType(addressTy)
             if (elementTy != null) {
                 val typeAddrSpace = LLVMGetPointerAddressSpace(type)
@@ -988,7 +971,8 @@ internal abstract class FunctionGenerationContext(
         generatePrimitiveArrayGet(thiz, index, llvm.doubleType, 8, "Double")
 
     fun store(value: LLVMValueRef, ptr: LLVMValueRef, memoryOrder: LLVMAtomicOrdering? = null, alignment: Int? = null) {
-        // LLVM 19 使用 opaque pointer，LLVMGetElementType 对 ptr 返回 null，此处不再获取 elementType
+        // LLVM 19 uses opaque pointers; LLVMGetElementType returns null
+        // for ptr, so we no longer retrieve elementType here.
         val store = LLVMBuildStore(builder, value, ptr)
         memoryOrder?.let { LLVMSetOrdering(store, it) }
         alignment?.let { LLVMSetAlignment(store, it) }
@@ -1011,7 +995,6 @@ internal abstract class FunctionGenerationContext(
 
     private fun updateReturnRef(value: LLVMValueRef, address: LLVMValueRef) {
         store(value, address)
-//        call(llvm.updateReturnRefFunction, listOf(address, value))
     }
 
     private fun updateRef(value: LLVMValueRef, address: LLVMValueRef, onStack: Boolean,
@@ -1020,7 +1003,6 @@ internal abstract class FunctionGenerationContext(
         if (onStack) {
             require(!isVolatile) { "Stack ref update can't be volatile"}
             store(value, address)
-            // call(llvm.updateStackRefFunction, listOf(address, value))
         } else {
             if (isVolatile) {
                 call(llvm.UpdateVolatileHeapRef, listOf(address, value))
@@ -1204,16 +1186,19 @@ private fun CheckFuncParamType(paramType : LLVMTypeRef, arg : LLVMValueRef, i : 
     return LLVMBuildAddrSpaceCast(builder, arg, paramType, "")!!
 }
 
-// 辅助函数：剔除指针类型的地址空间，获取基础类型（如 T addrspace(1)* → T*）
+// Helper: strip address space from a pointer type to get the base type
+// (e.g. T addrspace(1)* -> T*)
 private fun stripAddressSpace(pointerType: LLVMTypeRef): LLVMTypeRef {
     val elementType = LLVMGetElementType(pointerType) ?: return pointerType
-    // 重建一个地址空间为0的指针类型（仅用于类型比较，不影响实际地址空间）
-    return LLVMPointerType(elementType, 0)!! // 假设LLVMPointerType可用
+    // Rebuild a pointer type with address space 0
+    // (for type comparison only, does not affect the actual address space)
+    return LLVMPointerType(elementType, 0)!! // Assuming LLVMPointerType is available
 }
 
 private fun GetLayOutOfPointer(pointerType: LLVMTypeRef, count: Int) : Int {
     if (LLVMGetTypeKind(pointerType)!! == LLVMTypeKind.LLVMPointerTypeKind) {
-        // LLVM 19 opaque pointer: LLVMGetElementType 返回 null，视为单级指针
+        // LLVM 19 opaque pointer: LLVMGetElementType returns null,
+        // treated as a single-level pointer
         val elemType = LLVMGetElementType(pointerType) ?: return count + 1
         return GetLayOutOfPointer(elemType, count + 1)
     } else {
@@ -1221,13 +1206,12 @@ private fun GetLayOutOfPointer(pointerType: LLVMTypeRef, count: Int) : Int {
     }
 }
 
-// 辅助函数：比较两个类型是否本质相同（忽略地址空间）
+// Helper: compare whether two types are essentially the same
+// (ignoring address space)
 private fun areTypesEqual(a: LLVMTypeRef, b: LLVMTypeRef): Boolean {
     val aTy = LLVMGetTypeKind(a)
     val bTy = LLVMGetTypeKind(b)
     val res = !(aTy == LLVMTypeKind.LLVMIntegerTypeKind || bTy == LLVMTypeKind.LLVMIntegerTypeKind)
-   // println("Res: ${res}")
-   // println("Finish output areTypesEqual")
     return res
 }
 
@@ -1272,50 +1256,6 @@ private fun areTypesEqual(a: LLVMTypeRef, b: LLVMTypeRef): Boolean {
         return LLVMBuildPhi(builder, type, name)!!
     }
 
-//    fun addPhiIncoming(phi: LLVMValueRef, vararg incoming: Pair<LLVMBasicBlockRef, LLVMValueRef>) {
-//        val phiType = LLVMTypeOf(phi)
-//        val phiTypeKind = LLVMGetTypeKind(phiType)
-//        memScoped {
-//            val mutableIncoming = incoming.toMutableList()
-//            for (i in 0 until incoming.size) {
-//                val newValue: LLVMValueRef = mutableIncoming[i].second
-//                val newValueType = LLVMTypeOf(newValue)
-//                val newValueTypeKind = LLVMGetTypeKind(newValueType)
-//                if (newValueTypeKind == LLVMTypeKind.LLVMPointerTypeKind && phiTypeKind == LLVMTypeKind.LLVMPointerTypeKind) {
-//                    val phiTypeAddrspace = LLVMGetPointerAddressSpace(phiType)
-//                    val newValueTypeAddrspace = LLVMGetPointerAddressSpace(newValueType)
-//                    if (phiTypeAddrspace != newValueTypeAddrspace) {
-//                        val oldPositionHolder = currentPositionHolder
-//                        val newPositionHolder = PositionHolder()
-//                        currentPositionHolder = newPositionHolder
-
-//                        val bb = mutableIncoming[i].first
-//                        val lastInsn = LLVMGetLastInstruction(bb)
-//                        if (lastInsn != null) {
-//                            positionBefore(lastInsn)
-//                        } else {
-//                            positionAtEnd(bb)
-//                        }
-
-//                        mutableIncoming[i] = mutableIncoming[i].copy(second = bitcast(LLVMTypeOf(phi), mutableIncoming[i].second))
-
-//                        currentPositionHolder = oldPositionHolder
-//                        newPositionHolder.dispose()
-//                    }
-//                }
-//            }
-
-//            val incomingValues = mutableIncoming.map { it.second }.toCValues()
-//            val incomingBlocks = mutableIncoming.map { it.first }.toCValues()
-//            LLVMAddIncoming(phi, incomingValues, incomingBlocks, mutableIncoming.size)
-
-
-////                val incomingValues = incoming.map { it.second }.toCValues()
-////                val incomingBlocks = incoming.map { it.first }.toCValues()
-////                LLVMAddIncoming(phi, incomingValues, incomingBlocks, incoming.size)
-//        }
-//    }
-
 fun addPhiIncoming(phi: LLVMValueRef, vararg incoming: Pair<LLVMBasicBlockRef, LLVMValueRef>) {
     val phiType = LLVMTypeOf(phi) ?: error("phi type cannot be null")
     val phiTypeKind = LLVMGetTypeKind(phiType)
@@ -1359,22 +1299,24 @@ fun addPhiIncoming(phi: LLVMValueRef, vararg incoming: Pair<LLVMBasicBlockRef, L
 }
 
 /**
- * 递归检查两个类型（含多级指针）的地址空间和结构是否匹配
+ * Recursively check whether two types (including multi-level pointers)
+ * match in address space and structure
  */
 private fun arePointerTypesCompatible(phiType: LLVMTypeRef, valueType: LLVMTypeRef): Boolean {
-    // 非空断言：确保类型引用不为空（LLVM API返回的类型通常非空）
+    // Non-null assertion: ensure type refs are not null
+    // (LLVM API types are typically non-null)
     val phiKind = LLVMGetTypeKind(phiType!!)
     val valueKind = LLVMGetTypeKind(valueType!!)
 
-    // 若不是指针类型，直接比较类型是否相同(暂时先不顾非指针场景)
+    // If not pointer types, compare directly (non-pointer cases not handled for now)
     if (phiKind == LLVMTypeKind.LLVMPointerTypeKind && valueKind == LLVMTypeKind.LLVMPointerTypeKind) {
-        // 检查当前级指针的地址空间
+        // Check the address space of the current pointer level
         val phiAddrSpace = LLVMGetPointerAddressSpace(phiType)
         val valueAddrSpace = LLVMGetPointerAddressSpace(valueType)
         if (phiAddrSpace != valueAddrSpace) {
             return false
         }
-        // LLVM 19 opaque pointer: 无元素类型，地址空间已匹配则兼容
+        // LLVM 19 opaque pointer: no element type; compatible if address spaces match
         val phiElementType = LLVMGetElementType(phiType)
         val valueElementType = LLVMGetElementType(valueType)
         if (phiElementType == null || valueElementType == null) return true
@@ -1385,14 +1327,16 @@ private fun arePointerTypesCompatible(phiType: LLVMTypeRef, valueType: LLVMTypeR
 }
 
 /**
- * 检查两个类型是否可以相互bitcast（间接验证基类型兼容性）
- * 原理：LLVM中，只有兼容的类型才能bitcast，通过尝试创建bitcast指令判断
+ * Check whether two types can be bitcast to each other
+ * (indirectly verifying base type compatibility).
+ * Rationale: in LLVM, only compatible types can be bitcast;
+ * we verify by attempting to create a bitcast instruction
  */
 private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
-    // 方案：创建临时的空值并尝试bitcast，若成功则类型兼容
+    // Create a temporary null value and try bitcast; if successful, the types are compatible
     val nullFrom = LLVMConstNull(fromType) ?: return false
     val casted = LLVMConstBitCast(nullFrom, toType) ?: return false
-    return LLVMTypeOf(casted) == toType // 验证转换结果类型是否正确
+    return LLVMTypeOf(casted) == toType // Verify the result type is correct
 }
 
     fun assignPhis(vararg phiToValue: Pair<LLVMValueRef, LLVMValueRef>) {
@@ -1578,24 +1522,13 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     fun intToPtr(value: LLVMValueRef?, DestTy: LLVMTypeRef, Name: String = "") = LLVMBuildIntToPtr(builder, value, DestTy, Name)!!
     fun ptrToInt(value: LLVMValueRef?, DestTy: LLVMTypeRef, Name: String = "") = LLVMBuildPtrToInt(builder, value, DestTy, Name)!!
 
-//    fun gep(type: LLVMTypeRef, base: LLVMValueRef, index: LLVMValueRef, name: String = ""): LLVMValueRef =
-//            LLVMBuildGEP2(builder, type, base, cValuesOf(index), 1, name)!!
-
-//    fun structGep(type: LLVMTypeRef, base: LLVMValueRef, index: Int, name: String = ""): LLVMValueRef =
-//            LLVMBuildStructGEP2(builder, type, base, index, name)!!
-    
     fun gep(type: LLVMTypeRef, base: LLVMValueRef, index: LLVMValueRef, name: String = ""): LLVMValueRef {
-        // 这里需要新增一层转换，判断base filed得到的类型是否是objheader，如果不是，就把addrspace(1)进行剥离.
-    //    println("Output in gep")
-    //    println("type: ${llvmtype2string(type)}, base: ${llvm2string(base)}, index: ${llvm2string(index)}, name: ${name}")
-    //    println("Finish Output in gep")
-        return LLVMBuildGEP2(builder, type, base, cValuesOf(index), 1, name)!! 
+        // Need an extra conversion here: check if the type from
+        // the base field is ObjHeader; if not, strip addrspace(1).
+        return LLVMBuildGEP2(builder, type, base, cValuesOf(index), 1, name)!!
     }
 
     fun structGep(type: LLVMTypeRef, base: LLVMValueRef, index: Int, name: String = ""): LLVMValueRef {
-    //    println("Output in structGep")
-    //    println("type: ${llvmtype2string(type)}, base: ${llvm2string(base)}, index: ${index}, name: ${name}")
-    //    println("Finish Output in sturctGep")
         return LLVMBuildStructGEP2(builder, type, base, index, name)!!
     }
 

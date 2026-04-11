@@ -227,7 +227,6 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBackend(backendContext: Contex
                 }
             } finally {
                 tempFiles.dispose()
-//                fragment.performanceManager?.notifyPhaseFinished(PhaseType.Backend)
             }
         }
 

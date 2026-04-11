@@ -241,8 +241,6 @@ void UpdateHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW
 void UpdateVolatileHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapObjPtr* location, HeapObjPtr expectedValue,
            HeapObjPtr newValue) RUNTIME_NOTHROW;
-// bool CompareAndSetVolatileHeapRef(HeapObjPtr* location,
-//     HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
 bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
                                   HeapObjPtr newValue) RUNTIME_NOTHROW;
 OBJ_GETTER(GetAndSetVolatileHeapRef, HeapObjPtr* location, HeapObjPtr newValue) RUNTIME_NOTHROW;
