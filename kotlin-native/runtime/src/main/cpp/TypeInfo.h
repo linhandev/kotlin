@@ -81,6 +81,27 @@ struct InterfaceTableRecord {
     VTableElement const* vtable;
 };
 
+class KNStateWord {
+public:
+    struct GCStateWord {
+        uint64_t address : 59;
+        uint64_t valid : 1;
+        uint64_t remainded : 4;
+    };
+
+    void SetValid()
+    {
+        state_.valid = 1;
+    }
+
+    bool IsValid()
+    {
+        return state_.valid == 1;
+    }
+private:
+    GCStateWord state_;
+};
+
 // This struct represents runtime type information and by itself is the compile time
 // constant.
 // When adding a field here do not forget to adjust:

@@ -509,6 +509,41 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     val Kotlin_arrayGetElementAddress by lazy { importRtFunction("Kotlin_arrayGetElementAddress", false) }
     val Kotlin_intArrayGetElementAddress by lazy { importRtFunction("Kotlin_intArrayGetElementAddress", false) }
     val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
+    val saveThreadLastKotlinFrame2 by lazy { importRtFunction("SaveThreadLastKotlinFrame2", false) }
+    val restoreThreadLastKotlinFrame2 by lazy { importRtFunction("RestoreThreadLastKotlinFrame2", false) }
+
+    val saveStackFrameR2KExportForCppRuntime by lazy { importRtFunction("SaveStackFrameR2KExportForCppRuntime", false) }
+    val restoreStackFrameN2KNativeToKotlin by lazy { importRtFunction("RestoreStackFrameR2KExportForCppRuntime", false) }
+
+    val saveStackFrameR2KInitGlobals by lazy { importRtFunction("SaveStackFrameR2KInitGlobals", false) }
+    val restoreStackFrameR2KInitGlobals by lazy { importRtFunction("RestoreStackFrameR2KInitGlobals", false) }
+
+    val saveStackFrameK2RK2X by lazy { importRtFunction("SaveStackFrameK2RK2X", false) }
+    val restoreStackFrameK2RK2X by lazy { importRtFunction("RestoreStackFrameK2RK2X", false) }
+
+    val saveStackFrameK2NNativeState by lazy { importRtFunction("SaveStackFrameK2NNativeState", false) }
+    val restoreStackFrameK2NNativeState by lazy { importRtFunction("RestoreStackFrameK2NNativeState", false) }
+
+    val saveStackFrameN2KBoxing by lazy { importRtFunction("SaveStackFrameN2KBoxing", false) }
+    val restoreStackFrameN2KBoxing by lazy { importRtFunction("RestoreStackFrameN2KBoxing", false) }
+
+    val saveStackFrameN2KDisposeStableRef by lazy { importRtFunction("SaveStackFrameN2KDisposeStableRef", false) }
+    val restoreStackFrameN2KDisposeStableRef by lazy { importRtFunction("RestoreStackFrameN2KDisposeStableRef", false) }
+
+    val saveStackFrameN2KIsInstance by lazy { importRtFunction("SaveStackFrameN2KIsInstance", false) }
+    val restoreStackFrameN2KIsInstance by lazy { importRtFunction("RestoreStackFrameN2KIsInstance", false) }
+
+    val saveStackFrameN2KUnboxing by lazy { importRtFunction("SaveStackFrameN2KUnboxing", false) }
+    val restoreStackFrameN2KUnboxing by lazy { importRtFunction("RestoreStackFrameN2KUnboxing", false) }
+
+    val saveStackFrameN2KClassInstance by lazy { importRtFunction("SaveStackFrameN2KClassInstance", false) }
+    val restoreStackFrameN2KClassInstance by lazy { importRtFunction("RestoreStackFrameN2KClassInstance", false) }
+
+    val saveStackFrameN2KEnumEntry by lazy { importRtFunction("SaveStackFrameN2KEnumEntry", false) }
+    val restoreStackFrameN2KEnumEntry by lazy { importRtFunction("RestoreStackFrameN2KEnumEntry", false) }
+
+    val saveStackFrameN2KCExport by lazy { importRtFunction("SaveStackFrameN2KCExport", false) }
+    val restoreStackFrameN2KCExport by lazy { importRtFunction("RestoreStackFrameN2KCExport", false) }
 
     val usedFunctions = mutableListOf<LlvmCallable>()
     val usedGlobals = mutableListOf<LLVMValueRef>()
@@ -572,9 +607,9 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     fun float32(value: Float): LLVMValueRef = constFloat32(value).llvm
     fun float64(value: Double): LLVMValueRef = constFloat64(value).llvm
 
-    val kNullInt8Ptr by lazy { LLVMConstNull(int8PtrType)!! }
-    val kNullInt32Ptr by lazy { LLVMConstNull(pointerType(int32Type))!! }
-    val kNullIntptrPtr by lazy { LLVMConstNull(pointerType(intptrType))!! }
+    val kNullInt8Ptr by lazy { LLVMConstIntToPtr(intptr(0), int8PtrType)!! }
+    val kNullInt32Ptr by lazy { LLVMConstIntToPtr(intptr(0), pointerType(int32Type))!! }
+    val kNullIntptrPtr by lazy { LLVMConstIntToPtr(intptr(0), pointerType(intptrType))!! }
     val kImmInt32Zero by lazy { int32(0) }
     val kImmInt32One by lazy { int32(1) }
 
@@ -632,6 +667,11 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
             "__cxa_end_catch",
             returnType = LlvmRetType(voidType, isObjectType = false),
             functionAttributes = listOf(LlvmFunctionAttribute.NoUnwind)
+    )
+
+    val caxRethrowFunction = externalNativeRuntimeFunction(
+            "__cxa_rethrow",
+            returnType = LlvmRetType(voidType, isObjectType = false)
     )
 
     private fun getSizeOfTypeInBits(type: LLVMTypeRef): Long {

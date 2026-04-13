@@ -11,6 +11,8 @@ import kotlinx.cinterop.memScoped
 import llvm.*
 import org.jetbrains.kotlin.backend.konan.Context
 import org.jetbrains.kotlin.backend.konan.RuntimeNames
+import org.jetbrains.kotlin.backend.konan.cgen.CBridgeOrigin
+import org.jetbrains.kotlin.backend.konan.KonanFqNames
 import org.jetbrains.kotlin.backend.konan.binaryTypeIsReference
 import org.jetbrains.kotlin.backend.konan.lower.originalConstructor
 import org.jetbrains.kotlin.ir.declarations.IrDeclaration
@@ -127,7 +129,7 @@ internal fun LlvmFunctionSignature(irFunction: IrSimpleFunction, contextUtils: C
     require(!irFunction.isSuspend) { "Suspend functions should be lowered out at this point" }
 
     if (returnType.isObjectType)
-        parameterTypes.add(LlvmParamType(contextUtils.kObjHeaderPtrPtr))
+        parameterTypes.add(LlvmParamType(contextUtils.kObjHeaderRefPtr)) 
 
     return LlvmFunctionSignature(
             returnType = returnType,
@@ -200,6 +202,7 @@ internal class LlvmFunctionProto(
 
     fun createLlvmFunction(context: Context, llvmModule: LLVMModuleRef): LlvmCallable {
         val function = LLVMAddFunction(llvmModule, name, signature.llvmFunctionType)!!
+        LLVMSetGC(function, "kotlin-native")
         addDefaultLlvmFunctionAttributes(context, function)
         addTargetCpuAndFeaturesAttributes(context, function)
         signature.addFunctionAttributes(function)
@@ -232,6 +235,12 @@ private fun inferFunctionAttributes(contextUtils: ContextUtils, irFunction: IrSi
             if (irFunction.returnType.isNothing()) {
                 require(!irFunction.isSuspend) { "Suspend functions should be lowered out at this point"}
                 add(LlvmFunctionAttribute.NoReturn)
+            }
+            if (irFunction.origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
+                    !irFunction.annotations.hasAnnotation(RuntimeNames.filterExceptions) &&
+                    !irFunction.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
+                add(LlvmFunctionAttribute.NoUnwind)
+                add(LlvmFunctionAttribute.NoInline)
             }
             if (mustNotInline(contextUtils.context, irFunction)) {
                 add(LlvmFunctionAttribute.NoInline)

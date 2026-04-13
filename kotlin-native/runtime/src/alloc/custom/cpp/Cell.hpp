@@ -26,6 +26,7 @@ public:
     // The next block.
     Cell* Next() noexcept;
 
+    void ReleasePages() noexcept;
 private:
     friend class NextFitPage;
 

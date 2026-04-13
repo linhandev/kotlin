@@ -7,10 +7,32 @@
 
 #include "MarkAndSweepUtils.hpp"
 #include "GCStatistics.hpp"
+#include "Utils.hpp"
 #include "GCImpl.hpp"
+#include "ThreadData.hpp"
+#include "StackMap.hpp"
+#include "TypeInfo.h"
+#include "Memory.h"
+#include "GlobalData.hpp"
+#include "VerifyKotlinStack.hpp"
 
 using namespace kotlin;
 
+#if KONAN_LINUX || KONAN_OHOS
+extern "C" uint8_t __LLVM_StackMaps;
+extern "C" uint8_t __LLVM_StackMap_Offsets;
+static uintptr_t g_stackMapsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMaps);
+static uintptr_t g_stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMap_Offsets);
+#else
+extern "C" uint8_t _LLVM_StackMaps;
+extern "C" uint8_t _LLVM_StackMap_Offsets;
+static uintptr_t g_stackMapsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMaps);
+static uintptr_t g_stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMap_Offsets);
+#endif
+
+#define DUMP_DEBUG_INFO 0
+#define KOTLIN_VERIFY 1
+#define ENABLE_LAZY_STACKMAP 1
 namespace {
 
 class FlushActionActivator final : public mm::ExtraSafePointActionActivator<FlushActionActivator> {};
@@ -73,6 +95,9 @@ void gc::mark::ConcurrentMark::markInSTW() {
     completeMutatorsRootSet(mainWorker);
 
     barriers::enableBarriers(gcHandle().getEpoch());
+#if DUMP_DEBUG_INFO
+    std::cout << "stw1 end" << std::endl;
+#endif
     resumeTheWorld(gcHandle());
 
     // global root set must be collected after all the mutator's global data have been published
@@ -107,6 +132,9 @@ void gc::mark::ConcurrentMark::markInSTW() {
     if (!terminateInSTW) {
         stopTheWorld(gcHandle(), "GC stop the world: prepare to sweep");
     }
+#if DUMP_DEBUG_INFO
+    std::cout << "stw2 start" << std::endl;
+#endif
 
     barriers::disableBarriers();
 
@@ -128,6 +156,102 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
     }
 }
 
+[[maybe_unused]] static uint64_t *GetStackMapAddress(uint64_t *fp, uint32_t *funcStartPC, mm::ThreadData& thread)
+{
+    uint64_t stackMapOffsetIndex = *(fp - 2);
+
+#ifdef KOTLIN_VERIFY
+    if (!kotlin::mm::VerifyKotlinStack::IsKotlinFrameTag(fp)) {
+        RuntimeLogInfo({kTagGC},
+            "DFX error: unwind is not kotlin frame,"
+            " stackMapOffsetIndex %llu, thread %" PRIuPTR ", aborting\n",
+            (unsigned long long)stackMapOffsetIndex, thread.threadId());
+        auto& currentKotlinFrame = thread.GetLastKotlinFrame();
+        for (size_t i = 0; i < currentKotlinFrame.fpStack_.size(); i++) {
+            RuntimeLogInfo({kTagGC}, "[KotlinFrame] fpStack_[%zu]: %p\n", i, currentKotlinFrame.fpStack_[i]);
+        }
+        thread.PrintLastKotlinFrameLog();
+        for (size_t i = 0; i < currentKotlinFrame.pcStack_.size(); i++) {
+            RuntimeLogInfo({kTagGC}, "[KotlinFrame] pcStack_[%zu]: %p\n", i, currentKotlinFrame.pcStack_[i]);
+        }
+        for (size_t i = 0; i < currentKotlinFrame.fpStack_.size(); i++) {
+            uint64_t* fp_i = currentKotlinFrame.fpStack_[i];
+            uint32_t* pc_i = (uint32_t*)*(fp_i + 1);
+            RuntimeLogInfo({kTagGC}, "[KotlinFrame] from fpStack_[%zu] get pc: %p\n", i, pc_i);
+        }
+        abort();
+    }
+#endif
+    constexpr uint64_t payloadMask = (1ULL << 48) - 1;
+    stackMapOffsetIndex &= payloadMask;
+
+    uint64_t actualOffset = *(reinterpret_cast<uint32_t*>(g_stackMapOffsetsSection) + stackMapOffsetIndex);
+    uint64_t *stackMapAddress = reinterpret_cast<uint64_t*>(g_stackMapsSection + actualOffset);
+
+    return stackMapAddress;
+}
+
+bool ShouldMarkEntryCaller(FrameKind kind)
+{
+    return IsKotlinFrame(kind);
+}
+
+static void CollectStackMapBaseRoot(
+    mm::ThreadData& thread, uint64_t* fp,
+    uint32_t* pc, std::vector<int32_t> &baseRoots)
+{
+#if ENABLE_LAZY_STACKMAP
+    uint32_t *funcStartPC = reinterpret_cast<uint32_t*>(*(fp - 1));
+    uint64_t *stackMapAddress = GetStackMapAddress(fp, funcStartPC, thread);
+    std::unordered_map<int32_t, std::vector<int32_t>> base2DerivedOffsets;
+    stackMap::StackMapBuilder stackMapBuilder(reinterpret_cast<uintptr_t>(funcStartPC),
+        reinterpret_cast<uintptr_t>(pc), stackMapAddress);
+    stackMapBuilder.collectHeapReferenceMap(base2DerivedOffsets);
+    for (auto elem : base2DerivedOffsets) {
+        baseRoots.push_back(elem.first);
+    }
+#else // else of ENABLE_LAZY_STACKMAP
+    auto& pc2CallSiteInfos = thread.gc().impl().gc().gc().stackMap().pc2CallSiteInfo();
+    auto callsitInfoIt = pc2CallSiteInfos.find((uintptr_t)pc);
+    if (callsitInfoIt != pc2CallSiteInfos.end()) {
+        for (auto& callsite : callsitInfoIt->second) {
+            baseRoots.push_back(callsite.second);
+        }
+    }
+#endif // end of ENABLE_LAZY_STACKMAP
+}
+
+template <typename MarkTraits>
+ALWAYS_INLINE void ProcessStackFrame(
+    typename MarkTraits::MarkQueue& markQueue,
+    mm::ThreadData& thread, uint64_t* fp, uint32_t* pc) {
+    std::vector<int32_t> baseRoots;
+    CollectStackMapBaseRoot(thread, fp, pc, baseRoots);
+    for (auto& baseRootOffset : baseRoots) {
+        uintptr_t address = (uintptr_t)fp + baseRootOffset;
+        ObjHeader* object = (ObjHeader*)*((uint64_t*)address);
+
+        // skip null objects
+        if (!object) {
+            continue;
+        }
+        KNStateWord *word = reinterpret_cast<KNStateWord*>(object);
+        if (!(word->IsValid())) {
+            continue;
+        }
+
+        [[maybe_unused]] bool result = gc::internal::collectRoot<MarkTraits>(markQueue, object);
+#if DUMP_DEBUG_INFO
+        if (result) {
+            std::cout << "    Stackmap collecting stack root: 0x"
+                << std::hex << (uintptr_t)(object) << std::dec << "\n";
+        } else {
+            std::cout << "    Stackmap skipping stack root: 0x" << std::hex << (uintptr_t)(object) << std::dec << "\n";
+        }
+#endif
+    }
+}
+
 void gc::mark::ConcurrentMark::tryCollectRootSet(mm::ThreadData& thread, MarkTraits::MarkQueue& markQueue) {
     auto& gcData = thread.gc().impl().mark_;
     if (!gcData.tryLockRootSet()) return;
@@ -135,6 +259,56 @@ void gc::mark::ConcurrentMark::tryCollectRootSet(mm::ThreadData& thread, MarkTra
     GCLogDebug(gcHandle().getEpoch(), "Root set collection on thread %" PRIuPTR " for thread %" PRIuPTR, konan::currentThreadId(), thread.threadId());
     gcData.publish();
     collectRootSetForThread<MarkTraits>(gcHandle(), markQueue, thread);
+
+    auto& currentKotlinFrame = thread.GetLastKotlinFrame();
+    const auto& frameKinds = currentKotlinFrame.kindStack_;
+    const size_t stackSize = currentKotlinFrame.fpStack_.size();
+
+    for (int i = stackSize - 1; i >= 0;) {
+        FrameKind topKind = static_cast<FrameKind>(frameKinds[i]);
+
+        if (!IsExitFrame(topKind)) {
+            i--;
+            continue;
+        }
+
+        int entryIdx = i - 1;
+        while (entryIdx >= 0 && !IsEntryFrame(static_cast<FrameKind>(frameKinds[entryIdx]))) {
+            entryIdx--;
+        }
+
+        if (entryIdx < 0) {
+            break;
+        }
+
+        FrameKind entryKind = static_cast<FrameKind>(frameKinds[entryIdx]);
+
+        uint64_t* fp = currentKotlinFrame.fpStack_[i];
+        uint32_t* pc = currentKotlinFrame.pcStack_[i];
+        uint64_t* stopFp = currentKotlinFrame.fpStack_[entryIdx];
+
+        if (!IsKotlinFrame(topKind)) {
+            pc = (uint32_t*)*(fp + 1);
+            fp = (uint64_t*)*fp;
+        }
+
+        while (fp != stopFp) {
+            if (kotlin::mm::VerifyKotlinStack::IsKotlinFrameTag(fp)) {
+                ProcessStackFrame<MarkTraits>(markQueue, thread, fp, pc);
+            }
+            if (fp == nullptr) {
+                abort();
+            }
+            pc = (uint32_t*)*(fp + 1);
+            fp = (uint64_t*)*fp;
+        }
+
+        if (ShouldMarkEntryCaller(entryKind)) {
+            ProcessStackFrame<MarkTraits>(markQueue, thread, fp, pc);
+        }
+
+        i = entryIdx - 1;
+    }
 }
 
 /** Terminates the mark loop if possible, otherwise returns `false`. */

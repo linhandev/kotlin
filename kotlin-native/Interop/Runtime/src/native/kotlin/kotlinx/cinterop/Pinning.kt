@@ -112,41 +112,41 @@ private inline fun <T : Any, P : CPointed> T.usingPinned(
     }
 }
 
-@GCUnsafeCall("Kotlin_Interop_pinnable")
+@GCUnsafeCall("Kotlin_Interop_pinnable", false)
 private external fun <T> T.pinnable(): T
 
-@GCUnsafeCall("Kotlin_Arrays_getByteArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getByteArrayAddressOfElement", false)
 private external fun ByteArray.addressOfElement(index: Int): CPointer<ByteVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getStringAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getStringAddressOfElement", false)
 private external fun String.addressOfElement(index: Int): CPointer<COpaque>
 
-@GCUnsafeCall("Kotlin_Arrays_getCharArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getCharArrayAddressOfElement", false)
 private external fun CharArray.addressOfElement(index: Int): CPointer<COpaque>
 
-@GCUnsafeCall("Kotlin_Arrays_getShortArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getShortArrayAddressOfElement", false)
 private external fun ShortArray.addressOfElement(index: Int): CPointer<ShortVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getIntArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getIntArrayAddressOfElement", false)
 private external fun IntArray.addressOfElement(index: Int): CPointer<IntVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getLongArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getLongArrayAddressOfElement", false)
 private external fun LongArray.addressOfElement(index: Int): CPointer<LongVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getByteArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getByteArrayAddressOfElement", false)
 private external fun UByteArray.addressOfElement(index: Int): CPointer<UByteVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getShortArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getShortArrayAddressOfElement", false)
 private external fun UShortArray.addressOfElement(index: Int): CPointer<UShortVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getIntArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getIntArrayAddressOfElement", false)
 private external fun UIntArray.addressOfElement(index: Int): CPointer<UIntVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getLongArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getLongArrayAddressOfElement", false)
 private external fun ULongArray.addressOfElement(index: Int): CPointer<ULongVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getFloatArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getFloatArrayAddressOfElement", false)
 private external fun FloatArray.addressOfElement(index: Int): CPointer<FloatVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getDoubleArrayAddressOfElement")
+@GCUnsafeCall("Kotlin_Arrays_getDoubleArrayAddressOfElement", false)
 private external fun DoubleArray.addressOfElement(index: Int): CPointer<DoubleVar>

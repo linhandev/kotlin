@@ -221,14 +221,20 @@ internal open class ObjCExportCodeGeneratorBase(codegen: CodeGenerator) : ObjCCo
         return call(function, args, resultLifetime, exceptionHandler)
     }
 
-    fun ObjCExportFunctionGenerationContext.kotlinReferenceToLocalObjC(value: LLVMValueRef) =
-            callFromBridge(llvm.Kotlin_ObjCExport_refToLocalObjC, listOf(value))
+    fun ObjCExportFunctionGenerationContext.kotlinReferenceToLocalObjC(value: LLVMValueRef) : LLVMValueRef {
+        val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), value)
+        return callFromBridge(llvm.Kotlin_ObjCExport_refToLocalObjC, listOf(typeInfoOrMetaPtrRaw))
+    }
 
-    fun ObjCExportFunctionGenerationContext.kotlinReferenceToRetainedObjC(value: LLVMValueRef) =
-            callFromBridge(llvm.Kotlin_ObjCExport_refToRetainedObjC, listOf(value))
+    fun ObjCExportFunctionGenerationContext.kotlinReferenceToRetainedObjC(value: LLVMValueRef) : LLVMValueRef {
+        val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), value)
+        return callFromBridge(llvm.Kotlin_ObjCExport_refToRetainedObjC, listOf(typeInfoOrMetaPtrRaw))
+    }
 
-    fun ObjCExportFunctionGenerationContext.objCReferenceToKotlin(value: LLVMValueRef, resultLifetime: Lifetime) =
-            callFromBridge(llvm.Kotlin_ObjCExport_refFromObjC, listOf(value), resultLifetime)
+    fun ObjCExportFunctionGenerationContext.objCReferenceToKotlin(value: LLVMValueRef, resultLifetime: Lifetime) : LLVMValueRef {
+        val rst = callFromBridge(llvm.Kotlin_ObjCExport_refFromObjC, listOf(value), resultLifetime)
+        return bitcast(llvm.kObjHeaderRef, rst)
+    }
 
     private val blockToKotlinFunctionConverterCache = mutableMapOf<BlockPointerBridge, LlvmCallable>()
 

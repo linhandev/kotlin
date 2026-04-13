@@ -35,6 +35,7 @@
 #include "Types.h"
 #include "Worker.h"
 #include "objc_support/AutoreleasePool.hpp"
+#include "StackTrace.hpp"
 
 using namespace kotlin;
 
@@ -998,7 +999,9 @@ JobKind Worker::processQueueElement(bool blocking) {
       bool ok = true;
       try {
           objc_support::AutoreleasePool autoreleasePool;
+          SaveStackFrameR2KWorkerJob();
           result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
+          RestoreStackFrameR2KWorkerJob();
       } catch (ExceptionObjHolder& e) {
         ok = false;
         switch (exceptionHandling()) {

@@ -34,10 +34,14 @@ public actual constructor(
     public actual constructor() : this(null, null)
 
     @get:ExportForCppRuntime("Kotlin_Throwable_getStackTrace")
-    private val stackTrace: NativePtrArray = getCurrentStackTrace()
+    private val stackTrace: NativePtrArray = getCustomStackTrace()
 
     private val stackTraceStrings: Array<String> by lazy {
         getStackTraceStrings(stackTrace)
+    }
+
+    internal open fun getCustomStackTrace(): NativePtrArray {
+        return getCurrentStackTrace()
     }
 
     /**
@@ -150,11 +154,11 @@ public actual constructor(
     internal var suppressedExceptionsList: MutableList<Throwable>? = null
 }
 
-@GCUnsafeCall("Kotlin_getCurrentStackTrace")
+@GCUnsafeCall("Kotlin_getCurrentStackTrace", true)
 @Escapes.Nothing
 private external fun getCurrentStackTrace(): NativePtrArray
 
-@GCUnsafeCall("Kotlin_getStackTraceStrings")
+@GCUnsafeCall("Kotlin_getStackTraceStrings", true)
 @Escapes.Nothing
 private external fun getStackTraceStrings(stackTrace: NativePtrArray): Array<String>
 
