@@ -43,16 +43,68 @@ void (*schedulerNotificationTestHook)(std::size_t) = nullptr;
 constexpr const char K_DUMP_FILE_EXTENSION[] = ".dump";
 constexpr std::size_t K_DUMP_FILE_EXTENSION_LENGTH = sizeof(K_DUMP_FILE_EXTENSION) - 1;
 
+bool IsOomDumpFileName(const std::string& filename) {
+    return filename.find("oom_dump_") == 0 && filename.size() >= K_DUMP_FILE_EXTENSION_LENGTH &&
+           filename.compare(
+                   filename.size() - K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION) == 0;
+}
+
+bool ShouldReplaceOldestDump(
+    time_t candidateMtime, 
+    const std::string& candidatePath, 
+    bool hasOldest, 
+    time_t oldestMtime,
+    const std::string& oldestDumpFile) {
+    const bool isOlder = candidateMtime < oldestMtime;
+    const bool sameTimeButSmallerPath = candidateMtime == oldestMtime && candidatePath < oldestDumpFile;
+    return !hasOldest || isOlder || sameTimeButSmallerPath;
+}
+
+std::string ExtractMappedBaseFromMountInfo() {
+    FILE* mountInfo = fopen("/proc/self/mountinfo", "r");
+    if (mountInfo == nullptr) {
+        return {};
+    }
+
+    char* line = nullptr;
+    size_t cap = 0;
+    std::string mappedBase;
+    while (getline(&line, &cap, mountInfo) != -1) {
+        std::string lineStr(line);
+        auto separator = lineStr.find(" - ");
+        if (separator == std::string::npos) {
+            continue;
+        }
+        std::istringstream left(lineStr.substr(0, separator));
+        std::string id;
+        std::string parentId;
+        std::string majorMinor;
+        std::string root;
+        std::string mountPoint;
+        if (!(left >> id >> parentId >> majorMinor >> root >> mountPoint)) {
+            continue;
+        }
+        if (mountPoint != "/data/storage/el2/base") {
+            continue;
+        }
+        mappedBase = root;
+        break;
+    }
+    free(line);
+    fclose(mountInfo);
+    return mappedBase;
+}
+
 #ifdef KONAN_OHOS
 #ifndef KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION
 #define KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION "2.2.21-0.1.0"
 #endif
 
 static void ReportOomEventViaHiAppEvent(
-        const char* dumpPath,
-        std::size_t memUsage,
-        std::size_t threshold,
-        const char* timestamp) {
+    const char* dumpPath,
+    std::size_t memUsage,
+    std::size_t threshold,
+    const char* timestamp) {
     std::ostringstream desc;
     desc << "Kotlin/Native heap over OOM threshold; dump_path=" << dumpPath << "; memory_usage=" << memUsage
          << "; oom_threshold=" << threshold << "; timestamp=" << timestamp;
@@ -63,13 +115,19 @@ static void ReportOomEventViaHiAppEvent(
     DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly invoked for KMP Kotlin.");
 }
 #else
-static void ReportOomEventViaHiAppEvent(const char*, std::size_t, std::size_t, const char*) {
+static void ReportOomEventViaHiAppEvent(
+    const char*,
+    std::size_t, 
+    std::size_t, 
+    const char*) {
     // No-op on non-OHOS platforms
 }
 #endif
 
 // Delete one oldest dump file when total count reaches maxFiles.
-void CleanupOldDumpFiles(const std::string& directory, int maxFiles) {
+void CleanupOldDumpFiles(
+    const std::string& directory, 
+    int maxFiles) {
     DIR* dir = opendir(directory.c_str());
     if (dir == nullptr) {
         DBG_OOM("Failed to open directory %{public}s for reading dump files", directory.c_str());
@@ -85,18 +143,21 @@ void CleanupOldDumpFiles(const std::string& directory, int maxFiles) {
     while ((entry = readdir(dir)) != nullptr) {
         std::string filename = entry->d_name;
         // Match oom_dump_YYYYMMDD_HHMMSS.dump
-        if (filename.find("oom_dump_") == 0 && filename.size() >= K_DUMP_FILE_EXTENSION_LENGTH &&
-            filename.compare(filename.size() - K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION) == 0) {
-            ++dumpFileCount;
-            std::string fullPath = directory + "/" + filename;
-            struct stat st;
-            if (stat(fullPath.c_str(), &st) == 0) {
-                if (!hasOldest || st.st_mtime < oldestMtime || (st.st_mtime == oldestMtime && fullPath < oldestDumpFile)) {
-                    oldestMtime = st.st_mtime;
-                    oldestDumpFile = fullPath;
-                    hasOldest = true;
-                }
-            }
+        if (!IsOomDumpFileName(filename)) {
+            continue;
+        }
+        ++dumpFileCount;
+
+        std::string fullPath = directory + "/" + filename;
+        struct stat st;
+        if (stat(fullPath.c_str(), &st) != 0) {
+            continue;
+        }
+
+        if (ShouldReplaceOldestDump(st.st_mtime, fullPath, hasOldest, oldestMtime, oldestDumpFile)) {
+            oldestMtime = st.st_mtime;
+            oldestDumpFile = fullPath;
+            hasOldest = true;
         }
     }
     closedir(dir);
@@ -117,44 +178,18 @@ void CleanupOldDumpFiles(const std::string& directory, int maxFiles) {
     }
 }
 
-std::string ToHostVisiblePath(const std::string& path) {
+std::string ToHostVisiblePath(
+    const std::string& path) {
 #ifdef KONAN_OHOS
     constexpr const char kSandboxPrefix[] = "/data/storage/el2/base/";
     if (path.rfind(kSandboxPrefix, 0) == 0) {
-        FILE* mountInfo = fopen("/proc/self/mountinfo", "r");
-        if (mountInfo != nullptr) {
-            char* line = nullptr;
-            size_t cap = 0;
-            std::string mappedBase;
-            while (getline(&line, &cap, mountInfo) != -1) {
-                std::string lineStr(line);
-                auto separator = lineStr.find(" - ");
-                if (separator == std::string::npos) {
-                    continue;
-                }
-                std::istringstream left(lineStr.substr(0, separator));
-                std::string id;
-                std::string parentId;
-                std::string majorMinor;
-                std::string root;
-                std::string mountPoint;
-                if (!(left >> id >> parentId >> majorMinor >> root >> mountPoint)) {
-                    continue;
-                }
-                if (mountPoint == "/data/storage/el2/base") {
-                    mappedBase = root;
-                    break;
-                }
+        std::string mappedBase = ExtractMappedBaseFromMountInfo();
+        if (!mappedBase.empty() && mappedBase.front() == '/') {
+            if (mappedBase.rfind("/app/", 0) == 0) {
+                mappedBase = "/data" + mappedBase;
             }
-            free(line);
-            fclose(mountInfo);
-            if (!mappedBase.empty() && mappedBase.front() == '/') {
-                if (mappedBase.rfind("/app/", 0) == 0) {
-                    mappedBase = "/data" + mappedBase;
-                }
-                constexpr size_t kPrefixLen = sizeof(kSandboxPrefix) - 1;
-                return mappedBase + "/" + path.substr(kPrefixLen);
-            }
+            constexpr size_t kPrefixLen = sizeof(kSandboxPrefix) - 1;
+            return mappedBase + "/" + path.substr(kPrefixLen);
         }
     }
 
@@ -166,7 +201,9 @@ std::string ToHostVisiblePath(const std::string& path) {
     return path;
 }
 
-std::string BuildReportDumpPath(const std::string& dumpDir, const std::string& dumpFileName) {
+std::string BuildReportDumpPath(
+    const std::string& dumpDir, 
+    const std::string& dumpFileName) {
     return ToHostVisiblePath(dumpDir + "/" + dumpFileName);
 }
 }
@@ -199,75 +236,102 @@ std::size_t alloc::AllocatedSizeTracker::Heap::recordDifference(std::ptrdiff_t d
     return nowAllocated;
 }
 
-void alloc::AllocatedSizeTracker::Heap::recordDifferenceAndNotifyScheduler(std::ptrdiff_t diffBytes) noexcept {
-    auto nowAllocated = recordDifference(diffBytes);
+bool alloc::AllocatedSizeTracker::Heap::ShouldDumpAndMark(std::size_t nowAllocated) noexcept {
     if (nowAllocated > oomThreshold_) {
         // Threshold: 1.5GB. Checked on each allocation change.
         bool expectedDumped = false;
         // Only one thread proceeds; avoids duplicate dumps / HiAppEvent when allocating in parallel.
-        if (hasDumped_.compare_exchange_strong(expectedDumped, true, std::memory_order_acq_rel, std::memory_order_relaxed)) {
-            // Current time for dump filename.
-            std::time_t now = std::time(nullptr);
-            std::tm tmBuf{};
-#ifdef KONAN_OHOS
-            std::tm* localTime = localtime_r(&now, &tmBuf);
-            if (localTime == nullptr) {
-                localTime = gmtime_r(&now, &tmBuf);
-            }
-#else
-            std::tm* localTime = std::localtime(&now);
-#endif
-            if (localTime == nullptr) {
-                DBG_OOM("OOM dump: localtime failed; skipping filename timestamp");
-                std::memset(&tmBuf, 0, sizeof(tmBuf));
-                localTime = &tmBuf;
-            }
-
-            // Dump directory for open/cleanup.
-            const std::string dumpDir = "/data/storage/el2/base/haps/entry/temp";
-
-            // Keep at most 10 dump files in total.
-            CleanupOldDumpFiles(dumpDir, 10);
-
-            std::ostringstream filenameStream;
-            filenameStream << "oom_dump_" << std::put_time(localTime, "%Y%m%d_%H%M%S") << ".dump";
-            const std::string dumpFileName = filenameStream.str();
-            const std::string finalDumpPath = dumpDir + "/" + dumpFileName;
-            const std::string reportDumpPath = BuildReportDumpPath(dumpDir, dumpFileName);
-
-            // Generate timestamp string for event reporting
-            std::ostringstream tsStream;
-            tsStream << std::put_time(localTime, "%Y-%m-%d %H:%M:%S");
-            std::string timestampStr = tsStream.str();
-
-            ReportOomEventViaHiAppEvent(reportDumpPath.c_str(), nowAllocated, oomThreshold_, timestampStr.c_str());
-
-            bool dumpSuccess = false;
-            int fd = open(finalDumpPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666);
-            if (fd >= 0) {
-                // Runtime Dump API writes memory to fd (does not close fd).
-                DBG_OOM("Begin to dump memory to dump file");
-                dumpSuccess = Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
-                DBG_OOM("Finish to dump memory to dump file");
-                if (close(fd) != 0) {
-                    DBG_OOM("Failed to close OOM dump fd, errno: %{public}d", errno);
-                }
-
-                if (dumpSuccess) {
-                    DBG_OOM("Memory dump successful: %{public}s", reportDumpPath.c_str());
-                } else {
-                    DBG_OOM("Memory dump failed: %{public}s", reportDumpPath.c_str());
-                }
-            } else {
-                DBG_OOM("Failed to open %{public}s for memory dump. errno: %{public}d", reportDumpPath.c_str(), errno);
-            }
+        if (hasDumped_.compare_exchange_strong(
+                    expectedDumped, true, std::memory_order_acq_rel, std::memory_order_relaxed)) {
+            return true;
         }
     }
+    return false;
+}
 
+std::tm* alloc::AllocatedSizeTracker::Heap::ResolveLocalTimeOrFallback(std::time_t now, std::tm& tmBuf) noexcept {
+#ifdef KONAN_OHOS
+    std::tm* localTime = localtime_r(&now, &tmBuf);
+    if (localTime == nullptr) {
+        localTime = gmtime_r(&now, &tmBuf);
+    }
+#else
+    std::tm* localTime = std::localtime(&now);
+#endif
+    if (localTime == nullptr) {
+        DBG_OOM("OOM dump: localtime failed; skipping filename timestamp");
+        std::memset(&tmBuf, 0, sizeof(tmBuf));
+        localTime = &tmBuf;
+    }
+    return localTime;
+}
+
+void alloc::AllocatedSizeTracker::Heap::BuildDumpMetadata(
+        const std::tm* localTime, const std::string& dumpDir, std::string& finalDumpPath, std::string& reportDumpPath,
+        std::string& timestampStr) noexcept {
+    std::ostringstream filenameStream;
+    filenameStream << "oom_dump_" << std::put_time(localTime, "%Y%m%d_%H%M%S") << ".dump";
+    const std::string dumpFileName = filenameStream.str();
+    finalDumpPath = dumpDir + "/" + dumpFileName;
+    reportDumpPath = BuildReportDumpPath(dumpDir, dumpFileName);
+
+    std::ostringstream tsStream;
+    tsStream << std::put_time(localTime, "%Y-%m-%d %H:%M:%S");
+    timestampStr = tsStream.str();
+}
+
+void alloc::AllocatedSizeTracker::Heap::DumpMemoryToFile(const std::string& finalDumpPath, const std::string& reportDumpPath) noexcept {
+    bool dumpSuccess = false;
+    int fd = open(finalDumpPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    if (fd >= 0) {
+        // Runtime Dump API writes memory to fd (does not close fd).
+        DBG_OOM("Begin to dump memory to dump file");
+        dumpSuccess = Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
+        DBG_OOM("Finish to dump memory to dump file");
+        if (close(fd) != 0) {
+            DBG_OOM("Failed to close OOM dump fd, errno: %{public}d", errno);
+        }
+
+        if (dumpSuccess) {
+            DBG_OOM("Memory dump successful: %{public}s", reportDumpPath.c_str());
+        } else {
+            DBG_OOM("Memory dump failed: %{public}s", reportDumpPath.c_str());
+        }
+    } else {
+        DBG_OOM("Failed to open %{public}s for memory dump. errno: %{public}d", reportDumpPath.c_str(), errno);
+    }
+}
+
+void alloc::AllocatedSizeTracker::Heap::MaybeDumpAndReportOom(std::size_t nowAllocated) noexcept {
+    if (!ShouldDumpAndMark(nowAllocated)) {
+        return;
+    }
+
+    std::time_t now = std::time(nullptr);
+    std::tm tmBuf{};
+    std::tm* localTime = ResolveLocalTimeOrFallback(now, tmBuf);
+    const std::string dumpDir = "/data/storage/el2/base/haps/entry/temp";
+    CleanupOldDumpFiles(dumpDir, 10);
+
+    std::string finalDumpPath;
+    std::string reportDumpPath;
+    std::string timestampStr;
+    BuildDumpMetadata(localTime, dumpDir, finalDumpPath, reportDumpPath, timestampStr);
+    ReportOomEventViaHiAppEvent(reportDumpPath.c_str(), nowAllocated, oomThreshold_, timestampStr.c_str());
+    DumpMemoryToFile(finalDumpPath, reportDumpPath);
+}
+
+void alloc::AllocatedSizeTracker::Heap::NotifyScheduler(std::size_t nowAllocated) noexcept {
     if (schedulerNotificationTestHook) {
         schedulerNotificationTestHook(nowAllocated);
     }
     OnMemoryAllocation(nowAllocated);
+}
+
+void alloc::AllocatedSizeTracker::Heap::recordDifferenceAndNotifyScheduler(std::ptrdiff_t diffBytes) noexcept {
+    auto nowAllocated = recordDifference(diffBytes);
+    MaybeDumpAndReportOom(nowAllocated);
+    NotifyScheduler(nowAllocated);
 }
 
 void alloc::test_support::setSchedulerNotificationHook(void (*hook)(std::size_t)) noexcept {
