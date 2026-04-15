@@ -19,7 +19,7 @@
 #include <algorithm>
 #include <dirent.h>
 #include <sys/stat.h>
-#include <limits.h>
+#include <climits>
 #include <cstdlib>
 #include <cstdio>
 
@@ -40,6 +40,8 @@ using namespace kotlin;
 
 namespace {
 void (*schedulerNotificationTestHook)(std::size_t) = nullptr;
+constexpr const char kDumpFileExtension[] = ".dump";
+constexpr std::size_t kDumpFileExtensionLength = sizeof(kDumpFileExtension) - 1;
 
 #ifdef KONAN_OHOS
 #ifndef KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION
@@ -76,8 +78,8 @@ std::vector<std::string> getSortedDumpFiles(const std::string& directory) {
     while ((entry = readdir(dir)) != nullptr) {
         std::string filename = entry->d_name;
         // Match oom_dump_YYYYMMDD_HHMMSS.dump
-        if (filename.find("oom_dump_") == 0 && filename.size() >= 5 &&
-            filename.compare(filename.size() - 5, 5, ".dump") == 0) {
+        if (filename.find("oom_dump_") == 0 && filename.size() >= kDumpFileExtensionLength &&
+            filename.compare(filename.size() - kDumpFileExtensionLength, kDumpFileExtensionLength, kDumpFileExtension) == 0) {
             dumpFiles.push_back(directory + "/" + filename);
         }
     }
