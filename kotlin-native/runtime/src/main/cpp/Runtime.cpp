@@ -102,7 +102,7 @@ void RegistDumpListenerIfNeeded()
   // Register a memory dump listener for hidumper tools. The listener writes
   // a small diagnostic string to the provided file descriptor.
   auto ohResult = OH_HiDebug_RegisterMemDumpListener("KMP",
-    [](int32_t fd, OH_HiDebug_MemListenerType tag, 
+    [](int32_t fd, OH_HiDebug_MemListenerType tag,
       bool mayReportToOEM, const char* arg) -> bool {
     switch (tag) {
       case OH_HiDebug_MemListenerType::OH_HIDEBUG_DO_NOTHING:
