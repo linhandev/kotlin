@@ -129,22 +129,20 @@ NO_INLINE RuntimeState* initRuntime() {
   if (OH_GetSdkApiVersion() >= OHOS_DUMPLISTNER_MIN_API) {
     // Register a memory dump listener for hidumper tools. The listener writes
     // a small diagnostic string to the provided file descriptor.
-    auto ohResult = OH_HiDebug_RegisterMemDumpListener("KotlinNativeRuntime", [](int32_t fd, OH_HiDebug_MemListenerType tag, bool mayReportToOEM, const char* arg) -> bool {
-      switch (tag) {
-        case OH_HiDebug_MemListenerType::OH_HIDEBUG_DO_NOTHING:
-          return true;
-        case OH_HiDebug_MemListenerType::OH_HIDEBUG_RUNNING_GC:
-          return true;
-        case OH_HiDebug_MemListenerType::OH_HIDEBUG_DUMP_SNAPSHOT:
-          if (mayReportToOEM) {
-            // TODO: we need shrink private data while this situation.
-            return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);  
-          } else {
-            return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
-          }
-        default:
-          return true;
-      }
+    auto ohResult = OH_HiDebug_RegisterMemDumpListener("KotlinNativeRuntime", 
+      [](int32_t fd, OH_HiDebug_MemListenerType tag, bool mayReportToOEM, const char* arg) -> bool {
+        switch (tag) {
+          case OH_HiDebug_MemListenerType::OH_HIDEBUG_DO_NOTHING:
+            return true;
+          case OH_HiDebug_MemListenerType::OH_HIDEBUG_RUNNING_GC:
+            return true;
+          case OH_HiDebug_MemListenerType::OH_HIDEBUG_DUMP_SNAPSHOT:
+            if (!mayReportToOEM) {
+              return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
+            }
+          default:
+            return true;
+        }
     });
     if (ohResult == HIDEBUG_SUCCESS) {
       OH_LOG_DEBUG(LOG_APP, "Failed to register memory dump listener.");
