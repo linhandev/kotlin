@@ -10,8 +10,6 @@
 
 namespace kotlin::alloc {
 
-
-
 struct AllocatedSizeTracker {
     class Page {
     public:
@@ -26,13 +24,11 @@ struct AllocatedSizeTracker {
     public:
         /** Returns the tracker value after the update. */
         std::size_t recordDifference(std::ptrdiff_t diffBytes) noexcept;
-
         void recordDifferenceAndNotifyScheduler(std::ptrdiff_t diffBytes) noexcept;
     private:
         std::atomic<std::ptrdiff_t> allocatedBytes_ = 0;
         std::size_t oomThreshold_ = 1536 * 1024 * 1024; // 1.5GB
         std::atomic<bool> hasDumped_{false};
-
     };
 };
 
