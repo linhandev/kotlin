@@ -52,11 +52,10 @@ static void ReportOomEventViaHiAppEvent(
         const char* dumpPath,
         std::size_t memUsage,
         std::size_t threshold,
-        const char* timestamp,
-        bool dumpSuccess) {
+        const char* timestamp) {
     std::ostringstream desc;
     desc << "Kotlin/Native heap over OOM threshold; dump_path=" << dumpPath << "; memory_usage=" << memUsage
-         << "; oom_threshold=" << threshold << "; timestamp=" << timestamp << "; dump_success=" << (dumpSuccess ? "true" : "false");
+         << "; oom_threshold=" << threshold << "; timestamp=" << timestamp;
     std::string descriptionStr = desc.str();
 
     OH_HiAppEvent_ReportFrameworkMemAnomaly(OH_KMP_KOTLIN, KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION,
@@ -64,19 +63,23 @@ static void ReportOomEventViaHiAppEvent(
     DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly invoked for KMP Kotlin.");
 }
 #else
-static void ReportOomEventViaHiAppEvent(const char*, std::size_t, std::size_t, const char*, bool) {
+static void ReportOomEventViaHiAppEvent(const char*, std::size_t, std::size_t, const char*) {
     // No-op on non-OHOS platforms
 }
 #endif
 
-// Get all dump files in directory, sorted by mtime (oldest first).
-std::vector<std::string> GetSortedDumpFiles(const std::string& directory) {
-    std::vector<std::string> dumpFiles;
+// Delete one oldest dump file when total count reaches maxFiles.
+void CleanupOldDumpFiles(const std::string& directory, int maxFiles) {
     DIR* dir = opendir(directory.c_str());
     if (dir == nullptr) {
         DBG_OOM("Failed to open directory %{public}s for reading dump files", directory.c_str());
-        return dumpFiles;
+        return;
     }
+
+    int dumpFileCount = 0;
+    std::string oldestDumpFile;
+    time_t oldestMtime = 0;
+    bool hasOldest = false;
 
     struct dirent* entry;
     while ((entry = readdir(dir)) != nullptr) {
@@ -84,47 +87,33 @@ std::vector<std::string> GetSortedDumpFiles(const std::string& directory) {
         // Match oom_dump_YYYYMMDD_HHMMSS.dump
         if (filename.find("oom_dump_") == 0 && filename.size() >= K_DUMP_FILE_EXTENSION_LENGTH &&
             filename.compare(filename.size() - K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION) == 0) {
-            dumpFiles.push_back(directory + "/" + filename);
+            ++dumpFileCount;
+            std::string fullPath = directory + "/" + filename;
+            struct stat st;
+            if (stat(fullPath.c_str(), &st) == 0) {
+                if (!hasOldest || st.st_mtime < oldestMtime || (st.st_mtime == oldestMtime && fullPath < oldestDumpFile)) {
+                    oldestMtime = st.st_mtime;
+                    oldestDumpFile = fullPath;
+                    hasOldest = true;
+                }
+            }
         }
     }
     closedir(dir);
 
-    // Sort by mtime ascending.
-    std::sort(dumpFiles.begin(), dumpFiles.end(), [](const std::string& a, const std::string& b) {
-        struct stat statA;
-        struct stat statB;
-        int ra = stat(a.c_str(), &statA);
-        int rb = stat(b.c_str(), &statB);
-        if (ra != 0 && rb != 0) {
-            return a < b;
-        }
-        if (ra != 0) {
-            return true;
-        }
-        if (rb != 0) {
-            return false;
-        }
-        if (statA.st_mtime != statB.st_mtime) {
-            return statA.st_mtime < statB.st_mtime;
-        }
-        return a < b;
-    });
+    if (dumpFileCount < maxFiles) {
+        return;
+    }
 
-    return dumpFiles;
-}
+    if (!hasOldest) {
+        DBG_OOM("No valid dump file found to delete in %{public}s", directory.c_str());
+        return;
+    }
 
-// Remove oldest dump files so total count does not exceed maxFiles.
-void CleanupOldDumpFiles(const std::string& directory, int maxFiles) {
-    auto dumpFiles = GetSortedDumpFiles(directory);
-    int filesToDelete = static_cast<int>(dumpFiles.size()) - maxFiles;
-
-    for (int i = 0; i < filesToDelete && i < (int)dumpFiles.size(); ++i) {
-        if (unlink(dumpFiles[i].c_str()) == 0) {
-            DBG_OOM("Deleted old dump file: %{public}s", dumpFiles[i].c_str());
-        } else {
-            DBG_OOM("Failed to delete old dump file: %{public}s, errno: %{public}d",
-                             dumpFiles[i].c_str(), errno);
-        }
+    if (unlink(oldestDumpFile.c_str()) == 0) {
+        DBG_OOM("Deleted oldest dump file: %{public}s", oldestDumpFile.c_str());
+    } else {
+        DBG_OOM("Failed to delete oldest dump file: %{public}s, errno: %{public}d", oldestDumpFile.c_str(), errno);
     }
 }
 
@@ -237,8 +226,8 @@ void alloc::AllocatedSizeTracker::Heap::recordDifferenceAndNotifyScheduler(std::
             // Dump directory for open/cleanup.
             const std::string dumpDir = "/data/storage/el2/base/haps/entry/temp";
 
-            // Keep at most 9 old dumps; new one will make 10 total.
-            CleanupOldDumpFiles(dumpDir, 9);
+            // Keep at most 10 dump files in total.
+            CleanupOldDumpFiles(dumpDir, 10);
 
             std::ostringstream filenameStream;
             filenameStream << "oom_dump_" << std::put_time(localTime, "%Y%m%d_%H%M%S") << ".dump";
@@ -250,6 +239,8 @@ void alloc::AllocatedSizeTracker::Heap::recordDifferenceAndNotifyScheduler(std::
             std::ostringstream tsStream;
             tsStream << std::put_time(localTime, "%Y-%m-%d %H:%M:%S");
             std::string timestampStr = tsStream.str();
+
+            ReportOomEventViaHiAppEvent(reportDumpPath.c_str(), nowAllocated, oomThreshold_, timestampStr.c_str());
 
             bool dumpSuccess = false;
             int fd = open(finalDumpPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666);
@@ -270,8 +261,6 @@ void alloc::AllocatedSizeTracker::Heap::recordDifferenceAndNotifyScheduler(std::
             } else {
                 DBG_OOM("Failed to open %{public}s for memory dump. errno: %{public}d", reportDumpPath.c_str(), errno);
             }
-
-            ReportOomEventViaHiAppEvent(reportDumpPath.c_str(), nowAllocated, oomThreshold_, timestampStr.c_str(), dumpSuccess);
         }
     }
 
