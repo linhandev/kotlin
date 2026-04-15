@@ -42,17 +42,19 @@ namespace {
 void (*schedulerNotificationTestHook)(std::size_t) = nullptr;
 constexpr const char K_DUMP_FILE_EXTENSION[] = ".dump";
 constexpr std::size_t K_DUMP_FILE_EXTENSION_LENGTH = sizeof(K_DUMP_FILE_EXTENSION) - 1;
+constexpr std::size_t K_MAX_OOM_DUMP_FILES = 10;
 
 bool IsOomDumpFileName(const std::string& filename) {
     return filename.find("oom_dump_") == 0 && filename.size() >= K_DUMP_FILE_EXTENSION_LENGTH &&
            filename.compare(
-                   filename.size() - K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION) == 0;
+               filename.size() - K_DUMP_FILE_EXTENSION_LENGTH,
+               K_DUMP_FILE_EXTENSION_LENGTH, K_DUMP_FILE_EXTENSION) == 0;
 }
 
 bool ShouldReplaceOldestDump(
-    time_t candidateMtime, 
-    const std::string& candidatePath, 
-    bool hasOldest, 
+    time_t candidateMtime,
+    const std::string& candidatePath,
+    bool hasOldest,
     time_t oldestMtime,
     const std::string& oldestDumpFile) {
     const bool isOlder = candidateMtime < oldestMtime;
@@ -91,7 +93,9 @@ std::string ExtractMappedBaseFromMountInfo() {
         break;
     }
     free(line);
-    fclose(mountInfo);
+    if (fclose(mountInfo) != 0) {
+        DBG_OOM("Failed to close /proc/self/mountinfo. errno: %{public}d", errno);
+    }
     return mappedBase;
 }
 
@@ -117,8 +121,8 @@ static void ReportOomEventViaHiAppEvent(
 #else
 static void ReportOomEventViaHiAppEvent(
     const char*,
-    std::size_t, 
-    std::size_t, 
+    std::size_t,
+    std::size_t,
     const char*) {
     // No-op on non-OHOS platforms
 }
@@ -126,7 +130,7 @@ static void ReportOomEventViaHiAppEvent(
 
 // Delete one oldest dump file when total count reaches maxFiles.
 void CleanupOldDumpFiles(
-    const std::string& directory, 
+    const std::string& directory,
     int maxFiles) {
     DIR* dir = opendir(directory.c_str());
     if (dir == nullptr) {
@@ -202,7 +206,7 @@ std::string ToHostVisiblePath(
 }
 
 std::string BuildReportDumpPath(
-    const std::string& dumpDir, 
+    const std::string& dumpDir,
     const std::string& dumpFileName) {
     return ToHostVisiblePath(dumpDir + "/" + dumpFileName);
 }
@@ -242,7 +246,7 @@ bool alloc::AllocatedSizeTracker::Heap::ShouldDumpAndMark(std::size_t nowAllocat
         bool expectedDumped = false;
         // Only one thread proceeds; avoids duplicate dumps / HiAppEvent when allocating in parallel.
         if (hasDumped_.compare_exchange_strong(
-                    expectedDumped, true, std::memory_order_acq_rel, std::memory_order_relaxed)) {
+            expectedDumped, true, std::memory_order_acq_rel, std::memory_order_relaxed)) {
             return true;
         }
     }
@@ -267,8 +271,8 @@ std::tm* alloc::AllocatedSizeTracker::Heap::ResolveLocalTimeOrFallback(std::time
 }
 
 void alloc::AllocatedSizeTracker::Heap::BuildDumpMetadata(
-        const std::tm* localTime, const std::string& dumpDir, std::string& finalDumpPath, std::string& reportDumpPath,
-        std::string& timestampStr) noexcept {
+    const std::tm* localTime, const std::string& dumpDir, std::string& finalDumpPath, std::string& reportDumpPath,
+    std::string& timestampStr) noexcept {
     std::ostringstream filenameStream;
     filenameStream << "oom_dump_" << std::put_time(localTime, "%Y%m%d_%H%M%S") << ".dump";
     const std::string dumpFileName = filenameStream.str();
@@ -280,7 +284,9 @@ void alloc::AllocatedSizeTracker::Heap::BuildDumpMetadata(
     timestampStr = tsStream.str();
 }
 
-void alloc::AllocatedSizeTracker::Heap::DumpMemoryToFile(const std::string& finalDumpPath, const std::string& reportDumpPath) noexcept {
+void alloc::AllocatedSizeTracker::Heap::DumpMemoryToFile(
+    const std::string& finalDumpPath,
+    const std::string& reportDumpPath) noexcept {
     bool dumpSuccess = false;
     int fd = open(finalDumpPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666);
     if (fd >= 0) {
@@ -311,7 +317,7 @@ void alloc::AllocatedSizeTracker::Heap::MaybeDumpAndReportOom(std::size_t nowAll
     std::tm tmBuf{};
     std::tm* localTime = ResolveLocalTimeOrFallback(now, tmBuf);
     const std::string dumpDir = "/data/storage/el2/base/haps/entry/temp";
-    CleanupOldDumpFiles(dumpDir, 10);
+    CleanupOldDumpFiles(dumpDir, K_MAX_OOM_DUMP_FILES);
 
     std::string finalDumpPath;
     std::string reportDumpPath;
