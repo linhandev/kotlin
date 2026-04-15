@@ -93,6 +93,7 @@ std::atomic<GlobalRuntimeStatus> globalRuntimeStatus = kGlobalRuntimeUninitializ
 
 void Kotlin_deinitRuntimeCallback(void* argument);
 
+#ifdef KONAN_OHOS
 void RegistDumpListenerIfNeeded() {
   if (OH_GetSdkApiVersion() >= OHOS_DUMPLISTNER_MIN_API) {
     // Register a memory dump listener for hidumper tools. The listener writes
@@ -119,6 +120,7 @@ void RegistDumpListenerIfNeeded() {
     }
   }
 }
+#endif
 
 NO_INLINE RuntimeState* initRuntime() {
   SetKonanTerminateHandler();
