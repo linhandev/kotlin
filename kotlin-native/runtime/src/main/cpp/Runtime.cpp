@@ -99,18 +99,18 @@ void RegistDumpListenerIfNeeded() {
     // a small diagnostic string to the provided file descriptor.
     auto ohResult = OH_HiDebug_RegisterMemDumpListener("KMP",
       [](int32_t fd, OH_HiDebug_MemListenerType tag, bool mayReportToOEM, const char* arg) -> bool {
-        switch (tag) {
-          case OH_HiDebug_MemListenerType::OH_HIDEBUG_DO_NOTHING:
-            return true;
-          case OH_HiDebug_MemListenerType::OH_HIDEBUG_RUNNING_GC:
-            return true;
-          case OH_HiDebug_MemListenerType::OH_HIDEBUG_DUMP_SNAPSHOT:
-            if (!mayReportToOEM) {
-              return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
-            }
-          default:
-            return true;
-        }
+      switch (tag) {
+        case OH_HiDebug_MemListenerType::OH_HIDEBUG_DO_NOTHING:
+          return true;
+        case OH_HiDebug_MemListenerType::OH_HIDEBUG_RUNNING_GC:
+          return true;
+        case OH_HiDebug_MemListenerType::OH_HIDEBUG_DUMP_SNAPSHOT:
+          if (!mayReportToOEM) {
+            return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
+          }
+        default:
+          return true;
+      }
     });
     if (ohResult == HIDEBUG_SUCCESS) {
       OH_LOG_DEBUG(LOG_APP, "Successfully registered memory dump listener.");
