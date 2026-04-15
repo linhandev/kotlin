@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <condition_variable>
 #include <mutex>
 
 #include "GCStatistics.hpp"
@@ -17,6 +18,18 @@
 #include "Utils.hpp"
 #include "concurrent/Once.hpp"
 
+#if ENABLE_MARK_VERIFY
+#define VERIFY_MARK_OBJECT(object) \
+    do { \
+        KNStateWord *word = reinterpret_cast<KNStateWord*>(object); \
+        if (!word || !(word->IsValid())) { \
+            RuntimeLogDebug({logging::Tag::kGCMark}, "Invalid object %p in %s", object, __func__); \
+            abort(); \
+        } \
+    } while (0)
+#else
+#define VERIFY_MARK_OBJECT(object)
+#endif
 
 namespace kotlin::gc::mark {
 
@@ -68,6 +81,8 @@ public:
         }
 
         static PERFORMANCE_INLINE bool tryEnqueue(AnyQueue& queue, ObjHeader* object) noexcept {
+            VERIFY_MARK_OBJECT(object);
+
             auto& objectData = alloc::objectDataForObject(object);
             bool pushed = queue.tryPush(objectData);
             if (pushed) {
@@ -77,6 +92,8 @@ public:
         }
 
         static PERFORMANCE_INLINE bool tryMark(ObjHeader* object) noexcept {
+            VERIFY_MARK_OBJECT(object);
+
             auto& objectData = alloc::objectDataForObject(object);
             bool pushed = objectData.tryMark();
             if (pushed) {

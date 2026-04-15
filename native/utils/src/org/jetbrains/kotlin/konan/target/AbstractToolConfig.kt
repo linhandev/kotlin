@@ -23,6 +23,20 @@ abstract class AbstractToolConfig(konanHome: String, userProvidedTargetName: Str
     val llvmHome = platform.absoluteLlvmHome
     val sysRoot = platform.absoluteTargetSysRoot
 
+    /**
+     * Ordered sysroot roots for cinterop header ids in klib manifests. OHOS may use a second unpacked sysroot
+     * ([OhosConfigurables.additionalTargetSysRoot]); headers there must be relativized like the primary sysroot.
+     */
+    fun headerIdRootPaths(): List<String> = buildList {
+        add(sysRoot)
+        val configurables = platform.configurables
+        if (configurables is OhosConfigurables) {
+            configurables.additionalTargetSysRoot?.let { name ->
+                add(configurables.absolute(name))
+            }
+        }
+    }
+
     val libclang = when (host) {
         KonanTarget.MINGW_X64 -> "$llvmHome/bin/libclang.dll"
         else -> "$llvmHome/lib/${System.mapLibraryName("clang")}"

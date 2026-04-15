@@ -214,6 +214,7 @@ bitcode {
             sourceSets {
                 main {}
             }
+            compilerArgs.add("-DKONAN_COMPILER_INTERFACE=1")
         }
 
         module("launcher") {

@@ -15,7 +15,7 @@ public class ForeignException internal constructor(public val nativeException: A
     }?: ""
 
     // Current implementation expects NSException type only, which is ensured by CodeGenerator.
-    @GCUnsafeCall("Kotlin_ObjCExport_ExceptionDetails")
+    @GCUnsafeCall("Kotlin_ObjCExport_ExceptionDetails", true)
     private external fun kotlin_ObjCExport_ExceptionDetails(nativeException: Any): String?
 }
 

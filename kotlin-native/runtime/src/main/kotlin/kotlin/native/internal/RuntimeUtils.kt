@@ -34,6 +34,13 @@ internal fun ThrowArrayIndexOutOfBoundsException(): Nothing {
 }
 
 @ExportForCppRuntime
+@ExportForIntrinsic
+internal fun ThrowArrayIndexOutOfBoundsExceptionForKt(): Nothing {
+    @Suppress("DEPRECATION")
+    throw ArrayIndexOutOfBoundsException()
+}
+
+@ExportForCppRuntime
 @PublishedApi
 internal fun ThrowClassCastException(instance: Any, typeInfo: NativePtr): Nothing {
     val clazz = KClassImpl<Any>(typeInfo)

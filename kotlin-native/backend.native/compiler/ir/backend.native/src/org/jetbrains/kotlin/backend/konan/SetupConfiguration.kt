@@ -230,10 +230,10 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
     }
 
     val gcFromArgument = when (arguments.gc) {
-        null -> null
+        null -> GC.CONCURRENT_MARK_AND_SWEEP
         "noop" -> GC.NOOP
         "stms" -> GC.STOP_THE_WORLD_MARK_AND_SWEEP
-        "cms" -> GC.PARALLEL_MARK_CONCURRENT_SWEEP
+        "cms" -> GC.CONCURRENT_MARK_AND_SWEEP
         else -> {
             val validValues = enumValues<GC>().map {
                 val fullName = "$it".lowercase()
@@ -244,10 +244,6 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
             report(ERROR, "Unsupported argument -Xgc=${arguments.gc}. Use -Xbinary=gc= with values ${validValues}")
             null
         }
-    }
-    if (gcFromArgument != null) {
-        val newValue = gcFromArgument.shortcut ?: "$gcFromArgument".lowercase()
-        report(WARNING, "-Xgc=${arguments.gc} compiler argument is deprecated. Use -Xbinary=gc=${newValue} instead")
     }
     // TODO: revise priority and/or report conflicting values.
     if (get(BinaryOptions.gc) == null) {

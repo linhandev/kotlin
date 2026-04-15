@@ -43,7 +43,18 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
     } else {
         object->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
     }
-    return object;
+    #ifdef KONAN_OHOS
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+        restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_,
+            TAG_RES_KMP_HEAP_MASK, true);
+    }
+    #endif
+
+    // Try setting the tag here
+    KNStateWord *word = reinterpret_cast<KNStateWord*>(object);
+    word->SetValid();
+
+     return object;
 }
 
 ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t count) noexcept {
@@ -55,6 +66,16 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
     ArrayHeader* array = heapArray.array();
     array->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
     array->count_ = count;
+    #ifdef KONAN_OHOS
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+        restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_,
+            TAG_RES_KMP_HEAP_MASK, true);
+    }
+    #endif
+    // Try setting the tag here
+    KNStateWord *word = reinterpret_cast<KNStateWord*>(array);
+    word->SetValid();
+
     return array;
 }
 

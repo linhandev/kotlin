@@ -84,7 +84,6 @@ extern "C" id Kotlin_ObjCExport_WrapExceptionToNSError(KRef exception) {
   NSString* description = Kotlin_Interop_CreateNSStringFromKString(message);
 
   id exceptionObjCRef = Kotlin_ObjCExport_refToLocalObjC(exception);
-
   kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative);
 
   NSMutableDictionary<NSErrorUserInfoKey, id>* userInfo = [[NSMutableDictionary new] autorelease];
@@ -94,7 +93,6 @@ extern "C" id Kotlin_ObjCExport_WrapExceptionToNSError(KRef exception) {
   if (description != nullptr) {
     userInfo[NSLocalizedDescriptionKey] = description;
   }
-
   return [NSError errorWithDomain:@"KotlinException" code:0 userInfo:userInfo];
 }
 
