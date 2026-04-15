@@ -129,7 +129,7 @@ NO_INLINE RuntimeState* initRuntime() {
   if (OH_GetSdkApiVersion() >= OHOS_DUMPLISTNER_MIN_API) {
     // Register a memory dump listener for hidumper tools. The listener writes
     // a small diagnostic string to the provided file descriptor.
-    auto ohResult = OH_HiDebug_RegisterMemDumpListener("KotlinNativeRuntime", 
+    auto ohResult = OH_HiDebug_RegisterMemDumpListener("KMP", 
       [](int32_t fd, OH_HiDebug_MemListenerType tag, bool mayReportToOEM, const char* arg) -> bool {
         switch (tag) {
           case OH_HiDebug_MemListenerType::OH_HIDEBUG_DO_NOTHING:
@@ -145,9 +145,9 @@ NO_INLINE RuntimeState* initRuntime() {
         }
     });
     if (ohResult == HIDEBUG_SUCCESS) {
-      OH_LOG_DEBUG(LOG_APP, "Failed to register memory dump listener.");
-    } else {
       OH_LOG_DEBUG(LOG_APP, "Successfully registered memory dump listener.");
+    } else {
+      OH_LOG_WARN(LOG_APP, "Failed to register memory dump listener.");
     }
   }
 #endif
