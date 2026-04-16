@@ -52,11 +52,9 @@ internal fun ObjCExportCodeGeneratorBase.generateBlockToKotlinFunctionConverter(
         } else {
             thisRef
         }
-
-        val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), associatedObjectHolder)
         val blockPtr = callFromBridge(
                 llvm.Kotlin_ObjCExport_GetAssociatedObject,
-                listOf(typeInfoOrMetaPtrRaw)
+                listOf(associatedObjectHolder)
         )
 
         val invoke = loadBlockInvoke(blockPtr, bridge)
@@ -99,13 +97,13 @@ internal fun ObjCExportCodeGeneratorBase.generateBlockToKotlinFunctionConverter(
             objectBodyType,
             immutable = true
     )
-    val functionSig = LlvmFunctionSignature(codegen.kObjHeaderRefReturnType, listOf(LlvmParamType(llvm.int8PtrType), LlvmParamType(codegen.kObjHeaderPtrPtr)))
+    val functionSig = LlvmFunctionSignature(codegen.kObjHeaderPtrReturnType, listOf(LlvmParamType(llvm.int8PtrType), LlvmParamType(codegen.kObjHeaderPtrPtr)))
     return functionGenerator(
             functionSig.toProto("convertBlock${bridge.nameSuffix}", null, LLVMLinkage.LLVMInternalLinkage)
     ).generate {
         val blockPtr = param(0)
         ifThen(icmpEq(blockPtr, llvm.kNullInt8Ptr)) {
-            ret(bitcast(codegen.kObjHeaderRef, kNullObjHeaderPtr))
+            ret(kNullObjHeaderPtr)
         }
 
         val retainedBlockPtr = callFromBridge(retainBlock, listOf(blockPtr))
@@ -144,15 +142,11 @@ private fun FunctionGenerationContext.allocInstanceWithAssociatedObject(
         typeInfo: ConstPointer,
         associatedObject: LLVMValueRef,
         resultLifetime: Lifetime
-): LLVMValueRef {
-        val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), typeInfo.llvm)
-        val result = call(
-                llvm.Kotlin_ObjCExport_AllocInstanceWithAssociatedObject,
-                listOf(typeInfoOrMetaPtrRaw, associatedObject),
-                resultLifetime
-        )
-        return bitcast(codegen.kObjHeaderRef, result)
-}
+): LLVMValueRef = call(
+        llvm.Kotlin_ObjCExport_AllocInstanceWithAssociatedObject,
+        listOf(typeInfo.llvm, associatedObject),
+        resultLifetime
+)
 
 private val BlockPointerBridge.blockType: BlockType
     get() = BlockType(numberOfParameters = this.numberOfParameters, returnsVoid = this.returnsVoid)
@@ -276,9 +270,8 @@ internal class BlockGenerator(private val codegen: CodeGenerator) {
             val kotlinObject = load(codegen.kObjHeaderPtr, objectInBlock(param(0)))
 
             val arguments = (1 .. blockType.numberOfParameters).map { index -> param(index) }
-            val newkotlinObject = bitcast(llvm.kObjHeaderRef, kotlinObject)
 
-            genBody(newkotlinObject, arguments)
+            genBody(kotlinObject, arguments)
         }
 
         return result.toConstPointer()

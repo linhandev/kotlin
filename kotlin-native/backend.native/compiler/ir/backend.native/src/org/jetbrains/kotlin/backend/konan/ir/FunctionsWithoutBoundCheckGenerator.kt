@@ -54,8 +54,7 @@ internal class FunctionsWithoutBoundCheckGenerator(val context: KonanBackendCont
                 // Copy annotations.
                 val setWithoutBEAnnotations = (delegatingToFunction ?: baseFunction).annotations.map { annotation ->
                     annotation.deepCopyWithSymbols().also { copy ->
-                        if (copy.isAnnotationWithEqualFqName(KonanFqNames.gcSafeCall) ||
-                            copy.isAnnotationWithEqualFqName(KonanFqNames.gcUnsafeCall)) {
+                        if (copy.isAnnotationWithEqualFqName(KonanFqNames.gcUnsafeCall)) {
                             val value = "${annotation.getAnnotationStringValue("callee")}_without_BoundCheck"
                             copy.arguments[0] = IrConstImpl.string(UNDEFINED_OFFSET, UNDEFINED_OFFSET, context.irBuiltIns.stringType, value)
                         }

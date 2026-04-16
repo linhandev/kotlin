@@ -128,9 +128,7 @@ RawExternalRCRef* permanentObjectAsExternalRCRef(KRef obj) noexcept;
 inline RawExternalRCRef* createRetainedExternalRCRef(KRef obj) noexcept {
     AssertThreadState(ThreadState::kRunnable);
     if (!obj) return nullptr;
-    #if !KONAN_COMPILER_INTERFACE
     if (obj->permanent()) return permanentObjectAsExternalRCRef(obj);
-    #endif
     return ExternalRCRefImpl::create(obj, 1).toRaw();
 }
 
@@ -139,9 +137,7 @@ inline RawExternalRCRef* createRetainedExternalRCRef(KRef obj) noexcept {
 inline RawExternalRCRef* createUnretainedExternalRCRef(KRef obj) noexcept {
     AssertThreadState(ThreadState::kRunnable);
     if (!obj) return nullptr;
-    #if !KONAN_COMPILER_INTERFACE
     if (obj->permanent()) return permanentObjectAsExternalRCRef(obj);
-    #endif
     return ExternalRCRefImpl::create(obj, 0).toRaw();
 }
 
@@ -170,15 +166,7 @@ inline KRef dereferenceExternalRCRef(const RawExternalRCRef* ref) noexcept {
 // Can be called in any state.
 inline const TypeInfo* typeOfExternalRCRef(const RawExternalRCRef* ref) noexcept {
     if (!ref) return nullptr;
-    #if KONAN_COMPILER_INTERFACE
-    if (externalRCRefAsPermanentObject(ref)) {
-        return nullptr;
-    }
-    #else
-    if (auto obj = externalRCRefAsPermanentObject(ref)) {
-        return obj->type_info();
-    }
-    #endif
+    if (auto obj = externalRCRefAsPermanentObject(ref)) return obj->type_info();
     return ExternalRCRefImpl::fromRaw(ref)->typeInfo();
 }
 

@@ -44,6 +44,7 @@ uint8_t* NextFitPage::TryAllocate(uint32_t blockSize) noexcept {
     return nullptr;
 }
 
+
 void NextFitPage::UpdateCurBlock(uint32_t cellsNeeded) noexcept {
     CustomAllocDebug("NextFitPage@%p::UpdateCurBlock(%u)", this, cellsNeeded);
     if (curBlock_ == cells_) curBlock_ = cells_ + 1; // only used as a starting point

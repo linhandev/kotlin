@@ -65,7 +65,6 @@ public:
                 memset(next, 0, sizeof(*next));
             }
             if (block->size_ > maxBlock->size_) maxBlock = block;
-            block->ReleasePages();
         }
         curBlock_ = maxBlock;
 

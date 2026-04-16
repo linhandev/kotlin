@@ -156,7 +156,6 @@ private object CallableIds {
     val theUnitInstance = "theUnitInstance".internalCallableId
     val throwArithmeticException = "ThrowArithmeticException".internalCallableId
     val throwIndexOutOfBoundsException = "ThrowIndexOutOfBoundsException".internalCallableId
-    val throwArrayIndexOutOfBoundsException = "ThrowArrayIndexOutOfBoundsExceptionForKt".internalCallableId
     val throwNullPointerException = "ThrowNullPointerException".internalCallableId
     val throwNoWhenBranchMatchedException = "ThrowNoWhenBranchMatchedException".internalCallableId
     val throwIrLinkageError = CallableId(StandardClassIds.BASE_INTERNAL_PACKAGE, Name.identifier("throwIrLinkageError"))
@@ -512,8 +511,6 @@ class KonanSymbols(
     val throwArithmeticException = CallableIds.throwArithmeticException.functionSymbol()
 
     val throwIndexOutOfBoundsException = CallableIds.throwIndexOutOfBoundsException.functionSymbol()
-
-    val throwArrayIndexOutOfBoundsException = CallableIds.throwArrayIndexOutOfBoundsException.functionSymbol()
 
     override val throwNullPointerException = CallableIds.throwNullPointerException.functionSymbol()
 

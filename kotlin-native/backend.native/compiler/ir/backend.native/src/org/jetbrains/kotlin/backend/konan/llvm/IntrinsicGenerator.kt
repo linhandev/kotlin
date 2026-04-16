@@ -336,17 +336,11 @@ internal class IntrinsicGenerator(private val environment: IntrinsicGeneratorEnv
 
     private fun FunctionGenerationContext.emitCmpExchange(callSite: IrCall, args: List<LLVMValueRef>, mode: CmpExchangeMode, resultSlot: LLVMValueRef?): LLVMValueRef {
         require(args.size == 3) { "The call to ${callSite.symbol.owner.name.asString()} expects 3 value arguments." }
-        val newarg1 = bitcast(pointerType(codegen.intPtrType), args[1])
-        val newarg2 = bitcast(pointerType(codegen.intPtrType), args[2])
-        val newargs = listOf(args[0], newarg1, newarg2)
         return if (callSite.symbol.owner.parameters.last().type.binaryTypeIsReference()) {
             when (mode) {
-                CmpExchangeMode.SET -> call(llvm.CompareAndSetVolatileHeapRef, newargs)
-                CmpExchangeMode.SWAP -> {
-                    val rst = call(llvm.CompareAndSwapVolatileHeapRef, newargs,
+                CmpExchangeMode.SET -> call(llvm.CompareAndSetVolatileHeapRef, args)
+                CmpExchangeMode.SWAP -> call(llvm.CompareAndSwapVolatileHeapRef, args,
                         environment.calculateLifetime(callSite), resultSlot = resultSlot)
-                    bitcast(llvm.kObjHeaderRef, rst)
-                }
             }
         } else {
             val cmp = LLVMBuildAtomicCmpXchg(builder, args[0], args[1], args[2],
@@ -363,11 +357,8 @@ internal class IntrinsicGenerator(private val environment: IntrinsicGeneratorEnv
         require(args.size == 2) { "The call to ${callSite.symbol.owner.name.asString()} expects 2 value arguments." }
         return if (callSite.symbol.owner.parameters.last().type.binaryTypeIsReference()) {
             require(op == LLVMAtomicRMWBinOp.LLVMAtomicRMWBinOpXchg)
-            val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), args[1])
-            val newargs = listOf(args[0], typeInfoOrMetaPtrRaw)
-            val rst = call(llvm.GetAndSetVolatileHeapRef, newargs,
+            call(llvm.GetAndSetVolatileHeapRef, args,
                     environment.calculateLifetime(callSite), resultSlot = resultSlot)
-            bitcast(llvm.kObjHeaderRef, rst)
         } else {
             LLVMBuildAtomicRMW(builder, op, args[0], args[1],
                     LLVMAtomicOrdering.LLVMAtomicOrderingSequentiallyConsistent,
@@ -403,11 +394,10 @@ internal class IntrinsicGenerator(private val environment: IntrinsicGeneratorEnv
     private fun FunctionGenerationContext.arrayGetElementAddress(callSite: IrCall, array: LLVMValueRef, index: LLVMValueRef): LLVMValueRef {
         val receiver = callSite.arguments[0]
         require(receiver != null)
-        val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), array)
         return when {
-            receiver.type.isIntArray() -> call(llvm.Kotlin_intArrayGetElementAddress, listOf(typeInfoOrMetaPtrRaw, index))
-            receiver.type.isLongArray() -> call(llvm.Kotlin_longArrayGetElementAddress, listOf(typeInfoOrMetaPtrRaw, index))
-            receiver.type.isArray() -> call(llvm.Kotlin_arrayGetElementAddress, listOf(typeInfoOrMetaPtrRaw, index), environment.calculateLifetime(callSite))
+            receiver.type.isIntArray() -> call(llvm.Kotlin_intArrayGetElementAddress, listOf(array, index))
+            receiver.type.isLongArray() -> call(llvm.Kotlin_longArrayGetElementAddress, listOf(array, index))
+            receiver.type.isArray() -> call(llvm.Kotlin_arrayGetElementAddress, listOf(array, index), environment.calculateLifetime(callSite))
             else -> error("Only IntArray, LongArray and Array<T> are supported for atomic array intrinsics.")
         }
     }

@@ -8,7 +8,9 @@ package org.jetbrains.kotlin.backend.konan.llvm
 
 import kotlinx.cinterop.*
 import llvm.*
-import org.jetbrains.kotlin.backend.konan.*
+import org.jetbrains.kotlin.backend.konan.NativeGenerationState
+import org.jetbrains.kotlin.backend.konan.RuntimeNames
+import org.jetbrains.kotlin.backend.konan.binaryTypeIsReference
 import org.jetbrains.kotlin.backend.konan.cgen.CBridgeOrigin
 import org.jetbrains.kotlin.backend.konan.ir.ClassGlobalHierarchyInfo
 import org.jetbrains.kotlin.backend.konan.ir.isAbstract
@@ -22,6 +24,7 @@ import org.jetbrains.kotlin.ir.objcinterop.*
 import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.konan.ForeignExceptionMode
 import org.jetbrains.kotlin.konan.target.CompilerOutputKind
+
 
 internal class CodeGenerator(override val generationState: NativeGenerationState) : ContextUtils {
     fun addFunction(proto: LlvmFunctionProto): LlvmCallable =
@@ -79,10 +82,9 @@ internal sealed class ExceptionHandler {
             functionGenerationContext: FunctionGenerationContext,
             kotlinException: LLVMValueRef
     ): Unit = with(functionGenerationContext) {
-        val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), kotlinException)
         call(
                 llvm.throwExceptionFunction,
-                listOf(typeInfoOrMetaPtrRaw),
+                listOf(kotlinException),
                 Lifetime.IRRELEVANT,
                 this@ExceptionHandler
         )
@@ -174,9 +176,6 @@ internal inline fun generateFunctionNoRuntime(
         code: FunctionGenerationContext.() -> Unit,
 ) : LlvmCallable {
     val function = codegen.addFunction(functionProto)
-    if (functionProto.name.startsWith("_Konan_init_")) {
-        function.clearGcCollector()
-    }
     val functionGenerationContext = DefaultFunctionGenerationContext(function, codegen, null, null,
             switchToRunnable = false, needSafePoint = true)
     try {
@@ -262,7 +261,8 @@ internal object VirtualTablesLookup {
     }
 
     fun FunctionGenerationContext.getVirtualImpl(receiver: LLVMValueRef, irFunction: IrSimpleFunction): LlvmCallable {
-        assert(LLVMTypeOf(receiver) == codegen.kObjHeaderRef) { llvmtype2string(LLVMTypeOf(receiver)) }
+        assert(LLVMTypeOf(receiver) == codegen.kObjHeaderPtr)
+
         val typeInfoPtr: LLVMValueRef = if (irFunction.getObjCMethodInfo() != null)
             call(llvm.getObjCKotlinTypeInfo, listOf(receiver))
         else
@@ -521,7 +521,7 @@ internal class StackLocalsManagerImpl(
                 if (fieldSymbol.owner.type.binaryTypeIsReference()) {
                     val fieldPtr = structGep(type, stackLocal.stackAllocationPtr, fieldIndex, "")
                     if (refsOnly)
-                        storeHeapRef(kNullObjHeaderRef, fieldPtr)
+                        storeHeapRef(kNullObjHeaderPtr, fieldPtr)
                     else
                         call(llvm.zeroHeapRefFunction, listOf(fieldPtr))
                 }
@@ -537,7 +537,7 @@ internal class StackLocalsManagerImpl(
             }
         }
         if (stackLocal.gcRootSetSlot != null) {
-            storeStackRef(kNullObjHeaderRef, stackLocal.gcRootSetSlot)
+            storeStackRef(kNullObjHeaderPtr, stackLocal.gcRootSetSlot)
         }
     }
 
@@ -617,15 +617,10 @@ internal abstract class FunctionGenerationContext(
     private val entryBb = basicBlockInFunction("entry", startLocation)
     protected val cleanupLandingpad = basicBlockInFunction("cleanup_landingpad", endLocation)
 
-    private var isCleanupLandingpadUsed = false
-
     // Functions that can be exported and called not only from Kotlin code should have cleanup_landingpad and `LeaveFrame`
     // because there is no guarantee of catching Kotlin exception in Kotlin code.
     protected open val needCleanupLandingpadAndLeaveFrame: Boolean
-        get() = irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true ||
-                irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForIntrinsic) == true ||
-                irFunction?.annotations?.hasAnnotation(KonanFqNames.gcUnsafeCall) == true ||
-                switchToRunnable || isCleanupLandingpadUsed
+        get() = irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true || switchToRunnable
 
     private var setCurrentFrameIsCalled: Boolean = false
 
@@ -680,7 +675,7 @@ internal abstract class FunctionGenerationContext(
     fun alloca(type: LLVMTypeRef?, isObjectType: Boolean, name: String = "", variableLocation: VariableDebugLocation? = null): LLVMValueRef {
         if (isObjectType) {
             appendingTo(localsInitBb) {
-                val slotAddress = gep(llvm.kObjHeaderRef, slotsPhi!!, llvm.int32(slotCount), name)
+                val slotAddress = gep(type!!, slotsPhi!!, llvm.int32(slotCount), name)
                 variableLocation?.let {
                     slotToVariableLocation[slotCount] = it
                 }
@@ -732,247 +727,17 @@ internal abstract class FunctionGenerationContext(
             memoryOrder: LLVMAtomicOrdering? = null,
             alignment: Int? = null
     ): LLVMValueRef {
-        val addressTy = LLVMTypeOf(address)!!
-        // Need to add a cast.
-        // 1. Check if this is a double pointer
-        val tyLayCount = GetLayOutOfPointer(addressTy, 0)
-        if (tyLayCount == 2) {
-            // 2. Check if the inner pointer matches the type.
-            // In LLVM 19 opaque pointer mode, elementTy is null; skip.
-            val elementTy = LLVMGetElementType(addressTy)
-            if (elementTy != null) {
-                val typeAddrSpace = LLVMGetPointerAddressSpace(type)
-                val elementAddrSpace = LLVMGetPointerAddressSpace(elementTy)
-                if (typeAddrSpace != elementAddrSpace) {
-                    val targetTy = LLVMPointerType(type, 0)
-                    val tempOuterPtr = LLVMBuildBitCast(builder, address, targetTy, "")
-                    val value = LLVMBuildLoad2(builder, type, tempOuterPtr, name)!!
-                    memoryOrder?.let { LLVMSetOrdering(value, it) }
-                    alignment?.let { LLVMSetAlignment(value, it) }
-                    return value
-                }
-            }
-        }
-
         val value = LLVMBuildLoad2(builder, type, address, name)!!
         memoryOrder?.let { LLVMSetOrdering(value, it) }
         alignment?.let { LLVMSetAlignment(value, it) }
-        return value;
-    }
-
-    fun loadArraySize(thiz: LLVMValueRef): LLVMValueRef {
-        val objHeaderType = llvm.runtime.objHeaderType
-        val headerPlus1 = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz, cValuesOf(llvm.int64(1)), 1, "size_gep")
-        val headerPlus0 = LLVMBuildAddrSpaceCast(builder, headerPlus1, LLVMPointerType(objHeaderType, 0), "")
-        val sizePtr = LLVMBuildBitCast(builder, headerPlus0, LLVMPointerType(llvm.int32Type, 0), "size_ptr")
-        val sizeVal = LLVMBuildLoad2(builder, llvm.int32Type, sizePtr, "size_val")!!
-        LLVMSetAlignment(sizeVal, 8)
-        return sizeVal
-    }
-
-    fun checkBounds(index: LLVMValueRef, size: LLVMValueRef, exceptionHandler: ExceptionHandler) {
-        val successBB = basicBlockInFunction("bounds_success", position()?.end)
-        val failBB = basicBlockInFunction("bounds_fail", position()?.end)
-
-        val cmp = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntUGT, size, index, "bounds_cmp")
-        LLVMBuildCondBr(builder, cmp, successBB, failBB)
-
-        LLVMPositionBuilderAtEnd(builder, failBB)
-        throwArrayIndexOutOfBoundsExceptionFunction(exceptionHandler)
-
-        LLVMPositionBuilderAtEnd(builder, successBB)
-    }
-
-    fun getArrayElementPtr(thiz: LLVMValueRef, index: LLVMValueRef, elementType: LLVMTypeRef): LLVMValueRef {
-        val objHeaderType = llvm.runtime.objHeaderType
-        val dataBase = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz, cValuesOf(llvm.int64(2)), 1, "data_base")
-
-        val elemPtrType = LLVMPointerType(elementType, 1)
-        val dataBaseCasted = LLVMBuildBitCast(builder, dataBase, elemPtrType, "data_base_cast")
-
-        val index64 = LLVMBuildSExt(builder, index, llvm.int64Type, "index_sext")
-        val elementPtr = LLVMBuildInBoundsGEP2(builder, elementType, dataBaseCasted, cValuesOf(index64), 1, "element_ptr")!!
-
-        return elementPtr
-    }
-
-    fun intrinsicArrayGetLength(thiz: LLVMValueRef): LLVMValueRef {
-        val arrayHeaderType = codegen.runtime.arrayHeaderType
-        val arrayHeaderPtrType = LLVMPointerType(arrayHeaderType, 1)
-        val typedArrayPtr = LLVMBuildBitCast(builder, thiz, arrayHeaderPtrType, "typedArrayPtr")
-
-        val countPtr = LLVMBuildStructGEP2(builder, arrayHeaderType, typedArrayPtr, 1, "countPtr")
-        val countValue = LLVMBuildLoad2(builder, llvm.int32Type, countPtr, "arrayLength")!!
-        return countValue
-    }
-
-    fun intrinsicArrayGetWithOutBoundCheck(
-        thiz: LLVMValueRef,
-        index: LLVMValueRef,
-        resultSlot: LLVMValueRef?
-    ): LLVMValueRef {
-        val continuationBlock = basicBlockInFunction("array_get_cont", null)
-
-        val int64Type = llvm.int64Type
-        val objHeaderType = LLVMGetTypeByName(llvm.module, "struct.ObjHeader")!!
-
-        val objHeaderPtrAS1 = LLVMPointerType(objHeaderType, 1)
-        val objHeaderPtrPtrAS1 = LLVMPointerType(objHeaderPtrAS1, 1)
-
-        val dataBase = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz,
-            cValuesOf(LLVMConstInt(int64Type, 2, 0)), 1, "data_base")
-
-        val index64 = LLVMBuildSExt(builder, index, int64Type, "index_sext")
-        val elementAddr = LLVMBuildInBoundsGEP2(builder, objHeaderType, dataBase,
-            cValuesOf(index64), 1, "element_addr")
-
-        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS1, "element_slot")
-
-        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS1, elementSlot, "element_val")!!
-        LLVMSetAlignment(elementVal, 8)
-
-        if (resultSlot != null) {
-            val storeInst = LLVMBuildStore(builder, elementVal, resultSlot)
-            LLVMSetAlignment(storeInst, 8)
+        if (isObjectType && isVar) {
+            val slot = resultSlot ?: alloca(type, isObjectType, variableLocation = null)
+            storeStackRef(value, slot)
         }
-
-        LLVMBuildBr(builder, continuationBlock)
-        LLVMPositionBuilderAtEnd(builder, continuationBlock)
-
-        return elementVal
+        return value
     }
-
-    fun intrinsicArrayGet(
-        thiz: LLVMValueRef,
-        index: LLVMValueRef,
-        resultSlot: LLVMValueRef?,
-        exceptionHandler: ExceptionHandler = ExceptionHandler.Caller
-    ): LLVMValueRef {
-        val continuationBlock = basicBlockInFunction("array_get_cont", null)
-
-        val int64Type = llvm.int64Type
-        val objHeaderType = LLVMGetTypeByName(llvm.module, "struct.ObjHeader")!!
-
-        val objHeaderPtrAS1 = LLVMPointerType(objHeaderType, 1)
-        val objHeaderPtrPtrAS1 = LLVMPointerType(objHeaderPtrAS1, 1)
-
-        val sizeVal = loadArraySize(thiz)
-
-        checkBounds(index, sizeVal, exceptionHandler)
-
-        val dataBase = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz,
-            cValuesOf(LLVMConstInt(int64Type, 2, 0)), 1, "data_base")
-
-        val index64 = LLVMBuildSExt(builder, index, int64Type, "index_sext")
-        val elementAddr = LLVMBuildInBoundsGEP2(builder, objHeaderType, dataBase,
-            cValuesOf(index64), 1, "element_addr")
-
-        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS1, "element_slot")
-
-        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS1, elementSlot, "element_val")!!
-        LLVMSetAlignment(elementVal, 8)
-
-        if (resultSlot != null) {
-            val storeInst = LLVMBuildStore(builder, elementVal, resultSlot)
-            LLVMSetAlignment(storeInst, 8)
-        }
-
-        LLVMBuildBr(builder, continuationBlock)
-        LLVMPositionBuilderAtEnd(builder, continuationBlock)
-
-        return elementVal
-    }
-
-    fun generatePrimitiveArrayGetWithoutBoundCheck(
-        thiz: LLVMValueRef,
-        index: LLVMValueRef,
-        elementType: LLVMTypeRef,
-        alignment: Int,
-        arrayName: String
-    ): LLVMValueRef {
-        val continuationBlock = basicBlockInFunction("${arrayName.lowercase()}_get_nobounds_cont", null)
-
-        val elementPtr = getArrayElementPtr(thiz, index, elementType)
-
-        val result = LLVMBuildLoad2(builder, elementType, elementPtr, "res_nobounds_${arrayName.lowercase()}")!!
-        LLVMSetAlignment(result, alignment)
-
-        LLVMBuildBr(builder, continuationBlock)
-        LLVMPositionBuilderAtEnd(builder, continuationBlock)
-
-        return result
-    }
-
-    fun generateByteArrayGetWithoutBoundCheck(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGetWithoutBoundCheck(thiz, index, llvm.int8Type, 1, "Byte")
-
-    fun generateCharArrayGetWithoutBoundCheck(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGetWithoutBoundCheck(thiz, index, llvm.int16Type, 2, "Char")
-
-    fun generateShortArrayGetWithoutBoundCheck(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGetWithoutBoundCheck(thiz, index, llvm.int16Type, 2, "Short")
-
-    fun generateIntArrayGetWithoutBoundCheck(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGetWithoutBoundCheck(thiz, index, llvm.int32Type, 4, "Int")
-
-    fun generateFloatArrayGetWithoutBoundCheck(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGetWithoutBoundCheck(thiz, index, llvm.floatType, 4, "Float")
-
-    fun generateLongArrayGetWithoutBoundCheck(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGetWithoutBoundCheck(thiz, index, llvm.int64Type, 8, "Long")
-
-    fun generateDoubleArrayGetWithoutBoundCheck(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGetWithoutBoundCheck(thiz, index, llvm.doubleType, 8, "Double")
-
-    fun generatePrimitiveArrayGet(
-        thiz: LLVMValueRef,
-        index: LLVMValueRef,
-        elementType: LLVMTypeRef,
-        alignment: Int,
-        arrayName: String,
-        exceptionHandler: ExceptionHandler = ExceptionHandler.Caller
-    ): LLVMValueRef {
-        val continuationBlock = basicBlockInFunction("${arrayName.lowercase()}_get_cont", null)
-
-        val sizeVal = loadArraySize(thiz)
-
-        checkBounds(index, sizeVal, exceptionHandler)
-
-        val elementPtr = getArrayElementPtr(thiz, index, elementType)
-
-        val result = LLVMBuildLoad2(builder, elementType, elementPtr, "res_${arrayName.lowercase()}")!!
-        LLVMSetAlignment(result, alignment)
-
-        LLVMBuildBr(builder, continuationBlock)
-        LLVMPositionBuilderAtEnd(builder, continuationBlock)
-
-        return result
-    }
-
-    fun generateByteArrayGet(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGet(thiz, index, llvm.int8Type, 1, "Byte")
-
-    fun generateCharArrayGet(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGet(thiz, index, llvm.int16Type, 2, "Char")
-
-    fun generateShortArrayGet(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGet(thiz, index, llvm.int16Type, 2, "Short")
-
-    fun generateIntArrayGet(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGet(thiz, index, llvm.int32Type, 4, "Int")
-
-    fun generateFloatArrayGet(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGet(thiz, index, llvm.floatType, 4, "Float")
-
-    fun generateLongArrayGet(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGet(thiz, index, llvm.int64Type, 8, "Long")
-
-    fun generateDoubleArrayGet(thiz: LLVMValueRef, index: LLVMValueRef) =
-        generatePrimitiveArrayGet(thiz, index, llvm.doubleType, 8, "Double")
 
     fun store(value: LLVMValueRef, ptr: LLVMValueRef, memoryOrder: LLVMAtomicOrdering? = null, alignment: Int? = null) {
-        // LLVM 19 uses opaque pointers; LLVMGetElementType returns null
-        // for ptr, so we no longer retrieve elementType here.
         val store = LLVMBuildStore(builder, value, ptr)
         memoryOrder?.let { LLVMSetOrdering(store, it) }
         alignment?.let { LLVMSetAlignment(store, it) }
@@ -994,7 +759,7 @@ internal abstract class FunctionGenerationContext(
     }
 
     private fun updateReturnRef(value: LLVMValueRef, address: LLVMValueRef) {
-        store(value, address)
+        call(llvm.updateReturnRefFunction, listOf(address, value))
     }
 
     private fun updateRef(value: LLVMValueRef, address: LLVMValueRef, onStack: Boolean,
@@ -1002,7 +767,7 @@ internal abstract class FunctionGenerationContext(
         require(alignment == null || alignment % runtime.pointerAlignment == 0)
         if (onStack) {
             require(!isVolatile) { "Stack ref update can't be volatile"}
-            store(value, address)
+            call(llvm.updateStackRefFunction, listOf(address, value))
         } else {
             if (isVolatile) {
                 call(llvm.UpdateVolatileHeapRef, listOf(address, value))
@@ -1024,90 +789,6 @@ internal abstract class FunctionGenerationContext(
         }.let {} // Force exhaustive.
     }
 
-    fun switchThreadStateIfExperimentalMM(state: ThreadState) {
-        switchThreadState(state)
-    }
-
-    fun saveStackFrameR2KExportForCppRuntime() {
-        call(llvm.saveStackFrameR2KExportForCppRuntime, listOf())
-    }
-
-    fun restoreStackFrameN2KNativeToKotlin() {
-        call(llvm.restoreStackFrameN2KNativeToKotlin, listOf())
-    }
-
-    fun saveStackFrameR2KInitGlobals() {
-        call(llvm.saveStackFrameR2KInitGlobals, listOf())
-    }
-
-    fun restoreStackFrameR2KInitGlobals() {
-        call(llvm.restoreStackFrameR2KInitGlobals, listOf())
-    }
-
-    fun saveStackFrameK2RK2X() {
-        call(llvm.saveStackFrameK2RK2X, listOf())
-    }
-
-    fun restoreStackFrameK2RK2X() {
-        call(llvm.restoreStackFrameK2RK2X, listOf())
-    }
-
-    fun saveStackFrameK2NNativeState() {
-        call(llvm.saveStackFrameK2NNativeState, listOf())
-    }
-
-    fun restoreStackFrameK2NNativeState() {
-        call(llvm.restoreStackFrameK2NNativeState, listOf())
-    }
-
-    fun throwArrayIndexOutOfBoundsExceptionFunction(exceptionHandler: ExceptionHandler) {
-        val throwFuncSymbol = context.symbols.throwArrayIndexOutOfBoundsException
-        val throwFunc = throwFuncSymbol.owner.llvmFunctionOrNull
-            ?: error("ThrowArrayIndexOutOfBoundsException not found")
-        call(throwFunc, emptyList(), exceptionHandler = exceptionHandler)
-        LLVMBuildUnreachable(builder)
-    }
-
-    fun createExceptionHandlerWithConditionalExtraAction(
-            outerHandler: ExceptionHandler,
-            extraActionBuilder : (LLVMValueRef) -> Unit
-    ): ExceptionHandler {
-        if (outerHandler is ExceptionHandler.None) {
-            return outerHandler
-        }
-
-        val lpBlock = basicBlockInFunction("restore_frame_lp", position()?.start)
-
-        appendingTo(lpBlock) {
-            val landingpad = gxxLandingpad(1, switchThreadState = false, setCurrentFrame = false)
-            LLVMAddClause(landingpad, LLVMConstNull(llvm.int8PtrType))
-            val exceptionRecord = extractValue(landingpad, 0)
-            val exceptionRawPtr = call(llvm.cxaBeginCatchFunction, listOf(exceptionRecord))
-
-            extraActionBuilder(exceptionRawPtr)
-
-            val unwind = when (outerHandler) {
-                is ExceptionHandler.Local -> outerHandler.unwind
-                ExceptionHandler.Caller -> cleanupLandingpad
-                else -> error("Unexpected ExceptionHandler: $outerHandler")
-            }
-            val unreachableBlock = basicBlock("unreachable", position()?.end)
-            appendingTo(unreachableBlock) {
-                unreachable()
-            }
-            val result = llvm.caxRethrowFunction.buildInvoke(builder, listOf(), unreachableBlock, unwind)
-            if (outerHandler == ExceptionHandler.Caller) {
-                isCleanupLandingpadUsed = true
-                invokeInstructions.add(0, FunctionInvokeInformation(result, llvm.caxRethrowFunction, listOf(), unreachableBlock))
-            }
-        }
-
-        return object : ExceptionHandler.Local() {
-            override val unwind: LLVMBasicBlockRef
-                get() = lpBlock
-        }
-    }
-
     fun memset(pointer: LLVMValueRef, value: Byte, size: Int, isVolatile: Boolean = false) =
             call(llvm.memsetFunction,
                     listOf(pointer,
@@ -1115,105 +796,40 @@ internal abstract class FunctionGenerationContext(
                             llvm.int32(size),
                             llvm.int1(isVolatile)))
 
-    fun createResultSlot(llvmCallable: LlvmCallable, resultLifetime: Lifetime, resultSlot: LLVMValueRef?): LLVMValueRef {
-        var realResultSlot = resultSlot ?: when (resultLifetime.slotType) {
-            SlotType.STACK -> {
-                localAllocs++
-                val type = llvmCallable.returnType
-                val stackPointer = alloca(type, llvmCallable.returnsObjectType)
-                stackPointer
-            }
-            SlotType.RETURN -> returnSlot!!
-            SlotType.ANONYMOUS -> vars.createAnonymousSlot(llvmCallable.returnsObjectType)
-            else -> throw Error("Incorrect slot type: ${resultLifetime.slotType}")
-        }
-        val tmpType = LLVMTypeOf(llvmCallable.param(llvmCallable.numParams - 1))!!
-        realResultSlot = CheckFuncParamType(tmpType, realResultSlot, 0)
-        return realResultSlot
-    }
-
     fun call(llvmCallable: LlvmCallable, args: List<LLVMValueRef>,
              resultLifetime: Lifetime = Lifetime.IRRELEVANT,
              exceptionHandler: ExceptionHandler = ExceptionHandler.None,
              verbatim: Boolean = false,
              resultSlot: LLVMValueRef? = null,
     ): LLVMValueRef {
-        var newargs = args.toMutableList()
-
-        val num = llvmCallable.numParams
-        val name = llvmCallable.name
-        val size = args.size
-
-        if (name != "" && name != "objc_msgSend") {
-            for (i in 0 until size) {
-                val param = llvmCallable.param(i)
-                val paramType = LLVMTypeOf(param)!!
-                val paramTypeKind = LLVMGetTypeKind(paramType)
-
-                val arg = args[i]
-                val argType = LLVMTypeOf(arg)
-                val argTypeKind = LLVMGetTypeKind(argType)
-
-                val processedArg = CheckFuncParamType(paramType, arg, i)
-
-            newargs[i] = processedArg
-            }
-        }
-
         val callArgs = if (verbatim || !llvmCallable.returnsObjectType) {
-            newargs
+            args
         } else {
-            val realResultSlot = createResultSlot(llvmCallable, resultLifetime, resultSlot)
-            newargs + realResultSlot
+            // If function returns an object - create slot for the returned value or give local arena.
+            // This allows appropriate rootset accounting by just looking at the stack slots,
+            // along with ability to allocate in appropriate arena.
+            val realResultSlot = resultSlot ?: when (resultLifetime.slotType) {
+                SlotType.STACK -> {
+                    localAllocs++
+                    // Case of local call. Use memory allocated on stack.
+                    val type = llvmCallable.returnType
+                    val stackPointer = alloca(type, llvmCallable.returnsObjectType)
+                    //val objectHeader = structGep(stackPointer, 0)
+                    //setTypeInfoForLocalObject(objectHeader)
+                    stackPointer
+                    //arenaSlot!!
+                }
+
+                SlotType.RETURN -> returnSlot!!
+
+                SlotType.ANONYMOUS -> vars.createAnonymousSlot(llvmCallable.returnsObjectType)
+
+                else -> throw Error("Incorrect slot type: ${resultLifetime.slotType}")
+            }
+            args + realResultSlot
         }
         return callRaw(llvmCallable, callArgs, exceptionHandler)
     }
-
-private fun CheckFuncParamType(paramType : LLVMTypeRef, arg : LLVMValueRef, i : Int): LLVMValueRef {
-    val paramTypeKind = LLVMGetTypeKind(paramType)
-    val argType = LLVMTypeOf(arg)!!
-    val argTypeKind = LLVMGetTypeKind(argType)
-    if (paramTypeKind != LLVMTypeKind.LLVMPointerTypeKind || argTypeKind != LLVMTypeKind.LLVMPointerTypeKind) {
-        return arg
-    }
-
-    val paramOuterAddrSpace = LLVMGetPointerAddressSpace(paramType)
-    val argOuterAddrSpace = LLVMGetPointerAddressSpace(argType)
-    if (paramOuterAddrSpace == argOuterAddrSpace) {
-        return arg
-    }
-
-    return LLVMBuildAddrSpaceCast(builder, arg, paramType, "")!!
-}
-
-// Helper: strip address space from a pointer type to get the base type
-// (e.g. T addrspace(1)* -> T*)
-private fun stripAddressSpace(pointerType: LLVMTypeRef): LLVMTypeRef {
-    val elementType = LLVMGetElementType(pointerType) ?: return pointerType
-    // Rebuild a pointer type with address space 0
-    // (for type comparison only, does not affect the actual address space)
-    return LLVMPointerType(elementType, 0)!! // Assuming LLVMPointerType is available
-}
-
-private fun GetLayOutOfPointer(pointerType: LLVMTypeRef, count: Int) : Int {
-    if (LLVMGetTypeKind(pointerType)!! == LLVMTypeKind.LLVMPointerTypeKind) {
-        // LLVM 19 opaque pointer: LLVMGetElementType returns null,
-        // treated as a single-level pointer
-        val elemType = LLVMGetElementType(pointerType) ?: return count + 1
-        return GetLayOutOfPointer(elemType, count + 1)
-    } else {
-        return count;
-    }
-}
-
-// Helper: compare whether two types are essentially the same
-// (ignoring address space)
-private fun areTypesEqual(a: LLVMTypeRef, b: LLVMTypeRef): Boolean {
-    val aTy = LLVMGetTypeKind(a)
-    val bTy = LLVMGetTypeKind(b)
-    val res = !(aTy == LLVMTypeKind.LLVMIntegerTypeKind || bTy == LLVMTypeKind.LLVMIntegerTypeKind)
-    return res
-}
 
     private fun callRaw(llvmCallable: LlvmCallable, args: List<LLVMValueRef>,
                         exceptionHandler: ExceptionHandler): LLVMValueRef {
@@ -1256,88 +872,14 @@ private fun areTypesEqual(a: LLVMTypeRef, b: LLVMTypeRef): Boolean {
         return LLVMBuildPhi(builder, type, name)!!
     }
 
-fun addPhiIncoming(phi: LLVMValueRef, vararg incoming: Pair<LLVMBasicBlockRef, LLVMValueRef>) {
-    val phiType = LLVMTypeOf(phi) ?: error("phi type cannot be null")
-    val phiTypeKind = LLVMGetTypeKind(phiType)
-    memScoped {
-        val mutableIncoming = incoming.toMutableList()
+    fun addPhiIncoming(phi: LLVMValueRef, vararg incoming: Pair<LLVMBasicBlockRef, LLVMValueRef>) {
+        memScoped {
+            val incomingValues = incoming.map { it.second }.toCValues()
+            val incomingBlocks = incoming.map { it.first }.toCValues()
 
-        for (i in mutableIncoming.indices) {
-            val (block, value) = mutableIncoming[i]
-            val valueType = LLVMTypeOf(value) ?: error("value type cannot be null")
-            val valueTypeKind = LLVMGetTypeKind(valueType)
-
-            if (valueTypeKind == LLVMTypeKind.LLVMPointerTypeKind && phiTypeKind == LLVMTypeKind.LLVMPointerTypeKind) {
-                val phiTypeAddrspace = LLVMGetPointerAddressSpace(phiType)
-                val valueTypeAddrspace = LLVMGetPointerAddressSpace(valueType)
-                if (phiTypeAddrspace == valueTypeAddrspace) {
-                    continue
-                }
-                val oldPositionHolder = currentPositionHolder
-                val newPositionHolder = PositionHolder()
-                currentPositionHolder = newPositionHolder
-
-                val lastInsn = LLVMGetLastInstruction(block)
-                if (lastInsn != null) {
-                    positionBefore(lastInsn)
-                } else {
-                    positionAtEnd(block)
-                }
-
-                val castedValue = bitcast(phiType, value)
-                mutableIncoming[i] = block to castedValue
-
-                currentPositionHolder = oldPositionHolder
-                newPositionHolder.dispose()
-            }
+            LLVMAddIncoming(phi, incomingValues, incomingBlocks, incoming.size)
         }
-
-        val incomingValues = mutableIncoming.map { it.second }.toCValues()
-        val incomingBlocks = mutableIncoming.map { it.first }.toCValues()
-        LLVMAddIncoming(phi, incomingValues, incomingBlocks, mutableIncoming.size)
     }
-}
-
-/**
- * Recursively check whether two types (including multi-level pointers)
- * match in address space and structure
- */
-private fun arePointerTypesCompatible(phiType: LLVMTypeRef, valueType: LLVMTypeRef): Boolean {
-    // Non-null assertion: ensure type refs are not null
-    // (LLVM API types are typically non-null)
-    val phiKind = LLVMGetTypeKind(phiType!!)
-    val valueKind = LLVMGetTypeKind(valueType!!)
-
-    // If not pointer types, compare directly (non-pointer cases not handled for now)
-    if (phiKind == LLVMTypeKind.LLVMPointerTypeKind && valueKind == LLVMTypeKind.LLVMPointerTypeKind) {
-        // Check the address space of the current pointer level
-        val phiAddrSpace = LLVMGetPointerAddressSpace(phiType)
-        val valueAddrSpace = LLVMGetPointerAddressSpace(valueType)
-        if (phiAddrSpace != valueAddrSpace) {
-            return false
-        }
-        // LLVM 19 opaque pointer: no element type; compatible if address spaces match
-        val phiElementType = LLVMGetElementType(phiType)
-        val valueElementType = LLVMGetElementType(valueType)
-        if (phiElementType == null || valueElementType == null) return true
-        return arePointerTypesCompatible(phiElementType, valueElementType)
-    } else {
-        return true
-    }
-}
-
-/**
- * Check whether two types can be bitcast to each other
- * (indirectly verifying base type compatibility).
- * Rationale: in LLVM, only compatible types can be bitcast;
- * we verify by attempting to create a bitcast instruction
- */
-private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
-    // Create a temporary null value and try bitcast; if successful, the types are compatible
-    val nullFrom = LLVMConstNull(fromType) ?: return false
-    val casted = LLVMConstBitCast(nullFrom, toType) ?: return false
-    return LLVMTypeOf(casted) == toType // Verify the result type is correct
-}
 
     fun assignPhis(vararg phiToValue: Pair<LLVMValueRef, LLVMValueRef>) {
         phiToValue.forEach {
@@ -1345,10 +887,8 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         }
     }
 
-    fun allocInstance(typeInfo: LLVMValueRef, lifetime: Lifetime, resultSlot: LLVMValueRef?) : LLVMValueRef {
-        val rst = call(llvm.allocInstanceFunction, listOf(typeInfo), lifetime, resultSlot = resultSlot)
-        return bitcast(llvm.kObjHeaderRef, rst)
-    }
+    fun allocInstance(typeInfo: LLVMValueRef, lifetime: Lifetime, resultSlot: LLVMValueRef?) : LLVMValueRef =
+            call(llvm.allocInstanceFunction, listOf(typeInfo), lifetime, resultSlot = resultSlot)
 
     fun allocInstance(irClass: IrClass, lifetime: Lifetime, resultSlot: LLVMValueRef?) =
         if (lifetime == Lifetime.STACK)
@@ -1374,8 +914,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                 stackLocalsManager.allocArray(irClass, count)
             }
             else -> {
-                val rst = call(llvm.allocArrayFunction, listOf(typeInfo, count), lifetime, exceptionHandler, resultSlot = resultSlot)
-                return bitcast(llvm.kObjHeaderRef, rst)
+                call(llvm.allocArrayFunction, listOf(typeInfo, count), lifetime, exceptionHandler, resultSlot = resultSlot)
             }
         }
     }
@@ -1440,29 +979,13 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                     arg, amount)
 
     /* integers comparisons */
-    private fun unifyAddrSpace(arg0: LLVMValueRef, arg1: LLVMValueRef): Pair<LLVMValueRef, LLVMValueRef> {
-        val t0 = LLVMTypeOf(arg0)!!
-        val t1 = LLVMTypeOf(arg1)!!
-        if (LLVMGetTypeKind(t0) != LLVMTypeKind.LLVMPointerTypeKind ||
-            LLVMGetTypeKind(t1) != LLVMTypeKind.LLVMPointerTypeKind) return arg0 to arg1
-        val as0 = LLVMGetPointerAddressSpace(t0)
-        val as1 = LLVMGetPointerAddressSpace(t1)
-        if (as0 == as1) return arg0 to arg1
-        return arg0 to LLVMBuildAddrSpaceCast(builder, arg1, t0, "")!!
-    }
+    fun icmpEq(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntEQ, arg0, arg1, name)!!
 
-    fun icmpEq(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef {
-        val (a, b) = unifyAddrSpace(arg0, arg1)
-        return LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntEQ, a, b, name)!!
-    }
     fun icmpGt(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntSGT, arg0, arg1, name)!!
     fun icmpGe(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntSGE, arg0, arg1, name)!!
     fun icmpLt(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntSLT, arg0, arg1, name)!!
     fun icmpLe(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntSLE, arg0, arg1, name)!!
-    fun icmpNe(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef {
-        val (a, b) = unifyAddrSpace(arg0, arg1)
-        return LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntNE, a, b, name)!!
-    }
+    fun icmpNe(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntNE, arg0, arg1, name)!!
     fun icmpULt(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntULT, arg0, arg1, name)!!
     fun icmpULe(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntULE, arg0, arg1, name)!!
     fun icmpUGt(arg0: LLVMValueRef, arg1: LLVMValueRef, name: String = ""): LLVMValueRef = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntUGT, arg0, arg1, name)!!
@@ -1485,57 +1008,21 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     fun select(ifValue: LLVMValueRef, thenValue: LLVMValueRef, elseValue: LLVMValueRef, name: String = ""): LLVMValueRef =
             LLVMBuildSelect(builder, ifValue, thenValue, elseValue, name)!!
 
-    fun bitcast(type: LLVMTypeRef?, value: LLVMValueRef, name: String = "") : LLVMValueRef {
-        val targetType = type ?: error("bitcast target type cannot be null")
-        val targetKind = LLVMGetTypeKind(targetType)
-        val valueType = LLVMTypeOf(value)
-        val valueKind = LLVMGetTypeKind(valueType)
-
-        if (valueType == targetType) {
-            return value
-        }
-
-        if (targetKind == LLVMTypeKind.LLVMPointerTypeKind && valueKind == LLVMTypeKind.LLVMPointerTypeKind) {
-            val targetAddrSpace = LLVMGetPointerAddressSpace(targetType)
-            val valueAddrSpace = LLVMGetPointerAddressSpace(valueType)
-            if (targetAddrSpace != valueAddrSpace) {
-                return LLVMBuildAddrSpaceCast(builder, value, targetType, name)!!
-            }
-
-            // LLVM 19 opaque pointer: same addrspace pointers usually don't need an explicit bitcast.
-            if (LLVMGetElementType(targetType) == null || LLVMGetElementType(valueType) == null) {
-                return value
-            }
-
-            return LLVMBuildBitCast(builder, value, targetType, name)!!
-        } else {
-            if (valueKind == LLVMTypeKind.LLVMIntegerTypeKind && targetKind == LLVMTypeKind.LLVMPointerTypeKind) {
-                return LLVMBuildIntToPtr(builder, value, targetType, name)!!
-            }
-            if (valueType == targetType) {
-                return value
-            }
-            return LLVMBuildBitCast(builder, value, targetType, name)!!
-        }
-    }
+    fun bitcast(type: LLVMTypeRef?, value: LLVMValueRef, name: String = "") = LLVMBuildBitCast(builder, value, type, name)!!
 
     fun intToPtr(value: LLVMValueRef?, DestTy: LLVMTypeRef, Name: String = "") = LLVMBuildIntToPtr(builder, value, DestTy, Name)!!
     fun ptrToInt(value: LLVMValueRef?, DestTy: LLVMTypeRef, Name: String = "") = LLVMBuildPtrToInt(builder, value, DestTy, Name)!!
 
-    fun gep(type: LLVMTypeRef, base: LLVMValueRef, index: LLVMValueRef, name: String = ""): LLVMValueRef {
-        // Need an extra conversion here: check if the type from
-        // the base field is ObjHeader; if not, strip addrspace(1).
-        return LLVMBuildGEP2(builder, type, base, cValuesOf(index), 1, name)!!
-    }
+    fun gep(type: LLVMTypeRef, base: LLVMValueRef, index: LLVMValueRef, name: String = ""): LLVMValueRef =
+            LLVMBuildGEP2(builder, type, base, cValuesOf(index), 1, name)!!
 
-    fun structGep(type: LLVMTypeRef, base: LLVMValueRef, index: Int, name: String = ""): LLVMValueRef {
-        return LLVMBuildStructGEP2(builder, type, base, index, name)!!
-    }
+    fun structGep(type: LLVMTypeRef, base: LLVMValueRef, index: Int, name: String = ""): LLVMValueRef =
+            LLVMBuildStructGEP2(builder, type, base, index, name)!!
 
     fun extractValue(aggregate: LLVMValueRef, index: Int, name: String = ""): LLVMValueRef =
             LLVMBuildExtractValue(builder, aggregate, index, name)!!
 
-    fun gxxLandingpad(numClauses: Int, name: String = "", switchThreadState: Boolean = false, setCurrentFrame: Boolean = true): LLVMValueRef {
+    fun gxxLandingpad(numClauses: Int, name: String = "", switchThreadState: Boolean = false): LLVMValueRef {
         val personalityFunction = llvm.gxxPersonalityFunction
 
         // Type of `landingpad` instruction result (depends on personality function):
@@ -1545,10 +1032,9 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         if (switchThreadState) {
             switchThreadState(Runnable)
         }
-        if (setCurrentFrame) {
-            call(llvm.setCurrentFrameFunction, listOf(slotsPhi!!))
-            setCurrentFrameIsCalled = true
-        }
+        call(llvm.setCurrentFrameFunction, listOf(slotsPhi!!))
+        setCurrentFrameIsCalled = true
+
         return landingpad
     }
 
@@ -1673,13 +1159,11 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         // Pointer to Kotlin exception object:
         val exceptionPtr = call(llvm.Kotlin_getExceptionObject, listOf(exceptionRawPtr), Lifetime.GLOBAL)
 
-        val typeInfoOrMetaPtrRaw = bitcast(llvm.kObjHeaderRef, exceptionPtr)
-
         // __cxa_end_catch performs some C++ cleanup, including calling `ExceptionObjHolder` class destructor.
         val endCatch = llvm.cxaEndCatchFunction
         call(endCatch, listOf())
 
-        return typeInfoOrMetaPtrRaw
+        return exceptionPtr
     }
 
     private fun createForeignException(landingpadResult: LLVMValueRef, exceptionHandler: ExceptionHandler): LLVMValueRef {
@@ -1872,7 +1356,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         }
 
         positionAtEnd(localsInitBb)
-        slotsPhi = phi(kObjHeaderRefPtr)
+        slotsPhi = phi(kObjHeaderPtrPtr)
         // Is removed by DCE trivially, if not needed.
         /*arenaSlot = intToPtr(
                 or(ptrToInt(slotsPhi, codegen.intPtrType), codegen.immOneIntPtrType), kObjHeaderPtrPtr)*/
@@ -1884,7 +1368,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
 
         appendingTo(prologueBb) {
             val slots = if (needSlotsPhi || needCleanupLandingpadAndLeaveFrame)
-                LLVMBuildArrayAlloca(builder, kObjHeaderRef, llvm.int32(slotCount), "")!!
+                LLVMBuildArrayAlloca(builder, kObjHeaderPtr, llvm.int32(slotCount), "")!!
             else
                 kNullObjHeaderPtrPtr
             if (needSlots || needCleanupLandingpadAndLeaveFrame) {
@@ -1940,24 +1424,13 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             if (switchToRunnable) {
                 switchThreadState(Runnable)
             }
-            if (irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true || switchToRunnable) {
-                if (irFunction?.name?.asString() == "Konan_start") {
-                    saveStackFrameR2KInitGlobals()
-                } else if (irFunction?.hasAnnotation(RuntimeNames.exportForIntrinsic) == false) {
-                    saveStackFrameR2KExportForCppRuntime()
-                }
-            }
             if (needSlots || needCleanupLandingpadAndLeaveFrame) {
-                if (setCurrentFrameIsCalled) {
-                    call(llvm.enterFrameFunction, listOf(slotsPhi!!, llvm.int32(vars.skipSlots), llvm.int32(slotCount)))
-                }
+                call(llvm.enterFrameFunction, listOf(slotsPhi!!, llvm.int32(vars.skipSlots), llvm.int32(slotCount)))
             } else {
                 check(!setCurrentFrameIsCalled)
             }
             if (!forbidRuntime && needSafePoint) {
-                if (!function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException")) {
-                    call(llvm.Kotlin_mm_safePointFunctionPrologue, emptyList())
-                }
+                call(llvm.Kotlin_mm_safePointFunctionPrologue, emptyList())
             }
             resetDebugLocation()
             br(entryBb)
@@ -2014,13 +1487,6 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     }
 
     private fun handleEpilogueExperimentalMM() {
-        if (irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true || switchToRunnable) {
-            if (irFunction?.name?.asString() == "Konan_start") {
-                restoreStackFrameR2KInitGlobals()
-            } else if (irFunction?.hasAnnotation(RuntimeNames.exportForIntrinsic) == false) {
-                restoreStackFrameN2KNativeToKotlin()
-            }
-        }
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)
@@ -2156,10 +1622,8 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     private fun releaseVars() {
         if (needCleanupLandingpadAndLeaveFrame || needSlots) {
             check(!forbidRuntime) { "Attempt to leave a frame where runtime usage is forbidden" }
-            if (setCurrentFrameIsCalled) {
-                call(llvm.leaveFrameFunction,
-                     listOf(slotsPhi!!, llvm.int32(vars.skipSlots), llvm.int32(slotCount)))
-            }
+            call(llvm.leaveFrameFunction,
+                    listOf(slotsPhi!!, llvm.int32(vars.skipSlots), llvm.int32(slotCount)))
         }
     }
 }

@@ -40,8 +40,6 @@ fun IrClass.inlinedClassIsNullable(): Boolean = this.defaultType.makeNullable().
 
 fun IrClass.isUsedAsBoxClass(): Boolean = IrTypeInlineClassesSupport.isUsedAsBoxClass(this)
 
-fun IrType.binaryTypeIsReferenceFalse(): Boolean = false
-
 fun IrType.binaryTypeIsReference(): Boolean = this.computePrimitiveBinaryTypeOrNull() == null
 
 inline fun <R> IrType.unwrapToPrimitiveOrReference(

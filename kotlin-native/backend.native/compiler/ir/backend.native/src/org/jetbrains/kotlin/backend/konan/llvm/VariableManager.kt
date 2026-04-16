@@ -7,7 +7,7 @@ package org.jetbrains.kotlin.backend.konan.llvm
 
 import llvm.*
 import org.jetbrains.kotlin.backend.konan.Context
-import org.jetbrains.kotlin.backend.konan.binaryTypeIsReferenceFalse
+import org.jetbrains.kotlin.backend.konan.binaryTypeIsReference
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.declarations.IrValueDeclaration
 import org.jetbrains.kotlin.ir.declarations.IrVariable
@@ -77,7 +77,7 @@ internal class VariableManager(val functionGenerationContext: FunctionGeneration
         }
         val index = variables.size
         val type = valueDeclaration.type.toLLVMType(functionGenerationContext.llvm)
-        val isObjectType = valueDeclaration.type.binaryTypeIsReferenceFalse()
+        val isObjectType = valueDeclaration.type.binaryTypeIsReference()
         val slot = functionGenerationContext.alloca(type, isObjectType, valueDeclaration.name.asString(), variableLocation)
         if (value != null)
             functionGenerationContext.storeAny(value, slot, isObjectType, true)
@@ -91,10 +91,10 @@ internal class VariableManager(val functionGenerationContext: FunctionGeneration
         assert(!contextVariablesToIndex.contains(valueDeclaration))
         val index = variables.size
         val type = valueDeclaration.type.toLLVMType(functionGenerationContext.llvm)
-        val isObjectType = valueDeclaration.type.binaryTypeIsReferenceFalse()
+        val isObjectType = valueDeclaration.type.binaryTypeIsReference()
         val slot = functionGenerationContext.alloca(
                 type, isObjectType, "p-${valueDeclaration.name.asString()}", variableLocation)
-        val isObject = valueDeclaration.type.binaryTypeIsReferenceFalse()
+        val isObject = valueDeclaration.type.binaryTypeIsReference()
         variables.add(ParameterRecord(slot, type, isObjectType))
         contextVariablesToIndex[valueDeclaration] = index
         if (isObject)

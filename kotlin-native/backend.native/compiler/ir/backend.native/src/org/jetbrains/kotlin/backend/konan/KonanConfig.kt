@@ -62,7 +62,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     // TODO: debug info generation mode and debug/release variant selection probably requires some refactoring.
     val debug: Boolean get() = configuration.getBoolean(KonanConfigKeys.DEBUG)
     val lightDebug: Boolean = configuration.get(KonanConfigKeys.LIGHT_DEBUG)
-            ?: (target.family.isAppleFamily) // Default is true for Apple targets.
+            ?: target.family.isAppleFamily // Default is true for Apple targets.
     val generateDebugTrampoline = debug && configuration.get(KonanConfigKeys.GENERATE_DEBUG_TRAMPOLINE) ?: false
     val optimizationsEnabled = configuration.getBoolean(KonanConfigKeys.OPTIMIZATION)
 
@@ -94,7 +94,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         return@takeIf true
     }
 
-    private val defaultGC get() = GC.CONCURRENT_MARK_AND_SWEEP
+    private val defaultGC get() = GC.PARALLEL_MARK_CONCURRENT_SWEEP
     val gc: GC get() = configuration.get(BinaryOptions.gc) ?: run {
         if (swiftExport) GC.CONCURRENT_MARK_AND_SWEEP else defaultGC
     }

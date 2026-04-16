@@ -13,9 +13,6 @@
 #include "ThreadData.hpp"
 #include "ThreadState.hpp"
 
-#include "StackTrace.hpp"
-#include <iostream>
-
 // TODO: Remove after the bootstrap that brings changes in ClangArgs.kt
 #ifndef KONAN_SUPPORTS_SIGNPOSTS
 #define KONAN_SUPPORTS_SIGNPOSTS KONAN_MACOSX || KONAN_IOS || KONAN_WATCHOS || KONAN_TVOS
@@ -40,13 +37,13 @@ std::atomic<void (*)(mm::ThreadData&)> safePointAction = nullptr;
 
 class SafePointSignpostInterval : private Pinned {
 public:
-    explicit SafePointSignpostInterval(mm::ThreadData& threadData) noexcept :
-        id_(os_signpost_id_make_with_pointer(logObject, &threadData))
-    {
+    explicit SafePointSignpostInterval(mm::ThreadData& threadData) noexcept : id_(os_signpost_id_make_with_pointer(logObject, &threadData)) {
         os_signpost_interval_begin(logObject, id_, SAFEPOINT_SIGNPOST_NAME, "thread id: %" PRIuPTR, threadData.threadId());
     }
 
-    ~SafePointSignpostInterval() { os_signpost_interval_end(logObject, id_, SAFEPOINT_SIGNPOST_NAME); }
+    ~SafePointSignpostInterval() {
+        os_signpost_interval_end(logObject, id_, SAFEPOINT_SIGNPOST_NAME);
+    }
 
 private:
     static os_log_t logObject;
@@ -128,23 +125,15 @@ mm::SafePointActivator::~SafePointActivator() {
     }
 }
 
-ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPathOrder) noexcept
-{
+PERFORMANCE_INLINE void mm::safePoint(std::memory_order fastPathOrder) noexcept {
     AssertThreadState(ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
     if (__builtin_expect(action != nullptr, false)) {
-        if (needSavedFrame) {
-            SaveStackFrameK2RSafePoint();
-        }
         slowPath();
-        if (needSavedFrame) {
-            RestoreStackFrameK2RSafePoint();
-        }
     }
 }
 
-ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept
-{
+PERFORMANCE_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept {
     AssertThreadState(&threadData, ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
     if (__builtin_expect(action != nullptr, false)) {

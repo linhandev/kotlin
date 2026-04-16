@@ -85,45 +85,6 @@ touchFunction(Kotlin_longArrayGetElementAddress)
 touchFunction(Kotlin_mm_createRetainedExternalRCRef)
 touchFunction(Kotlin_mm_releaseExternalRCRef)
 touchFunction(Kotlin_mm_disposeExternalRCRef)
-touchFunction(SaveStackFrameR2KExportForCppRuntime)
-touchFunction(RestoreStackFrameR2KExportForCppRuntime)
-
-touchFunction(SaveStackFrameR2KInitGlobals)
-touchFunction(RestoreStackFrameR2KInitGlobals)
-
-touchFunction(SaveStackFrameR2KGlobalInitAdapter)
-touchFunction(RestoreStackFrameR2KGlobalInitAdapter)
-
-touchFunction(SaveStackFrameR2KWorkerJob)
-touchFunction(RestoreStackFrameR2KWorkerJob)
-
-touchFunction(SaveStackFrameK2RK2X)
-touchFunction(RestoreStackFrameK2RK2X)
-
-touchFunction(SaveStackFrameK2NNativeState)
-touchFunction(RestoreStackFrameK2NNativeState)
-
-touchFunction(SaveStackFrameN2KBoxing)
-touchFunction(RestoreStackFrameN2KBoxing)
-
-touchFunction(SaveStackFrameN2KDisposeStableRef)
-touchFunction(RestoreStackFrameN2KDisposeStableRef)
-
-touchFunction(SaveStackFrameN2KIsInstance)
-touchFunction(RestoreStackFrameN2KIsInstance)
-
-touchFunction(SaveStackFrameN2KUnboxing)
-touchFunction(RestoreStackFrameN2KUnboxing)
-
-touchFunction(SaveStackFrameN2KClassInstance)
-touchFunction(RestoreStackFrameN2KClassInstance)
-
-touchFunction(SaveStackFrameN2KEnumEntry)
-touchFunction(RestoreStackFrameN2KEnumEntry)
-
-touchFunction(SaveStackFrameN2KCExport)
-touchFunction(RestoreStackFrameN2KCExport)
-touchFunction(RestoreStackFrameN2KCExportCatch)
 
 #ifdef __cplusplus
 } // extern "C"

@@ -74,20 +74,10 @@ internal class KotlinBridgeBuilder(
         stubs: KotlinStubs,
         isExternal: Boolean,
         foreignExceptionMode: ForeignExceptionMode.Mode,
-        addFilterExceptionsAnnotation: Boolean,
         origin: IrDeclarationOrigin
 ) {
     private var counter = 0
-    private val bridge: IrFunction = createKotlinBridge(
-            startOffset,
-            endOffset,
-            cName,
-            stubs,
-            isExternal,
-            foreignExceptionMode,
-            addFilterExceptionsAnnotation,
-            origin
-    )
+    private val bridge: IrFunction = createKotlinBridge(startOffset, endOffset, cName, stubs, isExternal, foreignExceptionMode, origin)
     val irBuilder: IrBuilderWithScope = stubs.irBuiltIns.createIrBuilder(bridge.symbol).at(startOffset, endOffset)
 
     fun addParameter(type: IrType): IrValueParameter {
@@ -126,7 +116,6 @@ private fun createKotlinBridge(
         stubs: KotlinStubs,
         isExternal: Boolean,
         foreignExceptionMode: ForeignExceptionMode.Mode,
-        addFilterExceptionsAnnotation: Boolean,
         origin: IrDeclarationOrigin
 ): IrFunction {
     val bridge = stubs.irBuiltIns.irFactory.createSimpleFunction(
@@ -150,11 +139,9 @@ private fun createKotlinBridge(
     if (isExternal) {
         bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
                 stubs.symbols.symbolName.owner, cBridgeName)
-        if (addFilterExceptionsAnnotation) {
-            bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
-                    stubs.symbols.filterExceptions.owner,
-                    foreignExceptionMode.value)
-        }
+        bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
+                stubs.symbols.filterExceptions.owner,
+                foreignExceptionMode.value)
     } else {
         bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
                 stubs.symbols.exportForCppRuntime.owner, cBridgeName)
@@ -168,21 +155,11 @@ internal class KotlinCBridgeBuilder(
         cName: String,
         val stubs: KotlinStubs,
         isKotlinToC: Boolean,
-        foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default,
-        addFilterExceptionsAnnotation: Boolean = false
+        foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default
 ) {
     private val origin = if (isKotlinToC) CBridgeOrigin.KOTLIN_TO_C_BRIDGE else CBridgeOrigin.C_TO_KOTLIN_BRIDGE
 
-    private val kotlinBridgeBuilder = KotlinBridgeBuilder(
-            startOffset,
-            endOffset,
-            cName,
-            stubs,
-            isExternal = isKotlinToC,
-            foreignExceptionMode = foreignExceptionMode,
-            addFilterExceptionsAnnotation = addFilterExceptionsAnnotation,
-            origin = origin
-    )
+    private val kotlinBridgeBuilder = KotlinBridgeBuilder(startOffset, endOffset, cName, stubs, isExternal = isKotlinToC, foreignExceptionMode, origin)
     private val cBridgeBuilder = CFunctionBuilder()
 
     val kotlinIrBuilder: IrBuilderWithScope get() = kotlinBridgeBuilder.irBuilder

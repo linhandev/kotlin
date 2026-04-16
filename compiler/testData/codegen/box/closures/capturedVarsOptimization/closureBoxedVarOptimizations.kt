@@ -3,9 +3,6 @@
 // WITH_STDLIB
 // ^ Because kotlin.jvm.JvmInline is not in the minimized stdlib for some reason
 
-// Kotlin/Native FileCheck expectations don't match IR with ptr addrspace(1) for heap refs yet; re-enable after updating CHECK lines.
-// DISABLE_NATIVE
-
 // FILECHECK_STAGE: CStubs
 
 // EXPECT_GENERATED_JS: function=captureVarInInlineLambda;captureVarInLocalClassInInlineLambda;captureValueClassVar;captureValueClassVar$lambda expect=closureBoxedVarOptimizations.js TARGET_BACKENDS=JS_IR

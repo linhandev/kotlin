@@ -51,32 +51,14 @@ struct StringHeader {
     ALWAYS_INLINE const char *data() const { return data_; }
     ALWAYS_INLINE size_t size() const { return count_ * sizeof(KChar) - extraLength(flags_); }
 
-    #if KONAN_COMPILER_INTERFACE
-    using Ref = StringHeader AS1*;
-    using ConstRef = const StringHeader AS1*;
-    #else
-    using Ref = StringHeader*;
-    using ConstRef = const StringHeader*;
-    #endif
-
-    ALWAYS_INLINE static Ref of(KRef string)
-    {
-        #if KONAN_COMPILER_INTERFACE
-        return (Ref)string;
-        #else
+    ALWAYS_INLINE static StringHeader* of(KRef string) {
         RuntimeAssert(string != nullptr && string->type_info() == theStringTypeInfo, "Must use String");
         return reinterpret_cast<StringHeader*>(string);
-        #endif
     }
 
-    ALWAYS_INLINE static ConstRef of(KConstRef string)
-    {
-        #if KONAN_COMPILER_INTERFACE
-        return (ConstRef)string;
-        #else
+    ALWAYS_INLINE static const StringHeader* of(KConstRef string) {
         RuntimeAssert(string != nullptr && string->type_info() == theStringTypeInfo, "Must use String");
         return reinterpret_cast<const StringHeader*>(string);
-        #endif
     }
 
     ALWAYS_INLINE constexpr static size_t extraLength(int flags) {
