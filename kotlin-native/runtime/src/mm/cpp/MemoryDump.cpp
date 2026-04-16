@@ -31,7 +31,7 @@ public:
     // Dumps the memory and returns the success flag.
     void Dump() {
         RuntimeLogInfo({kTagMemDump}, "Starting to dump memory into %p", file_);
-        
+
         DumpStr("Kotlin/Native dump 1.0.8");
         DumpBool(konan::isLittleEndian());
         DumpU8(sizeof(void*));
@@ -57,7 +57,7 @@ public:
 
         RuntimeLogInfo({kTagMemDump}, "Dumping enqueued objects");
         DumpEnqueuedObjects();
-        
+
         RuntimeLogInfo({kTagMemDump}, "Dumping finished");
     }
 
@@ -353,16 +353,30 @@ void PrepareForMemoryDump() {
 }
 
 void DumpMemoryOrThrow(int fd) {
-    FILE* file = fdopen(fd, "w");
-    if (file == nullptr) {
+    // 1. Use unique_ptr to automatically manage FILE*
+    // decltype(&fclose) defines the type of the deleter
+    // &fclose is the actual deleter function, ensuring fclose is called automatically when the object is destroyed
+    std::unique_ptr<FILE, decltype(&fclose)> file(fdopen(fd, "w"), &fclose);
+
+    if (!file) {
+        // fdopen failed. At this point, unique_ptr is empty and will not trigger fclose.
+        // The fd is still owned by the caller; throw an exception to notify the caller to handle it.
         throw std::system_error(errno, std::generic_category());
     }
 
-    MemoryDumper(file).Dump();
+    // 2. Perform memory dump
+    // Use .get() to retrieve the raw FILE* pointer
+    MemoryDumper(file.get()).Dump();
 
-    if (fflush(file) == EOF) {
+    // 3. Check if the write operation was successful
+    if (fflush(file.get()) == EOF) {
         throw std::system_error(errno, std::generic_category());
     }
+
+    // 4. When the function exits (or an exception occurs):
+    // unique_ptr will automatically call fclose(file).
+    // fclose will automatically close the underlying file descriptor (fd).
+    // Resources are released properly, complying with FDSAN requirements.
 }
 
 bool DumpMemory(int fd) noexcept {
