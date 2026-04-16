@@ -26,13 +26,13 @@ import java.nio.file.Files
 
 open class Command(initialCommand: List<String>, val redirectInputFile: File? = null) {
 
-    constructor(tool: String) : this(listOf(tool))
-    constructor(vararg command: String) : this(command.toList<String>())
+    constructor(tool: String) : this(listOf(tool)) 
+    constructor(vararg command: String) : this(command.toList<String>()) 
     protected val command = initialCommand.toMutableList()
 
     val argsWithExecutable: List<String> = command
 
-    val args: List<String>
+    val args: List<String> 
         get() = command.drop(1)
 
     operator fun String.unaryPlus(): Command {
@@ -124,7 +124,6 @@ open class Command(initialCommand: List<String>, val redirectInputFile: File? = 
             The ${command[0]} command returned non-zero exit code: $code.
             output:
             """.trimIndent() + "\n${output.joinToString("\n")}", command[0])
-
         // Show warnings in case of success linkage.
         if (stdError.isNotEmpty()) {
             stdError.joinToString("\n").also { message ->
@@ -134,7 +133,6 @@ open class Command(initialCommand: List<String>, val redirectInputFile: File? = 
     }
 
     private fun log() {
-        // println(command.joinToString(" "))
         if (logger != null) logger!! { command.joinToString(" ") }
     }
 }

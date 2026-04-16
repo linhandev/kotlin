@@ -131,7 +131,7 @@ class NativePrimitivesGenerator(writer: PrintWriter) : BasePrimitivesGenerator(w
                 modifySignature { isExternal = true }
                 when {
                     otherKind in setOf(PrimitiveType.INT, PrimitiveType.LONG) -> {
-                        annotations += "GCUnsafeCall(\"Kotlin_${thisKind.capitalized}_to${returnType}\", true)"
+                        annotations += "GCUnsafeCall(\"Kotlin_${thisKind.capitalized}_to${returnType}\")"
                     }
                     thisKind.byteSize > otherKind.byteSize -> {
                         annotations += "TypedIntrinsic(IntrinsicType.FLOAT_TRUNCATE)"
@@ -166,7 +166,7 @@ class NativePrimitivesGenerator(writer: PrintWriter) : BasePrimitivesGenerator(w
             "NumberConverter.convert(this)".setAsExpressionBody()
         } else {
             modifySignature { isExternal = true }
-            annotations += "GCUnsafeCall(\"Kotlin_${thisKind.capitalized}_toString\", true)"
+            annotations += "GCUnsafeCall(\"Kotlin_${thisKind.capitalized}_toString\")"
             annotations += "Escapes.Nothing"
         }
     }

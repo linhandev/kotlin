@@ -19,11 +19,11 @@ public final class ImmutableBlob private constructor() {
         get() = getArrayLength()
 
     // Data layout is the same as for ByteArray, so we can share native functions.
-    @GCUnsafeCall("Kotlin_ByteArray_get", false)
+    @GCUnsafeCall("Kotlin_ByteArray_get")
     @Escapes.Nothing
     public external operator fun get(index: Int): Byte
 
-    @GCUnsafeCall("Kotlin_ByteArray_getArrayLength", false)
+    @GCUnsafeCall("Kotlin_ByteArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 
@@ -56,7 +56,7 @@ private class ImmutableBlobIteratorImpl(val blob: ImmutableBlob) : ByteIterator(
 @Suppress("DEPRECATION_ERROR")
 @Deprecated("ImmutableBlob is deprecated. Use ByteArray instead.")
 @DeprecatedSinceKotlin(warningSince = "1.9", errorSince = "2.1")
-@GCUnsafeCall("Kotlin_ImmutableBlob_toByteArray", false)
+@GCUnsafeCall("Kotlin_ImmutableBlob_toByteArray")
 @Escapes.Nothing
 public external fun ImmutableBlob.toByteArray(startIndex: Int = 0, endIndex: Int = size): ByteArray
 
@@ -70,7 +70,7 @@ public external fun ImmutableBlob.toByteArray(startIndex: Int = 0, endIndex: Int
 @Deprecated("ImmutableBlob is deprecated. Use ByteArray instead.")
 @DeprecatedSinceKotlin(warningSince = "1.9", errorSince = "2.1")
 @ExperimentalUnsignedTypes
-@GCUnsafeCall("Kotlin_ImmutableBlob_toByteArray", false)
+@GCUnsafeCall("Kotlin_ImmutableBlob_toByteArray")
 @Escapes.Nothing
 public external fun ImmutableBlob.toUByteArray(startIndex: Int = 0, endIndex: Int = size): UByteArray
 
@@ -115,7 +115,7 @@ public fun ImmutableBlob.asUCPointer(offset: Int = 0): CPointer<UByteVar> =
         interpretCPointer<UByteVar>(asCPointerImpl(offset))!!
 
 @Suppress("DEPRECATION_ERROR")
-@GCUnsafeCall("Kotlin_ImmutableBlob_asCPointerImpl", false)
+@GCUnsafeCall("Kotlin_ImmutableBlob_asCPointerImpl")
 @Escapes.Nothing // the usage site must guarantee that the receiver is kept alive long enough.
 private external fun ImmutableBlob.asCPointerImpl(offset: Int): kotlin.native.internal.NativePtr
 

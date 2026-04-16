@@ -47,6 +47,7 @@ uint8_t* FixedBlockPage::TryAllocate() noexcept {
     return cells_[next].data;
 }
 
+
 std::vector<uint8_t*> FixedBlockPage::GetAllocatedBlocks() noexcept {
     std::vector<uint8_t*> allocated;
     CustomAllocInfo("FixedBlockPage(%p)::Sweep()", this);

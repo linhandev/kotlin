@@ -9,7 +9,6 @@
 package kotlin
 
 import kotlin.native.internal.*
-import kotlin.native.internal.GCSafeCall
 import kotlin.native.internal.escapeAnalysis.Escapes
 
 /**
@@ -52,7 +51,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCSafeCall("Kotlin_ByteArray_get")
+    @GCUnsafeCall("Kotlin_ByteArray_get")
     @Escapes.Nothing
     public actual external operator fun get(index: Int): Byte
 
@@ -66,7 +65,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_ByteArray_set", false)
+    @GCUnsafeCall("Kotlin_ByteArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Byte): Unit
 
@@ -80,7 +79,7 @@ public actual constructor(size: Int) {
     public actual operator fun iterator(): ByteIterator =
         ByteArrayIterator(this)
 
-    @GCSafeCall("Kotlin_ByteArray_getArrayLength")
+    @GCUnsafeCall("Kotlin_ByteArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }
@@ -131,7 +130,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCSafeCall("Kotlin_CharArray_get")
+    @GCUnsafeCall("Kotlin_CharArray_get")
     @Escapes.Nothing
     public actual external operator fun get(index: Int): Char
 
@@ -145,7 +144,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_CharArray_set", false)
+    @GCUnsafeCall("Kotlin_CharArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Char): Unit
 
@@ -159,7 +158,7 @@ public actual constructor(size: Int) {
     public actual operator fun iterator(): CharIterator =
         CharArrayIterator(this)
 
-    @GCSafeCall("Kotlin_CharArray_getArrayLength")
+    @GCUnsafeCall("Kotlin_CharArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }
@@ -210,7 +209,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCSafeCall("Kotlin_ShortArray_get")
+    @GCUnsafeCall("Kotlin_ShortArray_get")
     @Escapes.Nothing
     public actual external operator fun get(index: Int): Short
 
@@ -224,7 +223,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_ShortArray_set", false)
+    @GCUnsafeCall("Kotlin_ShortArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Short): Unit
 
@@ -238,7 +237,7 @@ public actual constructor(size: Int) {
     public actual operator fun iterator(): ShortIterator =
         ShortArrayIterator(this)
 
-    @GCSafeCall("Kotlin_ShortArray_getArrayLength")
+    @GCUnsafeCall("Kotlin_ShortArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }
@@ -289,7 +288,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCSafeCall("Kotlin_IntArray_get")
+    @GCUnsafeCall("Kotlin_IntArray_get")
     @Escapes.Nothing
     public actual external operator fun get(index: Int): Int
 
@@ -303,7 +302,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_IntArray_set", false)
+    @GCUnsafeCall("Kotlin_IntArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Int): Unit
 
@@ -317,7 +316,7 @@ public actual constructor(size: Int) {
     public actual operator fun iterator(): IntIterator =
         IntArrayIterator(this)
 
-    @GCSafeCall("Kotlin_IntArray_getArrayLength")
+    @GCUnsafeCall("Kotlin_IntArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }
@@ -368,7 +367,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCSafeCall("Kotlin_LongArray_get")
+    @GCUnsafeCall("Kotlin_LongArray_get")
     @Escapes.Nothing
     public actual external operator fun get(index: Int): Long
 
@@ -382,7 +381,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_LongArray_set", false)
+    @GCUnsafeCall("Kotlin_LongArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Long): Unit
 
@@ -396,7 +395,7 @@ public actual constructor(size: Int) {
     public actual operator fun iterator(): LongIterator =
         LongArrayIterator(this)
 
-    @GCSafeCall("Kotlin_LongArray_getArrayLength")
+    @GCUnsafeCall("Kotlin_LongArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }
@@ -447,7 +446,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCSafeCall("Kotlin_FloatArray_get")
+    @GCUnsafeCall("Kotlin_FloatArray_get")
     @Escapes.Nothing
     public actual external operator fun get(index: Int): Float
 
@@ -461,7 +460,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_FloatArray_set", false)
+    @GCUnsafeCall("Kotlin_FloatArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Float): Unit
 
@@ -475,7 +474,7 @@ public actual constructor(size: Int) {
     public actual operator fun iterator(): FloatIterator =
         FloatArrayIterator(this)
 
-    @GCSafeCall("Kotlin_FloatArray_getArrayLength")
+    @GCUnsafeCall("Kotlin_FloatArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }
@@ -526,7 +525,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCSafeCall("Kotlin_DoubleArray_get")
+    @GCUnsafeCall("Kotlin_DoubleArray_get")
     @Escapes.Nothing
     public actual external operator fun get(index: Int): Double
 
@@ -540,7 +539,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_DoubleArray_set", false)
+    @GCUnsafeCall("Kotlin_DoubleArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Double): Unit
 
@@ -554,7 +553,7 @@ public actual constructor(size: Int) {
     public actual operator fun iterator(): DoubleIterator =
         DoubleArrayIterator(this)
 
-    @GCSafeCall("Kotlin_DoubleArray_getArrayLength")
+    @GCUnsafeCall("Kotlin_DoubleArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }
@@ -605,7 +604,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCSafeCall("Kotlin_BooleanArray_get")
+    @GCUnsafeCall("Kotlin_BooleanArray_get")
     @Escapes.Nothing
     public actual external operator fun get(index: Int): Boolean
 
@@ -619,7 +618,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_BooleanArray_set", false)
+    @GCUnsafeCall("Kotlin_BooleanArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Boolean): Unit
 
@@ -633,7 +632,7 @@ public actual constructor(size: Int) {
     public actual operator fun iterator(): BooleanIterator =
         BooleanArrayIterator(this)
 
-    @GCSafeCall("Kotlin_BooleanArray_getArrayLength")
+    @GCUnsafeCall("Kotlin_BooleanArray_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }

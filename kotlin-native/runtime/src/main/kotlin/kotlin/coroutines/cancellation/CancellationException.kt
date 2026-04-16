@@ -5,25 +5,13 @@
 
 package kotlin.coroutines.cancellation
 
-import kotlin.experimental.ExperimentalNativeApi
-import kotlin.native.internal.GCUnsafeCall
-import kotlin.native.internal.NativePtrArray
-
 @SinceKotlin("1.4")
 public actual open class CancellationException : IllegalStateException {
     public actual constructor() : super()
     public actual constructor(message: String?) : super(message)
     public constructor(message: String?, cause: Throwable?) : super(message, cause)
     public constructor(cause: Throwable?) : super(cause)
-
-    override fun getCustomStackTrace(): NativePtrArray {
-        return getEmptyStackTrace()
-    }
 }
-
-@GCUnsafeCall("Kotlin_getEmptyStackTrace", false)
-@kotlin.native.internal.escapeAnalysis.Escapes.Nothing
-private external fun getEmptyStackTrace(): NativePtrArray
 
 /**
  * Creates an instance of [CancellationException] with the given [message] and [cause].

@@ -15,8 +15,6 @@
 #include "Logging.hpp"
 
 namespace kotlin::gcScheduler::internal {
-// 1024 is KB
-constexpr uint32_t BYTES_PER_MB = 1024 * 1024;
 
 class HeapGrowthController {
 public:
@@ -49,15 +47,7 @@ public:
     // Called by the GC thread.
     void updateBoundaries(size_t aliveBytes) noexcept {
         if (config_.autoTune.load()) {
-            double oldTargetHeapSize = config_.targetHeapBytes.load(std::memory_order_relaxed);
-            double threshold1 = static_cast<double>(aliveBytes) / config_.targetHeapUtilization;
-            double targetHeapBytes = (threshold1 + oldTargetHeapSize) / 2;
-            RuntimeLogInfo({kTagGC}, "Epoch: targetHeapBytes_ =: %d %d %d %d",
-                           (uint32_t)aliveBytes/BYTES_PER_MB,
-                           (uint32_t)oldTargetHeapSize/BYTES_PER_MB,
-                           (uint32_t)threshold1/BYTES_PER_MB,
-                           (uint32_t)targetHeapBytes/BYTES_PER_MB);
-
+            double targetHeapBytes = static_cast<double>(aliveBytes) / config_.targetHeapUtilization;
             if (!std::isfinite(targetHeapBytes)) {
                 // This shouldn't happen in practice: targetHeapUtilization is in (0, 1]. But in case it does, don't touch anything.
                 return;

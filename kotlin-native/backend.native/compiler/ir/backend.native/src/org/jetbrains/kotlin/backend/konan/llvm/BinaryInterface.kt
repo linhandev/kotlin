@@ -6,7 +6,6 @@
 package org.jetbrains.kotlin.backend.konan.llvm
 
 import org.jetbrains.kotlin.backend.common.serialization.mangle.SpecialDeclarationType
-import org.jetbrains.kotlin.backend.konan.KonanFqNames
 import org.jetbrains.kotlin.backend.konan.RuntimeNames
 import org.jetbrains.kotlin.backend.konan.ir.externalSymbolOrThrow
 import org.jetbrains.kotlin.backend.konan.ir.isAbstract
@@ -19,7 +18,6 @@ import org.jetbrains.kotlin.ir.declarations.IrFunction
 import org.jetbrains.kotlin.ir.objcinterop.isExternalObjCClass
 import org.jetbrains.kotlin.ir.objcinterop.isKotlinObjCClass
 import org.jetbrains.kotlin.ir.util.findAnnotation
-import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.ir.util.fqNameForIrSerialization
 import org.jetbrains.kotlin.ir.util.getAnnotationStringValue
 import org.jetbrains.kotlin.ir.util.render
@@ -70,7 +68,7 @@ object KonanBinaryInterface {
                 ?: this.annotations.findAnnotation(RuntimeNames.exportedBridge)
 
     private fun IrFunction.funSymbolNameImpl(containerName: String?): String {
-        if (isExternal && !annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
+        if (isExternal) {
             this.externalSymbolOrThrow()?.let {
                 return it
             }

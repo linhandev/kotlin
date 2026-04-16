@@ -292,8 +292,6 @@ fun IrFunctionSymbol.isComparisonFunction(map: Map<IrClassifierSymbol, IrSimpleF
 fun IrFunction.externalSymbolOrThrow(): String? {
     annotations.findAnnotation(RuntimeNames.symbolNameAnnotation)?.let { return it.getAnnotationStringValue() }
 
-    annotations.findAnnotation(KonanFqNames.gcSafeCall)?.let { return it.getAnnotationStringValue("callee") }
-
     annotations.findAnnotation(KonanFqNames.gcUnsafeCall)?.let { return it.getAnnotationStringValue("callee") }
 
     if (annotations.hasAnnotation(KonanFqNames.objCMethod)) return null

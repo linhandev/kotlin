@@ -13,7 +13,6 @@
 
 #ifndef KONAN_WINDOWS
 #include <sys/mman.h>
-#include <unistd.h>
 #endif
 
 // Remove after bootstrap brings KONAN_APPLE
@@ -124,7 +123,7 @@ void* kotlin::alloc::SafeAlloc(uint64_t size) noexcept {
     } else {
 #if KONAN_WINDOWS
         RuntimeFail("mmap is not available on mingw");
-#elif KONAN_LINUX || KONAN_OHOS
+#elif KONAN_LINUX
         memory = mmap(nullptr, size, PROT_WRITE | PROT_READ, MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE | MAP_POPULATE, -1, 0);
         error = memory == MAP_FAILED;
 #elif KONAN_APPLE
@@ -168,26 +167,4 @@ void kotlin::alloc::Free(void* ptr, size_t size) noexcept {
 
 size_t kotlin::alloc::GetAllocatedBytes() noexcept {
     return allocatedBytesCounter.load(std::memory_order_relaxed);
-}
-
-#ifndef KONAN_WINDOWS
-static uintptr_t g_kPageSize = sysconf(_SC_PAGESIZE);
-#endif
-
-void kotlin::alloc::ZeroAndReleasePages(void *address, size_t length) noexcept
-{
-#ifndef KONAN_WINDOWS
-    if (length <= 0) {
-        return;
-    }
-    uint8_t* const memBegin = reinterpret_cast<uint8_t*>(address);
-    uint8_t* const memEnd = memBegin + length;
-    uint8_t* const pageBegin = reinterpret_cast<uint8_t*>(
-        kotlin::alloc::RoundUp(reinterpret_cast<uintptr_t>(memBegin), g_kPageSize));
-    uint8_t* const pageEnd = reinterpret_cast<uint8_t*>(
-        kotlin::alloc::RoundDown(reinterpret_cast<uintptr_t>(memEnd), g_kPageSize));
-    if (pageBegin < pageEnd) {
-        madvise(pageBegin, pageEnd - pageBegin, MADV_DONTNEED);
-    }
-#endif
 }

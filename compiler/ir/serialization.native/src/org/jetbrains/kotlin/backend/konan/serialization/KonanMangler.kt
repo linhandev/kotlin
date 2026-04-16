@@ -25,7 +25,6 @@ import org.jetbrains.kotlin.name.NativeStandardInteropNames
 val ANNOTATIONS_TO_TREAT_AS_EXPORTED = listOf(
     NativeRuntimeNames.Annotations.symbolNameClassId,
     NativeRuntimeNames.Annotations.gcUnsafeCallClassId,
-    NativeRuntimeNames.Annotations.gcSafeCallClassId,
     NativeRuntimeNames.Annotations.exportForCppRuntimeClassId,
     NativeRuntimeNames.Annotations.cNameClassId,
     NativeRuntimeNames.Annotations.exportForCompilerClassId,
