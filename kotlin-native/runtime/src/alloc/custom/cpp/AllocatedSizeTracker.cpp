@@ -103,7 +103,7 @@ std::string ExtractMappedBaseFromMountInfo() {
 
 #ifdef KONAN_OHOS
 #ifndef KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION
-#define KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION "2.2.21-0.1.0"
+#define KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION "unknown"
 #endif
 
 static void ReportOomEventViaHiAppEvent(
