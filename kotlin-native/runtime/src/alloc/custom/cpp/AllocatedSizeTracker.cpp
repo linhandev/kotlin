@@ -73,18 +73,20 @@ std::string ExtractMappedBaseFromMountInfo() {
     size_t cap = 0;
     std::string mappedBase;
     std::string lineStr;
+    std::string id;
+    std::string parentId;
+    std::string majorMinor;
+    std::string root;
+    std::string mountPoint;
+    std::istringstream left;
     while (getline(&line, &cap, mountInfo) != -1) {
         lineStr = line;
         auto separator = lineStr.find(" - ");
         if (separator == std::string::npos) {
             continue;
         }
-        std::istringstream left(lineStr.substr(0, separator));
-        std::string id;
-        std::string parentId;
-        std::string majorMinor;
-        std::string root;
-        std::string mountPoint;
+        left.clear();
+        left.str(lineStr.substr(0, separator));
         if (!(left >> id >> parentId >> majorMinor >> root >> mountPoint)) {
             continue;
         }
