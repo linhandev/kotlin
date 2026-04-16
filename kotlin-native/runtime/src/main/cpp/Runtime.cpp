@@ -28,7 +28,7 @@
 #include <deviceinfo.h>
 #define OHOS_DUMPLISTNER_MIN_API 26
 extern "C" __attribute__((weak)) HiDebug_ErrorCode OH_HiDebug_RegisterMemDumpListener(
-        const char*, OH_HiDebug_MemDumpListener);
+    const char*, OH_HiDebug_MemDumpListener);
 #endif
 
 using namespace kotlin;
