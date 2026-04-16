@@ -65,14 +65,16 @@ bool ShouldReplaceOldestDump(
 std::string ExtractMappedBaseFromMountInfo() {
     FILE* mountInfo = fopen("/proc/self/mountinfo", "r");
     if (mountInfo == nullptr) {
+        DBG_OOM("Failed to open /proc/self/mountinfo. errno: %{public}d", errno);
         return {};
     }
 
     char* line = nullptr;
     size_t cap = 0;
     std::string mappedBase;
+    std::string lineStr;
     while (getline(&line, &cap, mountInfo) != -1) {
-        std::string lineStr(line);
+        lineStr = line;
         auto separator = lineStr.find(" - ");
         if (separator == std::string::npos) {
             continue;
@@ -150,13 +152,13 @@ void CleanupOldDumpFiles(
         if (!IsOomDumpFileName(filename)) {
             continue;
         }
-        ++dumpFileCount;
 
         std::string fullPath = directory + "/" + filename;
         struct stat st;
         if (stat(fullPath.c_str(), &st) != 0) {
             continue;
         }
+        ++dumpFileCount;
 
         if (ShouldReplaceOldestDump(st.st_mtime, fullPath, hasOldest, oldestMtime, oldestDumpFile)) {
             oldestMtime = st.st_mtime;
