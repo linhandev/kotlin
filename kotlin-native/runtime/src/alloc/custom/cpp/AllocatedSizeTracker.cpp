@@ -30,6 +30,7 @@
 #include "hidebug/hidebug.h"
 #include "hidebug/hidebug_type.h"
 #include "hiappevent/hiappevent.h"
+
 #define DBG_OOM(fmt, ...) OH_LOG_Print(LOG_APP, LOG_ERROR, 0xFF00, "OOM_DEBUG_aed83d", fmt, ##__VA_ARGS__)
 #else
 #define DBG_OOM(fmt, ...) ((void)0)
@@ -62,6 +63,7 @@ bool ShouldReplaceOldestDump(
     return !hasOldest || isOlder || sameTimeButSmallerPath;
 }
 
+#ifdef KONAN_OHOS
 std::string ExtractMappedBaseFromMountInfo() {
     FILE* mountInfo = fopen("/proc/self/mountinfo", "r");
     if (mountInfo == nullptr) {
@@ -102,8 +104,6 @@ std::string ExtractMappedBaseFromMountInfo() {
     }
     return mappedBase;
 }
-
-#ifdef KONAN_OHOS
 #ifndef KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION
 #define KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION "unknown"
 #endif

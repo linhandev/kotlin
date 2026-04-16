@@ -27,6 +27,8 @@
 #include <hilog/log.h>
 #include <deviceinfo.h>
 #define OHOS_DUMPLISTNER_MIN_API 26
+extern "C" __attribute__((weak)) HiDebug_ErrorCode OH_HiDebug_RegisterMemDumpListener(
+        const char*, OH_HiDebug_MemDumpListener);
 #endif
 
 using namespace kotlin;
@@ -96,11 +98,12 @@ void Kotlin_deinitRuntimeCallback(void* argument);
 #ifdef KONAN_OHOS
 void RegistDumpListenerIfNeeded()
 {
-  if (OH_GetSdkApiVersion() >= OHOS_DUMPLISTNER_MIN_API) {
+  if (OH_GetSdkApiVersion() < OHOS_DUMPLISTNER_MIN_API) {
     return;
   }
-  // Register a memory dump listener for hidumper tools. The listener writes
-  // a small diagnostic string to the provided file descriptor.
+  if (!OH_HiDebug_RegisterMemDumpListener) {
+    return;
+  }
   auto ohResult = OH_HiDebug_RegisterMemDumpListener("KMP",
     [](int32_t fd, OH_HiDebug_MemListenerType tag,
       bool mayReportToOEM, const char* arg) -> bool {
