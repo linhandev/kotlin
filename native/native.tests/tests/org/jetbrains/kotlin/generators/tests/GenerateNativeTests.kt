@@ -578,9 +578,6 @@ private fun cinterfaceMode(mode: String = "V1") = annotation(
 private fun gc() = arrayOf(
     annotation(Tag::class.java, "gc"),
 )
-private fun capi() = arrayOf(
-    annotation(Tag::class.java, "capi"),
-)
 private fun stress() = arrayOf(
     annotation(Tag::class.java, "stress"),
     annotation(

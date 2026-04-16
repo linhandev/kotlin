@@ -41,9 +41,8 @@ typedef KFloat __attribute__ ((__vector_size__ (16)))   KVector4f;
 
 typedef const void* KConstNativePtr;
 
-typedef ObjHeader AS1* KRef;
-typedef const ObjHeader AS1* KConstRef;
-typedef const ArrayHeader AS1* KString;
+typedef ObjHeader* KRef;
+typedef const ObjHeader* KConstRef;
 
 #ifdef __cplusplus
 extern "C" {

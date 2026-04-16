@@ -594,7 +594,6 @@ class NativeCharGenerator(writer: PrintWriter) : CharGenerator(writer) {
         suppress("NOTHING_TO_INLINE")
         import("kotlin.experimental.ExperimentalNativeApi")
         import("kotlin.native.internal.GCUnsafeCall")
-        import("kotlin.native.internal.GCSafeCall")
         import("kotlin.native.internal.TypedIntrinsic")
         import("kotlin.native.internal.IntrinsicType")
         import("kotlin.native.internal.escapeAnalysis.Escapes")
@@ -725,7 +724,7 @@ class NativeCharGenerator(writer: PrintWriter) : CharGenerator(writer) {
     }
 
     override fun MethodBuilder.modifyGeneratedToString() {
-        annotations += "GCUnsafeCall(\"Kotlin_Char_toString\", true)"
+        annotations += "GCUnsafeCall(\"Kotlin_Char_toString\")"
         annotations += "Escapes.Nothing"
         modifySignature { isExternal = true }
     }

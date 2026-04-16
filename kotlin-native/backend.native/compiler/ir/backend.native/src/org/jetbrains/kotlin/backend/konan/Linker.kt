@@ -157,7 +157,7 @@ internal class Linker(
                     when (config.produce) {
                         CompilerOutputKind.DYNAMIC_CACHE ->
                             listOf("-install_name", outputFiles.dynamicCacheInstallName)
-                        else -> listOf("")
+                        else -> listOf("-dead_strip")
                     }
                 } else {
                     emptyList()

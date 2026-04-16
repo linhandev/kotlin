@@ -63,8 +63,7 @@ private class KotlinToCCallBuilder(
         val irBuilder: IrBuilderWithScope,
         val stubs: KotlinStubs,
         val isObjCMethod: Boolean,
-        foreignExceptionMode: ForeignExceptionMode.Mode,
-        addFilterExceptionsAnnotation: Boolean
+        foreignExceptionMode: ForeignExceptionMode.Mode
 ) {
 
     val cBridgeName = stubs.getUniqueCName("knbridge")
@@ -72,15 +71,7 @@ private class KotlinToCCallBuilder(
     val symbols: KonanSymbols get() = stubs.symbols
 
     val bridgeCallBuilder = KotlinCallBuilder(irBuilder, symbols)
-    val bridgeBuilder = KotlinCBridgeBuilder(
-            irBuilder.startOffset,
-            irBuilder.endOffset,
-            cBridgeName,
-            stubs,
-            isKotlinToC = true,
-            foreignExceptionMode = foreignExceptionMode,
-            addFilterExceptionsAnnotation = addFilterExceptionsAnnotation
-    )
+    val bridgeBuilder = KotlinCBridgeBuilder(irBuilder.startOffset, irBuilder.endOffset, cBridgeName, stubs, isKotlinToC = true, foreignExceptionMode)
     val cBridgeBodyLines = mutableListOf<String>()
     val cCallBuilder = CCallBuilder()
     val cFunctionBuilder = CFunctionBuilder()
@@ -121,15 +112,8 @@ private fun KotlinToCCallBuilder.buildKotlinBridgeCall(transformCall: (IrMemberA
         )
 
 internal fun KotlinStubs.generateCCall(expression: IrCall, builder: IrBuilderWithScope, isInvoke: Boolean,
-                                       foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default,
-                                       addFilterExceptionsAnnotation: Boolean = false): IrExpression {
-    val callBuilder = KotlinToCCallBuilder(
-            builder,
-            this,
-            isObjCMethod = false,
-            foreignExceptionMode = foreignExceptionMode,
-            addFilterExceptionsAnnotation = addFilterExceptionsAnnotation
-    )
+                                       foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default): IrExpression {
+    val callBuilder = KotlinToCCallBuilder(builder, this, isObjCMethod = false, foreignExceptionMode)
 
     val callee = expression.symbol.owner
 
@@ -327,13 +311,7 @@ internal fun KotlinStubs.generateObjCCall(
                     ?.getProperty(ForeignExceptionMode.manifestKey)
     )
 
-    val callBuilder = KotlinToCCallBuilder(
-            builder,
-            this@generateObjCCall,
-            isObjCMethod = true,
-            foreignExceptionMode = exceptionMode,
-            addFilterExceptionsAnnotation = true
-    )
+    val callBuilder = KotlinToCCallBuilder(builder, this@generateObjCCall, isObjCMethod = true, exceptionMode)
 
     val superClass = irTemporary(
             superQualifier?.let { getObjCClass(symbols, it) } ?: irNullNativePtr(symbols),
@@ -1298,13 +1276,7 @@ private class ObjCBlockPointerValuePassing(
     }
 
     private fun IrBuilderWithScope.callBlock(blockPtr: IrExpression, arguments: List<IrExpression>): IrExpression {
-        val callBuilder = KotlinToCCallBuilder(
-                this,
-                stubs,
-                isObjCMethod = false,
-                foreignExceptionMode = ForeignExceptionMode.default,
-                addFilterExceptionsAnnotation = false
-        )
+        val callBuilder = KotlinToCCallBuilder(this, stubs, isObjCMethod = false, ForeignExceptionMode.default)
 
         val rawBlockPointerParameter =  callBuilder.passThroughBridge(blockPtr, blockPtr.type, CTypes.id)
         val blockVariableName = "block"

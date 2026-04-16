@@ -71,7 +71,6 @@ public:
                     uint32_t prevCell = cell - blockSize_;
                     // Nulling in batch.
                     memset(&cells_[prevLive + blockSize_], 0, (prevCell - prevLive) * sizeof(FixedBlockCell));
-                    ZeroAndReleasePages(&cells_[prevLive + blockSize_], (prevCell - prevLive - blockSize_) * sizeof(FixedBlockCell));
                     // Updating the free list structure.
                     prevRange->first = prevLive + blockSize_;
                     prevRange->last = prevCell;
@@ -88,7 +87,6 @@ public:
             }
             prevRange->first = prevLive + blockSize_;
             memset(&cells_[prevLive + blockSize_], 0, (cell - prevLive - blockSize_) * sizeof(FixedBlockCell));
-            ZeroAndReleasePages(&cells_[prevLive + blockSize_], (cell - prevLive - blockSize_) * sizeof(FixedBlockCell));
             prevRange->last = end_;
             // And we're done.
             break;

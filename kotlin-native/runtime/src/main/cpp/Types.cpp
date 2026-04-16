@@ -5,9 +5,9 @@
 
 #include "Types.h"
 #include "Exceptions.h"
-#include "Runtime.h"
 
 extern "C" {
+
 // Note: keeping it for compatibility with external tools only, will be deprecated and removed in the future.
 RUNTIME_PURE RUNTIME_EXPORT RUNTIME_WEAK KBoolean IsInstance(const ObjHeader* obj, const TypeInfo* type_info) {
   return IsInstanceInternal(obj, type_info);
@@ -76,8 +76,7 @@ OBJ_GETTER(Kotlin_TypeInfo_findAssociatedObject, KNativePtr typeInfo, KNativePtr
 
   for (int index = 0; associatedObjects[index].key != nullptr; ++index) {
     if (associatedObjects[index].key == key) {
-        InitGlobalsFrameGuard initGlobalsGuard;
-        RETURN_RESULT_OF0(associatedObjects[index].getAssociatedObjectInstance);
+      RETURN_RESULT_OF0(associatedObjects[index].getAssociatedObjectInstance);
     }
   }
 

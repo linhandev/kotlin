@@ -9,22 +9,10 @@
 #include "GlobalData.hpp"
 #include "ThreadData.hpp"
 
-#define ENABLE_STACKMAP 1
-
 using namespace kotlin;
 
 mm::ThreadRootSet::Iterator::Iterator(begin_t, ThreadRootSet& owner) noexcept :
-#if !ENABLE_STACKMAP
-    owner_(owner),
-    phase_(Phase::kStack),
-    stackIterator_(owner_.stack_.begin())
-{
-#else
-    owner_(owner),
-    phase_(Phase::kTLS),
-    tlsIterator_(owner_.tls_.begin())
-{
-#endif
+    owner_(owner), phase_(Phase::kStack), stackIterator_(owner_.stack_.begin()) {
     Init();
 }
 

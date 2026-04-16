@@ -842,18 +842,10 @@ private class InteropTransformerPart2(
         val function = expression.symbol.owner
 
         generationState.dependenciesTracker.add(function)
-        val foreignExceptionModeValue =
+        val exceptionMode = ForeignExceptionMode.byValue(
                 function.konanLibrary?.manifestProperties?.getProperty(ForeignExceptionMode.manifestKey)
-        val exceptionMode = ForeignExceptionMode.byValue(foreignExceptionModeValue)
-        return builder.generateExpressionWithStubs(expression) {
-            generateCCall(
-                    expression,
-                    builder,
-                    isInvoke = false,
-                    foreignExceptionMode = exceptionMode,
-                    addFilterExceptionsAnnotation = foreignExceptionModeValue != null
-            )
-        }
+        )
+        return builder.generateExpressionWithStubs(expression) { generateCCall(expression, builder, isInvoke = false, exceptionMode) }
     }
 
     private fun lowerObjCInitBy(expression: IrCall): IrExpression {

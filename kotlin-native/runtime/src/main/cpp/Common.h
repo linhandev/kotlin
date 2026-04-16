@@ -46,11 +46,5 @@
 #define KONAN_TYPE_INFO_HAS_WRITABLE_PART 1
 #endif
 
-#ifndef KONAN_COMPILER_INTERFACE
-#define AS1
-#else
-#define AS1 __attribute__((address_space(1)))
-#endif
-
 
 #endif // RUNTIME_COMMON_H

@@ -27,14 +27,13 @@ struct GCSchedulerConfig {
     // become bigger than this value, and `mutatorAssists` are enabled the GC will
     // stop the world and wait until current epoch finishes.
     // Adapts after each GC epoch when `autoTune = true`.
-    std::atomic<int64_t> targetHeapBytes = 20 * 1024 * 1024;
+    std::atomic<int64_t> targetHeapBytes = 10 * 1024 * 1024;
     // The rate at which `targetHeapBytes` changes when `autoTune = true`. Concretely: if after the collection
     // `N` object bytes remain in the heap, the next `targetHeapBytes` will be `N / targetHeapUtilization` capped
     // between `minHeapBytes` and `maxHeapBytes`.
     std::atomic<double> targetHeapUtilization = 0.5;
     // The minimum value of `targetHeapBytes` for `autoTune = true`
-    // In `custom` allocator pages are 256KiB. 5MiB here is 20 pages.
-    std::atomic<int64_t> minHeapBytes = 20 * 1024 * 1024;
+    std::atomic<int64_t> minHeapBytes = 5 * 1024 * 1024; // In `custom` allocator pages are 256KiB. 5MiB here is 20 pages.
     // The maximum value of `targetHeapBytes` for `autoTune = true`
     std::atomic<int64_t> maxHeapBytes = std::numeric_limits<int64_t>::max();
     // GC will be triggered when object bytes reach `heapTriggerCoefficient * targetHeapBytes`.
@@ -42,9 +41,6 @@ struct GCSchedulerConfig {
     // See `mutatorAssists()`.
     std::atomic<std::underlying_type_t<MutatorAssists>> mutatorAssistsImpl =
             static_cast<std::underlying_type_t<MutatorAssists>>(MutatorAssists::kDefault);
-
-    std::atomic<bool> concurrentMarkValidation = true;
-    std::atomic<bool> verifyKotlinStack = false;
 
     std::chrono::microseconds regularGcInterval() const { return std::chrono::microseconds(regularGcIntervalMicroseconds.load()); }
 

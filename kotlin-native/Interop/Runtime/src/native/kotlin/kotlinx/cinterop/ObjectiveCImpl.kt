@@ -62,18 +62,18 @@ internal fun <T : Any?> Any?.uncheckedCast(): T = @Suppress("UNCHECKED_CAST") (t
 
 // Note: if this is called for non-frozen object on a wrong worker, the program will terminate.
 @ExperimentalForeignApi
-@GCUnsafeCall("Kotlin_Interop_refFromObjC", true)
+@GCUnsafeCall("Kotlin_Interop_refFromObjC")
 public external fun <T> interpretObjCPointerOrNull(objcPtr: NativePtr): T?
 
 @ExportForCppRuntime
 @ExperimentalForeignApi
 public inline fun <T : Any> interpretObjCPointer(objcPtr: NativePtr): T = interpretObjCPointerOrNull<T>(objcPtr)!!
 
-@GCUnsafeCall("Kotlin_Interop_refToObjC", true)
+@GCUnsafeCall("Kotlin_Interop_refToObjC")
 @ExperimentalForeignApi
 public external fun Any?.objcPtr(): NativePtr
 
-@GCUnsafeCall("Kotlin_Interop_createKotlinObjectHolder", true)
+@GCUnsafeCall("Kotlin_Interop_createKotlinObjectHolder")
 @ExperimentalForeignApi
 public external fun createKotlinObjectHolder(any: Any?): NativePtr
 
@@ -84,7 +84,7 @@ public inline fun <reified T : Any> unwrapKotlinObjectHolder(holder: Any?): T {
 }
 
 @PublishedApi
-@GCUnsafeCall("Kotlin_Interop_unwrapKotlinObjectHolder", true)
+@GCUnsafeCall("Kotlin_Interop_unwrapKotlinObjectHolder")
 external internal fun unwrapKotlinObjectHolderImpl(ptr: NativePtr): Any
 
 @ExperimentalForeignApi
@@ -182,11 +182,11 @@ internal external fun getMessengerStret(superClass: NativePtr): COpaquePointer?
 
 
 internal class ObjCWeakReferenceImpl : kotlin.native.ref.WeakReferenceImpl() {
-    @GCUnsafeCall("Konan_ObjCInterop_getWeakReference", true)
+    @GCUnsafeCall("Konan_ObjCInterop_getWeakReference")
     external override fun get(): Any?
 }
 
-@GCUnsafeCall("Konan_ObjCInterop_initWeakReference", true)
+@GCUnsafeCall("Konan_ObjCInterop_initWeakReference")
 private external fun ObjCWeakReferenceImpl.init(objcPtr: NativePtr)
 
 @kotlin.native.internal.ExportForCppRuntime internal fun makeObjCWeakReferenceImpl(objcPtr: NativePtr): ObjCWeakReferenceImpl {
@@ -198,35 +198,35 @@ private external fun ObjCWeakReferenceImpl.init(objcPtr: NativePtr)
 // Konan runtme:
 
 @PublishedApi
-@GCUnsafeCall("Kotlin_Interop_CreateObjCObjectHolder", true)
+@GCUnsafeCall("Kotlin_Interop_CreateObjCObjectHolder")
 internal external fun createObjCObjectHolder(ptr: NativePtr): Any?
 
 // Objective-C runtime:
 
-@GCUnsafeCall("objc_retainAutoreleaseReturnValue", true)
+@GCUnsafeCall("objc_retainAutoreleaseReturnValue")
 @ExperimentalForeignApi
 public external fun objc_retainAutoreleaseReturnValue(ptr: NativePtr): NativePtr
 
-@GCUnsafeCall("Kotlin_objc_autoreleasePoolPush", true)
+@GCUnsafeCall("Kotlin_objc_autoreleasePoolPush")
 @ExperimentalForeignApi
 public external fun objc_autoreleasePoolPush(): NativePtr
 
-@GCUnsafeCall("Kotlin_objc_autoreleasePoolPop", true)
+@GCUnsafeCall("Kotlin_objc_autoreleasePoolPop")
 @ExperimentalForeignApi
 public external fun objc_autoreleasePoolPop(ptr: NativePtr)
 
-@GCUnsafeCall("Kotlin_objc_allocWithZone", true)
+@GCUnsafeCall("Kotlin_objc_allocWithZone")
 @FilterExceptions
 private external fun objc_allocWithZone(clazz: NativePtr): NativePtr
 
-@GCUnsafeCall("Kotlin_objc_retain", true)
+@GCUnsafeCall("Kotlin_objc_retain")
 @ExperimentalForeignApi
 public external fun objc_retain(ptr: NativePtr): NativePtr
 
-@GCUnsafeCall("Kotlin_objc_release", true)
+@GCUnsafeCall("Kotlin_objc_release")
 @ExperimentalForeignApi
 public external fun objc_release(ptr: NativePtr)
 
 @PublishedApi
-@GCUnsafeCall("Kotlin_Block_copy", true)
+@GCUnsafeCall("Kotlin_Block_copy")
 internal external fun Block_copy(ptr: NativePtr): NativePtr

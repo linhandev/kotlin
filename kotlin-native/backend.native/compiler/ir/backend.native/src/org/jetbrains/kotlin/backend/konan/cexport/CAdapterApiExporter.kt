@@ -251,9 +251,6 @@ internal class CAdapterApiExporter(
         // Include header into C++ source.
         headerFile.forEachLine { it -> output(it) }
 
-        output("#include <exception>")
-        output("#include <stdint.h>")
-
         output("""
     |struct KObjHeader;
     |typedef struct KObjHeader KObjHeader;
@@ -287,21 +284,6 @@ internal class CAdapterApiExporter(
     |void Kotlin_initRuntimeIfNeeded();
     |void Kotlin_mm_switchThreadStateRunnable() RUNTIME_NOTHROW;
     |void Kotlin_mm_switchThreadStateNative() RUNTIME_NOTHROW;
-    |void SaveStackFrameN2KBoxing() RUNTIME_NOTHROW;
-    |void RestoreStackFrameN2KBoxing() RUNTIME_NOTHROW;
-    |void SaveStackFrameN2KDisposeStableRef() RUNTIME_NOTHROW;
-    |void RestoreStackFrameN2KDisposeStableRef() RUNTIME_NOTHROW;
-    |void SaveStackFrameN2KIsInstance() RUNTIME_NOTHROW;
-    |void RestoreStackFrameN2KIsInstance() RUNTIME_NOTHROW;
-    |void SaveStackFrameN2KUnboxing() RUNTIME_NOTHROW;
-    |void RestoreStackFrameN2KUnboxing() RUNTIME_NOTHROW;
-    |void SaveStackFrameN2KClassInstance() RUNTIME_NOTHROW;
-    |void RestoreStackFrameN2KClassInstance() RUNTIME_NOTHROW;
-    |void SaveStackFrameN2KEnumEntry() RUNTIME_NOTHROW;
-    |void RestoreStackFrameN2KEnumEntry() RUNTIME_NOTHROW;
-    |void SaveStackFrameN2KCExport() RUNTIME_NOTHROW;
-    |void RestoreStackFrameN2KCExport() RUNTIME_NOTHROW;
-    |void RestoreStackFrameN2KCExportCatch() RUNTIME_NOTHROW;
     |void HandleCurrentExceptionWhenLeavingKotlinCode();
     |
     |KObjHeader* CreateStringFromCString(const char*, KObjHeader**);
@@ -349,9 +331,7 @@ internal class CAdapterApiExporter(
     |static void DisposeStablePointerImpl(${prefix}_KNativePtr ptr) {
     |  Kotlin_initRuntimeIfNeeded();
     |  ScopedRunnableState stateGuard;
-    |  SaveStackFrameN2KDisposeStableRef();
     |  DisposeStablePointer(ptr);
-    |  RestoreStackFrameN2KDisposeStableRef();
     |}
     |static void DisposeStringImpl(const char* ptr) {
     |  DisposeCString((char*)ptr);
@@ -360,10 +340,7 @@ internal class CAdapterApiExporter(
     |  Kotlin_initRuntimeIfNeeded();
     |  ScopedRunnableState stateGuard;
     |  KObjHolder holder;
-    |  SaveStackFrameN2KIsInstance();
-    |  ${prefix}_KBoolean ans = IsInstanceInternal(DerefStablePointer(ref, holder.slot()), (const KTypeInfo*)type);
-    |  RestoreStackFrameN2KIsInstance();
-    |  return ans;
+    |  return IsInstanceInternal(DerefStablePointer(ref, holder.slot()), (const KTypeInfo*)type);
     |}
     """.trimMargin())
         predefinedTypes.forEach {
@@ -378,11 +355,8 @@ internal class CAdapterApiExporter(
             output("Kotlin_initRuntimeIfNeeded();", 1)
             output("ScopedRunnableState stateGuard;", 1)
             output("KObjHolder result_holder;", 1)
-            output("SaveStackFrameN2KBoxing();", 1)
             output("KObjHeader* result = Kotlin_box${it.shortNameForPredefinedType}($argument result_holder.slot());", 1)
-            output("${typeTranslator.translateType(nullableIt)} ans = ${typeTranslator.translateType(nullableIt)} { .pinned = CreateStablePointer(result) };", 1)
-            output("RestoreStackFrameN2KBoxing();", 1)
-            output("return ans;", 1)
+            output("return ${typeTranslator.translateType(nullableIt)} { .pinned = CreateStablePointer(result) };", 1)
             output("}")
 
             if (!it.isUnit()) {
@@ -391,10 +365,7 @@ internal class CAdapterApiExporter(
                 output("Kotlin_initRuntimeIfNeeded();", 1)
                 output("ScopedRunnableState stateGuard;", 1)
                 output("KObjHolder value_holder;", 1)
-                output("SaveStackFrameN2KUnboxing();", 1)
-                output("${typeTranslator.translateType(it)} ans = Kotlin_unbox${it.shortNameForPredefinedType}(DerefStablePointer(value.pinned, value_holder.slot()));", 1)
-                output("RestoreStackFrameN2KUnboxing();", 1)
-                output("return ans;", 1)
+                output("return Kotlin_unbox${it.shortNameForPredefinedType}(DerefStablePointer(value.pinned, value_holder.slot()));", 1)
                 output("}")
             }
         }

@@ -12,7 +12,7 @@ import org.jetbrains.kotlin.ir.types.isNothing
 import org.jetbrains.kotlin.ir.types.isUnit
 
 private fun PrimitiveBinaryType?.toLlvmType(llvm: CodegenLlvmHelpers) = when (this) {
-    null -> llvm.kObjHeaderRef
+    null -> llvm.kObjHeaderPtr
 
     PrimitiveBinaryType.BOOLEAN -> llvm.int1Type
     PrimitiveBinaryType.BYTE -> llvm.int8Type

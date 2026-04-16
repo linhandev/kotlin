@@ -64,14 +64,6 @@ NO_INLINE OBJ_GETTER0(Kotlin_getCurrentStackTrace) {
     RETURN_OBJ(result);
 }
 
-NO_INLINE OBJ_GETTER0(Kotlin_getEmptyStackTrace)
-{
-    ObjHolder resultHolder;
-    // create a size 0 array, no any stack informations are collected.
-    ObjHeader *result = AllocArrayInstance(theNativePtrArrayTypeInfo, 0, resultHolder.slot());
-    RETURN_OBJ(result);
-}
-
 OBJ_GETTER(Kotlin_getStackTraceStrings, KConstRef stackTrace) {
     const KNativePtr* array = PrimitiveArrayAddressOfElementAt<KNativePtr>(stackTrace->array(), 0);
     size_t size = stackTrace->array()->count_;
@@ -126,10 +118,7 @@ void Kotlin_CPointer_CopyMemory(KNativePtr to, KNativePtr from, KInt count) {
 
 RUNTIME_NOTHROW RUNTIME_PURE KRef* Kotlin_arrayGetElementAddress(KRef array, KInt index) {
     ArrayHeader* arr = array->array();
-    RuntimeAssert(
-        index >= 0 && static_cast<uint32_t>(index) < arr->count_,
-        "Index %" PRId32 " must be in [0, %" PRIu32 ")",
-        index, arr->count_);
+    RuntimeAssert(index >= 0 && static_cast<uint32_t>(index) < arr->count_, "Index %" PRId32 " must be in [0, %" PRIu32 ")", index, arr->count_); 
     return ArrayAddressOfElementAt(arr, index);
 }
 

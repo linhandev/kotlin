@@ -139,17 +139,7 @@ internal annotation class InternalForKotlinNative
 @Target(AnnotationTarget.FUNCTION)
 @Retention(value = AnnotationRetention.BINARY)
 @InternalForKotlinNative
-public annotation class GCUnsafeCall(val callee: String, val needStub: Boolean = true)
-
-@Target(AnnotationTarget.FUNCTION)
-@Retention(value = AnnotationRetention.BINARY)
-@InternalForKotlinNative
-public annotation class GCSafeCall(val callee: String)
-
-@Target(AnnotationTarget.FUNCTION)
-@Retention(value = AnnotationRetention.BINARY)
-@InternalForKotlinNative
-public annotation class ExportForIntrinsic
+public annotation class GCUnsafeCall(val callee: String)
 
 /**
  * Marks a declaration that is internal for Kotlin/Native tests and shouldn't be used externally.

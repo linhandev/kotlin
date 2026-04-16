@@ -13,13 +13,7 @@
 #include "Porting.h"
 #include "SafePoint.hpp"
 
-#include "StackTrace.hpp"
-#include <iostream>
-#include <cstring>
-
 using namespace kotlin;
-
-#define DUMP_DEBUG_INFO 0
 
 namespace {
 

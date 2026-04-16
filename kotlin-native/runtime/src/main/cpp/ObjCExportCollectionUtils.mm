@@ -168,6 +168,7 @@ extern "C" KBoolean Kotlin_NSDictionaryAsKMap_containsValue(KRef thiz, KRef valu
       return true;
     }
   }
+
   return false;
 }
 
