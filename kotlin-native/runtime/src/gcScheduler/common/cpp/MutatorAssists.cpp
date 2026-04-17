@@ -9,6 +9,7 @@
 #include "KAssert.h"
 #include "Logging.hpp"
 #include "ThreadData.hpp"
+#include "StackTrace.hpp"
 
 using namespace kotlin;
 
@@ -20,7 +21,6 @@ void gcScheduler::internal::MutatorAssists::ThreadData::safePoint() noexcept {
     startedWaiting_.store(epoch * 2, std::memory_order_release);
     {
         std::unique_lock guard(owner_.m_);
-        RuntimeLogDebug({kTagGC}, "Thread is assisting for epoch %" PRId64, epoch);
         owner_.cv_.wait(guard, noNeedToWait);
         RuntimeLogDebug({kTagGC}, "Thread has assisted for epoch %" PRId64, epoch);
     }

@@ -248,8 +248,11 @@ internal class ExportedElement(
             |  Kotlin_initRuntimeIfNeeded();
             |  ScopedRunnableState stateGuard;
             |  KObjHolder result_holder;
+            |  SaveStackFrameN2KClassInstance();
             |  KObjHeader* result = ${cname}_instance(result_holder.slot());
-            |  return $objectClassC { .pinned = CreateStablePointer(result)};
+            |  $objectClassC ans = $objectClassC { .pinned = CreateStablePointer(result)};
+            |  RestoreStackFrameN2KClassInstance();
+            |  return ans;
             |}
             """.trimMargin()
         } else ""
@@ -267,8 +270,11 @@ internal class ExportedElement(
               |  Kotlin_initRuntimeIfNeeded();
               |  ScopedRunnableState stateGuard;
               |  KObjHolder result_holder;
+              |  SaveStackFrameN2KEnumEntry();
               |  KObjHeader* result = $cname(result_holder.slot());
-              |  return $enumClassC { .pinned = CreateStablePointer(result)};
+              |  $enumClassC ans = $enumClassC { .pinned = CreateStablePointer(result)};
+              |  RestoreStackFrameN2KEnumEntry();
+              |  return ans;
               |}
               """.trimMargin()
     }
@@ -313,6 +319,7 @@ internal class ExportedElement(
         // TODO: do we really need that in every function?
         builder.append("  Kotlin_initRuntimeIfNeeded();\n")
         builder.append("  ScopedRunnableState stateGuard;\n")
+        builder.append("  SaveStackFrameN2KCExport();\n")
         builder.append("  FrameOverlay* frame = getCurrentFrame();")
         val args = ArrayList(cfunction.drop(1).mapIndexed { index, pair ->
             translateArgument("arg$index", pair, Direction.C_TO_KOTLIN, builder)
@@ -343,13 +350,14 @@ internal class ExportedElement(
         if (!isVoidReturned) {
             val result = translateArgument(
                     "result", cfunction[0], Direction.KOTLIN_TO_C, builder)
+            builder.append("  RestoreStackFrameN2KCExport();\n")
             builder.append("  return $result;\n")
         }
         builder.append("   } catch (...) {")
         builder.append("       SetCurrentFrame(reinterpret_cast<KObjHeader**>(frame));\n")
         builder.append("       HandleCurrentExceptionWhenLeavingKotlinCode();\n")
         builder.append("   } \n")
-
+        builder.append("  RestoreStackFrameN2KCExportCatch();\n")
         builder.append("}\n")
 
         return builder.toString()
