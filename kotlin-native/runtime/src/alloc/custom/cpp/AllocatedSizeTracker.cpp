@@ -112,6 +112,8 @@ constexpr int K_HIAPPEVENT_INVALID_PARAM_VALUE = -9;
 constexpr int K_HIAPPEVENT_OPERATE_FAILED = -200;
 constexpr int K_HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED = -300;
 
+#define OHOS_REPORT_FRAMEWORK_MEM_ANOMALY_MIN_API 26
+
 static void ReportOomEventViaHiAppEvent(
     const char* dumpPath,
     std::size_t memUsage,
@@ -122,6 +124,9 @@ static void ReportOomEventViaHiAppEvent(
          << "; oom_threshold=" << threshold << "; timestamp=" << timestamp;
     std::string descriptionStr = desc.str();
 
+    if (OH_GetSdkApiVersion() < OHOS_REPORT_FRAMEWORK_MEM_ANOMALY_MIN_API) {
+        return;
+    }
     int reportResult = OH_HiAppEvent_ReportFrameworkMemAnomaly(
         OH_KMP_KOTLIN, KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION, descriptionStr.c_str());
     switch (reportResult) {
