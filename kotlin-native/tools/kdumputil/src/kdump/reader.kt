@@ -157,6 +157,12 @@ fun Reader.readItem(): Item =
                 ThreadRoot(threadId, source, objectId)
             }
 
+            RecordTag.STABLE_REF -> {
+                val id = readId()
+                val objectId = readId()
+                StableRef(id, objectId)
+            }
+
             else -> throw IOException("Unknown tag: $tag")
         }
 

@@ -39,6 +39,7 @@ fun Item.size(idSize: IdSize): Int? =
             is Thread -> idSize.byteCount * 8                     // some approximation
             is GlobalRoot -> null
             is ThreadRoot -> null
+            is StableRef -> idSize.byteCount * 2                // type + field
         }
 
 val Type.isKotlinString: Boolean
@@ -53,6 +54,7 @@ val Item.idOrNull: Id?
             is ArrayItem -> id
             is ExtraObject -> id
             is Thread -> id
+            is StableRef -> id
             is GlobalRoot -> null
             is ThreadRoot -> null
         }
