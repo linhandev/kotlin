@@ -27,6 +27,8 @@
 // #region agent log - direct hilog bypass for debug session aed83d
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
+#include <deviceinfo.h>
+#define OHOS_DUMPLISTNER_MIN_API 26
 #include "hidebug/hidebug.h"
 #include "hidebug/hidebug_type.h"
 #include "hiappevent/hiappevent.h"
@@ -92,9 +94,13 @@ std::string ExtractMappedBaseFromMountInfo() {
         if (!(left >> id >> parentId >> majorMinor >> root >> mountPoint)) {
             continue;
         }
+        DBG_OOM(
+            "mountinfo parsed: mountPoint=%{public}s root=%{public}s id=%{public}s parentId=%{public}s majorMinor=%{public}s",
+            mountPoint.c_str(), root.c_str(), id.c_str(), parentId.c_str(), majorMinor.c_str());
         if (mountPoint != "/data/storage/el2/base") {
             continue;
         }
+        DBG_OOM("mountinfo matched target: mountPoint=%{public}s mappedBase=%{public}s", mountPoint.c_str(), root.c_str());
         mappedBase = root;
         break;
     }
@@ -104,31 +110,32 @@ std::string ExtractMappedBaseFromMountInfo() {
     }
     return mappedBase;
 }
+#define KN_STRINGIFY_(x) #x
+#define KN_STRINGIFY(x) KN_STRINGIFY_(x)
+
 #ifndef KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION
-#define KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION "unknown"
+#define KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION unknown
 #endif
 constexpr int K_HIAPPEVENT_SUCCESS = 0;
 constexpr int K_HIAPPEVENT_INVALID_PARAM_VALUE = -9;
 constexpr int K_HIAPPEVENT_OPERATE_FAILED = -200;
 constexpr int K_HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED = -300;
 
-#define OHOS_REPORT_FRAMEWORK_MEM_ANOMALY_MIN_API 26
-
 static void ReportOomEventViaHiAppEvent(
     const char* dumpPath,
     std::size_t memUsage,
     std::size_t threshold,
     const char* timestamp) {
+    if (OH_GetSdkApiVersion() < OHOS_DUMPLISTNER_MIN_API) {
+        return;
+    }
+
     std::ostringstream desc;
     desc << "Kotlin/Native heap over OOM threshold; dump_path=" << dumpPath << "; memory_usage=" << memUsage
          << "; oom_threshold=" << threshold << "; timestamp=" << timestamp;
     std::string descriptionStr = desc.str();
-
-    if (OH_GetSdkApiVersion() < OHOS_REPORT_FRAMEWORK_MEM_ANOMALY_MIN_API) {
-        return;
-    }
     int reportResult = OH_HiAppEvent_ReportFrameworkMemAnomaly(
-        OH_KMP_KOTLIN, KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION, descriptionStr.c_str());
+        OH_KMP_KOTLIN, KN_STRINGIFY(KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION), descriptionStr.c_str());
     switch (reportResult) {
         case K_HIAPPEVENT_SUCCESS:
             DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly succeeded for KMP Kotlin.");
