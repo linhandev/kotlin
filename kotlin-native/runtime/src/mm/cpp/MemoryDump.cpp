@@ -265,7 +265,7 @@ private:
         }
 
         void* associatedObject =
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
                 extraObj->AssociatedObject();
 #else
                 nullptr;
