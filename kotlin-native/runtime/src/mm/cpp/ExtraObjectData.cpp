@@ -12,6 +12,10 @@
 #include "ObjCMMAPI.h"
 #endif
 
+#ifdef KONAN_OHOS
+#include "ArkTSMMAPI.h"
+#endif
+
 using namespace kotlin;
 
 // static
@@ -51,6 +55,12 @@ void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
 }
 
 void mm::ExtraObjectData::ReleaseAssociatedObject() noexcept {
+#ifdef KONAN_OHOS
+    if (void* associatedObject = associatedObject_) {
+        Kotlin_ArkTS_releaseAssociatedObject(associatedObject);
+        associatedObject_ = nullptr;
+    }
+#endif
 #ifdef KONAN_OBJC_INTEROP
     if (void* associatedObject = associatedObject_) {
         Kotlin_ObjCExport_releaseAssociatedObject(associatedObject);
@@ -65,7 +75,7 @@ void mm::ExtraObjectData::Uninstall() noexcept {
 }
 
 bool mm::ExtraObjectData::HasAssociatedObject() noexcept {
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
     return associatedObject_ != nullptr;
 #else
     return false;
@@ -89,7 +99,7 @@ mm::ExtraObjectData::~ExtraObjectData() {
     }
     RuntimeAssert(weakReference == nullptr, "ExtraObjectData %p must have cleared weak reference %p", this, weakReference);
 
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
     auto* associatedObject = associatedObject_.load(std::memory_order_relaxed);
     RuntimeAssert(associatedObject == nullptr, "ExtraObjectData %p must have cleared associated object %p", this, associatedObject);
 #endif

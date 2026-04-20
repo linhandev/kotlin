@@ -17,6 +17,9 @@
 #include "Worker.h"
 #include "KString.h"
 #include "CrashHandler.hpp"
+#ifdef KONAN_OHOS
+#include "ArkTSInit.h"
+#endif
 #include <atomic>
 #include <cstdint>
 #include <cstdlib>
@@ -213,6 +216,9 @@ bool kotlin::initializeGlobalRuntimeIfNeeded() noexcept {
     initGlobalMemory();
 #if KONAN_OBJC_INTEROP
     Kotlin_ObjCExport_initialize();
+#endif
+#ifdef KONAN_OHOS
+    Kotlin_ArkTS_initialize();
 #endif
     return true;
 }
