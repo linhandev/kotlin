@@ -27,7 +27,7 @@
 
 using namespace kotlin;
 
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
 
 PERFORMANCE_INLINE void* ObjHeader::GetAssociatedObject() const {
     auto metaObject = meta_object_or_null();
@@ -39,6 +39,7 @@ PERFORMANCE_INLINE void* ObjHeader::GetAssociatedObject() const {
 
 PERFORMANCE_INLINE void ObjHeader::SetAssociatedObject(void* obj) {
     auto& extraObject = mm::ExtraObjectData::FromMetaObjHeader(meta_object());
+#ifdef KONAN_OBJC_INTEROP
     // TODO: Consider additional filtering based on types:
     //       * have some kind of an allowlist that can be populated by the user
     //         to specify that objects of these types must be finalized only on
@@ -49,20 +50,24 @@ PERFORMANCE_INLINE void ObjHeader::SetAssociatedObject(void* obj) {
     if (pthread_main_np() == 1) {
         extraObject.setFlag(mm::ExtraObjectData::FLAGS_RELEASE_ON_MAIN_QUEUE);
     }
+#endif
     return extraObject.AssociatedObject().store(obj, std::memory_order_release);
 }
 
 PERFORMANCE_INLINE void* ObjHeader::CasAssociatedObject(void* expectedObj, void* obj) {
     auto& extraObject = mm::ExtraObjectData::FromMetaObjHeader(meta_object());
     bool success = extraObject.AssociatedObject().compare_exchange_strong(expectedObj, obj);
+    (void)success;
+#ifdef KONAN_OBJC_INTEROP
     // TODO: Consider additional filtering outlined above.
     if (success && pthread_main_np() == 1) {
         extraObject.setFlag(mm::ExtraObjectData::FLAGS_RELEASE_ON_MAIN_QUEUE);
     }
+#endif
     return expectedObj;
 }
 
-#endif // KONAN_OBJC_INTEROP
+#endif // defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
 
 // static
 MetaObjHeader* ObjHeader::createMetaObject(ObjHeader* object) {

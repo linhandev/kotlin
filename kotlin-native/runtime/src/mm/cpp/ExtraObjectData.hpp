@@ -46,7 +46,7 @@ public:
     void Uninstall() noexcept;
     void UnlinkFromBaseObject() noexcept;
 
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
     std::atomic<void*>& AssociatedObject() noexcept { return associatedObject_; }
 #endif
     bool HasAssociatedObject() noexcept;
@@ -90,7 +90,7 @@ private:
 
     std::atomic<uint32_t> flags_ = 0;
 
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
     std::atomic<void*> associatedObject_ = nullptr;
 #endif
 

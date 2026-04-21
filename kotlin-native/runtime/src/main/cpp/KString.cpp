@@ -21,6 +21,12 @@
 #include <string>
 #include <optional>
 
+#ifdef KONAN_OHOS
+#include "napi/native_api.h"
+#include "KStringProxyOHOS.h"
+#include "ArkTSStringRef.h"
+#endif
+
 #include "CompilerConstants.hpp"
 #include "CallsChecker.hpp"
 #include "KAssert.h"
@@ -195,6 +201,11 @@ extern "C" OBJ_GETTER(CreateUninitializedString, StringEncoding encoding, uint32
 }
 
 extern "C" OBJ_GETTER(ConvertStringToUtf16, KRef kstringPtr) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(kstringPtr)) {
+        RETURN_OBJ(kstringPtr);
+    }
+#endif
     return encodingAware(kstringPtr, [=](auto kstring) {
         if constexpr (kstring.encoding == StringEncoding::kUTF16) {
             RETURN_OBJ(kstringPtr);
@@ -240,12 +251,24 @@ extern "C" void FreePermanentStringForTests(KConstRef header) {
     std::free(const_cast<KRef>(header));
 }
 
+
 // String.kt
 extern "C" KInt Kotlin_String_getStringLength(KConstRef thiz) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thiz)) {
+        ArkTSStringRef *ref = hmm::KStringProxyGetArkTSStringRef(thiz);
+        return static_cast<KInt>(ref->getLength());
+    }
+#endif
     return encodingAware(thiz, [](auto thiz) { return thiz.sizeInChars(); });
 }
 
 extern "C" OBJ_GETTER(Kotlin_String_replace, KConstRef thizPtr, KChar oldChar, KChar newChar) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thizPtr)) {
+        return hmm::Kotlin_StringProxy_replace(thizPtr, oldChar, newChar, OBJ_RESULT);
+    }
+#endif
     return encodingAware(thizPtr, [=](auto thiz) {
         if (!thiz.canEncode(oldChar)) RETURN_OBJ(const_cast<KRef>(thizPtr));
         if (thiz.encoding == StringEncoding::kLatin1 && thiz.canEncode(newChar)) {
@@ -258,6 +281,19 @@ extern "C" OBJ_GETTER(Kotlin_String_replace, KConstRef thizPtr, KChar oldChar, K
 }
 
 extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
+#ifdef KONAN_OHOS
+    bool isThizProxy = hmm::IsKStringProxy(thiz);
+    bool isOtherProxy = hmm::IsKStringProxy(other);
+    if (isThizProxy && isOtherProxy) {
+        return hmm::Kotlin_StringProxy_plusStringProxyImpl(thiz, other, OBJ_RESULT);
+    }
+    if (isThizProxy) {
+        return hmm::Kotlin_StringProxy_plusStringImpl(thiz, other, OBJ_RESULT);
+    }
+    if (isOtherProxy) {
+        return hmm::Kotlin_String_plusStringProxyImpl(thiz, other, OBJ_RESULT);
+    }
+#endif
     if (kotlin::compiler::latin1Strings()) {
         if (StringHeader::of(thiz)->size() == 0) RETURN_OBJ(const_cast<KRef>(other));
         if (StringHeader::of(other)->size() == 0) RETURN_OBJ(const_cast<KRef>(thiz));
@@ -299,6 +335,13 @@ extern "C" OBJ_GETTER(Kotlin_String_unsafeStringFromCharArray, KConstRef thiz, K
 }
 
 static void Kotlin_String_overwriteArray(KConstRef string, KRef destination, KInt destinationOffset, KInt start, KInt size) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(string)) {
+        ArkTSStringRef *ref = hmm::KStringProxyGetArkTSStringRef(string);
+        ref->copyTo(CharArrayAddressOfElementAt(destination->array(), destinationOffset), size * sizeof(KChar), start);
+        return;
+    }
+#endif
     encodingAware(string, [=](auto string) {
         auto it = string.begin() + start;
         auto out = CharArrayAddressOfElementAt(destination->array(), destinationOffset);
@@ -316,6 +359,12 @@ extern "C" OBJ_GETTER(Kotlin_String_toCharArray, KConstRef string, KRef destinat
 }
 
 extern "C" OBJ_GETTER(Kotlin_String_subSequence, KConstRef thiz, KInt startIndex, KInt endIndex) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thiz)) {
+        return hmm::Kotlin_StringProxy_subSequence(thiz, startIndex, endIndex, OBJ_RESULT);
+    }
+#endif
+
     return encodingAware(thiz, [=](auto thiz) {
         if (startIndex < 0 || static_cast<uint32_t>(endIndex) > thiz.sizeInChars() || startIndex > endIndex) {
             // Kotlin/JVM uses StringIndexOutOfBounds, but Native doesn't have it and this is close enough.
@@ -355,6 +404,19 @@ static KInt Kotlin_String_compareAt(It1 it1, It1 end1, It2 it2, It2 end2) {
 }
 
 extern "C" KInt Kotlin_String_compareTo(KConstRef thiz, KConstRef other) {
+#ifdef KONAN_OHOS
+    bool isThizProxy = hmm::IsKStringProxy(thiz);
+    bool isOtherProxy = hmm::IsKStringProxy(other);
+    if (isThizProxy && isOtherProxy) {
+        return hmm::Kotlin_StringProxy_compareToStringProxy(thiz, other);
+    }
+    if (isThizProxy) {
+        return hmm::Kotlin_StringProxy_compareToString(thiz, other);
+    }
+    if (isOtherProxy) {
+        return hmm::Kotlin_String_compareToStringProxy(thiz, other);
+    }
+#endif
     return encodingAware(thiz, other, [=](auto thiz, auto other) {
         auto begin1 = thiz.begin(), end1 = thiz.end();
         auto begin2 = other.begin(), end2 = other.end();
@@ -369,6 +431,11 @@ extern "C" KInt Kotlin_String_compareTo(KConstRef thiz, KConstRef other) {
 }
 
 extern "C" KChar Kotlin_String_get(KConstRef thiz, KInt index) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thiz)) {
+        return hmm::Kotlin_StringProxy_get(thiz, index);
+    }
+#endif
     return encodingAware(thiz, [=](auto thiz) { return *boundsCheckedIteratorAt(thiz, index); });
 }
 
@@ -422,6 +489,20 @@ extern "C" KBoolean Kotlin_String_equals(KConstRef thiz, KConstRef other) {
     if (thiz == other) return true;
     if (other == nullptr || other->type_info() != theStringTypeInfo) return false;
 
+#ifdef KONAN_OHOS
+    bool isThizProxy = hmm::IsKStringProxy(thiz);
+    bool isOtherProxy = hmm::IsKStringProxy(other);
+    if (isThizProxy && isOtherProxy) {
+        return hmm::Kotlin_StringProxy_equalsWithStringProxy(thiz, other);
+    }
+    if (isThizProxy) {
+        return hmm::Kotlin_StringProxy_equalsWithString(thiz, other);
+    }
+    if (isOtherProxy) {
+        return hmm::Kotlin_StringProxy_equalsWithString(other, thiz);
+    }
+#endif
+
     if (auto thizHash = Kotlin_String_cachedHashCode(thiz)) {
         if (auto otherHash = Kotlin_String_cachedHashCode(other)) {
             if (*thizHash != *otherHash) return false;
@@ -439,7 +520,23 @@ extern "C" KBoolean Kotlin_String_equals(KConstRef thiz, KConstRef other) {
 
 // Bounds checks are performed on Kotlin side
 extern "C" KBoolean Kotlin_String_unsafeRangeEquals(KConstRef thiz, KInt thizOffset, KConstRef other, KInt otherOffset, KInt length) {
-    return length == 0 || encodingAware(thiz, other, [=](auto thiz, auto other) {
+    if (length == 0) {
+        return true;
+    }
+#ifdef KONAN_OHOS
+    bool isThizProxy = hmm::IsKStringProxy(thiz);
+    bool isOtherProxy = hmm::IsKStringProxy(other);
+    if (isThizProxy && isOtherProxy) {
+        return hmm::Kotlin_StringProxy_unsafeRangeEqualsWithStringProxy(thiz, thizOffset, other, otherOffset, length);
+    }
+    if (isThizProxy) {
+        return hmm::Kotlin_StringProxy_unsafeRangeEqualsWithString(thiz, thizOffset, other, otherOffset, length);
+    }
+    if (isOtherProxy) {
+        return hmm::Kotlin_StringProxy_unsafeRangeEqualsWithString(other, otherOffset, thiz, thizOffset, length);
+    }
+#endif
+    return encodingAware(thiz, other, [=](auto thiz, auto other) {
         auto begin1 = thiz.begin() + thizOffset;
         auto begin2 = other.begin() + otherOffset;
         // Questionable moment: in variable-length encodings, is it more efficient to advance the iterator first
@@ -478,6 +575,11 @@ extern "C" KBoolean Kotlin_Char_isLowSurrogate(KChar ch) {
 
 extern "C" KInt Kotlin_String_indexOfChar(KConstRef thiz, KChar ch, KInt fromIndex) {
     auto unsignedIndex = fromIndex < 0 ? 0 : static_cast<size_t>(fromIndex);
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thiz)) {
+        return hmm::Kotlin_StringProxy_indexOfChar(thiz, ch, static_cast<KInt>(unsignedIndex));
+    }
+#endif
     return encodingAware(thiz, [=](auto thiz) {
         auto i = std::min(unsignedIndex, thiz.sizeInChars());
         for (auto it = thiz.begin() + i; i < thiz.sizeInChars(); ++i) {
@@ -489,6 +591,11 @@ extern "C" KInt Kotlin_String_indexOfChar(KConstRef thiz, KChar ch, KInt fromInd
 
 extern "C" KInt Kotlin_String_lastIndexOfChar(KConstRef thiz, KChar ch, KInt fromIndex) {
     if (fromIndex < 0) return -1;
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thiz)) {
+        return hmm::Kotlin_StringProxy_lastIndexOfChar(thiz, ch, fromIndex);
+    }
+#endif
     auto unsignedIndex = static_cast<size_t>(fromIndex) + 1; // convert to exclusive bound
     return encodingAware(thiz, [=](auto thiz) {
         auto i = std::min(unsignedIndex, thiz.sizeInChars());
@@ -502,6 +609,20 @@ extern "C" KInt Kotlin_String_lastIndexOfChar(KConstRef thiz, KChar ch, KInt fro
 // TODO: or code up Knuth-Moris-Pratt, or use std::boyer_moore_searcher (might need backporting)
 extern "C" KInt Kotlin_String_indexOfString(KConstRef thiz, KConstRef other, KInt fromIndex) {
     auto unsignedIndex = fromIndex < 0 ? 0 : static_cast<size_t>(fromIndex);
+#ifdef KONAN_OHOS
+    bool isThizProxy = hmm::IsKStringProxy(thiz);
+    bool isOtherProxy = hmm::IsKStringProxy(other);
+    // Both are ArkTS string proxies.
+    if (isThizProxy && isOtherProxy) {
+        return hmm::Kotlin_StringProxy_indexOfStringProxy(thiz, other, fromIndex);
+    }
+    if (isThizProxy) {
+        return hmm::Kotlin_StringProxy_indexOfString(thiz, other, fromIndex);
+    }
+    if (isOtherProxy) {
+        return hmm::Kotlin_String_indexOfStringProxy(thiz, other, fromIndex);
+    }
+#endif
     return encodingAware(thiz, other, [=](auto thiz, auto other) {
         auto thizLength = thiz.sizeInChars();
         auto otherLength = other.sizeInChars();
@@ -541,6 +662,11 @@ extern "C" KInt Kotlin_String_indexOfString(KConstRef thiz, KConstRef other, KIn
 }
 
 extern "C" KInt Kotlin_String_hashCode(KRef thiz) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thiz)) {
+        return hmm::Kotlin_StringProxy_hashCode(thiz);
+    }
+#endif
     if (auto cached = Kotlin_String_cachedHashCode(thiz)) {
         return *cached;
     }
@@ -565,6 +691,11 @@ extern "C" KInt Kotlin_String_hashCode(KRef thiz) {
 }
 
 extern "C" KConstNativePtr Kotlin_Arrays_getStringAddressOfElement(KConstRef thiz, KInt index) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thiz)) {
+        return hmm::Kotlin_StringProxy_getStringAddressOfElement(thiz, index);
+    }
+#endif
     return encodingAware(thiz, [=](auto thiz) { return reinterpret_cast<KConstNativePtr>(boundsCheckedIteratorAt(thiz, index).ptr()); });
 }
 
@@ -611,6 +742,12 @@ template <KStringConversionMode mode>
 std::string kotlin::to_string(KConstRef kstring, size_t start, size_t size) noexcept(mode != KStringConversionMode::CHECKED) {
     CallsCheckerIgnoreGuard ignoreCallChecks;
     RuntimeAssert(kstring->type_info() == theStringTypeInfo, "A Kotlin String expected");
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(kstring)) {
+        ArkTSStringRef *ref = hmm::KStringProxyGetArkTSStringRef(kstring);
+        return ref->to_string<mode>(start, size);
+    }
+#endif
     return encodingAware(kstring, [=](auto kstring) {
         auto length = kstring.sizeInChars();
         RuntimeAssert(start <= length, "start index out of bounds");
