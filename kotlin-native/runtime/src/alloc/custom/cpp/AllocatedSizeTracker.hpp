@@ -31,8 +31,8 @@ struct AllocatedSizeTracker {
         std::tm* ResolveLocalTimeOrFallback(std::time_t now, std::tm& tmBuf) noexcept;
         void BuildDumpMetadata(
                 const std::tm* localTime, const std::string& dumpDir, std::string& finalDumpPath,
-                std::string& reportDumpPath, std::string& timestampStr) noexcept;
-        void DumpMemoryToFile(const std::string& finalDumpPath, const std::string& reportDumpPath) noexcept;
+                std::string& timestampStr) noexcept;
+        void DumpMemoryToFile(const std::string& finalDumpPath) noexcept;
         void MaybeDumpAndReportOom(std::size_t nowAllocated) noexcept;
         void NotifyScheduler(std::size_t nowAllocated) noexcept;
         std::atomic<std::ptrdiff_t> allocatedBytes_ = 0;

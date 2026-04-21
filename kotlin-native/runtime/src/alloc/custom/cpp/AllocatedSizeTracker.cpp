@@ -66,50 +66,6 @@ bool ShouldReplaceOldestDump(
 }
 
 #ifdef KONAN_OHOS
-std::string ExtractMappedBaseFromMountInfo() {
-    FILE* mountInfo = fopen("/proc/self/mountinfo", "r");
-    if (mountInfo == nullptr) {
-        DBG_OOM("Failed to open /proc/self/mountinfo. errno: %{public}d", errno);
-        return {};
-    }
-
-    char* line = nullptr;
-    size_t cap = 0;
-    std::string mappedBase;
-    std::string lineStr;
-    std::string id;
-    std::string parentId;
-    std::string majorMinor;
-    std::string root;
-    std::string mountPoint;
-    std::istringstream left;
-    while (getline(&line, &cap, mountInfo) != -1) {
-        lineStr = line;
-        auto separator = lineStr.find(" - ");
-        if (separator == std::string::npos) {
-            continue;
-        }
-        left.clear();
-        left.str(lineStr.substr(0, separator));
-        if (!(left >> id >> parentId >> majorMinor >> root >> mountPoint)) {
-            continue;
-        }
-        DBG_OOM(
-            "mountinfo parsed: mountPoint=%{public}s root=%{public}s id=%{public}s parentId=%{public}s majorMinor=%{public}s",
-            mountPoint.c_str(), root.c_str(), id.c_str(), parentId.c_str(), majorMinor.c_str());
-        if (mountPoint != "/data/storage/el2/base") {
-            continue;
-        }
-        DBG_OOM("mountinfo matched target: mountPoint=%{public}s mappedBase=%{public}s", mountPoint.c_str(), root.c_str());
-        mappedBase = root;
-        break;
-    }
-    free(line);
-    if (fclose(mountInfo) != 0) {
-        DBG_OOM("Failed to close /proc/self/mountinfo. errno: %{public}d", errno);
-    }
-    return mappedBase;
-}
 #define KN_STRINGIFY_(x) #x
 #define KN_STRINGIFY(x) KN_STRINGIFY_(x)
 
@@ -219,34 +175,6 @@ void CleanupOldDumpFiles(
     }
 }
 
-std::string ToHostVisiblePath(
-    const std::string& path) {
-#ifdef KONAN_OHOS
-    constexpr const char kSandboxPrefix[] = "/data/storage/el2/base/";
-    if (path.rfind(kSandboxPrefix, 0) == 0) {
-        std::string mappedBase = ExtractMappedBaseFromMountInfo();
-        if (!mappedBase.empty() && mappedBase.front() == '/') {
-            if (mappedBase.rfind("/app/", 0) == 0) {
-                mappedBase = "/data" + mappedBase;
-            }
-            constexpr size_t kPrefixLen = sizeof(kSandboxPrefix) - 1;
-            return mappedBase + "/" + path.substr(kPrefixLen);
-        }
-    }
-
-    char resolvedPath[PATH_MAX];
-    if (realpath(path.c_str(), resolvedPath) != nullptr) {
-        return std::string(resolvedPath);
-    }
-#endif
-    return path;
-}
-
-std::string BuildReportDumpPath(
-    const std::string& dumpDir,
-    const std::string& dumpFileName) {
-    return ToHostVisiblePath(dumpDir + "/" + dumpFileName);
-}
 }
 
 void alloc::AllocatedSizeTracker::Page::onPageOverflow(std::size_t allocatedBytes) noexcept {
@@ -308,13 +236,12 @@ std::tm* alloc::AllocatedSizeTracker::Heap::ResolveLocalTimeOrFallback(std::time
 }
 
 void alloc::AllocatedSizeTracker::Heap::BuildDumpMetadata(
-    const std::tm* localTime, const std::string& dumpDir, std::string& finalDumpPath, std::string& reportDumpPath,
+    const std::tm* localTime, const std::string& dumpDir, std::string& finalDumpPath,
     std::string& timestampStr) noexcept {
     std::ostringstream filenameStream;
     filenameStream << "oom_dump_" << std::put_time(localTime, "%Y%m%d_%H%M%S") << ".dump";
     const std::string dumpFileName = filenameStream.str();
     finalDumpPath = dumpDir + "/" + dumpFileName;
-    reportDumpPath = BuildReportDumpPath(dumpDir, dumpFileName);
 
     std::ostringstream tsStream;
     tsStream << std::put_time(localTime, "%Y-%m-%d %H:%M:%S");
@@ -322,8 +249,7 @@ void alloc::AllocatedSizeTracker::Heap::BuildDumpMetadata(
 }
 
 void alloc::AllocatedSizeTracker::Heap::DumpMemoryToFile(
-    const std::string& finalDumpPath,
-    const std::string& reportDumpPath) noexcept {
+    const std::string& finalDumpPath) noexcept {
     bool dumpSuccess = false;
     int fd = open(finalDumpPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666);
     if (fd >= 0) {
@@ -336,12 +262,12 @@ void alloc::AllocatedSizeTracker::Heap::DumpMemoryToFile(
         }
 
         if (dumpSuccess) {
-            DBG_OOM("Memory dump successful: %{public}s", reportDumpPath.c_str());
+            DBG_OOM("Memory dump successful (sandbox path): %{public}s", finalDumpPath.c_str());
         } else {
-            DBG_OOM("Memory dump failed: %{public}s", reportDumpPath.c_str());
+            DBG_OOM("Memory dump failed (sandbox path): %{public}s", finalDumpPath.c_str());
         }
     } else {
-        DBG_OOM("Failed to open %{public}s for memory dump. errno: %{public}d", reportDumpPath.c_str(), errno);
+        DBG_OOM("Failed to open %{public}s for memory dump. errno: %{public}d", finalDumpPath.c_str(), errno);
     }
 }
 
@@ -357,11 +283,10 @@ void alloc::AllocatedSizeTracker::Heap::MaybeDumpAndReportOom(std::size_t nowAll
     CleanupOldDumpFiles(dumpDir, K_MAX_OOM_DUMP_FILES);
 
     std::string finalDumpPath;
-    std::string reportDumpPath;
     std::string timestampStr;
-    BuildDumpMetadata(localTime, dumpDir, finalDumpPath, reportDumpPath, timestampStr);
-    ReportOomEventViaHiAppEvent(reportDumpPath.c_str(), nowAllocated, oomThreshold_, timestampStr.c_str());
-    DumpMemoryToFile(finalDumpPath, reportDumpPath);
+    BuildDumpMetadata(localTime, dumpDir, finalDumpPath, timestampStr);
+    ReportOomEventViaHiAppEvent(finalDumpPath.c_str(), nowAllocated, oomThreshold_, timestampStr.c_str());
+    DumpMemoryToFile(finalDumpPath);
 }
 
 void alloc::AllocatedSizeTracker::Heap::NotifyScheduler(std::size_t nowAllocated) noexcept {
