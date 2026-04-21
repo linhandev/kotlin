@@ -96,7 +96,7 @@ void Kotlin_deinitRuntimeCallback(void* argument);
 #ifdef KONAN_OHOS
 void RegistDumpListenerIfNeeded()
 {
-  if (OH_GetSdkApiVersion() >= OHOS_DUMPLISTNER_MIN_API) {
+  if (OH_GetSdkApiVersion() < OHOS_DUMPLISTNER_MIN_API) {
     return;
   }
   // Register a memory dump listener for hidumper tools. The listener writes
