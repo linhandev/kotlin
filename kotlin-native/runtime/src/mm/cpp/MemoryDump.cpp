@@ -343,7 +343,6 @@ private:
         }
     }
 
-
     const uint8_t TAG_TYPE = 0x01;
     const uint8_t TAG_OBJECT = 0x02;
     const uint8_t TAG_ARRAY = 0x03;
