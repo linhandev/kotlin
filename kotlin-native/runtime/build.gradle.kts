@@ -255,7 +255,7 @@ bitcode {
         module("custom_alloc") {
             srcRoot.set(layout.projectDirectory.dir("src/alloc/custom"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
-            compilerArgs.add("-DKOTLIN_NATIVE_HIAPPEVENT_FW_VERSION=\"$kotlinVersion\"")
+            compilerArgs.add("-DKOTLIN_NATIVE_HIAPPEVENT_FW_VERSION=$kotlinVersion")
             sourceSets {
                 main {}
                 test {}
