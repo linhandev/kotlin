@@ -32,7 +32,7 @@ public:
     void Dump() {
         RuntimeLogInfo({kTagMemDump}, "Starting to dump memory into %p", file_);
 
-        DumpStr("Kotlin/Native dump 1.0.8");
+        DumpStr("Kotlin/Native dump 1.0.9");
         DumpBool(konan::isLittleEndian());
         DumpU8(sizeof(void*));
 
