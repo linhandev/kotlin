@@ -18,6 +18,7 @@ object ClassName {
     const val CLASS_LOADER = "java/lang/ClassLoader"
     const val THREAD = "java/lang/Thread"
     const val EXTRA_OBJECT = "kotlin/ExtraObject"
+    const val STABLE_REF = "kotlin/native/internal/StableRef"
 
     object Array {
         const val OBJECT = "[L" + ClassName.OBJECT + ";"

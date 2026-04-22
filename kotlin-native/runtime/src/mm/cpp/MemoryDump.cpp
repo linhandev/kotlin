@@ -32,7 +32,7 @@ public:
     void Dump() {
         RuntimeLogInfo({kTagMemDump}, "Starting to dump memory into %p", file_);
 
-        DumpStr("Kotlin/Native dump 1.0.8");
+        DumpStr("Kotlin/Native dump 1.0.9");
         DumpBool(konan::isLittleEndian());
         DumpU8(sizeof(void*));
 
@@ -54,6 +54,9 @@ public:
 
         RuntimeLogInfo({kTagMemDump}, "Dumping extra objects from the heap");
         GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) { DumpTransitively(extraObj); });
+
+        RuntimeLogInfo({kTagMemDump}, "Dumping stable references");
+        DumpStableRefs();
 
         RuntimeLogInfo({kTagMemDump}, "Dumping enqueued objects");
         DumpEnqueuedObjects();
@@ -323,6 +326,23 @@ private:
         }
     }
 
+    void DumpStableRefs() {
+        auto& registry = mm::ExternalRCRefRegistry::instance();
+        auto iterable = registry.lockForIter();
+        for (auto it = iterable.begin(); it != iterable.end(); ++it) {
+            mm::ExternalRCRefImpl* ref = it.get();
+            KRef obj = (*it).load(std::memory_order_relaxed);
+            if (obj != nullptr) {
+                RuntimeLogDebug({kTagMemDump}, "Dumping stable ref %p -> %p", ref, obj);
+                DumpU8(TAG_STABLE_REF);
+                DumpId(ref);
+                DumpId(obj);
+
+                Enqueue(obj);
+            }
+        }
+    }
+
     const uint8_t TAG_TYPE = 0x01;
     const uint8_t TAG_OBJECT = 0x02;
     const uint8_t TAG_ARRAY = 0x03;
@@ -330,6 +350,7 @@ private:
     const uint8_t TAG_THREAD = 0x05;
     const uint8_t TAG_GLOBAL_ROOT = 0x06;
     const uint8_t TAG_THREAD_ROOT = 0x07;
+    const uint8_t TAG_STABLE_REF = 0x08;
 
     const uint8_t TYPE_FLAG_ARRAY = 1 << 0;
     const uint8_t TYPE_FLAG_EXTENDED = 1 << 1;

@@ -1,4 +1,6 @@
-# Kotlin/Native dump file format v1.0.8 (draft).
+# Kotlin/Native dump file format v1.0.9 (draft)
+
+**Note**: This format is backward compatible with v1.0.8. Dump files created with v1.0.8 can be read by v1.0.9 parsers.
 
 ## Specification
 
@@ -30,7 +32,7 @@
 ### Header
 
 ```
-- header_string (str) = `Kotlin/Native dump 1.0.8`
+- header_string (str) = `Kotlin/Native dump 1.0.9`
 - endianness (u8): 0 = big endian, 1 = little endian
 - id_size (u8): 1, 2, 4 or 8 (usually 8)
 ```
@@ -116,5 +118,13 @@
 - tag (u8) = 7
 - source (u8): 1 = stack, 2 = thread local
 - thread_id (id): thread ID
+- object_id (id): object ID
+```
+
+#### STABLE_REF
+
+```
+- tag (u8) = 8
+- ref_id (id): stable reference ID
 - object_id (id): object ID
 ```

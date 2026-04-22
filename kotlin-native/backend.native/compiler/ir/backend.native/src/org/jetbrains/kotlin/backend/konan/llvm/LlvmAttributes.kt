@@ -41,8 +41,8 @@ private fun shouldEnforceFramePointer(context: Context): Boolean {
     }
 
     return when (context.config.target.family) {
-        Family.OSX, Family.IOS, Family.WATCHOS, Family.TVOS -> context.shouldContainLocationDebugInfo()
-        Family.LINUX, Family.MINGW, Family.ANDROID, Family.OHOS -> false
+        Family.OSX, Family.IOS, Family.WATCHOS, Family.TVOS , Family.OHOS -> context.shouldContainLocationDebugInfo()
+        Family.LINUX, Family.MINGW, Family.ANDROID-> false
     }
 }
 

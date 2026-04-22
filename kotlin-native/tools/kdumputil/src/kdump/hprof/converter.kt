@@ -329,6 +329,16 @@ class Converter(
         if (SYNTHESIZE_JAVA_LANG_STRINGS) {
             addJavaLangStringIds(memoryDump)
         }
+        addSyntheticClass(
+            ClassName.STABLE_REF,
+            extraClassObjectId(ClassName.OBJECT),
+            listOf(
+                HProfInstanceField(
+                    nameStringId = hprofId("reference"),
+                    type = HProfType.OBJECT
+                )
+            )
+        )
 
         memoryDump.items.forEach { add(it) }
     }
@@ -391,7 +401,26 @@ class Converter(
             is Thread -> addItem(item)
             is GlobalRoot -> addItem(item)
             is ThreadRoot -> addItem(item)
+            is StableRef -> addItem(item)
         }
+    }
+
+    fun addItem(stableRef: StableRef) {
+        // Keep StableRef address as-is for cross-language correlation.
+        val stableRefId = HProfId(stableRef.id.long)
+        hprofHeapDumpRecords.add(
+                HProfInstanceDump(
+                        objectId = stableRefId,
+                        classObjectId = extraClassObjectId(ClassName.STABLE_REF),
+                        byteArray = hprofByteArray {
+                            write(hprofObjectReferenceId(stableRef.objectId))
+                        }))
+        hprofHeapDumpRecords.add(
+                HProfRootJniGlobal(
+                        objectId = stableRefId,
+                        refId = stableRefId
+                )
+        )
     }
 
     fun addItem(extraObject: ExtraObject) {
@@ -568,7 +597,7 @@ class Converter(
 
         val offset = 0
 
-        return if (type.packageName != "kotlin") {
+        return if (!type.packageName.startsWith("kotlin")) {
             throw IllegalArgumentException("Unknown array type package name: ${type.packageName}")
         } else when (type.relativeName) {
             "Array" ->
