@@ -72,10 +72,6 @@ bool ShouldReplaceOldestDump(
 #ifndef KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION
 #define KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION unknown
 #endif
-constexpr int K_HIAPPEVENT_SUCCESS = 0;
-constexpr int K_HIAPPEVENT_INVALID_PARAM_VALUE = -9;
-constexpr int K_HIAPPEVENT_OPERATE_FAILED = -200;
-constexpr int K_HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED = -300;
 
 static void ReportOomEventViaHiAppEvent(
     const char* dumpPath,
@@ -92,32 +88,7 @@ static void ReportOomEventViaHiAppEvent(
     std::string descriptionStr = desc.str();
     int reportResult = OH_HiAppEvent_ReportFrameworkMemAnomaly(
         OH_KMP_KOTLIN, KN_STRINGIFY(KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION), descriptionStr.c_str());
-    switch (reportResult) {
-        case K_HIAPPEVENT_SUCCESS:
-            DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly succeeded for KMP Kotlin.");
-            return;
-        case K_HIAPPEVENT_INVALID_PARAM_VALUE:
-            DBG_OOM(
-                "HiAppEvent: invalid param when reporting framework mem anomaly. result=" "%{public}d",
-                reportResult);
-            return;
-        case K_HIAPPEVENT_OPERATE_FAILED:
-            DBG_OOM(
-                "HiAppEvent: operate failed when reporting framework mem anomaly. result=" "%{public}d",
-                reportResult);
-            return;
-        case K_HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED:
-            DBG_OOM(
-                "HiAppEvent: report frequency exceeded when reporting framework mem anomaly. result="
-                "%{public}d",
-                reportResult);
-            return;
-        default:
-            DBG_OOM(
-                "HiAppEvent: unknown result when reporting framework mem anomaly. result=" "%{public}d",
-                reportResult);
-            return;
-    }
+    DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly finished. result=%{public}d", reportResult);
 }
 #else
 static void ReportOomEventViaHiAppEvent(
