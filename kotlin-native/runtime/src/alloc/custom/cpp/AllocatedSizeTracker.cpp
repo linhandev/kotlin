@@ -97,17 +97,25 @@ static void ReportOomEventViaHiAppEvent(
             DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly succeeded for KMP Kotlin.");
             return;
         case K_HIAPPEVENT_INVALID_PARAM_VALUE:
-            DBG_OOM("HiAppEvent: invalid param when reporting framework mem anomaly. result=%{public}d", reportResult);
+            DBG_OOM(
+                "HiAppEvent: invalid param when reporting framework mem anomaly. result=" "%{public}d",
+                reportResult);
             return;
         case K_HIAPPEVENT_OPERATE_FAILED:
-            DBG_OOM("HiAppEvent: operate failed when reporting framework mem anomaly. result=%{public}d", reportResult);
+            DBG_OOM(
+                "HiAppEvent: operate failed when reporting framework mem anomaly. result=" "%{public}d",
+                reportResult);
             return;
         case K_HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED:
             DBG_OOM(
-                "HiAppEvent: report frequency exceeded when reporting framework mem anomaly. result=%{public}d", reportResult);
+                "HiAppEvent: report frequency exceeded when reporting framework mem anomaly. result="
+                "%{public}d",
+                reportResult);
             return;
         default:
-            DBG_OOM("HiAppEvent: unknown result when reporting framework mem anomaly. result=%{public}d", reportResult);
+            DBG_OOM(
+                "HiAppEvent: unknown result when reporting framework mem anomaly. result=" "%{public}d",
+                reportResult);
             return;
     }
 }
