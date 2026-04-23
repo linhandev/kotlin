@@ -732,32 +732,7 @@ internal abstract class FunctionGenerationContext(
             memoryOrder: LLVMAtomicOrdering? = null,
             alignment: Int? = null
     ): LLVMValueRef {
-        val addressTy = LLVMTypeOf(address)!!
-        // Need to add a cast.
-        // 1. Check if this is a double pointer
-        val tyLayCount = GetLayOutOfPointer(addressTy, 0)
-        if (tyLayCount == 2) {
-            // 2. Check if the inner pointer matches the type.
-            // In LLVM 19 opaque pointer mode, elementTy is null; skip.
-            val elementTy = LLVMGetElementType(addressTy)
-            if (elementTy != null) {
-                val typeAddrSpace = LLVMGetPointerAddressSpace(type)
-                val elementAddrSpace = LLVMGetPointerAddressSpace(elementTy)
-                if (typeAddrSpace != elementAddrSpace) {
-                    val targetTy = LLVMPointerType(type, 0)
-                    val tempOuterPtr = LLVMBuildBitCast(builder, address, targetTy, "")
-                    val value = LLVMBuildLoad2(builder, type, tempOuterPtr, name)!!
-                    memoryOrder?.let { LLVMSetOrdering(value, it) }
-                    alignment?.let { LLVMSetAlignment(value, it) }
-                    return value
-                }
-            }
-        }
-
-        val value = LLVMBuildLoad2(builder, type, address, name)!!
-        memoryOrder?.let { LLVMSetOrdering(value, it) }
-        alignment?.let { LLVMSetAlignment(value, it) }
-        return value;
+        return applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
     }
 
     fun loadArraySize(thiz: LLVMValueRef): LLVMValueRef {
@@ -1184,26 +1159,6 @@ private fun CheckFuncParamType(paramType : LLVMTypeRef, arg : LLVMValueRef, i : 
     }
 
     return LLVMBuildAddrSpaceCast(builder, arg, paramType, "")!!
-}
-
-// Helper: strip address space from a pointer type to get the base type
-// (e.g. T addrspace(1)* -> T*)
-private fun stripAddressSpace(pointerType: LLVMTypeRef): LLVMTypeRef {
-    val elementType = LLVMGetElementType(pointerType) ?: return pointerType
-    // Rebuild a pointer type with address space 0
-    // (for type comparison only, does not affect the actual address space)
-    return LLVMPointerType(elementType, 0)!! // Assuming LLVMPointerType is available
-}
-
-private fun GetLayOutOfPointer(pointerType: LLVMTypeRef, count: Int) : Int {
-    if (LLVMGetTypeKind(pointerType)!! == LLVMTypeKind.LLVMPointerTypeKind) {
-        // LLVM 19 opaque pointer: LLVMGetElementType returns null,
-        // treated as a single-level pointer
-        val elemType = LLVMGetElementType(pointerType) ?: return count + 1
-        return GetLayOutOfPointer(elemType, count + 1)
-    } else {
-        return count;
-    }
 }
 
 // Helper: compare whether two types are essentially the same
