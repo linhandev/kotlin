@@ -92,6 +92,12 @@ fun Pretty.item(item: Item) {
                 field("source") { name(item.source) }
                 field("object id") { id(item.objectId) }
             }
+
+        is StableRef ->
+            struct("stable ref") {
+                field("id") { id(item.id) }
+                field("object id") { id(item.objectId) }
+            }
     }
 }
 

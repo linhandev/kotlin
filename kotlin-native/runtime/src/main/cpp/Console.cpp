@@ -27,6 +27,9 @@
 #ifdef KONAN_ANDROID
 #include "CompilerConstants.hpp"
 #endif
+#ifdef KONAN_OHOS
+#include "KStringProxyOHOS.h"
+#endif
 
 #include "utf8.h"
 
@@ -38,6 +41,12 @@ std::string kStringToUtf8(KConstRef message) {
     if (message->type_info() != theStringTypeInfo) {
         ThrowClassCastException(message, theStringTypeInfo);
     }
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(message)) {
+        ArkTSStringRef *ref = hmm::KStringProxyGetArkTSStringRef(message);
+        return ref->to_string<KStringConversionMode::REPLACE_INVALID>();
+    }
+#endif
     return kotlin::to_string<KStringConversionMode::REPLACE_INVALID>(message);
 }
 

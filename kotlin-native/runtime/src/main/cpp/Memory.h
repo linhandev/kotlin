@@ -105,7 +105,7 @@ struct ObjHeader {
 
   MetaObjHeader* meta_object_or_null() const noexcept { return AsMetaObject(typeInfoOrMetaAcquire()); }
 
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
   void* GetAssociatedObject() const;
   void SetAssociatedObject(void* obj);
   void* CasAssociatedObject(void* expectedObj, void* obj);

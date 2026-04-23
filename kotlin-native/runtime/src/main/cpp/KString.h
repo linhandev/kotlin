@@ -3,6 +3,9 @@
  * that can be found in the LICENSE file.
  */
 
+#ifndef RUNTIME_KSTRING_H
+#define RUNTIME_KSTRING_H
+
 #pragma once
 
 #include "Common.h"
@@ -29,8 +32,8 @@ struct StringHeader {
     ARRAY_HEADER_FIELDS
     int32_t hashCode_; // if ArrayHeader has padding, this will go into it instead of the array's data
     /**
-     * Layout:     | Encoding | <unused> | Ignore last byte | HC computed |
-     * bit number: | 15 .. 12 |          |                1 |           0 |
+     * Layout:     | Encoding | <unused> | Is proxy |Ignore last byte | HC computed |
+     * bit number: | 15 .. 12 |          |        2 |               1 |           0 |
      */
     uint16_t flags_;
     alignas(KChar) char data_[];
@@ -42,6 +45,8 @@ struct StringHeader {
         // Set if the string's encoding has 1-byte characters and the string encodes to an odd-length
         // byte sequence (the byte sequence has to be padded to an even length to become a Char array).
         IGNORE_LAST_BYTE = 1 << 1,
+        // Set if the string is a proxy of external string(e.g. ArkTS string).
+        KSTRING_IS_PROXY = 1 << 2,
         ENCODING_OFFSET = 12,
     };
 
@@ -169,3 +174,5 @@ template <KStringConversionMode mode>
 std::string to_string(KConstRef kstring, size_t start = 0, size_t size = std::string::npos) noexcept(mode != KStringConversionMode::CHECKED);
 
 }
+
+#endif // RUNTIME_KSTRING_H

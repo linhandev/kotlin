@@ -8,6 +8,7 @@ object RecordTag {
     const val THREAD = 0x05
     const val GLOBAL_ROOT = 0x06
     const val THREAD_ROOT = 0x07
+    const val STABLE_REF = 0x08
 }
 
 object RootSourceTag {
