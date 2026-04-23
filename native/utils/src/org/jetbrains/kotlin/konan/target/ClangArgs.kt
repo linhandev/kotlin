@@ -124,6 +124,17 @@ sealed class ClangArgs(
         }
     }.flatten()
 
+    private fun ohosClangSystemIncludeFlags(): List<String> {
+        val targetTripleString = configurables.targetTriple.toString()
+        return listOf(
+                "-isystem", "$absoluteTargetToolchain/include/libcxx-ohos/include/c++/v1",
+                "-isystem", "$absoluteTargetToolchain/lib/clang/${configurables.llvmVersion}/include",
+                "-isystem", "$absoluteTargetSysRoot/usr/include/$targetTripleString",
+                "-isystem", "$absoluteTargetSysRoot/include",
+                "-isystem", "$absoluteTargetSysRoot/usr/include",
+        )
+    }
+
     private val specificClangArgs: List<String> = when (target) {
         KonanTarget.LINUX_ARM32_HFP -> listOf(
                 "-mfpu=vfp", "-mfloat-abi=hard"
@@ -154,6 +165,8 @@ sealed class ClangArgs(
                 else -> emptyList()
             }
         }
+
+        KonanTarget.OHOS_ARM64, KonanTarget.OHOS_X64 -> ohosClangSystemIncludeFlags()
 
         else -> emptyList()
     }
@@ -187,11 +200,7 @@ sealed class ClangArgs(
 
     // region Tencent Code
     private val libclangSpecificArgs = if (configurables.target.family == Family.OHOS) {
-        // Special case for parsing with the bundled clang.
-        // Note that the SDK clang would be used for most tasks.
-        listOf("-isystem", "${configurables.absoluteTargetToolchain}/include/libcxx-ohos/include/c++/v1",
-                "-isystem", "${configurables.absoluteTargetSysRoot}/usr/include/${configurables.targetTriple}",
-                "-isystem", "${configurables.absoluteTargetToolchain}/lib/clang/${configurables.llvmVersion}/include")
+        ohosClangSystemIncludeFlags()
     } else {
         // libclang works not exactly the same way as the clang binary and
         // (in particular) uses different default header search path.
