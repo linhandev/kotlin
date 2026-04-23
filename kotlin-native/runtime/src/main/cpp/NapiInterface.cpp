@@ -245,7 +245,10 @@ extern "C" {
             case StringEncoding::kLatin1: {
                 const char* latin1Chars = reinterpret_cast<const char*>(header->data());
                 size_t length = header->size();
-                status = napi_create_string_latin1((napi_env)env, latin1Chars, length, &result);
+                {
+                    kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+                    status = napi_create_string_latin1((napi_env)env, latin1Chars, length, &result);
+                }
                 break;
             }
             case StringEncoding::kUTF16: {
@@ -257,7 +260,10 @@ extern "C" {
                 // Fall back to copy
                 const char16_t* utf16Chars = reinterpret_cast<const char16_t*>(header->data());
                 size_t length = header->size() / sizeof(char16_t);
-                status = napi_create_string_utf16((napi_env)env, utf16Chars, length, &result);
+                {
+                    kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+                    status = napi_create_string_utf16((napi_env)env, utf16Chars, length, &result);
+                }
                 break;
             }
             default:
