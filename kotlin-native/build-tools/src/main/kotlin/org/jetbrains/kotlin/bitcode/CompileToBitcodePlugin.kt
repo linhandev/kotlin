@@ -33,7 +33,10 @@ import org.jetbrains.kotlin.konan.target.PlatformManager
 import org.jetbrains.kotlin.konan.target.SanitizerKind
 import org.jetbrains.kotlin.konan.target.TargetDomainObjectContainer
 import org.jetbrains.kotlin.konan.target.TargetWithSanitizer
+import org.jetbrains.kotlin.konan.target.Architecture as TargetArchitecture
+import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.enabledTargets
+import org.jetbrains.kotlin.konan.target.supportsCRT
 import org.jetbrains.kotlin.nativeDistribution.nativeProtoDistribution
 import org.jetbrains.kotlin.testing.native.GoogleTestExtension
 import org.jetbrains.kotlin.utils.capitalized
@@ -149,16 +152,40 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
     }
 
     // TODO: These should be set by the plugin users.
-    private val DEFAULT_CPP_FLAGS = listOfNotNull(
-            "-gdwarf-2".takeIf { project.kotlinBuildProperties.getBoolean("kotlin.native.isNativeRuntimeDebugInfoEnabled", false) },
+    val isCRTBuild = project.kotlinBuildProperties.getBoolean("kotlin.native.CRT", true)
+    val isGcFastPathEnabled = project.kotlinBuildProperties.getBoolean("kotlin.native.gc_fastpath", true)
+    val isNativeRuntimeDebugInfoEnabled = project.kotlinBuildProperties.getBoolean("kotlin.native.isNativeRuntimeDebugInfoEnabled", false)
+
+    // CRT is not supported on: ANDROID, WATCHOS, TVOS, LINUX_ARM32_HFP
+    private fun isCRTSupported(target: KonanTarget): Boolean {
+        return isCRTBuild && target.supportsCRT()
+    }
+
+    // decide flags related to gc fastpath
+    private fun getCppGcFastpathFlags(target: KonanTarget): List<String> {
+        return if (isCRTSupported(target) && isGcFastPathEnabled) {
+            when (target.architecture) {
+                TargetArchitecture.ARM64, -> listOf("-ffixed-x27", "-ffixed-x28", "-DENABLE_GC_FASTPATH")
+                else -> listOf("")
+            }
+        } else {
+            listOf("")
+        }
+    }
+
+    private fun getDefaultCppFlags(target: KonanTarget): List<String> {
+        return getCppGcFastpathFlags(target) + listOfNotNull(
+            "-DUSE_CRT".takeIf { isCRTSupported(target) },
+            "-gdwarf-2".takeIf { isNativeRuntimeDebugInfoEnabled },
             "-std=c++17",
-            "-Werror",
             "-O2",
             "-fno-aligned-allocation", // TODO: Remove when all targets support aligned allocation in C++ runtime.
+            "-Wno-unused-parameter",  // False positives with polymorphic functions.
             "-Wall",
             "-Wextra",
-            "-Wno-unused-parameter",  // False positives with polymorphic functions.
-    )
+            "-DNDEBUG",
+        )
+    }
 
     private val allTestsTasks by lazy {
         val name = project.name.capitalized
@@ -248,6 +275,21 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
             // Add the sources, as clang by default adds directory with the source to the include path.
             this.headersDirs.from(this@SourceSet.inputFiles.dir)
             this.headersDirs.from(this@SourceSet.headersDirs)
+            // Add CRT headers if CRT build is enabled and supported for this target
+            if (owner.isCRTSupported(_target.target)) {
+                val nativeRoot = project.rootProject.layout.projectDirectory.dir("kotlin-native")
+                val thirdParty = project.rootProject.layout.projectDirectory.dir("third-party")
+                this.arguments.add("-I${nativeRoot.dir("runtime/src").asFile.absolutePath}")
+                this.arguments.add("-I${nativeRoot.dir("runtime/src/main/cpp").asFile.absolutePath}")
+                this.arguments.add("-I${thirdParty.dir("common-rt").asFile.absolutePath}")
+                this.arguments.add("-I${thirdParty.dir("common-rt/common_interfaces").asFile.absolutePath}")
+                this.arguments.add("-I${thirdParty.dir("common-rt/common_components").asFile.absolutePath}")
+                this.arguments.add("-I${thirdParty.dir("common-rt/libpandabase").asFile.absolutePath}")
+                this.arguments.add("-I${thirdParty.dir("common-rt/libpandabase/utils").asFile.absolutePath}")
+                this.arguments.add("-I${thirdParty.dir("common-rt/third_party_bounds_checking_function/include").asFile.absolutePath}")
+                this.arguments.add("-I${nativeRoot.dir("runtime/src/mm/cpp").asFile.absolutePath}")
+                this.arguments.add("-I${nativeRoot.dir("runtime/src/alloc/common/cpp").asFile.absolutePath}")
+            }
             this.inputFiles.from(this@SourceSet.inputFiles)
             this.workingDirectory.set(module.compilerWorkingDirectory)
             dependsOn(nativeDependencies.llvmDependency)
@@ -550,7 +592,7 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
                     this.srcRoot.convention(project.layout.projectDirectory.dir("src/$name"))
                     this.headersDirs.from(this.srcRoot.dir("cpp"))
                     this.compiler.convention("clang++")
-                    this.compilerArgs.set(owner.DEFAULT_CPP_FLAGS)
+                    this.compilerArgs.set(owner.getDefaultCppFlags(_target.target))
                     this.compilerWorkingDirectory.set(project.layout.projectDirectory.dir("src"))
                 }
             }

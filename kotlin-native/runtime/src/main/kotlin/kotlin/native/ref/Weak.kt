@@ -19,27 +19,28 @@ public class WeakReference<T : Any> {
      * removing object, and is nullified once object is collected.
      */
     public constructor(referred: T) {
-        pointer = getWeakReferenceImpl(referred)
+        initWeakReferenceImpl(this, referred)
     }
 
     /**
      * Backing store for the object pointer, inaccessible directly.
+     * TODO: CRT implementation. make a special type for this. CRTWeakRefImpl
      */
     @PublishedApi
-    internal var pointer: WeakReferenceImpl?
+    internal var pointer: Long = 0
 
     /**
      * Clears reference to an object.
      */
     public fun clear() {
-        pointer = null
+        this.pointer = 0L
     }
 
     /**
      * Returns either reference to an object or null, if it was collected.
      */
     @Suppress("UNCHECKED_CAST")
-    public fun get(): T? = pointer?.get() as T?
+    public fun get(): T? = derefWeakReferenceImpl(this) as T?
 
     /**
      * Returns either reference to an object or null, if it was collected.
@@ -47,4 +48,3 @@ public class WeakReference<T : Any> {
     public val value: T?
         get() = this.get()
 }
-

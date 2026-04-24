@@ -24,6 +24,10 @@
 #include "Runtime.h"
 #include "VerifyKotlinStack.hpp"
 
+#ifdef USE_CRT
+#include "common_interfaces/thread/thread_holder-inl.h"
+#endif
+
 struct ObjHeader;
 
 namespace kotlin {
@@ -165,6 +169,11 @@ public:
 
     void Publish() noexcept {
         // TODO: These use separate locks, which is inefficient.
+
+        // TODO: This publishes:
+        // 1. all global roots in thread-local to public
+        // 2. All TLS special ref to public
+        // Later we might be able to flip the mutator to do their own work
         globalsThreadQueue_.Publish();
         externalRCRefRegistry_.publish();
     }
@@ -174,6 +183,15 @@ public:
         externalRCRefRegistry_.clearForTests();
         allocator_.clearForTests();
     }
+
+#ifdef USE_CRT
+    common::ThreadHolder *GetThreadHolder() const {
+        return threadHolder;
+    }
+    void SetThreadHolder(common::ThreadHolder *holder) {
+        threadHolder = holder;
+    }
+#endif // USE_CRT
 
 private:
     const uintptr_t threadId_;
@@ -186,10 +204,11 @@ private:
     gc::GC::ThreadData gc_;
     std::vector<std::pair<ObjHeader**, ObjHeader*>> initializingSingletons_;
     ThreadSuspensionData suspensionData_;
-    // save all function pc in this thread
     std::vector<void*> funcPCs_;
-
     KotlinFrame lastKotlinFrame_{};
+#ifdef USE_CRT
+    common::ThreadHolder *threadHolder = nullptr;
+#endif
 };
 
 } // namespace mm

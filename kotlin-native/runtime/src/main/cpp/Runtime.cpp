@@ -3,6 +3,8 @@
  * that can be found in the LICENSE file.
  */
 
+#include "base/common.h"
+#include "common_components/log/log_base.h"
 #include "std_support/Atomic.hpp"
 #include "Cleaner.h"
 #include "CompilerConstants.hpp"
@@ -17,10 +19,16 @@
 #include "Worker.h"
 #include "KString.h"
 #include "CrashHandler.hpp"
+#include <algorithm>
 #include <atomic>
 #include <cstdint>
 #include <cstdlib>
+#include <string>
 #include <thread>
+
+#ifdef USE_CRT
+#include "CRTRuntime.hpp"
+#endif
 
 using namespace kotlin;
 
@@ -28,6 +36,12 @@ using kotlin::internal::FILE_NOT_INITIALIZED;
 using kotlin::internal::FILE_BEING_INITIALIZED;
 using kotlin::internal::FILE_INITIALIZED;
 using kotlin::internal::FILE_FAILED_TO_INITIALIZE;
+
+#ifdef USE_CRT
+namespace kotlin {
+ThreadState SwitchThreadStateNoSafePointCheck(MemoryState* thread, ThreadState newState, bool reentrant) noexcept;
+} // namespace kotlin
+#endif
 
 namespace {
 
@@ -93,6 +107,10 @@ std::atomic<GlobalRuntimeStatus> globalRuntimeStatus = kGlobalRuntimeUninitializ
 
 void Kotlin_deinitRuntimeCallback(void* argument);
 
+#ifdef USE_CRT
+NO_INLINE void initAddressScope();
+#endif
+
 NO_INLINE RuntimeState* initRuntime() {
   SetKonanTerminateHandler();
   initObjectPool();
@@ -107,6 +125,11 @@ NO_INLINE RuntimeState* initRuntime() {
   ++aliveRuntimesCount;
 
   bool firstRuntime = initializeGlobalRuntimeIfNeeded();
+#ifdef USE_CRT
+  if (firstRuntime) {
+      InitCRTRuntime();
+  }
+#endif
   result->memoryState = InitMemory();
   // Switch thread state because worker and globals inits require the runnable state.
   // This call may block if GC requested suspending threads.
@@ -151,15 +174,22 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
   delete state;
   WorkerDestroyThreadDataIfNeeded(workerId);
   ::runtimeState = kInvalidRuntime;
+  // TODO: crt common::BaseRuntime::GetInstance()->Fini()
+  // TODO: crt common::BaseRuntime::GetInstance()->DestroyInstance()
 }
 
 void Kotlin_deinitRuntimeCallback(void* argument) {
   auto* state = reinterpret_cast<RuntimeState*>(argument);
   // This callback may be called from any state, make sure it runs in the runnable state.
+#ifdef USE_CRT
+  // CRT use the keyword `thread_local` variable to check safepoint.
+  // But the variable already destructed here, and exiting thread no need to check safepoint
+  kotlin::SwitchThreadStateNoSafePointCheck(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
+#else
   kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
+#endif
   deinitRuntime(state, false);
 }
-
 }  // namespace
 
 bool kotlin::initializeGlobalRuntimeIfNeeded() noexcept {

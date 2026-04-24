@@ -36,6 +36,7 @@ using namespace kotlin;
 
 extern "C" {
 
+int32_t Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz);
 KInt Kotlin_Any_hashCode(KConstRef thiz) {
   // NOTE: `Any?.identityHashCode()` is used in Blackhole implementations of both kotlinx-benchmark and
   //        K/N's own benchmarks. These usages rely on this being an intrinsic property of the object.
@@ -44,7 +45,11 @@ KInt Kotlin_Any_hashCode(KConstRef thiz) {
   //        it should be very cheap to call in order not to pollute the time measurements.
   // Here we will use different mechanism for stable hashcode, using meta-objects
   // if moving collector will be used.
+#ifdef USE_CRT
+  return Kotlin_CRT_GetOrSetHashCode(const_cast<ObjHeader*>(thiz));
+#else
   return reinterpret_cast<uintptr_t>(thiz);
+#endif
 }
 
 NO_INLINE OBJ_GETTER0(Kotlin_getCurrentStackTrace) {
@@ -82,7 +87,11 @@ OBJ_GETTER(Kotlin_getStackTraceStrings, KConstRef stackTrace) {
     for (size_t index = 0; index < stackTraceStrings.size(); ++index) {
         ObjHolder holder;
         CreateStringFromCString(stackTraceStrings[index].c_str(), holder.slot());
+#ifdef USE_CRT
+        UpdateHeapRef(ArrayAddressOfElementAt(strings->array(), index), holder.obj(), strings);
+#else
         UpdateHeapRef(ArrayAddressOfElementAt(strings->array(), index), holder.obj());
+#endif
     }
 
     RETURN_OBJ(strings);

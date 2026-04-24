@@ -4,14 +4,27 @@
  */
 
 #include "SafePoint.hpp"
+// #include "SafepointUtil.hpp"
 
 #include <atomic>
+
+#define _DARWIN_C_SOURCE
+#include <pthread.h>
 
 #include "GCScheduler.hpp"
 #include "KAssert.h"
 #include "Logging.hpp"
 #include "ThreadData.hpp"
 #include "ThreadState.hpp"
+#ifdef USE_CRT
+#include "alloc/crt/cpp/CRTFastpathUtils.hpp"
+#include "common_components/mutator/mutator.h"
+#include "common_components/mutator/mutator.inline.h"
+#include "common_interfaces/thread/mutator_base.h"
+#include "common_interfaces/thread/mutator_base-inl.h"
+#include "common_interfaces/thread/thread_holder.h"
+#include "common_interfaces/thread/thread_holder-inl.h"
+#endif
 
 #include "StackTrace.hpp"
 #include <iostream>
@@ -24,6 +37,42 @@
 #if KONAN_SUPPORTS_SIGNPOSTS
 #include <os/log.h>
 #include <os/signpost.h>
+#endif
+
+#ifdef USE_CRT
+namespace kotlin {
+void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl);
+
+#ifdef __aarch64__
+#ifdef ENABLE_GC_FASTPATH
+#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+#else
+#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26", "x27", "x28");
+#endif // ENABLE_GC_FASTPATH
+#elif defined(__x86_64__)
+#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "rbx", "r12", "r13", "r14", "r15");
+#elif defined(__arm__)
+#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory");
+#elif defined(__i386__)
+#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory");
+#endif // __aarch64__
+
+static NO_INLINE void SafePointSlowPath(common::Mutator* mutator) {
+    CRT_REGISTERS_CLOBBERS;
+    FrameOverlay slot;
+    mm::ThreadData* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+
+    threadData->shadowStack().EnterFrame(reinterpret_cast<ObjHeader**>(&slot), 0, 2);
+
+    // DoLeaveSaferegion will set state to running and handle STW request if needed
+    mutator->GetThreadHolder()->TransferToRunning();
+#ifdef ENABLE_GC_FASTPATH
+    common::UpdateThreadLocalDataReg(mutator);
+#endif
+
+    threadData->shadowStack().LeaveFrame(reinterpret_cast<ObjHeader**>(&slot), 0, 2);
+};
+} // namespace kotlin
 #endif
 
 using namespace kotlin;
@@ -73,12 +122,17 @@ void safePointActionImpl(mm::ThreadData& threadData) noexcept {
     if (compiler::enableSafepointSignposts()) {
         signpost.emplace(threadData);
     }
+    // 下面的逻辑考虑直接删掉.
     threadData.gcScheduler().safePoint();
     threadData.gc().safePoint();
     threadData.suspensionData().suspendIfRequested();
 }
 
 ALWAYS_INLINE void slowPathImpl(mm::ThreadData& threadData) noexcept {
+#ifdef USE_CRT
+    // NOTE: When CRT is enabled this function should not be called.
+    std::abort();
+#endif
     // reread an action to avoid register pollution outside the function
     auto action = safePointAction.load(std::memory_order_seq_cst);
     if (action != nullptr) {
@@ -131,7 +185,16 @@ mm::SafePointActivator::~SafePointActivator() {
 ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPathOrder) noexcept
 {
     AssertThreadState(ThreadState::kRunnable);
+#ifdef USE_CRT
+    auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    // avoid use `common::ThreadLocal::GetThreadLocalData` if CRT dynamic link
+    auto* tls = (common::ThreadLocalData*)(EvalCRTTLS(threadData->allocator().impl()));
+    if (UNLIKELY(tls->mutator->GetSafepointActiveState())) {
+        SafePointSlowPath(tls->mutator);
+    }
+#else
     auto action = safePointAction.load(fastPathOrder);
+
     if (__builtin_expect(action != nullptr, false)) {
         if (needSavedFrame) {
             SaveStackFrameK2RSafePoint();
@@ -141,15 +204,23 @@ ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPath
             RestoreStackFrameK2RSafePoint();
         }
     }
+#endif // USE_CRT
 }
 
-ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept
-{
+// When calling safepoint with threadData, one must not use the TLS information instead because TLS might already be freed.
+// There is also no need to load r28, as r28 can be dead as well.
+// Since threadData is already available, it would be efficient enough to just load mutator from threadData directly
+ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept {
+#ifdef USE_CRT
+    std::abort(); // "shouldn't reach here";
+#else
     AssertThreadState(&threadData, ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
+
     if (__builtin_expect(action != nullptr, false)) {
         slowPath(threadData);
     }
+#endif
 }
 
 bool mm::test_support::safePointsAreActive() noexcept {

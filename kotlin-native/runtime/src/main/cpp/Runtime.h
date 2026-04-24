@@ -47,7 +47,6 @@ bool Kotlin_forceCheckedShutdown();
 #endif
 
 namespace kotlin {
-
 // Returns `true` if initialized.
 bool initializeGlobalRuntimeIfNeeded() noexcept;
 

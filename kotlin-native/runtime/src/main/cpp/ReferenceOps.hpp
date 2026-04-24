@@ -5,8 +5,14 @@
 
 #pragma once
 
+#include <cstdlib>
 #include "Memory.h"
 #include "std_support/Atomic.hpp"
+#ifdef USE_CRT
+#include "macros.h"
+#include "common_interfaces/base_runtime.h"
+#include "common_components/heap/heap.h"
+#endif
 
 #if __has_feature(thread_sanitizer)
 #include <sanitizer/tsan_interface.h>
@@ -39,11 +45,12 @@ public:
     DirectRefAccessor() = delete;
     DirectRefAccessor& operator=(const DirectRefAccessor&) = delete;
 
-    explicit DirectRefAccessor(ObjHeader*& fieldRef) noexcept : ref_(fieldRef) {}
-    explicit DirectRefAccessor(ObjHeader** fieldPtr) noexcept : DirectRefAccessor(*fieldPtr) {}
-    DirectRefAccessor(const DirectRefAccessor& other) = default;
+explicit DirectRefAccessor(ObjHeader*& fieldRef) noexcept : refPtr_(&fieldRef) {}
+    explicit DirectRefAccessor(ObjHeader** fieldPtr) noexcept : refPtr_(fieldPtr) {}
+    explicit DirectRefAccessor(ObjHeader** fieldPtr, ObjHeader *thisPtr) noexcept : refPtr_(fieldPtr), this_(thisPtr) {}
+    DirectRefAccessor(const DirectRefAccessor& other) noexcept : DirectRefAccessor(other.refPtr_) {}
 
-    ObjHeader** location() const noexcept { return &ref_; }
+    ObjHeader** location() const noexcept { return refPtr_; }
 
     PERFORMANCE_INLINE operator ObjHeader*() const noexcept { return load(); }
     PERFORMANCE_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
@@ -59,40 +66,90 @@ public:
 #endif
         return loaded;
 #else
-        return ref_;
+#ifdef USE_CRT
+        // TODO: will thisPtr be modified during readbarrier? can we make it a const* to make compiler happier?
+        return reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this_, refPtr_));
+#else
+        return *refPtr_;
+#endif
 #endif
     }
 
-    PERFORMANCE_INLINE void store(ObjHeader* desired) noexcept {
+ALWAYS_INLINE void store(ObjHeader* desired) noexcept {
+#ifdef USE_CRT
+        if (this_) {
+            if (common::Heap::IsHeapAddress(desired)) {
+                common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
+            }
+        }
+#endif
 #if STRICT_ATOMICS_IN_HEAP
         storeAtomic(desired, std::memory_order_relaxed);
 #else
-        ref_ = desired;
+        *refPtr_ = desired;
 #endif
     }
 
-    PERFORMANCE_INLINE auto atomic() noexcept {
-        return std_support::atomic_ref{ref_};
+ALWAYS_INLINE auto atomic() noexcept {
+        return std_support::atomic_ref{*refPtr_};
     }
-    PERFORMANCE_INLINE auto atomic() const noexcept {
-        return std_support::atomic_ref{ref_};
+    ALWAYS_INLINE auto atomic() const noexcept {
+        return std_support::atomic_ref{*refPtr_};
     }
 
-    PERFORMANCE_INLINE ObjHeader* loadAtomic(std::memory_order order) const noexcept {
+    ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) const noexcept {
+#ifdef USE_CRT
+        return reinterpret_cast<ObjHeader*>(common::BaseRuntime::AtomicReadBarrier(this_, refPtr_, order));
+#else
         return atomic().load(order);
+#endif
     }
-    PERFORMANCE_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
+ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
+#ifdef USE_CRT
+        if (this_) {
+            if (common::Heap::IsHeapAddress(desired)) {
+                common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
+            }
+        }
+#endif
         atomic().store(desired, order);
     }
-    PERFORMANCE_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
+#ifdef USE_CRT
+        if (this_) {
+            if (common::Heap::IsHeapAddress(desired)) {
+                common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
+            }
+        }
+#endif
         return atomic().exchange(desired, order);
     }
-    PERFORMANCE_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
+ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
+#ifdef USE_CRT
+        ObjHeader* cur = reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this_, refPtr_));
+        if (cur != expected) {
+            expected = cur;
+            return false;
+        }
+
+        bool ok = atomic().compare_exchange_strong(expected, desired, order);
+        if (ok) {
+            if (this_) {
+                if (common::Heap::IsHeapAddress(desired)) {
+                    common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
+                }
+            }
+            return true;
+        }
+        return false;
+#else
         return atomic().compare_exchange_strong(expected, desired, order);
+#endif
     }
 
 private:
-    ObjHeader*& ref_;
+    ObjHeader** refPtr_;
+    ObjHeader* this_ = nullptr;
 };
 
 /**
@@ -106,8 +163,9 @@ public:
     RefAccessor() = delete;
     RefAccessor& operator=(const RefAccessor&) = delete;
 
-    explicit RefAccessor(ObjHeader*& fieldRef) noexcept : direct_(fieldRef) {}
-    explicit RefAccessor(ObjHeader** fieldPtr) noexcept : RefAccessor(*fieldPtr) {}
+    explicit RefAccessor(ObjHeader*& fieldRef) noexcept : direct_(&fieldRef) {}
+    explicit RefAccessor(ObjHeader** fieldPtr) noexcept : direct_(fieldPtr) {}
+    RefAccessor(ObjHeader** fieldPtr, ObjHeader* thisPtr) noexcept : direct_(fieldPtr, thisPtr) {}
     RefAccessor(const RefAccessor& other) noexcept : direct_(other.direct_) {}
 
     DirectRefAccessor direct() const noexcept { return direct_; }

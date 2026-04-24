@@ -37,7 +37,6 @@ inline const T* AddressOfElementAt(const ArrayHeader* obj, KInt index) {
   return reinterpret_cast<const T*>(body) + index;
 }
 
-// Optimized versions not accessing type info.
 inline KByte* ByteArrayAddressOfElementAt(ArrayHeader* obj, KInt index) {
   return AddressOfElementAt<KByte>(obj, index);
 }

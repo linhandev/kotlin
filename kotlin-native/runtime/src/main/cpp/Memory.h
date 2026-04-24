@@ -48,6 +48,7 @@ typedef enum {
     // Keep in sync with immTypeInfoMask in Kotlin.
     OBJECT_TAG_MASK = (1 << 2) - 1
 } ObjectTag;
+constexpr uint64_t kImmTypeInfoMask = 0x0000fffffffffffc;
 
 struct ArrayHeader;
 struct MetaObjHeader;
@@ -63,11 +64,21 @@ struct ObjHeader {
   static MetaObjHeader* AsMetaObject(TypeInfo* typeInfo) noexcept {
       auto* typeInfoOrMeta = clearPointerBits(typeInfo, OBJECT_TAG_MASK);
       typeInfoOrMeta = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfoOrMeta) & 0xffffffffffff);
+#ifdef USE_CRT
+      uintptr_t typeInfoPtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta->typeInfo_);
+      uintptr_t typeInfoOrMetaPtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta);
+      if ((typeInfoPtr << 16ULL) != (typeInfoOrMetaPtr << 16ULL)) {
+          return reinterpret_cast<MetaObjHeader*>(typeInfoOrMetaPtr);
+      } else {
+          return nullptr;
+      }
+#else
       if (typeInfoOrMeta != typeInfoOrMeta->typeInfo_) {
           return reinterpret_cast<MetaObjHeader*>(typeInfoOrMeta);
       } else {
           return nullptr;
       }
+#endif
   }
 
   TypeInfo* typeInfoOrMetaRelaxed() const { return kotlin::std_support::atomic_ref{typeInfoOrMeta_}.load(std::memory_order_relaxed);}
@@ -86,7 +97,9 @@ struct ObjHeader {
    * Hardware guaranties on many supported platforms doesn't allow this to happen.
    */
   const TypeInfo* type_info() const {
-      auto atomicTypeInfoPtr = kotlin::std_support::atomic_ref{clearPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK)->typeInfo_};
+      // clear the CRT language tag
+      auto typePtr = reinterpret_cast<uintptr_t>(typeInfoOrMetaRelaxed()) & kImmTypeInfoMask;
+      auto atomicTypeInfoPtr = kotlin::std_support::atomic_ref{reinterpret_cast<TypeInfo*>(typePtr)->typeInfo_};
       const TypeInfo* typeInfo = atomicTypeInfoPtr.load(std::memory_order_relaxed);
       RuntimeAssert(typeInfo != nullptr, "TypeInfo ptr in object %p in null", this);
       return typeInfo;
@@ -128,6 +141,12 @@ struct ObjHeader {
     return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_HEAP;
   }
 
+#ifdef USE_CRT
+  inline bool local() const {
+    return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
+  }
+#endif
+
   static MetaObjHeader* createMetaObject(ObjHeader* object);
   static void destroyMetaObject(ObjHeader* object);
 };
@@ -142,9 +161,13 @@ static_assert(alignof(ObjHeader) <= kotlin::kObjectAlignment);
 struct ArrayHeader {
   ARRAY_HEADER_FIELDS
 
+  const TypeInfo* type_info() const {
+    auto typePtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta_) & kImmTypeInfoMask;
+    return reinterpret_cast<TypeInfo*>(typePtr)->typeInfo_;
+  }
+
   ObjHeader* obj() { return reinterpret_cast<ObjHeader*>(this); }
   const ObjHeader* obj() const { return reinterpret_cast<const ObjHeader*>(this); }
-  const TypeInfo* type_info() const { return obj()->type_info(); }
 };
 static_assert(alignof(ArrayHeader) <= kotlin::kObjectAlignment);
 
@@ -152,6 +175,10 @@ static inline ObjHeader* const kInitializingSingleton = reinterpret_cast<ObjHead
 ALWAYS_INLINE inline bool isNullOrMarker(const ObjHeader* obj) noexcept {
     return reinterpret_cast<uintptr_t>(obj) <= 1;
 }
+
+#ifdef USE_CRT
+ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj);
+#endif
 
 struct FrameOverlay;
 
@@ -227,8 +254,27 @@ void InitAndRegisterGlobal(HeapObjPtr* location, ConstHeapObjPtr initialValue) R
 //    in intermediate frames when throwing
 //
 
+// NOTE: Must match `MemoryModel` in `Platform.kt`
+enum class MemoryModel {
+    kStrict = 0,
+    kRelaxed = 1,
+    kExperimental = 2,
+};
+
+#ifdef USE_CRT
+// Controls the current memory model, is compile-time constant.
+extern const MemoryModel CurrentMemoryModel;
+
+// Reads heap/static data location.
+ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+#endif
+
 // Zeroes heap location.
+#ifdef USE_CRT
+void ZeroHeapRef(ObjHeader** location, ObjHeader *thisPtr) RUNTIME_NOTHROW;
+#else
 void ZeroHeapRef(HeapObjPtr* location) RUNTIME_NOTHROW;
+#endif
 // Zeroes an array.
 void ZeroArrayRefs(ArrayHeader* array) RUNTIME_NOTHROW;
 // Zeroes stack location.
@@ -236,6 +282,14 @@ void ZeroStackRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Updates stack location.
 void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates heap/static data location.
+#ifdef USE_CRT
+void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+// Updates volatile heap/static data location.
+void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+#else
 void UpdateHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
 void UpdateVolatileHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
@@ -244,6 +298,7 @@ OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapObjPtr* location, HeapObjPtr expec
 bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
                                   HeapObjPtr newValue) RUNTIME_NOTHROW;
 OBJ_GETTER(GetAndSetVolatileHeapRef, HeapObjPtr* location, HeapObjPtr newValue) RUNTIME_NOTHROW;
+#endif
 
 // Updates location if it is null, atomically.
 // Updates reference in return slot.
@@ -276,7 +331,7 @@ void PerformFullGC(MemoryState* memory) RUNTIME_NOTHROW;
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative();
 // Sets state of the current thread to RUNNABLE (used by the new MM).
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable();
-// No-inline versions of the functions above are used in debug mode to workaround KT-67567 
+// No-inline versions of the functions above are used in debug mode to workaround KT-67567
 // by outlining certain CAS instructions from user code:
 NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative_debug();
 NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable_debug();

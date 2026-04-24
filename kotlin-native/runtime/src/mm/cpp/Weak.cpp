@@ -10,6 +10,27 @@
 #include "ThreadState.hpp"
 #include "Types.h"
 
+#ifdef USE_CRT
+#include "alloc/crt/cpp/KNBaseObject.hpp"
+#endif
+
+#ifdef USE_CRT
+static_assert(sizeof(ObjHeader*) == sizeof(KLong));
+RUNTIME_NOTHROW extern "C" void Konan_initWeakReferenceCRTImpl(ObjHeader* weakRef, ObjHeader* referred) {
+    uintptr_t addr = reinterpret_cast<uintptr_t>(weakRef);
+    KLong* field = reinterpret_cast<KLong*>(addr + sizeof(ObjHeader));
+    *field = reinterpret_cast<KLong>(referred) | common::Barrier::TAG_WEAK;
+    reinterpret_cast<common::KNBaseObject*>(weakRef)->SetWeakRefImplObjectFlag(true);
+}
+
+RUNTIME_NOTHROW extern "C" OBJ_GETTER(Konan_derefWeakReferenceCRTImpl, ObjHeader* weakRef) {
+    uintptr_t addr = reinterpret_cast<uintptr_t>(weakRef);
+    ObjHeader** field = reinterpret_cast<ObjHeader**>(addr + sizeof(ObjHeader));
+    addr = reinterpret_cast<uintptr_t>(ReadHeapRef(field, weakRef));
+    RETURN_OBJ(reinterpret_cast<ObjHeader*>(addr & ~0b111));
+}
+#endif
+
 using namespace kotlin;
 
 extern "C" {
@@ -31,6 +52,9 @@ RegularWeakReferenceImpl* asRegularWeakReferenceImpl(ObjHeader* weakRef) noexcep
 } // namespace
 
 OBJ_GETTER(mm::createRegularWeakReferenceImpl, ObjHeader* object) noexcept {
+#ifdef USE_CRT
+    assert(false && "WeakRef creation is hijacked in CRT, should not be called");
+#endif
     auto* thread = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(thread, ThreadState::kRunnable);
 

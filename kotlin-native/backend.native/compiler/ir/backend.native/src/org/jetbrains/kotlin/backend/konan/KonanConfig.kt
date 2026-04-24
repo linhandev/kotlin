@@ -78,6 +78,9 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     }
     val inlineForPerformance get() = !debug && !smallBinary
 
+    val memoryModel: MemoryModel
+        get() = configuration.get(BinaryOptions.memoryModel) ?: MemoryModel.STRICT
+
     val assertsEnabled = configuration.getBoolean(KonanConfigKeys.ENABLE_ASSERTIONS)
 
     val sanitizer = configuration.get(BinaryOptions.sanitizer)?.takeIf {
@@ -434,6 +437,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         when (configuration.get(KonanConfigKeys.ALLOCATION_MODE)) {
             null -> defaultAllocationMode
             AllocationMode.STD -> AllocationMode.STD
+            AllocationMode.CRT -> AllocationMode.CRT
             AllocationMode.CUSTOM -> {
                 if (sanitizer != null) {
                     configuration.report(CompilerMessageSeverity.STRONG_WARNING, "Sanitizers are useful only with the std allocator")

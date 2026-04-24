@@ -4,6 +4,7 @@
  */
 
 #include "Memory.h"
+#include "Common.h"
 #include "MemoryPrivate.hpp"
 
 #include "Allocator.hpp"
@@ -24,8 +25,13 @@
 #include "ThreadRegistry.hpp"
 #include "ThreadState.hpp"
 #include "MemoryDump.hpp"
-
 #include "StackTrace.hpp"
+
+#ifdef USE_CRT
+#include "alloc/crt/cpp/CRTFastpathUtils.hpp"
+#include "common_interfaces/base_runtime.h"
+#include "mutator/mutator.h"
+#endif
 
 #define ENABLE_STACKMAP 1
 
@@ -70,7 +76,11 @@ PERFORMANCE_INLINE void* ObjHeader::CasAssociatedObject(void* expectedObj, void*
 
 // static
 MetaObjHeader* ObjHeader::createMetaObject(ObjHeader* object) {
-    return mm::ExtraObjectData::Install(object).AsMetaObjHeader();
+    auto ret= mm::ExtraObjectData::Install(object).AsMetaObjHeader();
+#ifdef USE_CRT
+    RuntimeAssert(false, "Should not be reachable from CRT");
+#endif
+    return ret;
 }
 
 // static
@@ -79,6 +89,15 @@ void ObjHeader::destroyMetaObject(ObjHeader* object) {
     auto &extraObject = *mm::ExtraObjectData::Get(object);
     alloc::destroyExtraObjectData(extraObject);
 }
+
+#ifdef USE_CRT
+ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj) {
+    if (obj->permanent()) return true;
+    // CRT allocator does not support freezing, objects are always mutable
+    // ExtraObjectData is not available for CRT objects
+    return false;
+}
+#endif
 
 extern "C" MemoryState* InitMemory() {
     mm::waitGlobalDataInitialized();
@@ -135,7 +154,26 @@ extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, cons
     }
 }
 
+#ifdef USE_CRT
+extern "C" const MemoryModel CurrentMemoryModel = MemoryModel::kExperimental;
+
+NO_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRefSlow(ObjHeader** location, ObjHeader* thisPtr) {
+    return mm::RefAccessor<false>(location, thisPtr);
+}
+
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
+#ifdef ENABLE_GC_FASTPATH
+    if (LIKELY(common::ThreadLocalRegisterAccessor{common::ThreadLocalRegisterRawData()}.data.needBarrier == 0)) {
+        return *location;
+    }
+#endif
+    return ReadHeapRefSlow(location, thisPtr);
+}
+
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void ZeroHeapRef(ObjHeader** location, ObjHeader *thisPtr) {
+#else
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void ZeroHeapRef(ObjHeader** location) {
+#endif
     mm::RefAccessor<false>{location} = nullptr;
 }
 
@@ -154,6 +192,17 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStackRef(ObjHeader** lo
     mm::StackRefAccessor{location} = const_cast<ObjHeader*>(object);
 }
 
+#ifdef USE_CRT
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
+    mm::RefAccessor<false>(location, thisPtr) = const_cast<ObjHeader*>(object);
+}
+
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
+    mm::RefAccessor<false>(location, thisPtr).storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
+}
+
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
+#else
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location, const ObjHeader* object) {
     mm::RefAccessor<false>{location} = const_cast<ObjHeader*>(object);
 }
@@ -163,17 +212,31 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHead
 }
 
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
+#endif
     ObjHeader* actual = expectedValue;
+#ifdef USE_CRT
+    mm::RefAccessor<false>(location, thisPtr).compareAndExchange(actual, newValue, std::memory_order_seq_cst);
+#else
     mm::RefAccessor<false>{location}.compareAndExchange(actual, newValue, std::memory_order_seq_cst);
+#endif
     RETURN_OBJ(actual);
 }
 
+#ifdef USE_CRT
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
+    return mm::RefAccessor<false>(location, thisPtr).compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
+}
+
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue, ObjHeader* thisPtr) {
+    RETURN_OBJ(mm::RefAccessor<false>(location, thisPtr).exchange(newValue, std::memory_order_seq_cst));
+#else
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
     return mm::RefAccessor<false>{location}.compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
 }
 
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue) {
     RETURN_OBJ(mm::RefAccessor<false>{location}.exchange(newValue, std::memory_order_seq_cst));
+#endif
 }
 
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateReturnRef(ObjHeader** returnSlot, const ObjHeader* object) {
@@ -235,9 +298,13 @@ extern "C" RUNTIME_NOTHROW ObjHeader** LookupTLS(void** key, int index) {
 }
 
 extern "C" void Kotlin_native_internal_GC_collect(ObjHeader*) {
+#ifdef USE_CRT
+    common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER , false, common::GCType::GC_TYPE_FULL);
+#else
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
+#endif
 }
 
 extern "C" void Kotlin_native_internal_GC_schedule(ObjHeader*) {
@@ -614,4 +681,20 @@ void kotlin::initObjectPool() noexcept {
 
 void kotlin::compactObjectPoolInCurrentThread() noexcept {
     alloc::compactObjectPoolInCurrentThread();
+}
+
+RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj) {
+#ifdef USE_CRT
+    if (common::Heap::IsHeapAddress(obj)) {
+        common::Heap::GetHeap().GetCollector().AddRawPointerObject(reinterpret_cast<common::BaseObject*>(obj));
+    }
+#endif
+}
+
+RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCUnpin(KRef thiz, KRef obj) {
+#ifdef USE_CRT
+    if (common::Heap::IsHeapAddress(obj)) {
+        common::Heap::GetHeap().GetCollector().RemoveRawPointerObject(reinterpret_cast<common::BaseObject*>(obj));
+    }
+#endif
 }

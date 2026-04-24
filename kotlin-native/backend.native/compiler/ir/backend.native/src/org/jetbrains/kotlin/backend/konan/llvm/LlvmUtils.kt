@@ -396,6 +396,8 @@ fun setFunctionNoInline(function: LLVMValueRef) {
 }
 
 fun setFunctionAlwaysInline(function: LLVMValueRef) {
+    LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, LlvmFunctionAttribute.NoInline.asAttributeKindId().value)
+    LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, LlvmFunctionAttribute.OptimizeNone.asAttributeKindId().value)
     addLlvmFunctionEnumAttribute(function, LlvmFunctionAttribute.AlwaysInline)
 }
 

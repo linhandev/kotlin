@@ -51,6 +51,14 @@ public:
         bool operator==(const Iterator& rhs) const noexcept;
         bool operator!=(const Iterator& rhs) const noexcept { return !(*this == rhs); }
 
+        ShadowStack::Iterator GetStackIterator() {
+            return stackIterator_;
+        }
+
+        bool IsStackIterator() const {
+            return (phase_ == Phase::kStack);
+        }
+
     private:
         enum class Phase {
             kStack,
@@ -88,7 +96,11 @@ public:
     };
 
     struct Value {
+#ifdef USE_CRT
+        ObjHeader* &object;
+#else
         ObjHeader* object;
+#endif
         Source source;
 
         bool operator==(const Value& rhs) const noexcept { return object == rhs.object && source == rhs.source; }

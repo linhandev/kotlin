@@ -38,8 +38,10 @@ internal class CodeGenerator(override val generationState: NativeGenerationState
     val intPtrType = LLVMIntPtrTypeInContext(llvm.llvmContext, llvmTargetData)!!
     internal val immOneIntPtrType = LLVMConstInt(intPtrType, 1, 1)!!
     internal val immThreeIntPtrType = LLVMConstInt(intPtrType, 3, 1)!!
-    // Keep in sync with OBJECT_TAG_MASK in C++.
-    internal val immTypeInfoMask = LLVMConstNot(LLVMConstInt(intPtrType, 3, 0)!!)!!
+    // TODO: For CRT we require to clear the language bit as well
+    // This could leads to differences if we would like to enable switch between CRT and CMS
+    // internal val immTypeInfoMask = LLVMConstNot(LLVMConstInt(intPtrType, 3, 0)!!)!!
+    internal val immTypeInfoMask = llvm.int64(0x0000fffffffffffc)
 
     //-------------------------------------------------------------------------//
 
@@ -523,7 +525,7 @@ internal class StackLocalsManagerImpl(
                     if (refsOnly)
                         storeHeapRef(kNullObjHeaderRef, fieldPtr)
                     else
-                        call(llvm.zeroHeapRefFunction, listOf(fieldPtr))
+                        call(llvm.zeroHeapRefFunction, listOf(fieldPtr, stackLocal.stackAllocationPtr))
                 }
             }
 
@@ -722,6 +724,9 @@ internal abstract class FunctionGenerationContext(
         return applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
     }
 
+    fun loadFromCMC(address: LLVMValueRef, thisPtr: LLVMValueRef) : LLVMValueRef =
+            call(llvm.readHeapRefFunction, listOf(address, thisPtr))
+
     fun loadSlot(
             type: LLVMTypeRef,
             isObjectType: Boolean,
@@ -730,34 +735,57 @@ internal abstract class FunctionGenerationContext(
             resultSlot: LLVMValueRef? = null,
             name: String = "",
             memoryOrder: LLVMAtomicOrdering? = null,
-            alignment: Int? = null
+            alignment: Int? = null,
+            thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr
     ): LLVMValueRef {
-        val addressTy = LLVMTypeOf(address)!!
-        // Need to add a cast.
-        // 1. Check if this is a double pointer
-        val tyLayCount = GetLayOutOfPointer(addressTy, 0)
-        if (tyLayCount == 2) {
-            // 2. Check if the inner pointer matches the type.
-            // In LLVM 19 opaque pointer mode, elementTy is null; skip.
-            val elementTy = LLVMGetElementType(addressTy)
-            if (elementTy != null) {
-                val typeAddrSpace = LLVMGetPointerAddressSpace(type)
-                val elementAddrSpace = LLVMGetPointerAddressSpace(elementTy)
-                if (typeAddrSpace != elementAddrSpace) {
-                    val targetTy = LLVMPointerType(type, 0)
-                    val tempOuterPtr = LLVMBuildBitCast(builder, address, targetTy, "")
-                    val value = LLVMBuildLoad2(builder, type, tempOuterPtr, name)!!
-                    memoryOrder?.let { LLVMSetOrdering(value, it) }
-                    alignment?.let { LLVMSetAlignment(value, it) }
-                    return value
+        val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
+        val value: LLVMValueRef
+        
+        if (isObjectField) {
+            // CRT read barrier
+            value = loadFromCMC(address, thisPtr)
+        } else {
+            // Kotlin 2.2 address space handling for opaque pointers
+            val addressTy = LLVMTypeOf(address)!!
+            val tyLayCount = GetLayOutOfPointer(addressTy, 0)
+            if (tyLayCount == 2) {
+                val elementTy = LLVMGetElementType(addressTy)
+                if (elementTy != null) {
+                    val typeAddrSpace = LLVMGetPointerAddressSpace(type)
+                    val elementAddrSpace = LLVMGetPointerAddressSpace(elementTy)
+                    if (typeAddrSpace != elementAddrSpace) {
+                        val targetTy = LLVMPointerType(type, 0)
+                        val tempOuterPtr = LLVMBuildBitCast(builder, address, targetTy, "")
+                        val loaded = LLVMBuildLoad2(builder, type, tempOuterPtr, name)!!
+                        memoryOrder?.let { LLVMSetOrdering(loaded, it) }
+                        alignment?.let { LLVMSetAlignment(loaded, it) }
+                        value = loaded
+                    } else {
+                        val loaded = LLVMBuildLoad2(builder, type, address, name)!!
+                        memoryOrder?.let { LLVMSetOrdering(loaded, it) }
+                        alignment?.let { LLVMSetAlignment(loaded, it) }
+                        value = loaded
+                    }
+                } else {
+                    val loaded = LLVMBuildLoad2(builder, type, address, name)!!
+                    memoryOrder?.let { LLVMSetOrdering(loaded, it) }
+                    alignment?.let { LLVMSetAlignment(loaded, it) }
+                    value = loaded
                 }
+            } else {
+                val loaded = LLVMBuildLoad2(builder, type, address, name)!!
+                memoryOrder?.let { LLVMSetOrdering(loaded, it) }
+                alignment?.let { LLVMSetAlignment(loaded, it) }
+                value = loaded
             }
         }
-
-        val value = LLVMBuildLoad2(builder, type, address, name)!!
-        memoryOrder?.let { LLVMSetOrdering(value, it) }
-        alignment?.let { LLVMSetAlignment(value, it) }
-        return value;
+        
+        if (isObjectType && isVar) {
+            val slot = resultSlot ?: alloca(type, isObjectType, variableLocation = null)
+            storeStackRef(value, slot)
+        }
+        
+        return value
     }
 
     fun loadArraySize(thiz: LLVMValueRef): LLVMValueRef {
@@ -787,7 +815,8 @@ internal abstract class FunctionGenerationContext(
         val objHeaderType = llvm.runtime.objHeaderType
         val dataBase = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz, cValuesOf(llvm.int64(2)), 1, "data_base")
 
-        val elemPtrType = LLVMPointerType(elementType, 1)
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
+        val elemPtrType = LLVMPointerType(elementType, thizAddrSpace)
         val dataBaseCasted = LLVMBuildBitCast(builder, dataBase, elemPtrType, "data_base_cast")
 
         val index64 = LLVMBuildSExt(builder, index, llvm.int64Type, "index_sext")
@@ -798,7 +827,8 @@ internal abstract class FunctionGenerationContext(
 
     fun intrinsicArrayGetLength(thiz: LLVMValueRef): LLVMValueRef {
         val arrayHeaderType = codegen.runtime.arrayHeaderType
-        val arrayHeaderPtrType = LLVMPointerType(arrayHeaderType, 1)
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
+        val arrayHeaderPtrType = LLVMPointerType(arrayHeaderType, thizAddrSpace)
         val typedArrayPtr = LLVMBuildBitCast(builder, thiz, arrayHeaderPtrType, "typedArrayPtr")
 
         val countPtr = LLVMBuildStructGEP2(builder, arrayHeaderType, typedArrayPtr, 1, "countPtr")
@@ -816,8 +846,9 @@ internal abstract class FunctionGenerationContext(
         val int64Type = llvm.int64Type
         val objHeaderType = LLVMGetTypeByName(llvm.module, "struct.ObjHeader")!!
 
-        val objHeaderPtrAS1 = LLVMPointerType(objHeaderType, 1)
-        val objHeaderPtrPtrAS1 = LLVMPointerType(objHeaderPtrAS1, 1)
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
+        val objHeaderPtrAS = LLVMPointerType(objHeaderType, thizAddrSpace)
+        val objHeaderPtrPtrAS = LLVMPointerType(objHeaderPtrAS, thizAddrSpace)
 
         val dataBase = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz,
             cValuesOf(LLVMConstInt(int64Type, 2, 0)), 1, "data_base")
@@ -826,9 +857,9 @@ internal abstract class FunctionGenerationContext(
         val elementAddr = LLVMBuildInBoundsGEP2(builder, objHeaderType, dataBase,
             cValuesOf(index64), 1, "element_addr")
 
-        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS1, "element_slot")
+        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS, "element_slot")
 
-        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS1, elementSlot, "element_val")!!
+        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS, elementSlot, "element_val")!!
         LLVMSetAlignment(elementVal, 8)
 
         if (resultSlot != null) {
@@ -853,8 +884,9 @@ internal abstract class FunctionGenerationContext(
         val int64Type = llvm.int64Type
         val objHeaderType = LLVMGetTypeByName(llvm.module, "struct.ObjHeader")!!
 
-        val objHeaderPtrAS1 = LLVMPointerType(objHeaderType, 1)
-        val objHeaderPtrPtrAS1 = LLVMPointerType(objHeaderPtrAS1, 1)
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
+        val objHeaderPtrAS = LLVMPointerType(objHeaderType, thizAddrSpace)
+        val objHeaderPtrPtrAS = LLVMPointerType(objHeaderPtrAS, thizAddrSpace)
 
         val sizeVal = loadArraySize(thiz)
 
@@ -867,9 +899,9 @@ internal abstract class FunctionGenerationContext(
         val elementAddr = LLVMBuildInBoundsGEP2(builder, objHeaderType, dataBase,
             cValuesOf(index64), 1, "element_addr")
 
-        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS1, "element_slot")
+        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS, "element_slot")
 
-        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS1, elementSlot, "element_val")!!
+        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS, elementSlot, "element_val")!!
         LLVMSetAlignment(elementVal, 8)
 
         if (resultSlot != null) {
@@ -978,17 +1010,18 @@ internal abstract class FunctionGenerationContext(
         alignment?.let { LLVMSetAlignment(store, it) }
     }
 
-    fun storeHeapRef(value: LLVMValueRef, ptr: LLVMValueRef) {
-        updateRef(value, ptr, onStack = false)
+    fun storeHeapRef(value: LLVMValueRef, ptr: LLVMValueRef, thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr) {
+        updateRef(value, ptr, onStack = false, thisPtr = thisPtr)
     }
 
     fun storeStackRef(value: LLVMValueRef, ptr: LLVMValueRef) {
         updateRef(value, ptr, onStack = true)
     }
 
-    fun storeAny(value: LLVMValueRef, ptr: LLVMValueRef, isObjectRef: Boolean, onStack: Boolean, isVolatile: Boolean = false, alignment: Int? = null) {
+    fun storeAny(value: LLVMValueRef, ptr: LLVMValueRef, isObjectRef: Boolean,
+        onStack: Boolean, isVolatile: Boolean = false, alignment: Int? = null, thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr) {
         when {
-            isObjectRef -> updateRef(value, ptr, onStack, isVolatile, alignment)
+            isObjectRef -> updateRef(value, ptr, onStack, isVolatile, alignment, thisPtr = thisPtr)
             else -> store(value, ptr, if (isVolatile) LLVMAtomicOrdering.LLVMAtomicOrderingSequentiallyConsistent else null, alignment)
         }
     }
@@ -998,16 +1031,16 @@ internal abstract class FunctionGenerationContext(
     }
 
     private fun updateRef(value: LLVMValueRef, address: LLVMValueRef, onStack: Boolean,
-                          isVolatile: Boolean = false, alignment: Int? = null) {
+                          isVolatile: Boolean = false, alignment: Int? = null, thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr) {
         require(alignment == null || alignment % runtime.pointerAlignment == 0)
         if (onStack) {
             require(!isVolatile) { "Stack ref update can't be volatile"}
             store(value, address)
         } else {
             if (isVolatile) {
-                call(llvm.UpdateVolatileHeapRef, listOf(address, value))
+                call(llvm.UpdateVolatileHeapRef, listOf(address, value, thisPtr))
             } else {
-                call(llvm.updateHeapRefFunction, listOf(address, value))
+                call(llvm.updateHeapRefFunction, listOf(address, value, thisPtr))
             }
         }
     }

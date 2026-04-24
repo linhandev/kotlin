@@ -10,7 +10,9 @@ import org.jetbrains.kotlin.backend.konan.*
 import org.jetbrains.kotlin.backend.konan.Linker
 import org.jetbrains.kotlin.backend.konan.driver.PhaseContext
 import org.jetbrains.kotlin.konan.TempFiles
+import org.jetbrains.kotlin.konan.library.KonanLibrary
 import org.jetbrains.kotlin.konan.target.LinkerOutputKind
+import org.jetbrains.kotlin.library.impl.javaFile
 import java.io.File
 
 internal data class LinkerPhaseInput(
@@ -39,6 +41,37 @@ internal val LinkerPhase = createSimpleNamedCompilerPhase<PhaseContext, LinkerPh
             input.resolvedCacheBinaries
     )
     runLinkerCommands(context, commands, cachingInvolved = !input.resolvedCacheBinaries.isEmpty())
+}
+
+internal data class CopyDynamicLibrariesPhaseInput(
+        val outputKind: LinkerOutputKind,
+        val outputFiles: OutputFiles,
+        val dependenciesTrackingResult: DependenciesTrackingResult,
+)
+
+internal val CopyDynamicLibrariesPhase = createSimpleNamedCompilerPhase<PhaseContext, CopyDynamicLibrariesPhaseInput>(
+        name = "CopyDynamicLibraries",
+) { context, input ->
+    when (input.outputKind) {
+        LinkerOutputKind.DYNAMIC_LIBRARY, LinkerOutputKind.EXECUTABLE -> {
+            val outputDir = input.outputFiles.mainFile.parentFile.child("include")
+                    .apply { deleteRecursively() }.apply { mkdirs() }
+            val nativeDependencies = input.dependenciesTrackingResult.nativeDependenciesToLink
+            val includedBinariesLibraries = context.config.libraryToCache?.let { listOf(it.klib) }
+                    ?: nativeDependencies.filterNot { context.config.cachedLibraries.isLibraryCached(it) }
+
+            includedBinariesLibraries
+                    .map { (it as? KonanLibrary)?.includedPaths.orEmpty() }
+                    .flatten()
+                    .filter { it.endsWith(".${context.config.target.family.dynamicSuffix}") }
+                    .forEach {
+                        val from = org.jetbrains.kotlin.konan.file.File(it)
+                        val to = outputDir.child(from.name)
+                        from.copyTo(to)
+                    }
+        }
+        else -> {}
+    }
 }
 
 internal data class PreLinkCachesInput(

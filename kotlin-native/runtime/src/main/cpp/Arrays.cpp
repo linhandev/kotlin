@@ -27,6 +27,14 @@ extern "C" void checkRangeIndexes(KInt from, KInt to, KInt size);
 
 namespace {
 
+#ifdef USE_CRT
+ALWAYS_INLINE inline void mutabilityCheck(KConstRef thiz) {
+  if (!thiz->local() && isPermanentOrFrozen(thiz)) {
+      ThrowInvalidMutabilityException(thiz);
+  }
+}
+#endif
+
 PERFORMANCE_INLINE inline void boundsCheck(const ArrayHeader* array, KInt index) {
   // We couldn't have created an array bigger than max KInt value.
   // So if index is < 0, conversion to an unsigned value would make it bigger
@@ -91,7 +99,12 @@ PERFORMANCE_INLINE void Kotlin_Array_set_value(KRef thiz, KInt index, KConstRef 
   ArrayHeader* array = thiz->array();
   if (BoundsCheck)
     boundsCheck(array, index);
+#ifdef USE_CRT
+  mutabilityCheck(thiz);
+  UpdateHeapRef(ArrayAddressOfElementAt(array, index), value, array->obj());
+#else
   UpdateHeapRef(ArrayAddressOfElementAt(array, index), value);
+#endif
 }
 
 template<bool BoundsCheck = true>
@@ -149,9 +162,15 @@ void Kotlin_Array_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KRef value) 
   }
 }
 
+// TODO: xiaowen: Utilize GCPhase to enable fastpath here
 void Kotlin_Array_copyImpl(KConstRef thiz, KInt fromIndex,
                            KRef destination, KInt toIndex, KInt count) {
+#ifdef USE_CRT
+  // CRT readbarrier requires a non-const header
+  ArrayHeader* array = const_cast<ArrayHeader*>(thiz->array());
+#else
   const ArrayHeader* array = thiz->array();
+#endif
   ArrayHeader* destinationArray = destination->array();
   if (count < 0 ||
       fromIndex < 0 || static_cast<uint32_t>(count) + fromIndex > array->count_ ||
@@ -160,13 +179,25 @@ void Kotlin_Array_copyImpl(KConstRef thiz, KInt fromIndex,
   }
     if (fromIndex >= toIndex) {
       for (int index = 0; index < count; index++) {
+#ifdef USE_CRT
+        UpdateHeapRef(ArrayAddressOfElementAt(destinationArray, toIndex + index), 
+                ReadHeapRef(ArrayAddressOfElementAt(array, fromIndex + index), array->obj()),
+                destinationArray->obj());
+#else
         UpdateHeapRef(ArrayAddressOfElementAt(destinationArray, toIndex + index),
                         *ArrayAddressOfElementAt(array, fromIndex + index));
+#endif
       }
     } else {
       for (int index = count - 1; index >= 0; index--) {
+#ifdef USE_CRT
+        UpdateHeapRef(ArrayAddressOfElementAt(destinationArray, toIndex + index),
+                        ReadHeapRef(ArrayAddressOfElementAt(array, fromIndex + index), array->obj()),
+                        destinationArray->obj());
+#else
         UpdateHeapRef(ArrayAddressOfElementAt(destinationArray, toIndex + index),
                         *ArrayAddressOfElementAt(array, fromIndex + index));
+#endif
       }
     }
 }
