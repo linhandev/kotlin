@@ -16,7 +16,7 @@ public actual class String : Comparable<String>, CharSequence {
     public actual companion object {
     }
 
-    @GCUnsafeCall("Kotlin_String_hashCode")
+    @GCUnsafeCall("Kotlin_String_hashCode", true)
     @Escapes.Nothing
     public external override fun hashCode(): Int
 
@@ -45,28 +45,28 @@ public actual class String : Comparable<String>, CharSequence {
      *
      * If the [index] is out of bounds of this string, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_String_get")
+    @GCUnsafeCall("Kotlin_String_get", true)
     @kotlin.internal.IntrinsicConstEvaluation
     @Escapes.Nothing
     public actual external override fun get(index: Int): Char
 
-    @GCUnsafeCall("Kotlin_String_subSequence")
+    @GCUnsafeCall("Kotlin_String_subSequence", true)
     // The return value may be an empty string, which is statically allocated and immutable;
     // we can treat it as non-escaping
     @Escapes.Nothing
     public actual external override fun subSequence(startIndex: Int, endIndex: Int): CharSequence
 
-    @GCUnsafeCall("Kotlin_String_compareTo")
+    @GCUnsafeCall("Kotlin_String_compareTo", true)
     @kotlin.internal.IntrinsicConstEvaluation
     @Escapes.Nothing
     public actual external override fun compareTo(other: String): Int
 
-    @GCUnsafeCall("Kotlin_String_getStringLength")
+    @GCUnsafeCall("Kotlin_String_getStringLength", true)
     @Escapes.Nothing
     private external fun getStringLength(): Int
 
     @PublishedApi
-    @GCUnsafeCall("Kotlin_String_plusImpl")
+    @GCUnsafeCall("Kotlin_String_plusImpl", true)
     @Escapes.Nothing
     internal external fun plusImpl(other: String): String
 
@@ -79,7 +79,7 @@ public actual class String : Comparable<String>, CharSequence {
      *
      * @sample samples.text.Strings.stringEquals
      */
-    @GCUnsafeCall("Kotlin_String_equals")
+    @GCUnsafeCall("Kotlin_String_equals", true)
     @kotlin.internal.IntrinsicConstEvaluation
     @Escapes.Nothing
     actual external override fun equals(other: Any?): Boolean

@@ -37,7 +37,7 @@ private:
     bool active_;
 };
 
-void safePoint(std::memory_order fastPathOrder = std::memory_order_relaxed) noexcept;
+void safePoint(bool needSavedFrame = false, std::memory_order fastPathOrder = std::memory_order_relaxed) noexcept;
 void safePoint(ThreadData& threadData, std::memory_order fastPathOrder = std::memory_order_relaxed) noexcept;
 
 /**

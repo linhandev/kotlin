@@ -19,6 +19,7 @@
 #include "ExternalRCRefRegistry.hpp"
 #include "ThreadData.hpp"
 #include "Types.h"
+#include <iostream>
 
 namespace kotlin {
 namespace gc {

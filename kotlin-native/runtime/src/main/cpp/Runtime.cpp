@@ -69,10 +69,17 @@ enum {
 void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
   InitNode* currentNode = initHeadNode;
   while (currentNode != nullptr) {
+    SaveStackFrameR2KInitGlobals();
     currentNode->init(initialize, memory);
+    RestoreStackFrameR2KInitGlobals();
     currentNode = currentNode->next;
   }
 }
+
+struct GlobalInitAdapterGuard {
+    ALWAYS_INLINE GlobalInitAdapterGuard() { SaveStackFrameR2KGlobalInitAdapter(); }
+    ALWAYS_INLINE ~GlobalInitAdapterGuard() { RestoreStackFrameR2KGlobalInitAdapter(); }
+};
 
 KBoolean g_checkLeaks = false;
 KBoolean g_checkLeakedCleaners = false;
@@ -134,6 +141,7 @@ void RegistDumpListenerIfNeeded()
 NO_INLINE RuntimeState* initRuntime() {
   SetKonanTerminateHandler();
   initObjectPool();
+
   RuntimeState* result = new RuntimeState();
   if (!result) return kInvalidRuntime;
   RuntimeCheck(!isValidRuntime(), "No active runtimes allowed");
@@ -335,6 +343,8 @@ KInt Konan_Platform_getOsFamily() {
   return 7;
 #elif KONAN_WATCHOS
   return 8;
+#elif KONAN_OHOS
+  return 9; // 9 is the OHOS platform ID
 #else
 #warning "Unknown platform"
   return 0;
@@ -459,6 +469,7 @@ static void CallInitGlobalAwaitInitialized(uintptr_t* state) {
 }
 
 NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
+    GlobalInitAdapterGuard adapterGuard;
     uintptr_t localState = std_support::atomic_ref{*state}.load(std::memory_order_acquire);
     if (localState == FILE_INITIALIZED) return;
     if (localState == FILE_FAILED_TO_INITIALIZE)
@@ -474,6 +485,7 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
         // actual initialization
         try {
             CurrentFrameGuard guard;
+            InitGlobalsFrameGuard initGlobalsGuard;
             init();
         } catch (ExceptionObjHolder& e) {
             ObjHolder holder;
@@ -488,11 +500,13 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
 }
 
 void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState, void (*init)()) {
+    GlobalInitAdapterGuard adapterGuard;
     if (*localState == FILE_FAILED_TO_INITIALIZE || (globalState != nullptr && *globalState == FILE_FAILED_TO_INITIALIZE))
         ThrowFileFailedToInitializeException(nullptr);
     *localState = FILE_INITIALIZED;
     try {
         CurrentFrameGuard guard;
+        InitGlobalsFrameGuard initGlobalsGuard;
         init();
     } catch(ExceptionObjHolder& e) {
         ObjHolder holder;

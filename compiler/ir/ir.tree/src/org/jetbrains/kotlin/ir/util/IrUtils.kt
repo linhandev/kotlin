@@ -353,6 +353,34 @@ fun IrConstructorCall.getAnnotationStringValue(name: String): String {
     return (arguments[parameter.indexInParameters] as IrConst).value as String
 }
 
+/**
+ * Retrieves a boolean value with the specified name from an annotation constructor call.
+ *
+ * @param name the name of the parameter.
+ * @return the boolean value of the parameter, or null if not found
+ */
+fun IrConstructorCall.getAnnotationBooleanValue(name: String): Boolean? {
+    val parameter = symbol.owner.parameters.firstOrNull { it.name.asString() == name }
+        ?: return null
+
+    val argument = arguments[parameter.indexInParameters]
+    if (argument != null) {
+        val value = (argument as? IrConst)?.value
+        if (value is Boolean) {
+            return value
+        }
+    } else {
+        val defaultValueExpression = parameter.defaultValue?.expression
+        if (defaultValueExpression != null) {
+            val value = (defaultValueExpression as? IrConst)?.value
+            if (value is Boolean) {
+                return value
+            }
+        }
+    }
+    return null
+}
+
 inline fun <reified T> IrConstructorCall.getAnnotationValueOrNull(name: String): T? =
     getAnnotationValueOrNullImpl(name) as T?
 

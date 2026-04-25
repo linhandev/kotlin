@@ -37,7 +37,11 @@ internal val Project.kotlinVersion: String
     get() = property("kotlinVersion") as String
 
 internal val Project.konanVersion: String
-    get() = property("konanVersion") as String
+    get() = if (project.hasProperty("konanVersion")) {
+        project.property("konanVersion") as String 
+    } else {
+        "2.0.0"
+    }
 
 internal val Project.nativeJson: String
     get() = project.property("nativeJson") as String

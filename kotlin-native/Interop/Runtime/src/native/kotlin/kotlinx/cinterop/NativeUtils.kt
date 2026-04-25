@@ -12,7 +12,7 @@ import kotlin.native.internal.IntrinsicType
 
 internal fun encodeToUtf8(str: String): ByteArray = str.encodeToByteArray()
 
-@GCUnsafeCall("Kotlin_CString_toKStringFromUtf8Impl")
+@GCUnsafeCall("Kotlin_CString_toKStringFromUtf8Impl", true)
 @ExperimentalForeignApi
 internal external fun CPointer<ByteVar>.toKStringFromUtf8Impl(): String
 
