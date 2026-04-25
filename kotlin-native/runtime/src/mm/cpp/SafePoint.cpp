@@ -12,6 +12,7 @@
 #include "Logging.hpp"
 #include "ThreadData.hpp"
 #include "ThreadState.hpp"
+#include "DisallowSafepointScope.h"
 
 #include "StackTrace.hpp"
 #include <iostream>
@@ -130,6 +131,7 @@ mm::SafePointActivator::~SafePointActivator() {
 
 ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPathOrder) noexcept
 {
+    mm::DisallowSafepointScope::AssertAllowSafepoint(GetMemoryState());
     AssertThreadState(ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
     if (__builtin_expect(action != nullptr, false)) {
@@ -143,8 +145,11 @@ ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPath
     }
 }
 
+// When calling safepoint with threadData, one must not use the TLS
+// information instead because TLS might already be freed.
 ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept
 {
+    mm::DisallowSafepointScope::AssertAllowSafepoint(threadData);
     AssertThreadState(&threadData, ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
     if (__builtin_expect(action != nullptr, false)) {

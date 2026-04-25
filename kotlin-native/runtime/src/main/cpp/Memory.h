@@ -21,6 +21,7 @@
 #include <std_support/Atomic.hpp>
 
 #include "Alignment.hpp"
+#include "DisallowSafepointScope.h"
 #include "KAssert.h"
 #include "Common.h"
 #include "TypeInfo.h"
@@ -51,6 +52,8 @@ typedef enum {
 
 struct ArrayHeader;
 struct MetaObjHeader;
+
+template<typename T> class KHandle;
 
 // Header of every object.
 #define OBJ_HEADER_FIELDS \

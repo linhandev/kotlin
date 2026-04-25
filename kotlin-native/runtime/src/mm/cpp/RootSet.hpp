@@ -7,9 +7,11 @@
 #define RUNTIME_MM_ROOT_SET_H
 
 #include "GlobalsRegistry.hpp"
+#include "HandleScope.h"
 #include "ShadowStack.hpp"
 #include "ExternalRCRefRegistry.hpp"
 #include "ThreadLocalStorage.hpp"
+#include "HandleStorage.h"
 
 struct ObjHeader;
 
@@ -24,6 +26,7 @@ public:
     enum class Source {
         kStack,
         kTLS,
+        kHandle,
     };
 
     struct Value {
@@ -55,6 +58,7 @@ public:
         enum class Phase {
             kStack,
             kTLS,
+            kHandle,
             kDone,
         };
 
@@ -65,10 +69,12 @@ public:
         union {
             ShadowStack::Iterator stackIterator_;
             ThreadLocalStorage::Iterator tlsIterator_;
+            HandleStorage::Iterator kHandleIterator_;
         };
     };
 
-    ThreadRootSet(ShadowStack& stack, ThreadLocalStorage& tls) noexcept : stack_(stack), tls_(tls) {}
+    ThreadRootSet(ShadowStack& stack, ThreadLocalStorage& tls, HandleScopeData& handleScopeData) noexcept
+        : stack_(stack), tls_(tls), handleScopeData_(handleScopeData) {}
     explicit ThreadRootSet(ThreadData& threadData) noexcept;
 
     Iterator begin() noexcept { return Iterator(Iterator::begin, *this); }
@@ -77,6 +83,7 @@ public:
 private:
     ShadowStack& stack_;
     ThreadLocalStorage& tls_;
+    HandleScopeData& handleScopeData_;
 };
 
 // TODO: Extremely useless class. Remove.
