@@ -1096,11 +1096,14 @@ tasks {
     val mvnPublishTask = register<Exec>("mvnPublish") {
         group = "publishing"
         workingDir = rootProject.projectDir.resolve("libraries")
+        val localRepoUrl = "file://${rootProject.projectDir.resolve("build/repo")}"
         commandLine = getMvnwCmd() + listOf(
             "clean", "deploy", "--activate-profiles=noTest",
             "-Dinvoker.skip=true", "-DskipTests",
+            "-Ddeploy-repo=local",
+            "-Ddeploy-url=$localRepoUrl",
             "-Ddeploy-snapshot-repo=local",
-            "-Ddeploy-snapshot-url=file://${rootProject.projectDir.resolve("build/repo")}"
+            "-Ddeploy-snapshot-url=$localRepoUrl"
         )
 
         val jdkToolchain1_8 = getToolchainJdkHomeFor(JdkMajorVersion.JDK_1_8)

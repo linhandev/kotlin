@@ -17,6 +17,7 @@
 #ifndef RUNTIME_NATIVES_H
 #define RUNTIME_NATIVES_H
 
+#include "DisallowSafepointScope.h"
 #include "Types.h"
 #include "Exceptions.h"
 #include "Memory.h"
@@ -93,13 +94,28 @@ inline const KRef* ArrayAddressOfElementAt(const ArrayHeader* obj, KInt index) {
 extern "C" {
 #endif
 
+NO_SAFEPOINT
 OBJ_GETTER0(TheEmptyString);
+
+HAS_SAFEPOINT
 void Kotlin_io_Console_println0();
+
+HAS_SAFEPOINT
 void Kotlin_io_Console_println0ToStdErr();
+
+HAS_SAFEPOINT_THROW
 void Kotlin_NativePtrArray_set(KRef thiz, KInt index, KNativePtr value);
+
+HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_NativePtrArray_get(KConstRef thiz, KInt index);
+
+NO_SAFEPOINT
 RUNTIME_NOTHROW RUNTIME_PURE KRef* Kotlin_arrayGetElementAddress(KRef array, KInt index);
+
+NO_SAFEPOINT
 RUNTIME_NOTHROW RUNTIME_PURE KInt* Kotlin_intArrayGetElementAddress(KRef array, KInt index);
+
+NO_SAFEPOINT
 RUNTIME_NOTHROW RUNTIME_PURE KLong* Kotlin_longArrayGetElementAddress(KRef array, KInt index);
 
 #ifdef __cplusplus

@@ -117,11 +117,13 @@ extern "C" void ClearMemoryForTests(MemoryState* state) {
     state->GetThreadData()->ClearForTests();
 }
 
+HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW OBJ_GETTER(AllocInstance, const TypeInfo* typeInfo) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     RETURN_RESULT_OF(mm::AllocateObject, threadData, typeInfo);
 }
 
+HAS_SAFEPOINT
 extern "C" OBJ_GETTER(AllocArrayInstance, const TypeInfo* typeInfo, int32_t elements) {
     if (elements < 0) {
         ThrowIllegalArgumentException();
@@ -130,6 +132,7 @@ extern "C" OBJ_GETTER(AllocArrayInstance, const TypeInfo* typeInfo, int32_t elem
     RETURN_RESULT_OF(mm::AllocateArray, threadData, typeInfo, static_cast<uint32_t>(elements));
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, const ObjHeader* initialValue) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
@@ -140,10 +143,12 @@ extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, cons
     }
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void ZeroHeapRef(ObjHeader** location) {
     mm::RefAccessor<false>{location} = nullptr;
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void ZeroArrayRefs(ArrayHeader* array) {
     for (uint32_t index = 0; index < array->count_; ++index) {
         ObjHeader** location = ArrayAddressOfElementAt(array, index);
@@ -151,100 +156,119 @@ extern "C" RUNTIME_NOTHROW void ZeroArrayRefs(ArrayHeader* array) {
     }
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void ZeroStackRef(ObjHeader** location) {
     mm::StackRefAccessor{location} = nullptr;
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStackRef(ObjHeader** location, const ObjHeader* object) {
     mm::StackRefAccessor{location} = const_cast<ObjHeader*>(object);
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location, const ObjHeader* object) {
     mm::RefAccessor<false>{location} = const_cast<ObjHeader*>(object);
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object) {
     mm::RefAccessor<false>{location}.storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
     ObjHeader* actual = expectedValue;
     mm::RefAccessor<false>{location}.compareAndExchange(actual, newValue, std::memory_order_seq_cst);
     RETURN_OBJ(actual);
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
     return mm::RefAccessor<false>{location}.compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue) {
     RETURN_OBJ(mm::RefAccessor<false>{location}.exchange(newValue, std::memory_order_seq_cst));
 }
 
+NO_SAFEPOINT
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateReturnRef(ObjHeader** returnSlot, const ObjHeader* object) {
     UpdateStackRef(returnSlot, object);
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void EnterFrame(ObjHeader** start, int parameters, int count) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     threadData->shadowStack().EnterFrame(start, parameters, count);
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void LeaveFrame(ObjHeader** start, int parameters, int count) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     threadData->shadowStack().LeaveFrame(start, parameters, count);
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void SetCurrentFrame(ObjHeader** start) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     threadData->shadowStack().SetCurrentFrame(start);
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW FrameOverlay* getCurrentFrame() {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     return threadData->shadowStack().getCurrentFrame();
 }
 
+NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void CheckCurrentFrame(ObjHeader** frame) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     return threadData->shadowStack().checkCurrentFrame(reinterpret_cast<FrameOverlay*>(frame));
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void AddTLSRecord(MemoryState* memory, void** key, int size) {
     auto* threadData = memory->GetThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     threadData->tls().AddRecord(key, size);
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void CommitTLSStorage(MemoryState* memory) {
     auto* threadData = memory->GetThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     threadData->tls().Commit();
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void ClearTLS(MemoryState* memory) {
     auto* threadData = memory->GetThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     threadData->tls().Clear();
 }
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW ObjHeader** LookupTLS(void** key, int index) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     return threadData->tls().Lookup(key, index);
 }
 
+HAS_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_collect(ObjHeader*) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
     mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
 }
 
+HAS_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_schedule(ObjHeader*) {
     mm::GlobalData::Instance().gcScheduler().schedule();
 }
@@ -263,96 +287,98 @@ extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHe
     return success;
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_setTuneThreshold(ObjHeader*, KBoolean value) {
     mm::GlobalData::Instance().gcScheduler().config().autoTune = value;
 }
 
+NO_SAFEPOINT
 extern "C" KBoolean Kotlin_native_internal_GC_getTuneThreshold(ObjHeader*) {
     return mm::GlobalData::Instance().gcScheduler().config().autoTune.load();
 }
 
-extern "C" void Kotlin_native_internal_GC_setConcurrentMarkValidation(ObjHeader*, KBoolean value) {
-    mm::GlobalData::Instance().gcScheduler().config().concurrentMarkValidation = value;
-}
-
-extern "C" KBoolean Kotlin_native_internal_GC_getConcurrentMarkValidation(ObjHeader*) {
-    return mm::GlobalData::Instance().gcScheduler().config().concurrentMarkValidation.load();
-}
-
-extern "C" void Kotlin_native_internal_GC_setVerifyKotlinStack(ObjHeader*, KBoolean value) {
-    mm::GlobalData::Instance().gcScheduler().config().verifyKotlinStack = value;
-}
-
-extern "C" KBoolean Kotlin_native_internal_GC_getVerifyKotlinStack(ObjHeader*) {
-    return mm::GlobalData::Instance().gcScheduler().config().verifyKotlinStack.load();
-}
-
+NO_SAFEPOINT
 extern "C" KLong Kotlin_native_internal_GC_getRegularGCIntervalMicroseconds(ObjHeader*) {
     return mm::GlobalData::Instance().gcScheduler().config().regularGcIntervalMicroseconds.load();
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_setRegularGCIntervalMicroseconds(ObjHeader*, KLong value) {
     RuntimeAssert(value >= 0, "Must be handled by the caller");
     mm::GlobalData::Instance().gcScheduler().config().regularGcIntervalMicroseconds = value;
 }
 
+NO_SAFEPOINT
 extern "C" KLong Kotlin_native_internal_GC_getTargetHeapBytes(ObjHeader*) {
     return mm::GlobalData::Instance().gcScheduler().config().targetHeapBytes.load();
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_setTargetHeapBytes(ObjHeader*, KLong value) {
     RuntimeAssert(value >= 0, "Must be handled by the caller");
     mm::GlobalData::Instance().gcScheduler().config().targetHeapBytes = value;
 }
 
+NO_SAFEPOINT
 extern "C" KDouble Kotlin_native_internal_GC_getTargetHeapUtilization(ObjHeader*) {
     return mm::GlobalData::Instance().gcScheduler().config().targetHeapUtilization.load();
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_setTargetHeapUtilization(ObjHeader*, KDouble value) {
     RuntimeAssert(value > 0 && value <= 1, "Must be handled by the caller");
     mm::GlobalData::Instance().gcScheduler().config().targetHeapUtilization = value;
 }
 
+NO_SAFEPOINT
 extern "C" KLong Kotlin_native_internal_GC_getMaxHeapBytes(ObjHeader*) {
     return mm::GlobalData::Instance().gcScheduler().config().maxHeapBytes.load();
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_setMaxHeapBytes(ObjHeader*, KLong value) {
     RuntimeAssert(value >= 0, "Must be handled by the caller");
     mm::GlobalData::Instance().gcScheduler().config().maxHeapBytes = value;
 }
 
+NO_SAFEPOINT
 extern "C" KLong Kotlin_native_internal_GC_getMinHeapBytes(ObjHeader*) {
     return mm::GlobalData::Instance().gcScheduler().config().minHeapBytes.load();
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_setMinHeapBytes(ObjHeader*, KLong value) {
     RuntimeAssert(value >= 0, "Must be handled by the caller");
     mm::GlobalData::Instance().gcScheduler().config().minHeapBytes = value;
 }
 
+NO_SAFEPOINT
 extern "C" KDouble Kotlin_native_internal_GC_getHeapTriggerCoefficient(ObjHeader*) {
     return mm::GlobalData::Instance().gcScheduler().config().heapTriggerCoefficient.load();
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_setHeapTriggerCoefficient(ObjHeader*, KDouble value) {
     RuntimeAssert(value > 0 && value <= 1, "Must be handled by the caller");
     mm::GlobalData::Instance().gcScheduler().config().heapTriggerCoefficient = value;
 }
 
+NO_SAFEPOINT
 extern "C" KBoolean Kotlin_native_internal_GC_getPauseOnTargetHeapOverflow(ObjHeader*) {
     return mm::GlobalData::Instance().gcScheduler().config().mutatorAssists();
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_setPauseOnTargetHeapOverflow(ObjHeader*, KBoolean value) {
     mm::GlobalData::Instance().gcScheduler().config().setMutatorAssists(value);
 }
 
+NO_SAFEPOINT
 extern "C" KBoolean Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_isAvailable(ObjHeader* gc) {
     return mm::GlobalData::Instance().allocator().mainThreadFinalizerProcessorAvailable();
 }
 
+NO_SAFEPOINT
 extern "C" KLong Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_getMaxTimeInTask(ObjHeader* gc) {
     KLong result;
     mm::GlobalData::Instance().allocator().configureMainThreadFinalizerProcessor([&](auto& config) noexcept -> void {
@@ -361,11 +387,13 @@ extern "C" KLong Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_getMaxTim
     return result;
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_setMaxTimeInTask(ObjHeader* gc, KLong value) {
     mm::GlobalData::Instance().allocator().configureMainThreadFinalizerProcessor(
             [=](auto& config) noexcept -> void { config.maxTimeInTask = std::chrono::microseconds(value); });
 }
 
+NO_SAFEPOINT
 extern "C" KLong Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_getMinTimeBetweenTasks(ObjHeader* gc) {
     KLong result;
     mm::GlobalData::Instance().allocator().configureMainThreadFinalizerProcessor([&](auto& config) noexcept -> void {
@@ -374,11 +402,13 @@ extern "C" KLong Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_getMinTim
     return result;
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_setMinTimeBetweenTasks(ObjHeader* gc, KLong value) {
     mm::GlobalData::Instance().allocator().configureMainThreadFinalizerProcessor(
             [=](auto& config) noexcept -> void { config.minTimeBetweenTasks = std::chrono::microseconds(value); });
 }
 
+NO_SAFEPOINT
 extern "C" KULong Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_getBatchSize(ObjHeader* gc) {
     KULong result;
     mm::GlobalData::Instance().allocator().configureMainThreadFinalizerProcessor(
@@ -386,22 +416,26 @@ extern "C" KULong Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_getBatch
     return result;
 }
 
+NO_SAFEPOINT
 extern "C" void Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_setBatchSize(ObjHeader* gc, KULong value) {
     mm::GlobalData::Instance().allocator().configureMainThreadFinalizerProcessor(
             [=](auto& config) noexcept -> void { config.batchSize = value; });
 }
 
+HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void PerformFullGC(MemoryState* memory) {
     mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
 }
 
 // Used in C export.
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW mm::RawExternalRCRef* CreateStablePointer(ObjHeader* object) {
     AssertThreadState(ThreadState::kRunnable);
     return mm::createRetainedExternalRCRef(object);
 }
 
 // Used in C export.
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void DisposeStablePointer(mm::RawExternalRCRef* pointer) {
     // Can be safely called in any thread state.
     mm::releaseExternalRCRef(pointer);
@@ -409,150 +443,66 @@ extern "C" RUNTIME_NOTHROW void DisposeStablePointer(mm::RawExternalRCRef* point
 }
 
 // Used in C export.
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW OBJ_GETTER(DerefStablePointer, mm::RawExternalRCRef* pointer) {
     AssertThreadState(ThreadState::kRunnable);
     RETURN_OBJ(mm::dereferenceExternalRCRef(pointer));
 }
 
 // it would be inlined manually in RemoveRedundantSafepointsPass
-extern "C" RUNTIME_NOTHROW NO_INLINE void Kotlin_mm_safePointFunctionPrologue() {
-    mm::safePoint(true);
+HAS_SAFEPOINT
+extern "C" RUNTIME_NOTHROW NO_INLINE RUNTIME_EXPORT void Kotlin_mm_safePointFunctionPrologue() {
+    mm::safePoint();
 }
 
-extern "C" RUNTIME_NOTHROW CODEGEN_INLINE_POLICY void Kotlin_mm_safePointWhileLoopBody() {
-    mm::safePoint(true);
+extern "C" RUNTIME_NOTHROW ALWAYS_INLINE RUNTIME_EXPORT void Kotlin_mm_safePointFunctionPrologueStub() {
+    mm::safePointStub();
 }
 
+HAS_SAFEPOINT
+extern "C" RUNTIME_NOTHROW CODEGEN_INLINE_POLICY RUNTIME_EXPORT void Kotlin_mm_safePointWhileLoopBody() {
+    mm::safePoint();
+}
+
+extern "C" RUNTIME_NOTHROW CODEGEN_INLINE_POLICY RUNTIME_EXPORT void Kotlin_mm_safePointWhileLoopBodyStub() {
+    mm::safePointStub();
+}
+
+HAS_SAFEPOINT
 extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative() {
     SwitchThreadState(mm::ThreadRegistry::Instance().CurrentThreadData(), ThreadState::kNative);
 }
 
+extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNativeWithoutUpdateLastFrame() {
+    SwitchThreadState(mm::ThreadRegistry::Instance().CurrentThreadData(), ThreadState::kNative, false, false);
+}
+
+HAS_SAFEPOINT
 extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative_debug() {
     SwitchThreadState(mm::ThreadRegistry::Instance().CurrentThreadData(), ThreadState::kNative);
 }
 
+HAS_SAFEPOINT
 extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable() {
     SwitchThreadState(mm::ThreadRegistry::Instance().CurrentThreadData(), ThreadState::kRunnable);
 }
 
+HAS_SAFEPOINT
 extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable_debug() {
     SwitchThreadState(mm::ThreadRegistry::Instance().CurrentThreadData(), ThreadState::kRunnable);
 }
 
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameR2KExportForCppRuntime() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_RUNTIME_TO_KOTLIN);
+extern "C" NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame(MemoryState* thread, ThreadState state) noexcept {
+    if (state == thread->GetThreadData()->state()) {
+        RuntimeAssert(0, "Can't save frame in the same state.");
+        return;
+    }
+    thread->GetThreadData()->RuntimeSetLastFrame();
 }
 
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameR2KExportForCppRuntime() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_RUNTIME_TO_KOTLIN);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameK2RK2X() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_K2X);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameK2RK2X() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_K2X);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameK2NNativeState() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_NATIVE_STATE);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameK2NNativeState() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_NATIVE_STATE);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameK2RSafePoint() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_SAFE_POINT);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameK2RSafePoint() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_SAFE_POINT);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameR2KInitGlobals() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_INIT_GLOBALS);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameR2KInitGlobals() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_INIT_GLOBALS);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameR2KWorkerJob() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_WORKER_JOB);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameR2KWorkerJob() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_WORKER_JOB);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameR2KGlobalInitAdapter() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_GLOBAL_INIT_ADAPTER);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameR2KGlobalInitAdapter() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_GLOBAL_INIT_ADAPTER);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KBoxing() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_BOXING);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KBoxing() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_BOXING);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KDisposeStableRef() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_DISPOSE_STABLE_REF);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KDisposeStableRef() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_DISPOSE_STABLE_REF);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KIsInstance() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_IS_INSTANCE);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KIsInstance() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_IS_INSTANCE);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KUnboxing() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_UNBOXING);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KUnboxing() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_UNBOXING);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KClassInstance() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_CLASS_INSTANCE);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KClassInstance() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_CLASS_INSTANCE);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KEnumEntry() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_ENUM_ENTRY);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KEnumEntry() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_ENUM_ENTRY);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void SaveStackFrameN2KCExport() noexcept {
-    SaveThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_C_EXPORT);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KCExport() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_C_EXPORT);
-}
-
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KCExportCatch() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_C_EXPORT);
+extern "C" NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame1() {
+    auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    threadData->RuntimeSetLastFrame();
 }
 
 MemoryState* kotlin::mm::GetMemoryState() noexcept {
@@ -590,9 +540,11 @@ RUNTIME_NOTHROW extern "C" void Kotlin_processEmptyObjectInMark(void* state, Obj
     // TODO: Try to generate it in the code generator.
 }
 
+HAS_SAFEPOINT
 extern "C" OBJ_GETTER(makePermanentWeakReferenceImpl, ObjHeader*);
 extern "C" OBJ_GETTER(makeObjCWeakReferenceImpl, void*);
 
+HAS_SAFEPOINT
 RUNTIME_NOTHROW extern "C" OBJ_GETTER(Konan_getWeakReferenceImpl, ObjHeader* referred) {
     if (referred->permanent()) {
         RETURN_RESULT_OF(makePermanentWeakReferenceImpl, referred);
@@ -605,6 +557,7 @@ RUNTIME_NOTHROW extern "C" OBJ_GETTER(Konan_getWeakReferenceImpl, ObjHeader* ref
     RETURN_RESULT_OF(mm::createRegularWeakReferenceImpl, referred);
 }
 
+NO_SAFEPOINT
 RUNTIME_NOTHROW extern "C" void DisposeRegularWeakReferenceImpl(ObjHeader* weakRef) {
     mm::disposeRegularWeakReferenceImpl(weakRef);
 }

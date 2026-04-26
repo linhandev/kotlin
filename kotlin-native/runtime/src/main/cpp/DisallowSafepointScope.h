@@ -26,10 +26,10 @@ struct MemoryState;
 #define NO_SAFEPOINT __attribute__((annotate("no_safepoint")))
 
 // The annotated function can potentially cross a safepoint
-#define HAS_SAFEPOINT __attribute__((annotate("has_safepoint")))
+#define HAS_SAFEPOINT __attribute__((annotate("has_safepoint"), annotate("K2RStub"), used))
 
 // Function can potentially cross a safepoint, but only by throwing an exception
-#define HAS_SAFEPOINT_THROW __attribute__((annotate("has_safepoint_throw")))
+#define HAS_SAFEPOINT_THROW __attribute__((annotate("has_safepoint_throw"), annotate("K2RStub"), used))
 
 namespace kotlin::mm {
 class ThreadData;

@@ -14,6 +14,7 @@
 using namespace kotlin;
 
 void gcScheduler::internal::MutatorAssists::ThreadData::safePoint() noexcept {
+    thread_.RuntimeSetLastFrame();
     Epoch epoch = owner_.assistsEpoch_.load(std::memory_order_acquire);
     auto noNeedToWait = [this, epoch] { return owner_.completedEpoch_.load(std::memory_order_acquire) >= epoch; };
     if (noNeedToWait()) return;

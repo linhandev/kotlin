@@ -157,6 +157,11 @@ ALWAYS_INLINE inline bool isNullOrMarker(const ObjHeader* obj) noexcept {
 }
 
 struct FrameOverlay;
+namespace kotlin {
+enum class ThreadState {
+    kRunnable, kNative
+};
+} // namespace kotlin
 
 #ifdef __cplusplus
 extern "C" {
@@ -231,7 +236,7 @@ void InitAndRegisterGlobal(HeapObjPtr* location, ConstHeapObjPtr initialValue) R
 //
 
 // Zeroes heap location.
-void ZeroHeapRef(HeapObjPtr* location) RUNTIME_NOTHROW;
+void ZeroHeapRef(HeapDerivedPtr location) RUNTIME_NOTHROW;
 // Zeroes an array.
 void ZeroArrayRefs(ArrayHeader* array) RUNTIME_NOTHROW;
 // Zeroes stack location.
@@ -239,14 +244,14 @@ void ZeroStackRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Updates stack location.
 void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates heap/static data location.
-void UpdateHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+void UpdateHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
-void UpdateVolatileHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
-OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapObjPtr* location, HeapObjPtr expectedValue,
+void UpdateVolatileHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr expectedValue,
            HeapObjPtr newValue) RUNTIME_NOTHROW;
 bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
                                   HeapObjPtr newValue) RUNTIME_NOTHROW;
-OBJ_GETTER(GetAndSetVolatileHeapRef, HeapObjPtr* location, HeapObjPtr newValue) RUNTIME_NOTHROW;
+OBJ_GETTER(GetAndSetVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr newValue) RUNTIME_NOTHROW;
 
 // Updates location if it is null, atomically.
 // Updates reference in return slot.
@@ -277,9 +282,10 @@ void PerformFullGC(MemoryState* memory) RUNTIME_NOTHROW;
 
 // Sets state of the current thread to NATIVE (used by the new MM).
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative();
+CODEGEN_INLINE_POLICY RUNTIME_NOTHROW RUNTIME_EXPORT void Kotlin_mm_switchThreadStateNativeWithoutUpdateLastFrame();
 // Sets state of the current thread to RUNNABLE (used by the new MM).
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable();
-// No-inline versions of the functions above are used in debug mode to workaround KT-67567 
+// No-inline versions of the functions above are used in debug mode to workaround KT-67567
 // by outlining certain CAS instructions from user code:
 NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative_debug();
 NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable_debug();
@@ -288,100 +294,10 @@ NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable_debug();
 CODEGEN_INLINE_POLICY void Kotlin_mm_safePointFunctionPrologue() RUNTIME_NOTHROW;
 CODEGEN_INLINE_POLICY void Kotlin_mm_safePointWhileLoopBody() RUNTIME_NOTHROW;
 
-enum class FrameKind : uint8_t {
-    K_CPP_FRAME_MASK = 0x40,
-    K_K2X = 1,
-    K_WEAK_REF = K_CPP_FRAME_MASK | 2,
-    K_SAFE_POINT = 3,
-    K_NATIVE_STATE = 4,
-    K_RUNTIME_TO_KOTLIN = 5,
-    K_INIT_GLOBALS = K_CPP_FRAME_MASK | 6,
-    K_WORKER_JOB = K_CPP_FRAME_MASK | 7,
-    K_GLOBAL_INIT_ADAPTER = K_CPP_FRAME_MASK | 8,
-    K_UNMANAGED_MASK = 0x80,
-    K_C_EXPORT = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 0,
-    K_BOXING = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 1,
-    K_UNBOXING = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 2,
-    K_DISPOSE_STABLE_REF = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 3,
-    K_IS_INSTANCE = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 4,
-    K_CLASS_INSTANCE = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 5,
-    K_ENUM_ENTRY = K_UNMANAGED_MASK | K_CPP_FRAME_MASK | 6,
-};
-
-constexpr inline bool IsPreviousFrameUnmanaged(FrameKind kind) noexcept
-{
-    return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::K_UNMANAGED_MASK)) != 0;
-}
-
-constexpr inline bool IsKotlinFrame(FrameKind kind) noexcept
-{
-    return (static_cast<uint8_t>(kind) & static_cast<uint8_t>(FrameKind::K_CPP_FRAME_MASK)) == 0;
-}
-
-constexpr inline bool IsEntryFrame(FrameKind kind) noexcept
-{
-    return kind == FrameKind::K_RUNTIME_TO_KOTLIN || kind == FrameKind::K_INIT_GLOBALS ||
-           kind == FrameKind::K_WORKER_JOB || IsPreviousFrameUnmanaged(kind);
-}
-
-constexpr inline bool IsExitFrame(FrameKind kind) noexcept
-{
-    switch (kind) {
-        case FrameKind::K_K2X:
-        case FrameKind::K_WEAK_REF:
-        case FrameKind::K_SAFE_POINT:
-        case FrameKind::K_NATIVE_STATE:
-        case FrameKind::K_GLOBAL_INIT_ADAPTER:
-            return true;
-        default:
-            return false;
-    }
-}
-
 RUNTIME_NOTHROW void DisposeRegularWeakReferenceImpl(HeapObjPtr counter);
-
-RUNTIME_NOTHROW void SaveStackFrameR2KExportForCppRuntime();
-RUNTIME_NOTHROW void RestoreStackFrameR2KExportForCppRuntime();
-
-RUNTIME_NOTHROW void SaveStackFrameK2RK2X();
-RUNTIME_NOTHROW void RestoreStackFrameK2RK2X();
-
-RUNTIME_NOTHROW void SaveStackFrameK2NNativeState();
-RUNTIME_NOTHROW void RestoreStackFrameK2NNativeState();
-
-RUNTIME_NOTHROW void SaveStackFrameK2RSafePoint();
-RUNTIME_NOTHROW void RestoreStackFrameK2RSafePoint();
-
-RUNTIME_NOTHROW void SaveStackFrameR2KInitGlobals();
-RUNTIME_NOTHROW void RestoreStackFrameR2KInitGlobals();
-
-RUNTIME_NOTHROW void SaveStackFrameR2KGlobalInitAdapter();
-RUNTIME_NOTHROW void RestoreStackFrameR2KGlobalInitAdapter();
-
-RUNTIME_NOTHROW void SaveStackFrameR2KWorkerJob();
-RUNTIME_NOTHROW void RestoreStackFrameR2KWorkerJob();
-
-RUNTIME_NOTHROW void SaveStackFrameN2KBoxing();
-RUNTIME_NOTHROW void RestoreStackFrameN2KBoxing();
-
-RUNTIME_NOTHROW void SaveStackFrameN2KDisposeStableRef();
-RUNTIME_NOTHROW void RestoreStackFrameN2KDisposeStableRef();
-
-RUNTIME_NOTHROW void SaveStackFrameN2KIsInstance();
-RUNTIME_NOTHROW void RestoreStackFrameN2KIsInstance();
-
-RUNTIME_NOTHROW void SaveStackFrameN2KUnboxing();
-RUNTIME_NOTHROW void RestoreStackFrameN2KUnboxing();
-
-RUNTIME_NOTHROW void SaveStackFrameN2KClassInstance();
-RUNTIME_NOTHROW void RestoreStackFrameN2KClassInstance();
-
-RUNTIME_NOTHROW void SaveStackFrameN2KEnumEntry();
-RUNTIME_NOTHROW void RestoreStackFrameN2KEnumEntry();
-
-RUNTIME_NOTHROW void SaveStackFrameN2KCExport();
-RUNTIME_NOTHROW void RestoreStackFrameN2KCExport();
-RUNTIME_NOTHROW void RestoreStackFrameN2KCExportCatch();
+NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame(MemoryState* thread, kotlin::ThreadState state);
+NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame1();
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliable();
 
 #ifdef __cplusplus
 }
@@ -455,10 +371,6 @@ MemoryState* GetMemoryState() noexcept;
 bool IsCurrentThreadRegistered() noexcept;
 
 } // namespace mm
-
-enum class ThreadState {
-    kRunnable, kNative
-};
 
 ThreadState GetThreadState(MemoryState* thread) noexcept;
 

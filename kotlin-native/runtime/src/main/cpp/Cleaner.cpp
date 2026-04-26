@@ -6,11 +6,14 @@
 #include "Cleaner.h"
 
 #include "ExternalRCRef.hpp"
+#include "DisallowSafepointScope.h"
+#include "std_support/Atomic.hpp"
 #include "Memory.h"
 
 using namespace kotlin;
 
 // Defined in Cleaner.kt
+HAS_SAFEPOINT
 extern "C" void Kotlin_native_ref_executeCleanerAction(mm::RawExternalRCRef* cleanerAction);
 
 namespace {

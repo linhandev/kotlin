@@ -72,7 +72,6 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
 NO_EXTERNAL_CALLS_CHECK void kotlin::mm::ThreadSuspensionData::suspendIfRequested() noexcept {
     if (IsThreadSuspensionRequested()) {
         auto pauseHandle = pauseMutationInScope(internal::gSuspensionRequestReason.load(std::memory_order_relaxed));
-
         threadData_.gc().OnSuspendForGC();
         std::unique_lock lock(gSuspensionRequestMutex);
         gSuspensionCondVar.wait(lock, []() { return !IsThreadSuspensionRequested(); });

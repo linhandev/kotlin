@@ -44,7 +44,6 @@ struct GCSchedulerConfig {
             static_cast<std::underlying_type_t<MutatorAssists>>(MutatorAssists::kDefault);
 
     std::atomic<bool> concurrentMarkValidation = true;
-    std::atomic<bool> verifyKotlinStack = false;
 
     std::chrono::microseconds regularGcInterval() const { return std::chrono::microseconds(regularGcIntervalMicroseconds.load()); }
 

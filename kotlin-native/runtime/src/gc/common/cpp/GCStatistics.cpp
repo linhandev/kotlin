@@ -17,6 +17,7 @@
 #include "Porting.h"
 #include "ThreadData.hpp"
 #include "Types.h"
+#include "DisallowSafepointScope.h"
 
 using namespace kotlin;
 
@@ -154,6 +155,7 @@ MemoryUsage currentHeapUsage() noexcept {
 
 } // namespace
 
+HAS_SAFEPOINT
 extern "C" void Kotlin_Internal_GC_GCInfoBuilder_Fill(KRef builder, int id) {
     GCInfo copy;
     {

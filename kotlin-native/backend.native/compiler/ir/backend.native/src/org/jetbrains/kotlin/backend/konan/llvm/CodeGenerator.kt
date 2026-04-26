@@ -123,6 +123,7 @@ internal inline fun generateFunction(
             needSafePoint = true,
             function)
     functionGenerationContext.needsRuntimeInit = isCToKotlinBridge
+    functionGenerationContext.needsSetReliableStatus = isCToKotlinBridge
 
     try {
         generateFunctionBody(functionGenerationContext, code)
@@ -409,7 +410,7 @@ internal class StackLocalsManagerImpl(
     fun isEmpty() = stackLocals.isEmpty()
 
     private fun FunctionGenerationContext.createRootSetSlot() =
-            alloca(kObjHeaderPtr, true)
+            alloca(kObjHeaderRef, true)
 
     override fun alloc(irClass: IrClass): LLVMValueRef = with(functionGenerationContext) {
         val classInfo = llvmDeclarations.forClass(irClass)
@@ -455,7 +456,7 @@ internal class StackLocalsManagerImpl(
 
     // TODO: find better place?
     private val arrayToElementType = mapOf(
-            symbols.array to functionGenerationContext.kObjHeaderPtr,
+            symbols.array to functionGenerationContext.kObjHeaderRef,
             symbols.byteArray to llvm.int8Type,
             symbols.charArray to llvm.int16Type,
             symbols.string to llvm.int16Type,
@@ -641,6 +642,8 @@ internal abstract class FunctionGenerationContext(
     // Whether the generating function needs to initialize Kotlin runtime before execution. Useful for interop bridges,
     // for example.
     var needsRuntimeInit = false
+
+    var needsSetReliableStatus = false
 
     // Marks that function is not allowed to call into Kotlin runtime. For this function no safepoints, no enter/leave
     // frames are generated.
@@ -1001,38 +1004,6 @@ internal abstract class FunctionGenerationContext(
         switchThreadState(state)
     }
 
-    fun saveStackFrameR2KExportForCppRuntime() {
-        call(llvm.saveStackFrameR2KExportForCppRuntime, listOf())
-    }
-
-    fun restoreStackFrameN2KNativeToKotlin() {
-        call(llvm.restoreStackFrameN2KNativeToKotlin, listOf())
-    }
-
-    fun saveStackFrameR2KInitGlobals() {
-        call(llvm.saveStackFrameR2KInitGlobals, listOf())
-    }
-
-    fun restoreStackFrameR2KInitGlobals() {
-        call(llvm.restoreStackFrameR2KInitGlobals, listOf())
-    }
-
-    fun saveStackFrameK2RK2X() {
-        call(llvm.saveStackFrameK2RK2X, listOf())
-    }
-
-    fun restoreStackFrameK2RK2X() {
-        call(llvm.restoreStackFrameK2RK2X, listOf())
-    }
-
-    fun saveStackFrameK2NNativeState() {
-        call(llvm.saveStackFrameK2NNativeState, listOf())
-    }
-
-    fun restoreStackFrameK2NNativeState() {
-        call(llvm.restoreStackFrameK2NNativeState, listOf())
-    }
-
     fun throwArrayIndexOutOfBoundsExceptionFunction(exceptionHandler: ExceptionHandler) {
         val throwFuncSymbol = context.symbols.throwArrayIndexOutOfBoundsException
         val throwFunc = throwFuncSymbol.owner.llvmFunctionOrNull
@@ -1116,7 +1087,6 @@ internal abstract class FunctionGenerationContext(
         val num = llvmCallable.numParams
         val name = llvmCallable.name
         val size = args.size
-
         if (name != "" && name != "objc_msgSend") {
             for (i in 0 until size) {
                 val param = llvmCallable.param(i)
@@ -1839,7 +1809,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             val slots = if (needSlotsPhi || needCleanupLandingpadAndLeaveFrame)
                 LLVMBuildArrayAlloca(builder, kObjHeaderRef, llvm.int32(slotCount), "")!!
             else
-                kNullObjHeaderPtrPtr
+                kNullObjHeaderRefPtr
             if (needSlots || needCleanupLandingpadAndLeaveFrame) {
                 check(!forbidRuntime) { "Attempt to start a frame where runtime usage is forbidden" }
                 // Zero-init slots.
@@ -1890,15 +1860,11 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                 check(!forbidRuntime) { "Attempt to init runtime where runtime usage is forbidden" }
                 call(llvm.initRuntimeIfNeeded, emptyList())
             }
+            if (needsSetReliableStatus) {
+                call(llvm.setLastFrameReliable, emptyList())
+            }
             if (switchToRunnable) {
                 switchThreadState(Runnable)
-            }
-            if (irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true || switchToRunnable) {
-                if (irFunction?.name?.asString() == "Konan_start") {
-                    saveStackFrameR2KInitGlobals()
-                } else if (irFunction?.hasAnnotation(RuntimeNames.exportForIntrinsic) == false) {
-                    saveStackFrameR2KExportForCppRuntime()
-                }
             }
             if (needSlots || needCleanupLandingpadAndLeaveFrame) {
                 if (setCurrentFrameIsCalled) {
@@ -1909,7 +1875,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             }
             if (!forbidRuntime && needSafePoint) {
                 if (!function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException")) {
-                    call(llvm.Kotlin_mm_safePointFunctionPrologue, emptyList())
+                    call(llvm.Kotlin_mm_safePointFunctionPrologueStub, emptyList())
                 }
             }
             resetDebugLocation()
@@ -1967,13 +1933,6 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     }
 
     private fun handleEpilogueExperimentalMM() {
-        if (irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true || switchToRunnable) {
-            if (irFunction?.name?.asString() == "Konan_start") {
-                restoreStackFrameR2KInitGlobals()
-            } else if (irFunction?.hasAnnotation(RuntimeNames.exportForIntrinsic) == false) {
-                restoreStackFrameN2KNativeToKotlin()
-            }
-        }
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)

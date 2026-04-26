@@ -439,6 +439,7 @@ if [[ -d "./kotlin-native/dist" ]]; then
 fi
 # Use --refresh-dependencies to force refresh cache
 GRADLE_NATIVE :kotlin-native:clean --refresh-dependencies
+# GRADLE_NATIVE :kotlin-native:clean
 stepEnd
 
 # 4. Bundle Compiler

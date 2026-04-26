@@ -55,9 +55,4 @@ extern const char* programName;
 
 }
 
-struct InitGlobalsFrameGuard {
-    ALWAYS_INLINE InitGlobalsFrameGuard() { SaveStackFrameR2KInitGlobals(); }
-    ALWAYS_INLINE ~InitGlobalsFrameGuard() { RestoreStackFrameR2KInitGlobals(); }
-};
-
 #endif // RUNTIME_RUNTIME_H

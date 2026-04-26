@@ -17,29 +17,34 @@
 #include "CallsChecker.hpp"
 #include "Porting.h"
 #include "Types.h"
+#include "DisallowSafepointScope.h"
 
 using namespace kotlin;
 
 extern "C" {
 
+NO_SAFEPOINT
 KLong Kotlin_system_getSteadyTimeMillis() {
   // Should complete relatively fast.
   CallsCheckerIgnoreGuard guard;
   return konan::getTimeMillis();
 }
 
+NO_SAFEPOINT
 KLong Kotlin_system_getSteadyTimeNanos() {
   // Should complete relatively fast.
   CallsCheckerIgnoreGuard guard;
   return konan::getTimeNanos();
 }
 
+NO_SAFEPOINT
 KLong Kotlin_system_getSteadyTimeMicros() {
   // Should complete relatively fast.
   CallsCheckerIgnoreGuard guard;
   return konan::getTimeMicros();
 }
 
+NO_SAFEPOINT
 KLong Kotlin_system_getSystemTimeNanos() {
   // Should complete relatively fast.
   CallsCheckerIgnoreGuard guard;

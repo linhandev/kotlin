@@ -579,15 +579,18 @@ const Decomposition* getDecomposition(KInt codePoint) {
 
 extern "C" {
 
+NO_SAFEPOINT
 KInt Kotlin_text_regex_getCanonicalClassInternal(KInt ch) {
   return getCanonicalClass(ch);
 }
 
+NO_SAFEPOINT
 KBoolean Kotlin_text_regex_hasSingleCodepointDecompositionInternal(KInt ch) {
   int index = binarySearchRange(singleDecompositions, ARRAY_SIZE(singleDecompositions), ch);
   return index != -1 && singleDecompositions[index] == ch;
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER(Kotlin_text_regex_getDecompositionInternal, KInt ch) {
   const Decomposition* decomposition = getDecomposition(ch);
   if (decomposition == nullptr) {
@@ -601,6 +604,7 @@ OBJ_GETTER(Kotlin_text_regex_getDecompositionInternal, KInt ch) {
   RETURN_OBJ(result->obj());
 }
 
+NO_SAFEPOINT
 KInt Kotlin_text_regex_decomposeString(ArrayHeader* inputCodePoints, KInt inputLength, ArrayHeader* outputCodePoints) {
   RuntimeAssert(inputCodePoints->type_info() == theIntArrayTypeInfo, "Must use an Int array");
   RuntimeAssert(outputCodePoints->type_info() == theIntArrayTypeInfo, "Must use an Int array");
@@ -624,6 +628,7 @@ KInt Kotlin_text_regex_decomposeString(ArrayHeader* inputCodePoints, KInt inputL
   return outputLength;
 }
 
+NO_SAFEPOINT
 KInt Kotlin_text_regex_decomposeCodePoint(KInt codePoint, ArrayHeader* outputCodePoints, KInt fromIndex) {
   RuntimeAssert(outputCodePoints->type_info() == theIntArrayTypeInfo, "Must be an Int array");
   RuntimeAssert(fromIndex >= 0 && static_cast<uint32_t>(fromIndex) < outputCodePoints->count_, "Start index must be >= 0 and < array size");

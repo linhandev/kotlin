@@ -681,10 +681,10 @@ internal class CodeGeneratorVisitor(
         val library = declaration.konanLibrary
         val libraryName = library?.uniqueName
         val moduleIncludeOnly = context.config.moduleIncludeOnly
-        
+
         if (moduleIncludeOnly.isNotEmpty()) {
             if (libraryName == null || libraryName !in moduleIncludeOnly) {
-                return 
+                return
             }
         }
 
@@ -989,19 +989,9 @@ internal class CodeGeneratorVisitor(
         val llvmCallable = codegen.llvm.externalFunction(proto)
 
         val args = declaration.parameters.map { functionGenerationContext.vars.load(functionGenerationContext.vars.indexOf(it), null) }
-
-        if (declaration.needK2XStub) {
-            functionGenerationContext.saveStackFrameK2RK2X()
-        }
         val exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
-                currentCodeContext.exceptionHandler
-        ) {
-            if (declaration.needK2XStub)
-                functionGenerationContext.restoreStackFrameK2RK2X()
-        }
+                currentCodeContext.exceptionHandler) {}
         val result = functionGenerationContext.call(llvmCallable, args, Lifetime.GLOBAL, exceptionHandler, resultSlot = functionGenerationContext.returnSlot)
-        if (declaration.needK2XStub)
-            functionGenerationContext.restoreStackFrameK2RK2X()
 
         if (simpleFunction.returnsUnit()) {
             functionGenerationContext.ret(null)
@@ -2786,13 +2776,6 @@ internal class CodeGeneratorVisitor(
     private val IrFunction.gcSafeCall: Boolean
         get() = annotations.hasAnnotation(KonanFqNames.gcSafeCall)
 
-    private val IrFunction.needK2XStub: Boolean
-        get() {
-            val annotation = annotations.findAnnotation(KonanFqNames.gcUnsafeCall)
-            if (annotation == null) return false
-            return annotation.getAnnotationValueOrNull<Boolean>("needStub") ?: true
-        }
-
     private fun tryHandleK2XIntrinsic(
         function: IrFunction,
         llvmCallable: LlvmCallable,
@@ -2881,23 +2864,13 @@ internal class CodeGeneratorVisitor(
         }
 
         if (needsNativeThreadState) {
-            functionGenerationContext.saveStackFrameK2NNativeState()
-            functionGenerationContext.switchThreadState(ThreadState.Native)
-            exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
-                    exceptionHandler
-            ) {
-                functionGenerationContext.restoreStackFrameK2NNativeState()
-            }
+            exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(exceptionHandler) {}
         }
 
         val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
 
         when  {
             function.returnType.isNothing() -> functionGenerationContext.unreachable()
-            needsNativeThreadState -> {
-                functionGenerationContext.switchThreadState(ThreadState.Runnable)
-                functionGenerationContext.restoreStackFrameK2NNativeState()
-            }
         }
 
         if (llvmCallable.returnType == llvm.voidType) {

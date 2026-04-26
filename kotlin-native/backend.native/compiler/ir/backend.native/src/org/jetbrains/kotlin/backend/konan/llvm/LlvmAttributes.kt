@@ -85,10 +85,16 @@ sealed class LlvmParameterAttribute(private val llvmAttributeName: String) : Llv
     object ZeroExt : LlvmParameterAttribute("zeroext")
 }
 
-sealed class LlvmFunctionAttribute(private val llvmAttributeName: String) : LlvmAttribute {
-
+sealed class LlvmFunctionAttribute(private val llvmAttributeName: String,
+                                   private val attributeType: String? = null,
+                                   public val attributeKey: String? = null,
+                                   public val attributeValue: String = llvmAttributeName) : LlvmAttribute {
     override fun asAttributeKindId(): LLVMAttributeKindId = llvmAttributeKindIdCache.getOrPut(this) {
-        getLlvmAttributeKindId(llvmAttributeName)
+        if (attributeType != null && attributeType == "StringAttr") {
+            LLVMAttributeKindId(0)
+        } else {
+            getLlvmAttributeKindId(llvmAttributeName)
+        }
     }
 
     companion object {
@@ -104,4 +110,7 @@ sealed class LlvmFunctionAttribute(private val llvmAttributeName: String) : Llvm
     object SspStrong : LlvmFunctionAttribute("sspstrong")
     object SspReq : LlvmFunctionAttribute("sspreq")
     object SanitizeAddress : LlvmFunctionAttribute("sanitize_address")
+    // String attibutes
+    object ExportForCppRuntimeKFunc: LlvmFunctionAttribute("export_for_cpp_runtime_k", "StringAttr", "stubtype")
+    object KFunc: LlvmFunctionAttribute("kfunc", "StringAttr", "functype")
 }
