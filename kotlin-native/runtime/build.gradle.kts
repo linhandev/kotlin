@@ -5,6 +5,7 @@
 import org.jetbrains.kotlin.*
 import org.jetbrains.kotlin.bitcode.CompileToBitcodeExtension
 import org.jetbrains.kotlin.cpp.CppUsage
+import org.jetbrains.kotlin.dependencies.NativeDependenciesExtension
 import org.jetbrains.kotlin.gradle.plugin.konan.tasks.KonanCacheTask
 import org.jetbrains.kotlin.gradle.plugin.konan.tasks.KonanCompileTask
 import org.jetbrains.kotlin.konan.target.*
@@ -528,25 +529,15 @@ val compileStubFiles by tasks.registering {
     group = "kotlin-native"
 
     // OHOS stubs are AArch64 ELF and host-independent (clang -target aarch64-linux-ohos
-    // works from any host). macOS stubs are Mach-O / Apple-specific assembly and can
-    // only be assembled on an Apple host.
-    val isAppleHost = HostManager.host.family.isAppleFamily
+    // works from any host). macOS stubs are AArch64 Mach-O assembly: they can only be
+    // produced on a MACOS_ARM64 host. The MACOS_X64 host cannot assemble them (the
+    // sources are ARM64 instructions, but `-arch x86_64` rejects them) and we have no
+    // x86_64 macOS stub sources, so we simply skip the macOS branch on non-ARM64 hosts.
+    val canBuildMacosStubs = HostManager.host == KonanTarget.MACOS_ARM64
 
-    val hostTargetName = when (HostManager.host) {
-        KonanTarget.MACOS_ARM64 -> "macos_arm64"
-        KonanTarget.MACOS_X64 -> "macos_x64"
-        else -> null
-    }
-    val hostClangTarget = when (HostManager.host) {
-        KonanTarget.MACOS_ARM64 -> "arm64-apple-macos"
-        KonanTarget.MACOS_X64 -> "x86_64-apple-macos"
-        else -> null
-    }
-    val hostArch = when (HostManager.host.architecture) {
-        TargetArchitecture.X64 -> "x86_64"
-        TargetArchitecture.ARM64 -> "arm64"
-        else -> null
-    }
+    val hostTargetName = if (canBuildMacosStubs) "macos_arm64" else null
+    val hostClangTarget = if (canBuildMacosStubs) "arm64-apple-macos" else null
+    val hostArch = if (canBuildMacosStubs) "arm64" else null
 
     val arm64OhosStubDirFile = layout.projectDirectory.dir("src/main/cpp/aarch64_linux_ohos_stubs").asFile
     val arm64OhosStubSources = fileTree(arm64OhosStubDirFile) { include("*.s") }
@@ -558,8 +549,8 @@ val compileStubFiles by tasks.registering {
     }
 
     val arm64MacosStubDirFile = layout.projectDirectory.dir("src/main/cpp/aarch64_macos_stubs").asFile
-    val arm64MacosStubSources = if (isAppleHost) fileTree(arm64MacosStubDirFile) { include("*.s") } else null
-    val arm64MacosOutputDirProvider = if (isAppleHost && hostTargetName != null) {
+    val arm64MacosStubSources = if (canBuildMacosStubs) fileTree(arm64MacosStubDirFile) { include("*.s") } else null
+    val arm64MacosOutputDirProvider = if (canBuildMacosStubs && hostTargetName != null) {
         layout.buildDirectory.dir("bitcode/main/$hostTargetName/aarch64_macos_stubs_objs")
     } else null
     val macosSources: List<File> = arm64MacosStubSources?.files?.toList().orEmpty()
@@ -572,21 +563,27 @@ val compileStubFiles by tasks.registering {
     arm64MacosStubSources?.let { inputs.files(it) }
     outputs.files(arm64OhosOutputFiles + arm64MacosOutputFiles)
 
-    val assembler = project.findProperty("assembler") as String? ?: "clang"
+    val platformManager = project.extensions.getByType<PlatformManager>()
+    val nativeDependencies = project.extensions.getByType<NativeDependenciesExtension>()
+    val execClang = ExecClang.create(project.objects, platformManager)
     val execOps = serviceOf<ExecOperations>()
+
+    dependsOn(nativeDependencies.targetDependency(KonanTarget.OHOS_ARM64))
+    if (canBuildMacosStubs) {
+        dependsOn(nativeDependencies.llvmDependency)
+    }
 
     doLast {
         ohosOutDir.mkdirs()
         ohosSources.forEach { stubFile ->
             val objFile = ohosOutDir.resolve(stubFile.name.replace(Regex("\\.s$"), ".o"))
-            execOps.exec {
-                commandLine(
-                    assembler,
+            execClang.execToolchainClang(KonanTarget.OHOS_ARM64) {
+                executable = "clang"
+                args(
                     "-c",
                     stubFile.absolutePath,
                     "-o", objFile.absolutePath,
                     "-target", "aarch64-linux-ohos",
-                    "-arch", "arm64",
                 )
             }
         }
@@ -597,7 +594,7 @@ val compileStubFiles by tasks.registering {
                 val objFile = macosOutDir.resolve(stubFile.name.replace(Regex("\\.s$"), ".o"))
                 execOps.exec {
                     commandLine(
-                        assembler,
+                        execClang.resolveExecutable("clang"),
                         "-c",
                         stubFile.absolutePath,
                         "-o", objFile.absolutePath,
