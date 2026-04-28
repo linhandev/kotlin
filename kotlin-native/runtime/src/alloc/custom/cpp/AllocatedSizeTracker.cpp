@@ -28,6 +28,7 @@
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
 #include <deviceinfo.h>
+#include <dlfcn.h>
 #define OHOS_DUMPLISTNER_MIN_API 26
 #include "hidebug/hidebug.h"
 #include "hidebug/hidebug_type.h"
@@ -73,6 +74,16 @@ bool ShouldReplaceOldestDump(
 #define KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION unknown
 #endif
 
+using OHHiAppEventReportFrameworkMemAnomalyFn =
+    int (*)(OH_HiAppEvent_FrameworkType type, const char* value, const char* description);
+
+static OHHiAppEventReportFrameworkMemAnomalyFn resolveOHHiAppEventReportFrameworkMemAnomaly() {
+    static OHHiAppEventReportFrameworkMemAnomalyFn fn =
+        reinterpret_cast<OHHiAppEventReportFrameworkMemAnomalyFn>(
+            dlsym(RTLD_DEFAULT, "OH_HiAppEvent_ReportFrameworkMemAnomaly"));
+    return fn;
+}
+
 static void ReportOomEventViaHiAppEvent(
     const char* dumpPath,
     std::size_t memUsage,
@@ -86,7 +97,12 @@ static void ReportOomEventViaHiAppEvent(
     desc << "Kotlin/Native heap over OOM threshold; dump_path=" << dumpPath << "; memory_usage=" << memUsage
          << "; oom_threshold=" << threshold << "; timestamp=" << timestamp;
     std::string descriptionStr = desc.str();
-    int reportResult = OH_HiAppEvent_ReportFrameworkMemAnomaly(
+    OHHiAppEventReportFrameworkMemAnomalyFn reportFrameworkMemAnomaly = resolveOHHiAppEventReportFrameworkMemAnomaly();
+    if (reportFrameworkMemAnomaly == nullptr) {
+        DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly symbol not found");
+        return;
+    }
+    int reportResult = reportFrameworkMemAnomaly(
         OH_KMP_KOTLIN, KN_STRINGIFY(KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION), descriptionStr.c_str());
     DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly finished. result=%{public}d", reportResult);
 }
