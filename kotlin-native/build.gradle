@@ -232,6 +232,7 @@ tasks.register("distStdlib", Sync) {
 }
 
 tasks.register("distNativeLibs", Sync) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from(configurations.nativeLibs)
     into(nativeDistribution.map { it.nativeLibs })
 }

@@ -110,6 +110,27 @@ abstract class NativeDependenciesExtension @Inject constructor(private val proje
         get() = platformManager.hostPlatform
 
     /**
+     * Directory with libc++ runtime libraries bundled into the host LLVM distribution.
+     */
+    val hostLibcxxDir: String
+        get() = "$llvmPath/lib/${hostPlatform.targetTriple}"
+
+    /**
+     * libc++ runtime libraries needed by host tools linked against the bundled LLVM/Clang.
+     */
+    val hostLibcxxRuntimeLibraries: List<String>
+        get() = listOf("libc++.so.1", "libc++abi.so.1", "libunwind.so.1")
+
+    val hostLibcxxRuntimeLibraryPaths: List<String>
+        get() = hostLibcxxRuntimeLibraries.map { "$hostLibcxxDir/$it" }
+
+    val hostLibcxxIncludeDirs: List<String>
+        get() = listOf(
+                "$llvmPath/include/${hostPlatform.targetTriple}/c++/v1",
+                "$llvmPath/include/c++/v1",
+        )
+
+    /**
      * Dependency on [target] platform.
      */
     fun targetDependency(target: TargetWithSanitizer = TargetWithSanitizer.host): Buildable =

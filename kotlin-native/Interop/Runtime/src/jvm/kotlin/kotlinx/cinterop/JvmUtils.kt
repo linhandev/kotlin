@@ -112,6 +112,32 @@ private fun initializePath() =
 
 private val sha256 = MessageDigest.getInstance("SHA-256")
 private val systemTmpDir = System.getProperty("java.io.tmpdir")
+private val stubsWithRuntimeDependencies = setOf(
+        System.mapLibraryName("llvmstubs"),
+        System.mapLibraryName("clangstubs"),
+)
+private val stubsRuntimeDependencies = listOf("libc++.so.1", "libc++abi.so.1", "libunwind.so.1")
+
+private fun copyStubsRuntimeDependencies(fullLibraryPath: java.nio.file.Path, targetDir: java.nio.file.Path, fullLibraryName: String) {
+    if (fullLibraryName !in stubsWithRuntimeDependencies || !Files.isDirectory(targetDir)) return
+
+    stubsRuntimeDependencies.forEach { dependency ->
+        val dependencyPath = fullLibraryPath.parent.resolve(dependency)
+        val targetPath = targetDir.resolve(dependency)
+        if (Files.exists(dependencyPath) && !Files.exists(targetPath)) {
+            Files.copy(dependencyPath, targetPath)
+        }
+    }
+}
+
+private fun registerDeleteOnExit(dir: String, fullLibraryName: String) {
+    File("$dir/$fullLibraryName").deleteOnExit()
+    if (fullLibraryName !in stubsWithRuntimeDependencies) return
+
+    stubsRuntimeDependencies.forEach {
+        File("$dir/$it").deleteOnExit()
+    }
+}
 
 // TODO: File(..).deleteOnExit() does not work on Windows. May be use FILE_FLAG_DELETE_ON_CLOSE?
 private fun tryLoadKonanLibrary(dir: String, fullLibraryName: String, runFromDaemon: Boolean): Boolean {
@@ -123,13 +149,15 @@ private fun tryLoadKonanLibrary(dir: String, fullLibraryName: String, runFromDae
     if (!Files.exists(fullLibraryPath)) return false
 
     fun createTempDirWithLibrary() = if (runFromDaemon) {
-        Files.createTempDirectory(null).toAbsolutePath().toString().also {
-            Files.copy(fullLibraryPath, Paths.get(it, fullLibraryName))
-        }
+        Files.createTempDirectory(null).toAbsolutePath().also {
+            Files.copy(fullLibraryPath, it.resolve(fullLibraryName))
+            copyStubsRuntimeDependencies(fullLibraryPath, it, fullLibraryName)
+        }.toString()
     } else {
-        Files.createTempDirectory(Paths.get(dir), null).toAbsolutePath().toString().also {
-            Files.createLink(Paths.get(it, fullLibraryName), fullLibraryPath)
-        }
+        Files.createTempDirectory(Paths.get(dir), null).toAbsolutePath().also {
+            Files.createLink(it.resolve(fullLibraryName), fullLibraryPath)
+            copyStubsRuntimeDependencies(fullLibraryPath, it, fullLibraryName)
+        }.toString()
     }
 
     if (runFromDaemon) {
@@ -152,8 +180,9 @@ private fun tryLoadKonanLibrary(dir: String, fullLibraryName: String, runFromDae
         val tempDir = File(createTempDirWithLibrary())
         if (tempDir.renameTo(File(defaultTempDir))) {
             File(defaultTempDir).deleteOnExit()
-            File("$defaultTempDir/$fullLibraryName").deleteOnExit()
+            registerDeleteOnExit(defaultTempDir, fullLibraryName)
         } else {
+            copyStubsRuntimeDependencies(fullLibraryPath, Paths.get(defaultTempDir), fullLibraryName)
             tempDir.deleteRecursively()
         }
         fullLibraryPath = Paths.get(defaultTempDir, fullLibraryName)
@@ -183,7 +212,7 @@ private fun tryLoadKonanLibrary(dir: String, fullLibraryName: String, runFromDae
         val tempDir = createTempDirWithLibrary()
 
         File(tempDir).deleteOnExit()
-        File("$tempDir/$fullLibraryName").deleteOnExit()
+        registerDeleteOnExit(tempDir, fullLibraryName)
         System.load("$tempDir/$fullLibraryName")
     }
 

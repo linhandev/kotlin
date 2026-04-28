@@ -40,7 +40,7 @@ native {
     )
     when (org.jetbrains.kotlin.konan.target.HostManager.host.family) {
         LINUX -> {
-            cxxflags.addAll(listOf("-DKONAN_LINUX=1"))
+            cxxflags.addAll(listOf("-DKONAN_LINUX=1", "-stdlib=libc++"))
         }
         MINGW -> {
             cxxflags += "-DKONAN_WINDOWS=1"
