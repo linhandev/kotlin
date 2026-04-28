@@ -393,6 +393,72 @@ tasks.register("crossDist") {
             "crossDistStdlibCache"
 }
 
+def smokeKonanOutputDir = layout.buildDirectory.dir("smokeTest")
+def smokeKonanSourceKt = smokeKonanOutputDir.map { it.file("smoke.kt") }
+
+tasks.register("prepareSmokeKonanSource") {
+    outputs.dir(smokeKonanOutputDir)
+    doLast {
+        def outputDir = smokeKonanOutputDir.get().asFile
+        if (outputDir.exists()) {
+            outputDir.deleteDir()
+        }
+        outputDir.mkdirs()
+        smokeKonanSourceKt.get().asFile.text = """
+            fun main(args: Array<String>) {
+                println("Kotlin/Native smoke compile: " + args.size)
+            }
+
+            fun exportedSymbol(): Int = 42
+        """.stripIndent().trim() + "\n"
+    }
+}
+
+def smokeKonancBinary = nativeDistribution.map {
+    it.bin.file(PlatformInfo.isWindows() ? "konanc.bat" : "konanc").asFile.absolutePath
+}
+
+def registerSmokeCompileTask = { String target, String product ->
+    tasks.register("smokeKonan_${target}_${product}", Exec) {
+        group = "verification"
+        description = "Konan smoke: target=${target}, product=${product}"
+        dependsOn(":kotlin-native:${target}CrossDist")
+
+        doFirst {
+            def sourceKt = smokeKonanSourceKt.get().asFile.absolutePath
+            workingDir(smokeKonanOutputDir.get().asFile)
+            commandLine(
+                    smokeKonancBinary.get(),
+                    sourceKt,
+                    "-target", target
+            )
+        }
+    }
+}
+
+def smokeKonanTestCases = [
+        [target: "ohos_arm64", product: "kexe"],
+        [target: "ohos_arm64", product: "dynamic"],
+        // [target: "ohos_x64", product: "kexe"],
+]
+if (PlatformInfo.isMac()) {
+    smokeKonanTestCases.addAll([
+            [target: "macos_arm64", product: "kexe"],
+            [target: "ios_arm64", product: "dynamic"],
+    ])
+}
+
+smokeKonanTestCases.each { cfg ->
+    registerSmokeCompileTask(cfg.target as String, cfg.product as String)
+}
+
+tasks.register("smokeTest") {
+    group = "verification"
+    description = "Runs all Konan smoke compiles (${smokeKonanTestCases*.target.join(', ')}); artifacts under ${smokeKonanOutputDir.get().asFile}"
+    dependsOn(":kotlin-native:dist", "prepareSmokeKonanSource")
+    dependsOn smokeKonanTestCases.collect { "smokeKonan_${it.target as String}_${it.product as String}" }
+}
+
 tasks.register("distInvalidateStaleCaches", InvalidateStaleCaches) {
     distributionAsDirectory.set(nativeDistribution.map { it.root })
     // If the build graph includes any of the fingerprint updates, this task must run after them.
