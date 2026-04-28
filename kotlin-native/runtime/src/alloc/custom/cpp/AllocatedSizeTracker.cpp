@@ -77,7 +77,8 @@ bool ShouldReplaceOldestDump(
 using OHHiAppEventReportFrameworkMemAnomalyFn =
     int (*)(OH_HiAppEvent_FrameworkType type, const char* value, const char* description);
 
-static OHHiAppEventReportFrameworkMemAnomalyFn resolveOHHiAppEventReportFrameworkMemAnomaly() {
+static OHHiAppEventReportFrameworkMemAnomalyFn resolveOHHiAppEventReportFrameworkMemAnomaly()
+{
     static OHHiAppEventReportFrameworkMemAnomalyFn fn =
         reinterpret_cast<OHHiAppEventReportFrameworkMemAnomalyFn>(
             dlsym(RTLD_DEFAULT, "OH_HiAppEvent_ReportFrameworkMemAnomaly"));
