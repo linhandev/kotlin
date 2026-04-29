@@ -79,9 +79,17 @@ using OHHiAppEventReportFrameworkMemAnomalyFn =
 
 static OHHiAppEventReportFrameworkMemAnomalyFn resolveOHHiAppEventReportFrameworkMemAnomaly()
 {
+    // Only available starting from a minimum API version.
+    if (OH_GetSdkApiVersion() < OHOS_DUMPLISTNER_MIN_API) {
+        return nullptr;
+    }
+
     static OHHiAppEventReportFrameworkMemAnomalyFn fn =
         reinterpret_cast<OHHiAppEventReportFrameworkMemAnomalyFn>(
             dlsym(RTLD_DEFAULT, "OH_HiAppEvent_ReportFrameworkMemAnomaly"));
+    if (fn == nullptr) {
+        DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly symbol not found");
+    }
     return fn;
 }
 
@@ -90,7 +98,8 @@ static void ReportOomEventViaHiAppEvent(
     std::size_t memUsage,
     std::size_t threshold,
     const char* timestamp) {
-    if (OH_GetSdkApiVersion() < OHOS_DUMPLISTNER_MIN_API) {
+    OHHiAppEventReportFrameworkMemAnomalyFn reportFrameworkMemAnomaly = resolveOHHiAppEventReportFrameworkMemAnomaly();
+    if (reportFrameworkMemAnomaly == nullptr) {
         return;
     }
 
@@ -98,11 +107,7 @@ static void ReportOomEventViaHiAppEvent(
     desc << "Kotlin/Native heap over OOM threshold; dump_path=" << dumpPath << "; memory_usage=" << memUsage
          << "; oom_threshold=" << threshold << "; timestamp=" << timestamp;
     std::string descriptionStr = desc.str();
-    OHHiAppEventReportFrameworkMemAnomalyFn reportFrameworkMemAnomaly = resolveOHHiAppEventReportFrameworkMemAnomaly();
-    if (reportFrameworkMemAnomaly == nullptr) {
-        DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly symbol not found");
-        return;
-    }
+
     int reportResult = reportFrameworkMemAnomaly(
         OH_KMP_KOTLIN, KN_STRINGIFY(KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION), descriptionStr.c_str());
     DBG_OOM("HiAppEvent: ReportFrameworkMemAnomaly finished. result=%{public}d", reportResult);
