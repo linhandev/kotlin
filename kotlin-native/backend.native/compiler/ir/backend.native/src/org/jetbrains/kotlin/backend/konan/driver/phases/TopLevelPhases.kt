@@ -448,6 +448,12 @@ internal fun <C : PhaseContext> PhaseEngine<C>.compileAndLink(
             cacheBinaries,
     )
     runPhase(LinkerPhase, linkerPhaseInput)
+    val copyDynamicLibrariesPhaseInput = CopyDynamicLibrariesPhaseInput(
+            linkerOutputKind,
+            outputFiles,
+            moduleCompilationOutput.dependenciesTrackingResult
+    )
+    runPhase(CopyDynamicLibrariesPhase, copyDynamicLibrariesPhaseInput)
     if (context.config.produce.isCache) {
         runPhase(FinalizeCachePhase, outputFiles)
     }

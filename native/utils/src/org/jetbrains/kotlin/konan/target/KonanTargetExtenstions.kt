@@ -103,3 +103,9 @@ val KonanTarget.supportsGrandCentralDispatch
 
 val KonanTarget.supportsSignposts
     get() = family.isAppleFamily
+
+fun KonanTarget.supportsCRT(): Boolean =
+    family != Family.ANDROID 
+    && family != Family.WATCHOS 
+    && family != Family.TVOS
+    && this != KonanTarget.LINUX_ARM32_HFP

@@ -18,6 +18,14 @@ mm::ThreadRegistry& mm::ThreadRegistry::Instance() noexcept {
 }
 
 mm::ThreadRegistry::Node* mm::ThreadRegistry::RegisterCurrentThread() noexcept {
+#ifdef USE_CRT
+    // First take lock of MutatorManager for gc, avoid dead lock while gc iterate ThreadRegistry
+    // Kotlin::ThreadData is 1-1 corresponding to CRT ThreadHolder
+    // This also assume ThreadData is created on a new OSThread
+    auto threadHolder = common::ThreadHolder::CreateAndRegisterNewThreadHolder(nullptr);
+    threadHolder->BindMutator();
+#endif
+
     auto lock = list_.LockForIter();
     auto* threadDataNode = list_.Emplace(konan::currentThreadId());
     AssertThreadState(threadDataNode->Get(), ThreadState::kNative);
@@ -25,6 +33,9 @@ mm::ThreadRegistry::Node* mm::ThreadRegistry::RegisterCurrentThread() noexcept {
     RuntimeAssert(!IsCurrentThreadRegistered(), "This thread already had some data assigned to it.");
     currentDataNode = threadDataNode;
     threadDataNode->Get()->gc().onThreadRegistration();
+#ifdef USE_CRT
+    threadDataNode->Get()->SetThreadHolder(threadHolder);
+#endif
     return threadDataNode;
 }
 

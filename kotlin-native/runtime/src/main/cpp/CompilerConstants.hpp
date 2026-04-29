@@ -29,6 +29,7 @@ extern "C" const int32_t Kotlin_concurrentWeakSweep;
 extern "C" const int32_t Kotlin_gcMarkSingleThreaded;
 extern "C" const int32_t Kotlin_fixedBlockPageSize;
 extern "C" const int32_t Kotlin_pagedAllocator;
+extern "C" const int32_t Kotlin_memoryManagerMode;
 
 class SourceInfo;
 
@@ -40,6 +41,13 @@ enum class RuntimeAssertsMode : int32_t {
     kIgnore = 0,
     kLog = 1,
     kPanic = 2,
+};
+
+// Must match MemoryManagerMode in MemoryManagerMode.kt
+enum class MemoryManagerMode : int32_t {
+    kNative = 0,
+    kCRT = 1,
+    kRuntimeSwitch = 2,
 };
 
 // Must match AppStateTracking in AppStateTracking.kt
@@ -54,6 +62,10 @@ ALWAYS_INLINE inline bool shouldContainDebugInfo() noexcept {
 
 ALWAYS_INLINE inline RuntimeAssertsMode runtimeAssertsMode() noexcept {
     return static_cast<RuntimeAssertsMode>(Kotlin_runtimeAssertsMode);
+}
+
+ALWAYS_INLINE inline MemoryManagerMode memoryManagerMode() noexcept {
+    return static_cast<MemoryManagerMode>(Kotlin_memoryManagerMode);
 }
 
 ALWAYS_INLINE inline bool runtimeAssertsEnabled() noexcept {

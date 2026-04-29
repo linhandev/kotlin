@@ -116,6 +116,21 @@ internal class Linker(
         return result
     }
 
+    private fun asLinkerArgs(konanTarget: KonanTarget, binaries: List<String>): List<String> {
+        val dynamicPrefix = konanTarget.family.dynamicPrefix
+        val dynamicSuffix = konanTarget.family.dynamicSuffix
+        val validLibraries = binaries.filter { it.endsWith(".${dynamicSuffix}") }
+                .map { File(it) }
+                .filter { it.name.startsWith(dynamicPrefix) }
+
+        return validLibraries.flatMap {
+            listOf(
+                    "-L${it.parentFile.canonicalPath}",
+                    "-l${it.name.removePrefix(dynamicPrefix).removeSuffix(".${dynamicSuffix}")}"
+            )
+        }
+    }
+
     private fun runLinker(
             outputFile: String,
             objectFiles: List<ObjectFile>,
@@ -168,16 +183,35 @@ internal class Linker(
         File(executable).delete()
 
         val moduleIncludesFlags = buildModuleIncludesLinkerFlags()
-        val linkerArgs = asLinkerArgs(config.configuration.getNotNull(KonanConfigKeys.LINKER_ARGS)) +
+        val linkerArgsForDynamicLibs = asLinkerArgs(config.target, includedBinaries)
+        
+        var linkerArgs = asLinkerArgs(config.configuration.getNotNull(KonanConfigKeys.LINKER_ARGS)) +
                 caches.dynamic +
-                libraryProvidedLinkerFlags + additionalLinkerArgs + moduleIncludesFlags
+                libraryProvidedLinkerFlags + additionalLinkerArgs + moduleIncludesFlags +
+                linkerArgsForDynamicLibs
+        
+        var libraries = linker.linkStaticLibraries(includedBinaries) + caches.static
+        
+        if (config.allocationMode == AllocationMode.CRT) {
+            val libcrtPath = System.getenv("LIBCRT_PATH")
+            if (libcrtPath != null) {
+                libraries += listOf("${libcrtPath}/libcrt.so")
+                linkerArgs += if (target.family.isAppleFamily) {
+                    listOf("-rpath", libcrtPath)
+                } else {
+                    listOf("-rpath=$libcrtPath")
+                }
+            } else {
+                throw IllegalStateException("LIBCRT_PATH environment variable must be set for CRT allocation mode")
+            }
+        }
 
         return with(linker) {
             LinkerArguments(
                     tempFiles = tempFiles,
                     objectFiles = objectFiles,
                     executable = executable,
-                    libraries = linker.linkStaticLibraries(includedBinaries) + caches.static,
+                    libraries = libraries,
                     linkerArgs = linkerArgs,
                     optimize = optimize,
                     debug = debug,

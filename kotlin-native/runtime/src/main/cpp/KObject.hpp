@@ -8,9 +8,15 @@
 #include "Memory.h"
 #include "TypeInfo.h"
 #include "TypeLayout.hpp"
+#include "Types.h"
 #include "Utils.hpp"
 
 namespace kotlin {
+
+// CRT hash implamentation
+#ifdef USE_CRT
+typedef KInt CRTHash;
+#endif
 
 struct KObject : private Pinned {
     class descriptor {
@@ -26,7 +32,11 @@ struct KObject : private Pinned {
 
         uint64_t size() const noexcept {
             RuntimeAssert(typeInfo_ != nullptr, "Cannot call size() on KObject::descriptor(nullptr)");
-            return typeInfo_->instanceSize_;
+            auto size = typeInfo_->instanceSize_;
+#ifdef USE_CRT
+            size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
+#endif
+            return size;
         }
 
         value_type* construct(uint8_t* ptr) noexcept {
@@ -73,7 +83,11 @@ struct KArray : private Pinned {
             // -(int32_t min) * uint32_t max cannot overflow uint64_t. And are capped
             // at about half of uint64_t max.
             auto elementsSize = elementSize * count_;
-            return AlignUp<uint64_t>(AlignUp(sizeof(ArrayHeader), elementAlignment) + elementsSize, alignment());
+            auto size = AlignUp<uint64_t>(AlignUp(sizeof(ArrayHeader), elementAlignment) + elementsSize, alignment());
+#ifdef USE_CRT
+            size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
+#endif
+            return size;
         }
 
         value_type* construct(uint8_t* ptr) noexcept {

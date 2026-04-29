@@ -1867,16 +1867,20 @@ internal class CodeGeneratorVisitor(
         }
         val fieldAddress: LLVMValueRef
 
+        val thisPtr: LLVMValueRef
         when {
             !value.symbol.owner.isStatic -> {
-                fieldAddress = fieldPtrOfClass(evaluateExpression(value.receiver!!), value.symbol.owner)
+                thisPtr = evaluateExpression(value.receiver!!)
+                fieldAddress = fieldPtrOfClass(thisPtr, value.symbol.owner)
                 alignment = generationState.llvmDeclarations.forField(value.symbol.owner).alignment
             }
             value.symbol.owner.correspondingPropertySymbol?.owner?.isConst == true -> {
                 // TODO: probably can be removed, as they are inlined.
+                thisPtr = codegen.kNullObjHeaderPtr
                 return evaluateConst(value.symbol.owner.initializer?.expression as IrConst).llvm
             }
             else -> {
+                thisPtr = codegen.kNullObjHeaderPtr
                 fieldAddress = staticFieldPtr(value.symbol.owner, functionGenerationContext)
                 alignment = generationState.llvmDeclarations.forStaticField(value.symbol.owner).alignment
             }
@@ -1888,7 +1892,8 @@ internal class CodeGeneratorVisitor(
                 !value.symbol.owner.isFinal,
                 resultSlot,
                 memoryOrder = order,
-                alignment = alignment
+                alignment = alignment,
+                thisPtr = thisPtr
         )
     }
 
@@ -1945,7 +1950,7 @@ internal class CodeGeneratorVisitor(
         functionGenerationContext.storeAny(
                 valueToAssign, address, value.symbol.owner.type.binaryTypeIsReference(), false,
                 isVolatile = value.symbol.owner.hasAnnotation(KonanFqNames.volatile),
-                alignment = alignment,
+                alignment = alignment, thisPtr = thisPtr ?: codegen.kNullObjHeaderPtr
         )
 
         assert (value.type.isUnit())
@@ -3182,8 +3187,9 @@ internal fun NativeGenerationState.generateRuntimeConstantsModule() : LLVMModule
     setRuntimeConstGlobal("Kotlin_runtimeLogs", runtimeLogs)
     setRuntimeConstGlobal("Kotlin_concurrentWeakSweep", llvm.constInt32(if (context.config.concurrentWeakSweep) 1 else 0))
     setRuntimeConstGlobal("Kotlin_gcMarkSingleThreaded", llvm.constInt32(if (config.gcMarkSingleThreaded) 1 else 0))
-    setRuntimeConstGlobal("Kotlin_fixedBlockPageSize", llvm.constInt32(config.fixedBlockPageSize.toInt()))
+setRuntimeConstGlobal("Kotlin_fixedBlockPageSize", llvm.constInt32(config.fixedBlockPageSize.toInt()))
     setRuntimeConstGlobal("Kotlin_pagedAllocator", llvm.constInt32(if (config.pagedAllocator) 1 else 0))
+    setRuntimeConstGlobal("Kotlin_memoryManagerMode", llvm.constInt32(config.memoryManagerMode.value))
 
     return llvmModule
 }

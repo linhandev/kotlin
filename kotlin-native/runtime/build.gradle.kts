@@ -67,7 +67,24 @@ val targetList = enabledTargets(extensions.getByType<PlatformManager>())
 bitcode {
     allTargets {
         module("main") {
-            headersDirs.from("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/breakpad/cpp", "src/crashHandler/common/cpp")
+            headersDirs.from(files(
+                "src/externalCallsChecker/common/cpp",
+                "src/objcExport/cpp",
+                "src/breakpad/cpp",
+                "src/crashHandler/common/cpp",
+                "src/gc/crt/cpp",
+                "src/alloc/crt/cpp",
+                "src/mm/cpp",
+                "src/alloc/common/cpp",
+                "src/gc/common/cpp",
+                "src/main/cpp",
+                "../../third-party/common-rt",
+                "../../third-party/common-rt/common_interfaces",
+                "../../third-party/common-rt/common_components",
+                "../../third-party/common-rt/libpandabase",
+                "../../third-party/common-rt/libpandabase/utils",
+                "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
             sourceSets {
                 main {
                     // When -Pkotlin.native.runtime.excludeNapi=true, exclude NapiInterface.cpp
@@ -233,7 +250,20 @@ bitcode {
 
         module("common_alloc") {
             srcRoot.set(layout.projectDirectory.dir("src/alloc/common"))
-            headersDirs.from(files("src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            headersDirs.from(files(
+                "src/gcScheduler/common/cpp",
+                "src/gc/common/cpp",
+                "src/mm/cpp",
+                "src/externalCallsChecker/common/cpp",
+                "src/objcExport/cpp",
+                "src/main/cpp",
+                "../../third-party/common-rt",
+                "../../third-party/common-rt/common_interfaces",
+                "../../third-party/common-rt/common_components",
+                "../../third-party/common-rt/libpandabase",
+                "../../third-party/common-rt/libpandabase/utils",
+                "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
             sourceSets {
                 main {}
                 test {}
@@ -247,15 +277,72 @@ bitcode {
 
         module("std_alloc") {
             srcRoot.set(layout.projectDirectory.dir("src/alloc/std"))
-            headersDirs.from(files("src/alloc/common/cpp", "src/alloc/legacy/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            headersDirs.from(files(
+                "src/alloc/common/cpp",
+                "src/alloc/legacy/cpp",
+                "src/gcScheduler/common/cpp",
+                "src/gc/common/cpp",
+                "src/mm/cpp",
+                "src/externalCallsChecker/common/cpp",
+                "src/objcExport/cpp",
+                "src/main/cpp",
+                "../../third-party/common-rt",
+                "../../third-party/common-rt/common_interfaces",
+                "../../third-party/common-rt/common_components",
+                "../../third-party/common-rt/libpandabase",
+                "../../third-party/common-rt/libpandabase/utils",
+                "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
             sourceSets {
                 main {}
             }
         }
 
+        module("crt_alloc") {
+            srcRoot.set(layout.projectDirectory.dir("src/alloc/crt"))
+            headersDirs.from(files(
+                "src",
+                "src/gc/crt/cpp",
+                "src/alloc/common/cpp",
+                "src/gcScheduler/common/cpp",
+                "src/gc/common/cpp",
+                "src/mm/cpp",
+                "src/externalCallsChecker/common/cpp",
+                "src/objcExport/cpp",
+                "src/main/cpp",
+                "../../third-party/common-rt",
+                "../../third-party/common-rt/common_interfaces",
+                "../../third-party/common-rt/common_components",
+                "../../third-party/common-rt/libpandabase",
+                "../../third-party/common-rt/libpandabase/utils",
+                "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
+            sourceSets {
+                main {}
+                test {}
+                testFixtures {}
+            }
+
+            onlyIf { it.supportsCRT() }
+        }
+
         module("custom_alloc") {
             srcRoot.set(layout.projectDirectory.dir("src/alloc/custom"))
-            headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            headersDirs.from(files(
+                "src/alloc/common/cpp",
+                "src/gcScheduler/common/cpp",
+                "src/gc/common/cpp",
+                "src/mm/cpp",
+                "src/externalCallsChecker/common/cpp",
+                "src/objcExport/cpp",
+                "src/main/cpp",
+                "../../third-party/common-rt",
+                "../../third-party/common-rt/common_interfaces",
+                "../../third-party/common-rt/common_components",
+                "../../third-party/common-rt/libpandabase",
+                "../../third-party/common-rt/libpandabase/utils",
+                "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
             sourceSets {
                 main {}
                 test {}
@@ -269,9 +356,23 @@ bitcode {
             testSupportModules.addAll("main", "noop_externalCallsChecker", "mm", "common_alloc", "common_gc", "concurrent_ms_gc", "common_gcScheduler", "manual_gcScheduler", "objc", "noop_crashHandler")
         }
 
-        module("legacy_alloc") {
+module("legacy_alloc") {
             srcRoot.set(layout.projectDirectory.dir("src/alloc/legacy"))
-            headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            headersDirs.from(files(
+                "src/alloc/common/cpp",
+                "src/gcScheduler/common/cpp",
+                "src/gc/common/cpp",
+                "src/mm/cpp",
+                "src/externalCallsChecker/common/cpp",
+                "src/objcExport/cpp",
+                "src/main/cpp",
+                "../../third-party/common-rt",
+                "../../third-party/common-rt/common_interfaces",
+                "../../third-party/common-rt/common_components",
+                "../../third-party/common-rt/libpandabase",
+                "../../third-party/common-rt/libpandabase/utils",
+                "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
             sourceSets {
                 main {}
                 test {}
@@ -344,7 +445,20 @@ bitcode {
 
         module("common_gc") {
             srcRoot.set(layout.projectDirectory.dir("src/gc/common"))
-            headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            headersDirs.from(files(
+                "src/alloc/common/cpp",
+                "src/gcScheduler/common/cpp",
+                "src/mm/cpp",
+                "src/externalCallsChecker/common/cpp",
+                "src/objcExport/cpp",
+                "src/main/cpp",
+                "../../third-party/common-rt",
+                "../../third-party/common-rt/common_interfaces",
+                "../../third-party/common-rt/common_components",
+                "../../third-party/common-rt/libpandabase",
+                "../../third-party/common-rt/libpandabase/utils",
+                "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
             sourceSets {
                 main {}
                 test {}
@@ -354,6 +468,32 @@ bitcode {
         testsGroup("common_gc_test") {
             testedModules.addAll("common_gc")
             testSupportModules.addAll("main", "mm", "noop_externalCallsChecker", "common_alloc", "custom_alloc", "noop_gc", "common_gcScheduler", "manual_gcScheduler", "objc", "noop_crashHandler")
+        }
+
+        module("cmc_gc") {
+            srcRoot.set(layout.projectDirectory.dir("src/gc/crt"))
+            headersDirs.from(files(
+                "src",
+                "src/alloc/crt/cpp",
+                "src/alloc/common/cpp",
+                "src/gcScheduler/common/cpp",
+                "src/gc/common/cpp",
+                "src/mm/cpp",
+                "src/externalCallsChecker/common/cpp",
+                "src/objcExport/cpp",
+                "src/main/cpp",
+                "../../third-party/common-rt",
+                "../../third-party/common-rt/common_interfaces",
+                "../../third-party/common-rt/common_components",
+                "../../third-party/common-rt/libpandabase",
+                "../../third-party/common-rt/libpandabase/utils",
+                "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
+            sourceSets {
+                main {}
+            }
+
+            onlyIf { it.supportsCRT() }
         }
 
         module("noop_gc") {
@@ -460,7 +600,7 @@ bitcode {
 
         module("aggressive_gcScheduler") {
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/aggressive"))
-            headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            headersDirs.from(files("src/alloc/common/cpp", "src/alloc/crt/cpp", "src/gc/crt/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
                 test {}

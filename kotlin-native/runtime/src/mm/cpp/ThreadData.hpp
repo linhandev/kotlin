@@ -21,6 +21,11 @@
 #include "ThreadSuspension.hpp"
 #include "Logging.hpp"
 
+#ifdef USE_CRT
+#include "common_interfaces/thread/thread_holder-inl.h"
+#else
+namespace common { class ThreadHolder; }
+#endif
 #include "Runtime.h"
 #include "VerifyKotlinStack.hpp"
 
@@ -165,6 +170,11 @@ public:
 
     void Publish() noexcept {
         // TODO: These use separate locks, which is inefficient.
+
+        // TODO: This publishes:
+        // 1. all global roots in thread-local to public
+        // 2. All TLS special ref to public
+        // Later we might be able to flip the mutator to do their own work
         globalsThreadQueue_.Publish();
         externalRCRefRegistry_.publish();
     }
@@ -173,6 +183,38 @@ public:
         globalsThreadQueue_.ClearForTests();
         externalRCRefRegistry_.clearForTests();
         allocator_.clearForTests();
+    }
+
+#ifdef USE_CRT
+    common::ThreadHolder *GetThreadHolder() const {
+        return threadHolder;
+    }
+    void SetThreadHolder(common::ThreadHolder *holder) {
+        threadHolder = holder;
+        void* mutator = threadHolder->GetMutator();
+        reinterpret_cast<common::MutatorBase*>(mutator)->SetThread(this);
+        RuntimeAssert(reinterpret_cast<common::MutatorBase*>(mutator)->GetThread() == this, "unknown error");
+    }
+    void ClearThreadHolder() {
+        threadHolder->UnbindMutator();
+        common::ThreadHolder::DestroyThreadHolder(threadHolder);
+        threadHolder = nullptr;
+    }
+#endif // USE_CRT
+
+    // outside the #ifdef USE_CRT for KNRootsVisitor::VisitMutatorRoots
+    static ThreadData* EvalKotlinThreadData(common::ThreadHolder* threadHolder) {
+#ifdef USE_CRT
+        auto* mutator = reinterpret_cast<common::MutatorBase*>(threadHolder->GetMutator());
+        auto* result = reinterpret_cast<ThreadData*>(mutator->GetThread());
+        if (result == nullptr) {
+            return nullptr;
+        }
+        RuntimeAssert(result->threadHolder == threadHolder, "threadHolder must be bound correctly");
+        return result;
+#else
+        return nullptr;
+#endif // USE_CRT
     }
 
 private:
@@ -186,10 +228,11 @@ private:
     gc::GC::ThreadData gc_;
     std::vector<std::pair<ObjHeader**, ObjHeader*>> initializingSingletons_;
     ThreadSuspensionData suspensionData_;
-    // save all function pc in this thread
     std::vector<void*> funcPCs_;
-
     KotlinFrame lastKotlinFrame_{};
+#ifdef USE_CRT
+    common::ThreadHolder *threadHolder = nullptr;
+#endif
 };
 
 } // namespace mm

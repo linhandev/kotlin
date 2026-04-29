@@ -17,10 +17,22 @@
 #include "Worker.h"
 #include "KString.h"
 #include "CrashHandler.hpp"
+#include <algorithm>
 #include <atomic>
 #include <cstdint>
 #include <cstdlib>
+#include <string>
 #include <thread>
+
+#ifdef USE_CRT
+#include "base/common.h"
+#include "CRTRuntime.hpp"
+#endif
+
+#define FILE_WRITER 0
+#if FILE_WRITER
+#include "FileWriter.h"
+#endif
 
 using namespace kotlin;
 
@@ -93,6 +105,10 @@ std::atomic<GlobalRuntimeStatus> globalRuntimeStatus = kGlobalRuntimeUninitializ
 
 void Kotlin_deinitRuntimeCallback(void* argument);
 
+#ifdef USE_CRT
+NO_INLINE void initAddressScope();
+#endif
+
 NO_INLINE RuntimeState* initRuntime() {
   SetKonanTerminateHandler();
   initObjectPool();
@@ -107,6 +123,11 @@ NO_INLINE RuntimeState* initRuntime() {
   ++aliveRuntimesCount;
 
   bool firstRuntime = initializeGlobalRuntimeIfNeeded();
+#ifdef USE_CRT
+  if (firstRuntime) {
+      InitCRTRuntime();
+  }
+#endif
   result->memoryState = InitMemory();
   // Switch thread state because worker and globals inits require the runnable state.
   // This call may block if GC requested suspending threads.
@@ -151,6 +172,8 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
   delete state;
   WorkerDestroyThreadDataIfNeeded(workerId);
   ::runtimeState = kInvalidRuntime;
+  // TODO: crt common::BaseRuntime::GetInstance()->Fini()
+  // TODO: crt common::BaseRuntime::GetInstance()->DestroyInstance()
 }
 
 void Kotlin_deinitRuntimeCallback(void* argument) {
@@ -159,7 +182,6 @@ void Kotlin_deinitRuntimeCallback(void* argument) {
   kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
   deinitRuntime(state, false);
 }
-
 }  // namespace
 
 bool kotlin::initializeGlobalRuntimeIfNeeded() noexcept {
