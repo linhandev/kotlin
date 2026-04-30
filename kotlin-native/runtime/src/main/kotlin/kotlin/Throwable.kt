@@ -33,15 +33,37 @@ public actual constructor(
 
     public actual constructor() : this(null, null)
 
+    @Suppress("DEPRECATION")
     @get:ExportForCppRuntime("Kotlin_Throwable_getStackTrace")
-    private val stackTrace: NativePtrArray = getCustomStackTrace()
+    private val stackTrace: NativePtrArray = getCurrentStackTraceInner()
 
     private val stackTraceStrings: Array<String> by lazy {
         getStackTraceStrings(stackTrace)
     }
 
-    internal open fun getCustomStackTrace(): NativePtrArray {
-        return getCurrentStackTrace()
+    /**
+     * In the scenario of frequent cancellation of coroutines, performance will significantly decrease due to the long stack back time
+     * caused by a large number of CancellationException;
+     * So here it is provided to the subclass to decide whether to retrieve the current stack information.
+     */
+    @Deprecated(
+            "In later versions, there will be a better solution to provide an option switch for whether to expand stack information",
+            level = DeprecationLevel.WARNING
+    )
+    @Suppress("DEPRECATION")
+    public open fun keepStackTrace(): Boolean = true
+
+    @Deprecated(
+            "In later versions, there will be a better solution to provide an option switch for whether to expand stack information",
+            level = DeprecationLevel.WARNING
+    )
+    @Suppress("DEPRECATION")
+    private fun getCurrentStackTraceInner(): NativePtrArray {
+        return if (keepStackTrace()) {
+            getCurrentStackTrace()
+        } else {
+            emptyNativePtrArray
+        }
     }
 
     /**
@@ -157,6 +179,12 @@ public actual constructor(
 @GCUnsafeCall("Kotlin_getCurrentStackTrace", true)
 @Escapes.Nothing
 private external fun getCurrentStackTrace(): NativePtrArray
+
+@GCUnsafeCall("Kotlin_getEmptyStackTrace")
+@Escapes.Nothing
+private external fun getEmptyStackTrace(): NativePtrArray
+
+private val emptyNativePtrArray: NativePtrArray = getEmptyStackTrace()
 
 @GCUnsafeCall("Kotlin_getStackTraceStrings", true)
 @Escapes.Nothing
