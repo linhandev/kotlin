@@ -74,7 +74,7 @@ PERFORMANCE_INLINE void* ObjHeader::CasAssociatedObject(void* expectedObj, void*
 
 // static
 MetaObjHeader* ObjHeader::createMetaObject(ObjHeader* object) {
-    auto ret= mm::ExtraObjectData::Install(object).AsMetaObjHeader();
+    auto ret = mm::ExtraObjectData::Install(object).AsMetaObjHeader();
 #ifdef USE_CRT
     RuntimeAssert(false, "Should not be reachable from CRT");
 #endif
@@ -89,7 +89,8 @@ void ObjHeader::destroyMetaObject(ObjHeader* object) {
 }
 
 #ifdef USE_CRT
-ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj) {
+ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj)
+{
     if (obj->permanent()) return true;
     // CRT allocator does not support freezing, objects are always mutable
     // ExtraObjectData is not available for CRT objects
@@ -155,7 +156,8 @@ extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, cons
 #ifdef USE_CRT
 extern "C" const MemoryModel CurrentMemoryModel = MemoryModel::kExperimental;
 
-NO_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRefSlow(ObjHeader** location, ObjHeader* thisPtr) {
+NO_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRefSlow(ObjHeader** location, ObjHeader* thisPtr)
+{
     return mm::RefAccessor<false>(location, thisPtr);
 }
 
@@ -191,15 +193,21 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStackRef(ObjHeader** lo
 }
 
 #ifdef USE_CRT
-extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
-    mm::RefAccessor<false>(location, thisPtr) = const_cast<ObjHeader*>(object);
-}
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location,
+    const ObjHeader* object, ObjHeader* thisPtr)
+    {
+        mm::RefAccessor<false>(location, thisPtr) = const_cast<ObjHeader*>(object);
+    }
 
-extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
-    mm::RefAccessor<false>(location, thisPtr).storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
-}
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHeader** location,
+    const ObjHeader* object, ObjHeader* thisPtr)
+    {
+        mm::RefAccessor<false>(location, thisPtr).storeAtomic(
+            const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
+    }
 
-extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location,
+    ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
 #else
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location, const ObjHeader* object) {
     mm::RefAccessor<false>{location} = const_cast<ObjHeader*>(object);
@@ -221,14 +229,19 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileH
 }
 
 #ifdef USE_CRT
-extern "C" ALWAYS_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
-    return mm::RefAccessor<false>(location, thisPtr).compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
-}
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location,
+    ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr)
+    {
+        return mm::RefAccessor<false>(location, thisPtr).compareAndExchange(
+            expectedValue, newValue, std::memory_order_seq_cst);
+    }
 
-extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue, ObjHeader* thisPtr) {
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location,
+    ObjHeader* newValue, ObjHeader* thisPtr) {
     RETURN_OBJ(mm::RefAccessor<false>(location, thisPtr).exchange(newValue, std::memory_order_seq_cst));
 #else
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
+extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(
+    ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
     return mm::RefAccessor<false>{location}.compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
 }
 
@@ -297,7 +310,7 @@ extern "C" RUNTIME_NOTHROW ObjHeader** LookupTLS(void** key, int index) {
 
 extern "C" void Kotlin_native_internal_GC_collect(ObjHeader*) {
 #ifdef USE_CRT
-    common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER , false, common::GCType::GC_TYPE_FULL);
+    common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER, false, common::GCType::GC_TYPE_FULL);
 #else
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);

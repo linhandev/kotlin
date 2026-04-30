@@ -51,11 +51,13 @@ public:
         bool operator==(const Iterator& rhs) const noexcept;
         bool operator!=(const Iterator& rhs) const noexcept { return !(*this == rhs); }
 
-        ShadowStack::Iterator GetStackIterator() {
+        ShadowStack::Iterator GetStackIterator()
+        {
             return stackIterator_;
         }
 
-        bool IsStackIterator() const {
+        bool IsStackIterator() const
+        {
             return (phase_ == Phase::kStack);
         }
 

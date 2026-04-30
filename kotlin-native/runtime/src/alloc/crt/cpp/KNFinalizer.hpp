@@ -26,7 +26,8 @@ public:
     void attachCurrentThread() override { Kotlin_initRuntimeIfNeeded(); }
     void invokeFinalizer(BaseObject* obj) const override { kotlin::RunFinalizers(reinterpret_cast<ObjHeader*>(obj)); }
 
-    static KNFinalizationInterface& Instance() {
+    static KNFinalizationInterface& Instance()
+    {
         static KNFinalizationInterface instance;
         return instance;
     }

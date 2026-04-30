@@ -22,17 +22,19 @@
 #define FORCE_INLINE __attribute__((always_inline)) inline
 
 /// `Slow` mode can be used in any place, but it will load a value to check from a global variable.
-/// `Fast` is only available in kRunnable state and relies on the value of x28 register being consistent with the global var.
+/// `Fast` is only available in kRunnable state and relies on the value of x28 register
+/// being consistent with the global var.
 enum class CheckMode { Slow, Fast };
 
 /// If currently selected MemoryManager is CRT then execute given `crt_f`, otherwise execute `else_f`.
 template<CheckMode mode, typename F, typename G>
-FORCE_INLINE auto checkUseCRT(F crt_f, G else_f) {
+FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
+{
     using namespace kotlin;
 
     // First check if the memory manager to use is defined via compile-time option.
-    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kCRT) return crt_f();
-    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kNative) return else_f();
+    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kCRT) { return crt_f(); }
+    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kNative) { return else_f(); }
 
     // Otherwise we are to select proper MM based on the run-time option.
     RuntimeAssert(compiler::memoryManagerMode() == compiler::MemoryManagerMode::kRuntimeSwitch,
@@ -43,13 +45,15 @@ FORCE_INLINE auto checkUseCRT(F crt_f, G else_f) {
 
 /// If currently selected MemoryManager is CRT then execute given `crt_f`, otherwise do nothing.
 template<CheckMode mode, typename F>
-FORCE_INLINE void checkUseCRT(F crt_f) {
-    checkUseCRT<mode>(crt_f, []{});
+FORCE_INLINE void checkUseCRT(F crt_f)
+{
+    checkUseCRT<mode>(crt_f, [] {});
 }
 
 /// If currently selected MemoryManager is CRT then crash, otherwise fall through to the next line in caller.
 template<CheckMode mode = CheckMode::Slow>
-FORCE_INLINE void assertNotCRT() {
+FORCE_INLINE void assertNotCRT()
+{
     checkUseCRT<mode>([] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is disabled");
         std::abort();
@@ -58,8 +62,9 @@ FORCE_INLINE void assertNotCRT() {
 
 /// If currently selected MemoryManager is CRT then fall through to the next line in caller, otherwise crash.
 template<CheckMode mode = CheckMode::Slow>
-FORCE_INLINE void assertUseCRT() {
-    checkUseCRT<mode>([]{}, [] {
+FORCE_INLINE void assertUseCRT()
+{
+    checkUseCRT<mode>([] {}, [] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is enabled");
         std::abort();
     });

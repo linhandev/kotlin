@@ -30,7 +30,8 @@ namespace common {
 
 class KNRootsVisitor : public common::RootsRegistryInterface, private kotlin::Pinned {
 public:
-    void VisitGlobalRoots(const RefFieldVisitor& visitor) {
+    void VisitGlobalRoots(const RefFieldVisitor& visitor)
+    {
         auto phase = common::GetGCPhase();
         if (phase == common::GCPhase::GC_PHASE_FINAL_MARK) {
             CollectRootSetAndFixDerivedPtr(visitor);
@@ -39,32 +40,39 @@ public:
         TraverseAllRoots(ObjectVisitor{visitor});
     }
 
-    void VisitConcurrentRoots(const RefFieldVisitor& visitor) {
+    void VisitConcurrentRoots(const RefFieldVisitor& visitor)
+    {
         // TODO:
     }
 
-    void VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHolder* th) {
+    void VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHolder* th)
+    {
         // TODO:
     }
 
-    void VisitGlobalWeakRoots(const WeakRefFieldVisitor& visitor, bool isYoung) {
+    void VisitGlobalWeakRoots(const WeakRefFieldVisitor& visitor, bool isYoung)
+    {
         // TODO:
     }
 
-    void VisitMutatorWeakRoots(const WeakRefFieldVisitor& visitor, ThreadHolder* th, bool isYoung) {
+    void VisitMutatorWeakRoots(const WeakRefFieldVisitor& visitor, ThreadHolder* th, bool isYoung)
+    {
         // TODO:
     }
 
-    void VisitGlobalPreforwardRoots(const RefFieldVisitor& visitor) {
+    void VisitGlobalPreforwardRoots(const RefFieldVisitor& visitor)
+    {
         // TODO:
         KNRootsVisitor::VisitGlobalRoots(visitor);
     }
 
-    void VisitMutatorPreforwardRoots(const RefFieldVisitor& visitor, ThreadHolder* th) {
+    void VisitMutatorPreforwardRoots(const RefFieldVisitor& visitor, ThreadHolder* th)
+    {
         // TODO:
     }
 
-    static KNRootsVisitor& Instance() {
+    static KNRootsVisitor& Instance()
+    {
         static KNRootsVisitor instance;
         return instance;
     }
@@ -72,9 +80,11 @@ public:
 private:
     // Used to determine whether a given ptr is a pointer to an valid object header.
     // Will be removed once stackmap is ready.
-    static bool isValidObjHeader(void* ptr) noexcept {
+    static bool isValidObjHeader(void* ptr) noexcept
+    {
         auto& refField = reinterpret_cast<common::RefField<>&>(ptr);
-        return common::IsHeapAddress(ptr) && common::KNBaseObjectOperator::Instance().IsValidObject(refField.GetTargetObject());
+        return common::IsHeapAddress(ptr) &&
+                common::KNBaseObjectOperator::Instance().IsValidObject(refField.GetTargetObject());
     }
 
     // A map used to record all base pointer during roots traversal, this will later be used to help identify dervied ptr
@@ -84,7 +94,8 @@ private:
         using Map = std::map<uintptr_t, size_t>;
         void Insert(uintptr_t from, size_t size) { roots_[from] = size; }
         bool Find(uintptr_t addr) const { return roots_.find(addr) != roots_.end(); }
-        uintptr_t TryForwardDerivedPtr(uintptr_t addr) {
+        uintptr_t TryForwardDerivedPtr(uintptr_t addr)
+        {
             auto iter = roots_.lower_bound(addr);
             if (iter == roots_.begin()) {
                 return 0;
@@ -95,7 +106,7 @@ private:
                 return 0;
             }
             uintptr_t base = reinterpret_cast<common::KNStateWord*>(old)->GetForwardingPointerAfterExclusive();
-            ASSERT(isValidObjHeader((void*)base));
+            ASSERT(isValidObjHeader(reinterpret_cast<void*>(base)));
             return base + (addr - old);
         }
 
@@ -107,7 +118,8 @@ private:
     struct ObjectVisitor {
         const common::RefFieldVisitor& visitorFunc_;
 
-        bool operator()(ObjHeader*& object) const {
+        bool operator()(ObjHeader*& object) const
+        {
             auto& refField = reinterpret_cast<common::RefField<>&>(object);
             if (!common::IsHeapAddress(object)) {
                 return false;
@@ -129,7 +141,8 @@ private:
         ForwardedRootMap* rootMap_;
         const common::RefFieldVisitor& visitorFunc_;
 
-        void operator()(ObjHeader*& object) const {
+        void operator()(ObjHeader*& object) const
+        {
             if (!isValidObjHeader(object)) {
                 return;
             }
@@ -149,7 +162,8 @@ private:
     struct FixDerivedPtrVisitor {
         ForwardedRootMap* rootMap_;
 
-        bool operator()(ObjHeader*& stackRef) const {
+        bool operator()(ObjHeader*& stackRef) const
+        {
             if (!common::IsHeapAddress(stackRef)) {
                 return false;
             }
@@ -169,7 +183,8 @@ private:
 
     // Traverse all roots
     template <typename Visitor>
-    void TraverseAllRoots(const Visitor& visitorFunc) {
+    void TraverseAllRoots(const Visitor& visitorFunc)
+    {
         for (auto& thread : kotlin::mm::GlobalData::Instance().threadRegistry().LockForIter()) {
             thread.Publish();
             TraverseRootsOnThread(visitorFunc, thread);
@@ -179,7 +194,8 @@ private:
 
     // Traverse all roots on thread
     template <typename Visitor>
-    void TraverseRootsOnThread(const Visitor& visitorFunc, kotlin::mm::ThreadData& thread) {
+    void TraverseRootsOnThread(const Visitor& visitorFunc, kotlin::mm::ThreadData& thread)
+    {
         TraverseRootsOnThreadStack(visitorFunc, thread);
         for (ObjHeader** tmpObj : thread.tls()) {
             visitorFunc(*tmpObj);
@@ -188,7 +204,8 @@ private:
 
     // A subset of TraverseRootsOnThread, visit only thread's stack
     template <typename Visitor>
-    void TraverseRootsOnThreadStack(const Visitor& visitorFunc, kotlin::mm::ThreadData& thread) {
+    void TraverseRootsOnThreadStack(const Visitor& visitorFunc, kotlin::mm::ThreadData& thread)
+    {
         auto [minFrame, maxFrame] = StackRange(thread);
         for (uintptr_t i = minFrame; i < maxFrame; i += sizeof(uintptr_t)) {
             ObjHeader** tmpObj = (reinterpret_cast<ObjHeader**>(i));
@@ -197,7 +214,8 @@ private:
     }
 
     template <typename Visitor>
-    void TraverseGlobalRoots(const Visitor& visitorFunc) {
+    void TraverseGlobalRoots(const Visitor& visitorFunc)
+    {
         // TODO: Remove useless mm::GlobalRootSet abstraction.
         for (auto value : kotlin::mm::GlobalRootSet()) {
             visitorFunc(value.object);

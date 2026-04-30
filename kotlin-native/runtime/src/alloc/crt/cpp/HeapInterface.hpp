@@ -42,12 +42,14 @@
 namespace common {
 
 // this interface is not "common_interfaces" !!!
-static inline void RegisterFinalizationInterface(BaseFinalizationInterface* impl) {
+static inline void RegisterFinalizationInterface(BaseFinalizationInterface* impl)
+{
     BaseFinalizerProcessor::RegisterFinalizationInterface(impl);
 }
 
 // `RuntimeParam` is "common_interfaces" but the default initializer not !!!
-static inline RuntimeParam DefaultRuntimeParam() {
+static inline RuntimeParam DefaultRuntimeParam()
+{
     return BaseRuntimeParam::DefaultRuntimeParam();
 }
 
@@ -69,30 +71,36 @@ constexpr size_t REGION_DESC_ALLOC_OFF = 0; // RegionDesc::GetAllocPtrOffset();
 constexpr size_t REGION_DESC_END_OFF = sizeof(uintptr_t); // RegionDesc::GetRegionEndOffset();
 
 template <size_t M>
-constexpr size_t RoundDown(size_t n) {
+constexpr size_t RoundDown(size_t n)
+{
     return ((n / M) * M);
 }
 
 template <size_t M>
-constexpr size_t RoundUp(size_t n) {
+constexpr size_t RoundUp(size_t n)
+{
     size_t res = RoundDown<M>(n);
     return res + (res == n ? 0 : M);
 }
 
 // used to allocation fast path optimize
-constexpr size_t HeapAllocateSize(size_t objSize) {
+constexpr size_t HeapAllocateSize(size_t objSize)
+{
+    constexpr size_t minAllocSize = 16;
+    constexpr size_t allocThreshold = 8;
     size_t size = objSize + HEADER_SIZE;
     size = RoundUp<BASE_OBJECT_ALIGNED>(size);
     // TODO: Only Cangjie and kotlin Used
-    if (size <= 8) {
-        size = 16;
+    if (size <= allocThreshold) {
+        size = minAllocSize;
     }
     return size;
 }
 
 // used to barrier fast path optimize
 template <typename T, typename = std::enable_if_t<std::is_integral_v<T> || std::is_pointer_v<T>>>
-static inline size_t IsHeapAddress(T addr) {
+static inline size_t IsHeapAddress(T addr)
+{
     uintptr_t address = reinterpret_cast<uintptr_t>(addr);
     if (address == 0) {
         return false;
@@ -101,28 +109,33 @@ static inline size_t IsHeapAddress(T addr) {
 }
 
 // used to safepoint fast path optimize
-static inline bool IsSafePointActive(void* tls) {
+static inline bool IsSafePointActive(void* tls)
+{
     void* addr = reinterpret_cast<uint8_t*>(tls) + TLS_MUTATOR_OFF;
     return (*reinterpret_cast<MutatorBase**>(addr))->GetSafepointActiveState();
 }
 
 // TODO: shouldn't dependent on GC phase ?
 // roots visit need it, barrier fast path need it
-static inline GCPhase GetGCPhase() {
+static inline GCPhase GetGCPhase()
+{
     return Heap::GetHeap().GetGCPhase();
 }
 
 // used to safepoint, allocation and barrier fast path optimize
-static inline void* GetThreadLocalData() {
+static inline void* GetThreadLocalData()
+{
     return ThreadLocal::GetThreadLocalData();
 }
 
 // TODO: new interface that mark object is nonmoveable
-static inline void BaseObjectPinned(BaseObject* obj) {
+static inline void BaseObjectPinned(BaseObject* obj)
+{
     common::Heap::GetHeap().GetCollector().AddRawPointerObject(obj);
 }
 // TODO: new interface that mark object is moveable
-static inline void BaseObjectUnPinned(BaseObject* obj) {
+static inline void BaseObjectUnPinned(BaseObject* obj)
+{
     common::Heap::GetHeap().GetCollector().RemoveRawPointerObject(obj);
 }
 

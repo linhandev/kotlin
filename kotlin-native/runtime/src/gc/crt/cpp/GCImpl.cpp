@@ -24,27 +24,32 @@ void gc::GC::ThreadData::onThreadRegistration() noexcept {}
 
 ALWAYS_INLINE void gc::GC::ThreadData::onAllocation(ObjHeader* object) noexcept {}
 
-gc::GC::GC(alloc::Allocator&, gcScheduler::GCScheduler&) noexcept {
+gc::GC::GC(alloc::Allocator&, gcScheduler::GCScheduler&) noexcept
+{
     RuntimeLogInfo({kTagGC}, "CMC GC initialized (via Common Runtime)");
 }
 
 gc::GC::~GC() = default;
 
-void gc::GC::ClearForTests() noexcept {
+void gc::GC::ClearForTests() noexcept
+{
     GCHandle::ClearForTests();
 }
 
 // static
-ALWAYS_INLINE void gc::GC::processObjectInMark(void*, ObjHeader*) noexcept {
+ALWAYS_INLINE void gc::GC::processObjectInMark(void*, ObjHeader*) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
 // static
-ALWAYS_INLINE void gc::GC::processArrayInMark(void*, ArrayHeader*) noexcept {
+ALWAYS_INLINE void gc::GC::processArrayInMark(void*, ArrayHeader*) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
-int64_t gc::GC::Schedule() noexcept {
+int64_t gc::GC::Schedule() noexcept
+{
     return 0;
 }
 
@@ -54,40 +59,48 @@ void gc::GC::WaitFinalizers(int64_t epoch) noexcept {}
 
 ALWAYS_INLINE void gc::beforeHeapRefUpdate(mm::DirectRefAccessor ref, ObjHeader* value, bool loadAtomic) noexcept {}
 
-ALWAYS_INLINE OBJ_GETTER(gc::weakRefReadBarrier, std_support::atomic_ref<ObjHeader*> weakReferee) noexcept {
+ALWAYS_INLINE OBJ_GETTER(gc::weakRefReadBarrier, std_support::atomic_ref<ObjHeader*> weakReferee) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
-bool gc::isMarked(ObjHeader*) noexcept {
+bool gc::isMarked(ObjHeader*) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
-ALWAYS_INLINE bool gc::tryResetMark(GC::ObjectData&) noexcept {
+ALWAYS_INLINE bool gc::tryResetMark(GC::ObjectData&) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
 // static
-ALWAYS_INLINE uint64_t type_layout::descriptor<gc::GC::ObjectData>::type::size() noexcept {
+ALWAYS_INLINE uint64_t type_layout::descriptor<gc::GC::ObjectData>::type::size() noexcept
+{
     return 0;
 }
 
 // static
-ALWAYS_INLINE size_t type_layout::descriptor<gc::GC::ObjectData>::type::alignment() noexcept {
+ALWAYS_INLINE size_t type_layout::descriptor<gc::GC::ObjectData>::type::alignment() noexcept
+{
     return 1;
 }
 
 // static
-ALWAYS_INLINE gc::GC::ObjectData* type_layout::descriptor<gc::GC::ObjectData>::type::construct(uint8_t* ptr) noexcept {
+ALWAYS_INLINE gc::GC::ObjectData* type_layout::descriptor<gc::GC::ObjectData>::type::construct(uint8_t* ptr) noexcept
+{
     return reinterpret_cast<gc::GC::ObjectData*>(ptr);
 }
 
-ALWAYS_INLINE bool gc::barriers::ExternalRCRefReleaseGuard::isNoop() {
+ALWAYS_INLINE bool gc::barriers::ExternalRCRefReleaseGuard::isNoop()
+{
     return true;
 }
 
 ALWAYS_INLINE gc::barriers::ExternalRCRefReleaseGuard::ExternalRCRefReleaseGuard(mm::DirectRefAccessor) noexcept {}
 
-ALWAYS_INLINE gc::barriers::ExternalRCRefReleaseGuard::ExternalRCRefReleaseGuard(ExternalRCRefReleaseGuard&&) noexcept = default;
+ALWAYS_INLINE gc::barriers::ExternalRCRefReleaseGuard::ExternalRCRefReleaseGuard(
+    ExternalRCRefReleaseGuard&&) noexcept = default;
 
 ALWAYS_INLINE gc::barriers::ExternalRCRefReleaseGuard::~ExternalRCRefReleaseGuard() noexcept = default;
 

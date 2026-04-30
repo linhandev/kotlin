@@ -51,10 +51,12 @@ private:
 
 class KNBaseObject : public BaseObject {
 public:
-    void SetForwardingPointerAfterExclusive(BaseObject* fwdPtr) {
+    void SetForwardingPointerAfterExclusive(BaseObject* fwdPtr)
+    {
         reinterpret_cast<KNStateWord*>(this)->SetForwardingPointerAfterExclusive(reinterpret_cast<uintptr_t>(fwdPtr));
     }
-    BaseObject* GetForwardingPointerAfterExclusive() const {
+    BaseObject* GetForwardingPointerAfterExclusive() const
+    {
         return reinterpret_cast<BaseObject*>(reinterpret_cast<const KNStateWord*>(this)->GetForwardingPointerAfterExclusive());
     }
     bool IsValid() const { return isValidKotlinObject(reinterpret_cast<const ObjHeader*>(this)); }
@@ -64,7 +66,8 @@ public:
 
 private:
     // This is used for distinguish potential Kotlin reference during root scanning on stack and registers
-    static bool isValidKotlinObject(const ObjHeader* obj) noexcept {
+    static bool isValidKotlinObject(const ObjHeader* obj) noexcept
+    {
         const uintptr_t addr = reinterpret_cast<uintptr_t>(obj);
         // We assume only base pointer here, so it must be 8-bytes aligned.
         // Dervived pointers are collected elsewhere
@@ -85,7 +88,8 @@ private:
 };
 
 // helper function for KNBaseObjectOperator::ForEachRefField
-static inline void processFieldInMark(const RefFieldVisitor& visitor, ObjHeader* object, ObjHeader*& field) noexcept {
+static inline void processFieldInMark(const RefFieldVisitor& visitor, ObjHeader* object, ObjHeader*& field) noexcept
+{
     if (common::IsHeapAddress(field)) {
         visitor(reinterpret_cast<common::RefField<>&>(field));
     }
@@ -98,13 +102,18 @@ public:
     KNBaseObjectOperator() {};
 
     // Get Object allocated size
-    size_t GetSize(const BaseObject* object) const override {
+    size_t GetSize(const BaseObject* object) const override
+    {
         return kotlin::alloc::allocatedHeapSize(const_cast<ObjHeader*>(reinterpret_cast<const ObjHeader*>(object)));
     }
 
-    bool IsValidObject(const BaseObject* object) const override { return reinterpret_cast<const KNBaseObject*>(object)->IsValid(); }
+    bool IsValidObject(const BaseObject* object) const override
+    {
+        return reinterpret_cast<const KNBaseObject*>(object)->IsValid();
+    }
 
-    void ForEachRefField(const BaseObject* object, const RefFieldVisitor& visitor) const override {
+    void ForEachRefField(const BaseObject* object, const RefFieldVisitor& visitor) const override
+    {
         auto* objHeader = const_cast<ObjHeader*>(reinterpret_cast<const ObjHeader*>(object));
 
         if (reinterpret_cast<common::KNBaseObject*>(objHeader)->IsWeakRefImplObject()) {
@@ -123,11 +132,13 @@ public:
         }
     }
 
-    BaseObject* GetForwardingPointer(const BaseObject* object) const override {
+    BaseObject* GetForwardingPointer(const BaseObject* object) const override
+    {
         return reinterpret_cast<const KNBaseObject*>(object)->GetForwardingPointerAfterExclusive();
     }
 
-    void SetForwardingPointerAfterExclusive(BaseObject* object, BaseObject* fwdPtr) override {
+    void SetForwardingPointerAfterExclusive(BaseObject* object, BaseObject* fwdPtr) override
+    {
         reinterpret_cast<KNBaseObject*>(object)->SetForwardingPointerAfterExclusive(fwdPtr);
     }
 
@@ -142,7 +153,8 @@ public:
 
     // Global instance for CRT to operate on KN objects
     // Needs to be registered when runtime init
-    static KNBaseObjectOperator& Instance() {
+    static KNBaseObjectOperator& Instance()
+    {
         static KNBaseObjectOperator instance;
         return instance;
     }

@@ -33,10 +33,11 @@ namespace kotlin {
 extern "C" char end;
 #endif
 
-void initAddressScope() {
+void initAddressScope()
+{
 #ifndef _WIN32
     Dl_info info;
-    int succ = ::dladdr((void*)&initAddressScope, &info);
+    int succ = ::dladdr(reinterpret_cast<void*>(&initAddressScope), &info);
     LOGF_CHECK(succ) << "dladdr fail";
     KEXE_ADDR_START_ = reinterpret_cast<uintptr_t>(info.dli_fbase);
 
@@ -45,7 +46,7 @@ void initAddressScope() {
     auto start = reinterpret_cast<uintptr_t>(::getsegmentdata((mach_header_64*)info.dli_fbase, SEG_DATA, &size));
     KEXE_ADDR_END_ = start + size;
 #else
-    KEXE_ADDR_END_ = (uintptr_t)&end;
+    KEXE_ADDR_END_ = static_cast<uintptr_t>(&end);
 #endif
 
 #else
@@ -55,15 +56,17 @@ void initAddressScope() {
 #endif
 }
 
-inline static bool IsEnableSTWGC() {
-  const char* env = std::getenv("CRT_GC_MODE");
-  std::string mode = env != nullptr ? std::string(env) : "cmc";
-  std::transform(mode.begin(), mode.end(), mode.begin(), ::tolower);
-  return mode != "cmc";
+inline static bool IsEnableSTWGC()
+{
+    const char* env = std::getenv("CRT_GC_MODE");
+    std::string mode = env != nullptr ? std::string(env) : "cmc";
+    std::transform(mode.begin(), mode.end(), mode.begin(), ::tolower);
+    return mode != "cmc";
 }
 
 
-bool InitCRTRuntime() {
+bool InitCRTRuntime()
+{
     static bool initialized = false;
     if (initialized) {
         __builtin_unreachable();

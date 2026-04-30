@@ -186,16 +186,19 @@ public:
     }
 
 #ifdef USE_CRT
-    common::ThreadHolder *GetThreadHolder() const {
+    common::ThreadHolder *GetThreadHolder() const
+    {
         return threadHolder;
     }
-    void SetThreadHolder(common::ThreadHolder *holder) {
+    void SetThreadHolder(common::ThreadHolder *holder)
+    {
         threadHolder = holder;
         void* mutator = threadHolder->GetMutator();
         reinterpret_cast<common::MutatorBase*>(mutator)->SetThread(this);
         RuntimeAssert(reinterpret_cast<common::MutatorBase*>(mutator)->GetThread() == this, "unknown error");
     }
-    void ClearThreadHolder() {
+    void ClearThreadHolder()
+    {
         threadHolder->UnbindMutator();
         common::ThreadHolder::DestroyThreadHolder(threadHolder);
         threadHolder = nullptr;
@@ -203,7 +206,8 @@ public:
 #endif // USE_CRT
 
     // outside the #ifdef USE_CRT for KNRootsVisitor::VisitMutatorRoots
-    static ThreadData* EvalKotlinThreadData(common::ThreadHolder* threadHolder) {
+    static ThreadData* EvalKotlinThreadData(common::ThreadHolder* threadHolder)
+    {
 #ifdef USE_CRT
         auto* mutator = reinterpret_cast<common::MutatorBase*>(threadHolder->GetMutator());
         auto* result = reinterpret_cast<ThreadData*>(mutator->GetThread());

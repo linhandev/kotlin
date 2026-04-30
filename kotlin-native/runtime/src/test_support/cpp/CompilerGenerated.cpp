@@ -58,7 +58,6 @@ struct KBox {
 } // namespace
 
 extern "C" {
-
 extern const int32_t Kotlin_needDebugInfo = 1;
 extern const int32_t Kotlin_runtimeAssertsMode = static_cast<int32_t>(kotlin::compiler::RuntimeAssertsMode::kPanic);
 extern const int32_t Kotlin_memoryManagerMode = static_cast<int32_t>(kotlin::compiler::MemoryManagerMode::kNative);

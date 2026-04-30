@@ -142,9 +142,10 @@ struct ObjHeader {
   }
 
 #ifdef USE_CRT
-  inline bool local() const {
-    return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
-  }
+    inline bool local() const
+    {
+        return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
+    }
 #endif
 
   static MetaObjHeader* createMetaObject(ObjHeader* object);
@@ -159,15 +160,16 @@ static_assert(alignof(ObjHeader) <= kotlin::kObjectAlignment);
   uint32_t count_;
 
 struct ArrayHeader {
-  ARRAY_HEADER_FIELDS
+    ARRAY_HEADER_FIELDS
 
-  const TypeInfo* type_info() const {
-    auto typePtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta_) & kImmTypeInfoMask;
-    return reinterpret_cast<TypeInfo*>(typePtr)->typeInfo_;
-  }
+    const TypeInfo* type_info() const
+    {
+        auto typePtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta_) & kImmTypeInfoMask;
+        return reinterpret_cast<TypeInfo*>(typePtr)->typeInfo_;
+    }
 
-  ObjHeader* obj() { return reinterpret_cast<ObjHeader*>(this); }
-  const ObjHeader* obj() const { return reinterpret_cast<const ObjHeader*>(this); }
+    ObjHeader* obj() { return reinterpret_cast<ObjHeader*>(this); }
+    const ObjHeader* obj() const { return reinterpret_cast<const ObjHeader*>(this); }
 };
 static_assert(alignof(ArrayHeader) <= kotlin::kObjectAlignment);
 
@@ -286,8 +288,10 @@ void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHRO
 void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
 void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
-OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
-bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location,
+    ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue,
+    ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
 OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
 #else
 void UpdateHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;

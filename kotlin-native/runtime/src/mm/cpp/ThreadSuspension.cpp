@@ -59,7 +59,8 @@ PERFORMANCE_INLINE void mm::ThreadSuspensionData::MutatorPauseHandle::resume() n
 // TODO: Rename, see below
 kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadState newState) noexcept {
 #ifdef USE_CRT
-    // for CRT if newState == ThreadState::kRunnable, it's always goto safe point slow path(by MutatorBase::DoLeaveSaferegion)
+    // for CRT if newState == ThreadState::kRunnable,
+    // it's always goto safe point slow path(by MutatorBase::DoLeaveSaferegion)
     if (newState == ThreadState::kRunnable) {
         threadData_.GetThreadHolder()->TransferToRunning();
     } else {
@@ -83,7 +84,8 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
 #endif
 }
 
-kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setStateNoSafePoint(ThreadState newState) noexcept {
+kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setStateNoSafePoint(ThreadState newState) noexcept
+{
     return state_.exchange(newState, std::memory_order_acq_rel);
 }
 
