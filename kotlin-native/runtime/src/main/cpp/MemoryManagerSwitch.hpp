@@ -33,14 +33,8 @@ FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
     using namespace kotlin;
 
     // First check if the memory manager to use is defined via compile-time option.
-    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kCRT)
-    {
-        return crt_f();
-    }
-    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kNative)
-    {
-        return else_f();
-    }
+    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kCRT) { return crt_f(); }
+    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kNative) { return else_f(); }
 
     // Otherwise we are to select proper MM based on the run-time option.
     RuntimeAssert(compiler::memoryManagerMode() == compiler::MemoryManagerMode::kRuntimeSwitch,

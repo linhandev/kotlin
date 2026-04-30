@@ -107,7 +107,8 @@ public:
         return kotlin::alloc::allocatedHeapSize(const_cast<ObjHeader*>(reinterpret_cast<const ObjHeader*>(object)));
     }
 
-    bool IsValidObject(const BaseObject* object) const override {
+    bool IsValidObject(const BaseObject* object) const override
+    {
         return reinterpret_cast<const KNBaseObject*>(object)->IsValid();
     }
 

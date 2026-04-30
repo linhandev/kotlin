@@ -216,7 +216,8 @@ public:
 
     ALWAYS_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept
     {
-        store(desired); return desired;
+        store(desired);
+        return desired;
     }
 
     ALWAYS_INLINE void store(ObjHeader* desired) noexcept

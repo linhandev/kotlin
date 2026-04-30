@@ -30,8 +30,7 @@ namespace {
 #ifdef USE_CRT
 ALWAYS_INLINE inline void mutabilityCheck(KConstRef thiz)
 {
-    if (!thiz->local() && isPermanentOrFrozen(thiz))
-    {
+    if (!thiz->local() && isPermanentOrFrozen(thiz)) {
         ThrowInvalidMutabilityException(thiz);
     }
 }
