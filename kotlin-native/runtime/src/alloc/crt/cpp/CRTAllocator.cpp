@@ -106,7 +106,8 @@ size_t CRTAllocator::GetAllocatedHeapSize(ObjHeader* object) noexcept {
 } // namespace kotlin::alloc
 
 // TODO: CRT hash code implementation
-RUNTIME_NOTHROW extern "C" KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz) {
+RUNTIME_NOTHROW extern "C" KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz)
+{
     assertUseCRT();
 
     static std::atomic<KInt> CRTGlobalHashIndex = 0xc0000001;

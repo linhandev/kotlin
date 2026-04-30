@@ -64,7 +64,8 @@ ALWAYS_INLINE inline RuntimeAssertsMode runtimeAssertsMode() noexcept {
     return static_cast<RuntimeAssertsMode>(Kotlin_runtimeAssertsMode);
 }
 
-ALWAYS_INLINE inline MemoryManagerMode memoryManagerMode() noexcept {
+ALWAYS_INLINE inline MemoryManagerMode memoryManagerMode() noexcept
+{
     return static_cast<MemoryManagerMode>(Kotlin_memoryManagerMode);
 }
 

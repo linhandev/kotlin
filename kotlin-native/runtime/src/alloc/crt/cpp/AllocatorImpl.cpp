@@ -18,33 +18,40 @@
 
 namespace kotlin {
 // TODO: Get the cache TLS from ThreadData, should be renamed
-void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl) {
+void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl)
+{
     return impl.alloc().getCrtTls();
 }
 } // namespace kotlin
 
 using namespace kotlin;
 
-alloc::Allocator::ThreadData::ThreadData(Allocator& allocator) noexcept : impl_(std::make_unique<Impl>(allocator.impl())) {}
+alloc::Allocator::ThreadData::ThreadData(Allocator& allocator) noexcept
+    : impl_(std::make_unique<Impl>(allocator.impl())) {}
 
 alloc::Allocator::ThreadData::~ThreadData() = default;
 
-ALWAYS_INLINE ObjHeader* alloc::Allocator::ThreadData::allocateObject(const TypeInfo* typeInfo) noexcept {
+ALWAYS_INLINE ObjHeader* alloc::Allocator::ThreadData::allocateObject(const TypeInfo* typeInfo) noexcept
+{
     return impl_->alloc().CreateObject(typeInfo);
 }
 
-ALWAYS_INLINE ArrayHeader* alloc::Allocator::ThreadData::allocateArray(const TypeInfo* typeInfo, uint32_t elements) noexcept {
-    return impl_->alloc().CreateArray(typeInfo, elements);
-}
+ALWAYS_INLINE ArrayHeader* alloc::Allocator::ThreadData::allocateArray(const TypeInfo* typeInfo,
+    uint32_t elements) noexcept
+    {
+        return impl_->alloc().CreateArray(typeInfo, elements);
+    }
 
-ALWAYS_INLINE mm::ExtraObjectData& alloc::Allocator::ThreadData::allocateExtraObjectData(
-        ObjHeader* object, const TypeInfo* typeInfo) noexcept {
+ALWAYS_INLINE mm::ExtraObjectData& alloc::Allocator::ThreadData::allocateExtraObjectData(ObjHeader* object, const TypeInfo* typeInfo) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
-ALWAYS_INLINE void alloc::Allocator::ThreadData::destroyUnattachedExtraObjectData(mm::ExtraObjectData& extraObject) noexcept {
-    NOT_SUPPORTED_BY_CRT();
-}
+ALWAYS_INLINE void alloc::Allocator::ThreadData::destroyUnattachedExtraObjectData(
+    mm::ExtraObjectData& extraObject) noexcept
+    {
+        NOT_SUPPORTED_BY_CRT();
+    }
 
 void alloc::Allocator::ThreadData::prepareForGC() noexcept {}
 
@@ -62,23 +69,28 @@ void alloc::initObjectPool() noexcept {}
 
 void alloc::compactObjectPoolInCurrentThread() noexcept {}
 
-gc::GC::ObjectData& alloc::objectDataForObject(ObjHeader* object) noexcept {
+gc::GC::ObjectData& alloc::objectDataForObject(ObjHeader* object) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
-ObjHeader* alloc::objectForObjectData(gc::GC::ObjectData& objectData) noexcept {
+ObjHeader* alloc::objectForObjectData(gc::GC::ObjectData& objectData) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
-size_t alloc::allocatedHeapSize(ObjHeader* object) noexcept {
+size_t alloc::allocatedHeapSize(ObjHeader* object) noexcept
+{
     return CRTAllocator::GetAllocatedHeapSize(object);
 }
 
-size_t alloc::allocatedBytes() noexcept {
+size_t alloc::allocatedBytes() noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 
-void alloc::destroyExtraObjectData(mm::ExtraObjectData& extraObject) noexcept {
+void alloc::destroyExtraObjectData(mm::ExtraObjectData& extraObject) noexcept
+{
     NOT_SUPPORTED_BY_CRT();
 }
 

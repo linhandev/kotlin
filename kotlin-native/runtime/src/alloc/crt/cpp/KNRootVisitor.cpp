@@ -18,7 +18,8 @@
 
 namespace common {
 
-std::pair<size_t, size_t> KNRootsVisitor::StackRange(kotlin::mm::ThreadData& thread) {
+std::pair<size_t, size_t> KNRootsVisitor::StackRange(kotlin::mm::ThreadData& thread)
+{
     // TODO: Remove useless mm::ThreadRootSet abstraction.
     FrameOverlay* currentFrame = thread.shadowStack().getCurrentFrame();
     uintptr_t minFrame = UINTPTR_MAX;
@@ -41,7 +42,8 @@ std::pair<size_t, size_t> KNRootsVisitor::StackRange(kotlin::mm::ThreadData& thr
     return std::make_pair(minFrame, maxFrame);
 }
 
-void KNRootsVisitor::CollectRootSetAndFixDerivedPtr(const common::RefFieldVisitor& visitorFunc) {
+void KNRootsVisitor::CollectRootSetAndFixDerivedPtr(const common::RefFieldVisitor& visitorFunc)
+{
     ForwardedRootMap preForwardRootMap;
     RecordingObjectVisitor recordingObjectVisitor{&preForwardRootMap, visitorFunc};
     FixDerivedPtrVisitor fixDerivedPtrVisitor{&preForwardRootMap};

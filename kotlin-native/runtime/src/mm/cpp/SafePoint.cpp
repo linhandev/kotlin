@@ -37,12 +37,12 @@ void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl);
 
 #ifdef __aarch64__
 #ifdef ENABLE_GC_FASTPATH
-#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26")
 #else
-#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26", "x27", "x28");
+#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26", "x27", "x28")
 #endif // ENABLE_GC_FASTPATH
 #elif defined(__x86_64__)
-#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "rbx", "r12", "r13", "r14", "r15");
+#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "rbx", "r12", "r13", "r14", "r15")
 #endif // __aarch64__
 
 static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
@@ -198,13 +198,13 @@ ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPath
 // When calling safepoint with threadData, one must not use the TLS information instead because TLS might already be freed.
 // There is also no need to load r28, as r28 can be dead as well.
 // Since threadData is already available, it would be efficient enough to just load mutator from threadData directly
-ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept {
+ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept
+{
 #ifdef USE_CRT
     std::abort(); // "shouldn't reach here";
 #else
     AssertThreadState(&threadData, ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
-
     if (__builtin_expect(action != nullptr, false)) {
         slowPath(threadData);
     }

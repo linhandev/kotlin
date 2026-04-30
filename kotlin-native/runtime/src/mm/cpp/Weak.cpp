@@ -20,7 +20,8 @@ OBJ_GETTER0(makeCRTWeakReferenceImpl);
 }
 
 static_assert(sizeof(ObjHeader*) == sizeof(KLong));
-RUNTIME_NOTHROW ALWAYS_INLINE void initCRTWeakReferenceImpl(ObjHeader* weakRef, ObjHeader* referred) {
+RUNTIME_NOTHROW ALWAYS_INLINE void initCRTWeakReferenceImpl(ObjHeader* weakRef, ObjHeader* referred)
+{
     auto addr = reinterpret_cast<uintptr_t>(weakRef);
     auto field = reinterpret_cast<KLong*>(addr + sizeof(ObjHeader));
     *field = reinterpret_cast<KLong>(referred) | common::REF_FIELD_TAG_WEAK;

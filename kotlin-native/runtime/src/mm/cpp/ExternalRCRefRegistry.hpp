@@ -88,7 +88,8 @@ public:
             return ref_->objAtomic().load(std::memory_order_relaxed);
         }
 
-        KRef& operator*() noexcept {
+        KRef& operator*() noexcept
+        {
             return ref_->getObjRef();
         }
 

@@ -28,10 +28,12 @@ extern "C" void checkRangeIndexes(KInt from, KInt to, KInt size);
 namespace {
 
 #ifdef USE_CRT
-ALWAYS_INLINE inline void mutabilityCheck(KConstRef thiz) {
-  if (!thiz->local() && isPermanentOrFrozen(thiz)) {
-      ThrowInvalidMutabilityException(thiz);
-  }
+ALWAYS_INLINE inline void mutabilityCheck(KConstRef thiz)
+{
+    if (!thiz->local() && isPermanentOrFrozen(thiz))
+    {
+        ThrowInvalidMutabilityException(thiz);
+    }
 }
 #endif
 
@@ -180,9 +182,9 @@ void Kotlin_Array_copyImpl(KConstRef thiz, KInt fromIndex,
     if (fromIndex >= toIndex) {
       for (int index = 0; index < count; index++) {
 #ifdef USE_CRT
-        UpdateHeapRef(ArrayAddressOfElementAt(destinationArray, toIndex + index), 
-                ReadHeapRef(ArrayAddressOfElementAt(array, fromIndex + index), array->obj()),
-                destinationArray->obj());
+        UpdateHeapRef(ArrayAddressOfElementAt(destinationArray, toIndex + index),
+                      ReadHeapRef(ArrayAddressOfElementAt(array, fromIndex + index), array->obj()),
+                      destinationArray->obj());
 #else
         UpdateHeapRef(ArrayAddressOfElementAt(destinationArray, toIndex + index),
                         *ArrayAddressOfElementAt(array, fromIndex + index));

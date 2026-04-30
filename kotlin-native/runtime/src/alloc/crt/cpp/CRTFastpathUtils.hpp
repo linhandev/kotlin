@@ -30,18 +30,22 @@ union ThreadLocalRegisterAccessor {
 };
 static_assert(sizeof(ThreadLocalRegisterData) == sizeof(ThreadLocalRegisterAccessor::raw));
 
-static inline uintptr_t ThreadLocalRegisterRawData() {
+static inline uintptr_t ThreadLocalRegisterRawData()
+{
     uintptr_t tlr;
     __asm__ volatile("mov %0, x28" : "=r"(tlr));
     return tlr;
 }
-static inline void SetThreadLocalDataToFixedReg(uintptr_t tls) {
+static inline void SetThreadLocalDataToFixedReg(uintptr_t tls)
+{
     __asm__ volatile("mov x28, %0" : : "r"(tls));
 }
-static inline void ClearThreadLocalDataInFixedReg() {
+static inline void ClearThreadLocalDataInFixedReg()
+{
     __asm__ volatile("eor x28, x28, x28");
 }
-static inline void UpdateThreadLocalDataReg(common::MutatorBase* mutator) {
+static inline void UpdateThreadLocalDataReg(common::MutatorBase* mutator)
+{
     uintptr_t maskBits = mutator->GetMutatorPhase() > 8 ? 1 : 0;
     __asm__ volatile("bfi x28, %0, #62, #1" : : "r"(maskBits));
 }
