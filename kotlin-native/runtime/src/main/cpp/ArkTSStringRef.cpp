@@ -214,9 +214,7 @@ public:
 
     void push(napi_env env, napi_ref ref) {
         // Save napi_env of main thread at the first time.
-        if (this->env_ == nullptr) {
-            this->env_ = env;
-        }
+        std::call_once(this->envInitFlag_, [this, env]() { env_ = env; });
 
         std::vector<napi_ref> temp;
         {
@@ -306,6 +304,7 @@ private:
     std::mutex mtx_;
     std::atomic<int64_t> lastCleanTimeSec_;
     std::atomic<bool> timerRunning_;
+    std::once_flag envInitFlag_;
 };
 
 ArkTSStringRef* ArkTSStringRef::tryCreate(napi_env env, napi_value value) {
@@ -342,14 +341,15 @@ ArkTSStringRef* ArkTSStringRef::tryCreate(napi_env env, napi_value value) {
 }
 
 ArkTSStringRef::~ArkTSStringRef() {
-    if (env_ == nullptr || ref_ == nullptr) {
+    napi_ref oldRef = this->ref_.exchange(nullptr, std::memory_order_release);
+    if (env_ == nullptr || oldRef == nullptr) {
         return;
     }
-    NapiRefCleaner::getInstance().push(env_, ref_);
+    NapiRefCleaner::getInstance().push(env_, oldRef);
 }
 
 std::u16string_view ArkTSStringRef::getStringView() {
-    if (hasCached_) {
+    if (hasCached_.load(std::memory_order_acquire)) {
         return cachedString_;
     }
     if (isSameThread()) {
@@ -374,11 +374,11 @@ void ArkTSStringRef::fallbackToCopy() {
     kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
     {
         std::unique_lock<std::mutex> lock(mutex_);
-        if (hasCached_) {
+        if (hasCached_.load(std::memory_order_acquire)) {
             return;
         }
         if (isCaching_) {
-            cv_.wait(lock, [this]() { return this->hasCached_.load(); });
+            cv_.wait(lock, [this]() { return this->hasCached_.load(std::memory_order_acquire); });
             return;
         }
         isCaching_ = true;
@@ -388,7 +388,7 @@ void ArkTSStringRef::fallbackToCopy() {
         RuntimeLogWarning({ kotlin::logging::Tag::kRT },
                           "[String0Copy] ArkTSStringRef::getStringView: fallback to string copying");
         napi_value result = nullptr;
-        auto status = napi_get_reference_value(this->env_, this->ref_, &result);
+        auto status = napi_get_reference_value(this->env_, this->ref_.load(std::memory_order_acquire), &result);
         RuntimeAssert(status == napi_ok,
                       "ArkTSStringRef: napi_get_reference_value failed, status = %d", status);
         size_t length = 0;
@@ -404,32 +404,30 @@ void ArkTSStringRef::fallbackToCopy() {
         {
             std::lock_guard<std::mutex> lock(mutex_);
             cachedString_ = std::move(utf16);
-            hasCached_ = true;
+            hasCached_.store(true, std::memory_order_release);
             isCaching_ = false;
         }
         cv_.notify_all();
         // After copy, we can delete the napi_ref.
-        napi_delete_reference(this->env_, this->ref_);
-        this->ref_ = nullptr;
+        napi_ref oldRef = this->ref_.exchange(nullptr, std::memory_order_release);
+        if (oldRef != nullptr) {
+            napi_delete_reference(this->env_, oldRef);
+        }
     });
 
     std::unique_lock<std::mutex> lock(mutex_);
-    cv_.wait(lock, [this]() { return this->hasCached_.load(); });
+    cv_.wait(lock, [this]() { return this->hasCached_.load(std::memory_order_acquire); });
 }
 
 napi_value ArkTSStringRef::toNapiValue(napi_env env) {
+    // it's too complicated to check if napi_ref/napi_value is valid, so here we
+    // just copy to a new ark string and return.
+    std::u16string copiedString = this->withStringView([](std::u16string_view sv) { return std::u16string(sv); });
     kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
-    std::unique_lock<std::mutex> lock(mutex_);
-    if (isCaching_) {
-        cv_.wait(lock, [this]() { return this->hasCached_.load(); });
-    }
-    if (hasCached_) {
-        napi_value result = nullptr;
-        auto status = napi_create_string_utf16(env, cachedString_.data(), length_, &result);
-        RuntimeAssert(status == napi_ok, "napi_create_string_utf16 failed(%d)", status);
-        return result;
-    }
-    return this->getNapiValue();
+    napi_value result = nullptr;
+    auto status = napi_create_string_utf16(env, copiedString.data(), copiedString.size(), &result);
+    RuntimeAssert(status == napi_ok, "napi_create_string_utf16 failed(%d)", status);
+    return result;
 }
 
 static void ExternalStringFinalizer(void *data, void* hint) {
