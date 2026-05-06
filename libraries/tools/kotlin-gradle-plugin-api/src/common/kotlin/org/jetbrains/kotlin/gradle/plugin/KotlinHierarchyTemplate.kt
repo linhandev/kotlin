@@ -157,9 +157,6 @@ private val defaultKotlinHierarchyTemplate = KotlinHierarchyTemplate {
                 }
             }
 
-            group("ohos") {
-                withOhos()
-            }
             group("linux") {
                 withLinux()
             }
