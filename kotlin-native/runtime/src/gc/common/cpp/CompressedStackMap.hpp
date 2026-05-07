@@ -105,14 +105,17 @@ public:
 
     static CompressedStackMapHead GetStackMapHead(uint8_t *stackmapStart, const PrologueVisitor& visitor)
     {
-        uint64_t llvmStackMapSymbolStart = 0;
-    #if KONAN_LINUX || KONAN_OHOS
-        llvmStackMapSymbolStart = reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
-    #else
-        llvmStackMapSymbolStart = reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
-    #endif
+        // funcAddrOffset is now stored as (function_symbol - .Lstackmap_start.<func>),
+        // emitted by StackMaps.cpp::emitCompressedStackMaps as a R_AARCH64_PREL64
+        // relocation against the function symbol. The base of the diff is this entry's
+        // own start label, which equals stackmapStart at runtime, so we just add it back.
+        // This works correctly under multi-blob layouts (debug builds with multiple
+        // cached klibs concatenated): the older scheme used the global __LLVM_StackMaps
+        // symbol as the base, which after link resolves to blob_0's base only and gives
+        // wrong absolute addresses for entries from blob_M (M>0).
         uint64_t funcAddress = static_cast<uint64_t>(
-            *reinterpret_cast<int64_t*>(stackmapStart) + static_cast<int64_t>(llvmStackMapSymbolStart));
+            *reinterpret_cast<int64_t*>(stackmapStart) +
+            reinterpret_cast<int64_t>(stackmapStart));
         stackmapStart += FUNC_ADDRESS_FIELD_SIZE; // skip funcAddress
         stackmapStart += STACK_MAP_SIZE_FIELD_SIZE; // skip stackMapSize
         StackMapHeaderVarInt stacksizeVarInt(stackmapStart, 0);
