@@ -52,6 +52,9 @@ public:
 private:
     napi_env env_ {nullptr};
     NapiCriticalScope scope_ {nullptr};
+    // Ensures native thread state for NAPI calls in ctor/dtor. Declared after scope_ so it's destroyed first,
+    // maintaining native state when scope_'s dtor makes NAPI calls (RAII destruction order is reverse of declaration).
+    kotlin::ThreadStateGuard threadStateGuard_ {kotlin::ThreadState::kNative, true};
 };
 
 // Hold the napi_ref of ArkTS string.
@@ -182,6 +185,7 @@ private:
     // Get napi_value from napi_ref, returns nullptr if ref_ has been released.
     ALWAYS_INLINE napi_value getNapiValue() const {
         if (ref_ == nullptr) return nullptr;
+        kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
         napi_value result = nullptr;
         auto status = napi_get_reference_value(this->env_, this->ref_, &result);
         RuntimeAssert(status == napi_ok,

@@ -327,6 +327,7 @@ ArkTSStringRef* ArkTSStringRef::tryCreate(napi_env env, napi_value value) {
     if (length < static_cast<size_t>(Kotlin_ArkTSConfig_getMinLengthForArkString())) {
         return nullptr;
     }
+    kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
     // Initialize the main thread safe function if needed.
     RegisterThreadSafeFunctionIfNeeded(env);
     napi_ref ref = nullptr;
@@ -368,6 +369,7 @@ std::u16string_view ArkTSStringRef::getStringView() {
 }
 
 void ArkTSStringRef::fallbackToCopy() {
+    kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
     {
         std::unique_lock<std::mutex> lock(mutex_);
         if (hasCached_) {
@@ -414,6 +416,7 @@ void ArkTSStringRef::fallbackToCopy() {
 }
 
 napi_value ArkTSStringRef::toNapiValue(napi_env env) {
+    kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
     std::unique_lock<std::mutex> lock(mutex_);
     if (isCaching_) {
         cv_.wait(lock, [this]() { return this->hasCached_.load(); });
@@ -435,6 +438,9 @@ static void ExternalStringFinalizer(void *data, void* hint) {
     }
 }
 
+/**
+ * Cannot run with kNative thread state.
+ */
 napi_value CreateExternalStringUtf16(napi_env env, KConstRef thiz) {
     // Check if the configuration enabled, and if the API is available.
     if (!Kotlin_ArkTSConfig_getKotlinToArkEnabled()
@@ -449,17 +455,21 @@ napi_value CreateExternalStringUtf16(napi_env env, KConstRef thiz) {
         return nullptr;
     }
 
+    kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     // Create a stable pointer to prevent Kotlin GC from reclaiming the string during ArkTS usage.
     void *stablePtr = CreateStablePointer(const_cast<ObjHeader*>(thiz));
-
     napi_value result = nullptr;
-    auto status = g_arkApis.createExternalUtf16String(
-        env,
-        reinterpret_cast<const char16_t*>(strHeader->data()),
-        strLength,
-        ExternalStringFinalizer,
-        stablePtr,
-        &result);
+    napi_status status = napi_ok;
+    {
+        kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+        status = g_arkApis.createExternalUtf16String(
+            env,
+            reinterpret_cast<const char16_t*>(strHeader->data()),
+            strLength,
+            ExternalStringFinalizer,
+            stablePtr,
+            &result);
+    }
     if (status != napi_ok) {
         DisposeStablePointer(stablePtr);
         RuntimeLogWarning({ kotlin::logging::Tag::kRT },
