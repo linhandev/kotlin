@@ -44,11 +44,14 @@ ALWAYS_INLINE ArkTSStringRef* KStringProxyGetArkTSStringRef(KConstRef proxy) {
 
 OBJ_GETTER(Kotlin_ArkTS_CreateStringByCopy, napi_env env, napi_value value) {
     size_t length = 0;
-    auto status = napi_get_value_string_utf16(env, value, nullptr, 0, &length);
-    if (status != napi_ok) {
-        RuntimeLogError({ kotlin::logging::Tag::kRT },
-                        "Kotlin_ArkTS_CreateStringByCopy get string length failed, status = %d",
-                        status);
+    {
+        kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+        auto status = napi_get_value_string_utf16(env, value, nullptr, 0, &length);
+        if (status != napi_ok) {
+            RuntimeLogError({ kotlin::logging::Tag::kRT },
+                            "Kotlin_ArkTS_CreateStringByCopy get string length failed, status = %d",
+                            status);
+        }
     }
     if (length == 0) {
         // return an empty string
@@ -56,14 +59,17 @@ OBJ_GETTER(Kotlin_ArkTS_CreateStringByCopy, napi_env env, napi_value value) {
     }
 
     KRef result = CreateUninitializedString(StringEncoding::kUTF16, length, OBJ_RESULT);
-    status = napi_get_value_string_utf16(
-        env, value,
-        reinterpret_cast<char16_t*>(StringHeader::of(result)->data()),
-        length + 1, nullptr);
-    if (status != napi_ok) {
-        RuntimeLogError({ kotlin::logging::Tag::kRT },
-                        "Kotlin_ArkTS_CreateStringByCopy get string value failed, status = %d",
-                        status);
+    {
+        kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+        auto status = napi_get_value_string_utf16(
+            env, value,
+            reinterpret_cast<char16_t*>(StringHeader::of(result)->data()),
+            length + 1, nullptr);
+        if (status != napi_ok) {
+            RuntimeLogError({ kotlin::logging::Tag::kRT },
+                            "Kotlin_ArkTS_CreateStringByCopy get string value failed, status = %d",
+                            status);
+            }
     }
     RETURN_OBJ(result);
 }
