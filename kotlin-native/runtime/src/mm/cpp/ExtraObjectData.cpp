@@ -31,8 +31,12 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
 
     RuntimeCheck(!hasPointerBits(typeInfo, OBJECT_TAG_MASK), "Object must not be tagged");
 
+    // Strip upper-16-bit fp_unwind tag so the stored ExtraObjectData::typeInfo_
+    // is clean and `type_info()` doesn't have to mask on every access.
+    auto* cleanTypeInfo = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfo) & 0xffffffffffff);
+
     auto& allocator = mm::ThreadRegistry::Instance().CurrentThreadData()->allocator();
-    auto& data = allocator.allocateExtraObjectData(object, typeInfo);
+    auto& data = allocator.allocateExtraObjectData(object, cleanTypeInfo);
     std_support::atomic_ref objectAtomicTypeInfo{object->typeInfoOrMeta_};
     if (!objectAtomicTypeInfo.compare_exchange_strong(typeInfo, reinterpret_cast<TypeInfo*>(&data))) {
         // Somebody else created `mm::ExtraObjectData` for this object.
