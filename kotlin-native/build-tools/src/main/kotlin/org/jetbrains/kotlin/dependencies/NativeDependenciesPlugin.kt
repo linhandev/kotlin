@@ -13,6 +13,7 @@ import org.gradle.api.attributes.Usage
 import org.gradle.api.file.FileCollection
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.PlatformManagerPlugin
+import org.jetbrains.kotlin.konan.HostLibcxxRuntimeLibraries
 import org.jetbrains.kotlin.konan.target.*
 import java.io.File
 import java.nio.file.Paths
@@ -117,9 +118,10 @@ abstract class NativeDependenciesExtension @Inject constructor(private val proje
 
     /**
      * libc++ runtime libraries needed by host tools linked against the bundled LLVM/Clang.
+     * Same list as [HostLibcxxRuntimeLibraries.SONAMES] (kotlin-native-utils).
      */
     val hostLibcxxRuntimeLibraries: List<String>
-        get() = listOf("libc++.so.1", "libc++abi.so.1", "libunwind.so.1")
+        get() = HostLibcxxRuntimeLibraries.SONAMES
 
     val hostLibcxxRuntimeLibraryPaths: List<String>
         get() = hostLibcxxRuntimeLibraries.map { "$hostLibcxxDir/$it" }

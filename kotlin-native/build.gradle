@@ -430,20 +430,24 @@ def registerSmokeCompileTask = { String target, String product ->
             commandLine(
                     smokeKonancBinary.get(),
                     sourceKt,
-                    "-target", target
+                    "-target", target,
+                    "-produce", product
             )
         }
     }
 }
 
 def smokeKonanTestCases = [
-        [target: "ohos_arm64", product: "kexe"],
+        [target: "ohos_arm64", product: "program"],
         [target: "ohos_arm64", product: "dynamic"],
-        // [target: "ohos_x64", product: "kexe"],
+        [target: "ohos_x64", product: "program"],
+        [target: "ohos_x64", product: "dynamic"],
 ]
 if (PlatformInfo.isMac()) {
     smokeKonanTestCases.addAll([
-            [target: "macos_arm64", product: "kexe"],
+            [target: "macos_arm64", product: "program"],
+            [target: "macos_arm64", product: "dynamic"],
+            [target: "ios_arm64", product: "program"],
             [target: "ios_arm64", product: "dynamic"],
     ])
 }

@@ -16,6 +16,7 @@
 
 package kotlinx.cinterop
 
+import org.jetbrains.kotlin.konan.HostLibcxxRuntimeLibraries
 import org.jetbrains.kotlin.utils.KotlinNativePaths
 import java.io.File
 import java.nio.file.Files
@@ -116,12 +117,11 @@ private val stubsWithRuntimeDependencies = setOf(
         System.mapLibraryName("llvmstubs"),
         System.mapLibraryName("clangstubs"),
 )
-private val stubsRuntimeDependencies = listOf("libc++.so.1", "libc++abi.so.1", "libunwind.so.1")
 
 private fun copyStubsRuntimeDependencies(fullLibraryPath: java.nio.file.Path, targetDir: java.nio.file.Path, fullLibraryName: String) {
     if (fullLibraryName !in stubsWithRuntimeDependencies || !Files.isDirectory(targetDir)) return
 
-    stubsRuntimeDependencies.forEach { dependency ->
+    HostLibcxxRuntimeLibraries.SONAMES.forEach { dependency ->
         val dependencyPath = fullLibraryPath.parent.resolve(dependency)
         val targetPath = targetDir.resolve(dependency)
         if (Files.exists(dependencyPath) && !Files.exists(targetPath)) {
@@ -131,11 +131,11 @@ private fun copyStubsRuntimeDependencies(fullLibraryPath: java.nio.file.Path, ta
 }
 
 private fun registerDeleteOnExit(dir: String, fullLibraryName: String) {
-    File("$dir/$fullLibraryName").deleteOnExit()
+    File(dir, fullLibraryName).deleteOnExit()
     if (fullLibraryName !in stubsWithRuntimeDependencies) return
 
-    stubsRuntimeDependencies.forEach {
-        File("$dir/$it").deleteOnExit()
+    HostLibcxxRuntimeLibraries.SONAMES.forEach {
+        File(dir, it).deleteOnExit()
     }
 }
 
