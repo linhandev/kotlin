@@ -85,9 +85,33 @@ class KonanPartialModuleDeserializer(
             ?: (declaration.parent as? IrDeclaration)?.getSignature()
             ?: error("Can't find signature of ${declaration.render()}")
         val topLevelIdSig = idSig.topLevelSignature()
-        return topLevelIdSig.fileSignature()?.fileName
-            ?: idSignatureToFile[topLevelIdSig]?.path
-            ?: error("No file for $idSig")
+
+        // Path 1: FileSignature carries the file name directly (used for file-private declarations).
+        topLevelIdSig.fileSignature()?.fileName?.let { return it }
+
+        // Path 2: Normal path — look up directly in the idSignatureToFile index.
+        idSignatureToFile[topLevelIdSig]?.path?.let { return it }
+
+        // Path 3: An IR compiler plugin (e.g. Compose) may have removed or replaced the original
+        // declaration before klib serialization, so its signature is absent from reversedSignatureIndex.
+        // For example, @Composable fun App() is transformed into App($composer, $changed), and the
+        // original App(){}[0] signature no longer appears in the klib index.
+        // In that case, fall back to a sibling lookup: search for any declaration in the same package
+        // with the same declarationFqName (ignoring the id/hash that encodes parameter types).
+        // Functions with the same name, regardless of parameter transformation, always originate from
+        // the same source file.
+        if (topLevelIdSig is IdSignature.CommonSignature) {
+            idSignatureToFile.entries
+                .firstOrNull { (candidateSig, _) ->
+                    candidateSig is IdSignature.CommonSignature &&
+                    candidateSig.packageFqName == topLevelIdSig.packageFqName &&
+                    candidateSig.declarationFqName == topLevelIdSig.declarationFqName
+                }
+                ?.value?.path
+                ?.let { return it }
+        }
+
+        error("No file for $idSig")
     }
 
     fun getKlibFileIndexOf(irFile: IrFile) = fileDeserializationStates.first { it.file == irFile }.fileIndex
