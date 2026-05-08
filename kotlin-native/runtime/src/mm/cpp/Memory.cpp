@@ -26,7 +26,7 @@
 #include "ThreadState.hpp"
 
 #include "MemoryManagerSwitch.hpp"
-#include "alloc/crt/cpp/CRTFastpathUtils.hpp"
+#include "crt/cpp/CRTFastpathUtils.hpp"
 #include "common_interfaces/base_runtime.h"
 #include "common_interfaces/thread/mutator_base.h"
 
@@ -87,11 +87,7 @@ void ObjHeader::destroyMetaObject(ObjHeader* object) {
 
 ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj)
 {
-    assertUseCRT();
-    if (obj->permanent()) return true;
-    // CRT allocator does not support freezing, objects are always mutable
-    // ExtraObjectData is not available for CRT objects
-    return false;
+    return obj->permanent();
 }
 
 extern "C" MemoryState* InitMemory() {

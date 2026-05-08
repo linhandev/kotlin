@@ -15,6 +15,7 @@ enum class RuntimeModule(val filename: String) {
     ALLOC_LEGACY("legacy_alloc.bc"),
     ALLOC_STD("std_alloc.bc"),
     ALLOC_CUSTOM("custom_alloc.bc"),
+    CRT("crt.bc"),
     ALLOC_CRT("crt_alloc.bc"),
     GC_COMMON("common_gc.bc"),
     GC_NOOP("noop_gc.bc"),

@@ -11,7 +11,7 @@
 #include "Types.h"
 
 #include "MemoryManagerSwitch.hpp"
-#include "alloc/crt/cpp/KNBaseObject.hpp"
+#include "crt/cpp/KNBaseObject.hpp"
 
 using namespace kotlin;
 

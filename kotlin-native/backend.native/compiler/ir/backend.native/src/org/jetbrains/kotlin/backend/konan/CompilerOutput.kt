@@ -191,11 +191,15 @@ private fun collectLlvmModules(generationState: NativeGenerationState, generated
                 add(RuntimeModule.ALLOC_CUSTOM)
             }
             AllocationMode.CRT -> {
+                add(RuntimeModule.CRT)
                 add(RuntimeModule.ALLOC_CRT)
                 if (config.gc != GC.CONCURRENT_MARK_AND_COPY) {
                     add(RuntimeModule.GC_CONCURRENT_MARK_AND_COPY)
                 }
             }
+        }
+        if (config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) {
+            add(RuntimeModule.CRT)
         }
         when (config.checkStateAtExternalCalls) {
             true -> add(RuntimeModule.EXTERNAL_CALLS_CHECKER_IMPL)

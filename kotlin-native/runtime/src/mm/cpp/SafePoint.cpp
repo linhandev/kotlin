@@ -17,10 +17,9 @@
 #include "ThreadData.hpp"
 #include "ThreadState.hpp"
 
-#include "alloc/crt/cpp/CRTFastpathUtils.hpp"
-#include "alloc/crt/cpp/HeapInterface.hpp"
-#include "alloc/crt/cpp/CRTFastpathUtils.hpp"
-#include "alloc/crt/cpp/KNRootVisitor.hpp"
+#include "crt/cpp/CRTFastpathUtils.hpp"
+#include "crt/cpp/HeapInterface.hpp"
+#include "crt/cpp/KNRootVisitor.hpp"
 #include "MemoryManagerSwitch.hpp"
 
 // TODO: Remove after the bootstrap that brings changes in ClangArgs.kt

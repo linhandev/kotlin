@@ -14,6 +14,8 @@
 #include "MarkAndSweepUtils.hpp"
 #include "ObjectOps.hpp"
 
+#include "MemoryManagerSwitch.hpp"
+
 using namespace kotlin;
 
 gc::GC::ThreadData::ThreadData(GC& gc, mm::ThreadData& threadData) noexcept {}
@@ -29,56 +31,86 @@ void gc::GC::ThreadData::onThreadRegistration() noexcept {}
 ALWAYS_INLINE void gc::GC::ThreadData::onAllocation(ObjHeader* object) noexcept {}
 
 gc::GC::GC(alloc::Allocator& allocator, gcScheduler::GCScheduler& gcScheduler) noexcept :
-    impl_(std::make_unique<Impl>(allocator, gcScheduler)) {
-    RuntimeLogDebug({kTagGC}, "%s GC initialized", internal::StwmsGCTraits::kName);
+    impl_(checkUseCRT<CheckMode::Slow>([] {
+        RuntimeLogInfo({kTagGC}, "CRT GC initialized");
+        return std::unique_ptr<Impl>(nullptr);
+    }, [&] {
+        return std::make_unique<Impl>(allocator, gcScheduler);
+    })) {
+    checkNotCRT<CheckMode::Slow>([&] {
+        RuntimeLogDebug({kTagGC}, "%s GC initialized", internal::StwmsGCTraits::kName);
+    });
 }
 
 gc::GC::~GC() {
-    impl_->state_.shutdown();
+    checkNotCRT<CheckMode::Slow>([&] {
+        impl_->state_.shutdown();
+    });
 }
 
 void gc::GC::ClearForTests() noexcept {
-    GCHandle::ClearForTests();
+    checkNotCRT<CheckMode::Slow>([&] {
+        GCHandle::ClearForTests();
+    });
 }
 
 // static
 PERFORMANCE_INLINE void gc::GC::processObjectInMark(void* state, ObjHeader* object) noexcept {
+    assertNotCRT();
     gc::internal::processObjectInMark<gc::internal::MarkTraits>(state, object);
 }
 
 // static
 PERFORMANCE_INLINE void gc::GC::processArrayInMark(void* state, ArrayHeader* array) noexcept {
+    assertNotCRT();
     gc::internal::processArrayInMark<gc::internal::MarkTraits>(state, array);
 }
 
 int64_t gc::GC::Schedule() noexcept {
-    return impl_->state_.schedule();
+    return checkUseCRT<CheckMode::Slow>([] {
+        return int64_t{0};
+    }, [&] {
+        return impl_->state_.schedule();
+    });
 }
 
 void gc::GC::WaitFinished(int64_t epoch) noexcept {
-    impl_->state_.waitEpochFinished(epoch);
+    checkNotCRT<CheckMode::Slow>([&] {
+        impl_->state_.waitEpochFinished(epoch);
+    });
 }
 
 void gc::GC::WaitFinalizers(int64_t epoch) noexcept {
-    impl_->state_.waitEpochFinalized(epoch);
+    checkNotCRT<CheckMode::Slow>([&] {
+        impl_->state_.waitEpochFinalized(epoch);
+    });
 }
 
-ALWAYS_INLINE void gc::beforeHeapRefUpdate(mm::DirectRefAccessor ref, ObjHeader* value, bool loadAtomic) noexcept {}
+ALWAYS_INLINE void gc::beforeHeapRefUpdate(mm::DirectRefAccessor ref, ObjHeader* value, bool loadAtomic) noexcept {
+    checkNotCRT<CheckMode::Fast>([&] {});
+}
 
 ALWAYS_INLINE OBJ_GETTER(gc::weakRefReadBarrier, std_support::atomic_ref<ObjHeader*> weakReferee) noexcept {
+    assertNotCRT();
     RETURN_OBJ(weakReferee.load(std::memory_order_relaxed));
 }
 
 bool gc::isMarked(ObjHeader* object) noexcept {
+    assertNotCRT();
     return alloc::objectDataForObject(object).marked();
 }
 
 PERFORMANCE_INLINE bool gc::tryResetMark(GC::ObjectData& objectData) noexcept {
+    assertNotCRT();
     return objectData.tryResetMark();
 }
 
 ALWAYS_INLINE bool gc::barriers::ExternalRCRefReleaseGuard::isNoop() {
-    return true;
+    return checkUseCRT<CheckMode::Fast>([] {
+        return true;
+    }, [] {
+        return true;
+    });
 }
 ALWAYS_INLINE gc::barriers::ExternalRCRefReleaseGuard::ExternalRCRefReleaseGuard(mm::DirectRefAccessor) noexcept {}
 ALWAYS_INLINE gc::barriers::ExternalRCRefReleaseGuard::ExternalRCRefReleaseGuard(ExternalRCRefReleaseGuard&&) noexcept = default;
@@ -88,20 +120,34 @@ ALWAYS_INLINE gc::barriers::ExternalRCRefReleaseGuard& gc::barriers::ExternalRCR
 
 // static
 ALWAYS_INLINE uint64_t type_layout::descriptor<gc::GC::ObjectData>::type::size() noexcept {
-    return sizeof(gc::GC::ObjectData);
+    return checkUseCRT<CheckMode::Fast>([] {
+        return size_t{0};
+    }, [] {
+        return sizeof(gc::GC::ObjectData);
+    });
 }
 
 // static
 ALWAYS_INLINE size_t type_layout::descriptor<gc::GC::ObjectData>::type::alignment() noexcept {
-    return alignof(gc::GC::ObjectData);
+    return checkUseCRT<CheckMode::Fast>([] {
+        return size_t{1};
+    }, [] {
+        return alignof(gc::GC::ObjectData);
+    });
 }
 
 // static
 ALWAYS_INLINE gc::GC::ObjectData* type_layout::descriptor<gc::GC::ObjectData>::type::construct(uint8_t* ptr) noexcept {
-    return new (ptr) gc::GC::ObjectData();
+    return checkUseCRT<CheckMode::Fast>([&] {
+        return reinterpret_cast<gc::GC::ObjectData*>(ptr);
+    }, [&] {
+        return new (ptr) gc::GC::ObjectData();
+    });
 }
 
 void gc::GC::onEpochFinalized(int64_t epoch) noexcept {
-    GCHandle::getByEpoch(epoch).finalizersDone();
-    impl_->state_.finalized(epoch);
+    checkNotCRT<CheckMode::Slow>([&] {
+        GCHandle::getByEpoch(epoch).finalizersDone();
+        impl_->state_.finalized(epoch);
+    });
 }

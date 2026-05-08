@@ -18,8 +18,20 @@
 
 #include "KAssert.h"
 
+namespace MemoryManagerSwitch {
+    inline bool IsEnabled() {
+        const char* v = std::getenv("USE_CRT");
+        return v && static_cast<bool>(v[0]);
+    }
+    inline const bool useCRT = IsEnabled();
+};
+
 // not ALWAYS_INLINE to ensure that inline happens both in debug and release mode
 #define FORCE_INLINE __attribute__((always_inline)) inline
+
+// TODO: move CRTFastpathUtils to this folder and put this macro there after PR!22 is merged
+#define FAST_CHECK_MM_SWITCH(slow_path) \
+    __asm__ volatile goto("cbz x28, %l[" #slow_path "]" : : : : slow_path);
 
 /// `Slow` mode can be used in any place, but it will load a value to check from a global variable.
 /// `Fast` is only available in kRunnable state and relies on the value of x28 register
@@ -40,7 +52,18 @@ FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
     RuntimeAssert(compiler::memoryManagerMode() == compiler::MemoryManagerMode::kRuntimeSwitch,
         "Unexpected memory manager mode %d", compiler::memoryManagerMode());
 
-    TODO("support run-time check for the MM mode");
+#ifdef ENABLE_GC_FASTPATH
+    if constexpr (mode == CheckMode::Fast) {
+        FAST_CHECK_MM_SWITCH(else_l); // fallthrough if x28 != 0 signifying that CRT MM is enabled, otherwise jump to `else_l`.
+        RuntimeAssert(MemoryManagerSwitch::useCRT, "Value of x28 is inconsistent with the useCRT flag");
+        return crt_f();
+    }
+#endif
+
+    if (__builtin_expect(MemoryManagerSwitch::useCRT, true)) return crt_f();
+
+else_l:
+    return else_f();
 }
 
 /// If currently selected MemoryManager is CRT then execute given `crt_f`, otherwise do nothing.
@@ -48,6 +71,12 @@ template<CheckMode mode, typename F>
 FORCE_INLINE void checkUseCRT(F crt_f)
 {
     checkUseCRT<mode>(crt_f, [] {});
+}
+
+/// If currently selected MemoryManager is CRT then do nothing, otherwise execute given `else_f`.
+template<CheckMode mode, typename G>
+FORCE_INLINE void checkNotCRT(G else_f) {
+    checkUseCRT<mode>([]{}, else_f);
 }
 
 /// If currently selected MemoryManager is CRT then crash, otherwise fall through to the next line in caller.
@@ -64,7 +93,7 @@ FORCE_INLINE void assertNotCRT()
 template<CheckMode mode = CheckMode::Slow>
 FORCE_INLINE void assertUseCRT()
 {
-    checkUseCRT<mode>([] {}, [] {
+    checkNotCRT<mode>([] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is enabled");
         std::abort();
     });

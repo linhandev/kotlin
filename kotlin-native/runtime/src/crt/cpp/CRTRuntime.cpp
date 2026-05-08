@@ -15,9 +15,9 @@
 
 #include "CRTRuntime.hpp"
 #include "base_runtime.h"
-#include "alloc/crt/cpp/KNRootVisitor.hpp"
-#include "alloc/crt/cpp/KNBaseObject.hpp"
-#include "alloc/crt/cpp/KNFinalizer.hpp"
+#include "crt/cpp/KNRootVisitor.hpp"
+#include "crt/cpp/KNBaseObject.hpp"
+#include "crt/cpp/KNFinalizer.hpp"
 #include <map>
 
 #ifndef _WIN32
@@ -87,11 +87,6 @@ bool InitCRTRuntime()
     common::BaseRoots::Register<common::LanguageType::KOTLIN>(&common::KNRootsVisitor::Instance());
     common::RegisterFinalizationInterface(&common::KNFinalizationInterface::Instance());
     return true;
-}
-
-void DestroyCRTRuntime() {
-    common::BaseRuntime::GetInstance()->FiniFromDynamic();
-    common::BaseRuntime::GetInstance()->DestroyInstance();
 }
 
 } // namespace kotlin

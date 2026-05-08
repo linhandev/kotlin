@@ -241,6 +241,27 @@ bitcode {
             }
         }
 
+        module("crt") {
+            srcRoot.set(layout.projectDirectory.dir("src/crt"))
+            headersDirs.from(files(
+                    "src/alloc/common/cpp",
+                    "src/gcScheduler/common/cpp",
+                    "src/gc/common/cpp",
+                    "src/mm/cpp",
+                    "src/externalCallsChecker/common/cpp",
+                    "src/objcExport/cpp",
+                    "src/main/cpp",
+                    "src",
+                    "../../third-party/common-rt",
+                    "../../third-party/common-rt/common_interfaces",
+                    "../../third-party/common-rt/libpandabase",
+                    "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
+            sourceSets {
+                main {}
+            }
+        }
+
         module("debug") {
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -421,7 +442,16 @@ module("legacy_alloc") {
         }
 
         module("test_support") {
-            headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            headersDirs.from(files(
+                    "src/externalCallsChecker/common/cpp",
+                    "src/objcExport/cpp",
+                    "src/main/cpp",
+                    "src",
+                    "../../third-party/common-rt",
+                    "../../third-party/common-rt/common_interfaces",
+                    "../../third-party/common-rt/libpandabase",
+                    "../../third-party/common-rt/third_party_bounds_checking_function/include"
+            ))
             sourceSets {
                 testFixtures {
                     inputFiles.include("**/*.cpp", "**/*.mm")

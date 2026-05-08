@@ -9,7 +9,7 @@
 #include "Memory.h"
 #include "std_support/Atomic.hpp"
 #include "MemoryManagerSwitch.hpp"
-#include "alloc/crt/cpp/HeapInterface.hpp"
+#include "crt/cpp/HeapInterface.hpp"
 
 #if __has_feature(thread_sanitizer)
 #include <sanitizer/tsan_interface.h>

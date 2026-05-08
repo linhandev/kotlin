@@ -10,6 +10,16 @@
 #include "Heap.hpp"
 #include "ThreadData.hpp"
 
+#include "MemoryManagerSwitch.hpp"
+
+namespace kotlin {
+// TODO: Get the cache TLS from ThreadData, should be renamed
+void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl) {
+    assertUseCRT();
+    return impl.crt_alloc().getCrtTls();
+}
+} // namespace kotlin
+
 using namespace kotlin;
 
 alloc::Allocator::ThreadData::ThreadData(Allocator& allocator) noexcept : impl_(std::make_unique<Impl>(allocator.impl())) {}
@@ -17,28 +27,42 @@ alloc::Allocator::ThreadData::ThreadData(Allocator& allocator) noexcept : impl_(
 alloc::Allocator::ThreadData::~ThreadData() = default;
 
 PERFORMANCE_INLINE ObjHeader* alloc::Allocator::ThreadData::allocateObject(const TypeInfo* typeInfo) noexcept {
-    return impl_->alloc().CreateObject(typeInfo);
+    return checkUseCRT<CheckMode::Fast>([&] {
+        return impl_->crt_alloc().CreateObject(typeInfo);
+    }, [&] {
+        return impl_->alloc().CreateObject(typeInfo);
+    });
 }
 
 PERFORMANCE_INLINE ArrayHeader* alloc::Allocator::ThreadData::allocateArray(const TypeInfo* typeInfo, uint32_t elements) noexcept {
-    return impl_->alloc().CreateArray(typeInfo, elements);
+    return checkUseCRT<CheckMode::Fast>([&] {
+        return impl_->crt_alloc().CreateArray(typeInfo, elements);
+    }, [&] {
+        return impl_->alloc().CreateArray(typeInfo, elements);
+    });
 }
 
 PERFORMANCE_INLINE mm::ExtraObjectData& alloc::Allocator::ThreadData::allocateExtraObjectData(
         ObjHeader* object, const TypeInfo* typeInfo) noexcept {
+    assertNotCRT();
     return *impl_->alloc().CreateExtraObjectDataForObject(object, typeInfo);
 }
 
 ALWAYS_INLINE void alloc::Allocator::ThreadData::destroyUnattachedExtraObjectData(mm::ExtraObjectData& extraObject) noexcept {
+    assertNotCRT();
     extraObject.setFlag(mm::ExtraObjectData::FLAGS_SWEEPABLE);
 }
 
 void alloc::Allocator::ThreadData::prepareForGC() noexcept {
-    impl_->alloc().PrepareForGC();
+    checkNotCRT<CheckMode::Slow>([&] { // TODO: can it be an assert instead?
+        impl_->alloc().PrepareForGC();
+    });
 }
 
 void alloc::Allocator::ThreadData::clearForTests() noexcept {
-    impl_->alloc().PrepareForGC();
+    checkNotCRT<CheckMode::Slow>([&] { // TODO: can it be an assert instead?
+        impl_->alloc().PrepareForGC();
+    });
 }
 
 alloc::Allocator::Allocator() noexcept : impl_(std::make_unique<Impl>()) {}
@@ -46,13 +70,17 @@ alloc::Allocator::Allocator() noexcept : impl_(std::make_unique<Impl>()) {}
 alloc::Allocator::~Allocator() = default;
 
 void alloc::Allocator::prepareForGC() noexcept {
-    impl_->heap().PrepareForGC();
+    checkNotCRT<CheckMode::Slow>([&] { // TODO: can it be an assert instead?
+        impl_->heap().PrepareForGC();
+    });
 }
 
 void alloc::Allocator::clearForTests() noexcept {
-    stopFinalizerThreadIfRunning();
-    impl_->heap().ClearForTests();
-    impl_->pendingFinalizers() = FinalizerQueue();
+    checkNotCRT<CheckMode::Slow>([&] { // TODO: can it be an assert instead?
+        stopFinalizerThreadIfRunning();
+        impl_->heap().ClearForTests();
+        impl_->pendingFinalizers() = FinalizerQueue();
+    });
 }
 
 void alloc::Allocator::TraverseAllocatedObjects(std::function<void(ObjHeader*)> fn) noexcept {
@@ -107,22 +135,32 @@ void alloc::initObjectPool() noexcept {}
 void alloc::compactObjectPoolInCurrentThread() noexcept {}
 
 gc::GC::ObjectData& alloc::objectDataForObject(ObjHeader* object) noexcept {
+    assertNotCRT();
     return CustomHeapObject::from(object).heapHeader();
 }
 
 ObjHeader* alloc::objectForObjectData(gc::GC::ObjectData& objectData) noexcept {
+    assertNotCRT();
     return CustomHeapObject::from(objectData).object();
 }
 
 size_t alloc::allocatedHeapSize(ObjHeader* object) noexcept {
-    return CustomAllocator::GetAllocatedHeapSize(object);
+    // TODO: can't be fast as it is invoked from GC thread,
+    //       but maybe it can be assertUseCRT() instead? Seems it is only used by CRT.
+    return checkUseCRT<CheckMode::Slow>([&] {
+        return CRTAllocator::GetAllocatedHeapSize(object);
+    }, [&] {
+        return CustomAllocator::GetAllocatedHeapSize(object);
+    });
 }
 
 size_t alloc::allocatedBytes() noexcept {
+    assertNotCRT();
     return GetAllocatedBytes();
 }
 
 void alloc::destroyExtraObjectData(mm::ExtraObjectData& extraObject) noexcept {
+    assertNotCRT();
     extraObject.ReleaseAssociatedObject();
     if (extraObject.GetBaseObject()) {
         // If there's an object attached to this extra object, the next

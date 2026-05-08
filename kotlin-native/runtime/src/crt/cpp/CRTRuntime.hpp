@@ -19,7 +19,6 @@
 
 namespace kotlin {
 bool InitCRTRuntime();
-void DestroyCRTRuntime();
 
 inline uintptr_t KEXE_ADDR_START_;
 inline uintptr_t KEXE_ADDR_END_;

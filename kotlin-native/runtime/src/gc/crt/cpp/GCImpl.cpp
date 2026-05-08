@@ -8,7 +8,7 @@
 #include "GCStatistics.hpp"
 #include "KAssert.h"
 #include "Logging.hpp"
-#include "CRTUtils.hpp"
+#include "crt/cpp/CRTUtils.hpp"
 
 using namespace kotlin;
 

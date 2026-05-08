@@ -14,13 +14,13 @@
  */
 
 #include "AllocatorImpl.hpp"
-#include "gc/crt/cpp/CRTUtils.hpp"
+#include "crt/cpp/CRTUtils.hpp"
 
 namespace kotlin {
 // TODO: Get the cache TLS from ThreadData, should be renamed
 void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl)
 {
-    return impl.alloc().getCrtTls();
+    return impl.crt_alloc().getCrtTls();
 }
 } // namespace kotlin
 
@@ -33,13 +33,13 @@ alloc::Allocator::ThreadData::~ThreadData() = default;
 
 ALWAYS_INLINE ObjHeader* alloc::Allocator::ThreadData::allocateObject(const TypeInfo* typeInfo) noexcept
 {
-    return impl_->alloc().CreateObject(typeInfo);
+    return impl_->crt_alloc().CreateObject(typeInfo);
 }
 
 ALWAYS_INLINE ArrayHeader* alloc::Allocator::ThreadData::allocateArray(const TypeInfo* typeInfo,
     uint32_t elements) noexcept
     {
-        return impl_->alloc().CreateArray(typeInfo, elements);
+        return impl_->crt_alloc().CreateArray(typeInfo, elements);
     }
 
 ALWAYS_INLINE mm::ExtraObjectData& alloc::Allocator::ThreadData::allocateExtraObjectData(

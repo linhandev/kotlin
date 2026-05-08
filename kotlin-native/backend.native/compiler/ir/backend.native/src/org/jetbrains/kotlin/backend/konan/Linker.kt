@@ -192,7 +192,7 @@ internal class Linker(
         
         var libraries = linker.linkStaticLibraries(includedBinaries) + caches.static
         
-        if (config.allocationMode == AllocationMode.CRT) {
+        if (config.allocationMode == AllocationMode.CRT || config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) { // TODO: refact this
             val libcrtPath = System.getenv("LIBCRT_PATH")
             if (libcrtPath != null) {
                 libraries += listOf("${libcrtPath}/libcrt.so")

@@ -17,7 +17,7 @@
 
 #include "Allocator.hpp"
 
-#include "CRTAllocator.hpp"
+#include "crt/cpp/CRTAllocator.hpp"
 
 namespace kotlin::alloc {
 
@@ -30,12 +30,12 @@ private:
 
 class Allocator::ThreadData::Impl : private Pinned {
 public:
-    explicit Impl(Allocator::Impl& allocator) noexcept : alloc_() {}
+    explicit Impl(Allocator::Impl& allocator) noexcept {}
 
-    alloc::CRTAllocator& alloc() noexcept { return alloc_; }
+    alloc::CRTAllocator& crt_alloc() noexcept { return crt_alloc_; }
 
 private:
-    CRTAllocator alloc_;
+    CRTAllocator crt_alloc_{};
 };
 
 } // namespace kotlin::alloc

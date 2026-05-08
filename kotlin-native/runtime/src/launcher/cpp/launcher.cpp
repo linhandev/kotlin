@@ -25,9 +25,6 @@
 
 #include "launcher.h"
 
-#include "MemoryManagerSwitch.hpp"
-#include "gc/crt/cpp/CRTRuntime.hpp"
-
 using namespace kotlin;
 
 //--- Setup args --------------------------------------------------------------//
@@ -66,9 +63,6 @@ extern "C" RUNTIME_EXPORT int Init_and_run_start(int argc, const char** argv, in
   if (memoryDeInit) {
       Kotlin_shutdownRuntime();
   }
-  checkUseCRT<CheckMode::Slow>([] {
-      DestroyCRTRuntime();
-  });
 
   kotlin::programName = nullptr; // argv[0] might not be valid after this point
 

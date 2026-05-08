@@ -20,7 +20,7 @@
 
 #include "Allocator.hpp"
 #include "ObjectTraversal.hpp"
-#include "gc/crt/cpp/CRTRuntime.hpp"
+#include "CRTRuntime.hpp"
 #include "HeapInterface.hpp"
 
 namespace common {
