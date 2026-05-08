@@ -12,11 +12,7 @@ import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.config.LanguageVersion
 import org.jetbrains.kotlin.config.forcesPreReleaseBinariesIfEnabled
 import org.jetbrains.kotlin.konan.test.blackbox.support.*
-import org.jetbrains.kotlin.konan.test.blackbox.support.ClassLevelProperty
-import org.jetbrains.kotlin.konan.test.blackbox.support.EnforcedProperty
 import org.jetbrains.kotlin.konan.test.blackbox.support.compilation.*
-import org.jetbrains.kotlin.konan.test.blackbox.support.compilation.LibraryCompilation
-import org.jetbrains.kotlin.konan.test.blackbox.support.compilation.ObjCFrameworkCompilation
 import org.jetbrains.kotlin.konan.test.blackbox.support.compilation.TestCompilationResult.Companion.assertSuccess
 import org.jetbrains.kotlin.konan.test.blackbox.support.group.ClassicPipeline
 import org.jetbrains.kotlin.konan.test.blackbox.support.runner.TestRunChecks
@@ -171,7 +167,7 @@ abstract class CompilerOutputTestBase : AbstractNativeSimpleTest() {
     }
 
     private fun doBuildObjCFrameworkWithNameCollisions(rootDir: File, additionalOptions: List<String>): TestCompilationResult<out TestCompilationArtifact.ObjCFramework> {
-        Assumptions.assumeTrue(targets.hostTarget.family.isAppleFamily)
+        Assumptions.assumeTrue(targets.testTarget.family.isAppleFamily)
 
         val settings = testRunSettings
         val lib1 = compileLibrary(settings, rootDir.resolve("lib1.kt")).assertSuccess().resultingArtifact
@@ -200,7 +196,7 @@ abstract class CompilerOutputTestBase : AbstractNativeSimpleTest() {
         name: String,
         modules: Set<TestModule.Exclusive>,
     ) {
-        Assumptions.assumeTrue(targets.hostTarget.family.isAppleFamily)
+        Assumptions.assumeTrue(targets.testTarget.family.isAppleFamily)
         // https://youtrack.jetbrains.com/issue/KT-71097/Kotlin-Native-add-a-flag-to-catch-duplicating-symbols-in-caches
         Assumptions.assumeFalse(testRunSettings.get<CacheMode>().useStaticCacheForUserLibraries)
 

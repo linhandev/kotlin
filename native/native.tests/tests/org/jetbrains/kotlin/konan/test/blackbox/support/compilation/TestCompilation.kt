@@ -131,6 +131,11 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
         addFlattened(binaryOptions.entries) { (name, value) -> listOf("-Xbinary=$name=$value") }
     }
 
+    /** Applied last in [getCompilerArgs] so it overrides // FREE_COMPILER_ARGS: and klib defaults. */
+    private fun ArgsBuilder.applyPrintToOhosHiLogDisabledForAllNativeTests() {
+        add("-Xbinary=printToOhosHiLog=false")
+    }
+
     protected abstract fun applySpecificArgs(argsBuilder: ArgsBuilder)
     protected open fun applyDependencies(argsBuilder: ArgsBuilder) = with(argsBuilder) {
         if (this@BasicCompilation !is LibraryCompilation) {
@@ -263,6 +268,7 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
         applyCompilerPlugins()
         applyModuleName()
         applySources()
+        applyPrintToOhosHiLogDisabledForAllNativeTests()
     }
 }
 

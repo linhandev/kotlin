@@ -48,6 +48,8 @@ object BinaryOptions : BinaryOptionRegistry() {
 
     val androidProgramType by option<AndroidProgramType>()
 
+    val printToOhosHiLog by booleanOption()
+
     val unitSuspendFunctionObjCExport by option<UnitSuspendFunctionObjCExport>()
 
     val objcExportSuspendFunctionLaunchThreadRestriction by option<ObjCExportSuspendFunctionLaunchThreadRestriction>()
