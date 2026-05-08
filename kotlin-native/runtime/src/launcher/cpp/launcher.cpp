@@ -25,6 +25,9 @@
 
 #include "launcher.h"
 
+#include "MemoryManagerSwitch.hpp"
+#include "gc/crt/cpp/CRTRuntime.hpp"
+
 using namespace kotlin;
 
 //--- Setup args --------------------------------------------------------------//
@@ -42,11 +45,7 @@ OBJ_GETTER(setupArgs, int argc, const char** argv) {
   for (int index = 1; index < argc; index++) {
     ObjHolder result;
     CreateStringFromCString(argv[index], result.slot());
-#ifdef USE_CRT
     UpdateHeapRef(ArrayAddressOfElementAt(array, index - 1), result.obj(), array->obj());
-#else
-    UpdateHeapRef(ArrayAddressOfElementAt(array, index - 1), result.obj());
-#endif
   }
   return result;
 }
@@ -67,6 +66,9 @@ extern "C" RUNTIME_EXPORT int Init_and_run_start(int argc, const char** argv, in
   if (memoryDeInit) {
       Kotlin_shutdownRuntime();
   }
+  checkUseCRT<CheckMode::Slow>([] {
+      DestroyCRTRuntime();
+  });
 
   kotlin::programName = nullptr; // argv[0] might not be valid after this point
 

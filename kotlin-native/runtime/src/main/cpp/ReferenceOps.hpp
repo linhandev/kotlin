@@ -8,11 +8,8 @@
 #include <cstdlib>
 #include "Memory.h"
 #include "std_support/Atomic.hpp"
-
-#ifdef USE_CRT
-#include "macros.h"
+#include "MemoryManagerSwitch.hpp"
 #include "alloc/crt/cpp/HeapInterface.hpp"
-#endif
 
 #if __has_feature(thread_sanitizer)
 #include <sanitizer/tsan_interface.h>
@@ -71,25 +68,26 @@ public:
 #endif
         return loaded;
 #else
-#ifdef USE_CRT
-        // TODO: will thisPtr be modified during readbarrier? can we make it a const* to make compiler happier?
-        return reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this_, refPtr_));
-#else
-        return *refPtr_;
-#endif
+        // CheckMode must be Fast or better change call order of ReadHeapRef <-> this.load to keep only one check
+        return checkUseCRT<CheckMode::Fast>([&] {
+            // TODO: will this_ be modified during readbarrier? can we make it a const* to make compiler happier?
+            return reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this_, refPtr_));
+        }, [&] {
+            return *refPtr_;
+        });
 #endif
     }
 
     ALWAYS_INLINE void store(ObjHeader* desired) noexcept {
-#ifdef USE_CRT
-        if (this_) {
-            // NOTE:  to filter out cache primitive which is not on heap but in program data section
-            // Be very carefull, this could let us miss obvious wrong value
-            if (common::IsHeapAddress(desired)) {
-                common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
+        checkUseCRT<CheckMode::Fast>([&] {
+            if (this_) {
+                // NOTE:  to filter out cache primitive which is not on heap but in program data section
+                // Be very carefull, this could let us miss obvious wrong value
+                if (common::IsHeapAddress(desired)) {
+                    common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
+                }
             }
-        }
-#endif // USE_CRT
+        });
 #if STRICT_ATOMICS_IN_HEAP
         storeAtomic(desired, std::memory_order_relaxed);
 #else
@@ -108,62 +106,62 @@ public:
 
     ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) const noexcept
     {
-#ifdef USE_CRT
-        return reinterpret_cast<ObjHeader*>(common::BaseRuntime::AtomicReadBarrier(this_, refPtr_, order));
-#else
-        return atomic().load(order);
-#endif
+        return checkUseCRT<CheckMode::Fast>([&] {
+            return reinterpret_cast<ObjHeader*>(common::BaseRuntime::AtomicReadBarrier(this_, refPtr_, order));
+        }, [&] {
+            return atomic().load(order);
+        });
     }
     ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept
     {
-#ifdef USE_CRT
-        if (this_) {
-            if (common::IsHeapAddress(desired)) {
-                common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
-            }
-        }
-#endif
-        atomic().store(desired, order);
-    }
-    ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept
-    {
-#ifdef USE_CRT
-        //TODO: Make sure swapBarrier is implemented correctly in CRT
-        if (this_) {
-            if (common::IsHeapAddress(desired)) {
-                common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
-            }
-        }
-        return atomic().exchange(desired, order);
-#else
-        return atomic().exchange(desired, order);
-#endif
-    }
-    ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept
-    {
-#ifdef USE_CRT
-        // Canonicalize
-        ObjHeader* cur = reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this_, refPtr_));
-        if (cur != expected) {
-            // value has been moved, simply return false and update expected
-            expected = cur;
-            return false;
-        }
-
-        // Till this point all values are to-space, we can simply use CAS to try install the value
-        bool ok = atomic().compare_exchange_strong(expected, desired, order);
-        if (ok) {
+        checkUseCRT<CheckMode::Fast>([&] {
             if (this_) {
                 if (common::IsHeapAddress(desired)) {
                     common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
                 }
             }
-            return true;
-        }
-        return false;
-#else
-        return atomic().compare_exchange_strong(expected, desired, order);
-#endif
+        });
+        atomic().store(desired, order);
+    }
+    ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept
+    {
+        return checkUseCRT<CheckMode::Fast>([&] {
+            //TODO: Make sure swapBarrier is implemented correctly in CRT
+            if (this_) {
+                if (common::IsHeapAddress(desired)) {
+                    common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
+                }
+            }
+            return atomic().exchange(desired, order);
+        }, [&] {
+            return atomic().exchange(desired, order);
+        });
+    }
+    ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept
+    {
+        return checkUseCRT<CheckMode::Fast>([&] {
+            // Canonicalize
+            ObjHeader* cur = reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this_, refPtr_));
+            if (cur != expected) {
+                // value has been moved, simply return false and update expected
+                expected = cur;
+                return false;
+            }
+
+            // Till this point all values are to-space, we can simply use CAS to try install the value
+            bool ok = atomic().compare_exchange_strong(expected, desired, order);
+            if (ok) {
+                if (this_) {
+                    if (common::IsHeapAddress(desired)) {
+                        common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
+                    }
+                }
+                return true;
+            }
+            return false;
+        }, [&] {
+            return atomic().compare_exchange_strong(expected, desired, order);
+        });
     }
 
 private:

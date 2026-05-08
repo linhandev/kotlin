@@ -46,7 +46,7 @@ void initAddressScope()
     auto start = reinterpret_cast<uintptr_t>(::getsegmentdata((mach_header_64*)info.dli_fbase, SEG_DATA, &size));
     KEXE_ADDR_END_ = start + size;
 #else
-    KEXE_ADDR_END_ = static_cast<uintptr_t>(&end);
+    KEXE_ADDR_END_ = reinterpret_cast<uintptr_t>(&end);;
 #endif
 
 #else
@@ -87,6 +87,11 @@ bool InitCRTRuntime()
     common::BaseRoots::Register<common::LanguageType::KOTLIN>(&common::KNRootsVisitor::Instance());
     common::RegisterFinalizationInterface(&common::KNFinalizationInterface::Instance());
     return true;
+}
+
+void DestroyCRTRuntime() {
+    common::BaseRuntime::GetInstance()->FiniFromDynamic();
+    common::BaseRuntime::GetInstance()->DestroyInstance();
 }
 
 } // namespace kotlin
