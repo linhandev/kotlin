@@ -12,6 +12,9 @@
 #include "ObjCMMAPI.h"
 #endif
 
+#include "MemoryManagerSwitch.hpp"
+#include "crt/cpp/KNFinalizer.hpp"
+
 using namespace kotlin;
 
 // static
@@ -36,10 +39,21 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
         return *reinterpret_cast<mm::ExtraObjectData*>(typeInfo);
     }
 
+#ifdef KONAN_OBJC_INTEROP
+    checkUseCRT<CheckMode::Fast>([&] {
+        // Objects with an ExtraObj installed has to be finalized
+        // to ensure that possible associated objects are released.
+        if (!(typeInfo->flags_ & TF_HAS_FINALIZER)) { // avoid registering finalizable objects twice
+            common::BaseFinalizerProcessor::RegisterFinalizableObject(reinterpret_cast<common::BaseObject*>(object));
+        }
+    });
+#endif
+
     return data;
 }
 
 void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
+    assertNotCRT();
     auto* object = weakReferenceOrBaseObject_.exchange(nullptr);
     RuntimeAssert(
             !hasPointerBits(object, WEAK_REF_TAG), "ExtraObjectData %p has uncleared weak reference %p during unlink", this,
@@ -60,6 +74,7 @@ void mm::ExtraObjectData::ReleaseAssociatedObject() noexcept {
 }
 
 void mm::ExtraObjectData::Uninstall() noexcept {
+    assertNotCRT();
     UnlinkFromBaseObject();
     ReleaseAssociatedObject();
 }
@@ -73,6 +88,7 @@ bool mm::ExtraObjectData::HasAssociatedObject() noexcept {
 }
 
 void mm::ExtraObjectData::ClearRegularWeakReferenceImpl() noexcept {
+    assertNotCRT();
     auto *object = GetBaseObject();
     // Not using `mm::SetHeapRef here`, because this code is called during sweep phase by the GC thread,
     // and so cannot affect marking.

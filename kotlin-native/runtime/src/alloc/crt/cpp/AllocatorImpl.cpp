@@ -41,15 +41,15 @@ ALWAYS_INLINE ArrayHeader* alloc::Allocator::ThreadData::allocateArray(const Typ
     }
 
 ALWAYS_INLINE mm::ExtraObjectData& alloc::Allocator::ThreadData::allocateExtraObjectData(
-    ObjHeader* object, const TypeInfo* typeInfo) noexcept
+    ObjHeader*, const TypeInfo* typeInfo) noexcept
     {
-        NOT_SUPPORTED_BY_CRT();
+        return *impl_->crt_alloc().CreateExtraObjectDataForObject(typeInfo);
     }
 
 ALWAYS_INLINE void alloc::Allocator::ThreadData::destroyUnattachedExtraObjectData(
-    mm::ExtraObjectData& extraObject) noexcept
+    mm::ExtraObjectData&) noexcept
     {
-        NOT_SUPPORTED_BY_CRT();
+        // nothing to do, GC will collect it as garbage
     }
 
 void alloc::Allocator::ThreadData::prepareForGC() noexcept {}
@@ -90,7 +90,7 @@ size_t alloc::allocatedBytes() noexcept
 
 void alloc::destroyExtraObjectData(mm::ExtraObjectData& extraObject) noexcept
 {
-    NOT_SUPPORTED_BY_CRT();
+    extraObject.ReleaseAssociatedObject();
 }
 
 void alloc::Allocator::startFinalizerThreadIfNeeded() noexcept {}

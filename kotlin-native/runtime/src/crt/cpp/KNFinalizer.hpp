@@ -25,15 +25,15 @@ namespace common {
 class KNFinalizationInterface : public common::BaseFinalizationInterface, private kotlin::Pinned {
 public:
     void attachCurrentThread() override {
-        kotlin::CalledFromNativeGuard guard{};
+        common::CallToFFixedX28 guard{}; // only guard x28
         RuntimeAssert(!finalizerThreadIsRunning_, "Finalizer thread is already running");
         // K/N GCs detect that finalizer thread is running by whether the thread is joinable,
         // which happens-before its corresponding runtime is inited, therefore the flag is set first and never dropped.
         finalizerThreadIsRunning_ = true; // atomic store is seq_cst with atomic increment of aliveRuntimesCount in init
-        Kotlin_initRuntimeIfNeeded();
+        Kotlin_initRuntimeIfNeeded(); // must be below the atomic store to match the checks order during termination
     }
     void invokeFinalizer(BaseObject* obj) const override {
-        kotlin::CalledFromNativeGuard guard{};
+        kotlin::CalledFromNativeGuard guard{}; // guard both x28 and switch to kRunnable state
         kotlin::RunFinalizers(reinterpret_cast<ObjHeader*>(obj));
     }
 

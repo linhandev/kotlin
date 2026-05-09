@@ -75,7 +75,6 @@ PERFORMANCE_INLINE void* ObjHeader::CasAssociatedObject(void* expectedObj, void*
 
 // static
 MetaObjHeader* ObjHeader::createMetaObject(ObjHeader* object) {
-    assertNotCRT();
     return mm::ExtraObjectData::Install(object).AsMetaObjHeader();
 }
 

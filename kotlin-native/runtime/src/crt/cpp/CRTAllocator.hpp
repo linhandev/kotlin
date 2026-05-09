@@ -37,6 +37,8 @@ public:
 
     ArrayHeader* CreateArray(const TypeInfo* typeInfo, uint32_t count) noexcept;
 
+    mm::ExtraObjectData* CreateExtraObjectDataForObject(const TypeInfo* info) noexcept;
+
     static size_t GetAllocatedHeapSize(ObjHeader* object) noexcept;
 
     // Cache CRT TLS address so that we don't have to call GetThreadLocalData every time.

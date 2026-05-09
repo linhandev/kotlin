@@ -14,9 +14,6 @@
 
 namespace kotlin {
 
-// CRT hash implementation
-typedef KInt CRTHash;
-
 struct KObject : private Pinned {
     class descriptor {
     public:
@@ -31,11 +28,7 @@ struct KObject : private Pinned {
 
         uint64_t size() const noexcept {
             RuntimeAssert(typeInfo_ != nullptr, "Cannot call size() on KObject::descriptor(nullptr)");
-            auto size = typeInfo_->instanceSize_;
-            checkUseCRT<CheckMode::Slow>([&] { // can't be Fast unless GC threads set x28 properly, remove after #12 is fixed
-                size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
-            });
-            return size;
+            return typeInfo_->instanceSize_;
         }
 
         value_type* construct(uint8_t* ptr) noexcept {
@@ -82,11 +75,7 @@ struct KArray : private Pinned {
             // -(int32_t min) * uint32_t max cannot overflow uint64_t. And are capped
             // at about half of uint64_t max.
             auto elementsSize = elementSize * count_;
-            auto size = AlignUp<uint64_t>(AlignUp(sizeof(ArrayHeader), elementAlignment) + elementsSize, alignment());
-            checkUseCRT<CheckMode::Slow>([&] { // can't be Fast unless GC threads set x28 properly, remove after #12 is fixed
-                size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
-            });
-            return size;
+            return AlignUp<uint64_t>(AlignUp(sizeof(ArrayHeader), elementAlignment) + elementsSize, alignment());
         }
 
         value_type* construct(uint8_t* ptr) noexcept {

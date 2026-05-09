@@ -103,6 +103,13 @@ ALWAYS_INLINE ArrayHeader* CRTAllocator::CreateArray(const TypeInfo* typeInfo, u
     return array;
 }
 
+mm::ExtraObjectData* CRTAllocator::CreateExtraObjectDataForObject(const TypeInfo* info) noexcept {
+    constexpr auto size = sizeof(mm::ExtraObjectData);
+    static_assert(size % sizeof(uint64_t) == 0, "non-movable allocator requirement failed");
+    auto extraObjectMemory = reinterpret_cast<void*>(common::HeapAllocator::AllocateInNonmove(size, common::LanguageType::KOTLIN));
+    return new (extraObjectMemory) mm::ExtraObjectData(info);
+}
+
 // static
 size_t CRTAllocator::GetAllocatedHeapSize(ObjHeader* object) noexcept {
     return CRTHeapObject::from(object).size();
@@ -110,12 +117,10 @@ size_t CRTAllocator::GetAllocatedHeapSize(ObjHeader* object) noexcept {
 
 } // namespace kotlin::alloc
 
-// TODO: CRT hash code implementation
 RUNTIME_NOTHROW extern "C" KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz)
 {
     assertUseCRT();
 
-    static std::atomic<KInt> CRTGlobalHashIndex = 0xc0000001;
     // Only object (i.e., non-primitive) can be hashed. Therefore if thiz does not belong to heap
     // it must be (when there is no Escape-analysis) a compiler-generated cached boxing value, which reside
     // in the text section of the program, which is not editable or movable.
@@ -125,23 +130,5 @@ RUNTIME_NOTHROW extern "C" KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz)
         return reinterpret_cast<uintptr_t>(thiz);
     }
 
-    using ObjectDescriptor = kotlin::alloc::CRTHeapObject::descriptor::FieldDescriptor<1>;
-    using ArrayDescriptor = kotlin::alloc::CRTHeapArray::descriptor::FieldDescriptor<1>;
-    static_assert(std::is_same<ObjectDescriptor::value_type, kotlin::KObject>::value, "hash code set on KObject");
-    static_assert(std::is_same<ArrayDescriptor::value_type, kotlin::KArray>::value, "hash code set on KObject");
-
-    const auto* typeInfo = thiz->type_info();
-    uintptr_t addr;
-    if (!typeInfo->IsArray()) {
-        addr = reinterpret_cast<uintptr_t>(kotlin::KObject::from(thiz));
-        addr += ObjectDescriptor(typeInfo).size() - sizeof(kotlin::CRTHash);
-    } else {
-        addr = reinterpret_cast<uintptr_t>(kotlin::KArray::from(thiz->array()));
-        addr += ArrayDescriptor(typeInfo, thiz->array()->count_).size() - sizeof(kotlin::CRTHash);
-    }
-    KInt* hash = reinterpret_cast<kotlin::CRTHash*>(addr);
-    if (*hash == 0) {
-        *hash = CRTGlobalHashIndex.fetch_add(1, std::memory_order_relaxed);
-    }
-    return *hash;
+    return kotlin::mm::ExtraObjectData::GetOrInstall(thiz).hashCode();
 }
