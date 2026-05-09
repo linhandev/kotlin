@@ -32,7 +32,7 @@ struct KObject : private Pinned {
         uint64_t size() const noexcept {
             RuntimeAssert(typeInfo_ != nullptr, "Cannot call size() on KObject::descriptor(nullptr)");
             auto size = typeInfo_->instanceSize_;
-            checkUseCRT<CheckMode::Fast>([&] { // used in allocators, so must be fast or removed after #12 is fixed
+            checkUseCRT<CheckMode::Slow>([&] { // can't be Fast unless GC threads set x28 properly, remove after #12 is fixed
                 size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
             });
             return size;
@@ -83,7 +83,7 @@ struct KArray : private Pinned {
             // at about half of uint64_t max.
             auto elementsSize = elementSize * count_;
             auto size = AlignUp<uint64_t>(AlignUp(sizeof(ArrayHeader), elementAlignment) + elementsSize, alignment());
-            checkUseCRT<CheckMode::Fast>([&] { // used in allocators, so must be fast or removed after #12 is fixed
+            checkUseCRT<CheckMode::Slow>([&] { // can't be Fast unless GC threads set x28 properly, remove after #12 is fixed
                 size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
             });
             return size;

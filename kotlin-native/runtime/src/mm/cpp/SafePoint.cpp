@@ -17,7 +17,8 @@
 #include "ThreadData.hpp"
 #include "ThreadState.hpp"
 
-#include "crt/cpp/CRTFastpathUtils.hpp"
+#include "macros.h"
+#include "CRTFastpathUtils.hpp"
 #include "crt/cpp/HeapInterface.hpp"
 #include "crt/cpp/KNRootVisitor.hpp"
 #include "MemoryManagerSwitch.hpp"
@@ -33,7 +34,6 @@
 #endif
 
 namespace kotlin {
-void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl);
 
 static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
     assertUseCRT();
@@ -163,7 +163,7 @@ ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPath
     checkUseCRT<CheckMode::Fast>([&] {
 #ifdef ENABLE_GC_FASTPATH
         uintptr_t tls;
-        FixedRegtoLocalVar(tls);
+        FixedRegToLocalVar(tls);
         auto mutatorPtr = reinterpret_cast<common::MutatorBase**>(tls + common::TLS_MUTATOR_OFF);
         uint32_t IsSafePointActive = *reinterpret_cast<uint32_t*>(*mutatorPtr);
         if (UNLIKELY(IsSafePointActive)){
@@ -178,7 +178,7 @@ ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPath
 #else
         auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
         // avoid use `common::ThreadLocal::GetThreadLocalData` if CRT dynamic link
-        void* tls = EvalCRTTLS(threadData->allocator().impl());
+        void* tls = common::LoadCachedCRTTLS(threadData->allocator().impl());
         if (UNLIKELY(common::IsSafePointActive(tls))) {
             if (needSavedFrame) {
                 SaveStackFrameK2RSafePoint();

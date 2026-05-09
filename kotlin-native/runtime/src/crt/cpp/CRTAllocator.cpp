@@ -30,6 +30,7 @@
 #include "HeapInterface.hpp"
 #include "KNBaseObject.hpp"
 #include "MemoryManagerSwitch.hpp"
+#include "macros.h"
 
 namespace kotlin::alloc {
 
@@ -56,7 +57,7 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
     size_t allocSize = common::HeapAllocateSize(size);
 #ifdef ENABLE_GC_FASTPATH
     uintptr_t tls;
-    FixedRegtoLocalVar(tls);
+    FixedRegToLocalVar(tls);
 #else
     auto tls = reinterpret_cast<uintptr_t>(crtTLS);
 #endif

@@ -173,6 +173,7 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
 }
 
 void Kotlin_deinitRuntimeCallback(void* argument) {
+  common::CallToFFixedX28 guard{};
   auto* state = reinterpret_cast<RuntimeState*>(argument);
   // This callback may be called from any state, make sure it runs in the runnable state.
   kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);

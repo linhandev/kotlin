@@ -26,6 +26,7 @@
 #include "TypeInfo.h"
 #include "PointerBits.h"
 #include "MemoryManagerSwitch.hpp"
+#include "CRTFastpathUtils.hpp"
 #include "Utils.hpp"
 
 #ifdef KONAN_OHOS
@@ -568,6 +569,7 @@ private:
     MemoryState* thread_;
     ThreadState oldState_;
     bool reentrant_;
+    common::CallToFFixedX28 guard{};
 };
 
 // Scopely sets the kRunnable thread state for the current thread,

@@ -26,7 +26,7 @@
 #include "ThreadState.hpp"
 
 #include "MemoryManagerSwitch.hpp"
-#include "crt/cpp/CRTFastpathUtils.hpp"
+#include "CRTFastpathUtils.hpp"
 #include "common_interfaces/base_runtime.h"
 #include "common_interfaces/thread/mutator_base.h"
 

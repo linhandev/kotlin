@@ -16,15 +16,13 @@
 #include "AllocatorImpl.hpp"
 #include "crt/cpp/CRTUtils.hpp"
 
-namespace kotlin {
-// TODO: Get the cache TLS from ThreadData, should be renamed
-void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl)
-{
+using namespace kotlin;
+
+namespace common {
+void* LoadCachedCRTTLS(alloc::Allocator::ThreadData::Impl& impl) {
     return impl.crt_alloc().getCrtTls();
 }
-} // namespace kotlin
-
-using namespace kotlin;
+} // namespace common
 
 alloc::Allocator::ThreadData::ThreadData(Allocator& allocator) noexcept
     : impl_(std::make_unique<Impl>(allocator.impl())) {}

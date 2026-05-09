@@ -14,7 +14,7 @@
 #include "SafePoint.hpp"
 
 #include "StackTrace.hpp"
-#include "crt/cpp/CRTFastpathUtils.hpp"
+#include "CRTFastpathUtils.hpp"
 #include <iostream>
 #include <cstring>
 #include "MemoryManagerSwitch.hpp"
@@ -66,7 +66,11 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
             auto* th = threadData_.GetThreadHolder();
             th->TransferToRunning();
 #ifdef ENABLE_GC_FASTPATH
-        // sync gcphase
+            // restore the TLS value on x28
+            void* tls = common::LoadCachedCRTTLS(threadData_.allocator().impl());
+            RuntimeAssert(tls != nullptr, "CRT TLS must not be null");
+            SetThreadLocalDataToFixedReg(tls);
+            // sync gc phase
             auto* mutator = *(reinterpret_cast<common::MutatorBase**>(th));
             common::UpdateThreadLocalDataReg(mutator);
 #endif

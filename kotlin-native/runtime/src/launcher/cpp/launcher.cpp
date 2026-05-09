@@ -55,6 +55,7 @@ extern "C" KInt Konan_run_start(int argc, const char** argv) {
 }
 
 extern "C" RUNTIME_EXPORT int Init_and_run_start(int argc, const char** argv, int memoryDeInit) {
+  common::CallToFFixedX28 guard{};
   Kotlin_initRuntimeIfNeeded();
   Kotlin_mm_switchThreadStateRunnable();
 
