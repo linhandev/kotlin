@@ -79,23 +79,29 @@ FORCE_INLINE void checkNotCRT(G else_f) {
     checkUseCRT<mode>([]{}, else_f);
 }
 
-/// If currently selected MemoryManager is CRT then crash, otherwise fall through to the next line in caller.
-template<CheckMode mode = CheckMode::Slow>
-FORCE_INLINE void assertNotCRT()
-{
-    checkUseCRT<mode>([] {
+/// Assert that currently selected MemoryManager is not CRT.
+FORCE_INLINE void assertNotCRT() {
+    checkUseCRT<CheckMode::Slow>([] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is disabled");
-        std::abort();
+        if (kotlin::compiler::memoryManagerMode() != kotlin::compiler::MemoryManagerMode::kRuntimeSwitch) {
+            // Only abort if the MM mode can be determined in compile-time to facilitate UCE below the std::abort(),
+            // otherwise if assertions are disabled and the MM is not known in compile-time this lambda will be empty
+            // so the run-time check won't be generated.
+            std::abort();
+        }
     });
 }
 
-/// If currently selected MemoryManager is CRT then fall through to the next line in caller, otherwise crash.
-template<CheckMode mode = CheckMode::Slow>
-FORCE_INLINE void assertUseCRT()
-{
-    checkNotCRT<mode>([] {
+/// Assert that currently selected MemoryManager is CRT.
+FORCE_INLINE void assertUseCRT() {
+    checkNotCRT<CheckMode::Slow>([] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is enabled");
-        std::abort();
+        if (kotlin::compiler::memoryManagerMode() != kotlin::compiler::MemoryManagerMode::kRuntimeSwitch) {
+            // Only abort if the MM mode can be determined in compile-time to facilitate UCE below the std::abort(),
+            // otherwise if assertions are disabled and the MM is not known in compile-time this lambda will be empty
+            // so the run-time check won't be generated.
+            std::abort();
+        }
     });
 }
 
