@@ -26,18 +26,6 @@
 
 using namespace kotlin;
 
-#if KONAN_LINUX || KONAN_OHOS
-extern "C" uint8_t __LLVM_StackMaps;
-extern "C" uint8_t __LLVM_StackMap_Offsets;
-static uintptr_t g_stackMapsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMaps);
-static uintptr_t g_stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMap_Offsets);
-#else
-extern "C" uint8_t _LLVM_StackMaps;
-extern "C" uint8_t _LLVM_StackMap_Offsets;
-static uintptr_t g_stackMapsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMaps);
-static uintptr_t g_stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMap_Offsets);
-#endif
-
 #define DUMP_DEBUG_INFO 0
 #define KOTLIN_VERIFY 1
 #define ENABLE_LAZY_STACKMAP 1
@@ -166,14 +154,18 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
 
 [[maybe_unused]] static uint64_t *GetStackMapAddress(uint64_t *fp, uint32_t *funcStartPC, mm::ThreadData& thread)
 {
-    uint64_t stackMapOffsetIndex = *(fp - 2);
+    // The function prologue (AArch64AsmPrinter ADRP hijack) now stores the
+    // absolute address of .Lstackmap_start.<func> directly into *(fp - 2) using
+    // ADRP + ADD (R_AARCH64_ADR_PREL_PG_HI21 + R_AARCH64_ADD_ABS_LO12_NC, both
+    // PC-relative and link-time-resolved). This is correct regardless of how
+    // many concatenated stackmap blobs end up in the merged .llvm_stackmaps
+    // section (the per-module/per-blob index + offsets-table indirection used
+    // previously was broken under multi-blob debug builds: indices were
+    // per-module-local, so module M>0 frames indexed module 0's offsets).
+    // Top 16 bits are reserved for tag bits, mask off before deref.
+    uint64_t addr = *(fp - 2);
     constexpr uint64_t payloadMask = (1ULL << 48) - 1;
-    stackMapOffsetIndex &= payloadMask;
-
-    uint64_t actualOffset = *(reinterpret_cast<uint32_t*>(g_stackMapOffsetsSection) + stackMapOffsetIndex);
-    uint64_t *stackMapAddress = reinterpret_cast<uint64_t*>(g_stackMapsSection + actualOffset);
-
-    return stackMapAddress;
+    return reinterpret_cast<uint64_t*>(addr & payloadMask);
 }
 
 static void CollectStackMapBaseRoot(
