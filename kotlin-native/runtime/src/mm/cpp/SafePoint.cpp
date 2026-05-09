@@ -35,20 +35,8 @@
 namespace kotlin {
 void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl);
 
-#ifdef __aarch64__
-#ifdef ENABLE_GC_FASTPATH
-#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26")
-#else
-#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", \
-    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26", "x27", "x28")
-#endif // ENABLE_GC_FASTPATH
-#elif defined(__x86_64__)
-#define CRT_REGISTERS_CLOBBERS asm volatile("" : : : "memory", "rbx", "r12", "r13", "r14", "r15")
-#endif // __aarch64__
-
 static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
     assertUseCRT();
-    CRT_REGISTERS_CLOBBERS;
     FrameOverlay slot;
     mm::ThreadData* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
 
@@ -173,6 +161,21 @@ ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPath
 {
     AssertThreadState(ThreadState::kRunnable);
     checkUseCRT<CheckMode::Fast>([&] {
+#ifdef ENABLE_GC_FASTPATH
+        uintptr_t tls;
+        FixedRegtoLocalVar(tls);
+        auto mutatorPtr = reinterpret_cast<common::MutatorBase**>(tls + common::TLS_MUTATOR_OFF);
+        uint32_t IsSafePointActive = *reinterpret_cast<uint32_t*>(*mutatorPtr);
+        if (UNLIKELY(IsSafePointActive)){
+            if (needSavedFrame) {
+                SaveStackFrameK2RSafePoint();
+            }
+            SafePointSlowPath(*mutatorPtr);
+            if (needSavedFrame) {
+                RestoreStackFrameK2RSafePoint();
+            }
+        }
+#else
         auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
         // avoid use `common::ThreadLocal::GetThreadLocalData` if CRT dynamic link
         void* tls = EvalCRTTLS(threadData->allocator().impl());
@@ -185,6 +188,8 @@ ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPath
                 RestoreStackFrameK2RSafePoint();
             }
         }
+#endif
+
     }, [&] {
         auto action = safePointAction.load(fastPathOrder);
 

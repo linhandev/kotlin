@@ -34,27 +34,32 @@
 namespace kotlin::alloc {
 
 CRTAllocator::CRTAllocator() noexcept {
-    crtTls = common::GetThreadLocalData();
+    crtTLS = common::GetThreadLocalData();
 #ifdef ENABLE_GC_FASTPATH
-    common::SetThreadLocalDataToFixedReg(reinterpret_cast<uintptr_t>(crtTls));
+    // Init fastpath state by moving crtTLS into x28
+    SetThreadLocalDataToFixedReg(crtTLS);
 #endif
 }
 
 CRTAllocator::~CRTAllocator() {}
 
-static NO_INLINE common::Address AllocFromCMCSlowPath(size_t size, void* tls) {
+static NO_INLINE common::Address AllocFromCMCSlowPath(size_t size, uintptr_t tls) {
     auto allocPtr = common::HeapAllocator::Allocate(size, common::LanguageType::KOTLIN);
 
 #ifdef ENABLE_GC_FASTPATH
-    common::UpdateThreadLocalDataReg(*reinterpret_cast<common::MutatorBase**>((char*)tls + common::TLS_MUTATOR_OFF));
+    common::UpdateThreadLocalDataReg(*reinterpret_cast<common::MutatorBase**>(tls + common::TLS_MUTATOR_OFF));
 #endif
     return allocPtr;
 }
 
 uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
     size_t allocSize = common::HeapAllocateSize(size);
-    // TODO: maybe cause an extra instruction compared to directly loading from x28. Review later
-    auto tls = reinterpret_cast<uintptr_t>(crtTls);
+#ifdef ENABLE_GC_FASTPATH
+    uintptr_t tls;
+    FixedRegtoLocalVar(tls);
+#else
+    auto tls = reinterpret_cast<uintptr_t>(crtTLS);
+#endif
     auto buffer = *reinterpret_cast<uintptr_t*>(tls + common::TLS_ALLOC_BUFFER_OFF);
     auto regionAddr = *reinterpret_cast<uintptr_t*>(buffer + common::ALLOC_BUFFER_REGION_OFF);
 
@@ -63,7 +68,7 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
 
     auto endOfAlloc = allocPtr + allocSize;
     if (UNLIKELY(endOfAlloc > regionEnd)) {
-        allocPtr = AllocFromCMCSlowPath(size, crtTls);
+        allocPtr = AllocFromCMCSlowPath(size, tls);
     } else {
         RuntimeAssert(allocPtr == common::HeapAllocator::Allocate(size, common::LanguageType::KOTLIN), "FastAlloc mismatch");
         *reinterpret_cast<uintptr_t*>(regionAddr + common::REGION_DESC_ALLOC_OFF) = endOfAlloc;

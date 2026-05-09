@@ -157,7 +157,7 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
     private fun getCppGcFastpathFlags(target: KonanTarget): List<String> {
         return if (isGcFastPathEnabled) {
             when (target.architecture) {
-                TargetArchitecture.ARM64, -> listOf("-ffixed-x27", "-ffixed-x28", "-DENABLE_GC_FASTPATH")
+                TargetArchitecture.ARM64, -> listOf("-ffixed-x28", "-DENABLE_GC_FASTPATH")
                 else -> listOf("")
             }
         } else {

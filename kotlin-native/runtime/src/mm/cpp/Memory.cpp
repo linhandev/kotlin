@@ -159,13 +159,15 @@ NO_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRefSlow(ObjHeader** location, ObjHe
 
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
     return checkUseCRT<CheckMode::Fast>([&] {
+        // TODO: combine with the fastpath barrier check after PR!22 is merged
 #ifdef ENABLE_GC_FASTPATH
-        if (LIKELY(common::ThreadLocalRegisterAccessor{common::ThreadLocalRegisterRawData()}.data.needBarrier == 0)) {
-            return *location;
-        }
-#endif
+        CHECK_READ_BARRIER_SLOW_PATH(rb_slow_path)
+        return *location;
+#endif // ENABLE_GC_FASTPATH
+    rb_slow_path:
         return ReadHeapRefSlow(location, thisPtr);
     }, [&] {
+        // always inline
         return mm::RefAccessor<false>(location, thisPtr).load();
     });
 }

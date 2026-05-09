@@ -36,19 +36,24 @@ static inline uintptr_t ThreadLocalRegisterRawData()
     __asm__ volatile("mov %0, x28" : "=r"(tlr));
     return tlr;
 }
-static inline void SetThreadLocalDataToFixedReg(uintptr_t tls)
-{
-    __asm__ volatile("mov x28, %0" : : "r"(tls));
-}
-static inline void ClearThreadLocalDataInFixedReg()
-{
-    __asm__ volatile("eor x28, x28, x28");
-}
-static inline void UpdateThreadLocalDataReg(common::MutatorBase* mutator)
-{
+
+#define SetThreadLocalDataToFixedReg(tls) __asm__ volatile("mov x28, %0" : : "r"(tls))
+
+#define FixedRegtoLocalVar(var) \
+    __asm__ volatile("mov %0, x28" : "=r"(var));
+
+static inline void UpdateThreadLocalDataReg(common::MutatorBase* mutator) {
     uintptr_t maskBits = mutator->GetMutatorPhase() > 8 ? 1 : 0;
     __asm__ volatile("bfi x28, %0, #62, #1" : : "r"(maskBits));
 }
+
+static inline void ZeroThreadLocalDataReg() {
+    __asm__ volatile("mov x28, #0" ::: "x28");
+}
+
+#define CHECK_READ_BARRIER_SLOW_PATH(slow_path) \
+    __asm__ volatile goto("tbnz x28, #62, %l[" #slow_path "]" : : : : slow_path);
+
 #endif
 } // namespace common
 #endif
