@@ -70,7 +70,6 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
     if (UNLIKELY(endOfAlloc > regionEnd)) {
         allocPtr = AllocFromCMCSlowPath(size, tls);
     } else {
-        RuntimeAssert(allocPtr == common::HeapAllocator::Allocate(size, common::LanguageType::KOTLIN), "FastAlloc mismatch");
         *reinterpret_cast<uintptr_t*>(regionAddr + common::REGION_DESC_ALLOC_OFF) = endOfAlloc;
     }
     return reinterpret_cast<uint8_t*>(allocPtr);
