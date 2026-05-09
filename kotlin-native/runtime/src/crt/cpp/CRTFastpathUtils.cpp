@@ -19,7 +19,10 @@
 #ifdef ENABLE_GC_FASTPATH
 // separate implementation from the header to avoid including mutator.h everywhere
 ALWAYS_INLINE void common::UpdateThreadLocalDataReg(common::MutatorBase* mutator) {
-    uintptr_t maskBits = mutator->GetMutatorPhase() > 8 ? 1 : 0;
+    // Only enable read barrier slowpath for phases that require forwarding (PRECOPY/COPY/FIX).
+    // ENUM/MARK/REMARK/POST_MARK phases have trivial ReadRefField (direct memory load),
+    // identical to IdleBarrier, so they don't need the slowpath.
+    uintptr_t maskBits = mutator->GetMutatorPhase() >= GCPhase::GC_PHASE_PRECOPY ? 1 : 0;
     __asm__ volatile("bfi x28, %0, #62, #1" : : "r"(maskBits));
 }
 #endif
