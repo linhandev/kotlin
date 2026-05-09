@@ -38,8 +38,22 @@ internal class CodeGenerator(override val generationState: NativeGenerationState
     val intPtrType = LLVMIntPtrTypeInContext(llvm.llvmContext, llvmTargetData)!!
     internal val immOneIntPtrType = LLVMConstInt(intPtrType, 1, 1)!!
     internal val immThreeIntPtrType = LLVMConstInt(intPtrType, 3, 1)!!
-    // Keep in sync with OBJECT_TAG_MASK in C++.
-    internal val immTypeInfoMask = LLVMConstNot(LLVMConstInt(intPtrType, 3, 0)!!)!!
+    // Mask used to extract the TypeInfo* (or MetaObjHeader*) pointer out of
+    // ObjHeader.typeInfoOrMeta_, which carries tag bits in BOTH the low 2
+    // bits (OBJECT_TAG_MASK) and the high 5 bits (KNStateWord packed fields:
+    // bit 59 = `valid`, bits 60-63 = `remainded`, set by CustomAllocator).
+    // Clearing only the low bits leaves the high tag in the resulting
+    // pointer; ARM64 TBI hides it from `ldr [x]` so field access still
+    // works, but a 64-bit `cmp` (used by IsSubtype's class-chain check) sees
+    // the tagged actual ≠ untagged expected and raises a spurious
+    // ClassCastException whose `actual::class` and expected `class` strings
+    // match. This mirrors the 48-bit mask used in ObjHeader::AsMetaObject
+    // (Memory.h) and ObjHeader::type_info().
+    //
+    // 0x0000_FFFF_FFFF_FFFC = bits 48-63 + bits 0-1 cleared, bits 2-47 kept.
+    // User-space pointers on AArch64 are 48-bit, so clearing bits 48-63
+    // covers bit 59 (valid) and bits 60-63 (remainded).
+    internal val immTypeInfoMask = LLVMConstInt(intPtrType, 0xFFFFFFFFFFFCL, 0)!!
 
     //-------------------------------------------------------------------------//
 
@@ -1707,7 +1721,11 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         // TODO: Get rid of the bitcast here by supplying the type in the GEP above.
         val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), typeInfoOrMetaPtr)
         val typeInfoOrMetaWithFlags = load(codegen.intPtrType, typeInfoOrMetaPtrRaw, memoryOrder = memoryOrder)
-        // Clear two lower bits.
+        // Clear low 2 (OBJECT_TAG_MASK) + high 5 (KNStateWord valid/remainded) bits;
+        // see comment on `immTypeInfoMask`. The inner field (TypeInfo::typeInfo_
+        // self_ptr or ExtraObjectData::typeInfo_) is kept clean by
+        // ExtraObjectData::Install and the static RTTI emitter, so the inner
+        // load doesn't need a second mask.
         val typeInfoOrMetaRaw = and(typeInfoOrMetaWithFlags, codegen.immTypeInfoMask)
         val typeInfoOrMeta = intToPtr(typeInfoOrMetaRaw, kTypeInfoPtr)
         val typeInfoPtrPtr = structGep(runtime.typeInfoType, typeInfoOrMeta, 0 /* typeInfo */)
