@@ -163,7 +163,7 @@ extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, cons
     mm::GlobalsRegistry::Instance().RegisterStorageForGlobal(threadData, location);
     // Null `initialValue` means that the appropriate value was already set by static initialization.
     if (initialValue != nullptr) {
-        UpdateHeapRef(location, const_cast<ObjHeader*>(initialValue));
+        UpdateHeapRef(location, const_cast<ObjHeader*>(initialValue), nullptr);
     }
 }
 

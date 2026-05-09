@@ -153,12 +153,13 @@ ALWAYS_INLINE KInt Kotlin_Array_getArrayLength(KConstRef thiz) {
   return array->count_;
 }
 
+// TODO: Add regression test for missing write barrier fix in Array.fill()
 void Kotlin_Array_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KRef value) {
   ArrayHeader* array = thiz->array();
   checkRangeIndexes(fromIndex, toIndex, array->count_);
   mutabilityCheck(thiz);
   for (KInt index = fromIndex; index < toIndex; ++index) {
-    UpdateHeapRef(ArrayAddressOfElementAt(array, index), value);
+    UpdateHeapRef(ArrayAddressOfElementAt(array, index), value, array->obj());
   }
 }
 
