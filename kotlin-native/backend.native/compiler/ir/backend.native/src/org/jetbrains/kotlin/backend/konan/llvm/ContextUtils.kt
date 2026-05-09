@@ -426,8 +426,8 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
 
     val readHeapRefFunction = importRtFunction("ReadHeapRef", false)
     val readVolatileHeapRefFunction = importRtFunction("ReadVolatileHeapRef", false)
-    val allocInstanceFunction = importRtFunction("AllocInstance", true)
-    val allocArrayFunction = importRtFunction("AllocArrayInstance", true)
+    val allocInstanceFunction = importRtFunction("AllocInstanceForCI", true)
+    val allocArrayFunction = importRtFunction("AllocArrayInstanceForCI", true)
     val initAndRegisterGlobalFunction = importRtFunction("InitAndRegisterGlobal", false)
     val updateHeapRefFunction = importRtFunction("UpdateHeapRef", false)
     val updateStackRefFunction = importRtFunction("UpdateStackRef", false)

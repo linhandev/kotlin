@@ -148,6 +148,16 @@ extern "C" OBJ_GETTER(AllocArrayInstance, const TypeInfo* typeInfo, int32_t elem
     RETURN_RESULT_OF(mm::AllocateArray, threadData, typeInfo, static_cast<uint32_t>(elements));
 }
 
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(AllocInstanceForCI, const TypeInfo* typeInfo) {
+    AllocInstanceFrameGuard guard;
+    RETURN_RESULT_OF(AllocInstance, typeInfo);
+}
+
+extern "C" ALWAYS_INLINE OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* typeInfo, int32_t elements) {
+    AllocInstanceFrameGuard guard;
+    RETURN_RESULT_OF(AllocArrayInstance, typeInfo, elements);
+}
+
 extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, const ObjHeader* initialValue) {
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     AssertThreadState(threadData, ThreadState::kRunnable);
