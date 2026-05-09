@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.PlatformInfo
 import org.jetbrains.kotlin.konan.target.HostManager
 import org.jetbrains.kotlin.tools.lib
+import org.jetbrains.kotlin.tools.solib
 
 plugins {
     id("native-interop-plugin")
@@ -17,7 +18,15 @@ nativeInteropPlugin {
     usePrebuiltSources.set(true)
     commonCompilerArgs.set(emptyList<String>())
     cCompilerArgs.set(listOf("-std=c99"))
-    cppCompilerArgs.set(listOf("-std=c++11"))
+    cppCompilerArgs.set(buildList {
+        add("-std=c++11")
+        if (PlatformInfo.isLinux()) {
+            nativeDependencies.hostLibcxxIncludeDirs.forEach {
+                add("-stdlib++-isystem")
+                add(it)
+            }
+        }
+    })
     selfHeaders.set(emptyList<String>())
     systemIncludeDirs.set(listOf("${nativeDependencies.llvmPath}/include"))
     linkerArgs.set(buildList {
@@ -51,6 +60,12 @@ nativeInteropPlugin {
                     "__ZN4llvm15OpenMPIRBuilder25getOpenMPDefaultSimdAlignERKNS_6TripleERKNS_9StringMapIbNS_15MallocAllocatorEEE"
             ).mapTo(this) { "-Wl,-U,$it" }
             addAll(listOf("-lpthread", "-lz", "-lm", "-lcurses"))
+        } else if (PlatformInfo.isLinux()) {
+            add("-stdlib=libc++")
+            add("-L${nativeDependencies.hostLibcxxDir}")
+            add("-Wl,-rpath,\$ORIGIN")
+            add("-Wl,-z,noexecstack")
+            addAll(listOf("-lrt", "-ldl", "-lpthread", "-lz", "-lm"))
         }
     })
     additionalLinkedStaticLibraries.set(buildList {
@@ -74,6 +89,35 @@ nativeInteropPlugin {
             ).mapTo(this) { "${nativeDependencies.llvmPath}/lib/${lib(it)}" }
         }
     })
+}
+
+if (PlatformInfo.isLinux()) {
+    val clangInteropRuntimeLibs by tasks.registering {
+        // can only copy after llvm is ready in dependencies folder
+        dependsOn(":kotlin-native:dependencies:nativeDependenciesLinux_x64")
+        val inputLibraries = nativeDependencies.hostLibcxxRuntimeLibraryPaths.map { file(it) }
+        val outputLibraries = nativeDependencies.hostLibcxxRuntimeLibraries.map { layout.buildDirectory.file(it) }
+        inputs.files(inputLibraries)
+        outputs.files(outputLibraries)
+
+        doLast {
+            inputLibraries.zip(outputLibraries).forEach { (inputLibrary, outputLibrary) ->
+                inputLibrary.copyTo(outputLibrary.get().asFile, overwrite = true)
+            }
+        }
+    }
+
+    tasks.configureEach {
+        if (name == solib("clangstubs")) {
+            dependsOn(clangInteropRuntimeLibs)
+        }
+    }
+
+    artifacts {
+        nativeDependencies.hostLibcxxRuntimeLibraries.forEach { library ->
+            add("cppRuntimeElements", clangInteropRuntimeLibs.map { layout.buildDirectory.file(library).get().asFile })
+        }
+    }
 }
 
 projectTest(jUnitMode = JUnitMode.JUnit5) // `projectTest()` is not available in kotlin-native/build-tools project

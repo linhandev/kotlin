@@ -37,6 +37,11 @@ native {
                           "-DLLVM_DISABLE_ABI_BREAKING_CHECKS_ENFORCING=1")
     if (PlatformInfo.isMac()) {
         cxxflags += "-DLIBCLANGEXT_ENABLE=1"
+    } else if (PlatformInfo.isLinux()) {
+        nativeDependencies.hostLibcxxIncludeDirs.forEach {
+            cxxflags += "-stdlib++-isystem"
+            cxxflags += it
+        }
     }
     suffixes {
         (".cpp" to ".$obj") {
