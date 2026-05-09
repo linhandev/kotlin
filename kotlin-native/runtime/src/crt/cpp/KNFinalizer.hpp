@@ -18,12 +18,19 @@
 #include "Runtime.h"
 #include "Utils.hpp"
 #include "common_interfaces/objects/base_finalization.h"
+#include <atomic>
 
 namespace common {
 
 class KNFinalizationInterface : public common::BaseFinalizationInterface, private kotlin::Pinned {
 public:
-    void attachCurrentThread() override { Kotlin_initRuntimeIfNeeded(); }
+    void attachCurrentThread() override {
+        RuntimeAssert(!finalizerThreadIsRunning_, "Finalizer thread is already running");
+        // K/N GCs detect that finalizer thread is running by whether the thread is joinable,
+        // which happens-before its corresponding runtime is inited, therefore the flag is set first and never dropped.
+        finalizerThreadIsRunning_ = true; // atomic store is seq_cst with atomic increment of aliveRuntimesCount in init
+        Kotlin_initRuntimeIfNeeded();
+    }
     void invokeFinalizer(BaseObject* obj) const override { kotlin::RunFinalizers(reinterpret_cast<ObjHeader*>(obj)); }
 
     static KNFinalizationInterface& Instance()
@@ -31,6 +38,9 @@ public:
         static KNFinalizationInterface instance;
         return instance;
     }
+
+    static inline std::atomic<bool> finalizerThreadIsRunning_ = false;
+    static bool FinalizerThreadIsRunning() { return finalizerThreadIsRunning_.load(); }
 };
 
 }; // namespace common

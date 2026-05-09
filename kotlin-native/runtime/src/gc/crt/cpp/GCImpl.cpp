@@ -9,6 +9,7 @@
 #include "KAssert.h"
 #include "Logging.hpp"
 #include "crt/cpp/CRTUtils.hpp"
+#include "crt/cpp/KNFinalizer.hpp"
 
 using namespace kotlin;
 
@@ -34,6 +35,19 @@ gc::GC::~GC() = default;
 void gc::GC::ClearForTests() noexcept
 {
     GCHandle::ClearForTests();
+}
+
+void gc::GC::StartFinalizerThreadIfNeeded() noexcept {
+    RuntimeAssert(common::KNFinalizationInterface::FinalizerThreadIsRunning(),
+        "CRT finalizer thread is expected to start during init");
+}
+
+void gc::GC::StopFinalizerThreadIfRunning() noexcept {
+    assertNotCRT();
+}
+
+bool gc::GC::FinalizersThreadIsRunning() noexcept {
+    return common::KNFinalizationInterface::FinalizerThreadIsRunning();
 }
 
 // static

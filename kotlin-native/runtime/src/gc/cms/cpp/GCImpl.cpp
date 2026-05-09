@@ -14,6 +14,7 @@
 #include "ObjectOps.hpp"
 
 #include "MemoryManagerSwitch.hpp"
+#include "crt/cpp/KNFinalizer.hpp"
 
 using namespace kotlin;
 
@@ -71,6 +72,28 @@ gc::GC::~GC() {
 void gc::GC::ClearForTests() noexcept {
     checkNotCRT<CheckMode::Slow>([&] {
         GCHandle::ClearForTests();
+    });
+}
+
+void gc::GC::StartFinalizerThreadIfNeeded() noexcept {
+    checkUseCRT<CheckMode::Slow>([] {
+        RuntimeAssert(common::KNFinalizationInterface::FinalizerThreadIsRunning(),
+            "CRT finalizer thread is expected to start during init");
+    }, [&] {
+        mm::GlobalData::Instance().allocator().startFinalizerThreadIfNeeded();
+    });
+}
+
+void gc::GC::StopFinalizerThreadIfRunning() noexcept {
+    assertNotCRT();
+    mm::GlobalData::Instance().allocator().stopFinalizerThreadIfRunning();
+}
+
+bool gc::GC::FinalizersThreadIsRunning() noexcept {
+    return checkUseCRT<CheckMode::Slow>([] {
+        return common::KNFinalizationInterface::FinalizerThreadIsRunning();
+    }, [&] {
+        return mm::GlobalData::Instance().allocator().finalizersThreadIsRunning();
     });
 }
 

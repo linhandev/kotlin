@@ -32,6 +32,7 @@
 
 #include "MemoryDump.hpp"
 #include "StackTrace.hpp"
+#include "crt/cpp/CRTRuntime.hpp"
 
 using namespace kotlin;
 
@@ -109,13 +110,20 @@ extern "C" void DeinitMemory(MemoryState* state, bool destroyRuntime) {
         // First take lock of MutatorManager for gc, avoid dead lock while gc iterate ThreadRegistry
         // Kotlin::ThreadData is 1-1 corresponding to CRT ThreadHolder
         node->Get()->ClearThreadHolder();
+        if (destroyRuntime) {
+            // CRT will properly stop its own GC and Finalizer threads upon destruction.
+            // No other running threads are expected to exist by this point,
+            // so we pass `nullptr` instead of the `state` to avoid stopping the world before destruction.
+            DestroyCRTRuntime(nullptr);
+        }
+    }, [&] {
+        if (destroyRuntime) {
+            ThreadStateGuard guard(state, ThreadState::kRunnable);
+            mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
+            // TODO: Why not just destruct `GC` object and its thread data counterpart entirely?
+            mm::GlobalData::Instance().gc().StopFinalizerThreadIfRunning();
+        }
     });
-    if (destroyRuntime) {
-        ThreadStateGuard guard(state, ThreadState::kRunnable);
-        mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
-        // TODO: Why not just destruct `GC` object and its thread data counterpart entirely?
-        mm::GlobalData::Instance().allocator().stopFinalizerThreadIfRunning();
-    }
     if (!konan::isOnThreadExitNotSetOrAlreadyStarted()) {
         // we can clear reference in advance, as Unregister function can't use it anyway
         mm::ThreadRegistry::ClearCurrentThreadData();
@@ -458,7 +466,11 @@ extern "C" void Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_setBatchSi
 }
 
 extern "C" RUNTIME_NOTHROW void PerformFullGC(MemoryState* memory) {
-    mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
+    checkUseCRT<CheckMode::Slow>([] {
+        common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER , false, common::GCType::GC_TYPE_FULL);
+    }, [] {
+        mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
+    });
 }
 
 // Used in C export.

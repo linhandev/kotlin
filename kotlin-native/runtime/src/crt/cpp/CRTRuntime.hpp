@@ -16,9 +16,11 @@
 #pragma once
 
 #include <cstdint>
+#include "Memory.h"
 
 namespace kotlin {
 bool InitCRTRuntime();
+void DestroyCRTRuntime(MemoryState* currentThread);
 
 inline uintptr_t KEXE_ADDR_START_;
 inline uintptr_t KEXE_ADDR_END_;

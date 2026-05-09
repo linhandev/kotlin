@@ -236,6 +236,9 @@ void Kotlin_shutdownRuntime() {
         // The main thread is not doing anything Kotlin anymore, but will stick around to cleanup C++ globals and the like.
         // Mark the thread native, and don't make the GC thread wait on it.
         kotlin::SwitchThreadState(runtime->memoryState, kotlin::ThreadState::kNative);
+        checkUseCRT<CheckMode::Slow>([&] {
+            DestroyCRTRuntime(runtime->memoryState); // CRT must be destroyed before C++ globals are.
+        });
         return;
     }
 

@@ -82,6 +82,10 @@ public:
     void WaitFinished(int64_t epoch) noexcept;
     void WaitFinalizers(int64_t epoch) noexcept;
 
+    void StartFinalizerThreadIfNeeded() noexcept;
+    void StopFinalizerThreadIfRunning() noexcept;
+    bool FinalizersThreadIsRunning() noexcept;
+
     auto gcLock() noexcept {
         return std::unique_lock{gcLock_};
     }
