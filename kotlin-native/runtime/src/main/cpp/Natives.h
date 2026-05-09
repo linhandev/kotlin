@@ -20,34 +20,21 @@
 #include "Types.h"
 #include "Exceptions.h"
 #include "Memory.h"
-#include "MemoryManagerSwitch.hpp"
 
 constexpr size_t alignUp(size_t size, size_t alignment) {
   return (size + alignment - 1) & ~(alignment - 1);
 }
 
-template <typename T, bool barrier = false>
+template <typename T>
 inline T* AddressOfElementAt(ArrayHeader* obj, KInt index) {
     int8_t* body = reinterpret_cast<int8_t*>(obj) + alignUp(sizeof(ArrayHeader), alignof(T));
-    auto res = reinterpret_cast<T*>(body) + index;
-    if constexpr (barrier) {
-        checkUseCRT<CheckMode::Fast>([=] { // TODO: #9, until then it better be fast
-            ReadHeapRef(res, obj->obj());
-        });
-    }
-    return res;
+    return reinterpret_cast<T*>(body) + index;
 }
 
-template <typename T, bool barrier = false>
+template <typename T>
 inline const T* AddressOfElementAt(const ArrayHeader* obj, KInt index) {
     const int8_t* body = reinterpret_cast<const int8_t*>(obj) + alignUp(sizeof(ArrayHeader), alignof(T));
-    auto res = reinterpret_cast<const T*>(body) + index;
-    if constexpr (barrier) {
-        checkUseCRT<CheckMode::Fast>([=] { // TODO: #9, until then it better be fast
-            ReadHeapRef(const_cast<T*>(res), const_cast<T>(obj->obj()));
-        });
-    }
-    return res;
+    return reinterpret_cast<const T*>(body) + index;
 }
 
 inline KByte* ByteArrayAddressOfElementAt(ArrayHeader* obj, KInt index) {
@@ -94,11 +81,11 @@ inline const T* PrimitiveArrayAddressOfElementAt(const ArrayHeader* obj, KInt in
 }
 
 inline KRef* ArrayAddressOfElementAt(ArrayHeader* obj, KInt index) {
-  return AddressOfElementAt<KRef>(obj, index);
+    return AddressOfElementAt<KRef>(obj, index);
 }
 
 inline const KRef* ArrayAddressOfElementAt(const ArrayHeader* obj, KInt index) {
-  return AddressOfElementAt<KRef>(obj, index);
+    return AddressOfElementAt<KRef>(obj, index);
 }
 
 #ifdef __cplusplus

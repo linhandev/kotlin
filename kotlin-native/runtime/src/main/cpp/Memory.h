@@ -274,7 +274,7 @@ ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr = nullptr) RUNTI
 // Zeroes heap location.
 void ZeroHeapRef(ObjHeader** location, ObjHeader *thisPtr = nullptr) RUNTIME_NOTHROW;
 // Zeroes an array.
-void ZeroArrayRefs(ArrayHeader* array) RUNTIME_NOTHROW;
+void ZeroArrayRefs(ObjHeader* array) RUNTIME_NOTHROW;
 // Zeroes stack location.
 void ZeroStackRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Updates stack location.

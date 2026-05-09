@@ -89,11 +89,11 @@ inline T PrimitiveArrayGet(KConstRef thiz, KInt index) {
 }
 
 template<bool BoundsCheck = true>
-ALWAYS_INLINE const KRef* Kotlin_Array_get_value(KConstRef thiz, KInt index) {
-  const ArrayHeader* array = thiz->array();
+ALWAYS_INLINE KRef Kotlin_Array_get_value(KConstRef thiz, KInt index) {
+  ArrayHeader* array = const_cast<ArrayHeader*>(thiz->array());
   if (BoundsCheck)
     boundsCheck(array, index);
-  return ArrayAddressOfElementAt(array, index);
+  return ReadHeapRef(ArrayAddressOfElementAt(array, index), array->obj());
 }
 
 template<bool BoundsCheck = true>
@@ -133,11 +133,11 @@ extern const ObjHeader theEmptyArray;
 
 // Array.kt
 ALWAYS_INLINE OBJ_GETTER(Kotlin_Array_get, KConstRef thiz, KInt index) {
-  RETURN_OBJ(*Kotlin_Array_get_value(thiz, index));
+  RETURN_OBJ(Kotlin_Array_get_value(thiz, index));
 }
 
 ALWAYS_INLINE OBJ_GETTER(Kotlin_Array_get_without_BoundCheck, KConstRef thiz, KInt index){
-  RETURN_OBJ(*Kotlin_Array_get_value<false>(thiz, index));
+  RETURN_OBJ(Kotlin_Array_get_value<false>(thiz, index));
 }
 
 ALWAYS_INLINE void Kotlin_Array_set(KRef thiz, KInt index, KConstRef value) {
