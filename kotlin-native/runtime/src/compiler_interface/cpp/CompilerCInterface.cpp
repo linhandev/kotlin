@@ -46,6 +46,7 @@ touchFunction(UpdateReturnRef)
 touchFunction(ZeroHeapRef)
 touchFunction(ZeroArrayRefs)
 touchFunction(ReadHeapRef)
+touchFunction(ReadVolatileHeapRef)
 
 touchFunction(EnterFrame)
 touchFunction(LeaveFrame)

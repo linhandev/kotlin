@@ -150,12 +150,16 @@ extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, cons
     }
 }
 
-extern "C" const MemoryModel CurrentMemoryModel = MemoryModel::kExperimental;
-
-NO_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRefSlow(ObjHeader** location, ObjHeader* thisPtr)
-{
-    return mm::RefAccessor<false>(location, thisPtr);
+template<bool IsVolatile=false>
+NO_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRefSlow(ObjHeader** location, ObjHeader* thisPtr) {
+    if constexpr (IsVolatile) {
+        return mm::RefAccessor<false>(location, thisPtr).loadAtomic(std::memory_order_seq_cst);
+    } else {
+        return mm::RefAccessor<false>(location, thisPtr).load();
+    }
 }
+
+extern "C" const MemoryModel CurrentMemoryModel = MemoryModel::kExperimental;
 
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
     return checkUseCRT<CheckMode::Fast>([&] {
@@ -165,10 +169,25 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** loca
         return *location;
 #endif // ENABLE_GC_FASTPATH
     rb_slow_path:
-        return ReadHeapRefSlow(location, thisPtr);
+        return ReadHeapRefSlow<false>(location, thisPtr);
     }, [&] {
         // always inline
         return mm::RefAccessor<false>(location, thisPtr).load();
+    });
+}
+
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW ObjHeader* ReadVolatileHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
+    return checkUseCRT<CheckMode::Fast>([&] {
+        // TODO: combine with the fastpath barrier check after PR!22 is merged
+#ifdef ENABLE_GC_FASTPATH
+        CHECK_READ_BARRIER_SLOW_PATH(rb_slow_path)
+        return std_support::atomic_ref(*location).load(std::memory_order_seq_cst);
+#endif // ENABLE_GC_FASTPATH
+    rb_slow_path:
+        return ReadHeapRefSlow<true>(location, thisPtr);
+    }, [&] {
+        // always inline
+        return mm::RefAccessor<false>(location, thisPtr).loadAtomic(std::memory_order_seq_cst);
     });
 }
 

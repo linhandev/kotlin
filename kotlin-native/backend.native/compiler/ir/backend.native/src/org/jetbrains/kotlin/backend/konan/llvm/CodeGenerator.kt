@@ -724,8 +724,14 @@ internal abstract class FunctionGenerationContext(
         return applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
     }
 
-    fun loadFromCMC(address: LLVMValueRef, thisPtr: LLVMValueRef) : LLVMValueRef =
+    fun loadFromCMC(address: LLVMValueRef, thisPtr: LLVMValueRef, memoryOrder: LLVMAtomicOrdering?) : LLVMValueRef {
+        val result = if (memoryOrder == LLVMAtomicOrdering.LLVMAtomicOrderingSequentiallyConsistent) {
+            call(llvm.readVolatileHeapRefFunction, listOf(address, thisPtr))
+        } else {
             call(llvm.readHeapRefFunction, listOf(address, thisPtr))
+        }
+        return result
+    }
 
     fun loadSlot(
             type: LLVMTypeRef,
@@ -743,7 +749,7 @@ internal abstract class FunctionGenerationContext(
         
         if (isObjectField) {
             // CRT read barrier
-            value = loadFromCMC(address, thisPtr)
+            value = loadFromCMC(address, thisPtr, memoryOrder)
         } else {
             // Kotlin 2.2 address space handling for opaque pointers
             val addressTy = LLVMTypeOf(address)!!

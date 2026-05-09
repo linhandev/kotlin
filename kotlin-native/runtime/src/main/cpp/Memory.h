@@ -269,9 +269,10 @@ enum class MemoryModel {
 extern const MemoryModel CurrentMemoryModel;
 
 // Reads heap/static data location.
-ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
-
-// Zeroes heap location.
+    ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+    // Reads volatile heap/static data location.
+    ObjHeader *ReadVolatileHeapRef(ObjHeader** location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+    // Zeroes heap location.
 void ZeroHeapRef(ObjHeader** location, ObjHeader *thisPtr = nullptr) RUNTIME_NOTHROW;
 // Zeroes an array.
 void ZeroArrayRefs(ObjHeader* array) RUNTIME_NOTHROW;
