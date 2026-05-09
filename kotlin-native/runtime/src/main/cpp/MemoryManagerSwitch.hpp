@@ -22,7 +22,10 @@
 namespace MemoryManagerSwitch {
     inline bool IsEnabled() {
         const char* v = std::getenv("USE_CRT");
-        return v && static_cast<bool>(v[0]);
+        if (v && v[0] == '0' && v[1] == '\0') {
+            return false;
+        }
+        return true;
     }
     inline const bool useCRT = IsEnabled();
 };
