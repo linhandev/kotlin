@@ -15,9 +15,9 @@
 
 #include "CRTRuntime.hpp"
 #include "base_runtime.h"
-#include "alloc/crt/cpp/KNRootVisitor.hpp"
-#include "alloc/crt/cpp/KNBaseObject.hpp"
-#include "alloc/crt/cpp/KNFinalizer.hpp"
+#include "crt/cpp/KNRootVisitor.hpp"
+#include "crt/cpp/KNBaseObject.hpp"
+#include "crt/cpp/KNFinalizer.hpp"
 #include <map>
 
 #ifndef _WIN32
@@ -46,7 +46,7 @@ void initAddressScope()
     auto start = reinterpret_cast<uintptr_t>(::getsegmentdata((mach_header_64*)info.dli_fbase, SEG_DATA, &size));
     KEXE_ADDR_END_ = start + size;
 #else
-    KEXE_ADDR_END_ = static_cast<uintptr_t>(&end);
+    KEXE_ADDR_END_ = reinterpret_cast<uintptr_t>(&end);;
 #endif
 
 #else

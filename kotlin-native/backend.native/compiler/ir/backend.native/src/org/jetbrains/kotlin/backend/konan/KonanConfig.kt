@@ -433,17 +433,27 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
             else
                 AllocationMode.STD
 
-    val allocationMode by lazy {
-        when (configuration.get(KonanConfigKeys.ALLOCATION_MODE)) {
-            null -> defaultAllocationMode
-            AllocationMode.STD -> AllocationMode.STD
-            AllocationMode.CRT -> AllocationMode.CRT
-            AllocationMode.CUSTOM -> {
+val allocationMode by lazy {
+        val explicitMode = configuration.get(KonanConfigKeys.ALLOCATION_MODE)
+        val runtimeSwitchEnabled = configuration.get(BinaryOptions.runtimeSwitchMemoryManager) == true
+        
+        when {
+            runtimeSwitchEnabled && explicitMode == null -> AllocationMode.CUSTOM  // auto-set for runtime switch
+            runtimeSwitchEnabled && explicitMode != AllocationMode.CUSTOM -> {
+                configuration.report(CompilerMessageSeverity.ERROR,
+                        "Run-time switching of memory manager requires custom allocator (remove -Xallocator=* to use default)")
+                AllocationMode.CUSTOM
+            }
+            explicitMode == null -> defaultAllocationMode
+            explicitMode == AllocationMode.STD -> AllocationMode.STD
+            explicitMode == AllocationMode.CRT -> AllocationMode.CRT
+            explicitMode == AllocationMode.CUSTOM -> {
                 if (sanitizer != null) {
                     configuration.report(CompilerMessageSeverity.STRONG_WARNING, "Sanitizers are useful only with the std allocator")
                 }
                 AllocationMode.CUSTOM
             }
+            else -> defaultAllocationMode
         }
     }
 
@@ -454,10 +464,6 @@ val minidumpLocation by lazy {
     val memoryManagerMode: MemoryManagerMode by lazy {
         when (configuration.get(BinaryOptions.runtimeSwitchMemoryManager)) {
             true -> {
-                if (allocationMode != AllocationMode.CUSTOM) {
-                    configuration.report(CompilerMessageSeverity.ERROR,
-                            "Run-time switching of memory manager is only supported with -Xallocator=custom")
-                }
                 if (gc == GC.CONCURRENT_MARK_AND_COPY) {
                     configuration.report(CompilerMessageSeverity.ERROR,
                             "Run-time switching of memory manager requires -Xbinary=gc={noop|stwms|pmcs|cms} to set a non-CMC backup GC")
@@ -542,8 +548,13 @@ internal val runtimeNativeLibraries: List<String> = mutableListOf<String>().appl
                 add("custom_alloc.bc")
             }
             AllocationMode.CRT -> {
+                add("crt.bc")
                 add("crt_alloc.bc")
             }
+        }
+        if (memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) {
+            assert(allocationMode == AllocationMode.CUSTOM) // this is properly verified in memoryManagerMode setter
+            add("crt.bc")
         }
         if ((allocationMode == AllocationMode.CRT) != (gc == GC.CONCURRENT_MARK_AND_COPY)) {
             configuration.report(CompilerMessageSeverity.ERROR,

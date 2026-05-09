@@ -16,10 +16,11 @@
 #include "Logging.hpp"
 #include "ThreadData.hpp"
 #include "ThreadState.hpp"
-#ifdef USE_CRT
-#include "alloc/crt/cpp/CRTFastpathUtils.hpp"
-#include "alloc/crt/cpp/HeapInterface.hpp"
-#endif
+
+#include "crt/cpp/CRTFastpathUtils.hpp"
+#include "crt/cpp/HeapInterface.hpp"
+#include "crt/cpp/KNRootVisitor.hpp"
+#include "MemoryManagerSwitch.hpp"
 
 // TODO: Remove after the bootstrap that brings changes in ClangArgs.kt
 #ifndef KONAN_SUPPORTS_SIGNPOSTS
@@ -31,7 +32,6 @@
 #include <os/signpost.h>
 #endif
 
-#ifdef USE_CRT
 namespace kotlin {
 void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl);
 
@@ -47,6 +47,7 @@ void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl);
 #endif // __aarch64__
 
 static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
+    assertUseCRT();
     CRT_REGISTERS_CLOBBERS;
     FrameOverlay slot;
     mm::ThreadData* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
@@ -62,7 +63,6 @@ static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
     threadData->shadowStack().LeaveFrame(reinterpret_cast<ObjHeader**>(&slot), 0, 2);
 };
 } // namespace kotlin
-#endif
 
 using namespace kotlin;
 
@@ -118,10 +118,8 @@ void safePointActionImpl(mm::ThreadData& threadData) noexcept {
 }
 
 ALWAYS_INLINE void slowPathImpl(mm::ThreadData& threadData) noexcept {
-#ifdef USE_CRT
-    // NOTE: When CRT is enabled this function should not be called.
-    std::abort();
-#endif
+    assertNotCRT(); // NOTE: When CRT is enabled this function should not be called.
+
     // reread an action to avoid register pollution outside the function
     auto action = safePointAction.load(std::memory_order_seq_cst);
     if (action != nullptr) {
@@ -174,42 +172,45 @@ mm::SafePointActivator::~SafePointActivator() {
 ALWAYS_INLINE void mm::safePoint(bool needSavedFrame, std::memory_order fastPathOrder) noexcept
 {
     AssertThreadState(ThreadState::kRunnable);
-#ifdef USE_CRT
-    auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
-    // avoid use `common::ThreadLocal::GetThreadLocalData` if CRT dynamic link
-    void* tls = EvalCRTTLS(threadData->allocator().impl());
-    if (UNLIKELY(common::IsSafePointActive(tls))) {
-        SafePointSlowPath(threadData->GetThreadHolder()->GetMutator());
-    }
-#else
-    auto action = safePointAction.load(fastPathOrder);
+    checkUseCRT<CheckMode::Fast>([&] {
+        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+        // avoid use `common::ThreadLocal::GetThreadLocalData` if CRT dynamic link
+        void* tls = EvalCRTTLS(threadData->allocator().impl());
+        if (UNLIKELY(common::IsSafePointActive(tls))) {
+            if (needSavedFrame) {
+                SaveStackFrameK2RSafePoint();
+            }
+            SafePointSlowPath(threadData->GetThreadHolder()->GetMutator());
+            if (needSavedFrame) {
+                RestoreStackFrameK2RSafePoint();
+            }
+        }
+    }, [&] {
+        auto action = safePointAction.load(fastPathOrder);
 
-    if (__builtin_expect(action != nullptr, false)) {
-        if (needSavedFrame) {
-            SaveStackFrameK2RSafePoint();
+        if (__builtin_expect(action != nullptr, false)) {
+            if (needSavedFrame) {
+                SaveStackFrameK2RSafePoint();
+            }
+            slowPath();
+            if (needSavedFrame) {
+                RestoreStackFrameK2RSafePoint();
+            }
         }
-        slowPath();
-        if (needSavedFrame) {
-            RestoreStackFrameK2RSafePoint();
-        }
-    }
-#endif // USE_CRT
+    });
 }
 
 // When calling safepoint with threadData, one must not use the TLS information instead because TLS might already be freed.
-// There is also no need to load r28, as r28 can be dead as well.
-// Since threadData is already available, it would be efficient enough to just load mutator from threadData directly
 ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept
 {
-#ifdef USE_CRT
-    std::abort(); // "shouldn't reach here";
-#else
+    assertNotCRT();
+
     AssertThreadState(&threadData, ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
+
     if (__builtin_expect(action != nullptr, false)) {
         slowPath(threadData);
     }
-#endif
 }
 
 bool mm::test_support::safePointsAreActive() noexcept {

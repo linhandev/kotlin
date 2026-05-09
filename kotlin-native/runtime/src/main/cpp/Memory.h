@@ -25,6 +25,7 @@
 #include "Common.h"
 #include "TypeInfo.h"
 #include "PointerBits.h"
+#include "MemoryManagerSwitch.hpp"
 #include "Utils.hpp"
 
 #ifdef KONAN_OHOS
@@ -63,22 +64,25 @@ struct ObjHeader {
   // Returns `nullptr` if it's not a meta object.
   static MetaObjHeader* AsMetaObject(TypeInfo* typeInfo) noexcept {
       auto* typeInfoOrMeta = clearPointerBits(typeInfo, OBJECT_TAG_MASK);
-      typeInfoOrMeta = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfoOrMeta) & 0xffffffffffff);
-#ifdef USE_CRT
-      uintptr_t typeInfoPtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta->typeInfo_);
-      uintptr_t typeInfoOrMetaPtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta);
-      if ((typeInfoPtr << 16ULL) != (typeInfoOrMetaPtr << 16ULL)) {
-          return reinterpret_cast<MetaObjHeader*>(typeInfoOrMetaPtr);
-      } else {
-          return nullptr;
-      }
-#else
-      if (typeInfoOrMeta != typeInfoOrMeta->typeInfo_) {
-          return reinterpret_cast<MetaObjHeader*>(typeInfoOrMeta);
-      } else {
-          return nullptr;
-      }
-#endif
+
+      return checkUseCRT<CheckMode::Slow>([&] {
+          // TODO: is it still needed? does it relate to #8? what about TODO below? stackmaps are merged already
+          // TODO: Until we have a stackmap
+          uintptr_t typeInfoPtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta->typeInfo_);
+          uintptr_t typeInfoOrMetaPtr = reinterpret_cast<uintptr_t>(typeInfoOrMeta);
+          if ((typeInfoPtr << 16ULL) != (typeInfoOrMetaPtr << 16ULL)) {
+              return reinterpret_cast<MetaObjHeader*>(typeInfoOrMetaPtr);
+          } else {
+              return static_cast<MetaObjHeader*>(nullptr);
+          }
+      }, [&] {
+          typeInfoOrMeta = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfoOrMeta) & 0xffffffffffff); // TODO: remove
+          if (typeInfoOrMeta != typeInfoOrMeta->typeInfo_) {
+              return reinterpret_cast<MetaObjHeader*>(typeInfoOrMeta);
+          } else {
+              return static_cast<MetaObjHeader*>(nullptr);
+          }
+      });
   }
 
   TypeInfo* typeInfoOrMetaRelaxed() const { return kotlin::std_support::atomic_ref{typeInfoOrMeta_}.load(std::memory_order_relaxed);}
@@ -141,12 +145,9 @@ struct ObjHeader {
     return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_HEAP;
   }
 
-#ifdef USE_CRT
-    inline bool local() const
-    {
-        return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
-    }
-#endif
+  inline bool local() const {
+    return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
+  }
 
   static MetaObjHeader* createMetaObject(ObjHeader* object);
   static void destroyMetaObject(ObjHeader* object);
@@ -178,9 +179,7 @@ ALWAYS_INLINE inline bool isNullOrMarker(const ObjHeader* obj) noexcept {
     return reinterpret_cast<uintptr_t>(obj) <= 1;
 }
 
-#ifdef USE_CRT
 ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj);
-#endif
 
 struct FrameOverlay;
 
@@ -263,20 +262,14 @@ enum class MemoryModel {
     kExperimental = 2,
 };
 
-#ifdef USE_CRT
 // Controls the current memory model, is compile-time constant.
 extern const MemoryModel CurrentMemoryModel;
 
 // Reads heap/static data location.
-ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr) RUNTIME_NOTHROW;
-#endif
+ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
 
 // Zeroes heap location.
-#ifdef USE_CRT
-void ZeroHeapRef(ObjHeader** location, ObjHeader *thisPtr) RUNTIME_NOTHROW;
-#else
-void ZeroHeapRef(HeapObjPtr* location) RUNTIME_NOTHROW;
-#endif
+void ZeroHeapRef(ObjHeader** location, ObjHeader *thisPtr = nullptr) RUNTIME_NOTHROW;
 // Zeroes an array.
 void ZeroArrayRefs(ArrayHeader* array) RUNTIME_NOTHROW;
 // Zeroes stack location.
@@ -284,25 +277,14 @@ void ZeroStackRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Updates stack location.
 void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates heap/static data location.
-#ifdef USE_CRT
 void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
 void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
 OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location,
     ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
 bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue,
-    ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+    ObjHeader* newValue, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
 OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
-#else
-void UpdateHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
-// Updates volatile heap/static data location.
-void UpdateVolatileHeapRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
-OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapObjPtr* location, HeapObjPtr expectedValue,
-           HeapObjPtr newValue) RUNTIME_NOTHROW;
-bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
-                                  HeapObjPtr newValue) RUNTIME_NOTHROW;
-OBJ_GETTER(GetAndSetVolatileHeapRef, HeapObjPtr* location, HeapObjPtr newValue) RUNTIME_NOTHROW;
-#endif
 
 // Updates location if it is null, atomically.
 // Updates reference in return slot.

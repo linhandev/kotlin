@@ -45,9 +45,7 @@ touchFunction(GetAndSetVolatileHeapRef)
 touchFunction(UpdateReturnRef)
 touchFunction(ZeroHeapRef)
 touchFunction(ZeroArrayRefs)
-#ifdef USE_CRT
 touchFunction(ReadHeapRef)
-#endif
 
 touchFunction(EnterFrame)
 touchFunction(LeaveFrame)

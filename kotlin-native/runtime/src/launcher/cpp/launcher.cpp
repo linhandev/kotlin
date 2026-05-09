@@ -42,11 +42,7 @@ OBJ_GETTER(setupArgs, int argc, const char** argv) {
   for (int index = 1; index < argc; index++) {
     ObjHolder result;
     CreateStringFromCString(argv[index], result.slot());
-#ifdef USE_CRT
     UpdateHeapRef(ArrayAddressOfElementAt(array, index - 1), result.obj(), array->obj());
-#else
-    UpdateHeapRef(ArrayAddressOfElementAt(array, index - 1), result.obj());
-#endif
   }
   return result;
 }

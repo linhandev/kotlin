@@ -6,6 +6,7 @@
 #pragma once
 
 #include "Memory.h"
+#include "MemoryManagerSwitch.hpp"
 #include "TypeInfo.h"
 #include "TypeLayout.hpp"
 #include "Types.h"
@@ -13,10 +14,8 @@
 
 namespace kotlin {
 
-// CRT hash implamentation
-#ifdef USE_CRT
+// CRT hash implementation
 typedef KInt CRTHash;
-#endif
 
 struct KObject : private Pinned {
     class descriptor {
@@ -33,9 +32,9 @@ struct KObject : private Pinned {
         uint64_t size() const noexcept {
             RuntimeAssert(typeInfo_ != nullptr, "Cannot call size() on KObject::descriptor(nullptr)");
             auto size = typeInfo_->instanceSize_;
-#ifdef USE_CRT
-            size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
-#endif
+            checkUseCRT<CheckMode::Fast>([&] { // used in allocators, so must be fast or removed after #12 is fixed
+                size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
+            });
             return size;
         }
 
@@ -84,9 +83,9 @@ struct KArray : private Pinned {
             // at about half of uint64_t max.
             auto elementsSize = elementSize * count_;
             auto size = AlignUp<uint64_t>(AlignUp(sizeof(ArrayHeader), elementAlignment) + elementsSize, alignment());
-#ifdef USE_CRT
-            size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
-#endif
+            checkUseCRT<CheckMode::Fast>([&] { // used in allocators, so must be fast or removed after #12 is fixed
+                size += sizeof(CRTHash); // CRT implementation extra 4 bytes used to cache hash code
+            });
             return size;
         }
 

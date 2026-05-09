@@ -106,7 +106,7 @@ private:
                 return 0;
             }
             uintptr_t base = reinterpret_cast<common::KNStateWord*>(old)->GetForwardingPointerAfterExclusive();
-            ASSERT(isValidObjHeader(reinterpret_cast<void*>(base)));
+            RuntimeAssert(isValidObjHeader(reinterpret_cast<void*>(base)), "Must be valid ObjHeader");
             return base + (addr - old);
         }
 
