@@ -39,6 +39,7 @@ CRTAllocator::CRTAllocator() noexcept {
 #ifdef ENABLE_GC_FASTPATH
     // Init fastpath state by moving crtTLS into x28
     SetThreadLocalDataToFixedReg(crtTLS);
+    RuntimeLogInfo({kTagGC}, "fastpath initialized");
 #endif
 }
 

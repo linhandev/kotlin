@@ -1974,6 +1974,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             startLocation?.let { debugLocation(it, it) }
             if (needsRuntimeInit || switchToRunnable) {
                 check(!forbidRuntime) { "Attempt to init runtime where runtime usage is forbidden" }
+                call(llvm.saveX28, emptyList())
                 call(llvm.initRuntimeIfNeeded, emptyList())
             }
             if (switchToRunnable) {
@@ -2063,6 +2064,10 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)
+        }
+
+        if (switchToRunnable || needsRuntimeInit) {
+            call(llvm.restoreX28, listOf())
         }
     }
 

@@ -510,10 +510,10 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     // TODO: Consider implementing them directly in the code generator.
     val Kotlin_arrayGetElementAddress by lazy { importRtFunction("Kotlin_arrayGetElementAddress", false) }
     val Kotlin_intArrayGetElementAddress by lazy { importRtFunction("Kotlin_intArrayGetElementAddress", false) }
-    val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
-    val saveThreadLastKotlinFrame2 by lazy { importRtFunction("SaveThreadLastKotlinFrame2", false) }
-    val restoreThreadLastKotlinFrame2 by lazy { importRtFunction("RestoreThreadLastKotlinFrame2", false) }
+val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
 
+    val saveX28 by lazy { importRtFunction("SaveX28", false) }
+    val restoreX28 by lazy { importRtFunction("RestoreX28", false) }
     val saveStackFrameR2KExportForCppRuntime by lazy { importRtFunction("SaveStackFrameR2KExportForCppRuntime", false) }
     val restoreStackFrameN2KNativeToKotlin by lazy { importRtFunction("RestoreStackFrameR2KExportForCppRuntime", false) }
 

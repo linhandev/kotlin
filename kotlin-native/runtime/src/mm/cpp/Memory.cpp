@@ -7,6 +7,8 @@
 #include "Common.h"
 #include "MemoryPrivate.hpp"
 
+#include <stack>
+
 #include "Allocator.hpp"
 #include "CallsChecker.hpp"
 #include "Exceptions.h"
@@ -638,8 +640,18 @@ extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KCExpor
     RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_C_EXPORT);
 }
 
-extern "C" CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void RestoreStackFrameN2KCExportCatch() noexcept {
-    RestoreThreadLastKotlinFrame(mm::ThreadRegistry::Instance().CurrentThreadData(), FrameKind::K_C_EXPORT);
+static thread_local std::stack<common::CallToFFixedX28> globalX28Guard;
+ALWAYS_INLINE extern "C" RUNTIME_NOTHROW void SaveX28() noexcept {
+    globalX28Guard.emplace();
+}
+
+ALWAYS_INLINE extern "C" RUNTIME_NOTHROW void RestoreX28() noexcept {
+    if (globalX28Guard.empty()) {
+        RuntimeLogInfo({kTagGC}, "unmatched x28 restore");
+        RuntimeAssert(false, "try to restore x28 with non-saved value");
+        return;
+    }
+    globalX28Guard.pop();
 }
 
 MemoryState* kotlin::mm::GetMemoryState() noexcept {

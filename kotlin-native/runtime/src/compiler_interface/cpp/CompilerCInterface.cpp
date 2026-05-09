@@ -125,7 +125,9 @@ touchFunction(RestoreStackFrameN2KEnumEntry)
 
 touchFunction(SaveStackFrameN2KCExport)
 touchFunction(RestoreStackFrameN2KCExport)
-touchFunction(RestoreStackFrameN2KCExportCatch)
+
+touchFunction(SaveX28)
+touchFunction(RestoreX28)
 
 #ifdef __cplusplus
 } // extern "C"

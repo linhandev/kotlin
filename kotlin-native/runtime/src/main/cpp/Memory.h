@@ -429,8 +429,9 @@ RUNTIME_NOTHROW void RestoreStackFrameN2KEnumEntry();
 
 RUNTIME_NOTHROW void SaveStackFrameN2KCExport();
 RUNTIME_NOTHROW void RestoreStackFrameN2KCExport();
-RUNTIME_NOTHROW void RestoreStackFrameN2KCExportCatch();
 
+RUNTIME_NOTHROW ALWAYS_INLINE void SaveX28();
+RUNTIME_NOTHROW ALWAYS_INLINE void RestoreX28();
 #ifdef __cplusplus
 }
 #endif
