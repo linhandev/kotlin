@@ -80,7 +80,12 @@ bool InitCRTRuntime()
     common::RuntimeParam param = common::DefaultRuntimeParam();
     // param.gcParam.enableGC = false;
     // param.gcParam.enableStwGC = true;
+    // TODO: heapSize unit is KB (regional_heap.cpp multiplies by KB), so 4*MB = 4GB actual.
+    // The code reads as "4MB" but allocates 4GB. Clarify intent and fix value.
     param.heapParam.heapSize = 4ULL * common::MB;
+    // KMP lacks foreground/background awareness, so ChangeGCParams() is never called.
+    // Set multiplier to foreground value (3.0) at init time.
+    param.gcParam.multiplier = 3.0;
     // param.gcParam.gcInterval = 100000;
     // param.gcParam.garbageThreshold = 0.1;
     // param.gcParam.gcThreads = 1;
