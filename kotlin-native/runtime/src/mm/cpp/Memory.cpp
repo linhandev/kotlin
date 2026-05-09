@@ -172,15 +172,12 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** loca
     });
 }
 
-extern "C" ALWAYS_INLINE RUNTIME_NOTHROW ObjHeader* ReadHeapRef2(ObjHeader* ref, ObjHeader* thisPtr) {
-    return ReadHeapRef(reinterpret_cast<ObjHeader**>(ref), thisPtr);
-}
-
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW void ZeroHeapRef(ObjHeader** location, ObjHeader *thisPtr) {
     mm::RefAccessor<false>{location} = nullptr;
 }
 
-extern "C" RUNTIME_NOTHROW void ZeroArrayRefs(ArrayHeader* array) {
+extern "C" RUNTIME_NOTHROW void ZeroArrayRefs(ObjHeader* array_) {
+    auto array = array_->array();
     for (uint32_t index = 0; index < array->count_; ++index) {
         ObjHeader** location = ArrayAddressOfElementAt(array, index);
         mm::RefFieldAccessor{location} = nullptr;

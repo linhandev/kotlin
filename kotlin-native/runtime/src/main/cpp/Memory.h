@@ -186,6 +186,9 @@ struct FrameOverlay;
 #ifdef __cplusplus
 extern "C" {
 #endif
+// Stackmap requires AS1 (address space 1) on pointer types in function signatures
+// to correctly identify heap references. However, applying AS1 throughout the runtime would require pervasive type changes.
+// We use AS1 when declaring the signatures and in the actual definition uses regular pointer
 typedef AS1 ObjHeader * HeapObjPtr;
 typedef const AS1 ObjHeader * ConstHeapObjPtr;
 typedef AS1 ObjHeader * AS1 * HeapDerivedPtr;
