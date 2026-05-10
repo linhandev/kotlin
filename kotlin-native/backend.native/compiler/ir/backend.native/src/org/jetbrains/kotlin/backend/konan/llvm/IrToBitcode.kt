@@ -2763,12 +2763,13 @@ internal class CodeGeneratorVisitor(
 
     private val IrSimpleFunction.needsNativeThreadState: Boolean
         get() {
-            // Only bridges that explicitly model foreign-exception handling need thread-state switching.
+            // Every K→C bridge enters NATIVE in K2NStub and needs an IR cleanup
+            // landing pad to restore the thread on the throw path (the stub has
+            // no exception personality). GCUnsafeCall stubs never switch — skip.
             val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
-                    annotations.hasAnnotation(RuntimeNames.filterExceptions)
+                    !annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)
             if (result) {
                 check(isExternal)
-                check(!annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
             }
             return result
         }
@@ -2864,7 +2865,8 @@ internal class CodeGeneratorVisitor(
         }
 
         if (needsNativeThreadState) {
-            exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(exceptionHandler) {}
+            exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
+                    exceptionHandler, needsThreadStateRestore = true) {}
         }
 
         val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)

@@ -252,7 +252,9 @@ private fun inferFunctionAttributes(contextUtils: ContextUtils, irFunction: IrSi
             if (irFunction.origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
                     !irFunction.annotations.hasAnnotation(RuntimeNames.filterExceptions) &&
                     !irFunction.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
-                add(LlvmFunctionAttribute.NoUnwind)
+                // No NoUnwind: the Kotlin wrapper rethrows non-OK return codes via
+                // __cxa_throw, so callers must emit invoke for the IR cleanup
+                // landing pad. NoInline keeps the bridge as a distinct GC frame.
                 add(LlvmFunctionAttribute.NoInline)
             }
             if (mustNotInline(contextUtils.context, irFunction)) {
