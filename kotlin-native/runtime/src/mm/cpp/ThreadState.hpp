@@ -67,6 +67,11 @@ ALWAYS_INLINE inline void SaveThreadLastKotlinFrame(mm::ThreadData* threadData, 
 ALWAYS_INLINE inline void RestoreThreadLastKotlinFrame(mm::ThreadData* threadData, FrameKind kind) noexcept
 {
     RuntimeAssert(threadData != nullptr, "threadData must not be nullptr");
+    // Guard against invalid ThreadData pointer when CurrentThreadDataNode() is null.
+    // CurrentThreadData() does node->Get() where Get() returns &node->value_. When node is null,
+    // this yields undefined behavior; in practice the result can be (nullptr + offsetof(Value))
+    // = 0x8 on 64-bit (8-byte offset of ThreadData within the Node). Using such a pointer
+    // would crash, so we early-return to avoid dereferencing it.
     if (threadData == reinterpret_cast<mm::ThreadData*>(0x8)) return;
     threadData->popLastKotlinFrame(kind);
 }
