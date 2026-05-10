@@ -144,7 +144,7 @@ public:
     {
         return checkUseCRT<CheckMode::Fast>([&] {
             // Canonicalize
-            ObjHeader* cur = loadAtomic(order);
+            ObjHeader* cur = load();
             if (cur != expected) {
                 // value has been moved, simply return false and update expected
                 expected = cur;
