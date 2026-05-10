@@ -717,17 +717,25 @@ void kotlin::compactObjectPoolInCurrentThread() noexcept {
 }
 
 RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj) {
-    checkUseCRT<CheckMode::Slow>([&] { // TODO: Slow is fine here, right?
-        if (common::IsHeapAddress(obj)) {
-            common::BaseObjectPinned(reinterpret_cast<common::BaseObject*>(obj));
-        }
+    checkUseCRT<CheckMode::Slow>([&] {
+        CRT_Pin(obj);
     });
 }
 
 RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCUnpin(KRef thiz, KRef obj) {
-    checkUseCRT<CheckMode::Slow>([&] { // TODO: Slow is fine here, right?
-        if (common::IsHeapAddress(obj)) {
-            common::BaseObjectUnPinned(reinterpret_cast<common::BaseObject*>(obj));
-        }
+    checkUseCRT<CheckMode::Slow>([&] {
+        CRT_UnPin(obj);
     });
+}
+
+void CRT_Pin(const void* obj) {
+    if (common::IsHeapAddress(obj)) {
+        common::BaseObjectPinned(reinterpret_cast<common::BaseObject*>(const_cast<void*>(obj)));
+    }
+}
+
+void CRT_UnPin(const void* obj) {
+    if (common::IsHeapAddress(obj)) {
+        common::BaseObjectUnPinned(reinterpret_cast<common::BaseObject*>(const_cast<void*>(obj)));
+    }
 }

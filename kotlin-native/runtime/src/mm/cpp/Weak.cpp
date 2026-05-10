@@ -52,8 +52,9 @@ RegularWeakReferenceImpl* asRegularWeakReferenceImpl(ObjHeader* weakRef) noexcep
 
 OBJ_GETTER(mm::createRegularWeakReferenceImpl, ObjHeader* object) noexcept {
     return checkUseCRT<CheckMode::Fast>([&] {
+        auto holder = ObjHolder(object);
         auto* weakRef = makeCRTWeakReferenceImpl(OBJ_RESULT);
-        initCRTWeakReferenceImpl(weakRef, object);
+        initCRTWeakReferenceImpl(weakRef, holder.obj());
         return weakRef;
     }, [&] {
         auto* thread = mm::ThreadRegistry::Instance().CurrentThreadData();

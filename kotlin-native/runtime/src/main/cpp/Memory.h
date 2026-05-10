@@ -317,6 +317,10 @@ void ClearTLS(MemoryState* memory) RUNTIME_NOTHROW;
 // Lookup element in TLS object storage.
 HeapObjPtr* LookupTLS(void** key, int index) RUNTIME_NOTHROW;
 
+// APIs for GC pin, used only internally by Runtime
+void CRT_Pin(const void* obj);
+void CRT_UnPin(const void* obj);
+
 void Kotlin_native_internal_GC_collect(HeapObjPtr);
 void Kotlin_native_internal_GC_setTuneThreshold(HeapObjPtr, bool value);
 bool Kotlin_native_internal_GC_getTuneThreshold(HeapObjPtr);
