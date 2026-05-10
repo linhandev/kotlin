@@ -671,7 +671,7 @@ val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArr
             functionAttributes = listOf(LlvmFunctionAttribute.NoUnwind)
     )
 
-    val caxRethrowFunction = externalNativeRuntimeFunction(
+    val cxaRethrowFunction = externalNativeRuntimeFunction(
             "__cxa_rethrow",
             returnType = LlvmRetType(voidType, isObjectType = false)
     )

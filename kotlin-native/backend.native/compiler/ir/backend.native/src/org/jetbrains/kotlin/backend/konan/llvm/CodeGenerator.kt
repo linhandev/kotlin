@@ -1134,10 +1134,10 @@ internal abstract class FunctionGenerationContext(
             appendingTo(unreachableBlock) {
                 unreachable()
             }
-            val result = llvm.caxRethrowFunction.buildInvoke(builder, listOf(), unreachableBlock, unwind)
+            val result = llvm.cxaRethrowFunction.buildInvoke(builder, listOf(), unreachableBlock, unwind)
             if (outerHandler == ExceptionHandler.Caller) {
                 isCleanupLandingpadUsed = true
-                invokeInstructions.add(0, FunctionInvokeInformation(result, llvm.caxRethrowFunction, listOf(), unreachableBlock))
+                invokeInstructions.add(0, FunctionInvokeInformation(result, llvm.cxaRethrowFunction, listOf(), unreachableBlock))
             }
         }
 
