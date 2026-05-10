@@ -61,8 +61,8 @@ struct InitGlobalsFrameGuard {
 
 // TODO: Make a proper frame for alloc type
 struct AllocInstanceFrameGuard {
-    ALWAYS_INLINE AllocInstanceFrameGuard() { SaveStackFrameK2RSafePoint(); }
-    ALWAYS_INLINE ~AllocInstanceFrameGuard() { RestoreStackFrameK2RSafePoint(); }
+    ALWAYS_INLINE AllocInstanceFrameGuard() { SaveStackFrameK2RK2X(); }
+    ALWAYS_INLINE ~AllocInstanceFrameGuard() { RestoreStackFrameK2RK2X(); }
 };
 
 #endif // RUNTIME_RUNTIME_H

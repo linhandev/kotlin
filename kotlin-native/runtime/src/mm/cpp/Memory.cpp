@@ -154,7 +154,7 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(AllocInstanceForCI, const Ty
     RETURN_RESULT_OF(AllocInstance, typeInfo);
 }
 
-extern "C" ALWAYS_INLINE OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* typeInfo, int32_t elements) {
+extern "C" NO_INLINE OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* typeInfo, int32_t elements) {
     AllocInstanceFrameGuard guard;
     RETURN_RESULT_OF(AllocArrayInstance, typeInfo, elements);
 }

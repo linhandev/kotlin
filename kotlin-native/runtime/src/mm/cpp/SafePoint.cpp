@@ -35,7 +35,7 @@
 
 namespace kotlin {
 
-static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
+static ALWAYS_INLINE void SafePointSlowPath(void* mutatorPtr) {
     assertUseCRT();
     FrameOverlay slot;
     mm::ThreadData* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
