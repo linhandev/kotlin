@@ -89,7 +89,17 @@ struct ObjHeader {
    * Hardware guaranties on many supported platforms doesn't allow this to happen.
    */
   const TypeInfo* type_info() const {
-      auto atomicTypeInfoPtr = kotlin::std_support::atomic_ref{clearPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK)->typeInfo_};
+      // typeInfoOrMeta_ carries tag bits in BOTH the low 2 bits (OBJECT_TAG_MASK)
+      // and the high 5 bits (KNStateWord: bit 59 `valid`, bits 60-63 `remainded`,
+      // set by CustomAllocator). Clear both before dereferencing/comparing.
+      // Mirrors the 48-bit mask in ObjHeader::AsMetaObject above and the
+      // immTypeInfoMask in CodeGenerator.kt.
+      // ExtraObjectData::Install strips the high tag before storing into its
+      // typeInfo_ field, so the inner load is already clean and no second
+      // mask is needed here.
+      auto* cleaned = clearPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK);
+      cleaned = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(cleaned) & 0xffffffffffff);
+      auto atomicTypeInfoPtr = kotlin::std_support::atomic_ref{cleaned->typeInfo_};
       const TypeInfo* typeInfo = atomicTypeInfoPtr.load(std::memory_order_relaxed);
       RuntimeAssert(typeInfo != nullptr, "TypeInfo ptr in object %p in null", this);
       return typeInfo;
