@@ -38,16 +38,15 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
         allocator.destroyUnattachedExtraObjectData(data);
         return *reinterpret_cast<mm::ExtraObjectData*>(typeInfo);
     }
+    // Otherwise we have successfully installed the `extraObj`.
 
-#ifdef KONAN_OBJC_INTEROP
     checkUseCRT<CheckMode::Fast>([&] {
-        // Objects with an ExtraObj installed has to be finalized
-        // to ensure that possible associated objects are released.
+        // Object with an ExtraObj installed has to be finalized
+        // to ensure that possible associated object is released and original `object` header is restored.
         if (!(typeInfo->flags_ & TF_HAS_FINALIZER)) { // avoid registering finalizable objects twice
             common::BaseFinalizerProcessor::RegisterFinalizableObject(reinterpret_cast<common::BaseObject*>(object));
         }
     });
-#endif
 
     return data;
 }
