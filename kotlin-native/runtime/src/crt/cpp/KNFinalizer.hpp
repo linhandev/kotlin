@@ -18,6 +18,7 @@
 #include "Runtime.h"
 #include "Utils.hpp"
 #include "common_interfaces/objects/base_finalization.h"
+#include "ExternalRCRefRegistry.hpp"
 #include <atomic>
 
 namespace common {
@@ -35,6 +36,13 @@ public:
     void invokeFinalizer(BaseObject* obj) const override {
         kotlin::CalledFromNativeGuard guard{}; // guard both x28 and switch to kRunnable state
         kotlin::RunFinalizers(reinterpret_cast<ObjHeader*>(obj));
+    }
+
+    void onHeapGarbageReclamation() const override {
+        // Iterating ExternalRCRefRegistry removes nodes whose stable refs have been disposed.
+        // In upstream K/N, this happens via processWeaks() each GC cycle (by the side-effect of the iterator)
+        // CRT doesn't call processWeaks, so we clean up here on the finalizer thread instead.
+        for ([[maybe_unused]] auto _ : kotlin::mm::ExternalRCRefRegistry::instance().lockForIter()) {}
     }
 
     static KNFinalizationInterface& Instance()
