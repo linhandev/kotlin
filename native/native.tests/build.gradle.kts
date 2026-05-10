@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.PathSensitivity
+import org.gradle.api.tasks.testing.Test
+
 plugins {
     kotlin("jvm")
     id("jps-compatible")
@@ -83,6 +86,14 @@ val test by nativeTest(
     // Kotlin test infra uses reflection to access JDK internals.
     // With JDK 11, some JVM args are required to silence the warnings caused by that:
     jvmArgs("--add-opens=java.base/java.io=ALL-UNNAMED")
+}
+
+// Blackbox tests load fixtures from these trees at runtime (not via classpath). Without this, Test tasks stay UP-TO-DATE when only fixtures change.
+tasks.withType<Test>().configureEach {
+    val root = rootProject.layout.projectDirectory
+    inputs.dir(root.dir("native/native.tests/testData")).withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.dir(root.dir("compiler/testData/klib/partial-linkage")).withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.dir(root.dir("compiler/testData/klib/dump-abi/cinterop")).withPathSensitivity(PathSensitivity.RELATIVE)
 }
 
 val generateTests by generator("org.jetbrains.kotlin.generators.tests.GenerateNativeTestsKt") {
