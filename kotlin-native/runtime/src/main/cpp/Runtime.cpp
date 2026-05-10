@@ -27,11 +27,6 @@
 #include "crt/cpp/CRTRuntime.hpp"
 #include "MemoryManagerSwitch.hpp"
 
-#define FILE_WRITER 0
-#if FILE_WRITER
-#include "FileWriter.h"
-#endif
-
 using namespace kotlin;
 
 using kotlin::internal::FILE_NOT_INITIALIZED;
