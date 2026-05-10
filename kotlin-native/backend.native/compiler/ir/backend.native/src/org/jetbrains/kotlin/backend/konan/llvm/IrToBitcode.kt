@@ -351,14 +351,15 @@ internal class CodeGeneratorVisitor(
 
     private fun FunctionGenerationContext.initGlobalField(irField: IrField) {
         val address = staticFieldPtr(irField, this)
+        if (irField.needsGCRegistration) {
+            call(llvm.initAndRegisterGlobalFunction, listOf(address, kNullObjHeaderRef))
+        }
         val initialValue = if (irField.hasNonConstInitializer) {
             evaluateExpression(irField.initializer!!.expression)
         } else {
             null
         }
-        if (irField.needsGCRegistration) {
-            call(llvm.initAndRegisterGlobalFunction, listOf(address, initialValue?: kNullObjHeaderRef))
-        } else if (initialValue != null) {
+        if (initialValue != null) {
             storeAny(initialValue, address, irField.type.binaryTypeIsReference(), false)
         }
     }
