@@ -1014,6 +1014,7 @@ internal abstract class FunctionGenerationContext(
 
     fun createExceptionHandlerWithConditionalExtraAction(
             outerHandler: ExceptionHandler,
+            needsThreadStateRestore: Boolean = false,
             extraActionBuilder : (LLVMValueRef) -> Unit
     ): ExceptionHandler {
         if (outerHandler is ExceptionHandler.None) {
@@ -1023,10 +1024,16 @@ internal abstract class FunctionGenerationContext(
         val lpBlock = basicBlockInFunction("restore_frame_lp", position()?.start)
 
         appendingTo(lpBlock) {
-            val landingpad = gxxLandingpad(1, switchThreadState = false, setCurrentFrame = false)
+            // K2NStub has no exception personality, so the throw path bypasses its
+            // epilogue. Mirror it here when the bridge switched the thread; gated
+            // off for GCUnsafeCall stubs that never switch (RUNNABLE→RUNNABLE assert).
+            val landingpad = gxxLandingpad(1, switchThreadState = needsThreadStateRestore, setCurrentFrame = false)
             LLVMAddClause(landingpad, LLVMConstNull(llvm.int8PtrType))
             val exceptionRecord = extractValue(landingpad, 0)
             val exceptionRawPtr = call(llvm.cxaBeginCatchFunction, listOf(exceptionRecord))
+            if (needsThreadStateRestore) {
+                call(llvm.setLastFrameReliable, emptyList())
+            }
 
             extraActionBuilder(exceptionRawPtr)
 
