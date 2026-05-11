@@ -43,7 +43,18 @@ native {
             cxxflags.addAll(listOf("-DKONAN_LINUX=1", "-stdlib=libc++"))
         }
         MINGW -> {
-            cxxflags += "-DKONAN_WINDOWS=1"
+            cxxflags += listOf(
+                    "-DKONAN_WINDOWS=1",
+                    "-nostdinc++",
+                    "-isystem",
+                    "$llvmDir/include/c++/v1",
+                    "-target",
+                    "x86_64-pc-windows-gnu",
+                    "-isystem",
+                    "${hostPlatform.absoluteTargetSysRoot}/include",
+                    "-isystem",
+                    "${hostPlatform.absoluteTargetSysRoot}/x86_64-w64-mingw32/include",
+            )
         }
         OSX -> {
             cxxflags += "-DKONAN_MACOS=1"

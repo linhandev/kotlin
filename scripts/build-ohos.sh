@@ -95,6 +95,52 @@ if [ -z "$JDK_18" ]; then
   exit 1
 fi
 
+# Ensure Windows native headers are visible for Kotlin/Native clang in Git Bash
+if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]; }; then
+  VS_ROOT=${VS_ROOT:-"/c/Program Files/Microsoft Visual Studio"}
+  VS_VER1=$(ls -1 "$VS_ROOT" 2>/dev/null | sort -V | tail -n 1)
+  VS_VER2=$(ls -1 "$VS_ROOT/$VS_VER1" 2>/dev/null | sort -V | tail -n 1)
+  VS_ROOT="$VS_ROOT/$VS_VER1/$VS_VER2/VC/Tools/MSVC"
+
+  WINSDK_ROOT=${WINSDK_ROOT:-"/c/Program Files (x86)/Windows Kits"}
+  WINSDK_VER=$(ls -1 "$WINSDK_ROOT" 2>/dev/null | sort -V | tail -n 1)
+  WINSDK_INCLUDE_ROOT="$WINSDK_ROOT/$WINSDK_VER/Include"
+  WINSDK_LIB_ROOT="$WINSDK_ROOT/$WINSDK_VER/Lib"
+
+  if [ -d "$VS_ROOT" ] && [ -d "$WINSDK_INCLUDE_ROOT" ] && [ -d "$WINSDK_LIB_ROOT" ]; then
+    MSVC_VER=$(ls -1 "$VS_ROOT" 2>/dev/null | sort -V | tail -n 1)
+    SDK_VER=$(ls -1 "$WINSDK_INCLUDE_ROOT" 2>/dev/null | sort -V | tail -n 1)
+
+    if [ -n "$MSVC_VER" ] && [ -n "$SDK_VER" ]; then
+      MSVC_INCLUDE=$(cygpath -m "$VS_ROOT/$MSVC_VER/include")
+      UCRT_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/ucrt")
+      UM_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/um")
+      SHARED_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/shared")
+      WINRT_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/winrt")
+      CPPWINRT_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/cppwinrt")
+
+      if [ -z "${INCLUDE:-}" ]; then
+        export INCLUDE="$MSVC_INCLUDE;$UCRT_INCLUDE;$UM_INCLUDE;$SHARED_INCLUDE;$WINRT_INCLUDE;$CPPWINRT_INCLUDE"
+        echo "Auto-configured INCLUDE for Windows native toolchain."
+      fi
+
+      MSVC_LIB=$(cygpath -m "$VS_ROOT/$MSVC_VER/lib/x64")
+      UCRT_LIB=$(cygpath -m "$WINSDK_LIB_ROOT/$SDK_VER/ucrt/x64")
+      UM_LIB=$(cygpath -m "$WINSDK_LIB_ROOT/$SDK_VER/um/x64")
+
+      if [ -z "${LIB:-}" ]; then
+        export LIB="$MSVC_LIB;$UCRT_LIB;$UM_LIB"
+        echo "Auto-configured LIB for Windows native toolchain."
+      fi
+    else
+      echo "Warning: Could not detect MSVC/Windows SDK versions. Native compilation may fail."
+    fi
+  else
+    echo "Warning: Visual Studio Build Tools or Windows SDK directories not found."
+    echo "Please set VS_ROOT and WINSDK_ROOT environment variables to the root directory of Visual Studio and Windows SDK."
+  fi
+fi
+
 # Maven wrapper requires unzip: without it, it downloads .tar.gz but validates with the .zip checksum → failure
 if ! command -v unzip >/dev/null 2>&1; then
   echo "❌ Error: unzip is required."
