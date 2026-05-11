@@ -35,7 +35,6 @@ nativeInteropPlugin {
     cppCompilerArgs.set(buildList {
         add("-std=c++11")
         if (PlatformInfo.isLinux()) {
-            add("-stdlib=libc++")
             add("-stdlib++-isystem")
             add("${nativeDependencies.llvmPath}/include/c++/v1")
         } else if (PlatformInfo.isWindows()) {
