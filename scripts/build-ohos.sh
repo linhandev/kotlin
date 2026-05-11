@@ -98,8 +98,21 @@ fi
 # Ensure Windows native headers are visible for Kotlin/Native clang in Git Bash
 if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]; }; then
   VS_ROOT=${VS_ROOT:-"/c/Program Files/Microsoft Visual Studio"}
-  VS_VER1=$(ls -1 "$VS_ROOT" 2>/dev/null | sort -V | tail -n 1)
-  VS_VER2=$(ls -1 "$VS_ROOT/$VS_VER1" 2>/dev/null | sort -V | tail -n 1)
+  VS_VER1=$(for d in "$VS_ROOT"/20[0-9][0-9]; do
+    [[ -d "$d" ]] && basename "$d"
+  done | sort -V | tail -n 1)
+  VS_VER2=""
+  for ed in Enterprise Professional Community BuildTools; do
+    if [[ -d "$VS_ROOT/$VS_VER1/$ed" ]]; then
+      VS_VER2="$ed"
+      break
+    fi
+  done
+  if [[ -z "$VS_VER2" ]]; then
+    VS_VER2=$(for d in "$VS_ROOT/$VS_VER1"/*; do
+      [[ -d "$d" ]] && basename "$d"
+    done | sort -V | tail -n 1)
+  fi
   VS_ROOT="$VS_ROOT/$VS_VER1/$VS_VER2/VC/Tools/MSVC"
 
   WINSDK_ROOT=${WINSDK_ROOT:-"/c/Program Files (x86)/Windows Kits"}
