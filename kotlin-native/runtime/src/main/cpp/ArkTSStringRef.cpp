@@ -329,10 +329,6 @@ ArkTSStringRef* ArkTSStringRef::tryCreate(napi_env env, napi_value value) {
             return nullptr;
         }
     }
-    // Copy solution is better than string proxy for small strings.
-    if (length < static_cast<size_t>(Kotlin_ArkTSConfig_getMinLengthForArkString())) {
-        return nullptr;
-    }
     kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
     // Initialize the main thread safe function if needed.
     RegisterThreadSafeFunctionIfNeeded(env);
