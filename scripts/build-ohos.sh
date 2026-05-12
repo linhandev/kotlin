@@ -97,35 +97,16 @@ fi
 
 # Ensure Windows native headers are visible for Kotlin/Native clang in Git Bash
 if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]; }; then
-  VS_ROOT=${VS_ROOT:-"/c/Program Files/Microsoft Visual Studio"}
-  VS_VER1=$(for d in "$VS_ROOT"/20[0-9][0-9]; do
-    [[ -d "$d" ]] && basename "$d"
-  done | sort -V | tail -n 1)
-  VS_VER2=""
-  for ed in Enterprise Professional Community BuildTools; do
-    if [[ -d "$VS_ROOT/$VS_VER1/$ed" ]]; then
-      VS_VER2="$ed"
-      break
-    fi
-  done
-  if [[ -z "$VS_VER2" ]]; then
-    VS_VER2=$(for d in "$VS_ROOT/$VS_VER1"/*; do
-      [[ -d "$d" ]] && basename "$d"
-    done | sort -V | tail -n 1)
-  fi
-  VS_ROOT="$VS_ROOT/$VS_VER1/$VS_VER2/VC/Tools/MSVC"
+  MSVC_ROOT="$VS_ROOT/VC/Tools/MSVC"
+  WINSDK_INCLUDE_ROOT="$WINSDK_ROOT/Include"
+  WINSDK_LIB_ROOT="$WINSDK_ROOT/Lib"
 
-  WINSDK_ROOT=${WINSDK_ROOT:-"/c/Program Files (x86)/Windows Kits"}
-  WINSDK_VER=$(ls -1 "$WINSDK_ROOT" 2>/dev/null | sort -V | tail -n 1)
-  WINSDK_INCLUDE_ROOT="$WINSDK_ROOT/$WINSDK_VER/Include"
-  WINSDK_LIB_ROOT="$WINSDK_ROOT/$WINSDK_VER/Lib"
-
-  if [ -d "$VS_ROOT" ] && [ -d "$WINSDK_INCLUDE_ROOT" ] && [ -d "$WINSDK_LIB_ROOT" ]; then
-    MSVC_VER=$(ls -1 "$VS_ROOT" 2>/dev/null | sort -V | tail -n 1)
+  if [ -d "$MSVC_ROOT" ] && [ -d "$WINSDK_INCLUDE_ROOT" ] && [ -d "$WINSDK_LIB_ROOT" ]; then
+    MSVC_VER=$(ls -1 "$MSVC_ROOT" 2>/dev/null | sort -V | tail -n 1)
     SDK_VER=$(ls -1 "$WINSDK_INCLUDE_ROOT" 2>/dev/null | sort -V | tail -n 1)
 
     if [ -n "$MSVC_VER" ] && [ -n "$SDK_VER" ]; then
-      MSVC_INCLUDE=$(cygpath -m "$VS_ROOT/$MSVC_VER/include")
+      MSVC_INCLUDE=$(cygpath -m "$MSVC_ROOT/$MSVC_VER/include")
       UCRT_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/ucrt")
       UM_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/um")
       SHARED_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/shared")
@@ -137,7 +118,7 @@ if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]
         echo "Auto-configured INCLUDE for Windows native toolchain."
       fi
 
-      MSVC_LIB=$(cygpath -m "$VS_ROOT/$MSVC_VER/lib/x64")
+      MSVC_LIB=$(cygpath -m "$MSVC_ROOT/$MSVC_VER/lib/x64")
       UCRT_LIB=$(cygpath -m "$WINSDK_LIB_ROOT/$SDK_VER/ucrt/x64")
       UM_LIB=$(cygpath -m "$WINSDK_LIB_ROOT/$SDK_VER/um/x64")
 
@@ -146,11 +127,16 @@ if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]
         echo "Auto-configured LIB for Windows native toolchain."
       fi
     else
-      echo "Warning: Could not detect MSVC/Windows SDK versions. Native compilation may fail."
+      echo "Error: Could not detect MSVC/Windows SDK versions. Native compilation may fail."
+      exit 1
     fi
   else
-    echo "Warning: Visual Studio Build Tools or Windows SDK directories not found."
-    echo "Please set VS_ROOT and WINSDK_ROOT environment variables to the root directory of Visual Studio and Windows SDK."
+    echo "Error: Visual Studio Build Tools MSVC: ${MSVC_ROOT} or "
+    echo "  Windows SDK: ${WINSDK_INCLUDE_ROOT} or ${WINSDK_LIB_ROOT} directories not found."
+    echo "Please set valid VS_ROOT and WINSDK_ROOT environment variables"
+    echo "such as: export VS_ROOT=\"/c/Program Files/Microsoft Visual Studio/2022/Professional\""
+    echo "and: export WINSDK_ROOT=\"/c/Program Files (x86)/Windows Kits/10\""
+    exit 1
   fi
 fi
 
@@ -473,10 +459,17 @@ stepEnd
 
 # 2. Build maven part and publish it to the same build/repo
 stepBegin "Build maven part and publish it to the same build/repo"
+if [[ "$(uname -s)" == MINGW* ]] || [[ "$(uname -s)" == MSYS* ]] || [[ "$(uname -s)" == CYGWIN* ]]; then
+  ROOT_DIR_WIN=$(cygpath -w "$ROOT_DIR" | sed 's/\\/\//g')
+  MAVEN_DEPLOY_URL="file:///$ROOT_DIR_WIN/build/repo"
+  echo "MAVEN_DEPLOY_URL=$MAVEN_DEPLOY_URL"
+else
+  MAVEN_DEPLOY_URL="file://$ROOT_DIR/build/repo"
+fi
 run_maven_with_retry \
   -f "$ROOT_DIR/libraries/pom.xml" \
   clean deploy \
-  -Ddeploy-url=file://$ROOT_DIR/build/repo \
+  -Ddeploy-url="$MAVEN_DEPLOY_URL" \
   -DskipTests
 stepEnd
 
