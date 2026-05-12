@@ -118,7 +118,7 @@ if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]
         echo "Auto-configured INCLUDE for Windows native toolchain."
       fi
 
-      MSVC_LIB=$(cygpath -m "$VS_ROOT/$MSVC_VER/lib/x64")
+      MSVC_LIB=$(cygpath -m "$MSVC_ROOT/$MSVC_VER/lib/x64")
       UCRT_LIB=$(cygpath -m "$WINSDK_LIB_ROOT/$SDK_VER/ucrt/x64")
       UM_LIB=$(cygpath -m "$WINSDK_LIB_ROOT/$SDK_VER/um/x64")
 
