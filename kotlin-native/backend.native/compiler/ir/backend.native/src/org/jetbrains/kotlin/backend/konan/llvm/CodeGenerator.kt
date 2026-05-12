@@ -724,8 +724,14 @@ internal abstract class FunctionGenerationContext(
         return applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
     }
 
-    fun loadFromCMC(address: LLVMValueRef, thisPtr: LLVMValueRef) : LLVMValueRef =
+    fun loadFromCMC(address: LLVMValueRef, thisPtr: LLVMValueRef, memoryOrder: LLVMAtomicOrdering?) : LLVMValueRef {
+        val result = if (memoryOrder == LLVMAtomicOrdering.LLVMAtomicOrderingSequentiallyConsistent) {
+            call(llvm.readVolatileHeapRefFunction, listOf(address, thisPtr))
+        } else {
             call(llvm.readHeapRefFunction, listOf(address, thisPtr))
+        }
+        return result
+    }
 
     fun loadSlot(
             type: LLVMTypeRef,
@@ -743,7 +749,7 @@ internal abstract class FunctionGenerationContext(
         
         if (isObjectField) {
             // CRT read barrier
-            value = loadFromCMC(address, thisPtr)
+            value = loadFromCMC(address, thisPtr, memoryOrder)
         } else {
             // Kotlin 2.2 address space handling for opaque pointers
             val addressTy = LLVMTypeOf(address)!!
@@ -1128,10 +1134,10 @@ internal abstract class FunctionGenerationContext(
             appendingTo(unreachableBlock) {
                 unreachable()
             }
-            val result = llvm.caxRethrowFunction.buildInvoke(builder, listOf(), unreachableBlock, unwind)
+            val result = llvm.cxaRethrowFunction.buildInvoke(builder, listOf(), unreachableBlock, unwind)
             if (outerHandler == ExceptionHandler.Caller) {
                 isCleanupLandingpadUsed = true
-                invokeInstructions.add(0, FunctionInvokeInformation(result, llvm.caxRethrowFunction, listOf(), unreachableBlock))
+                invokeInstructions.add(0, FunctionInvokeInformation(result, llvm.cxaRethrowFunction, listOf(), unreachableBlock))
             }
         }
 
@@ -1968,6 +1974,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             startLocation?.let { debugLocation(it, it) }
             if (needsRuntimeInit || switchToRunnable) {
                 check(!forbidRuntime) { "Attempt to init runtime where runtime usage is forbidden" }
+                call(llvm.saveX28, emptyList())
                 call(llvm.initRuntimeIfNeeded, emptyList())
             }
             if (switchToRunnable) {
@@ -2057,6 +2064,10 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)
+        }
+
+        if (switchToRunnable || needsRuntimeInit) {
+            call(llvm.restoreX28, listOf())
         }
     }
 

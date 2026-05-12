@@ -12,16 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 #pragma once
 
-#include <cstdint>
+#include <array>
 #include "Memory.h"
+#include "Utils.hpp"
 
 namespace kotlin {
-bool InitCRTRuntime();
-void DestroyCRTRuntime(MemoryState* currentThread);
+template <typename... Args>
+class EnterPinScope : private Pinned {
+public:
+    explicit EnterPinScope(Args... args) : items_{reinterpret_cast<const void*>(args)...} {
+        for (auto item : items_) {
+            CRT_Pin(item);
+        }
+    }
 
-inline uintptr_t KEXE_ADDR_START_;
-inline uintptr_t KEXE_ADDR_END_;
+    ~EnterPinScope() {
+        for (auto item : items_) {
+            CRT_UnPin(item);
+        }
+    }
+private:
+    std::array<const void*, sizeof...(Args)> items_;
+};
 } // namespace kotlin

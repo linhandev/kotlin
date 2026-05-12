@@ -116,10 +116,18 @@ public:
     {
         auto* objHeader = const_cast<ObjHeader*>(reinterpret_cast<const ObjHeader*>(object));
 
+        if (objHeader->has_meta_object()) {
+            // If during concurrent marking we see a reference to ExtraObj in the regular object, we will mark it here.
+            // Otherwise, if concurrently-executing mutator would install an ExtraObj after marking already passed
+            // this point, it will survive as a newly-created object.
+            // Note that only newly-created ExtraObjects can be installed and thus no write-barrier is required.
+            processFieldInMark(visitor, objHeader, reinterpret_cast<ObjHeader*&>(objHeader->typeInfoOrMeta_));
+        }
         if (reinterpret_cast<common::KNBaseObject*>(objHeader)->IsWeakRefImplObject()) {
             uintptr_t addr = reinterpret_cast<uintptr_t>(objHeader);
             ObjHeader** field = reinterpret_cast<ObjHeader**>(addr + sizeof(ObjHeader));
             // process weak ref ...
+            // TODO: change CRTWeakReferenceImpl.referred type from Long to Any and remove this branch
             processFieldInMark(visitor, objHeader, *field);
         } else {
             kotlin::traverseObjectFields(objHeader, [&](auto elemAccessor) noexcept {

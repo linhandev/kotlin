@@ -126,8 +126,11 @@ public:
     ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept
     {
         return checkUseCRT<CheckMode::Fast>([&] {
+            // Canonicalize
+            load();
             //TODO: Make sure swapBarrier is implemented correctly in CRT
             if (this_) {
+                // TODO:  #20: desired is a cached boxed value
                 if (common::IsHeapAddress(desired)) {
                     common::BaseRuntime::WriteBarrier(this_, refPtr_, desired);
                 }
@@ -141,7 +144,7 @@ public:
     {
         return checkUseCRT<CheckMode::Fast>([&] {
             // Canonicalize
-            ObjHeader* cur = reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this_, refPtr_));
+            ObjHeader* cur = load();
             if (cur != expected) {
                 // value has been moved, simply return false and update expected
                 expected = cur;

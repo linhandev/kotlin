@@ -14,6 +14,7 @@
 #include "SafePoint.hpp"
 
 #include "StackTrace.hpp"
+#include "CRTFastpathUtils.hpp"
 #include <iostream>
 #include <cstring>
 #include "MemoryManagerSwitch.hpp"
@@ -62,8 +63,17 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
     // Moreover, it's used for kNative -> kRunnable state switch and x28 value is not guaranteed in kNative.
     return checkUseCRT<CheckMode::Slow>([&] {
         if (newState == ThreadState::kRunnable) {
-            threadData_.GetThreadHolder()->TransferToRunning();
-            // see PR!22 for x28 set after switch to kRunnable and TODO: set up x28 on #else branch as well
+            auto* th = threadData_.GetThreadHolder();
+            th->TransferToRunning();
+#ifdef ENABLE_GC_FASTPATH
+            // restore the TLS value on x28
+            void* tls = common::LoadCachedCRTTLS(threadData_.allocator().impl());
+            RuntimeAssert(tls != nullptr, "CRT TLS must not be null");
+            SetThreadLocalDataToFixedReg(tls);
+            // sync gc phase
+            auto* mutator = *(reinterpret_cast<common::MutatorBase**>(th));
+            common::UpdateThreadLocalDataReg(mutator);
+#endif
         } else {
             threadData_.GetThreadHolder()->TransferToNative();
         }
@@ -80,6 +90,9 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
             // so, loading SP here, or checking `internal::gSuspensionRequested` in
             // `suspendIfRequested` is enough.
             safePoint(threadData_, std::memory_order_seq_cst);
+#ifdef ENABLE_GC_FASTPATH
+            common::ZeroThreadLocalDataReg();
+#endif
         }
         return oldState;
     });

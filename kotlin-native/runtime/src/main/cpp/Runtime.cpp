@@ -27,11 +27,6 @@
 #include "crt/cpp/CRTRuntime.hpp"
 #include "MemoryManagerSwitch.hpp"
 
-#define FILE_WRITER 0
-#if FILE_WRITER
-#include "FileWriter.h"
-#endif
-
 using namespace kotlin;
 
 using kotlin::internal::FILE_NOT_INITIALIZED;
@@ -173,6 +168,7 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
 }
 
 void Kotlin_deinitRuntimeCallback(void* argument) {
+  common::CallToFFixedX28 guard{};
   auto* state = reinterpret_cast<RuntimeState*>(argument);
   // This callback may be called from any state, make sure it runs in the runnable state.
   kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
@@ -236,6 +232,9 @@ void Kotlin_shutdownRuntime() {
         // The main thread is not doing anything Kotlin anymore, but will stick around to cleanup C++ globals and the like.
         // Mark the thread native, and don't make the GC thread wait on it.
         kotlin::SwitchThreadState(runtime->memoryState, kotlin::ThreadState::kNative);
+        checkUseCRT<CheckMode::Slow>([&] {
+            DestroyCRTRuntime(runtime->memoryState); // CRT must be destroyed before C++ globals are.
+        });
         return;
     }
 

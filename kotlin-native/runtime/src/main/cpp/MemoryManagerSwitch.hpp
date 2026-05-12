@@ -16,12 +16,16 @@
 #ifndef KOTLIN_NATIVE_MMSWITCH_HPP
 #define KOTLIN_NATIVE_MMSWITCH_HPP
 
+#include "CRTFastpathUtils.hpp"
 #include "KAssert.h"
 
 namespace MemoryManagerSwitch {
     inline bool IsEnabled() {
         const char* v = std::getenv("USE_CRT");
-        return v && static_cast<bool>(v[0]);
+        if (v && v[0] == '0' && v[1] == '\0') {
+            return false;
+        }
+        return true;
     }
     inline const bool useCRT = IsEnabled();
 };
@@ -29,13 +33,8 @@ namespace MemoryManagerSwitch {
 // not ALWAYS_INLINE to ensure that inline happens both in debug and release mode
 #define FORCE_INLINE __attribute__((always_inline)) inline
 
-// TODO: move CRTFastpathUtils to this folder and put this macro there after PR!22 is merged
-#define FAST_CHECK_MM_SWITCH(slow_path) \
-    __asm__ volatile goto("cbz x28, %l[" #slow_path "]" : : : : slow_path);
-
 /// `Slow` mode can be used in any place, but it will load a value to check from a global variable.
-/// `Fast` is only available in kRunnable state and relies on the value of x28 register
-/// being consistent with the global var.
+/// `Fast` is only available in kRunnable state and relies on the value of x28 register being consistent with the global var.
 enum class CheckMode { Slow, Fast };
 
 /// If currently selected MemoryManager is CRT then execute given `crt_f`, otherwise execute `else_f`.
@@ -54,6 +53,8 @@ FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
 
 #ifdef ENABLE_GC_FASTPATH
     if constexpr (mode == CheckMode::Fast) {
+        RuntimeAssert(common::ThreadLocalRegisterRawData() != common::CallToFFixedX28::MAGIC_MARKER,
+            "Value of x28 is a magic marker, check that there is a switch to kRunnable prior to checkUseCRT<Fast>");
         FAST_CHECK_MM_SWITCH(else_l); // fallthrough if x28 != 0 signifying that CRT MM is enabled, otherwise jump to `else_l`.
         RuntimeAssert(MemoryManagerSwitch::useCRT, "Value of x28 is inconsistent with the useCRT flag");
         return crt_f();
@@ -63,6 +64,11 @@ FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
     if (__builtin_expect(MemoryManagerSwitch::useCRT, true)) return crt_f();
 
 else_l:
+#ifdef ENABLE_GC_FASTPATH
+    if constexpr (mode == CheckMode::Fast) {
+        RuntimeAssert(!MemoryManagerSwitch::useCRT, "Value of x28 is inconsistent with the useCRT flag");
+    }
+#endif
     return else_f();
 }
 
@@ -79,23 +85,29 @@ FORCE_INLINE void checkNotCRT(G else_f) {
     checkUseCRT<mode>([]{}, else_f);
 }
 
-/// If currently selected MemoryManager is CRT then crash, otherwise fall through to the next line in caller.
-template<CheckMode mode = CheckMode::Slow>
-FORCE_INLINE void assertNotCRT()
-{
-    checkUseCRT<mode>([] {
+/// Assert that currently selected MemoryManager is not CRT.
+FORCE_INLINE void assertNotCRT() {
+    checkUseCRT<CheckMode::Slow>([] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is disabled");
-        std::abort();
+        if (kotlin::compiler::memoryManagerMode() != kotlin::compiler::MemoryManagerMode::kRuntimeSwitch) {
+            // Only abort if the MM mode can be determined in compile-time to facilitate UCE below the std::abort(),
+            // otherwise if assertions are disabled and the MM is not known in compile-time this lambda will be empty
+            // so the run-time check won't be generated.
+            std::abort();
+        }
     });
 }
 
-/// If currently selected MemoryManager is CRT then fall through to the next line in caller, otherwise crash.
-template<CheckMode mode = CheckMode::Slow>
-FORCE_INLINE void assertUseCRT()
-{
-    checkNotCRT<mode>([] {
+/// Assert that currently selected MemoryManager is CRT.
+FORCE_INLINE void assertUseCRT() {
+    checkNotCRT<CheckMode::Slow>([] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is enabled");
-        std::abort();
+        if (kotlin::compiler::memoryManagerMode() != kotlin::compiler::MemoryManagerMode::kRuntimeSwitch) {
+            // Only abort if the MM mode can be determined in compile-time to facilitate UCE below the std::abort(),
+            // otherwise if assertions are disabled and the MM is not known in compile-time this lambda will be empty
+            // so the run-time check won't be generated.
+            std::abort();
+        }
     });
 }
 

@@ -37,16 +37,17 @@ public:
 
     ArrayHeader* CreateArray(const TypeInfo* typeInfo, uint32_t count) noexcept;
 
+    mm::ExtraObjectData* CreateExtraObjectDataForObject(const TypeInfo* info) noexcept;
+
     static size_t GetAllocatedHeapSize(ObjHeader* object) noexcept;
 
-    // TODO: Cache CRT TLS address so that we don't have to call GetThreadLocalData every time.
-    // Needs Review.
-    void* getCrtTls() noexcept { return crtTls; }
+    // Cache CRT TLS address so that we don't have to call GetThreadLocalData every time.
+    void* getCrtTls() noexcept { return crtTLS; }
 
 private:
     ALWAYS_INLINE uint8_t* AllocFromCMC(size_t size);
 
-    void* crtTls;
+    void* crtTLS;
 };
 
 } // namespace kotlin::alloc

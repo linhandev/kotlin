@@ -826,6 +826,7 @@ Worker::~Worker() {
 namespace {
 
 void* workerRoutine(void* argument) {
+  common::CallToFFixedX28 g{};
   Worker* worker = reinterpret_cast<Worker*>(argument);
 
   // Kotlin_initRuntimeIfNeeded calls WorkerInit that needs

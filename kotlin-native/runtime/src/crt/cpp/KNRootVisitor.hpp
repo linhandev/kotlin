@@ -47,7 +47,15 @@ public:
 
     void VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHolder* th)
     {
-        // TODO:
+        auto* kotlinThreadData = kotlin::mm::ThreadData::EvalKotlinThreadData(th);
+        if (kotlinThreadData == nullptr) {
+            // Race window: ThreadHolder is registered (GC-visible) but SetThreadHolder()
+            // has not yet linked the ThreadData. Safe to skip — no Kotlin roots exist yet.
+            // TODO(Issue #56): Eliminate race by splitting CreateAndRegister API,
+            // then replace this guard with RuntimeAssert.
+            return;
+        }
+        TraverseRootsOnThread(ObjectVisitor{visitor}, *kotlinThreadData);
     }
 
     void VisitGlobalWeakRoots(const WeakRefFieldVisitor& visitor, bool isYoung)

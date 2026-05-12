@@ -157,7 +157,7 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
     private fun getCppGcFastpathFlags(target: KonanTarget): List<String> {
         return if (isGcFastPathEnabled) {
             when (target.architecture) {
-                TargetArchitecture.ARM64, -> listOf("-ffixed-x27", "-ffixed-x28", "-DENABLE_GC_FASTPATH")
+                TargetArchitecture.ARM64, -> listOf("-ffixed-x28", "-DENABLE_GC_FASTPATH")
                 else -> listOf("")
             }
         } else {
@@ -168,12 +168,12 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
     private fun getDefaultCppFlags(target: KonanTarget): List<String> {
         return getCppGcFastpathFlags(target) + listOfNotNull(
             "-std=c++17",
+            "-DNDEBUG", // This is required because crt header file corrupts ALWAYS_INLINE without NDEBUG
             "-O2",
             "-fno-aligned-allocation", // TODO: Remove when all targets support aligned allocation in C++ runtime.
             "-Wno-unused-parameter",  // False positives with polymorphic functions.
             "-Wall",
             "-Wextra",
-            "-DNDEBUG",
         )
     }
 

@@ -33,8 +33,8 @@ touchType(ArrayHeader)
 touchType(StringHeader)
 touchType(FrameOverlay)
 
-touchFunction(AllocInstance)
-touchFunction(AllocArrayInstance)
+touchFunction(AllocInstanceForCI)
+touchFunction(AllocArrayInstanceForCI)
 touchFunction(InitAndRegisterGlobal)
 touchFunction(UpdateHeapRef)
 touchFunction(UpdateStackRef)
@@ -46,6 +46,7 @@ touchFunction(UpdateReturnRef)
 touchFunction(ZeroHeapRef)
 touchFunction(ZeroArrayRefs)
 touchFunction(ReadHeapRef)
+touchFunction(ReadVolatileHeapRef)
 
 touchFunction(EnterFrame)
 touchFunction(LeaveFrame)
@@ -124,7 +125,9 @@ touchFunction(RestoreStackFrameN2KEnumEntry)
 
 touchFunction(SaveStackFrameN2KCExport)
 touchFunction(RestoreStackFrameN2KCExport)
-touchFunction(RestoreStackFrameN2KCExportCatch)
+
+touchFunction(SaveX28)
+touchFunction(RestoreX28)
 
 #ifdef __cplusplus
 } // extern "C"

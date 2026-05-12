@@ -26,6 +26,7 @@
 #include "TypeInfo.h"
 #include "PointerBits.h"
 #include "MemoryManagerSwitch.hpp"
+#include "CRTFastpathUtils.hpp"
 #include "Utils.hpp"
 
 #ifdef KONAN_OHOS
@@ -186,6 +187,9 @@ struct FrameOverlay;
 #ifdef __cplusplus
 extern "C" {
 #endif
+// Stackmap requires AS1 (address space 1) on pointer types in function signatures
+// to correctly identify heap references. However, applying AS1 throughout the runtime would require pervasive type changes.
+// We use AS1 when declaring the signatures and in the actual definition uses regular pointer
 typedef AS1 ObjHeader * HeapObjPtr;
 typedef const AS1 ObjHeader * ConstHeapObjPtr;
 typedef AS1 ObjHeader * AS1 * HeapDerivedPtr;
@@ -227,6 +231,11 @@ OBJ_GETTER(AllocInstance, const TypeInfo* type_info) RUNTIME_NOTHROW;
 
 OBJ_GETTER(AllocArrayInstance, const TypeInfo* type_info, int32_t elements);
 
+// Followings are the APIs used by the compiler, differences from the runtime counterpart, they have the enterFrame operations
+OBJ_GETTER(AllocInstanceForCI, const TypeInfo* type_info) RUNTIME_NOTHROW;
+
+OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* type_info, int32_t elements);
+
 
 // `initialValue` may be `nullptr`, which signifies that the appropriate initial value was already
 // set by static initialization.
@@ -266,20 +275,21 @@ enum class MemoryModel {
 extern const MemoryModel CurrentMemoryModel;
 
 // Reads heap/static data location.
-ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
-
-// Zeroes heap location.
+    ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+    // Reads volatile heap/static data location.
+    ObjHeader *ReadVolatileHeapRef(ObjHeader** location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+    // Zeroes heap location.
 void ZeroHeapRef(ObjHeader** location, ObjHeader *thisPtr = nullptr) RUNTIME_NOTHROW;
 // Zeroes an array.
-void ZeroArrayRefs(ArrayHeader* array) RUNTIME_NOTHROW;
+void ZeroArrayRefs(ObjHeader* array) RUNTIME_NOTHROW;
 // Zeroes stack location.
 void ZeroStackRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Updates stack location.
 void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates heap/static data location.
-void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
-void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) RUNTIME_NOTHROW;
 OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location,
     ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
 bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue,
@@ -306,6 +316,10 @@ void CommitTLSStorage(MemoryState* memory) RUNTIME_NOTHROW;
 void ClearTLS(MemoryState* memory) RUNTIME_NOTHROW;
 // Lookup element in TLS object storage.
 HeapObjPtr* LookupTLS(void** key, int index) RUNTIME_NOTHROW;
+
+// APIs for GC pin, used only internally by Runtime
+void CRT_Pin(const void* obj);
+void CRT_UnPin(const void* obj);
 
 void Kotlin_native_internal_GC_collect(HeapObjPtr);
 void Kotlin_native_internal_GC_setTuneThreshold(HeapObjPtr, bool value);
@@ -419,8 +433,9 @@ RUNTIME_NOTHROW void RestoreStackFrameN2KEnumEntry();
 
 RUNTIME_NOTHROW void SaveStackFrameN2KCExport();
 RUNTIME_NOTHROW void RestoreStackFrameN2KCExport();
-RUNTIME_NOTHROW void RestoreStackFrameN2KCExportCatch();
 
+RUNTIME_NOTHROW ALWAYS_INLINE void SaveX28();
+RUNTIME_NOTHROW ALWAYS_INLINE void RestoreX28();
 #ifdef __cplusplus
 }
 #endif
@@ -564,6 +579,7 @@ private:
     MemoryState* thread_;
     ThreadState oldState_;
     bool reentrant_;
+    common::CallToFFixedX28 guard{};
 };
 
 // Scopely sets the kRunnable thread state for the current thread,

@@ -425,8 +425,9 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     private fun importRtFunction(name: String, returnsObjectType: Boolean) = importFunction(name, runtime.llvmModule, returnsObjectType)
 
     val readHeapRefFunction = importRtFunction("ReadHeapRef", false)
-    val allocInstanceFunction = importRtFunction("AllocInstance", true)
-    val allocArrayFunction = importRtFunction("AllocArrayInstance", true)
+    val readVolatileHeapRefFunction = importRtFunction("ReadVolatileHeapRef", false)
+    val allocInstanceFunction = importRtFunction("AllocInstanceForCI", true)
+    val allocArrayFunction = importRtFunction("AllocArrayInstanceForCI", true)
     val initAndRegisterGlobalFunction = importRtFunction("InitAndRegisterGlobal", false)
     val updateHeapRefFunction = importRtFunction("UpdateHeapRef", false)
     val updateStackRefFunction = importRtFunction("UpdateStackRef", false)
@@ -509,10 +510,10 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     // TODO: Consider implementing them directly in the code generator.
     val Kotlin_arrayGetElementAddress by lazy { importRtFunction("Kotlin_arrayGetElementAddress", false) }
     val Kotlin_intArrayGetElementAddress by lazy { importRtFunction("Kotlin_intArrayGetElementAddress", false) }
-    val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
-    val saveThreadLastKotlinFrame2 by lazy { importRtFunction("SaveThreadLastKotlinFrame2", false) }
-    val restoreThreadLastKotlinFrame2 by lazy { importRtFunction("RestoreThreadLastKotlinFrame2", false) }
+val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
 
+    val saveX28 by lazy { importRtFunction("SaveX28", false) }
+    val restoreX28 by lazy { importRtFunction("RestoreX28", false) }
     val saveStackFrameR2KExportForCppRuntime by lazy { importRtFunction("SaveStackFrameR2KExportForCppRuntime", false) }
     val restoreStackFrameN2KNativeToKotlin by lazy { importRtFunction("RestoreStackFrameR2KExportForCppRuntime", false) }
 
@@ -670,7 +671,7 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
             functionAttributes = listOf(LlvmFunctionAttribute.NoUnwind)
     )
 
-    val caxRethrowFunction = externalNativeRuntimeFunction(
+    val cxaRethrowFunction = externalNativeRuntimeFunction(
             "__cxa_rethrow",
             returnType = LlvmRetType(voidType, isObjectType = false)
     )

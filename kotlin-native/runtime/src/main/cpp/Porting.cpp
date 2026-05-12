@@ -268,11 +268,9 @@ NO_EXTERNAL_CALLS_CHECK uintptr_t currentThreadId() {
 #elif KONAN_ANDROID
     return gettid();
 // region Tencent Code
-#elif KONAN_OHOS
+#elif KONAN_LINUX || KONAN_OHOS
     return gettid();
 // endregion
-#elif KONAN_LINUX
-    return gettid();
 #elif KONAN_WINDOWS
   return GetCurrentThreadId();
 #else

@@ -12,15 +12,14 @@
 
 #include "MemoryManagerSwitch.hpp"
 
-namespace kotlin {
-// TODO: Get the cache TLS from ThreadData, should be renamed
-void* EvalCRTTLS(alloc::Allocator::ThreadData::Impl& impl) {
+using namespace kotlin;
+
+namespace common {
+void* LoadCachedCRTTLS(alloc::Allocator::ThreadData::Impl& impl) {
     assertUseCRT();
     return impl.crt_alloc().getCrtTls();
 }
-} // namespace kotlin
-
-using namespace kotlin;
+} // namespace common
 
 alloc::Allocator::ThreadData::ThreadData(Allocator& allocator) noexcept : impl_(std::make_unique<Impl>(allocator.impl())) {}
 
@@ -44,13 +43,17 @@ PERFORMANCE_INLINE ArrayHeader* alloc::Allocator::ThreadData::allocateArray(cons
 
 PERFORMANCE_INLINE mm::ExtraObjectData& alloc::Allocator::ThreadData::allocateExtraObjectData(
         ObjHeader* object, const TypeInfo* typeInfo) noexcept {
-    assertNotCRT();
-    return *impl_->alloc().CreateExtraObjectDataForObject(object, typeInfo);
+    return *checkUseCRT<CheckMode::Fast>([&] {
+        return impl_->crt_alloc().CreateExtraObjectDataForObject(typeInfo);
+    }, [&] {
+        return impl_->alloc().CreateExtraObjectDataForObject(object, typeInfo);
+    });
 }
 
 ALWAYS_INLINE void alloc::Allocator::ThreadData::destroyUnattachedExtraObjectData(mm::ExtraObjectData& extraObject) noexcept {
-    assertNotCRT();
-    extraObject.setFlag(mm::ExtraObjectData::FLAGS_SWEEPABLE);
+    checkNotCRT<CheckMode::Fast>([&] {
+        extraObject.setFlag(mm::ExtraObjectData::FLAGS_SWEEPABLE);
+    });
 }
 
 void alloc::Allocator::ThreadData::prepareForGC() noexcept {
@@ -160,15 +163,16 @@ size_t alloc::allocatedBytes() noexcept {
 }
 
 void alloc::destroyExtraObjectData(mm::ExtraObjectData& extraObject) noexcept {
-    assertNotCRT();
     extraObject.ReleaseAssociatedObject();
-    if (extraObject.GetBaseObject()) {
-        // If there's an object attached to this extra object, the next
-        // GC sweep will have to resolve this cycle.
-        extraObject.setFlag(mm::ExtraObjectData::FLAGS_FINALIZED);
-    } else {
-        // If there's no object attached to this extra object, the next
-        // GC sweep will just collect this extra object.
-        extraObject.setFlag(mm::ExtraObjectData::FLAGS_SWEEPABLE);
-    }
+    checkNotCRT<CheckMode::Slow>([&] { // in CRT extra-objects are managed automatically
+        if (extraObject.GetBaseObject()) {
+            // If there's an object attached to this extra object, the next
+            // GC sweep will have to resolve this cycle.
+            extraObject.setFlag(mm::ExtraObjectData::FLAGS_FINALIZED);
+        } else {
+            // If there's no object attached to this extra object, the next
+            // GC sweep will just collect this extra object.
+            extraObject.setFlag(mm::ExtraObjectData::FLAGS_SWEEPABLE);
+        }
+    });
 }

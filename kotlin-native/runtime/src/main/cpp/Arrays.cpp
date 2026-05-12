@@ -23,9 +23,20 @@
 #include "Natives.h"
 #include "Types.h"
 
-extern "C" void checkRangeIndexes(KInt from, KInt to, KInt size);
+extern "C" void ThrowRangeIndexOutOfBoundsException(KInt from, KInt to, KInt size);
+extern "C" void ThrowRangeIllegalArgumentException(KInt from, KInt to);
 
 namespace {
+// Duplicate range-check within runtime to avoid calling back to KT side which causes safepoint on non-throwing path.
+// Keep sync with ArrayUtil.kt::checkRangeIndexes
+static void checkRangeIndexes(KInt from, KInt to, KInt size) {
+    if (from < 0 || to > size) {
+        ThrowRangeIndexOutOfBoundsException(from, to, size);
+    }
+    if (from > to) {
+        ThrowRangeIllegalArgumentException(from, to);
+    }
+}
 
 ALWAYS_INLINE inline void mutabilityCheck(KConstRef thiz) {
   // TODO: optimize it!
@@ -89,11 +100,11 @@ inline T PrimitiveArrayGet(KConstRef thiz, KInt index) {
 }
 
 template<bool BoundsCheck = true>
-ALWAYS_INLINE const KRef* Kotlin_Array_get_value(KConstRef thiz, KInt index) {
-  const ArrayHeader* array = thiz->array();
+ALWAYS_INLINE KRef Kotlin_Array_get_value(KConstRef thiz, KInt index) {
+  ArrayHeader* array = const_cast<ArrayHeader*>(thiz->array());
   if (BoundsCheck)
     boundsCheck(array, index);
-  return ArrayAddressOfElementAt(array, index);
+  return ReadHeapRef(ArrayAddressOfElementAt(array, index), array->obj());
 }
 
 template<bool BoundsCheck = true>
@@ -133,11 +144,11 @@ extern const ObjHeader theEmptyArray;
 
 // Array.kt
 ALWAYS_INLINE OBJ_GETTER(Kotlin_Array_get, KConstRef thiz, KInt index) {
-  RETURN_OBJ(*Kotlin_Array_get_value(thiz, index));
+  RETURN_OBJ(Kotlin_Array_get_value(thiz, index));
 }
 
 ALWAYS_INLINE OBJ_GETTER(Kotlin_Array_get_without_BoundCheck, KConstRef thiz, KInt index){
-  RETURN_OBJ(*Kotlin_Array_get_value<false>(thiz, index));
+  RETURN_OBJ(Kotlin_Array_get_value<false>(thiz, index));
 }
 
 ALWAYS_INLINE void Kotlin_Array_set(KRef thiz, KInt index, KConstRef value) {
@@ -153,12 +164,13 @@ ALWAYS_INLINE KInt Kotlin_Array_getArrayLength(KConstRef thiz) {
   return array->count_;
 }
 
+// TODO: Add regression test for missing write barrier fix in Array.fill()
 void Kotlin_Array_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KRef value) {
   ArrayHeader* array = thiz->array();
   checkRangeIndexes(fromIndex, toIndex, array->count_);
   mutabilityCheck(thiz);
   for (KInt index = fromIndex; index < toIndex; ++index) {
-    UpdateHeapRef(ArrayAddressOfElementAt(array, index), value);
+    UpdateHeapRef(ArrayAddressOfElementAt(array, index), value, array->obj());
   }
 }
 
@@ -501,17 +513,18 @@ ALWAYS_INLINE void Kotlin_CharArray_set_without_BoundCheck(KRef thiz, KInt index
 }
 
 OBJ_GETTER(Kotlin_CharArray_copyOf, KConstRef thiz, KInt newSize) {
-  const ArrayHeader* array = thiz->array();
   if (newSize < 0) {
     ThrowIllegalArgumentException();
   }
-  ArrayHeader* result = AllocArrayInstance(array->type_info(), newSize, OBJ_RESULT)->array();
-  KInt toCopy = array->count_ < static_cast<uint32_t>(newSize) ?  array->count_ : newSize;
+  KInt oldSize = thiz->array()->count_;
+  KInt toCopy = oldSize < newSize ? oldSize : newSize;
+  auto holder = ObjHolder(thiz);
+  auto dst = AllocArrayInstance(thiz->type_info(), newSize, OBJ_RESULT)->array();
   memcpy(
-      PrimitiveArrayAddressOfElementAt<KChar>(result, 0),
-      PrimitiveArrayAddressOfElementAt<KChar>(array, 0),
+      PrimitiveArrayAddressOfElementAt<KChar>(dst, 0),
+      PrimitiveArrayAddressOfElementAt<KChar>(holder.obj()->array(), 0),
       toCopy * sizeof(KChar));
-  RETURN_OBJ(result->obj());
+  RETURN_OBJ(dst->obj());
 }
 
 ALWAYS_INLINE KInt Kotlin_CharArray_getArrayLength(KConstRef thiz) {
@@ -739,16 +752,17 @@ ALWAYS_INLINE KInt Kotlin_NativePtrArray_getArrayLength(KConstRef thiz) {
 }
 
 OBJ_GETTER(Kotlin_ImmutableBlob_toByteArray, KConstRef thiz, KInt startIndex, KInt endIndex) {
-  const ArrayHeader* array = thiz->array();
-  if (startIndex < 0 || static_cast<uint32_t>(endIndex) > array->count_ || startIndex > endIndex) {
+  KInt count = thiz->array()->count_;
+  if (startIndex < 0 || endIndex > count || startIndex > endIndex) {
     ThrowArrayIndexOutOfBoundsException();
   }
-  KInt count = endIndex - startIndex;
-  ArrayHeader* result = AllocArrayInstance(theByteArrayTypeInfo, count, OBJ_RESULT)->array();
-  memcpy(PrimitiveArrayAddressOfElementAt<KByte>(result, 0),
-         PrimitiveArrayAddressOfElementAt<KByte>(array, startIndex),
-         count);
-  RETURN_OBJ(result->obj());
+  KInt len = endIndex - startIndex;
+  auto holder = ObjHolder(thiz);
+  auto dst = AllocArrayInstance(theByteArrayTypeInfo, len, OBJ_RESULT)->array();
+  memcpy(PrimitiveArrayAddressOfElementAt<KByte>(dst, 0),
+         PrimitiveArrayAddressOfElementAt<KByte>(holder.obj()->array(), startIndex),
+         len);
+  RETURN_OBJ(dst->obj());
 }
 
 KNativePtr Kotlin_ImmutableBlob_asCPointerImpl(KRef thiz, KInt offset) {

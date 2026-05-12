@@ -303,6 +303,8 @@ internal class CAdapterApiExporter(
     |void RestoreStackFrameN2KCExport() RUNTIME_NOTHROW;
     |void RestoreStackFrameN2KCExportCatch() RUNTIME_NOTHROW;
     |void HandleCurrentExceptionWhenLeavingKotlinCode();
+    |void SaveX28();
+    |void RestoreX28();
     |
     |KObjHeader* CreateStringFromCString(const char*, KObjHeader**);
     |char* CreateCStringFromString(const KObjHeader*);
@@ -346,7 +348,18 @@ internal class CAdapterApiExporter(
     |   ScopedRunnableState& operator=(ScopedRunnableState&&) = delete;
     |};
     |
+    |class ScopedFastPathGuard {
+    |public:
+    |   ScopedFastPathGuard() noexcept { SaveX28(); }
+    |   ~ScopedFastPathGuard() { RestoreX28(); }
+    |   ScopedFastPathGuard(const ScopedFastPathGuard&) = delete;
+    |   ScopedFastPathGuard(ScopedFastPathGuard&&) = delete;
+    |   ScopedFastPathGuard& operator=(const ScopedFastPathGuard&) = delete;
+    |   ScopedFastPathGuard& operator=(ScopedFastPathGuard&&) = delete;
+    |};
+    |
     |static void DisposeStablePointerImpl(${prefix}_KNativePtr ptr) {
+    |  ScopedFastPathGuard fastPathGuard;
     |  Kotlin_initRuntimeIfNeeded();
     |  ScopedRunnableState stateGuard;
     |  SaveStackFrameN2KDisposeStableRef();
@@ -357,6 +370,7 @@ internal class CAdapterApiExporter(
     |  DisposeCString((char*)ptr);
     |}
     |static ${prefix}_KBoolean IsInstanceImpl(${prefix}_KNativePtr ref, const ${prefix}_KType* type) {
+    |  ScopedFastPathGuard fastPathGuard;
     |  Kotlin_initRuntimeIfNeeded();
     |  ScopedRunnableState stateGuard;
     |  KObjHolder holder;
@@ -375,6 +389,7 @@ internal class CAdapterApiExporter(
             val argument = if (needArgument) "value, " else ""
             output("extern \"C\" KObjHeader* Kotlin_box${it.shortNameForPredefinedType}($parameter$maybeComma KObjHeader**);")
             output("static ${typeTranslator.translateType(nullableIt)} ${it.createNullableNameForPredefinedType}Impl($parameter) {")
+            output("ScopedFastPathGuard fastPathGuard;", 1)
             output("Kotlin_initRuntimeIfNeeded();", 1)
             output("ScopedRunnableState stateGuard;", 1)
             output("KObjHolder result_holder;", 1)
@@ -388,6 +403,7 @@ internal class CAdapterApiExporter(
             if (!it.isUnit()) {
                 output("extern \"C\" ${typeTranslator.translateType(it)} Kotlin_unbox${it.shortNameForPredefinedType}(KObjHeader*);")
                 output("static ${typeTranslator.translateType(it)} ${it.createGetNonNullValueOfPredefinedType}Impl(${typeTranslator.translateType(nullableIt)} value) {")
+                output("ScopedFastPathGuard fastPathGuard;", 1)
                 output("Kotlin_initRuntimeIfNeeded();", 1)
                 output("ScopedRunnableState stateGuard;", 1)
                 output("KObjHolder value_holder;", 1)
