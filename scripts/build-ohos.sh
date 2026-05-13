@@ -136,6 +136,9 @@ if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]
     echo "Please set valid VS_ROOT and WINSDK_ROOT environment variables"
     echo "such as: export VS_ROOT=\"/c/Program Files/Microsoft Visual Studio/2022/Professional\""
     echo "and: export WINSDK_ROOT=\"/c/Program Files (x86)/Windows Kits/10\""
+    echo "You can install visual studio build tools from the following links:"
+    echo "https://visualstudio.microsoft.com/downloads/"
+    echo "and install windows sdk by visual studio installer."
     exit 1
   fi
 fi
