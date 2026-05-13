@@ -23,9 +23,7 @@ extern "C" long long __ashldi3(long long value, int shift) {
     if (shift >= DI_BIT_WIDTH) {
         return 0;
     }
-    // Left shift on unsigned avoids undefined behavior for negative `value`.
-    const auto bits = static_cast<std::uint64_t>(static_cast<std::int64_t>(value));
-    return static_cast<long long>(bits << static_cast<unsigned>(shift));
+    return value << shift;
 }
 
 extern "C" long long __ashrdi3(long long value, int shift) {
@@ -35,8 +33,7 @@ extern "C" long long __ashrdi3(long long value, int shift) {
     if (shift >= DI_BIT_WIDTH) {
         return value < 0 ? static_cast<long long>(-1) : 0;
     }
-    return static_cast<std::int64_t>(value) >> shift;
-}
+    return value >> shift;
 
 extern "C" int __cmpdi2(long long lhs, long long rhs) {
     return lhs < rhs ? -1 : (lhs > rhs ? 1 : 0);
@@ -44,7 +41,7 @@ extern "C" int __cmpdi2(long long lhs, long long rhs) {
 
 extern "C" long long __divdi3(long long lhs, long long rhs) {
     if (rhs == 0) {
-        std::abort();
+        return 0;
     }
     return lhs / rhs;
 }
@@ -68,26 +65,26 @@ extern "C" unsigned long long __lshrdi3(unsigned long long value, int shift) {
     if (shift >= DI_BIT_WIDTH) {
         return 0;
     }
-    return static_cast<unsigned long long>(u >> static_cast<unsigned>(shift));
+    return value >> shift;
 }
 
 extern "C" long long __moddi3(long long lhs, long long rhs) {
     if (rhs == 0) {
-        std::abort();
+        return 0;
     }
     return lhs % rhs;
 }
 
 extern "C" unsigned long long __udivdi3(unsigned long long lhs, unsigned long long rhs) {
     if (rhs == 0) {
-        std::abort();
+        return 0;
     }
     return lhs / rhs;
 }
 
 extern "C" unsigned long long __umoddi3(unsigned long long lhs, unsigned long long rhs) {
     if (rhs == 0) {
-        std::abort();
+        return 0;
     }
     return lhs % rhs;
 }
