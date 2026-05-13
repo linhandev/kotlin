@@ -13,11 +13,14 @@
  * limitations under the License.
  */
 
+ // Bit width of libgcc double-int (DI)
+ #define DI_BIT_WIDTH 64
+
 extern "C" long long __ashldi3(long long value, int shift) {
     if (shift < 0) {
         return 0;
     }
-    if (shift >= 64) {
+    if (shift >= DI_BIT_WIDTH) {
         return 0;
     }
     // Left shift on unsigned avoids undefined behavior for negative `value`.
@@ -29,7 +32,7 @@ extern "C" long long __ashrdi3(long long value, int shift) {
     if (shift < 0) {
         return 0;
     }
-    if (shift >= 64) {
+    if (shift >= DI_BIT_WIDTH) {
         return value < 0 ? static_cast<long long>(-1) : 0;
     }
     return static_cast<std::int64_t>(value) >> shift;
@@ -62,7 +65,7 @@ extern "C" unsigned long long __lshrdi3(unsigned long long value, int shift) {
     if (shift < 0) {
         return 0;
     }
-    if (shift >= 64) {
+    if (shift >= DI_BIT_WIDTH) {
         return 0;
     }
     return static_cast<unsigned long long>(u >> static_cast<unsigned>(shift));
