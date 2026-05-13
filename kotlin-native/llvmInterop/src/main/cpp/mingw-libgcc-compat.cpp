@@ -14,7 +14,7 @@
  */
 
  // Bit width of libgcc double-int (DI)
- #define DI_BIT_WIDTH 64
+#define DI_BIT_WIDTH 64
 
 extern "C" long long __ashldi3(long long value, int shift) {
     if (shift < 0) {
