@@ -95,6 +95,54 @@ if [ -z "$JDK_18" ]; then
   exit 1
 fi
 
+# Ensure Windows native headers are visible for Kotlin/Native clang in Git Bash
+if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]; }; then
+  MSVC_ROOT="$VS_ROOT/VC/Tools/MSVC"
+  WINSDK_INCLUDE_ROOT="$WINSDK_ROOT/Include"
+  WINSDK_LIB_ROOT="$WINSDK_ROOT/Lib"
+
+  if [ -d "$MSVC_ROOT" ] && [ -d "$WINSDK_INCLUDE_ROOT" ] && [ -d "$WINSDK_LIB_ROOT" ]; then
+    MSVC_VER=$(ls -1 "$MSVC_ROOT" 2>/dev/null | sort -V | tail -n 1)
+    SDK_VER=$(ls -1 "$WINSDK_INCLUDE_ROOT" 2>/dev/null | sort -V | tail -n 1)
+
+    if [ -n "$MSVC_VER" ] && [ -n "$SDK_VER" ]; then
+      MSVC_INCLUDE=$(cygpath -m "$MSVC_ROOT/$MSVC_VER/include")
+      UCRT_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/ucrt")
+      UM_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/um")
+      SHARED_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/shared")
+      WINRT_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/winrt")
+      CPPWINRT_INCLUDE=$(cygpath -m "$WINSDK_INCLUDE_ROOT/$SDK_VER/cppwinrt")
+
+      if [ -z "${INCLUDE:-}" ]; then
+        export INCLUDE="$MSVC_INCLUDE;$UCRT_INCLUDE;$UM_INCLUDE;$SHARED_INCLUDE;$WINRT_INCLUDE;$CPPWINRT_INCLUDE"
+        echo "Auto-configured INCLUDE for Windows native toolchain."
+      fi
+
+      MSVC_LIB=$(cygpath -m "$MSVC_ROOT/$MSVC_VER/lib/x64")
+      UCRT_LIB=$(cygpath -m "$WINSDK_LIB_ROOT/$SDK_VER/ucrt/x64")
+      UM_LIB=$(cygpath -m "$WINSDK_LIB_ROOT/$SDK_VER/um/x64")
+
+      if [ -z "${LIB:-}" ]; then
+        export LIB="$MSVC_LIB;$UCRT_LIB;$UM_LIB"
+        echo "Auto-configured LIB for Windows native toolchain."
+      fi
+    else
+      echo "Error: Could not detect MSVC/Windows SDK versions. Native compilation may fail."
+      exit 1
+    fi
+  else
+    echo "Error: Visual Studio Build Tools MSVC: ${MSVC_ROOT} or "
+    echo "  Windows SDK: ${WINSDK_INCLUDE_ROOT} or ${WINSDK_LIB_ROOT} directories not found."
+    echo "Please set valid VS_ROOT and WINSDK_ROOT environment variables"
+    echo "such as: export VS_ROOT=\"/c/Program Files/Microsoft Visual Studio/2022/Professional\""
+    echo "and: export WINSDK_ROOT=\"/c/Program Files (x86)/Windows Kits/10\""
+    echo "You can install visual studio build tools from the following links:"
+    echo "https://visualstudio.microsoft.com/downloads/"
+    echo "and install windows sdk by visual studio installer."
+    exit 1
+  fi
+fi
+
 # Maven wrapper requires unzip: without it, it downloads .tar.gz but validates with the .zip checksum → failure
 if ! command -v unzip >/dev/null 2>&1; then
   echo "❌ Error: unzip is required."
@@ -414,10 +462,17 @@ stepEnd
 
 # 2. Build maven part and publish it to the same build/repo
 stepBegin "Build maven part and publish it to the same build/repo"
+if [[ "$(uname -s)" == MINGW* ]] || [[ "$(uname -s)" == MSYS* ]] || [[ "$(uname -s)" == CYGWIN* ]]; then
+  ROOT_DIR_WIN=$(cygpath -w "$ROOT_DIR" | sed 's/\\/\//g')
+  MAVEN_DEPLOY_URL="file:///$ROOT_DIR_WIN/build/repo"
+  echo "MAVEN_DEPLOY_URL=$MAVEN_DEPLOY_URL"
+else
+  MAVEN_DEPLOY_URL="file://$ROOT_DIR/build/repo"
+fi
 run_maven_with_retry \
   -f "$ROOT_DIR/libraries/pom.xml" \
   clean deploy \
-  -Ddeploy-url=file://$ROOT_DIR/build/repo \
+  -Ddeploy-url="$MAVEN_DEPLOY_URL" \
   -DskipTests
 stepEnd
 
