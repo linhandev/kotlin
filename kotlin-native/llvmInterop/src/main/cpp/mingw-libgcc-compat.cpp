@@ -34,6 +34,7 @@ extern "C" long long __ashrdi3(long long value, int shift) {
         return value < 0 ? static_cast<long long>(-1) : 0;
     }
     return value >> shift;
+}
 
 extern "C" int __cmpdi2(long long lhs, long long rhs) {
     return lhs < rhs ? -1 : (lhs > rhs ? 1 : 0);
