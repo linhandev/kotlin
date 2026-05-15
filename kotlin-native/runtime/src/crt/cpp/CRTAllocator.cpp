@@ -88,6 +88,11 @@ ALWAYS_INLINE ObjHeader* CRTAllocator::CreateObject(const TypeInfo* typeInfo) no
         common::BaseFinalizerProcessor::RegisterFinalizableObject(kobj);
     }
     kobj->SetLanguageBitAsKotlin();
+    #ifdef KONAN_OHOS
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+        restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_, TAG_RES_KMP_HEAP_MASK, true);
+    }
+    #endif
     return object;
 }
 
@@ -101,6 +106,11 @@ ALWAYS_INLINE ArrayHeader* CRTAllocator::CreateArray(const TypeInfo* typeInfo, u
     array->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
     array->count_ = count;
     reinterpret_cast<common::KNBaseObject*>(array)->SetLanguageBitAsKotlin();
+    #ifdef KONAN_OHOS
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+        restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_, TAG_RES_KMP_HEAP_MASK, true);
+    }
+    #endif
     return array;
 }
 
@@ -108,7 +118,13 @@ mm::ExtraObjectData* CRTAllocator::CreateExtraObjectDataForObject(const TypeInfo
     constexpr auto size = sizeof(mm::ExtraObjectData);
     static_assert(size % sizeof(uint64_t) == 0, "non-movable allocator requirement failed");
     auto extraObjectMemory = reinterpret_cast<void*>(common::HeapAllocator::AllocateInNonmove(size, common::LanguageType::KOTLIN));
-    return new (extraObjectMemory) mm::ExtraObjectData(info);
+    mm::ExtraObjectData* extraObject = new (extraObjectMemory) mm::ExtraObjectData(info);
+    #ifdef KONAN_OHOS
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+        restrace(RES_KMP_HEAP_MASK, (void*)extraObject, size, TAG_RES_KMP_HEAP_MASK, true);
+    }
+    #endif
+    return extraObject;
 }
 
 // static
