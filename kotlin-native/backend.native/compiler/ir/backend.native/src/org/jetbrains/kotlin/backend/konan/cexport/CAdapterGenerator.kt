@@ -249,11 +249,8 @@ internal class ExportedElement(
             |  Kotlin_initRuntimeIfNeeded();
             |  ScopedRunnableState stateGuard;
             |  KObjHolder result_holder;
-            |  SaveStackFrameN2KClassInstance();
             |  KObjHeader* result = ${cname}_instance(result_holder.slot());
-            |  $objectClassC ans = $objectClassC { .pinned = CreateStablePointer(result)};
-            |  RestoreStackFrameN2KClassInstance();
-            |  return ans;
+            |  return $objectClassC { .pinned = CreateStablePointer(result)};
             |}
             """.trimMargin()
         } else ""
@@ -272,11 +269,8 @@ internal class ExportedElement(
               |  Kotlin_initRuntimeIfNeeded();
               |  ScopedRunnableState stateGuard;
               |  KObjHolder result_holder;
-              |  SaveStackFrameN2KEnumEntry();
               |  KObjHeader* result = $cname(result_holder.slot());
-              |  $enumClassC ans = $enumClassC { .pinned = CreateStablePointer(result)};
-              |  RestoreStackFrameN2KEnumEntry();
-              |  return ans;
+              |  return $enumClassC { .pinned = CreateStablePointer(result)};
               |}
               """.trimMargin()
     }
@@ -317,12 +311,11 @@ internal class ExportedElement(
         val visibility = if (isTopLevelFunction) "RUNTIME_EXPORT extern \"C\"" else "static"
         val builder = StringBuilder()
         builder.append("$visibility ${typeTranslator.translateType(cfunction[0])} ${cnameImpl}(${cfunction.drop(1).
-                mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")}) {\n")
+                mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")}) __attribute__((annotate(\"ktstub\"))) {\n")
         // TODO: do we really need that in every function?
         builder.append("  ScopedFastPathGuard fastPathGuard;\n")
         builder.append("  Kotlin_initRuntimeIfNeeded();\n")
         builder.append("  ScopedRunnableState stateGuard;\n")
-        builder.append("  SaveStackFrameN2KCExport();\n")
         builder.append("  FrameOverlay* frame = getCurrentFrame();")
         val args = ArrayList(cfunction.drop(1).mapIndexed { index, pair ->
             translateArgument("arg$index", pair, Direction.C_TO_KOTLIN, builder)
@@ -353,14 +346,12 @@ internal class ExportedElement(
         if (!isVoidReturned) {
             val result = translateArgument(
                     "result", cfunction[0], Direction.KOTLIN_TO_C, builder)
-            builder.append("  RestoreStackFrameN2KCExport();\n")
             builder.append("  return $result;\n")
         }
         builder.append("   } catch (...) {")
         builder.append("       SetCurrentFrame(reinterpret_cast<KObjHeader**>(frame));\n")
         builder.append("       HandleCurrentExceptionWhenLeavingKotlinCode();\n")
         builder.append("   } \n")
-        builder.append("  RestoreStackFrameN2KCExportCatch();\n")
         builder.append("}\n")
 
         return builder.toString()

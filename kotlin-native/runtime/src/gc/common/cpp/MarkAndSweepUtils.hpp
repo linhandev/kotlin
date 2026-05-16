@@ -124,6 +124,9 @@ void collectRootSetForThread(GCHandle gcHandle, typename Traits::MarkQueue& mark
                 case mm::ThreadRootSet::Source::kTLS:
                     handle.addThreadLocalRoot();
                     break;
+                case mm::ThreadRootSet::Source::kHandle:
+                    handle.AddKHandleRoot();
+                    break;
             }
         }
     }

@@ -13,6 +13,7 @@ import org.gradle.api.attributes.Usage
 import org.gradle.api.file.FileCollection
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.PlatformManagerPlugin
+import org.jetbrains.kotlin.konan.HostLibcxxRuntimeLibraries
 import org.jetbrains.kotlin.konan.target.*
 import java.io.File
 import java.nio.file.Paths
@@ -108,6 +109,28 @@ abstract class NativeDependenciesExtension @Inject constructor(private val proje
      */
     val hostPlatform: Platform
         get() = platformManager.hostPlatform
+
+    /**
+     * Directory with libc++ runtime libraries bundled into the host LLVM distribution.
+     */
+    val hostLibcxxDir: String
+        get() = "$llvmPath/lib/${hostPlatform.targetTriple}"
+
+    /**
+     * libc++ runtime libraries needed by host tools linked against the bundled LLVM/Clang.
+     * Same list as [HostLibcxxRuntimeLibraries.SONAMES] (kotlin-native-utils).
+     */
+    val hostLibcxxRuntimeLibraries: List<String>
+        get() = HostLibcxxRuntimeLibraries.SONAMES
+
+    val hostLibcxxRuntimeLibraryPaths: List<String>
+        get() = hostLibcxxRuntimeLibraries.map { "$hostLibcxxDir/$it" }
+
+    val hostLibcxxIncludeDirs: List<String>
+        get() = listOf(
+                "$llvmPath/include/${hostPlatform.targetTriple}/c++/v1",
+                "$llvmPath/include/c++/v1",
+        )
 
     /**
      * Dependency on [target] platform.

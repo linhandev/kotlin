@@ -11,6 +11,8 @@
 #include <stack>
 #include <sstream>
 
+#include "DisallowSafepointScope.h"
+#include "HandleScope.h"
 #include "GlobalData.hpp"
 #include "GlobalsRegistry.hpp"
 #include "GC.hpp"
@@ -19,24 +21,31 @@
 #include "ThreadLocalStorage.hpp"
 #include "Utils.hpp"
 #include "ThreadSuspension.hpp"
-#include "Logging.hpp"
 
 #include "common_interfaces/thread/thread_holder.h"
 #include "Runtime.h"
 #include "MemoryManagerSwitch.hpp"
-#include "VerifyKotlinStack.hpp"
 
 struct ObjHeader;
 
 namespace kotlin {
 namespace mm {
 
-struct KotlinFrame {
-    std::vector<uint64_t*> fpStack_;
-    std::vector<uint32_t*> pcStack_;
-    std::vector<uint8_t> kindStack_;
-    std::vector<size_t> logIndex;
-    uint64_t counter = 0;
+
+enum class FrameStatus : uint8_t {
+    RISKY,
+    RELIABLE
+};
+
+struct FrameAddress {
+    FrameAddress* prevThreadState;
+    const uint32_t* returnAddr;
+};
+
+struct LastFrameInfo {
+    FrameAddress *lastFrame = nullptr;
+    FrameStatus status = FrameStatus::RELIABLE;
+    uint32_t *lastPC = nullptr;
 };
 
 // `ThreadData` is supposed to be thread local singleton.
@@ -78,92 +87,29 @@ public:
 
     ThreadSuspensionData& suspensionData() { return suspensionData_; }
 
-    void setFuncPCs(std::vector<void*>& funcPCs) { funcPCs_ = funcPCs; }
-    std::vector<void*>& getFuncPCs() { return funcPCs_; }
-    void pushLastKotlinFrame(uint32_t* pc, uint64_t* fp, FrameKind kind)
+    const LastFrameInfo &GetLastFrameInfo()
     {
-        lastKotlinFrame_.pcStack_.emplace_back(pc);
-        lastKotlinFrame_.fpStack_.emplace_back(fp);
-        lastKotlinFrame_.kindStack_.emplace_back(static_cast<uint8_t>(kind));
-        lastKotlinFrame_.logIndex.emplace_back(lastKotlinFrame_.counter);
-        lastKotlinFrame_.counter++;
-
-#if ENABLE_VERIFY_STACK
-        VerifyKotlinStack::OnPushFrame(*this, kind);
-#endif
+        return lastFrameInfo_;
     }
 
-    void popLastKotlinFrame(FrameKind kind)
+    void SetLastFrameInfo(LastFrameInfo lastFrameInfo)
     {
-        lastKotlinFrame_.counter++;
-        if (lastKotlinFrame_.pcStack_.empty() || lastKotlinFrame_.fpStack_.empty()) {
-            PrintLastKotlinFrameLog();
-            RuntimeLogInfo({kTagGC},
-                "[KotlinFrame] try to pop from empty"
-                " lastKotlinFrame_ for thread %" PRIuPTR,
-                threadId_);
-            abort();
-        }
-#if ENABLE_VERIFY_STACK
-        VerifyKotlinStack::OnPopFrame(*this, kind);
-#endif
-        lastKotlinFrame_.pcStack_.pop_back();
-        lastKotlinFrame_.fpStack_.pop_back();
-        lastKotlinFrame_.logIndex.pop_back();
-        lastKotlinFrame_.kindStack_.pop_back();
+        lastFrameInfo_ = lastFrameInfo;
     }
 
-    void PrintLastKotlinFrameLog()
+    // invoke before enter safe region in runtime
+    ALWAYS_INLINE void RuntimeSetLastFrame()
     {
-        RuntimeLogInfo({kTagGC}, "[KotlinFrame] lastKotlinFrame_ log for thread %" PRIuPTR ":", threadId_);
-        std::stringstream logStream;
-        logStream << "[KotlinFrame] kindStack_ content: ";
-
-        for (size_t i = 0; i < lastKotlinFrame_.kindStack_.size(); i++) {
-            uint8_t value = lastKotlinFrame_.kindStack_[i];
-            FrameKind kind = static_cast<FrameKind>(value);
-            bool isUnmanaged = (value & static_cast<uint8_t>(FrameKind::K_UNMANAGED_MASK)) != 0;
-            const char* stackType = isUnmanaged ? "Unmanaged" : "Managed";
-
-            const char* kindName = "Unknown";
-            switch (kind) {
-                case FrameKind::K_K2X: kindName = "K2X"; break;
-                case FrameKind::K_WEAK_REF: kindName = "WeakRef"; break;
-                case FrameKind::K_SAFE_POINT: kindName = "SafePoint"; break;
-                case FrameKind::K_NATIVE_STATE: kindName = "NativeState"; break;
-                case FrameKind::K_RUNTIME_TO_KOTLIN: kindName = "RuntimeToKotlin"; break;
-                case FrameKind::K_INIT_GLOBALS: kindName = "InitGlobals"; break;
-                case FrameKind::K_WORKER_JOB: kindName = "WorkerJob"; break;
-                case FrameKind::K_GLOBAL_INIT_ADAPTER: kindName = "GlobalInitAdapter"; break;
-                case FrameKind::K_C_EXPORT: kindName = "CExport"; break;
-                case FrameKind::K_BOXING: kindName = "Boxing"; break;
-                case FrameKind::K_UNBOXING: kindName = "Unboxing"; break;
-                case FrameKind::K_DISPOSE_STABLE_REF: kindName = "DisposeStableRef"; break;
-                case FrameKind::K_IS_INSTANCE: kindName = "IsInstance"; break;
-                case FrameKind::K_CLASS_INSTANCE: kindName = "ClassInstance"; break;
-                case FrameKind::K_ENUM_ENTRY: kindName = "EnumEntry"; break;
-                default: kindName = "Unknown"; break;
-            }
-
-            logStream << "[" << i << "]:" << kindName << "(" << stackType << ")"
-                      << " fp=" << lastKotlinFrame_.fpStack_[i]
-                      << " pc=" << lastKotlinFrame_.pcStack_[i]
-                      << (i < lastKotlinFrame_.kindStack_.size()-1 ? ", " : "");
+        if (lastFrameInfo_.status != FrameStatus::RISKY) {
+            void* fa = __builtin_frame_address(0);
+            lastFrameInfo_.lastFrame = static_cast<FrameAddress*>(fa)->prevThreadState;
+            void* ip = __builtin_return_address(0);
+            lastFrameInfo_.lastPC = static_cast<uint32_t*>(ip);
         }
-
-        RuntimeLogInfo({kTagGC}, "%s", logStream.str().c_str());
-
-        RuntimeLogInfo({kTagGC}, "[KotlinFrame] logIndex and corresponding frames for thread %" PRIuPTR ":", threadId_);
-        for (size_t i = 0; i < lastKotlinFrame_.logIndex.size(); i++) {
-            size_t index = lastKotlinFrame_.logIndex[i];
-            RuntimeLogInfo({kTagGC}, "[KotlinFrame] logIndex[%zu] = %zu", i, index);
-        }
-#if ENABLE_VERIFY_STACK
-        VerifyKotlinStack::TryUnwindAggresively(*this);
-#endif
     }
 
-    const KotlinFrame& GetLastKotlinFrame() const { return lastKotlinFrame_; }
+    DisallowSafepointScopeData& GetDisallowSafepointScopeData() { return disAllowSafepointScopeData_; }
+    HandleScopeData& GetHandleScopeData() { return handleScopeData_; }
 
     void Publish() noexcept {
         // TODO: These use separate locks, which is inefficient.
@@ -228,8 +174,11 @@ private:
     gc::GC::ThreadData gc_;
     std::vector<std::pair<ObjHeader**, ObjHeader*>> initializingSingletons_;
     ThreadSuspensionData suspensionData_;
-    std::vector<void*> funcPCs_;
-    KotlinFrame lastKotlinFrame_{};
+
+    DisallowSafepointScopeData disAllowSafepointScopeData_;
+    HandleScopeData handleScopeData_;
+    LastFrameInfo lastFrameInfo_ { nullptr, FrameStatus::RISKY, nullptr };
+    // CRT-specific thread holder; nullptr in CMS mode.
     common::ThreadHolder *threadHolder = nullptr;
 };
 

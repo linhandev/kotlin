@@ -15,6 +15,7 @@ fun String.primitiveArrayClassNameToElementTypePair(): Pair<RuntimeType, HProfTy
             "DoubleArray" -> RuntimeType.FLOAT_64 to HProfType.DOUBLE
             "CharArray" -> RuntimeType.INT_16 to HProfType.CHAR
             "BooleanArray" -> RuntimeType.BOOLEAN to HProfType.BOOLEAN
+            "NativePtrArray" -> RuntimeType.NATIVE_PTR to HProfType.LONG
             else -> throw IllegalArgumentException("Invalid primitive array class name $this")
         }
 

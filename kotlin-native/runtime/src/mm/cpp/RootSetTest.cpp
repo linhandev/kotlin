@@ -15,6 +15,8 @@
 #include "ObjectTestSupport.hpp"
 #include "ShadowStack.hpp"
 #include "TestSupport.hpp"
+#include "HandleScope.h"
+#include "KHandle.h"
 
 using namespace kotlin;
 
@@ -88,6 +90,8 @@ struct TLSKey {};
 } // namespace
 
 TEST(ThreadRootSetTest, Basic) {
+    ScopedMemoryInit scopedMemoryInit;
+    auto state = scopedMemoryInit.memoryState();
     mm::ShadowStack stack;
     StackEntry<2> entry(stack);
 
@@ -95,8 +99,13 @@ TEST(ThreadRootSetTest, Basic) {
     mm::ThreadLocalStorage tls;
     tls.AddRecord(&key, 3);
     tls.Commit();
+    HandleScope scope(state);
+    ObjHeader obj;
+    KRef a = &obj;
+    scope.CreateKHandle(&obj);
+    scope.CreateKHandle(&obj);
 
-    mm::ThreadRootSet iter(stack, tls);
+    mm::ThreadRootSet iter(stack, tls, state->GetThreadData()->GetHandleScopeData());
 
     std::vector<mm::ThreadRootSet::Value> actual;
     for (auto object : iter) {
@@ -105,18 +114,22 @@ TEST(ThreadRootSetTest, Basic) {
 
     auto asStack = [](ObjHeader*& object) -> mm::ThreadRootSet::Value { return {object, mm::ThreadRootSet::Source::kStack}; };
     auto asTLS = [](ObjHeader*& object) -> mm::ThreadRootSet::Value { return {object, mm::ThreadRootSet::Source::kTLS}; };
+    auto asKHandle = [](ObjHeader*& object) -> mm::ThreadRootSet::Value {
+        return {object, mm::ThreadRootSet::Source::kHandle};
+    };
     EXPECT_THAT(
             actual,
             testing::ElementsAre(
                     asStack(entry[0]), asStack(entry[1]), asTLS(*tls.Lookup(&key, 0)), asTLS(*tls.Lookup(&key, 1)),
-                    asTLS(*tls.Lookup(&key, 2))));
+                    asTLS(*tls.Lookup(&key, 2)), asKHandle(a), asKHandle(a)));
 }
 
 TEST(ThreadRootSetTest, Empty) {
     mm::ShadowStack stack;
     mm::ThreadLocalStorage tls;
 
-    mm::ThreadRootSet iter(stack, tls);
+    HandleScopeData d;
+    mm::ThreadRootSet iter(stack, tls, d);
 
     std::vector<mm::ThreadRootSet::Value> actual;
     for (auto object : iter) {

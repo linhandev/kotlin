@@ -5,12 +5,15 @@
 import org.jetbrains.kotlin.*
 import org.jetbrains.kotlin.bitcode.CompileToBitcodeExtension
 import org.jetbrains.kotlin.cpp.CppUsage
+import org.jetbrains.kotlin.dependencies.NativeDependenciesExtension
 import org.jetbrains.kotlin.gradle.plugin.konan.tasks.KonanCacheTask
 import org.jetbrains.kotlin.gradle.plugin.konan.tasks.KonanCompileTask
 import org.jetbrains.kotlin.konan.target.*
 import org.jetbrains.kotlin.library.KOTLIN_NATIVE_STDLIB_NAME
 import org.jetbrains.kotlin.nativeDistribution.nativeDistribution
 import org.jetbrains.kotlin.testing.native.GitDownloadTask
+import org.gradle.kotlin.dsl.support.serviceOf
+import org.gradle.process.ExecOperations
 import java.net.URI
 import org.jetbrains.kotlin.konan.target.Architecture as TargetArchitecture
 
@@ -364,6 +367,7 @@ bitcode {
                 "../../third-party/common-rt/libpandabase/utils",
                 "../../third-party/common-rt/third_party_bounds_checking_function/include"
             ))
+            compilerArgs.add("-DKOTLIN_NATIVE_HIAPPEVENT_FW_VERSION=$kotlinVersion")
             sourceSets {
                 main {}
                 test {}
@@ -690,6 +694,121 @@ module("legacy_alloc") {
     }
 }
 
+val compileStubFiles by tasks.registering {
+    description = "Compile stub .s files to object files using Clang"
+    group = "kotlin-native"
+
+    // OHOS stubs are AArch64 ELF and host-independent (clang -target aarch64-linux-ohos
+    // works from any host). macOS stubs are AArch64 Mach-O assembly: they can only be
+    // produced on a MACOS_ARM64 host. The MACOS_X64 host cannot assemble them (the
+    // sources are ARM64 instructions, but `-arch x86_64` rejects them) and we have no
+    // x86_64 macOS stub sources, so we simply skip the macOS branch on non-ARM64 hosts.
+    val canBuildMacosStubs = HostManager.host == KonanTarget.MACOS_ARM64
+
+    val hostTargetName = if (canBuildMacosStubs) "macos_arm64" else null
+    val hostClangTarget = if (canBuildMacosStubs) "arm64-apple-macos" else null
+    val hostArch = if (canBuildMacosStubs) "arm64" else null
+
+    val arm64OhosStubDirFile = layout.projectDirectory.dir("src/main/cpp/aarch64_linux_ohos_stubs").asFile
+    val arm64OhosStubSources = fileTree(arm64OhosStubDirFile) { include("*.s") }
+    val arm64OhosOutputDirProvider = layout.buildDirectory.dir("bitcode/main/ohos_arm64/aarch64_linux_ohos_stubs_objs")
+    val ohosSources: List<File> = arm64OhosStubSources.files.toList()
+    val ohosOutDir: File = arm64OhosOutputDirProvider.get().asFile
+    val arm64OhosOutputFiles = ohosSources.map { stubFile ->
+        ohosOutDir.resolve(stubFile.name.replace(Regex("\\.s$"), ".o"))
+    }
+
+    val arm64MacosStubDirFile = layout.projectDirectory.dir("src/main/cpp/aarch64_macos_stubs").asFile
+    val arm64MacosStubSources = if (canBuildMacosStubs) fileTree(arm64MacosStubDirFile) { include("*.s") } else null
+    val arm64MacosOutputDirProvider = if (canBuildMacosStubs && hostTargetName != null) {
+        layout.buildDirectory.dir("bitcode/main/$hostTargetName/aarch64_macos_stubs_objs")
+    } else null
+    val macosSources: List<File> = arm64MacosStubSources?.files?.toList().orEmpty()
+    val macosOutDir: File? = arm64MacosOutputDirProvider?.get()?.asFile
+    val arm64MacosOutputFiles = macosOutDir?.let { dir ->
+        macosSources.map { stubFile -> dir.resolve(stubFile.name.replace(Regex("\\.s$"), ".o")) }
+    }.orEmpty()
+
+    inputs.files(arm64OhosStubSources)
+    arm64MacosStubSources?.let { inputs.files(it) }
+    outputs.files(arm64OhosOutputFiles + arm64MacosOutputFiles)
+
+    val platformManager = project.extensions.getByType<PlatformManager>()
+    val nativeDependencies = project.extensions.getByType<NativeDependenciesExtension>()
+    val execClang = ExecClang.create(project.objects, platformManager)
+    val execOps = serviceOf<ExecOperations>()
+
+    dependsOn(nativeDependencies.targetDependency(KonanTarget.OHOS_ARM64))
+    if (canBuildMacosStubs) {
+        dependsOn(nativeDependencies.llvmDependency)
+    }
+
+    doLast {
+        ohosOutDir.mkdirs()
+        ohosSources.forEach { stubFile ->
+            val objFile = ohosOutDir.resolve(stubFile.name.replace(Regex("\\.s$"), ".o"))
+            execClang.execToolchainClang(KonanTarget.OHOS_ARM64) {
+                executable = "clang"
+                args(
+                    "-c",
+                    stubFile.absolutePath,
+                    "-o", objFile.absolutePath,
+                    "-target", "aarch64-linux-ohos",
+                )
+            }
+        }
+
+        if (macosOutDir != null && hostClangTarget != null && hostArch != null) {
+            macosOutDir.mkdirs()
+            macosSources.forEach { stubFile ->
+                val objFile = macosOutDir.resolve(stubFile.name.replace(Regex("\\.s$"), ".o"))
+                execOps.exec {
+                    commandLine(
+                        execClang.resolveExecutable("clang"),
+                        "-c",
+                        stubFile.absolutePath,
+                        "-o", objFile.absolutePath,
+                        "-target", hostClangTarget,
+                        "-arch", hostArch,
+                    )
+                }
+            }
+        }
+    }
+}
+
+// OHOS stubs can be produced from any host; macOS stubs only from Apple hosts (Mach-O assembly).
+val nativeProjectDir = project(":kotlin-native").layout.projectDirectory
+
+val copyOhosStubObjsToDist by tasks.registering(Sync::class) {
+    description = "Copy compiled OHOS stub .o files into dist/konan/targets/ohos_arm64/stubs_objs/"
+    group = "kotlin-native"
+    dependsOn(compileStubFiles)
+    from(layout.buildDirectory.dir("bitcode/main/ohos_arm64/aarch64_linux_ohos_stubs_objs")) {
+        include("*.o")
+    }
+    into(nativeProjectDir.dir("dist/konan/targets/ohos_arm64/stubs_objs"))
+}
+
+val copyMacosStubObjsToDist = if (HostManager.host == KonanTarget.MACOS_ARM64) {
+    tasks.register<Sync>("copyMacosStubObjsToDist") {
+        description = "Copy compiled macOS stub .o files into dist/konan/targets/macos_arm64/stubs_objs/"
+        group = "kotlin-native"
+        dependsOn(compileStubFiles)
+        from(layout.buildDirectory.dir("bitcode/main/macos_arm64/aarch64_macos_stubs_objs")) {
+            include("*.o")
+        }
+        into(nativeProjectDir.dir("dist/konan/targets/macos_arm64/stubs_objs"))
+    }
+} else null
+
+val copyStubObjsToDist by tasks.registering {
+    description = "Copy compiled stub .o files into dist/konan/targets/<target>/stubs_objs/ (OHOS always; macOS only on Apple Silicon hosts)"
+    group = "kotlin-native"
+    dependsOn(copyOhosStubObjsToDist)
+    copyMacosStubObjsToDist?.let { dependsOn(it) }
+}
+
 val objcExportApi by configurations.creating {
     isCanBeConsumed = true
     isCanBeResolved = false
@@ -723,12 +842,32 @@ targetList.forEach { target ->
     tasks.register("${target}Runtime") {
         description = "Build all main runtime modules for $target"
         group = CompileToBitcodeExtension.BUILD_TASK_GROUP
+        dependsOn(compileStubFiles)
         val dependencies = runtimeBitcode.incoming.artifactView {
             attributes {
                 attribute(TargetWithSanitizer.TARGET_ATTRIBUTE, target.withSanitizer())
             }
         }.files
         dependsOn(dependencies)
+    }
+}
+
+gradle.projectsEvaluated {
+    val nativeProject = project(":kotlin-native")
+    listOf(
+        "dist",
+        "distPlatformLibs",
+        "bundle",
+        "bundleRegular",
+        "bundlePrebuilt",
+        "crossDist",
+        "crossDistRuntime",
+        "publishBundlePrebuiltPublicationToMavenRepository",
+    ).forEach { taskName ->
+        nativeProject.tasks.matching { it.name == taskName }.configureEach {
+            dependsOn(compileStubFiles)
+            dependsOn(copyStubObjsToDist)
+        }
     }
 }
 
@@ -832,6 +971,7 @@ cacheableTargetNames.forEach { targetName ->
         // Requires Native distribution with stdlib klib and runtime modules for `targetName`.
         this.compilerDistribution.set(dist)
         dependsOn(":kotlin-native:${targetName}CrossDistRuntime")
+        dependsOn(copyStubObjsToDist)
         inputs.dir(dist.map { it.runtime(targetName) }) // manually depend on runtime modules (stdlib cache links these modules in)
 
         this.klib.fileProvider(nativeStdlib.map { it.destinationDir })

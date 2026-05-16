@@ -46,7 +46,7 @@ public:
     void Uninstall() noexcept;
     void UnlinkFromBaseObject() noexcept;
 
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
     std::atomic<void*>& AssociatedObject() noexcept { return associatedObject_; }
 #endif
     bool HasAssociatedObject() noexcept;
@@ -93,25 +93,33 @@ public:
 
     ExtraObjectData() = default;
 
-    // info must be equal to objHeader->type_info(), but it needs to be loaded in advance to avoid data races
+    // info must be equal to objHeader->type_info(), but it needs to be loaded in advance to avoid data races.
+    // The back-reference to `objHeader` in `weakReferenceOrBaseObject_` is required in CRT mode to refresh
+    // the caller's `object` pointer after a potential safe-point inside the allocator (the CRT GC can move
+    // the base object during `AllocateExtra`). CRT GC does not trace this back-reference, so it doesn't
+    // create a strong cycle.
     explicit ExtraObjectData(ObjHeader* objHeader, const TypeInfo* info) noexcept :
         typeInfo_(nullptr), weakReferenceOrBaseObject_(objHeader) {
-        assertNotCRT();
-        std_support::atomic_ref{typeInfo_}.store(info, std::memory_order_release);
-    }
-    explicit ExtraObjectData(const TypeInfo* info) noexcept :
-        typeInfo_(nullptr), weakReferenceOrBaseObject_(nullptr) { // CRT doesn't allow traced references in ExtraObj
-        assertUseCRT();
         std_support::atomic_ref{typeInfo_}.store(info, std::memory_order_release);
     }
     ~ExtraObjectData();
+
+    // Mirrors upstream mpcore/crt_dev: lets libcrt's CRT GC enumerate ref fields
+    // inside an ExtraObject (for marking, and especially for fix-up after the
+    // base object has been compacted). The slot is std::atomic<ObjHeader*>, but
+    // its layout matches ObjHeader* (atomic<T*> on trivially-copyable T*) so
+    // libcrt's RefField<>& cast through the visitor stays valid.
+    template <typename F>
+    void forEachRefField(F f) {
+        f(*reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_));
+    }
 private:
     // Must be first to match `TypeInfo` layout.
     const TypeInfo* typeInfo_;
 
     std::atomic<uint32_t> flags_ = 0;
 
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
     std::atomic<void*> associatedObject_ = nullptr;
 #endif
 

@@ -79,9 +79,72 @@ public:
         }
     }
 
+    // Visitor-style overload used by the precise CRT root visitor. Mirrors
+    // CollectSlotOffsets but invokes `visitor(bias)` instead of push_back.
+    template <typename Visitor>
+    void VisitSlotOffsets(Visitor visitor)
+    {
+        if (slotFormat != STACKMAP_BITMAP) {
+            VisitWAHSlotOffsets(visitor);
+            return;
+        }
+        for (size_t i = 0; i < slotBits.size(); ++i) {
+            SlotBits bit = slotBits[i];
+            for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
+                if ((bit & lowestBit) == 0) {
+                    continue;
+                }
+                SlotBias bias = static_cast<int32_t>(i * bitSize + j) * bytesPerSlot + slotBias * biasCoef;
+                visitor(bias);
+            }
+        }
+    }
+
     ~SlotRoot() { std::vector<SlotBits>().swap(slotBits); }
 
 private:
+    template <typename Visitor>
+    void VisitWAHSlotOffsets(Visitor visitor) const
+    {
+        constexpr uint32_t pureValWidth = 31;
+        constexpr uint32_t pureValBit = 1 << pureValWidth;
+        constexpr uint32_t pureValMask = pureValBit - 1;
+        constexpr uint32_t compressTagBit = 1 << 30;
+        constexpr uint32_t compressCntMask = compressTagBit - 1;
+        SlotBias baseBias = slotBias * biasCoef;
+
+        auto visitOneSlot = [&](int32_t idx) {
+            SlotBias bias = baseBias + static_cast<int32_t>(idx) * bytesPerSlot;
+            visitor(bias);
+        };
+
+        auto processOneSlotBits = [&](SlotBits bit) {
+            if (bit & pureValBit) {
+                bit &= pureValMask;
+                for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
+                    if ((bit & lowestBit) == 0) {
+                        continue;
+                    }
+                    visitOneSlot(j);
+                }
+                baseBias += static_cast<int32_t>(pureValWidth) * bytesPerSlot;
+            } else {
+                bool isAllRef = (bit & compressTagBit);
+                uint32_t bitNums = (bit & compressCntMask) * pureValWidth;
+                if (isAllRef) {
+                    for (uint32_t j = 0; j < bitNums; ++j) {
+                        visitOneSlot(j);
+                    }
+                }
+                baseBias += static_cast<int32_t>(bitNums) * bytesPerSlot;
+            }
+        };
+
+        for (SlotBits bit : slotBits) {
+            processOneSlotBits(bit);
+        }
+    }
+
     void CollectWAHSlotOffsets(std::vector<int32_t> &slotOffsets) const
     {
         constexpr uint32_t pureValWidth = 31;

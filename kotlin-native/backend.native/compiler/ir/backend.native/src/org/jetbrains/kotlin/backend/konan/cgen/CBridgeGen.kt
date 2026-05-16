@@ -288,8 +288,7 @@ private fun <R> KotlinToCCallBuilder.handleArgumentForVarargParameter(
 
 private fun KotlinToCCallBuilder.emitCBridge() {
     val cLines = mutableListOf<String>()
-
-    cLines += "${bridgeBuilder.buildCSignature(cBridgeName)} {"
+    cLines += "${bridgeBuilder.buildCSignature(cBridgeName)} __attribute__((annotate(\"k2n\"))) {"
     cLines += cBridgeBodyLines
     cLines += "}"
 

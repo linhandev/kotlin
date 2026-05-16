@@ -47,8 +47,6 @@ static void RemoveOrInlinePrologueSafepointInstructions(
     if (InstructionIsPrologueSafepoint(current)) {
       if (!first || removeFirst) {
         toErase.push_back(current);
-      } else if (isSafepointInliningAllowed && !LLVMIsDeclaration(LLVMGetCalledValue(current))) {
-        toInline = current;
       }
       first = false;
     }

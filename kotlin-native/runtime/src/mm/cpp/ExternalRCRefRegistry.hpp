@@ -128,6 +128,7 @@ public:
     class Iterator {
     public:
         std_support::atomic_ref<KRef> operator*() noexcept { return iterator_->objAtomic(); }
+        ExternalRCRefImpl* get() const noexcept { return &*iterator_; }
 
         Iterator& operator++() noexcept {
             iterator_ = owner_->nextAlive(std::next(iterator_));

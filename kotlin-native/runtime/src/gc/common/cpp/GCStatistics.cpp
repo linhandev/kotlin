@@ -9,6 +9,7 @@
 #include <limits>
 #include <optional>
 
+#include "KHandle.h"
 #include "Allocator.hpp"
 #include "CallsChecker.hpp"
 #include "Logging.hpp"
@@ -16,6 +17,7 @@
 #include "Porting.h"
 #include "ThreadData.hpp"
 #include "Types.h"
+#include "DisallowSafepointScope.h"
 
 using namespace kotlin;
 
@@ -32,7 +34,9 @@ void Kotlin_Internal_GC_GCInfoBuilder_setSecondPauseEndTime(KRef thiz, KLong val
 void Kotlin_Internal_GC_GCInfoBuilder_setPostGcCleanupTime(KRef thiz, KLong value);
 void Kotlin_Internal_GC_GCInfoBuilder_setRootSet(KRef thiz,
                                                  KLong threadLocalReferences, KLong stackReferences,
-                                                 KLong globalReferences, KLong stableReferences);
+                                                 KLong globalReferences,
+                                                 KLong stableReferences,
+                                                 KLong kHandleReferences);
 void Kotlin_Internal_GC_GCInfoBuilder_setMarkStats(KRef thiz, KLong markedCount);
 void Kotlin_Internal_GC_GCInfoBuilder_setSweepStats(KRef thiz, KNativePtr name, KLong sweptCount, KLong keptCount);
 void Kotlin_Internal_GC_GCInfoBuilder_setMemoryUsageBefore(KRef thiz, KNativePtr name, KLong sizeBytes);
@@ -79,7 +83,12 @@ struct RootSetStatistics {
     KLong stackReferences;
     KLong globalReferences;
     KLong stableReferences;
-    KLong total() const { return threadLocalReferences + stackReferences + globalReferences + stableReferences; }
+    KLong kHandleReferences;
+    KLong total() const {
+        return threadLocalReferences + stackReferences
+                + globalReferences + stableReferences
+                + kHandleReferences;
+    }
 };
 
 struct GCInfo {
@@ -117,7 +126,7 @@ struct GCInfo {
         if (rootSet)
             Kotlin_Internal_GC_GCInfoBuilder_setRootSet(
                     builder, rootSet->threadLocalReferences, rootSet->stackReferences, rootSet->globalReferences,
-                    rootSet->stableReferences);
+                    rootSet->stableReferences, rootSet->kHandleReferences);
         if (markStats)
             Kotlin_Internal_GC_GCInfoBuilder_setMarkStats(builder, markStats->markedCount);
         sweepStats.build(builder, Kotlin_Internal_GC_GCInfoBuilder_setSweepStats);
@@ -146,6 +155,7 @@ MemoryUsage currentHeapUsage() noexcept {
 
 } // namespace
 
+HAS_SAFEPOINT
 extern "C" void Kotlin_Internal_GC_GCInfoBuilder_Fill(KRef builder, int id) {
     GCInfo copy;
     {
@@ -229,9 +239,10 @@ void GCHandle::finished() {
                     "%" PRIu64 " stack references, "
                     "%" PRIu64 " global references, "
                     "%" PRIu64 " stable references. "
+                    "%" PRIu64 " kHandle references. "
                     "In total %" PRIu64 " roots.",
                     stat->rootSet->threadLocalReferences, stat->rootSet->stackReferences, stat->rootSet->globalReferences,
-                    stat->rootSet->stableReferences, stat->rootSet->total());
+                    stat->rootSet->stableReferences, stat->rootSet->kHandleReferences, stat->rootSet->total());
         }
         if (stat->markStats) {
             GCLogInfo(epoch_, "Mark: %" PRIu64 " objects.", stat->markStats->markedCount);
@@ -344,21 +355,26 @@ void GCHandle::finalizersDone() {
 void GCHandle::finalizersScheduled(uint64_t finalizersCount) {
     GCLogDebug(epoch_, "Finalization is scheduled for %" PRIu64 " objects.", finalizersCount);
 }
-void GCHandle::threadRootSetCollected(mm::ThreadData &threadData, uint64_t threadLocalReferences, uint64_t stackReferences) {
+void GCHandle::ThreadRootSetCollected(
+        mm::ThreadData& threadData,
+        uint64_t threadLocalReferences,
+        uint64_t stackReferences,
+        uint64_t kHandleReferences) {
     std::lock_guard guard(lock);
     if (auto* stat = statByEpoch(epoch_)) {
         if (!stat->rootSet) {
-            stat->rootSet = RootSetStatistics{0, 0, 0, 0};
+            stat->rootSet = RootSetStatistics{0, 0, 0, 0, 0};
         }
         stat->rootSet->stackReferences += static_cast<KLong>(stackReferences);
         stat->rootSet->threadLocalReferences += static_cast<KLong>(threadLocalReferences);
+        stat->rootSet->kHandleReferences += static_cast<KLong>(kHandleReferences);
     }
 }
 void GCHandle::globalRootSetCollected(uint64_t globalReferences, uint64_t stableReferences) {
     std::lock_guard guard(lock);
     if (auto* stat = statByEpoch(epoch_)) {
         if (!stat->rootSet) {
-            stat->rootSet = RootSetStatistics{0, 0, 0, 0};
+            stat->rootSet = RootSetStatistics{0, 0, 0, 0, 0};
         }
         stat->rootSet->globalReferences += static_cast<KLong>(globalReferences);
         stat->rootSet->stableReferences += static_cast<KLong>(stableReferences);
@@ -478,10 +494,14 @@ GCHandle::GCThreadRootSetScope::GCThreadRootSetScope(kotlin::gc::GCHandle handle
 
 GCHandle::GCThreadRootSetScope::~GCThreadRootSetScope(){
     if (!handle_.isValid()) return;
-    handle_.threadRootSetCollected(threadData_, threadLocalRoots_, stackRoots_);
+    handle_.ThreadRootSetCollected(
+            threadData_, threadLocalRoots_, stackRoots_, kHandleRoots_);
     GCLogDebug(
-            handle_.getEpoch(), "Collected root set for thread #%" PRIuPTR ": stack=%" PRIu64 " tls=%" PRIu64 " in %" PRIu64 " microseconds.",
-            threadData_.threadId(), stackRoots_, threadLocalRoots_, getStageTime());
+            handle_.getEpoch(),
+            "Collected root set for thread #%" PRIuPTR
+            ": stack=%" PRIu64 " tls=%" PRIu64
+            " kHandles=%" PRIu64 " in %" PRIu64 " microseconds.",
+            threadData_.threadId(), stackRoots_, threadLocalRoots_, kHandleRoots_, getStageTime());
 }
 
 GCHandle::GCMarkScope::GCMarkScope(kotlin::gc::GCHandle handle) : GCStageScopeBase(handle) {}

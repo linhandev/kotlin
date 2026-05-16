@@ -33,15 +33,15 @@ private fun cacheTaskName(target: String, name: String) = "${defFileToLibName(ta
 private fun collectAllDependencies(defName: String, target: KonanTarget, visited: MutableSet<String> = mutableSetOf()): Set<String> {
     if (defName in visited) return emptySet()
     visited.add(defName)
-    
+
     val defFile = target.defFiles().find { it.name == defName } ?: return emptySet()
     val allDeps = mutableSetOf<String>()
-    
+
     defFile.config.depends.forEach { depName ->
         allDeps.add(depName)
         allDeps.addAll(collectAllDependencies(depName, target, visited))
     }
-    
+
     return allDeps
 }
 
@@ -139,7 +139,7 @@ enabledTargets(platformManager).forEach { target ->
             // HarmonyOS only: parse and inject two sysroot (additionalTargetSysRoot) configs for OHOS
             // targets, used for include/lib paths in def files. Omit or remove this block if not using HarmonyOS.
             // OHOS provides two sysroots (OpenHarmony and Harmony), so we need to configure two sets of paths.
-            
+
             if (target.family == Family.OHOS) {
                 val konanDataDir = (System.getenv("KONAN_DATA_DIR")?.let {
                     File(it.replace("~", System.getProperty("user.home")))

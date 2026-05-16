@@ -4,8 +4,9 @@
  */
 
 #include "Types.h"
+#include "DisallowSafepointScope.h"
 #include "Exceptions.h"
-#include "Runtime.h"
+#include "KotlinCallScope.h"
 
 extern "C" {
 // Note: keeping it for compatibility with external tools only, will be deprecated and removed in the future.
@@ -50,25 +51,28 @@ KBoolean Kotlin_TypeInfo_isInstance(KConstRef obj, KNativePtr typeInfo) {
   return IsInstanceInternal(obj, reinterpret_cast<const TypeInfo*>(typeInfo));
 }
 
+NO_SAFEPOINT
 OBJ_GETTER(Kotlin_TypeInfo_getPackageName, KNativePtr typeInfo, KBoolean checkFlags) {
   const TypeInfo* type_info = reinterpret_cast<const TypeInfo*>(typeInfo);
-  if (!checkFlags || type_info->flags_ & TF_REFLECTION_SHOW_PKG_NAME) {
+  if (!checkFlags || (type_info->flags_ & TF_REFLECTION_SHOW_PKG_NAME)) {
     RETURN_OBJ(type_info->packageName_);
   } else {
     return NULL;
   }
 }
 
+NO_SAFEPOINT
 OBJ_GETTER(Kotlin_TypeInfo_getRelativeName, KNativePtr typeInfo, KBoolean checkFlags) {
   const TypeInfo* type_info = reinterpret_cast<const TypeInfo*>(typeInfo);
-  if (!checkFlags || type_info->flags_ & TF_REFLECTION_SHOW_REL_NAME) {
+  if (!checkFlags || (type_info->flags_ & TF_REFLECTION_SHOW_REL_NAME)) {
     RETURN_OBJ(type_info->relativeName_);
   } else {
     return NULL;
   }
 }
 
-OBJ_GETTER(Kotlin_TypeInfo_findAssociatedObject, KNativePtr typeInfo, KNativePtr key) {
+HAS_SAFEPOINT
+NO_INLINE OBJ_GETTER(Kotlin_TypeInfo_findAssociatedObject, KNativePtr typeInfo, KNativePtr key) {
   const AssociatedObjectTableRecord* associatedObjects = reinterpret_cast<const TypeInfo*>(typeInfo)->associatedObjects;
   if (associatedObjects == nullptr) {
     RETURN_OBJ(nullptr);
@@ -76,8 +80,32 @@ OBJ_GETTER(Kotlin_TypeInfo_findAssociatedObject, KNativePtr typeInfo, KNativePtr
 
   for (int index = 0; associatedObjects[index].key != nullptr; ++index) {
     if (associatedObjects[index].key == key) {
-        InitGlobalsFrameGuard initGlobalsGuard;
-        RETURN_RESULT_OF0(associatedObjects[index].getAssociatedObjectInstance);
+      ObjHeader* obj;
+      {
+        KotlinCallScope scope;
+#if KONAN_MACOSX
+        asm volatile(
+          ".alt_entry _unwindPCStartForFindAssociatedObject\n"
+          ".global _unwindPCStartForFindAssociatedObject\n"
+          "_unwindPCStartForFindAssociatedObject:");
+#else
+        asm("  .p2align 3\n"
+            "  .global unwindPCStartForFindAssociatedObject\n"
+            "unwindPCStartForFindAssociatedObject:");
+#endif
+        obj = associatedObjects[index].getAssociatedObjectInstance(__result__);
+#if KONAN_MACOSX
+        asm volatile(
+            ".alt_entry _unwindPCEndForFindAssociatedObject\n"
+            ".global _unwindPCEndForFindAssociatedObject\n"
+            "_unwindPCEndForFindAssociatedObject:");
+#else
+        asm("  .p2align 3\n"
+            "  .global unwindPCEndForFindAssociatedObject\n"
+            "unwindPCEndForFindAssociatedObject:");
+#endif
+      }
+      return obj;
     }
   }
 
@@ -94,6 +122,7 @@ bool IsSubInterface(const TypeInfo* thiz, const TypeInfo* other) {
   return false;
 }
 
+NO_SAFEPOINT
 KVector4f Kotlin_Interop_Vector4f_of(KFloat f0, KFloat f1, KFloat f2, KFloat f3) {
 	return {f0, f1, f2, f3};
 }
@@ -104,6 +133,7 @@ KVector4f Kotlin_Interop_Vector4f_of(KFloat f0, KFloat f1, KFloat f2, KFloat f3)
  * To avoid illegal bitcast from/to function types the following function
  * return type MUST be <4 x float> and explicit type cast is done on the variable type.
  */
+NO_SAFEPOINT
 KVector4f Kotlin_Interop_Vector4i32_of(KInt f0, KInt f1, KInt f2, KInt f3) {
 	KInt __attribute__ ((__vector_size__(16))) v4i = {f0, f1, f2, f3};
 	return (KVector4f)v4i;
@@ -114,3 +144,4 @@ long Kotlin_longTypeProvider() {
 }
 
 }  // extern "C"
+

@@ -136,9 +136,10 @@ internal val RuntimeAware.kObjHeaderPtrPtr: LLVMTypeRef
 internal val RuntimeAware.kObjHeaderRefReturnType: LlvmRetType
     get() = LlvmRetType(kObjHeaderRef, isObjectType = true)
 
-// Added kObjHeaderRefPtr
+// Added kObjHeaderRefPtr: pointer to (AS1 ObjHeader*). Must preserve AS1 so that
+// LLVM recognizes GC-tracked slots in stackmaps and triggers write barriers.
 internal val RuntimeAware.kObjHeaderRefPtr: LLVMTypeRef
-    get() = kObjHeaderPtrPtr
+    get() = pointerType(kObjHeaderRef)
 internal val RuntimeAware.kArrayHeader: LLVMTypeRef
     get() = runtime.arrayHeaderType
 internal val RuntimeAware.kArrayHeaderPtr: LLVMTypeRef

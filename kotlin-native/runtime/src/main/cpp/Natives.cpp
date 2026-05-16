@@ -23,6 +23,8 @@
 #include <type_traits>
 
 #include "Alignment.hpp"
+#include "DisallowSafepointScope.h"
+#include "Common.h"
 #include "KAssert.h"
 #include "KString.h"
 #include "StackTrace.hpp"
@@ -38,6 +40,8 @@ using namespace kotlin;
 extern "C" {
 
 KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz);
+
+HAS_SAFEPOINT
 KInt Kotlin_Any_hashCode(KConstRef thiz) {
   // NOTE: `Any?.identityHashCode()` is used in Blackhole implementations of both kotlinx-benchmark and
   //        K/N's own benchmarks. These usages rely on this being an intrinsic property of the object.
@@ -51,6 +55,7 @@ KInt Kotlin_Any_hashCode(KConstRef thiz) {
   });
 }
 
+HAS_SAFEPOINT
 NO_INLINE OBJ_GETTER0(Kotlin_getCurrentStackTrace) {
     kotlin::StackTrace stackTrace;
     {
@@ -68,6 +73,7 @@ NO_INLINE OBJ_GETTER0(Kotlin_getCurrentStackTrace) {
     RETURN_OBJ(result);
 }
 
+HAS_SAFEPOINT
 NO_INLINE OBJ_GETTER0(Kotlin_getEmptyStackTrace)
 {
     ObjHolder resultHolder;
@@ -76,7 +82,8 @@ NO_INLINE OBJ_GETTER0(Kotlin_getEmptyStackTrace)
     RETURN_OBJ(result);
 }
 
-OBJ_GETTER(Kotlin_getStackTraceStrings, KConstRef stackTrace) {
+HAS_SAFEPOINT
+RUNTIME_EXPORT OBJ_GETTER(Kotlin_getStackTraceStrings, KConstRef stackTrace) {
     const KNativePtr* array = PrimitiveArrayAddressOfElementAt<KNativePtr>(stackTrace->array(), 0);
     size_t size = stackTrace->array()->count_;
     auto stackTraceStrings = kotlin::CallWithThreadState<kotlin::ThreadState::kNative>(kotlin::GetStackTraceStrings, kotlin::std_support::span<void* const>(array, size));
@@ -93,10 +100,12 @@ OBJ_GETTER(Kotlin_getStackTraceStrings, KConstRef stackTrace) {
 }
 
 // TODO: consider handling it with compiler magic instead.
+NO_SAFEPOINT
 OBJ_GETTER0(Kotlin_native_internal_undefined) {
   RETURN_OBJ(nullptr);
 }
 
+NO_SAFEPOINT
 void* Kotlin_interop_malloc(KLong size, KInt align) {
   if (size < 0 || static_cast<std::make_unsigned_t<decltype(size)>>(size) > std::numeric_limits<size_t>::max()) {
     return nullptr;
@@ -111,23 +120,28 @@ void* Kotlin_interop_malloc(KLong size, KInt align) {
   return result;
 }
 
+NO_SAFEPOINT
 void Kotlin_interop_free(void* ptr) {
     std_support::aligned_free(ptr);
 }
 
+NO_SAFEPOINT
 void Kotlin_system_exitProcess(KInt status) {
   SwitchThreadState(mm::GetMemoryState(), ThreadState::kNative);
   std::exit(status);
 }
 
+NO_SAFEPOINT
 const void* Kotlin_Any_getTypeInfo(KConstRef obj) {
   return obj->type_info();
 }
 
+NO_SAFEPOINT
 void Kotlin_CPointer_CopyMemory(KNativePtr to, KNativePtr from, KInt count) {
   memcpy(to, from, count);
 }
 
+NO_SAFEPOINT
 RUNTIME_NOTHROW RUNTIME_PURE KRef* Kotlin_arrayGetElementAddress(KRef array, KInt index) {
     ArrayHeader* arr = array->array();
     RuntimeAssert(
@@ -137,12 +151,14 @@ RUNTIME_NOTHROW RUNTIME_PURE KRef* Kotlin_arrayGetElementAddress(KRef array, KIn
     return ArrayAddressOfElementAt(arr, index);
 }
 
+NO_SAFEPOINT
 RUNTIME_NOTHROW RUNTIME_PURE KInt* Kotlin_intArrayGetElementAddress(KRef array, KInt index) {
     ArrayHeader* arr = array->array();
     RuntimeAssert(index >= 0 && static_cast<uint32_t>(index) < arr->count_, "Index %" PRId32 " must be in [0, %" PRIu32 ")", index, arr->count_);
     return IntArrayAddressOfElementAt(arr, index);
 }
 
+NO_SAFEPOINT
 RUNTIME_NOTHROW RUNTIME_PURE KLong* Kotlin_longArrayGetElementAddress(KRef array, KInt index) {
     ArrayHeader* arr = array->array();
     RuntimeAssert(index >= 0 && static_cast<uint32_t>(index) < arr->count_, "Index %" PRId32 " must be in [0, %" PRIu32 ")", index, arr->count_);

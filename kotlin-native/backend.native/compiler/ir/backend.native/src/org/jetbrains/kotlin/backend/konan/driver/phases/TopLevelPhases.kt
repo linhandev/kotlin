@@ -397,6 +397,8 @@ internal fun PhaseEngine<NativeGenerationState>.compileModule(
     }
 
     if (context.config.splitBCfile == 1u) {
+        disableBoundryFunctionInline(context.llvm.module)
+        addDelayInline(context.llvm.module)
         newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
         // Run post-optimization phases for serial path
         if (checkExternalCalls) {
@@ -405,6 +407,7 @@ internal fun PhaseEngine<NativeGenerationState>.compileModule(
         if (context.config.produce.isFullCache) {
             runPhase(SaveAdditionalCacheInfoPhase)
         }
+        addAlwaysInline(context.llvm.module)
         runPhase(WriteBitcodeFilePhase, WriteBitcodeFileInput(context.llvm.module, bitcodeFile))
     } else {
         newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessingCoroutines(bitcodeFile) }

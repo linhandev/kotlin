@@ -67,11 +67,15 @@ internal class CAdapterCodegen(
                 val irClass = irSymbol.owner as IrClass
                 cname = "_konan_function_${owner.nextFunctionIndex()}"
                 // Produce type getter.
+                // OHOS fix: simple type-getter (just `ret ptr @typeinfo`) has no gc.statepoint,
+                // so it must not use the kotlin-native stackmap protocol on OHOS ELF.
+                // Otherwise OHOS LLVM's compressed-stackmap + mark-kotlin-function passes emit
+                // inline asm referencing `.Lstackmap_start._konan_function_XX_type` which is never defined.
                 val getTypeFunction = kGetTypeFuncType.toProto(
                         "${cname}_type",
                         null,
                         LLVMLinkage.LLVMExternalLinkage
-                ).createLlvmFunction(context, llvm.module)
+                ).createLlvmFunction(context, llvm.module).also { it.clearGcCollector() }
                 val builder = LLVMCreateBuilderInContext(llvm.llvmContext)!!
                 val bb = getTypeFunction.addBasicBlock(llvm.llvmContext)
                 LLVMPositionBuilderAtEnd(builder, bb)

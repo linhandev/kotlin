@@ -63,6 +63,10 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
     // Moreover, it's used for kNative -> kRunnable state switch and x28 value is not guaranteed in kNative.
     return checkUseCRT<CheckMode::Slow>([&] {
         if (newState == ThreadState::kRunnable) {
+            // Ported from mpcore/crt_fp_unwind 7e581cd. Capture this frame
+            // before TransferToRunning, which can block on STW: the GC walker
+            // needs a valid lastFrame to unwind through this transition path.
+            threadData_.RuntimeSetLastFrame();
             auto* th = threadData_.GetThreadHolder();
             th->TransferToRunning();
 #ifdef ENABLE_GC_FASTPATH
@@ -106,7 +110,6 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setStateNoSafePoint(Thread
 NO_EXTERNAL_CALLS_CHECK void kotlin::mm::ThreadSuspensionData::suspendIfRequested() noexcept {
     if (IsThreadSuspensionRequested()) {
         auto pauseHandle = pauseMutationInScope(internal::gSuspensionRequestReason.load(std::memory_order_relaxed));
-
         threadData_.gc().OnSuspendForGC();
         std::unique_lock lock(gSuspensionRequestMutex);
         gSuspensionCondVar.wait(lock, []() { return !IsThreadSuspensionRequested(); });

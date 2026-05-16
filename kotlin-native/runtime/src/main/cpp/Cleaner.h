@@ -6,6 +6,7 @@
 #pragma once
 
 #include "Common.h"
+#include "DisallowSafepointScope.h"
 #include "Types.h"
 
 RUNTIME_NOTHROW void DisposeCleaner(KRef thiz);

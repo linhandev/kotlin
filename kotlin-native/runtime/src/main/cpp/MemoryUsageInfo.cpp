@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <limits>
 
+#include "DisallowSafepointScope.h"
 #include "Types.h"
 
 #if KONAN_WINDOWS
@@ -56,6 +57,7 @@ size_t kotlin::GetPeakResidentSetSizeBytes() noexcept {
 
 #endif
 
+NO_SAFEPOINT
 extern "C" RUNTIME_NOTHROW KLong Kotlin_MemoryUsageInfo_getPeakResidentSetSizeBytes() {
     auto result = kotlin::GetPeakResidentSetSizeBytes();
     // TODO: Need a common implementation for such conversions.

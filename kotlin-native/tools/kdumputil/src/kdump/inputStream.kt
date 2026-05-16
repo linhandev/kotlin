@@ -28,10 +28,9 @@ fun InputStream.readIdSize(): IdSize {
 
 fun InputStream.readDump(): MemoryDump {
     val headerString = readCString().also {
-        "Kotlin/Native dump 1.0.8".let { header ->
-            if (it != header) {
-                throw IOException("invalid header \"$it\", expected \"$header\"")
-            }
+        val validHeaders = listOf("Kotlin/Native dump 1.0.8", "Kotlin/Native dump 1.0.9")
+        if (!validHeaders.contains(it)) {
+            throw IOException("invalid header \"$it\", expected one of ${validHeaders.joinToString(", ")}")
         }
     }
     val endianness = readEndianness()

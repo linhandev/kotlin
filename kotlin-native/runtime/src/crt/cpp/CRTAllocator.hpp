@@ -37,7 +37,7 @@ public:
 
     ArrayHeader* CreateArray(const TypeInfo* typeInfo, uint32_t count) noexcept;
 
-    mm::ExtraObjectData* CreateExtraObjectDataForObject(const TypeInfo* info) noexcept;
+    mm::ExtraObjectData* CreateExtraObjectDataForObject(ObjHeader* object, const TypeInfo* info) noexcept;
 
     static size_t GetAllocatedHeapSize(ObjHeader* object) noexcept;
 

@@ -14,6 +14,8 @@
 #include "Memory.h"
 #include "Natives.h"
 #include "Types.h"
+#include "KStringProxyOHOS.h"
+#include "ArkTSStringRef.h"
 
 #include <hilog/log.h>
 #include <napi/native_api.h>
@@ -227,22 +229,41 @@ extern "C" {
      * @return A napi_value representing an ArkTS string.
      */
     KNativePtr Kotlin_String_toNapiValue(KConstRef thiz, KNativePtr env) {
-        auto header = StringHeader::of(thiz);
         napi_value result = nullptr;
+
+        // Scenario 1: proxy string from ArkTS
+        if (hmm::IsKStringProxy(thiz)) {
+            ArkTSStringRef *ref = hmm::KStringProxyGetArkTSStringRef(thiz);
+            result = ref->toNapiValue((napi_env)env);
+            return (KNativePtr)result;
+        }
+
+        // Scenario 2: regular Kotlin String
+        auto header = StringHeader::of(thiz);
         napi_status status = napi_ok;
         switch (header->encoding()) {
             case StringEncoding::kLatin1: {
                 const char* latin1Chars = reinterpret_cast<const char*>(header->data());
-                // Latin1 Each character is 1 byte
                 size_t length = header->size();
-                status = napi_create_string_latin1((napi_env)env, latin1Chars, length, &result);
+                {
+                    kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+                    status = napi_create_string_latin1((napi_env)env, latin1Chars, length, &result);
+                }
                 break;
             }
             case StringEncoding::kUTF16: {
+                // Try zero-copy via external string first
+                result = CreateExternalStringUtf16((napi_env)env, thiz);
+                if (result != nullptr) {
+                    return (KNativePtr)result;
+                }
+                // Fall back to copy
                 const char16_t* utf16Chars = reinterpret_cast<const char16_t*>(header->data());
-                // For UTF-16, size() returns the number of bytes and needs to be converted to the number of characters
                 size_t length = header->size() / sizeof(char16_t);
-                status = napi_create_string_utf16((napi_env)env, utf16Chars, length, &result);
+                {
+                    kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+                    status = napi_create_string_utf16((napi_env)env, utf16Chars, length, &result);
+                }
                 break;
             }
             default:
@@ -253,8 +274,7 @@ extern "C" {
 
         if (status != napi_ok) {
             OH_LOG_Print(LOG_APP, LOG_ERROR, NAPI_LOG_DOMAIN, NAPI_LOG_TAG,
-                "napi_create_string failed createValueFromString, status: %{public}d",
-                status);
+                "napi_create_string failed, status: %{public}d", status);
             return nullptr;
         }
 
@@ -268,11 +288,17 @@ extern "C" {
      * @return A Kotlin string object.
      */
     OBJ_GETTER(Kotlin_napi_get_kotlin_string_utf16, KNativePtr env, KNativePtr value) {
-        // Get the string length (excluding the null terminator)
-        size_t str_size;
-
         napi_env napiEnv = reinterpret_cast<napi_env>(env);
         napi_value napiValue = reinterpret_cast<napi_value>(value);
+
+        // Try zero-copy proxy first
+        ArkTSStringRef* proxyRef = ArkTSStringRef::tryCreate(napiEnv, napiValue);
+        if (proxyRef != nullptr) {
+            return hmm::Kotlin_ArkTS_CreateStringByProxy(proxyRef, OBJ_RESULT);
+        }
+
+        // Fall back to copy
+        size_t str_size;
 
         napi_status status = napi_get_value_string_utf16(
                 napiEnv,

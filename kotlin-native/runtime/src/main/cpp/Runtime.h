@@ -54,15 +54,4 @@ extern const char* programName;
 
 }
 
-struct InitGlobalsFrameGuard {
-    ALWAYS_INLINE InitGlobalsFrameGuard() { SaveStackFrameR2KInitGlobals(); }
-    ALWAYS_INLINE ~InitGlobalsFrameGuard() { RestoreStackFrameR2KInitGlobals(); }
-};
-
-// TODO: Make a proper frame for alloc type
-struct AllocInstanceFrameGuard {
-    ALWAYS_INLINE AllocInstanceFrameGuard() { SaveStackFrameK2RK2X(); }
-    ALWAYS_INLINE ~AllocInstanceFrameGuard() { RestoreStackFrameK2RK2X(); }
-};
-
 #endif // RUNTIME_RUNTIME_H

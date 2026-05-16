@@ -88,6 +88,11 @@ data class ExtraObject(
         val associatedObjectId: Id,
 ) : Item()
 
+data class StableRef(
+        val id: Id,
+        val objectId: Id,
+) : Item()
+
 data class Field(
         val offset: Int,
         val type: RuntimeType,

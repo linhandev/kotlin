@@ -26,7 +26,8 @@ extern "C" {
 #define TAG_RES_KMP_HEAP_MASK      "RES_KMP_HEAP_MASK"
 #define RES_KMP_HEAP_MASK          (1 << 19)
 
-void restrace(unsigned long long mask, void* addr, size_t size, const char* tag, bool is_using);
+__attribute__((weak)) inline void restrace(unsigned long long mask,
+    void* addr, size_t size, const char* tag, bool is_using) {}
 #ifdef __cplusplus
 }
 #endif

@@ -44,7 +44,7 @@ PERFORMANCE_INLINE ArrayHeader* alloc::Allocator::ThreadData::allocateArray(cons
 PERFORMANCE_INLINE mm::ExtraObjectData& alloc::Allocator::ThreadData::allocateExtraObjectData(
         ObjHeader* object, const TypeInfo* typeInfo) noexcept {
     return *checkUseCRT<CheckMode::Fast>([&] {
-        return impl_->crt_alloc().CreateExtraObjectDataForObject(typeInfo);
+        return impl_->crt_alloc().CreateExtraObjectDataForObject(object, typeInfo);
     }, [&] {
         return impl_->alloc().CreateExtraObjectDataForObject(object, typeInfo);
     });

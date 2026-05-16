@@ -16,6 +16,7 @@
 
 #include <string>
 
+#include "DisallowSafepointScope.h"
 #include "KAssert.h"
 #include "TypeInfo.h"
 #include "Memory.h"
@@ -27,6 +28,7 @@ extern "C" {
 
 // Seeks for the specified id. In case of failure returns a valid pointer to some record, never returns nullptr.
 // It is the caller's responsibility to check if the search has succeeded or not.
+NO_SAFEPOINT
 InterfaceTableRecord const* LookupInterfaceTableRecord(InterfaceTableRecord const* interfaceTable,
                                                        int interfaceTableSize, ClassId interfaceId) {
   if (interfaceTableSize <= 8) {
@@ -45,12 +47,14 @@ InterfaceTableRecord const* LookupInterfaceTableRecord(InterfaceTableRecord cons
   return interfaceTable + l;
 }
 
+NO_SAFEPOINT
 RUNTIME_NOTHROW int Kotlin_internal_reflect_getObjectReferenceFieldsCount(ObjHeader* object) {
     auto *info = object->type_info();
     if (info->IsArray()) return 0;
     return info->objOffsetsCount_;
 }
 
+NO_SAFEPOINT
 RUNTIME_NOTHROW OBJ_GETTER(Kotlin_internal_reflect_getObjectReferenceFieldByIndex, ObjHeader* object, int index) {
     RETURN_OBJ(*reinterpret_cast<ObjHeader**>(reinterpret_cast<uintptr_t>(object) + object->type_info()->objOffsets_[index]));
 }

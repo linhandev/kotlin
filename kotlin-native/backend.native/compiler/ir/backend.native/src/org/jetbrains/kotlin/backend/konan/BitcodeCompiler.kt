@@ -43,6 +43,11 @@ internal class BitcodeCompiler(
         runTool(absoluteToolName, *arg)
     }
 
+    private fun ohosLlvmTool(tool: String, vararg arg: String) {
+        val absoluteToolName = "${platform.absoluteLlvmHome}/bin/$tool"
+        runTool(absoluteToolName, *arg)
+    }
+
     private fun clang(configurables: ClangFlags, bitcodeFile: File, objectFile: File) {
         val targetTriple = if (configurables is AppleConfigurables) {
             platform.targetTriple.withOSVersion(configurables.osVersionMin)
@@ -65,7 +70,7 @@ internal class BitcodeCompiler(
         if (configurables is AppleConfigurables && config.configuration.get(BinaryOptions.compileBitcodeWithXcodeLlvm) == true) {
             targetTool("clang++", *flags.toTypedArray(), bitcodePath, "-o", objectPath)
         } else {
-            hostLlvmTool("clang++", *flags.toTypedArray(), bitcodePath, "-o", objectPath)
+            ohosLlvmTool("clang++", *flags.toTypedArray(), bitcodePath, "-o", objectPath)
         }
     }
 

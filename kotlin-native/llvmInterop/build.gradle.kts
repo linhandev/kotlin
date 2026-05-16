@@ -22,7 +22,14 @@ nativeInteropPlugin {
         addAll(listOf("-DNDEBUG", "-D__STDC_CONSTANT_MACROS", "-D__STDC_FORMAT_MACROS", "-D__STDC_LIMIT_MACROS"))
     })
     cCompilerArgs.set(listOf("-std=c99"))
-    cppCompilerArgs.set(listOf("-std=c++11"))
+    cppCompilerArgs.set(buildList {
+        add("-std=c++11")
+        if (PlatformInfo.isLinux()) {
+            add("-stdlib=libc++")
+            add("-stdlib++-isystem")
+            add("${nativeDependencies.llvmPath}/include/c++/v1")
+        }
+    })
     selfHeaders.set(emptyList<String>())
     systemIncludeDirs.set(listOf("${nativeDependencies.llvmPath}/include"))
     linkerArgs.set(buildList {
@@ -46,6 +53,9 @@ nativeInteropPlugin {
             // To enforce linking with proper libc++, pass the default path explicitly:
             add("-L${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/usr/lib")
         } else if (PlatformInfo.isLinux()) {
+            add("-stdlib=libc++")
+            add("-L${nativeDependencies.hostLibcxxDir}")
+            add("-Wl,-rpath,\$ORIGIN")
             add("-Wl,-z,noexecstack")
             addAll(listOf("-lrt", "-ldl", "-lpthread", "-lz", "-lm"))
         } else if (PlatformInfo.isWindows()) {
@@ -56,15 +66,15 @@ nativeInteropPlugin {
         val llvmLibs = if (PlatformInfo.isMac()) {
             // Produced by the following command:
             // ./llvm-config --libs analysis bitreader bitwriter core linker target analysis ipo instrumentation lto objcarcopts arm aarch64 x86
-            "-lLLVMX86TargetMCA -lLLVMMCA -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMAArch64Disassembler -lLLVMAArch64AsmParser -lLLVMAArch64CodeGen -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAArch64Info -lLLVMARMDisassembler -lLLVMARMAsmParser -lLLVMARMCodeGen -lLLVMGlobalISel -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMARMDesc -lLLVMMCDisassembler -lLLVMARMUtils -lLLVMARMInfo -lLLVMLTO -lLLVMRemoteCachingService -lLLVMRemoteNullService -lLLVMPasses -lLLVMIRPrinter -lLLVMHipStdPar -lLLVMCoroutines -lLLVMCFGuard -lLLVMExtensions -lLLVMCodeGen -lLLVMMCCAS -lLLVMObjCARCOpts -lLLVMCodeGenTypes -lLLVMipo -lLLVMInstrumentation -lLLVMVectorize -lLLVMFrontendOpenMP -lLLVMFrontendOffloading -lLLVMScalarOpts -lLLVMInstCombine -lLLVMAggressiveInstCombine -lLLVMTarget -lLLVMLinker -lLLVMTransformUtils -lLLVMBitWriter -lLLVMAnalysis -lLLVMProfileData -lLLVMSymbolize -lLLVMDebugInfoBTF -lLLVMDebugInfoPDB -lLLVMDebugInfoMSF -lLLVMDebugInfoDWARF -lLLVMObject -lLLVMTextAPI -lLLVMMCParser -lLLVMIRReader -lLLVMAsmParser -lLLVMMC -lLLVMDebugInfoCodeView -lLLVMCASUtil -lLLVMCAS -lLLVMBitReader -lLLVMCore -lLLVMRemarks -lLLVMBitstreamReader -lLLVMBinaryFormat -lLLVMTargetParser -lLLVMSupport -lLLVMDemangle"
+            "-lLLVMX86TargetMCA -lLLVMMCA -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMAArch64Disassembler -lLLVMAArch64AsmParser -lLLVMAArch64CodeGen -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAArch64Info -lLLVMARMDisassembler -lLLVMARMAsmParser -lLLVMARMCodeGen -lLLVMGlobalISel -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMARMDesc -lLLVMMCDisassembler -lLLVMARMUtils -lLLVMARMInfo -lLLVMLTO -lLLVMRemoteCachingService -lLLVMRemoteNullService -lLLVMPasses -lLLVMInterop -lLLVMIRPrinter -lLLVMHipStdPar -lLLVMCoroutines -lLLVMCFGuard -lLLVMExtensions -lLLVMCodeGen -lLLVMMCCAS -lLLVMObjCARCOpts -lLLVMCodeGenTypes -lLLVMipo -lLLVMInstrumentation -lLLVMVectorize -lLLVMFrontendOpenMP -lLLVMFrontendOffloading -lLLVMScalarOpts -lLLVMInstCombine -lLLVMAggressiveInstCombine -lLLVMTarget -lLLVMLinker -lLLVMTransformUtils -lLLVMBitWriter -lLLVMAnalysis -lLLVMProfileData -lLLVMSymbolize -lLLVMDebugInfoBTF -lLLVMDebugInfoPDB -lLLVMDebugInfoMSF -lLLVMDebugInfoDWARF -lLLVMObject -lLLVMTextAPI -lLLVMMCParser -lLLVMIRReader -lLLVMAsmParser -lLLVMMC -lLLVMDebugInfoCodeView -lLLVMCASUtil -lLLVMCAS -lLLVMBitReader -lLLVMCore -lLLVMRemarks -lLLVMBitstreamReader -lLLVMBinaryFormat -lLLVMTargetParser -lLLVMSupport -lLLVMDemangle"
         } else if (PlatformInfo.isLinux()) {
             // Produced by the following command:
             // ./llvm-config --libs analysis bitreader bitwriter core linker target analysis ipo instrumentation lto arm aarch64 x86
-            "-lLLVMX86TargetMCA -lLLVMMCA -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMAArch64Disassembler -lLLVMAArch64AsmParser -lLLVMAArch64CodeGen -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAArch64Info -lLLVMARMDisassembler -lLLVMARMAsmParser -lLLVMARMCodeGen -lLLVMGlobalISel -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMARMDesc -lLLVMMCDisassembler -lLLVMARMUtils -lLLVMARMInfo -lLLVMLTO -lLLVMRemoteCachingService -lLLVMRemoteNullService -lLLVMPasses -lLLVMIRPrinter -lLLVMHipStdPar -lLLVMCoroutines -lLLVMCFGuard -lLLVMExtensions -lLLVMCodeGen -lLLVMMCCAS -lLLVMObjCARCOpts -lLLVMCodeGenTypes -lLLVMipo -lLLVMInstrumentation -lLLVMVectorize -lLLVMFrontendOpenMP -lLLVMFrontendOffloading -lLLVMScalarOpts -lLLVMInstCombine -lLLVMAggressiveInstCombine -lLLVMTarget -lLLVMLinker -lLLVMTransformUtils -lLLVMBitWriter -lLLVMAnalysis -lLLVMProfileData -lLLVMSymbolize -lLLVMDebugInfoBTF -lLLVMDebugInfoPDB -lLLVMDebugInfoMSF -lLLVMDebugInfoDWARF -lLLVMObject -lLLVMTextAPI -lLLVMMCParser -lLLVMIRReader -lLLVMAsmParser -lLLVMMC -lLLVMDebugInfoCodeView -lLLVMCASUtil -lLLVMCAS -lLLVMBitReader -lLLVMCore -lLLVMRemarks -lLLVMBitstreamReader -lLLVMBinaryFormat -lLLVMTargetParser -lLLVMSupport -lLLVMDemangle"
+            "-lLLVMX86TargetMCA -lLLVMMCA -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMAArch64Disassembler -lLLVMAArch64AsmParser -lLLVMAArch64CodeGen -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAArch64Info -lLLVMARMDisassembler -lLLVMARMAsmParser -lLLVMARMCodeGen -lLLVMGlobalISel -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMARMDesc -lLLVMMCDisassembler -lLLVMARMUtils -lLLVMARMInfo -lLLVMLTO -lLLVMRemoteCachingService -lLLVMRemoteNullService -lLLVMPasses -lLLVMInterop -lLLVMIRPrinter -lLLVMHipStdPar -lLLVMCoroutines -lLLVMCFGuard -lLLVMExtensions -lLLVMCodeGen -lLLVMMCCAS -lLLVMObjCARCOpts -lLLVMCodeGenTypes -lLLVMipo -lLLVMInstrumentation -lLLVMVectorize -lLLVMFrontendOpenMP -lLLVMFrontendOffloading -lLLVMScalarOpts -lLLVMInstCombine -lLLVMAggressiveInstCombine -lLLVMTarget -lLLVMLinker -lLLVMTransformUtils -lLLVMBitWriter -lLLVMAnalysis -lLLVMProfileData -lLLVMSymbolize -lLLVMDebugInfoBTF -lLLVMDebugInfoPDB -lLLVMDebugInfoMSF -lLLVMDebugInfoDWARF -lLLVMObject -lLLVMTextAPI -lLLVMMCParser -lLLVMIRReader -lLLVMAsmParser -lLLVMMC -lLLVMDebugInfoCodeView -lLLVMCASUtil -lLLVMCAS -lLLVMBitReader -lLLVMCore -lLLVMRemarks -lLLVMBitstreamReader -lLLVMBinaryFormat -lLLVMTargetParser -lLLVMSupport -lLLVMDemangle"
         } else if (PlatformInfo.isWindows()) {
             // Produced by the following command:
             // ./llvm-config --libs analysis bitreader bitwriter core linker target analysis ipo instrumentation lto arm aarch64 x86
-            "-lLLVMX86TargetMCA -lLLVMMCA -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMAArch64Disassembler -lLLVMAArch64AsmParser -lLLVMAArch64CodeGen -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAArch64Info -lLLVMARMDisassembler -lLLVMARMAsmParser -lLLVMARMCodeGen -lLLVMGlobalISel -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMARMDesc -lLLVMMCDisassembler -lLLVMARMUtils -lLLVMARMInfo -lLLVMLTO -lLLVMRemoteCachingService -lLLVMRemoteNullService -lLLVMPasses -lLLVMIRPrinter -lLLVMHipStdPar -lLLVMCoroutines -lLLVMCFGuard -lLLVMExtensions -lLLVMCodeGen -lLLVMMCCAS -lLLVMObjCARCOpts -lLLVMCodeGenTypes -lLLVMipo -lLLVMInstrumentation -lLLVMVectorize -lLLVMFrontendOpenMP -lLLVMFrontendOffloading -lLLVMScalarOpts -lLLVMInstCombine -lLLVMAggressiveInstCombine -lLLVMTarget -lLLVMLinker -lLLVMTransformUtils -lLLVMBitWriter -lLLVMAnalysis -lLLVMProfileData -lLLVMSymbolize -lLLVMDebugInfoBTF -lLLVMDebugInfoPDB -lLLVMDebugInfoMSF -lLLVMDebugInfoDWARF -lLLVMObject -lLLVMTextAPI -lLLVMMCParser -lLLVMIRReader -lLLVMAsmParser -lLLVMMC -lLLVMDebugInfoCodeView -lLLVMCASUtil -lLLVMCAS -lLLVMBitReader -lLLVMCore -lLLVMRemarks -lLLVMBitstreamReader -lLLVMBinaryFormat -lLLVMTargetParser -lLLVMSupport -lLLVMDemangle"
+            "-lLLVMX86TargetMCA -lLLVMMCA -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMAArch64Disassembler -lLLVMAArch64AsmParser -lLLVMAArch64CodeGen -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAArch64Info -lLLVMARMDisassembler -lLLVMARMAsmParser -lLLVMARMCodeGen -lLLVMGlobalISel -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMARMDesc -lLLVMMCDisassembler -lLLVMARMUtils -lLLVMARMInfo -lLLVMLTO -lLLVMRemoteCachingService -lLLVMRemoteNullService -lLLVMPasses -lLLVMInterop -lLLVMIRPrinter -lLLVMHipStdPar -lLLVMCoroutines -lLLVMCFGuard -lLLVMExtensions -lLLVMCodeGen -lLLVMMCCAS -lLLVMObjCARCOpts -lLLVMCodeGenTypes -lLLVMipo -lLLVMInstrumentation -lLLVMVectorize -lLLVMFrontendOpenMP -lLLVMFrontendOffloading -lLLVMScalarOpts -lLLVMInstCombine -lLLVMAggressiveInstCombine -lLLVMTarget -lLLVMLinker -lLLVMTransformUtils -lLLVMBitWriter -lLLVMAnalysis -lLLVMProfileData -lLLVMSymbolize -lLLVMDebugInfoBTF -lLLVMDebugInfoPDB -lLLVMDebugInfoMSF -lLLVMDebugInfoDWARF -lLLVMObject -lLLVMTextAPI -lLLVMMCParser -lLLVMIRReader -lLLVMAsmParser -lLLVMMC -lLLVMDebugInfoCodeView -lLLVMCASUtil -lLLVMCAS -lLLVMBitReader -lLLVMCore -lLLVMRemarks -lLLVMBitstreamReader -lLLVMBinaryFormat -lLLVMTargetParser -lLLVMSupport -lLLVMDemangle"
         } else {
             error("Unsupported host platform")
         }
@@ -72,6 +82,19 @@ nativeInteropPlugin {
             "${nativeDependencies.llvmPath}/lib/${lib(it.removePrefix("-l"))}"
         }
     })
+}
+
+if (PlatformInfo.isLinux()) {
+    val llvmInteropRuntimeLibs by tasks.registering(Sync::class) {
+        from(nativeDependencies.hostLibcxxRuntimeLibraryPaths)
+        into(layout.buildDirectory.dir("llvmInteropRuntimeLibs"))
+    }
+
+    artifacts {
+        nativeDependencies.hostLibcxxRuntimeLibraries.forEach { library ->
+            add("cppRuntimeElements", llvmInteropRuntimeLibs.map { it.destinationDir.resolve(library) })
+        }
+    }
 }
 
 projectTest(jUnitMode = JUnitMode.JUnit5) // `projectTest()` is not available in kotlin-native/build-tools project

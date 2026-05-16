@@ -38,10 +38,13 @@ internal class CodeGenerator(override val generationState: NativeGenerationState
     val intPtrType = LLVMIntPtrTypeInContext(llvm.llvmContext, llvmTargetData)!!
     internal val immOneIntPtrType = LLVMConstInt(intPtrType, 1, 1)!!
     internal val immThreeIntPtrType = LLVMConstInt(intPtrType, 3, 1)!!
-    // TODO: For CRT we require to clear the language bit as well
-    // This could leads to differences if we would like to enable switch between CRT and CMS
-    // internal val immTypeInfoMask = LLVMConstNot(LLVMConstInt(intPtrType, 3, 0)!!)!!
-    internal val immTypeInfoMask = llvm.int64(0x0000fffffffffffc)
+    // Mask used to extract the TypeInfo* (or MetaObjHeader*) pointer out of
+    // ObjHeader.typeInfoOrMeta_, which carries tag bits in BOTH the low 2
+    // bits (OBJECT_TAG_MASK) and the high 16 bits (KNStateWord packed by
+    // CustomAllocator with `valid` and `remainded`; also used by CRT for
+    // the language tag). Mirrors kImmTypeInfoMask in Memory.h.
+    // 0x0000_FFFF_FFFF_FFFC = bits 48-63 + bits 0-1 cleared, bits 2-47 kept.
+    internal val immTypeInfoMask = LLVMConstInt(intPtrType, 0xFFFFFFFFFFFCL, 0)!!
 
     //-------------------------------------------------------------------------//
 
@@ -125,6 +128,7 @@ internal inline fun generateFunction(
             needSafePoint = true,
             function)
     functionGenerationContext.needsRuntimeInit = isCToKotlinBridge
+    functionGenerationContext.needsSetReliableStatus = isCToKotlinBridge
 
     try {
         generateFunctionBody(functionGenerationContext, code)
@@ -176,9 +180,7 @@ internal inline fun generateFunctionNoRuntime(
         code: FunctionGenerationContext.() -> Unit,
 ) : LlvmCallable {
     val function = codegen.addFunction(functionProto)
-    if (functionProto.name.startsWith("_Konan_init_")) {
-        function.clearGcCollector()
-    }
+    function.clearGcCollector()
     val functionGenerationContext = DefaultFunctionGenerationContext(function, codegen, null, null,
             switchToRunnable = false, needSafePoint = true)
     try {
@@ -413,7 +415,7 @@ internal class StackLocalsManagerImpl(
     fun isEmpty() = stackLocals.isEmpty()
 
     private fun FunctionGenerationContext.createRootSetSlot() =
-            alloca(kObjHeaderPtr, true)
+            alloca(kObjHeaderRef, true)
 
     override fun alloc(irClass: IrClass): LLVMValueRef = with(functionGenerationContext) {
         val classInfo = llvmDeclarations.forClass(irClass)
@@ -459,7 +461,7 @@ internal class StackLocalsManagerImpl(
 
     // TODO: find better place?
     private val arrayToElementType = mapOf(
-            symbols.array to functionGenerationContext.kObjHeaderPtr,
+            symbols.array to functionGenerationContext.kObjHeaderRef,
             symbols.byteArray to llvm.int8Type,
             symbols.charArray to llvm.int16Type,
             symbols.string to llvm.int16Type,
@@ -646,6 +648,8 @@ internal abstract class FunctionGenerationContext(
     // for example.
     var needsRuntimeInit = false
 
+    var needsSetReliableStatus = false
+
     // Marks that function is not allowed to call into Kotlin runtime. For this function no safepoints, no enter/leave
     // frames are generated.
     // TODO: Should forbid all calls into runtime except for explicitly allowed. Also should impose the same restriction
@@ -745,52 +749,16 @@ internal abstract class FunctionGenerationContext(
             thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr
     ): LLVMValueRef {
         val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
-        val value: LLVMValueRef
-        
-        if (isObjectField) {
-            // CRT read barrier
-            value = loadFromCMC(address, thisPtr, memoryOrder)
+        val value = if (isObjectField) {
+            // CRT read barrier path (no-op at runtime when USE_CRT=false; loadFromCMC checks at runtime).
+            loadFromCMC(address, thisPtr, memoryOrder)
         } else {
-            // Kotlin 2.2 address space handling for opaque pointers
-            val addressTy = LLVMTypeOf(address)!!
-            val tyLayCount = GetLayOutOfPointer(addressTy, 0)
-            if (tyLayCount == 2) {
-                val elementTy = LLVMGetElementType(addressTy)
-                if (elementTy != null) {
-                    val typeAddrSpace = LLVMGetPointerAddressSpace(type)
-                    val elementAddrSpace = LLVMGetPointerAddressSpace(elementTy)
-                    if (typeAddrSpace != elementAddrSpace) {
-                        val targetTy = LLVMPointerType(type, 0)
-                        val tempOuterPtr = LLVMBuildBitCast(builder, address, targetTy, "")
-                        val loaded = LLVMBuildLoad2(builder, type, tempOuterPtr, name)!!
-                        memoryOrder?.let { LLVMSetOrdering(loaded, it) }
-                        alignment?.let { LLVMSetAlignment(loaded, it) }
-                        value = loaded
-                    } else {
-                        val loaded = LLVMBuildLoad2(builder, type, address, name)!!
-                        memoryOrder?.let { LLVMSetOrdering(loaded, it) }
-                        alignment?.let { LLVMSetAlignment(loaded, it) }
-                        value = loaded
-                    }
-                } else {
-                    val loaded = LLVMBuildLoad2(builder, type, address, name)!!
-                    memoryOrder?.let { LLVMSetOrdering(loaded, it) }
-                    alignment?.let { LLVMSetAlignment(loaded, it) }
-                    value = loaded
-                }
-            } else {
-                val loaded = LLVMBuildLoad2(builder, type, address, name)!!
-                memoryOrder?.let { LLVMSetOrdering(loaded, it) }
-                alignment?.let { LLVMSetAlignment(loaded, it) }
-                value = loaded
-            }
+            applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
         }
-        
         if (isObjectType && isVar) {
             val slot = resultSlot ?: alloca(type, isObjectType, variableLocation = null)
             storeStackRef(value, slot)
         }
-        
         return value
     }
 
@@ -1067,38 +1035,6 @@ internal abstract class FunctionGenerationContext(
         switchThreadState(state)
     }
 
-    fun saveStackFrameR2KExportForCppRuntime() {
-        call(llvm.saveStackFrameR2KExportForCppRuntime, listOf())
-    }
-
-    fun restoreStackFrameN2KNativeToKotlin() {
-        call(llvm.restoreStackFrameN2KNativeToKotlin, listOf())
-    }
-
-    fun saveStackFrameR2KInitGlobals() {
-        call(llvm.saveStackFrameR2KInitGlobals, listOf())
-    }
-
-    fun restoreStackFrameR2KInitGlobals() {
-        call(llvm.restoreStackFrameR2KInitGlobals, listOf())
-    }
-
-    fun saveStackFrameK2RK2X() {
-        call(llvm.saveStackFrameK2RK2X, listOf())
-    }
-
-    fun restoreStackFrameK2RK2X() {
-        call(llvm.restoreStackFrameK2RK2X, listOf())
-    }
-
-    fun saveStackFrameK2NNativeState() {
-        call(llvm.saveStackFrameK2NNativeState, listOf())
-    }
-
-    fun restoreStackFrameK2NNativeState() {
-        call(llvm.restoreStackFrameK2NNativeState, listOf())
-    }
-
     fun throwArrayIndexOutOfBoundsExceptionFunction(exceptionHandler: ExceptionHandler) {
         val throwFuncSymbol = context.symbols.throwArrayIndexOutOfBoundsException
         val throwFunc = throwFuncSymbol.owner.llvmFunctionOrNull
@@ -1109,6 +1045,7 @@ internal abstract class FunctionGenerationContext(
 
     fun createExceptionHandlerWithConditionalExtraAction(
             outerHandler: ExceptionHandler,
+            needsThreadStateRestore: Boolean = false,
             extraActionBuilder : (LLVMValueRef) -> Unit
     ): ExceptionHandler {
         if (outerHandler is ExceptionHandler.None) {
@@ -1118,10 +1055,16 @@ internal abstract class FunctionGenerationContext(
         val lpBlock = basicBlockInFunction("restore_frame_lp", position()?.start)
 
         appendingTo(lpBlock) {
-            val landingpad = gxxLandingpad(1, switchThreadState = false, setCurrentFrame = false)
+            // K2NStub has no exception personality, so the throw path bypasses its
+            // epilogue. Mirror it here when the bridge switched the thread; gated
+            // off for GCUnsafeCall stubs that never switch (RUNNABLE→RUNNABLE assert).
+            val landingpad = gxxLandingpad(1, switchThreadState = needsThreadStateRestore, setCurrentFrame = false)
             LLVMAddClause(landingpad, LLVMConstNull(llvm.int8PtrType))
             val exceptionRecord = extractValue(landingpad, 0)
             val exceptionRawPtr = call(llvm.cxaBeginCatchFunction, listOf(exceptionRecord))
+            if (needsThreadStateRestore) {
+                call(llvm.setLastFrameReliable, emptyList())
+            }
 
             extraActionBuilder(exceptionRawPtr)
 
@@ -1182,7 +1125,6 @@ internal abstract class FunctionGenerationContext(
         val num = llvmCallable.numParams
         val name = llvmCallable.name
         val size = args.size
-
         if (name != "" && name != "objc_msgSend") {
             for (i in 0 until size) {
                 val param = llvmCallable.param(i)
@@ -1223,26 +1165,6 @@ private fun CheckFuncParamType(paramType : LLVMTypeRef, arg : LLVMValueRef, i : 
     }
 
     return LLVMBuildAddrSpaceCast(builder, arg, paramType, "")!!
-}
-
-// Helper: strip address space from a pointer type to get the base type
-// (e.g. T addrspace(1)* -> T*)
-private fun stripAddressSpace(pointerType: LLVMTypeRef): LLVMTypeRef {
-    val elementType = LLVMGetElementType(pointerType) ?: return pointerType
-    // Rebuild a pointer type with address space 0
-    // (for type comparison only, does not affect the actual address space)
-    return LLVMPointerType(elementType, 0)!! // Assuming LLVMPointerType is available
-}
-
-private fun GetLayOutOfPointer(pointerType: LLVMTypeRef, count: Int) : Int {
-    if (LLVMGetTypeKind(pointerType)!! == LLVMTypeKind.LLVMPointerTypeKind) {
-        // LLVM 19 opaque pointer: LLVMGetElementType returns null,
-        // treated as a single-level pointer
-        val elemType = LLVMGetElementType(pointerType) ?: return count + 1
-        return GetLayOutOfPointer(elemType, count + 1)
-    } else {
-        return count;
-    }
 }
 
 // Helper: compare whether two types are essentially the same
@@ -1823,7 +1745,11 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         // TODO: Get rid of the bitcast here by supplying the type in the GEP above.
         val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), typeInfoOrMetaPtr)
         val typeInfoOrMetaWithFlags = load(codegen.intPtrType, typeInfoOrMetaPtrRaw, memoryOrder = memoryOrder)
-        // Clear two lower bits.
+        // Clear low 2 (OBJECT_TAG_MASK) + high 5 (KNStateWord valid/remainded) bits;
+        // see comment on `immTypeInfoMask`. The inner field (TypeInfo::typeInfo_
+        // self_ptr or ExtraObjectData::typeInfo_) is kept clean by
+        // ExtraObjectData::Install and the static RTTI emitter, so the inner
+        // load doesn't need a second mask.
         val typeInfoOrMetaRaw = and(typeInfoOrMetaWithFlags, codegen.immTypeInfoMask)
         val typeInfoOrMeta = intToPtr(typeInfoOrMetaRaw, kTypeInfoPtr)
         val typeInfoPtrPtr = structGep(runtime.typeInfoType, typeInfoOrMeta, 0 /* typeInfo */)
@@ -1925,7 +1851,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             val slots = if (needSlotsPhi || needCleanupLandingpadAndLeaveFrame)
                 LLVMBuildArrayAlloca(builder, kObjHeaderRef, llvm.int32(slotCount), "")!!
             else
-                kNullObjHeaderPtrPtr
+                kNullObjHeaderRefPtr
             if (needSlots || needCleanupLandingpadAndLeaveFrame) {
                 check(!forbidRuntime) { "Attempt to start a frame where runtime usage is forbidden" }
                 // Zero-init slots.
@@ -1977,15 +1903,11 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                 call(llvm.saveX28, emptyList())
                 call(llvm.initRuntimeIfNeeded, emptyList())
             }
+            if (needsSetReliableStatus) {
+                call(llvm.setLastFrameReliable, emptyList())
+            }
             if (switchToRunnable) {
                 switchThreadState(Runnable)
-            }
-            if (irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true || switchToRunnable) {
-                if (irFunction?.name?.asString() == "Konan_start") {
-                    saveStackFrameR2KInitGlobals()
-                } else if (irFunction?.hasAnnotation(RuntimeNames.exportForIntrinsic) == false) {
-                    saveStackFrameR2KExportForCppRuntime()
-                }
             }
             if (needSlots || needCleanupLandingpadAndLeaveFrame) {
                 if (setCurrentFrameIsCalled) {
@@ -1996,7 +1918,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             }
             if (!forbidRuntime && needSafePoint) {
                 if (!function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException")) {
-                    call(llvm.Kotlin_mm_safePointFunctionPrologue, emptyList())
+                    call(llvm.Kotlin_mm_safePointFunctionPrologueStub, emptyList())
                 }
             }
             resetDebugLocation()
@@ -2054,13 +1976,6 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     }
 
     private fun handleEpilogueExperimentalMM() {
-        if (irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true || switchToRunnable) {
-            if (irFunction?.name?.asString() == "Konan_start") {
-                restoreStackFrameR2KInitGlobals()
-            } else if (irFunction?.hasAnnotation(RuntimeNames.exportForIntrinsic) == false) {
-                restoreStackFrameN2KNativeToKotlin()
-            }
-        }
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)

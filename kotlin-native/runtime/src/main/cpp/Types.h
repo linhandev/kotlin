@@ -44,6 +44,7 @@ typedef const void* KConstNativePtr;
 typedef ObjHeader AS1* KRef;
 typedef const ObjHeader AS1* KConstRef;
 typedef const ArrayHeader AS1* KString;
+typedef uintptr_t HandleSlot;
 
 #ifdef __cplusplus
 extern "C" {

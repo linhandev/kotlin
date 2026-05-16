@@ -31,8 +31,8 @@ public:
     // Dumps the memory and returns the success flag.
     void Dump() {
         RuntimeLogInfo({kTagMemDump}, "Starting to dump memory into %p", file_);
-        
-        DumpStr("Kotlin/Native dump 1.0.8");
+
+        DumpStr("Kotlin/Native dump 1.0.9");
         DumpBool(konan::isLittleEndian());
         DumpU8(sizeof(void*));
 
@@ -55,9 +55,12 @@ public:
         RuntimeLogInfo({kTagMemDump}, "Dumping extra objects from the heap");
         GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) { DumpTransitively(extraObj); });
 
+        RuntimeLogInfo({kTagMemDump}, "Dumping stable references");
+        DumpStableRefs();
+
         RuntimeLogInfo({kTagMemDump}, "Dumping enqueued objects");
         DumpEnqueuedObjects();
-        
+
         RuntimeLogInfo({kTagMemDump}, "Dumping finished");
     }
 
@@ -265,7 +268,7 @@ private:
         }
 
         void* associatedObject =
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
                 extraObj->AssociatedObject();
 #else
                 nullptr;
@@ -320,6 +323,25 @@ private:
                 return 1;
             case ThreadRootSet::Source::kTLS:
                 return 2;
+            case ThreadRootSet::Source::kHandle:
+                return 3;
+        }
+    }
+
+    void DumpStableRefs() {
+        auto& registry = mm::ExternalRCRefRegistry::instance();
+        auto iterable = registry.lockForIter();
+        for (auto it = iterable.begin(); it != iterable.end(); ++it) {
+            mm::ExternalRCRefImpl* ref = it.get();
+            KRef obj = (*it).load(std::memory_order_relaxed);
+            if (obj != nullptr) {
+                RuntimeLogDebug({kTagMemDump}, "Dumping stable ref %p -> %p", ref, obj);
+                DumpU8(TAG_STABLE_REF);
+                DumpId(ref);
+                DumpId(obj);
+
+                Enqueue(obj);
+            }
         }
     }
 
@@ -330,6 +352,7 @@ private:
     const uint8_t TAG_THREAD = 0x05;
     const uint8_t TAG_GLOBAL_ROOT = 0x06;
     const uint8_t TAG_THREAD_ROOT = 0x07;
+    const uint8_t TAG_STABLE_REF = 0x08;
 
     const uint8_t TYPE_FLAG_ARRAY = 1 << 0;
     const uint8_t TYPE_FLAG_EXTENDED = 1 << 1;
@@ -353,16 +376,30 @@ void PrepareForMemoryDump() {
 }
 
 void DumpMemoryOrThrow(int fd) {
-    FILE* file = fdopen(fd, "w");
-    if (file == nullptr) {
+    // 1. Use unique_ptr to automatically manage FILE*
+    // decltype(&fclose) defines the type of the deleter
+    // &fclose is the actual deleter function, ensuring fclose is called automatically when the object is destroyed
+    std::unique_ptr<FILE, decltype(&fclose)> file(fdopen(fd, "w"), &fclose);
+
+    if (!file) {
+        // fdopen failed. At this point, unique_ptr is empty and will not trigger fclose.
+        // The fd is still owned by the caller; throw an exception to notify the caller to handle it.
         throw std::system_error(errno, std::generic_category());
     }
 
-    MemoryDumper(file).Dump();
+    // 2. Perform memory dump
+    // Use .get() to retrieve the raw FILE* pointer
+    MemoryDumper(file.get()).Dump();
 
-    if (fflush(file) == EOF) {
+    // 3. Check if the write operation was successful
+    if (fflush(file.get()) == EOF) {
         throw std::system_error(errno, std::generic_category());
     }
+
+    // 4. When the function exits (or an exception occurs):
+    // unique_ptr will automatically call fclose(file).
+    // fclose will automatically close the underlying file descriptor (fd).
+    // Resources are released properly, complying with FDSAN requirements.
 }
 
 bool DumpMemory(int fd) noexcept {

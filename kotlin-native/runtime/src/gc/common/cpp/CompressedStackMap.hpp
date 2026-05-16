@@ -54,6 +54,34 @@ public:
         return SlotRoot(slotTable.GetBaseOffset(idx - 1), slotTable.GetSlotBitMap(idx - 1), slotTable.slotFormat);
     }
 
+    // Streaming-visitor variant used by the precise CRT root visitor (KNRootVisitor).
+    // Visits each base-slot offset via `rootVisitor(bias)`. If derived pointers exist
+    // for the base, also visits each derived-slot offset via `derivedPtrVisitor(base, derived)`.
+    // Base is always visited before its derived offsets so that derived-pointer fix-up
+    // (during compaction) can read the live base.
+    template <typename RootVisitor, typename DerivedPtrVisitor>
+    void VisitBaseAndDerivedSlotOffsets(RootVisitor rootVisitor, DerivedPtrVisitor derivedPtrVisitor) const
+    {
+        uint32_t idx = idxSet.slotIdx;
+        if (idx == 0) {
+            return;
+        }
+        SlotRoot rootsSet(slotTable.GetBaseOffset(idx - 1), slotTable.GetSlotBitMap(idx - 1), slotTable.slotFormat);
+        uint32_t derivedPtrIdx = idxSet.derivedPtrIdx;
+        if (derivedPtrIdx == 0) {
+            rootsSet.VisitSlotOffsets(rootVisitor);
+            return;
+        }
+        rootsSet.VisitSlotOffsets([&](int32_t bias) {
+            DerivedPtr derivedPtr(derivedPtrTable, regTable, slotTable, derivedPtrIdx);
+            // Base must be handled before its derived pointers so that the derived
+            // visitor can observe the live base value.
+            rootVisitor(bias);
+            derivedPtr.VisitDerivedPtrSlots([&](int32_t derived) { derivedPtrVisitor(bias, derived); });
+            derivedPtrIdx++;
+        });
+    }
+
     void CollectBase2DerivedSlotOffsets(std::unordered_map<int32_t, std::vector<int32_t>> &base2DerivedSlotOffsets)
     {
         uint32_t idx = idxSet.slotIdx;
@@ -105,14 +133,17 @@ public:
 
     static CompressedStackMapHead GetStackMapHead(uint8_t *stackmapStart, const PrologueVisitor& visitor)
     {
-        uint64_t llvmStackMapSymbolStart = 0;
-    #if KONAN_LINUX || KONAN_OHOS
-        llvmStackMapSymbolStart = reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
-    #else
-        llvmStackMapSymbolStart = reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
-    #endif
+        // funcAddrOffset is now stored as (function_symbol - .Lstackmap_start.<func>),
+        // emitted by StackMaps.cpp::emitCompressedStackMaps as a R_AARCH64_PREL64
+        // relocation against the function symbol. The base of the diff is this entry's
+        // own start label, which equals stackmapStart at runtime, so we just add it back.
+        // This works correctly under multi-blob layouts (debug builds with multiple
+        // cached klibs concatenated): the older scheme used the global __LLVM_StackMaps
+        // symbol as the base, which after link resolves to blob_0's base only and gives
+        // wrong absolute addresses for entries from blob_M (M>0).
         uint64_t funcAddress = static_cast<uint64_t>(
-            *reinterpret_cast<int64_t*>(stackmapStart) + static_cast<int64_t>(llvmStackMapSymbolStart));
+            *reinterpret_cast<int64_t*>(stackmapStart) +
+            reinterpret_cast<int64_t>(stackmapStart));
         stackmapStart += FUNC_ADDRESS_FIELD_SIZE; // skip funcAddress
         stackmapStart += STACK_MAP_SIZE_FIELD_SIZE; // skip stackMapSize
         StackMapHeaderVarInt stacksizeVarInt(stackmapStart, 0);

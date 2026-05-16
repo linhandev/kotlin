@@ -12,6 +12,9 @@
 #include "ObjCMMAPI.h"
 #endif
 
+#ifdef KONAN_OHOS
+#include "ArkTSMMAPI.h"
+#endif
 #include "MemoryManagerSwitch.hpp"
 #include "crt/cpp/KNFinalizer.hpp"
 
@@ -22,33 +25,47 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
     // TODO: Consider extracting initialization scheme with speculative load.
     // `object->typeInfoOrMeta_` is assigned at most once. If we read some old value (i.e. not a meta object),
     // we will fail at CAS below. If we read the new value, we will immediately return it.
-    TypeInfo* typeInfo = object->typeInfoOrMetaAcquire();
+    auto* curHeader = object->typeInfoOrMetaAcquire();
 
-    if (auto* metaObject = ObjHeader::AsMetaObject(typeInfo)) {
+    if (auto* metaObject = ObjHeader::AsMetaObject(curHeader)) {
+        // ExtraObject already installed, just return it.
         return mm::ExtraObjectData::FromMetaObjHeader(metaObject);
     }
 
-    RuntimeCheck(!hasPointerBits(typeInfo, OBJECT_TAG_MASK), "Object must not be tagged");
-
+    // Try to allocate and install a new ExtraObject.
+    auto* cleanTypeInfo = clearPointerBits(curHeader, OBJECT_TAG_MASK);
     auto& allocator = mm::ThreadRegistry::Instance().CurrentThreadData()->allocator();
-    auto& data = allocator.allocateExtraObjectData(object, typeInfo);
-    std_support::atomic_ref objectAtomicTypeInfo{object->typeInfoOrMeta_};
-    if (!objectAtomicTypeInfo.compare_exchange_strong(typeInfo, reinterpret_cast<TypeInfo*>(&data))) {
-        // Somebody else created `mm::ExtraObjectData` for this object.
-        allocator.destroyUnattachedExtraObjectData(data);
-        return *reinterpret_cast<mm::ExtraObjectData*>(typeInfo);
-    }
-    // Otherwise we have successfully installed the `extraObj`.
+    auto& extraObj = allocator.allocateExtraObjectData(object, cleanTypeInfo);
 
+    // Refresh the pointer to `object` after possible safe-point during allocation.
+    // CreateExtraObjectDataForObject's ObjHolder published `object` as a GC root,
+    // refreshed it after the alloc, and passed the refreshed pointer to the
+    // ExtraObjectData constructor, which stored it in `weakReferenceOrBaseObject_`.
+    object = extraObj.weakReferenceOrBaseObject_.load(std::memory_order_relaxed);
+
+    // Ensure that `object` header would still have the same `tags` (low Kotlin tag bits
+    // and high CRT BaseStateWord bits, e.g. language_/forwardState_).
+    const auto tags = getPointerBits(curHeader, OBJECT_TAG_MASK);
+    auto* newHeader = setPointerBits(reinterpret_cast<TypeInfo*>(&extraObj), tags);
+
+    std_support::atomic_ref objectAtomicTypeInfo{object->typeInfoOrMeta_};
+    if (!objectAtomicTypeInfo.compare_exchange_strong(curHeader, newHeader)) {
+        // CAS failure can only mean that somebody else created `mm::ExtraObjectData` for this object.
+        allocator.destroyUnattachedExtraObjectData(extraObj);
+        auto* anotherExtraObj = clearPointerBits(curHeader, OBJECT_TAG_MASK);
+        return *reinterpret_cast<mm::ExtraObjectData*>(anotherExtraObj);
+    }
+
+    // We have successfully installed the `extraObj`.
     checkUseCRT<CheckMode::Fast>([&] {
         // Object with an ExtraObj installed has to be finalized
         // to ensure that possible associated object is released and original `object` header is restored.
-        if (!(typeInfo->flags_ & TF_HAS_FINALIZER)) { // avoid registering finalizable objects twice
+        if (!(cleanTypeInfo->flags_ & TF_HAS_FINALIZER)) { // avoid registering finalizable objects twice
             common::BaseFinalizerProcessor::RegisterFinalizableObject(reinterpret_cast<common::BaseObject*>(object));
         }
     });
 
-    return data;
+    return extraObj;
 }
 
 void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
@@ -64,6 +81,12 @@ void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
 }
 
 void mm::ExtraObjectData::ReleaseAssociatedObject() noexcept {
+#ifdef KONAN_OHOS
+    if (void* associatedObject = associatedObject_) {
+        Kotlin_ArkTS_releaseAssociatedObject(associatedObject);
+        associatedObject_ = nullptr;
+    }
+#endif
 #ifdef KONAN_OBJC_INTEROP
     if (void* associatedObject = associatedObject_) {
         Kotlin_ObjCExport_releaseAssociatedObject(associatedObject);
@@ -79,7 +102,7 @@ void mm::ExtraObjectData::Uninstall() noexcept {
 }
 
 bool mm::ExtraObjectData::HasAssociatedObject() noexcept {
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
     return associatedObject_ != nullptr;
 #else
     return false;
@@ -104,7 +127,7 @@ mm::ExtraObjectData::~ExtraObjectData() {
     }
     RuntimeAssert(weakReference == nullptr, "ExtraObjectData %p must have cleared weak reference %p", this, weakReference);
 
-#ifdef KONAN_OBJC_INTEROP
+#if defined(KONAN_OBJC_INTEROP) || defined(KONAN_OHOS)
     auto* associatedObject = associatedObject_.load(std::memory_order_relaxed);
     RuntimeAssert(associatedObject == nullptr, "ExtraObjectData %p must have cleared associated object %p", this, associatedObject);
 #endif

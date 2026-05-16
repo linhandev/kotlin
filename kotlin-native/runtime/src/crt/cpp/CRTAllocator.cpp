@@ -70,6 +70,10 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
 
     auto endOfAlloc = allocPtr + allocSize;
     if (UNLIKELY(endOfAlloc > regionEnd)) {
+        // Ported from mpcore/crt_fp_unwind 7e581cd. Slow-path enters CRT C++
+        // code which may trigger STW; capture this frame so the GC walker can
+        // unwind from here back through the Kotlin caller.
+        RuntimeSetLastFrame1();
         allocPtr = AllocFromCMCSlowPath(size, tls);
     } else {
         *reinterpret_cast<uintptr_t*>(regionAddr + common::REGION_DESC_ALLOC_OFF) = endOfAlloc;
@@ -77,17 +81,27 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
     return reinterpret_cast<uint8_t*>(allocPtr);
 }
 
+// Merge the typeInfo pointer with KOTLIN language tag in one 64-bit value so a single
+// store makes the new object simultaneously typed AND tagged for the CRT GC. Doing
+// these as two separate stores (write typeInfo, then SetLanguageBitAsKotlin()) opens
+// a race: between the stores the object's BaseStateWord reads `language=DYNAMIC`,
+// and any concurrent GC inspecting this object (e.g. via the finalizer queue during
+// `DoResurrection`) dispatches through the unregistered DYNAMIC operator slot and
+// crashes. The bits 60..61 of `typeInfoOrMeta_` overlay `BaseStateWord::language_`.
+static constexpr uintptr_t kKotlinLangBits =
+    static_cast<uintptr_t>(common::LanguageType::KOTLIN) << 60;
+
 ALWAYS_INLINE ObjHeader* CRTAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
     RuntimeAssert(!typeInfo->IsArray(), "Must not be an array");
     auto descriptor = CRTHeapObject::descriptorFrom(typeInfo);
     auto& heapObject = *descriptor.construct(AllocFromCMC(descriptor.size()));
     auto* object = heapObject.object();
-    object->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
+    object->typeInfoOrMeta_ = reinterpret_cast<TypeInfo*>(
+        reinterpret_cast<uintptr_t>(typeInfo) | kKotlinLangBits);
     auto* kobj = reinterpret_cast<common::KNBaseObject*>(object);
     if (typeInfo->flags_ & TF_HAS_FINALIZER) {
         common::BaseFinalizerProcessor::RegisterFinalizableObject(kobj);
     }
-    kobj->SetLanguageBitAsKotlin();
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
         restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_, TAG_RES_KMP_HEAP_MASK, true);
@@ -103,9 +117,9 @@ ALWAYS_INLINE ArrayHeader* CRTAllocator::CreateArray(const TypeInfo* typeInfo, u
     std::memset(memory, 0, descriptor.size());
     auto& heapArray = *descriptor.construct(memory);
     ArrayHeader* array = heapArray.array();
-    array->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
+    array->typeInfoOrMeta_ = reinterpret_cast<TypeInfo*>(
+        reinterpret_cast<uintptr_t>(typeInfo) | kKotlinLangBits);
     array->count_ = count;
-    reinterpret_cast<common::KNBaseObject*>(array)->SetLanguageBitAsKotlin();
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
         restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_, TAG_RES_KMP_HEAP_MASK, true);
@@ -114,11 +128,32 @@ ALWAYS_INLINE ArrayHeader* CRTAllocator::CreateArray(const TypeInfo* typeInfo, u
     return array;
 }
 
-mm::ExtraObjectData* CRTAllocator::CreateExtraObjectDataForObject(const TypeInfo* info) noexcept {
+mm::ExtraObjectData* CRTAllocator::CreateExtraObjectDataForObject(ObjHeader* object, const TypeInfo* info) noexcept {
+    // Ported from mpcore/crt_fp_unwind 7e581cd. The AllocateExtra call below can
+    // trigger STW. Record this frame so the GC walker can unwind through it
+    // back to the Kotlin caller.
+    RuntimeSetLastFrame1();
     constexpr auto size = sizeof(mm::ExtraObjectData);
     static_assert(size % sizeof(uint64_t) == 0, "non-movable allocator requirement failed");
-    auto extraObjectMemory = reinterpret_cast<void*>(common::HeapAllocator::AllocateInNonmove(size, common::LanguageType::KOTLIN));
-    mm::ExtraObjectData* extraObject = new (extraObjectMemory) mm::ExtraObjectData(info);
+    // Use `AllocateExtra` (EXTRA_OBJECT region). The GC's marking / resurrection
+    // paths special-case EXTRA_OBJECT regions: instead of calling `obj->GetSize()`
+    // (which dispatches through `GetOperator()` and crashes on `language=DYNAMIC`),
+    // they use the region-level fixed `GetMonoSizeRegionObjectSize()`. Pairing this
+    // with `AllocateInNonmove` (NONMOVABLE_OBJECT region) caused DeepRecursiveTest's
+    // SIGSEGV because the CRT-mode `ExtraObjectData` constructor's raw write to
+    // `typeInfo_` (offset 0) clobbered the KOTLIN language bits that
+    // `AllocateInNonmove`'s `SetLanguageType` had just placed; in EXTRA_OBJECT
+    // region the GC skips that dispatch entirely.
+    //
+    // The allocation may step on a safe-point and the GC may move `object`. Publish
+    // it as a GC root via ObjHolder, then refresh from the holder after the alloc.
+    // Pass the refreshed `object` to the ExtraObjectData constructor so callers can
+    // recover the live pointer via `weakReferenceOrBaseObject_`.
+    // Mirrors mpcore/crt_fp_unwind's CRTAllocator::CreateExtraObjectDataForObject.
+    ObjHolder holder{object};
+    auto extraObjectMemory = reinterpret_cast<void*>(common::HeapAllocator::AllocateExtra(size, common::LanguageType::KOTLIN));
+    object = holder.obj();
+    auto* extraObject = new (extraObjectMemory) mm::ExtraObjectData(object, info);
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
         restrace(RES_KMP_HEAP_MASK, (void*)extraObject, size, TAG_RES_KMP_HEAP_MASK, true);

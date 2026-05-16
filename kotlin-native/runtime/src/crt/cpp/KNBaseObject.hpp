@@ -116,12 +116,16 @@ public:
     {
         auto* objHeader = const_cast<ObjHeader*>(reinterpret_cast<const ObjHeader*>(object));
 
-        if (objHeader->has_meta_object()) {
+        if (auto cleanExtraObj = reinterpret_cast<ObjHeader*>(objHeader->meta_object_or_null())) {
             // If during concurrent marking we see a reference to ExtraObj in the regular object, we will mark it here.
             // Otherwise, if concurrently-executing mutator would install an ExtraObj after marking already passed
             // this point, it will survive as a newly-created object.
             // Note that only newly-created ExtraObjects can be installed and thus no write-barrier is required.
-            processFieldInMark(visitor, objHeader, reinterpret_cast<ObjHeader*&>(objHeader->typeInfoOrMeta_));
+
+            // Instead of directly processing the field in `object`, we only pass a reference to its copy cleaned of any tagging bits.
+            // Otherwise, language tagging bits would prevent GC from seeing that the field value is a valid heap object.
+            // Since ExtraObjects are unmovable, it's enough to provide a reference copy for tracing, GC won't update it anyway.
+            processFieldInMark(visitor, objHeader, cleanExtraObj);
         }
         if (reinterpret_cast<common::KNBaseObject*>(objHeader)->IsWeakRefImplObject()) {
             uintptr_t addr = reinterpret_cast<uintptr_t>(objHeader);
@@ -156,8 +160,16 @@ public:
     // Does not used by Kotlin-Native
     void IterateXRef(const BaseObject* object, const RefFieldVisitor& visitor) const override {}
 
-    // For extra object data
-    void ForEachRefFieldInExtraObject(BaseObject* extraObj, size_t size, const RefFieldVisitor& visitor) const override {}
+    // For extra object data. Ported from upstream mpcore/crt_dev: libcrt walks the
+    // ExtraObject's ref fields (currently just weakReferenceOrBaseObject_) so they
+    // can be marked AND fixed up after compaction relocates the base object.
+    void ForEachRefFieldInExtraObject(BaseObject* extraObj, size_t size, const RefFieldVisitor& visitor) const override
+    {
+        RuntimeAssert(size == sizeof(kotlin::mm::ExtraObjectData), "Incorrect size %zu of what is supposed to be an ExtraObject", size);
+        auto* objHeader = const_cast<ObjHeader*>(reinterpret_cast<const ObjHeader*>(extraObj));
+        auto process = [&visitor, objHeader](ObjHeader*& field) { processFieldInMark(visitor, objHeader, field); };
+        reinterpret_cast<kotlin::mm::ExtraObjectData*>(extraObj)->forEachRefField(process);
+    }
 
     // Global instance for CRT to operate on KN objects
     // Needs to be registered when runtime init

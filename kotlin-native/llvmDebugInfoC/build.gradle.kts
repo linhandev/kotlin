@@ -17,6 +17,7 @@
 import org.gradle.kotlin.dsl.named
 import org.jetbrains.kotlin.cpp.CppUsage
 import org.jetbrains.kotlin.tools.lib
+import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.HostManager
 import org.jetbrains.kotlin.konan.target.TargetWithSanitizer
 import org.jetbrains.kotlin.tools.ToolExecutionTask
@@ -37,6 +38,9 @@ native {
         "-I${llvmIncludeDir}",
         "-I${projectDir}/src/main/include"
     )
+    if (HostManager.host.family == Family.LINUX) {
+        cxxflags += "-stdlib=libc++"
+    }
     suffixes {
         (".cpp" to ".$obj") {
             tool(*hostPlatform.clangForJni.clangCXX("").toTypedArray())

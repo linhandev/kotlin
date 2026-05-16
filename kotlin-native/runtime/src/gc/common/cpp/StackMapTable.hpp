@@ -66,6 +66,8 @@ public:
         uint32_t bitsMask = static_cast<uint32_t>((1ULL << bitLen) - 1);
         return ((ConnectBytesToU64() >> bitPos) & bitsMask);
     }
+
+    void* getAddr() const { return addr; }
     ATTR_NO_INLINE BitsManager GetNext(uint32_t bitsLen) const
     {
         uint32_t addrStep = bitsLen >> bitsShiftPerByte;
@@ -511,6 +513,19 @@ public:
             idxSetVec.emplace_back(IdxSet(PCAt(i), RegIdxAt(i), SlotIdxAt(i), DerivePtrIdxAt(i)));
         }
     }
+
+    // Iterator over all IdxSet records, used by the precise CRT root visitor.
+    class IdxSetIterator {
+    public:
+        IdxSetIterator(const StackMapTable& table, uint32_t pos) : table(table), i(pos) {}
+        IdxSetIterator& operator++() { return (++i, *this); }
+        bool operator!=(const IdxSetIterator& other) const { return i != other.i; }
+        IdxSet operator*() const { return IdxSet(table.PCAt(i), table.RegIdxAt(i), table.SlotIdxAt(i), table.DerivePtrIdxAt(i)); }
+        const StackMapTable& table;
+        uint32_t i;
+    };
+    IdxSetIterator IdxSetBegin() const { return IdxSetIterator(*this, 0); }
+    IdxSetIterator IdxSetEnd() const { return IdxSetIterator(*this, headerInfo[RECORD_NUM]); }
 
     uint32_t GetRegBitsLen() const { return headerInfo[REG_BITS_LEN]; }
     uint32_t GetSlotBitsLen() const { return headerInfo[SLOT_BITS_LEN]; }

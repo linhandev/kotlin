@@ -14,21 +14,17 @@
 #include "TypeInfo.h"
 #include "Memory.h"
 #include "GlobalData.hpp"
-#include "VerifyKotlinStack.hpp"
+#include "FpUnwind.h"
+#include <iostream>
+#include <sstream>
+#ifdef KONAN_OHOS
+#include <hilog/log.h>
+// region Tencent Code
+#include <hitrace/trace.h>
+// endregion
+#endif
 
 using namespace kotlin;
-
-#if KONAN_LINUX || KONAN_OHOS
-extern "C" uint8_t __LLVM_StackMaps;
-extern "C" uint8_t __LLVM_StackMap_Offsets;
-static uintptr_t g_stackMapsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMaps);
-static uintptr_t g_stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&__LLVM_StackMap_Offsets);
-#else
-extern "C" uint8_t _LLVM_StackMaps;
-extern "C" uint8_t _LLVM_StackMap_Offsets;
-static uintptr_t g_stackMapsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMaps);
-static uintptr_t g_stackMapOffsetsSection = reinterpret_cast<uintptr_t>(&_LLVM_StackMap_Offsets);
-#endif
 
 #define DUMP_DEBUG_INFO 0
 #define KOTLIN_VERIFY 1
@@ -158,47 +154,23 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
 
 [[maybe_unused]] static uint64_t *GetStackMapAddress(uint64_t *fp, uint32_t *funcStartPC, mm::ThreadData& thread)
 {
-    uint64_t stackMapOffsetIndex = *(fp - 2);
-
-#ifdef KOTLIN_VERIFY
-    if (!kotlin::mm::VerifyKotlinStack::IsKotlinFrameTag(fp)) {
-        RuntimeLogInfo({kTagGC},
-            "DFX error: unwind is not kotlin frame,"
-            " stackMapOffsetIndex %llu, thread %" PRIuPTR ", aborting\n",
-            (unsigned long long)stackMapOffsetIndex, thread.threadId());
-        auto& currentKotlinFrame = thread.GetLastKotlinFrame();
-        for (size_t i = 0; i < currentKotlinFrame.fpStack_.size(); i++) {
-            RuntimeLogInfo({kTagGC}, "[KotlinFrame] fpStack_[%zu]: %p\n", i, currentKotlinFrame.fpStack_[i]);
-        }
-        thread.PrintLastKotlinFrameLog();
-        for (size_t i = 0; i < currentKotlinFrame.pcStack_.size(); i++) {
-            RuntimeLogInfo({kTagGC}, "[KotlinFrame] pcStack_[%zu]: %p\n", i, currentKotlinFrame.pcStack_[i]);
-        }
-        for (size_t i = 0; i < currentKotlinFrame.fpStack_.size(); i++) {
-            uint64_t* fp_i = currentKotlinFrame.fpStack_[i];
-            uint32_t* pc_i = (uint32_t*)*(fp_i + 1);
-            RuntimeLogInfo({kTagGC}, "[KotlinFrame] from fpStack_[%zu] get pc: %p\n", i, pc_i);
-        }
-        abort();
-    }
-#endif
+    // The function prologue (AArch64AsmPrinter ADRP hijack) now stores the
+    // absolute address of .Lstackmap_start.<func> directly into *(fp - 2) using
+    // ADRP + ADD (R_AARCH64_ADR_PREL_PG_HI21 + R_AARCH64_ADD_ABS_LO12_NC, both
+    // PC-relative and link-time-resolved). This is correct regardless of how
+    // many concatenated stackmap blobs end up in the merged .llvm_stackmaps
+    // section (the per-module/per-blob index + offsets-table indirection used
+    // previously was broken under multi-blob debug builds: indices were
+    // per-module-local, so module M>0 frames indexed module 0's offsets).
+    // Top 16 bits are reserved for tag bits, mask off before deref.
+    uint64_t addr = *(fp - 2);
     constexpr uint64_t payloadMask = (1ULL << 48) - 1;
-    stackMapOffsetIndex &= payloadMask;
-
-    uint64_t actualOffset = *(reinterpret_cast<uint32_t*>(g_stackMapOffsetsSection) + stackMapOffsetIndex);
-    uint64_t *stackMapAddress = reinterpret_cast<uint64_t*>(g_stackMapsSection + actualOffset);
-
-    return stackMapAddress;
-}
-
-bool ShouldMarkEntryCaller(FrameKind kind)
-{
-    return IsKotlinFrame(kind);
+    return reinterpret_cast<uint64_t*>(addr & payloadMask);
 }
 
 static void CollectStackMapBaseRoot(
     mm::ThreadData& thread, uint64_t* fp,
-    uint32_t* pc, std::vector<int32_t> &baseRoots)
+    const uint32_t* pc, std::vector<int32_t> &baseRoots)
 {
 #if ENABLE_LAZY_STACKMAP
     uint32_t *funcStartPC = reinterpret_cast<uint32_t*>(*(fp - 1));
@@ -221,35 +193,21 @@ static void CollectStackMapBaseRoot(
 #endif // end of ENABLE_LAZY_STACKMAP
 }
 
-template <typename MarkTraits>
-ALWAYS_INLINE void ProcessStackFrame(
-    typename MarkTraits::MarkQueue& markQueue,
-    mm::ThreadData& thread, uint64_t* fp, uint32_t* pc) {
-    std::vector<int32_t> baseRoots;
-    CollectStackMapBaseRoot(thread, fp, pc, baseRoots);
-    for (auto& baseRootOffset : baseRoots) {
-        uintptr_t address = (uintptr_t)fp + baseRootOffset;
-        ObjHeader* object = (ObjHeader*)*((uint64_t*)address);
+#define DUMP_UNWIND_FRAME_INFO 0
 
-        // skip null objects
-        if (!object) {
-            continue;
-        }
-        KNStateWord *word = reinterpret_cast<KNStateWord*>(object);
-        if (!(word->IsValid())) {
-            continue;
-        }
-
-        [[maybe_unused]] bool result = gc::internal::collectRoot<MarkTraits>(markQueue, object);
-#if DUMP_DEBUG_INFO
-        if (result) {
-            std::cout << "    Stackmap collecting stack root: 0x"
-                << std::hex << (uintptr_t)(object) << std::dec << "\n";
-        } else {
-            std::cout << "    Stackmap skipping stack root: 0x" << std::hex << (uintptr_t)(object) << std::dec << "\n";
-        }
-#endif
-    }
+static void UnwindLog(uint64_t* fp, const uint32_t* pc)
+{
+#if DUMP_UNWIND_FRAME_INFO
+#ifdef KONAN_OHOS
+    std::stringstream ss;
+    ss << "      -- unwind log fp: " << std::hex << reinterpret_cast<uintptr_t>(fp)
+        << ", pc: " << reinterpret_cast<uintptr_t>(pc) << std::dec;
+    OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "Konan_main", "%{public}s", ss.str().c_str());
+#else // ~KONAN_OHOS
+    std::cout << "      fp: " << std::hex << reinterpret_cast<uintptr_t>(fp)
+                << ", pc: " << reinterpret_cast<uintptr_t>(pc) << std::dec << std::endl;
+#endif // ~KONAN_OHOS
+#endif // ~DUMP_UNWIND_FRAME_INFO
 }
 
 void gc::mark::ConcurrentMark::tryCollectRootSet(mm::ThreadData& thread, MarkTraits::MarkQueue& markQueue) {
@@ -259,55 +217,42 @@ void gc::mark::ConcurrentMark::tryCollectRootSet(mm::ThreadData& thread, MarkTra
     GCLogDebug(gcHandle().getEpoch(), "Root set collection on thread %" PRIuPTR " for thread %" PRIuPTR, konan::currentThreadId(), thread.threadId());
     gcData.publish();
     collectRootSetForThread<MarkTraits>(gcHandle(), markQueue, thread);
-
-    auto& currentKotlinFrame = thread.GetLastKotlinFrame();
-    const auto& frameKinds = currentKotlinFrame.kindStack_;
-    const size_t stackSize = currentKotlinFrame.fpStack_.size();
-
-    for (int i = stackSize - 1; i >= 0;) {
-        FrameKind topKind = static_cast<FrameKind>(frameKinds[i]);
-
-        if (!IsExitFrame(topKind)) {
-            i--;
+    std::vector<FrameInfo> frameInfos = GetStackFrame(thread);
+    if (frameInfos.empty()) {
+        return;
+    }
+#if DUMP_UNWIND_FRAME_INFO
+#ifdef KONAN_OHOS
+    std::stringstream ss;
+    ss  << "----- unwind log start scanning stack";
+    OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "Konan_main", "%{public}s", ss.str().c_str());
+#else // ~KONAN_OHOS
+    std::cout << "----- start scanning stack" << std::endl;
+#endif // ~KONAN_OHOS
+#endif // DUMP_UNWIND_FRAME_INFO
+    for (size_t i = 0; i < frameInfos.size(); i++) {
+        if (frameInfos[i].fa == 0 || frameInfos[i].ip == 0) {
             continue;
         }
+        uint64_t* fp = reinterpret_cast<uint64_t*>(frameInfos[i].fa);
+        const uint32_t* pc = reinterpret_cast<const uint32_t*>(frameInfos[i].ip);
+        UnwindLog(fp, pc);
+        std::vector<int32_t> baseRoots;
+        CollectStackMapBaseRoot(thread, fp, pc, baseRoots);
+        for (auto& baseRootOffset : baseRoots) {
+            uintptr_t address = (uintptr_t)fp + baseRootOffset;
+            ObjHeader* object = (ObjHeader*)*((uint64_t*)address);
 
-        int entryIdx = i - 1;
-        while (entryIdx >= 0 && !IsEntryFrame(static_cast<FrameKind>(frameKinds[entryIdx]))) {
-            entryIdx--;
-        }
-
-        if (entryIdx < 0) {
-            break;
-        }
-
-        FrameKind entryKind = static_cast<FrameKind>(frameKinds[entryIdx]);
-
-        uint64_t* fp = currentKotlinFrame.fpStack_[i];
-        uint32_t* pc = currentKotlinFrame.pcStack_[i];
-        uint64_t* stopFp = currentKotlinFrame.fpStack_[entryIdx];
-
-        if (!IsKotlinFrame(topKind)) {
-            pc = (uint32_t*)*(fp + 1);
-            fp = (uint64_t*)*fp;
-        }
-
-        while (fp != stopFp) {
-            if (kotlin::mm::VerifyKotlinStack::IsKotlinFrameTag(fp)) {
-                ProcessStackFrame<MarkTraits>(markQueue, thread, fp, pc);
+            // skip null objects
+            if (!object) {
+                continue;
             }
-            if (fp == nullptr) {
-                abort();
+            KNStateWord *word = reinterpret_cast<KNStateWord*>(object);
+            if (!(word->IsValid())) {
+                continue;
             }
-            pc = (uint32_t*)*(fp + 1);
-            fp = (uint64_t*)*fp;
+            [[maybe_unused]] bool result = internal::collectRoot<MarkTraits>(markQueue, object);
         }
-
-        if (ShouldMarkEntryCaller(entryKind)) {
-            ProcessStackFrame<MarkTraits>(markQueue, thread, fp, pc);
-        }
-
-        i = entryIdx - 1;
     }
 }
 

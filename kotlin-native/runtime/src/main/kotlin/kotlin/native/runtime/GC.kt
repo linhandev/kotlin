@@ -100,7 +100,6 @@ public object GC {
         get() = getTuneThreshold()
         set(value) = setTuneThreshold(value)
 
-
     /**
      * Deprecated and unused.
      */

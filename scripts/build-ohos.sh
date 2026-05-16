@@ -395,7 +395,7 @@ echo "kotlin.build.isObsoleteJdkOverrideEnabled=true" >> "$ROOT_DIR/local.proper
 run_gradle --stop
 
 # Clean dependency caches before build to avoid stale/polluted artifacts
-cleanDependencyCache
+# cleanDependencyCache
 
 # Update versions in pom.xml
 run_maven_with_retry -DnewVersion=$DEPLOY_VERSION -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
@@ -439,6 +439,7 @@ if [[ -d "./kotlin-native/dist" ]]; then
 fi
 # Use --refresh-dependencies to force refresh cache
 GRADLE_NATIVE :kotlin-native:clean --refresh-dependencies
+# GRADLE_NATIVE :kotlin-native:clean
 stepEnd
 
 # 4. Bundle Compiler
