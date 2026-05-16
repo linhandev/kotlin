@@ -439,11 +439,17 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     private fun importRtFunction(name: String, returnsObjectType: Boolean) = importFunction(name, runtime.llvmModule, returnsObjectType)
     private fun importRtStubFunction(name: String, returnsObjectType: Boolean = false) = importStubFunction(name, runtime.llvmModule, returnsObjectType)
 
+    // v3 fp-unwind: KotlinStubGenerator pass emits *Stub variants for K2RStub-annotated entry points.
     val allocInstanceFunction = importRtFunction("AllocInstance", true)
     val allocInstanceFunctionStub = importRtStubFunction("AllocInstance", true)
     val Kotlin_mm_safePointFunctionPrologueStub = importRtStubFunction("Kotlin_mm_safePointFunctionPrologue", false)
     val Kotlin_mm_safePointWhileLoopBodyStub = importRtStubFunction("Kotlin_mm_safePointWhileLoopBody", false)
     val allocArrayFunction = importRtFunction("AllocArrayInstance", true)
+    // CRT-only entry points (used when MemoryManagerSwitch::useCRT is true at runtime).
+    val readHeapRefFunction = importRtFunction("ReadHeapRef", false)
+    val readVolatileHeapRefFunction = importRtFunction("ReadVolatileHeapRef", false)
+    val allocInstanceForCIFunction = importRtFunction("AllocInstanceForCI", true)
+    val allocArrayInstanceForCIFunction = importRtFunction("AllocArrayInstanceForCI", true)
     val initAndRegisterGlobalFunction = importRtFunction("InitAndRegisterGlobal", false)
     val updateHeapRefFunction = importRtFunction("UpdateHeapRef", false)
     val updateStackRefFunction = importRtFunction("UpdateStackRef", false)
@@ -528,6 +534,10 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     val Kotlin_intArrayGetElementAddress by lazy { importRtFunction("Kotlin_intArrayGetElementAddress", false) }
     val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
     val setLastFrameReliable by lazy { importRtFunction("SetLastFrameReliable", false) }
+
+    // CRT-specific x28 register save/restore (not part of fp-unwind).
+    val saveX28 by lazy { importRtFunction("SaveX28", false) }
+    val restoreX28 by lazy { importRtFunction("RestoreX28", false) }
 
     val usedFunctions = mutableListOf<LlvmCallable>()
     val usedGlobals = mutableListOf<LLVMValueRef>()
@@ -653,7 +663,7 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
             functionAttributes = listOf(LlvmFunctionAttribute.NoUnwind)
     )
 
-    val caxRethrowFunction = externalNativeRuntimeFunction(
+    val cxaRethrowFunction = externalNativeRuntimeFunction(
             "__cxa_rethrow",
             returnType = LlvmRetType(voidType, isObjectType = false)
     )

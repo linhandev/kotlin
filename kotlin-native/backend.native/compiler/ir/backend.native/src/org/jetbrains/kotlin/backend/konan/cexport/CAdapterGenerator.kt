@@ -245,6 +245,7 @@ internal class ExportedElement(
             |
             |extern "C" KObjHeader* ${cname}_instance(KObjHeader**);
             |static $objectClassC ${cname}_instance_impl(void) {
+            |  ScopedFastPathGuard fastPathGuard;
             |  Kotlin_initRuntimeIfNeeded();
             |  ScopedRunnableState stateGuard;
             |  KObjHolder result_holder;
@@ -264,6 +265,7 @@ internal class ExportedElement(
         return """
               |extern "C" KObjHeader* $cname(KObjHeader**);
               |static $enumClassC ${cname}_impl(void) {
+              |  ScopedFastPathGuard fastPathGuard;
               |  Kotlin_initRuntimeIfNeeded();
               |  ScopedRunnableState stateGuard;
               |  KObjHolder result_holder;
@@ -311,6 +313,7 @@ internal class ExportedElement(
         builder.append("$visibility ${typeTranslator.translateType(cfunction[0])} ${cnameImpl}(${cfunction.drop(1).
                 mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")}) __attribute__((annotate(\"ktstub\"))) {\n")
         // TODO: do we really need that in every function?
+        builder.append("  ScopedFastPathGuard fastPathGuard;\n")
         builder.append("  Kotlin_initRuntimeIfNeeded();\n")
         builder.append("  ScopedRunnableState stateGuard;\n")
         builder.append("  FrameOverlay* frame = getCurrentFrame();")

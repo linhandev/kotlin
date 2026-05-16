@@ -78,6 +78,9 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     }
     val inlineForPerformance get() = !debug && !smallBinary
 
+    val memoryModel: MemoryModel
+        get() = configuration.get(BinaryOptions.memoryModel) ?: MemoryModel.STRICT
+
     val assertsEnabled = configuration.getBoolean(KonanConfigKeys.ENABLE_ASSERTIONS)
 
     val sanitizer = configuration.get(BinaryOptions.sanitizer)?.takeIf {
@@ -430,21 +433,55 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
             else
                 AllocationMode.STD
 
-    val allocationMode by lazy {
-        when (configuration.get(KonanConfigKeys.ALLOCATION_MODE)) {
-            null -> defaultAllocationMode
-            AllocationMode.STD -> AllocationMode.STD
-            AllocationMode.CUSTOM -> {
+val allocationMode by lazy {
+        val explicitMode = configuration.get(KonanConfigKeys.ALLOCATION_MODE)
+        val runtimeSwitchEnabled = configuration.get(BinaryOptions.runtimeSwitchMemoryManager) == true
+        
+        when {
+            runtimeSwitchEnabled && explicitMode == null -> AllocationMode.CUSTOM  // auto-set for runtime switch
+            runtimeSwitchEnabled && explicitMode != AllocationMode.CUSTOM -> {
+                configuration.report(CompilerMessageSeverity.ERROR,
+                        "Run-time switching of memory manager requires custom allocator (remove -Xallocator=* to use default)")
+                AllocationMode.CUSTOM
+            }
+            explicitMode == null -> defaultAllocationMode
+            explicitMode == AllocationMode.STD -> AllocationMode.STD
+            explicitMode == AllocationMode.CRT -> AllocationMode.CRT
+            explicitMode == AllocationMode.CUSTOM -> {
                 if (sanitizer != null) {
                     configuration.report(CompilerMessageSeverity.STRONG_WARNING, "Sanitizers are useful only with the std allocator")
                 }
                 AllocationMode.CUSTOM
             }
+            else -> defaultAllocationMode
         }
     }
 
-    val minidumpLocation by lazy {
+val minidumpLocation by lazy {
         configuration.get(BinaryOptions.minidumpLocation)
+    }
+
+    val memoryManagerMode: MemoryManagerMode by lazy {
+        when (configuration.get(BinaryOptions.runtimeSwitchMemoryManager)) {
+            true -> {
+                if (gc == GC.CONCURRENT_MARK_AND_COPY) {
+                    configuration.report(CompilerMessageSeverity.ERROR,
+                            "Run-time switching of memory manager requires -Xbinary=gc={noop|stwms|pmcs|cms} to set a non-CMC backup GC")
+                }
+                MemoryManagerMode.RUNTIME_SWITCH
+            }
+            else -> {
+                if (gc == GC.CONCURRENT_MARK_AND_COPY || allocationMode == AllocationMode.CRT) {
+                    if (gc != GC.CONCURRENT_MARK_AND_COPY || allocationMode != AllocationMode.CRT) {
+                        configuration.report(CompilerMessageSeverity.ERROR,
+                                "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")
+                    }
+                    MemoryManagerMode.CRT
+                } else {
+                    MemoryManagerMode.NATIVE
+                }
+            }
+        }
     }
 
     val swiftExport by lazy {
@@ -454,6 +491,81 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
                 false
             } else it
         } ?: false
+    }
+
+internal val runtimeNativeLibraries: List<String> = mutableListOf<String>().apply {
+        if (debug) add("debug.bc")
+        add("runtime.bc")
+        add("mm.bc")
+        add("common_alloc.bc")
+        add("common_gc.bc")
+        add("common_gcScheduler.bc")
+        when (gcSchedulerType) {
+            GCSchedulerType.MANUAL -> {
+                add("manual_gcScheduler.bc")
+            }
+            GCSchedulerType.ADAPTIVE -> {
+                add("adaptive_gcScheduler.bc")
+            }
+            GCSchedulerType.AGGRESSIVE -> {
+                add("aggressive_gcScheduler.bc")
+            }
+            GCSchedulerType.DISABLED, GCSchedulerType.WITH_TIMER, GCSchedulerType.ON_SAFE_POINTS -> {
+                throw IllegalStateException("Deprecated options must have already been handled")
+            }
+        }
+        if (allocationMode == AllocationMode.CUSTOM) {
+            when (gc) {
+                GC.STOP_THE_WORLD_MARK_AND_SWEEP -> add("same_thread_ms_gc_custom.bc")
+                GC.NOOP -> add("noop_gc_custom.bc")
+                GC.PARALLEL_MARK_CONCURRENT_SWEEP -> add("pmcs_gc_custom.bc")
+                GC.CONCURRENT_MARK_AND_SWEEP -> add("concurrent_ms_gc_custom.bc")
+                GC.CONCURRENT_MARK_AND_COPY -> configuration.report(CompilerMessageSeverity.ERROR,
+                        "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")
+            }
+        } else {
+            when (gc) {
+                GC.STOP_THE_WORLD_MARK_AND_SWEEP -> add("same_thread_ms_gc.bc")
+                GC.NOOP -> add("noop_gc.bc")
+                GC.PARALLEL_MARK_CONCURRENT_SWEEP -> add("pmcs_gc.bc")
+                GC.CONCURRENT_MARK_AND_SWEEP -> add("concurrent_ms_gc.bc")
+                GC.CONCURRENT_MARK_AND_COPY -> add("cmc_gc.bc")
+            }
+        }
+        if (target.supportsCoreSymbolication()) {
+            add("source_info_core_symbolication.bc")
+        }
+        if (target.supportsLibBacktrace()) {
+            add("source_info_libbacktrace.bc")
+            add("libbacktrace.bc")
+        }
+        when (allocationMode) {
+            AllocationMode.STD -> {
+                add("legacy_alloc.bc")
+                add("std_alloc.bc")
+            }
+            AllocationMode.CUSTOM -> {
+                add("custom_alloc.bc")
+            }
+            AllocationMode.CRT -> {
+                add("crt.bc")
+                add("crt_alloc.bc")
+            }
+        }
+        if (memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) {
+            assert(allocationMode == AllocationMode.CUSTOM) // this is properly verified in memoryManagerMode setter
+            add("crt.bc")
+        }
+        if ((allocationMode == AllocationMode.CRT) != (gc == GC.CONCURRENT_MARK_AND_COPY)) {
+            configuration.report(CompilerMessageSeverity.ERROR,
+                    "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")
+        }
+        when (checkStateAtExternalCalls) {
+            true -> add("impl_externalCallsChecker.bc")
+            false -> add("noop_externalCallsChecker.bc")
+        }
+    }.map {
+        File(distribution.defaultNatives(target)).child(it).absolutePath
     }
 
     internal val runtimeBitcodePath: String by lazy {
@@ -559,6 +671,8 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
             append("-gc_scheduler${gcSchedulerType.name}")
         if (runtimeAssertsMode != RuntimeAssertsMode.IGNORE)
             append("-runtime_asserts${runtimeAssertsMode.name}")
+        if (memoryManagerMode != MemoryManagerMode.NATIVE)
+            append("-memory_manager${memoryManagerMode.name}")
         if (disableMmap != defaultDisableMmap)
             append("-disable_mmap${if (disableMmap) "TRUE" else "FALSE"}")
         if (gcMarkSingleThreaded != defaultGcMarkSingleThreaded)

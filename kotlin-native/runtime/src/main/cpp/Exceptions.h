@@ -46,6 +46,7 @@ void RUNTIME_NORETURN ThrowIllegalStateExceptionWithMessage(KConstRef message);
 // Throws Kotlin IllegalStateException with message from C string (e.g. from cinterop weak fallback).
 void RUNTIME_NORETURN ThrowIllegalStateExceptionFromCString(const char* message);
 void RUNTIME_NORETURN ThrowFileFailedToInitializeException(KRef reason);
+void RUNTIME_NORETURN ThrowInvalidMutabilityException(KConstRef where);
 // Prints out message of Throwable.
 void PrintThrowable(KRef);
 

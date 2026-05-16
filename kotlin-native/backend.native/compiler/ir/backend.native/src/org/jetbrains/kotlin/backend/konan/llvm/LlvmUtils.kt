@@ -125,6 +125,9 @@ internal val RuntimeAware.kObjHeaderPtr: LLVMTypeRef
 internal val RuntimeAware.kObjHeaderRef: LLVMTypeRef
     get() = ReferencesType(kObjHeader)
 
+internal val RuntimeAware.kDerivedRef: LLVMTypeRef
+    get() = LLVMPointerType(LLVMPointerType(kObjHeader, 1)!!, 1)!!
+
 internal val RuntimeAware.kObjHeaderPtrReturnType: LlvmRetType
     get() = LlvmRetType(kObjHeaderPtr, isObjectType = true)
 internal val RuntimeAware.kObjHeaderPtrPtr: LLVMTypeRef
@@ -397,6 +400,8 @@ fun setFunctionNoInline(function: LLVMValueRef) {
 }
 
 fun setFunctionAlwaysInline(function: LLVMValueRef) {
+    LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, LlvmFunctionAttribute.NoInline.asAttributeKindId().value)
+    LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, LlvmFunctionAttribute.OptimizeNone.asAttributeKindId().value)
     addLlvmFunctionEnumAttribute(function, LlvmFunctionAttribute.AlwaysInline)
 }
 

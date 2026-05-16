@@ -12,10 +12,15 @@ import kotlin.native.internal.GCUnsafeCall
 public class Pinned<T : Any> @PublishedApi internal constructor(obj: T) {
     private var obj: T? = obj.pinnable()
 
+    init {
+        GCPin(obj)
+    }
+
     /**
      * Disposes the handle. It must not be [used][get] after that.
      */
     public fun unpin() {
+        GCUnpin(obj)
         obj = null
     }
 
@@ -150,3 +155,9 @@ private external fun FloatArray.addressOfElement(index: Int): CPointer<FloatVar>
 
 @GCUnsafeCall("Kotlin_Arrays_getDoubleArrayAddressOfElement", false)
 private external fun DoubleArray.addressOfElement(index: Int): CPointer<DoubleVar>
+
+@GCUnsafeCall("Kotlin_Pinned_GCPin")
+private external fun <T : Any> Pinned<T>.GCPin(obj: T?)
+
+@GCUnsafeCall("Kotlin_Pinned_GCUnpin")
+private external fun <T : Any> Pinned<T>.GCUnpin(obj: T?)

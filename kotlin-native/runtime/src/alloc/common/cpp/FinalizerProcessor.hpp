@@ -20,6 +20,8 @@
 #include "objc_support/AutoreleasePool.hpp"
 #include "objc_support/RunLoopSource.hpp"
 
+#include "CRTFastpathUtils.hpp"
+
 #if KONAN_OBJC_INTEROP
 #include <CoreFoundation/CFRunLoop.h>
 #endif
@@ -71,6 +73,7 @@ public:
         if (finalizerThread_.joinable()) return;
 
         finalizerThread_ = ScopedThread(ScopedThread::attributes().name("GC finalizer processor"), [this] {
+            common::CallToFFixedX28 guard{};
             processingLoop_->initThreadData();
             Kotlin_initRuntimeIfNeeded();
             {
@@ -145,6 +148,7 @@ private:
 
     private:
         void handleNewFinalizers() {
+            common::CallToFFixedX28 guard{};
             std::unique_lock lock(owner_.finalizerQueueMutex_);
             if (owner_.shutdownFlag_) {
                 owner_.newTasksAllowed_ = false;

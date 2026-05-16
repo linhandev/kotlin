@@ -41,7 +41,7 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
         CustomAllocDebug("CustomAllocator: %p gets extraObject %p", object, extraObject);
         CustomAllocDebug("CustomAllocator: %p->BaseObject == %p", extraObject, extraObject->GetBaseObject());
     } else {
-        object->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
+        object->typeInfoOrMeta_ = clearPointerBits(const_cast<TypeInfo*>(typeInfo), OBJECT_TAG_MASK);
     }
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
@@ -64,7 +64,7 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
     auto size = AllocationSize::bytesAtLeast(descriptor.size());
     auto& heapArray = *descriptor.construct(Allocate(size));
     ArrayHeader* array = heapArray.array();
-    array->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
+    array->typeInfoOrMeta_ = clearPointerBits(const_cast<TypeInfo*>(typeInfo), OBJECT_TAG_MASK);
     array->count_ = count;
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {

@@ -22,9 +22,10 @@
 #include "ArkTSInit.h"
 #endif
 #include "KotlinCallScope.h"
+#include <algorithm>
 #include <atomic>
-#include <cstdint>
 #include <cstdlib>
+#include <string>
 #include <thread>
 
 #ifdef KONAN_OHOS
@@ -35,6 +36,9 @@
 extern "C" __attribute__((weak)) HiDebug_ErrorCode OH_HiDebug_RegisterMemDumpListener(
     const char*, OH_HiDebug_MemDumpListener);
 #endif
+#include "base/common.h"
+#include "crt/cpp/CRTRuntime.hpp"
+#include "MemoryManagerSwitch.hpp"
 
 using namespace kotlin;
 
@@ -154,6 +158,8 @@ void RegistDumpListenerIfNeeded()
 }
 #endif
 
+NO_INLINE void initAddressScope();
+
 NO_INLINE RuntimeState* initRuntime() {
   SetKonanTerminateHandler();
   initObjectPool();
@@ -168,6 +174,11 @@ NO_INLINE RuntimeState* initRuntime() {
   ++aliveRuntimesCount;
 
   bool firstRuntime = initializeGlobalRuntimeIfNeeded();
+  if (firstRuntime) {
+      checkUseCRT<CheckMode::Slow>([] { // CheckMode must be Slow, x28 will be set up below
+          InitCRTRuntime();
+      });
+  }
   result->memoryState = InitMemory();
   // Switch thread state because worker and globals inits require the runnable state.
   // This call may block if GC requested suspending threads.
@@ -215,15 +226,17 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
   delete state;
   WorkerDestroyThreadDataIfNeeded(workerId);
   ::runtimeState = kInvalidRuntime;
+  // TODO: crt common::BaseRuntime::GetInstance()->Fini()
+  // TODO: crt common::BaseRuntime::GetInstance()->DestroyInstance()
 }
 
 void Kotlin_deinitRuntimeCallback(void* argument) {
+  common::CallToFFixedX28 guard{};
   auto* state = reinterpret_cast<RuntimeState*>(argument);
   // This callback may be called from any state, make sure it runs in the runnable state.
   kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
   deinitRuntime(state, false);
 }
-
 }  // namespace
 
 bool kotlin::initializeGlobalRuntimeIfNeeded() noexcept {
@@ -285,6 +298,9 @@ void Kotlin_shutdownRuntime() {
         // The main thread is not doing anything Kotlin anymore, but will stick around to cleanup C++ globals and the like.
         // Mark the thread native, and don't make the GC thread wait on it.
         kotlin::SwitchThreadState(runtime->memoryState, kotlin::ThreadState::kNative);
+        checkUseCRT<CheckMode::Slow>([&] {
+            DestroyCRTRuntime(runtime->memoryState); // CRT must be destroyed before C++ globals are.
+        });
         return;
     }
 

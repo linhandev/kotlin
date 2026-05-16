@@ -15,6 +15,8 @@
 #ifdef KONAN_OHOS
 #include "ArkTSMMAPI.h"
 #endif
+#include "MemoryManagerSwitch.hpp"
+#include "crt/cpp/KNFinalizer.hpp"
 
 using namespace kotlin;
 
@@ -23,31 +25,51 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
     // TODO: Consider extracting initialization scheme with speculative load.
     // `object->typeInfoOrMeta_` is assigned at most once. If we read some old value (i.e. not a meta object),
     // we will fail at CAS below. If we read the new value, we will immediately return it.
-    TypeInfo* typeInfo = object->typeInfoOrMetaAcquire();
+    auto* curHeader = object->typeInfoOrMetaAcquire();
 
-    if (auto* metaObject = ObjHeader::AsMetaObject(typeInfo)) {
+    if (auto* metaObject = ObjHeader::AsMetaObject(curHeader)) {
+        // ExtraObject already installed, just return it.
         return mm::ExtraObjectData::FromMetaObjHeader(metaObject);
     }
 
-    RuntimeCheck(!hasPointerBits(typeInfo, OBJECT_TAG_MASK), "Object must not be tagged");
-
-    // Strip upper-16-bit fp_unwind tag so the stored ExtraObjectData::typeInfo_
-    // is clean and `type_info()` doesn't have to mask on every access.
-    auto* cleanTypeInfo = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfo) & 0xffffffffffff);
-
+    // Try to allocate and install a new ExtraObject.
+    auto* cleanTypeInfo = clearPointerBits(curHeader, OBJECT_TAG_MASK);
     auto& allocator = mm::ThreadRegistry::Instance().CurrentThreadData()->allocator();
-    auto& data = allocator.allocateExtraObjectData(object, cleanTypeInfo);
+    auto& extraObj = allocator.allocateExtraObjectData(object, cleanTypeInfo);
+
+    // Refresh the pointer to `object` after possible safe-point during allocation.
+    // CreateExtraObjectDataForObject's ObjHolder published `object` as a GC root,
+    // refreshed it after the alloc, and passed the refreshed pointer to the
+    // ExtraObjectData constructor, which stored it in `weakReferenceOrBaseObject_`.
+    object = extraObj.weakReferenceOrBaseObject_.load(std::memory_order_relaxed);
+
+    // Ensure that `object` header would still have the same `tags` (low Kotlin tag bits
+    // and high CRT BaseStateWord bits, e.g. language_/forwardState_).
+    const auto tags = getPointerBits(curHeader, OBJECT_TAG_MASK);
+    auto* newHeader = setPointerBits(reinterpret_cast<TypeInfo*>(&extraObj), tags);
+
     std_support::atomic_ref objectAtomicTypeInfo{object->typeInfoOrMeta_};
-    if (!objectAtomicTypeInfo.compare_exchange_strong(typeInfo, reinterpret_cast<TypeInfo*>(&data))) {
-        // Somebody else created `mm::ExtraObjectData` for this object.
-        allocator.destroyUnattachedExtraObjectData(data);
-        return *reinterpret_cast<mm::ExtraObjectData*>(typeInfo);
+    if (!objectAtomicTypeInfo.compare_exchange_strong(curHeader, newHeader)) {
+        // CAS failure can only mean that somebody else created `mm::ExtraObjectData` for this object.
+        allocator.destroyUnattachedExtraObjectData(extraObj);
+        auto* anotherExtraObj = clearPointerBits(curHeader, OBJECT_TAG_MASK);
+        return *reinterpret_cast<mm::ExtraObjectData*>(anotherExtraObj);
     }
 
-    return data;
+    // We have successfully installed the `extraObj`.
+    checkUseCRT<CheckMode::Fast>([&] {
+        // Object with an ExtraObj installed has to be finalized
+        // to ensure that possible associated object is released and original `object` header is restored.
+        if (!(cleanTypeInfo->flags_ & TF_HAS_FINALIZER)) { // avoid registering finalizable objects twice
+            common::BaseFinalizerProcessor::RegisterFinalizableObject(reinterpret_cast<common::BaseObject*>(object));
+        }
+    });
+
+    return extraObj;
 }
 
 void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
+    assertNotCRT();
     auto* object = weakReferenceOrBaseObject_.exchange(nullptr);
     RuntimeAssert(
             !hasPointerBits(object, WEAK_REF_TAG), "ExtraObjectData %p has uncleared weak reference %p during unlink", this,
@@ -74,6 +96,7 @@ void mm::ExtraObjectData::ReleaseAssociatedObject() noexcept {
 }
 
 void mm::ExtraObjectData::Uninstall() noexcept {
+    assertNotCRT();
     UnlinkFromBaseObject();
     ReleaseAssociatedObject();
 }
@@ -87,6 +110,7 @@ bool mm::ExtraObjectData::HasAssociatedObject() noexcept {
 }
 
 void mm::ExtraObjectData::ClearRegularWeakReferenceImpl() noexcept {
+    assertNotCRT();
     auto *object = GetBaseObject();
     // Not using `mm::SetHeapRef here`, because this code is called during sweep phase by the GC thread,
     // and so cannot affect marking.

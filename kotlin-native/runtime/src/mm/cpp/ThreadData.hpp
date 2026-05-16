@@ -22,7 +22,9 @@
 #include "Utils.hpp"
 #include "ThreadSuspension.hpp"
 
+#include "common_interfaces/thread/thread_holder.h"
 #include "Runtime.h"
+#include "MemoryManagerSwitch.hpp"
 
 struct ObjHeader;
 
@@ -111,6 +113,11 @@ public:
 
     void Publish() noexcept {
         // TODO: These use separate locks, which is inefficient.
+
+        // TODO: This publishes:
+        // 1. all global roots in thread-local to public
+        // 2. All TLS special ref to public
+        // Later we might be able to flip the mutator to do their own work
         globalsThreadQueue_.Publish();
         externalRCRefRegistry_.publish();
     }
@@ -119,6 +126,41 @@ public:
         globalsThreadQueue_.ClearForTests();
         externalRCRefRegistry_.clearForTests();
         allocator_.clearForTests();
+    }
+
+    common::ThreadHolder *GetThreadHolder() const
+    {
+        assertUseCRT();
+        return threadHolder;
+    }
+
+    void SetThreadHolder(common::ThreadHolder *holder)
+    {
+        assertUseCRT();
+        threadHolder = holder;
+        void* mutator = threadHolder->GetMutator();
+        reinterpret_cast<common::MutatorBase*>(mutator)->SetThread(this);
+        RuntimeAssert(reinterpret_cast<common::MutatorBase*>(mutator)->GetThread() == this, "unknown error");
+    }
+
+    void ClearThreadHolder()
+    {
+        assertUseCRT();
+        threadHolder->UnbindMutator();
+        common::ThreadHolder::DestroyThreadHolder(threadHolder);
+        threadHolder = nullptr;
+    }
+
+    static ThreadData* EvalKotlinThreadData(common::ThreadHolder* threadHolder)
+    {
+        assertUseCRT();
+        auto* mutator = reinterpret_cast<common::MutatorBase*>(threadHolder->GetMutator());
+        auto* result = reinterpret_cast<ThreadData*>(mutator->GetThread());
+        if (result == nullptr) {
+            return nullptr;
+        }
+        RuntimeAssert(result->threadHolder == threadHolder, "threadHolder must be bound correctly");
+        return result;
     }
 
 private:
@@ -136,6 +178,8 @@ private:
     DisallowSafepointScopeData disAllowSafepointScopeData_;
     HandleScopeData handleScopeData_;
     LastFrameInfo lastFrameInfo_ { nullptr, FrameStatus::RISKY, nullptr };
+    // CRT-specific thread holder; nullptr in CMS mode.
+    common::ThreadHolder *threadHolder = nullptr;
 };
 
 } // namespace mm

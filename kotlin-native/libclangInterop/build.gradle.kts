@@ -17,17 +17,7 @@ nativeInteropPlugin {
     defFileName.set("clang.def")
     usePrebuiltSources.set(true)
     commonCompilerArgs.set(emptyList<String>())
-    cCompilerArgs.set(buildList {
-        add("-std=c99")
-        if (PlatformInfo.isWindows()) {
-            add("-target")
-            add("x86_64-pc-windows-gnu")
-            add("-isystem")
-            add("${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/include")
-            add("-isystem")
-            add("${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/x86_64-w64-mingw32/include")
-        }
-    })
+    cCompilerArgs.set(listOf("-std=c99"))
     cppCompilerArgs.set(buildList {
         add("-std=c++11")
         if (PlatformInfo.isLinux()) {
@@ -35,18 +25,6 @@ nativeInteropPlugin {
                 add("-stdlib++-isystem")
                 add(it)
             }
-        } else if (PlatformInfo.isWindows()) {
-            add("-nostdinc++")
-            nativeDependencies.hostLibcxxIncludeDirs.forEach {
-                add("-isystem")
-                add(it)
-            }
-            add("-target")
-            add("x86_64-pc-windows-gnu")
-            add("-isystem")
-            add("${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/include")
-            add("-isystem")
-            add("${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/x86_64-w64-mingw32/include")
         }
     })
     selfHeaders.set(emptyList<String>())
@@ -88,20 +66,6 @@ nativeInteropPlugin {
             add("-Wl,-rpath,\$ORIGIN")
             add("-Wl,-z,noexecstack")
             addAll(listOf("-lrt", "-ldl", "-lpthread", "-lz", "-lm"))
-        } else if (PlatformInfo.isWindows()) {
-            add("-target")
-            add("x86_64-pc-windows-gnu")
-            add("-L${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/lib/gcc/x86_64-w64-mingw32/9.2.0")
-            add("-L${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/x86_64-w64-mingw32/lib")
-            add("-nostdlib++")
-            val lp = nativeDependencies.llvmPath
-            add("$lp/lib/libc++.a")
-            add("$lp/lib/libc++abi.a")
-            add("$lp/lib/libunwind.a")
-            val mingw = nativeDependencies.hostPlatform.absoluteTargetSysRoot
-            add("$mingw/lib/gcc/x86_64-w64-mingw32/9.2.0/libssp.a")
-            add("$mingw/x86_64-w64-mingw32/lib/libucrt.a")
-            add("$mingw/x86_64-w64-mingw32/lib/libvcruntime140_app.a")
         }
     })
     additionalLinkedStaticLibraries.set(buildList {

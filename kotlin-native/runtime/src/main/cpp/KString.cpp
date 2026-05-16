@@ -37,6 +37,7 @@
 #include "KString.h"
 #include "Porting.h"
 #include "Types.h"
+#include "PinScope.h"
 
 #include "utf8.h"
 

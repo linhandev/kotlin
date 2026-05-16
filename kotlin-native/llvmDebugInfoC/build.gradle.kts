@@ -40,16 +40,6 @@ native {
     )
     if (HostManager.host.family == Family.LINUX) {
         cxxflags += "-stdlib=libc++"
-    } else if (HostManager.host.family == Family.MINGW) {
-        cxxflags += "-nostdinc++"
-        cxxflags += "-isystem"
-        cxxflags += "$llvmDir/include/c++/v1"
-        cxxflags += "-target"
-        cxxflags += "x86_64-pc-windows-gnu"
-        cxxflags += "-isystem"
-        cxxflags += "${hostPlatform.absoluteTargetSysRoot}/include"
-        cxxflags += "-isystem"
-        cxxflags += "${hostPlatform.absoluteTargetSysRoot}/x86_64-w64-mingw32/include"
     }
     suffixes {
         (".cpp" to ".$obj") {

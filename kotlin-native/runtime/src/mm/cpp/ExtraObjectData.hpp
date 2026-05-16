@@ -58,11 +58,13 @@ public:
     bool HasRegularWeakReferenceImpl() noexcept { return hasPointerBits(weakReferenceOrBaseObject_.load(), WEAK_REF_TAG); }
     void ClearRegularWeakReferenceImpl() noexcept; // TODO: Only exists for the sake of GetBaseObject. Refactor to remove the need for it.
     ObjHeader* GetRegularWeakReferenceImpl() noexcept {
+        assertNotCRT();
         auto* pointer = weakReferenceOrBaseObject_.load();
         if (hasPointerBits(pointer, WEAK_REF_TAG)) return clearPointerBits(pointer, WEAK_REF_TAG);
         return nullptr;
     }
     ObjHeader* GetOrSetRegularWeakReferenceImpl(ObjHeader* object, ObjHeader* weakRef) noexcept {
+        assertNotCRT();
         if (weakReferenceOrBaseObject_.compare_exchange_strong(object, setPointerBits(weakRef, WEAK_REF_TAG))) {
             return weakRef;
         } else {
@@ -70,6 +72,7 @@ public:
         }
     }
     ObjHeader* GetBaseObject() noexcept {
+        assertNotCRT();
         auto* header = weakReferenceOrBaseObject_.load();
         if (hasPointerBits(header, WEAK_REF_TAG)) {
             return regularWeakReferenceImplBaseObjectUnsafe(clearPointerBits(header, WEAK_REF_TAG));
@@ -78,12 +81,38 @@ public:
         }
     }
 
-    // info must be equal to objHeader->type_info(), but it needs to be loaded in advance to avoid data races
+    int hashCode() {
+        assertUseCRT();
+        // CRT uses moving GC for ordinary objects and allocates ExtraObjects non-movable,
+        // so identity hashcode is calculated based on the fixed address.
+        // TODO: if a better-distributed hashcode is required, it should be stored in the ExtraObject,
+        //       e.g. in union with flags_, to avoid increasing the size of every object.
+        auto addr = reinterpret_cast<uintptr_t>(this);
+        return static_cast<int>(addr + (addr >> 32));
+    }
+
+    ExtraObjectData() = default;
+
+    // info must be equal to objHeader->type_info(), but it needs to be loaded in advance to avoid data races.
+    // The back-reference to `objHeader` in `weakReferenceOrBaseObject_` is required in CRT mode to refresh
+    // the caller's `object` pointer after a potential safe-point inside the allocator (the CRT GC can move
+    // the base object during `AllocateExtra`). CRT GC does not trace this back-reference, so it doesn't
+    // create a strong cycle.
     explicit ExtraObjectData(ObjHeader* objHeader, const TypeInfo* info) noexcept :
         typeInfo_(nullptr), weakReferenceOrBaseObject_(objHeader) {
         std_support::atomic_ref{typeInfo_}.store(info, std::memory_order_release);
     }
     ~ExtraObjectData();
+
+    // Mirrors upstream mpcore/crt_dev: lets libcrt's CRT GC enumerate ref fields
+    // inside an ExtraObject (for marking, and especially for fix-up after the
+    // base object has been compacted). The slot is std::atomic<ObjHeader*>, but
+    // its layout matches ObjHeader* (atomic<T*> on trivially-copyable T*) so
+    // libcrt's RefField<>& cast through the visitor stays valid.
+    template <typename F>
+    void forEachRefField(F f) {
+        f(*reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_));
+    }
 private:
     // Must be first to match `TypeInfo` layout.
     const TypeInfo* typeInfo_;

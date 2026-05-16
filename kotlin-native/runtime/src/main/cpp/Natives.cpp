@@ -33,22 +33,26 @@
 #include "Natives.h"
 #include "Types.h"
 #include "std_support/CStdlib.hpp"
+#include "MemoryManagerSwitch.hpp"
 
 using namespace kotlin;
 
 extern "C" {
 
-// Fix later after rebase
+KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz);
+
 HAS_SAFEPOINT
 KInt Kotlin_Any_hashCode(KConstRef thiz) {
   // NOTE: `Any?.identityHashCode()` is used in Blackhole implementations of both kotlinx-benchmark and
   //        K/N's own benchmarks. These usages rely on this being an intrinsic property of the object.
-  //        So, calling `obj.identityHashCode()` should be seen by the optimizer as reading the entire
-  //        `obj` memory, and any changes to `obj` beforehand couldn't be optimized away. Additionally,
   //        it should be very cheap to call in order not to pollute the time measurements.
   // Here we will use different mechanism for stable hashcode, using meta-objects
   // if moving collector will be used.
-  return reinterpret_cast<uintptr_t>(thiz);
+  return checkUseCRT<CheckMode::Fast>([=] {
+      return Kotlin_CRT_GetOrSetHashCode(const_cast<ObjHeader*>(thiz));
+  }, [=] {
+      return static_cast<KInt>(reinterpret_cast<uintptr_t>(thiz));
+  });
 }
 
 HAS_SAFEPOINT
@@ -89,7 +93,7 @@ RUNTIME_EXPORT OBJ_GETTER(Kotlin_getStackTraceStrings, KConstRef stackTrace) {
     for (size_t index = 0; index < stackTraceStrings.size(); ++index) {
         ObjHolder holder;
         CreateStringFromCString(stackTraceStrings[index].c_str(), holder.slot());
-        UpdateHeapRef(ArrayAddressOfElementAt(strings->array(), index), holder.obj());
+        UpdateHeapRef(ArrayAddressOfElementAt(strings->array(), index), holder.obj(), strings);
     }
 
     RETURN_OBJ(strings);

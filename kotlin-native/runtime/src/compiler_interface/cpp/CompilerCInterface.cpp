@@ -35,6 +35,8 @@ touchType(FrameOverlay)
 
 touchFunction(AllocInstance)
 touchFunction(AllocArrayInstance)
+touchFunction(AllocInstanceForCI)
+touchFunction(AllocArrayInstanceForCI)
 touchFunction(InitAndRegisterGlobal)
 touchFunction(UpdateHeapRef)
 touchFunction(UpdateStackRef)
@@ -45,6 +47,8 @@ touchFunction(GetAndSetVolatileHeapRef)
 touchFunction(UpdateReturnRef)
 touchFunction(ZeroHeapRef)
 touchFunction(ZeroArrayRefs)
+touchFunction(ReadHeapRef)
+touchFunction(ReadVolatileHeapRef)
 
 touchFunction(EnterFrame)
 touchFunction(LeaveFrame)
@@ -86,6 +90,11 @@ touchFunction(Kotlin_longArrayGetElementAddress)
 touchFunction(Kotlin_mm_createRetainedExternalRCRef)
 touchFunction(Kotlin_mm_releaseExternalRCRef)
 touchFunction(Kotlin_mm_disposeExternalRCRef)
+
+// CRT-specific x28 register save/restore (not part of fp-unwind).
+touchFunction(SaveX28)
+touchFunction(RestoreX28)
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

@@ -42,7 +42,7 @@ OBJ_GETTER(setupArgs, int argc, const char** argv) {
   for (int index = 1; index < argc; index++) {
     ObjHolder result;
     CreateStringFromCString(argv[index], result.slot());
-    UpdateHeapRef(ArrayAddressOfElementAt(array, index - 1), result.obj());
+    UpdateHeapRef(ArrayAddressOfElementAt(array, index - 1), result.obj(), array->obj());
   }
   return result;
 }
@@ -55,6 +55,7 @@ extern "C" KInt Konan_run_start(int argc, const char** argv) {
 }
 
 extern "C" RUNTIME_EXPORT int Init_and_run_start(int argc, const char** argv, int memoryDeInit) {
+  common::CallToFFixedX28 guard{};
   Kotlin_initRuntimeIfNeeded();
   Kotlin_mm_switchThreadStateRunnable();
 

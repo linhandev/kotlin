@@ -6,8 +6,10 @@
 #pragma once
 
 #include "Memory.h"
+#include "MemoryManagerSwitch.hpp"
 #include "TypeInfo.h"
 #include "TypeLayout.hpp"
+#include "Types.h"
 #include "Utils.hpp"
 
 namespace kotlin {

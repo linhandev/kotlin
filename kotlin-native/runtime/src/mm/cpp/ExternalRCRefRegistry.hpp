@@ -88,6 +88,11 @@ public:
             return ref_->objAtomic().load(std::memory_order_relaxed);
         }
 
+        KRef& operator*() noexcept
+        {
+            return ref_->getObjRef();
+        }
+
         RootsIterator& operator++() noexcept {
             ref_ = owner_->nextRoot(ref_);
             return *this;
