@@ -217,11 +217,6 @@ internal class Linker(
         // Linker (in native/utils) does not need to know about kotlinNativeHome.
         val stubObjects = stubObjectsForTarget()
 
-        // Stub .o files (N2KStub / K2NStub / K2RStub / KonanStartStub) live under the runtime-resolved
-        // Kotlin/Native distribution dir, not under any property-file constant. Resolve them here so
-        // Linker (in native/utils) does not need to know about kotlinNativeHome.
-        val stubObjects = stubObjectsForTarget()
-
         return with(linker) {
             LinkerArguments(
                     tempFiles = tempFiles,
