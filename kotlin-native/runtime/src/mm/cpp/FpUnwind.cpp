@@ -379,8 +379,6 @@ static void UnwindKotlinFrame(FrameInfo& info, mm::FrameAddress* curFp, std::vec
         info.type = FrameType::R2K_STUB;
     } else if (IsKonanRunStartFrame(curFp->returnAddr)) {
         info.type = FrameType::KONAN_RUN_START_FRAME;
-    // } else if (IsWorkerStub(curFp->returnAddr)) {
-    //     info.type = FrameType::WORKER_STUB;
     } else if (IsCallInitGlobalPossiblyLock(curFp->returnAddr)) {
         info.type = FrameType::CALL_INIT_GLOBAL_POSSIIBLY_LOCK;
     } else if (IsInitOrDeinitGlobalVariables(curFp->returnAddr)) {
