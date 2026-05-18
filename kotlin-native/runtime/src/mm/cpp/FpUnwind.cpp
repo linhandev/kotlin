@@ -423,12 +423,6 @@ std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData)
     info.fa = lastFrameInfo.lastFrame;
     LogUnwindStart(threadData, info);
     if (info.fa == nullptr) return stack;
-    // Defensive: if lastFrame got corrupted into a non-stack address (e.g.,
-    // the binary's code/data segment), walking it would chain through garbage
-    // and the precise stack walker would dereference *(fp-2) on a non-Kotlin
-    // page. Refuse to walk rather than crash.
-    auto fpAddr = reinterpret_cast<uintptr_t>(info.fa);
-    if (fpAddr < 0x10000) return stack;
 
     if (lastFrameInfo.status == mm::FrameStatus::RELIABLE) {
         info.type = IsK2RStub(lastFrameInfo.lastPC) ? FrameType::K2R_STUB : FrameType::RUNTIME_FRAME;
