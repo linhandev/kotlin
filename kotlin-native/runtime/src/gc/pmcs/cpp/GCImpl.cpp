@@ -21,8 +21,8 @@
 
 using namespace kotlin;
 
-gc::GC::ThreadData::ThreadData(GC& gc, mm::ThreadData& threadData) noexcept : 
-    impl_(checkUseCRT<CheckMode::Slow>([] {
+gc::GC::ThreadData::ThreadData(GC& gc, mm::ThreadData& threadData) noexcept
+    : impl_(checkUseCRT<CheckMode::Slow>([] {
         return std::unique_ptr<Impl>(nullptr);
     }, [&] {
         return std::make_unique<Impl>(gc.impl(), threadData);
@@ -55,8 +55,8 @@ PERFORMANCE_INLINE void gc::GC::ThreadData::onAllocation(ObjHeader* object) noex
     });
 }
 
-gc::GC::GC(alloc::Allocator& allocator, gcScheduler::GCScheduler& gcScheduler) noexcept :
-    impl_(checkUseCRT<CheckMode::Slow>([] {
+gc::GC::GC(alloc::Allocator& allocator, gcScheduler::GCScheduler& gcScheduler) noexcept
+    : impl_(checkUseCRT<CheckMode::Slow>([] {
         RuntimeLogInfo({kTagGC}, "CRT GC initialized");
         return std::unique_ptr<Impl>(nullptr);
     }, [&] {
@@ -133,7 +133,8 @@ void gc::GC::WaitFinalizers(int64_t epoch) noexcept {
     });
 }
 
-ALWAYS_INLINE void gc::beforeHeapRefUpdate(mm::DirectRefAccessor ref, ObjHeader* value, bool loadAtomic) noexcept {
+ALWAYS_INLINE void gc::beforeHeapRefUpdate(mm::DirectRefAccessor ref, ObjHeader* value, bool loadAtomic) noexcept
+{
     checkNotCRT<CheckMode::Fast>([&] {});
 }
 

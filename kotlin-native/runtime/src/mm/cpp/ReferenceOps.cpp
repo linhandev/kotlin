@@ -14,7 +14,9 @@ using namespace kotlin;
 template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Stack>::loadWithBarrier() noexcept {
     return direct_.load();
 }
-template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Stack>::loadAtomicWithBarrier(std::memory_order order) noexcept {
+template<>
+ALWAYS_INLINE ObjHeader*
+mm::RefAccessor<mm::RefLocation::Stack>::loadAtomicWithBarrier(std::memory_order order) noexcept {
     return direct_.loadAtomic(order);
 }
 template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Stack>::afterLoad() noexcept {}
@@ -52,7 +54,9 @@ template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Global>::lo
         return direct_.load();
     });
 }
-template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Global>::loadAtomicWithBarrier(std::memory_order order) noexcept {
+template<>
+ALWAYS_INLINE ObjHeader*
+mm::RefAccessor<mm::RefLocation::Global>::loadAtomicWithBarrier(std::memory_order order) noexcept {
     return checkReadBarrier([&] {
         return reinterpret_cast<ObjHeader*>(common::BaseRuntime::AtomicReadBarrier(nullptr, direct_.location(), order));
     }, [&] {
@@ -83,9 +87,12 @@ template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Heap>::load
         return direct_.load();
     });
 }
-template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Heap>::loadAtomicWithBarrier(std::memory_order order) noexcept {
+template<>
+ALWAYS_INLINE ObjHeader*
+mm::RefAccessor<mm::RefLocation::Heap>::loadAtomicWithBarrier(std::memory_order order) noexcept {
     return checkReadBarrier([&] {
-        return reinterpret_cast<ObjHeader*>(common::BaseRuntime::AtomicReadBarrier(this->thisPtr_, direct_.location(), order));
+        return reinterpret_cast<ObjHeader*>(
+            common::BaseRuntime::AtomicReadBarrier(this->thisPtr_, direct_.location(), order));
     }, [&] {
         return direct_.loadAtomic(order);
     });

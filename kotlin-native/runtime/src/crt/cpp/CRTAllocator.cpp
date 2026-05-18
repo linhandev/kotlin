@@ -147,7 +147,8 @@ mm::ExtraObjectData* CRTAllocator::CreateExtraObjectDataForObject(ObjHeader* obj
     // recover the live pointer via `weakReferenceOrBaseObject_`.
     // Mirrors mpcore/crt_fp_unwind's CRTAllocator::CreateExtraObjectDataForObject.
     ObjHolder holder{object};
-    auto extraObjectMemory = reinterpret_cast<void*>(common::HeapAllocator::AllocateExtra(size, common::LanguageType::KOTLIN));
+    auto extraObjectMemory = reinterpret_cast<void*>(
+        common::HeapAllocator::AllocateExtra(size, common::LanguageType::KOTLIN));
     common::UpdateThreadLocalDataReg(); // CRT code might step on a safe-point, ensure x28 is updated
     object = holder.obj();
     return new (extraObjectMemory) mm::ExtraObjectData(object, info);

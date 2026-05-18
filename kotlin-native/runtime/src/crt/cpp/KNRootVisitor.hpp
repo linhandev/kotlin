@@ -43,23 +43,28 @@ public:
 
     void VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHolder* th);
 
-    void VisitGlobalWeakRoots(const WeakRefFieldVisitor& visitor, bool isYoung) {
+    void VisitGlobalWeakRoots(const WeakRefFieldVisitor& visitor, bool isYoung)
+    {
         // TODO:
     }
 
-    void VisitMutatorWeakRoots(const WeakRefFieldVisitor& visitor, ThreadHolder* th, bool isYoung) {
+    void VisitMutatorWeakRoots(const WeakRefFieldVisitor& visitor, ThreadHolder* th, bool isYoung)
+    {
         // TODO:
     }
 
-    void VisitGlobalPreforwardRoots(const RefFieldVisitor& visitor) {
+    void VisitGlobalPreforwardRoots(const RefFieldVisitor& visitor)
+    {
         // TODO:
     }
 
-    void VisitMutatorPreforwardRoots(const RefFieldVisitor& visitor, ThreadHolder* th) {
+    void VisitMutatorPreforwardRoots(const RefFieldVisitor& visitor, ThreadHolder* th)
+    {
         // TODO:
     }
 
-    static KNRootsVisitor& Instance() {
+    static KNRootsVisitor& Instance()
+    {
         static KNRootsVisitor instance;
         return instance;
     }
@@ -72,7 +77,8 @@ private:
     // `mm::GlobalRootSet` which after the *& → * change in RootSet.hpp can no longer bind a
     // RefField<>& to the value-typed `Value::object` field.
     template <typename Visitor>
-    static void TraverseGlobalRoots(const Visitor& visitorFunc) {
+    static void TraverseGlobalRoots(const Visitor& visitorFunc)
+    {
         for (auto globalField : kotlin::mm::GlobalData::Instance().globalsRegistry().LockForIter()) {
             visitorFunc(*globalField);
         }
@@ -95,21 +101,21 @@ class StackMapHelper {
 public:
     using RootVisitor = void (*)(void* closure, ObjHeader**);
     using DerivedPtrVisitor = void (*)(void* closure, uintptr_t*, ObjHeader*, ptrdiff_t);
-    StackMapHelper(mm::ThreadData& thread) : currentThread(thread) {}
+    explicit StackMapHelper(mm::ThreadData& thread) : currentThread(thread) {}
 
     void traverseBaseRoots(const common::RefFieldVisitor* visitor);
-    void traverseBaseAndDerived(RootVisitor v1, DerivedPtrVisitor v2, void* colsure);
+    void TraverseBaseAndDerived(RootVisitor v1, DerivedPtrVisitor v2, void* colsure);
 
 private:
-    bool skipHandleDerivedPointer() { return visitDerived == nullptr; }
+    bool SkipHandleDerivedPointer() { return visitDerived == nullptr; }
     void collectRoots(ObjHeader** address);
     void handleDerivedPointer(uintptr_t* address, ObjHeader* base, ptrdiff_t offset);
     std::pair<void*, void*> GetStackMapInfo();
 
     void resolveBase2DerivedOffset(const std::pair<const int32_t, std::vector<int32_t>>& pair);
-    void collectStackMapBaseRoot();
+    void CollectStackMapBaseRoot();
     // thread data must be published
-    void tryCollectRootSet();
+    void TryCollectRootSet();
 
     mm::ThreadData& currentThread;
     void* visitorClosure;

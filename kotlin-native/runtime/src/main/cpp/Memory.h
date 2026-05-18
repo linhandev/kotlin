@@ -181,8 +181,9 @@ enum class ThreadState {
 extern "C" {
 #endif
 // Stackmap requires AS1 (address space 1) on pointer types in function signatures
-// to correctly identify heap references. However, applying AS1 throughout the runtime would require pervasive type changes.
-// We use AS1 when declaring the signatures and in the actual definition uses regular pointer
+// to correctly identify heap references. However, applying AS1 throughout the
+// runtime would require pervasive type changes. We use AS1 when declaring the
+// signatures and in the actual definition uses regular pointer
 typedef AS1 ObjHeader * HeapObjPtr;
 typedef const AS1 ObjHeader * ConstHeapObjPtr;
 typedef AS1 ObjHeader * AS1 * HeapDerivedPtr;
@@ -224,7 +225,8 @@ OBJ_GETTER(AllocInstance, const TypeInfo* type_info) RUNTIME_NOTHROW;
 
 OBJ_GETTER(AllocArrayInstance, const TypeInfo* type_info, int32_t elements);
 
-// Followings are the APIs used by the compiler, differences from the runtime counterpart, they have the enterFrame operations
+// Followings are the APIs used by the compiler, differences from the runtime
+// counterpart, they have the enterFrame operations
 OBJ_GETTER(AllocInstanceForCI, const TypeInfo* type_info) RUNTIME_NOTHROW;
 
 OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* type_info, int32_t elements);
@@ -288,7 +290,8 @@ void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHRO
 // Updates heap/static data location.
 void UpdateHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
-void UpdateVolatileHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
+void UpdateVolatileHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object,
+                           HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // OBJ_GETTER macros append an implicit HeapObjPtr* OBJ_RESULT param, so thisPtr cannot carry a default arg.
 OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr expectedValue,
            HeapObjPtr newValue, HeapObjPtr thisPtr) RUNTIME_NOTHROW;
@@ -302,8 +305,10 @@ HeapObjPtr ReadStaticRef(HeapDerivedPtr location) RUNTIME_NOTHROW;
 HeapObjPtr ReadVolatileStaticRef(HeapDerivedPtr location) RUNTIME_NOTHROW;
 void UpdateStaticRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 void UpdateVolatileStaticRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
-OBJ_GETTER(CompareAndSwapVolatileStaticRef, HeapDerivedPtr location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
-bool CompareAndSetVolatileStaticRef(HeapDerivedPtr location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+OBJ_GETTER(CompareAndSwapVolatileStaticRef, HeapDerivedPtr location, HeapObjPtr expectedValue,
+           HeapObjPtr newValue) RUNTIME_NOTHROW;
+bool CompareAndSetVolatileStaticRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
+                                    HeapObjPtr newValue) RUNTIME_NOTHROW;
 OBJ_GETTER(GetAndSetVolatileStaticRef, HeapDerivedPtr location, HeapObjPtr newValue) RUNTIME_NOTHROW;
 
 // Updates location if it is null, atomically.

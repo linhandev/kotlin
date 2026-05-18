@@ -82,7 +82,8 @@ public:
         }
     }
 
-    int hashCode() {
+    int hashCode()
+    {
         assertUseCRT();
         // CRT uses moving GC for ordinary objects and allocates ExtraObjects non-movable,
         // so identity hashcode is calculated based on the fixed address.
@@ -98,14 +99,14 @@ public:
     // The back-reference to `objHeader` in `weakReferenceOrBaseObject_` is required in CRT mode to refresh
     // the caller's `object` pointer after a potential safe-point inside the allocator (the CRT GC can move
     // the base object during `AllocateExtra`).
-    //
     // Use `RefFieldAccessor` (with the ExtraObject itself as thisPtr) so the WriteBarrier registers this
     // cross-region reference in the remembered set. Without it, a YOUNG `objHeader` could get relocated
     // without updating the ExtraObject's `weakReferenceOrBaseObject_` field, leaving a dangling pointer
     // that crashes the next access. Mirrors mpcore/crt_dev fix 85940385066 ("use DirectRefAccessor to
     // store base object reference into an ExtraObj"), adapted to the K2.2 RefAccessor<Heap> design
     // where DirectRefAccessor no longer carries thisPtr.
-    explicit ExtraObjectData(ObjHeader* objHeader, const TypeInfo* info) noexcept : typeInfo_(nullptr) {
+    explicit ExtraObjectData(ObjHeader* objHeader, const TypeInfo* info) noexcept : typeInfo_(nullptr)
+    {
         auto field = mm::RefFieldAccessor{
                 reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_),
                 reinterpret_cast<ObjHeader*>(this)
@@ -121,7 +122,8 @@ public:
     // its layout matches ObjHeader* (atomic<T*> on trivially-copyable T*) so
     // libcrt's RefField<>& cast through the visitor stays valid.
     template <typename F>
-    void forEachRefField(F f) {
+    void forEachRefField(F f)
+    {
         f(*reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_));
     }
 private:

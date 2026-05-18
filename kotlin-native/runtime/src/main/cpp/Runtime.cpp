@@ -158,50 +158,50 @@ void RegistDumpListenerIfNeeded()
 }
 #endif
 
-NO_INLINE void initAddressScope();
+NO_INLINE void InitAddressScope();
 
 NO_INLINE RuntimeState* initRuntime() {
-  SetKonanTerminateHandler();
-  initObjectPool();
+    SetKonanTerminateHandler();
+    initObjectPool();
 
-  RuntimeState* result = new RuntimeState();
-  if (!result) return kInvalidRuntime;
-  RuntimeCheck(!isValidRuntime(), "No active runtimes allowed");
-  ::runtimeState = result;
+    RuntimeState* result = new RuntimeState();
+    if (!result) return kInvalidRuntime;
+    RuntimeCheck(!isValidRuntime(), "No active runtimes allowed");
+    ::runtimeState = result;
 
-  // First update `aliveRuntimesCount` and then update `globalRuntimeStatus`, for synchronization with
-  // runtime shutdown, which does it the other way around.
-  ++aliveRuntimesCount;
+    // First update `aliveRuntimesCount` and then update `globalRuntimeStatus`, for synchronization with
+    // runtime shutdown, which does it the other way around.
+    ++aliveRuntimesCount;
 
-  bool firstRuntime = initializeGlobalRuntimeIfNeeded();
-  if (firstRuntime) {
-      checkUseCRT<CheckMode::Slow>([] { // CheckMode must be Slow, x28 will be set up below
-          InitCRTRuntime();
-      });
-  }
-  result->memoryState = InitMemory();
-  // Switch thread state because worker and globals inits require the runnable state.
-  // This call may block if GC requested suspending threads.
-  ThreadStateGuard stateGuard(result->memoryState, kotlin::ThreadState::kRunnable);
-  result->worker = WorkerInit(result->memoryState);
+    bool firstRuntime = initializeGlobalRuntimeIfNeeded();
+    if (firstRuntime) {
+        checkUseCRT<CheckMode::Slow>([] { // CheckMode must be Slow, x28 will be set up below
+            InitCRTRuntime();
+        });
+    }
+      result->memoryState = InitMemory();
+    // Switch thread state because worker and globals inits require the runnable state.
+    // This call may block if GC requested suspending threads.
+    ThreadStateGuard stateGuard(result->memoryState, kotlin::ThreadState::kRunnable);
+    result->worker = WorkerInit(result->memoryState);
 
-  InitOrDeinitGlobalVariables(ALLOC_THREAD_LOCAL_GLOBALS, result->memoryState);
-  CommitTLSStorage(result->memoryState);
-  // Keep global variables in state as well.
-  if (firstRuntime) {
-    InitOrDeinitGlobalVariables(INIT_GLOBALS, result->memoryState);
-  }
-  InitOrDeinitGlobalVariables(INIT_THREAD_LOCAL_GLOBALS, result->memoryState);
-  RuntimeAssert(result->status == RuntimeStatus::kUninitialized, "Runtime must still be in the uninitialized state");
-  result->status = RuntimeStatus::kRunning;
+    InitOrDeinitGlobalVariables(ALLOC_THREAD_LOCAL_GLOBALS, result->memoryState);
+    CommitTLSStorage(result->memoryState);
+    // Keep global variables in state as well.
+    if (firstRuntime) {
+      InitOrDeinitGlobalVariables(INIT_GLOBALS, result->memoryState);
+    }
+    InitOrDeinitGlobalVariables(INIT_THREAD_LOCAL_GLOBALS, result->memoryState);
+    RuntimeAssert(result->status == RuntimeStatus::kUninitialized, "Runtime must still be in the uninitialized state");
+    result->status = RuntimeStatus::kRunning;
 
-  // Register runtime deinit function at thread cleanup.
-  konan::onThreadExit(Kotlin_deinitRuntimeCallback, runtimeState);
+    // Register runtime deinit function at thread cleanup.
+    konan::onThreadExit(Kotlin_deinitRuntimeCallback, runtimeState);
 
 #ifdef KONAN_OHOS
-  RegistDumpListenerIfNeeded();
+    RegistDumpListenerIfNeeded();
 #endif
-  return result;
+    return result;
 }
 
 void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
@@ -231,11 +231,11 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
 }
 
 void Kotlin_deinitRuntimeCallback(void* argument) {
-  common::CallToFFixedX28 guard{};
-  auto* state = reinterpret_cast<RuntimeState*>(argument);
-  // This callback may be called from any state, make sure it runs in the runnable state.
-  kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
-  deinitRuntime(state, false);
+      common::CallToFFixedX28 guard{};
+    auto* state = reinterpret_cast<RuntimeState*>(argument);
+    // This callback may be called from any state, make sure it runs in the runnable state.
+    kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
+    deinitRuntime(state, false);
 }
 }  // namespace
 

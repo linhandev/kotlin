@@ -31,7 +31,8 @@ mm::ThreadRegistry::Node* mm::ThreadRegistry::RegisterCurrentThread() noexcept {
     });
 
     auto lock = list_.LockForIter();
-    auto* threadDataNode = list_.Emplace(konan::currentThreadId()); // only here ThreadData constructor is invoked and x28 is set
+    auto* threadDataNode = list_.Emplace(konan::currentThreadId());
+    // only here ThreadData constructor is invoked and x28 is set
     AssertThreadState(threadDataNode->Get(), ThreadState::kNative);
     Node*& currentDataNode = currentThreadDataNode_;
     RuntimeAssert(!IsCurrentThreadRegistered(), "This thread already had some data assigned to it.");

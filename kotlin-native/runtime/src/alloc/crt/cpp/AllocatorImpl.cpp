@@ -19,8 +19,9 @@
 using namespace kotlin;
 
 namespace common {
-void* LoadCachedCRTTLS(alloc::Allocator::ThreadData::Impl& impl) {
-    return impl.crt_alloc().getCrtTls();
+void* LoadCachedCRTTLS(alloc::Allocator::ThreadData::Impl& impl)
+{
+    return impl.crt_alloc().GetCrtTls();
 }
 } // namespace common
 

@@ -57,7 +57,9 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
         // an ExtraObjectData when a transient non-meta state is observed.
         allocator.destroyUnattachedExtraObjectData(extraObj);
         auto* metaObject = ObjHeader::AsMetaObject(curHeader);
-        RuntimeAssert(metaObject, "CAS failed while installing ExtraObject for %p, but new header %p is not an ExtraObject", object, curHeader);
+        RuntimeAssert(metaObject,
+            "CAS failed while installing ExtraObject for %p, but new header %p is not an ExtraObject",
+            object, curHeader);
         return mm::ExtraObjectData::FromMetaObjHeader(metaObject);
     }
 

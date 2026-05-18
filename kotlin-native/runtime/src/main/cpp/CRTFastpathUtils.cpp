@@ -23,7 +23,8 @@
 
 #ifdef ENABLE_GC_FASTPATH
 // separate implementation from the header to avoid including mutator.h everywhere
-ALWAYS_INLINE void common::UpdateThreadLocalDataReg(const common::MutatorBase* mutator) {
+ALWAYS_INLINE void common::UpdateThreadLocalDataReg(const common::MutatorBase* mutator)
+{
     // Only enable read barrier slowpath for phases that require forwarding (PRECOPY/COPY/FIX).
     // ENUM/MARK/REMARK/POST_MARK phases have trivial ReadRefField (direct memory load),
     // identical to IdleBarrier, so they don't need the slowpath.
@@ -31,33 +32,38 @@ ALWAYS_INLINE void common::UpdateThreadLocalDataReg(const common::MutatorBase* m
     __asm__ volatile("bfi x28, %0, #62, #1" : : "r"(maskBits));
 }
 
-ALWAYS_INLINE void common::UpdateThreadLocalDataReg(const common::ThreadHolder* threadHolder) {
+ALWAYS_INLINE void common::UpdateThreadLocalDataReg(const common::ThreadHolder* threadHolder)
+{
     uintptr_t maskBits = threadHolder->GetMutatorPhase() >= GCPhase::GC_PHASE_PRECOPY ? 1 : 0;
     __asm__ volatile("bfi x28, %0, #62, #1" : : "r"(maskBits));
 }
 
-ALWAYS_INLINE void common::UpdateThreadLocalDataReg() {
+ALWAYS_INLINE void common::UpdateThreadLocalDataReg()
+{
     auto* td = kotlin::mm::ThreadRegistry::Instance().CurrentThreadData();
     if (td) {
         UpdateThreadLocalDataReg(td->GetThreadHolder());
     }
 }
 
-ALWAYS_INLINE void common::RestoreThreadLocalDataReg(kotlin::mm::ThreadData* threadData) {
+ALWAYS_INLINE void common::RestoreThreadLocalDataReg(kotlin::mm::ThreadData* threadData)
+{
     auto* holder = threadData->GetThreadHolder();
     auto* tls = common::LoadCachedCRTTLS(threadData->allocator().impl());
     SetThreadLocalDataToFixedReg(reinterpret_cast<uintptr_t>(tls));
     UpdateThreadLocalDataReg(holder);
 }
 
-ALWAYS_INLINE void common::RestoreThreadLocalDataReg() {
+ALWAYS_INLINE void common::RestoreThreadLocalDataReg()
+{
     auto* td = kotlin::mm::ThreadRegistry::Instance().CurrentThreadData();
     if (td) {
         RestoreThreadLocalDataReg(td);
     }
 }
 
-ALWAYS_INLINE void common::ZeroThreadLocalDataReg() {
+ALWAYS_INLINE void common::ZeroThreadLocalDataReg()
+{
     CallToFFixedX28::Verify();
     __asm__ volatile("mov x28, #0" ::: "x28");
 }
@@ -67,7 +73,8 @@ ALWAYS_INLINE void common::ZeroThreadLocalDataReg() {
 // The barrier callers (RefAccessor<Heap>::beforeStore) are kRunnable-state, so
 // x28 holds a valid TLS pointer; if x28 isn't set (non-CRT mode), they wouldn't
 // reach this function at all.
-ALWAYS_INLINE common::Mutator* common::GetMutatorOrNull() {
+ALWAYS_INLINE common::Mutator* common::GetMutatorOrNull()
+{
     assertUseCRT();
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     uintptr_t tls;

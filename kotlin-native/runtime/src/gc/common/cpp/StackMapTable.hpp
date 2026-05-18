@@ -520,7 +520,9 @@ public:
         IdxSetIterator(const StackMapTable& table, uint32_t pos) : table(table), i(pos) {}
         IdxSetIterator& operator++() { return (++i, *this); }
         bool operator!=(const IdxSetIterator& other) const { return i != other.i; }
-        IdxSet operator*() const { return IdxSet(table.PCAt(i), table.RegIdxAt(i), table.SlotIdxAt(i), table.DerivePtrIdxAt(i)); }
+        IdxSet operator*() const {
+            return IdxSet(table.PCAt(i), table.RegIdxAt(i), table.SlotIdxAt(i), table.DerivePtrIdxAt(i));
+        }
         const StackMapTable& table;
         uint32_t i;
     };

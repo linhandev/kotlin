@@ -59,7 +59,8 @@ PERFORMANCE_INLINE void mm::ThreadSuspensionData::MutatorPauseHandle::resume() n
 
 // TODO: Rename, see below
 kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadState newState) noexcept {
-    // CheckMode can't be Fast as it is reachable from places where x28 isn't set, e.g. from `Kotlin_deinitRuntimeCallback`.
+    // CheckMode can't be Fast as it is reachable from places where x28 isn't set,
+    // e.g. from `Kotlin_deinitRuntimeCallback`.
     // Moreover, it's used for kNative -> kRunnable state switch and x28 value is not guaranteed in kNative.
     return checkUseCRT<CheckMode::Slow>([&] {
         if (newState == ThreadState::kRunnable) {

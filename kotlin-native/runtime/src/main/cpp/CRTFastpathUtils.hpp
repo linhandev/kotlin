@@ -39,7 +39,8 @@ class ThreadHolder;
 
 #endif
 
-/// An instance of this type must be created at the earliest point reachable from code which is NOT compiled with -ffixed-x28.
+/// An instance of this type must be created at the earliest point reachable from code
+/// which is NOT compiled with -ffixed-x28.
 struct CallToFFixedX28 {
     static constexpr uintptr_t MAGIC_MARKER = 0x28EE01505E70DEAD; // "x28 EE is set dead"
 
@@ -51,9 +52,11 @@ struct CallToFFixedX28 {
     CallToFFixedX28() = default;
     ~CallToFFixedX28() = default;
 #else
-    ALWAYS_INLINE CallToFFixedX28() noexcept {
+    ALWAYS_INLINE CallToFFixedX28() noexcept
+    {
         // Save the current value of x28:
-        // code compiled without -ffixed-x28 expects that the value in x28 survives any calls,
+        // code compiled without -ffixed-x28 expects that the value in x28 survives
+        // any calls,
         // but our code compiled with -ffixed-x28 relies on compiler NOT generating prologue/epilogue code to preserve x28,
         // so we must do it manually at the points where foreign code can call us.
         uintptr_t val;
@@ -69,7 +72,8 @@ struct CallToFFixedX28 {
         }
     }
 
-    ALWAYS_INLINE ~CallToFFixedX28() noexcept {
+    ALWAYS_INLINE ~CallToFFixedX28() noexcept
+    {
         // Restore saved value of x28 upon returning back to the foreign caller.
         uintptr_t val = saved;
         LocalVarToFixedReg_UNCHECKED(val);
@@ -78,7 +82,8 @@ struct CallToFFixedX28 {
         }
     }
 
-    ALWAYS_INLINE static void Verify() {
+    ALWAYS_INLINE static void Verify()
+    {
         if (AssertionsEnabled) {
             RuntimeAssert(top != nullptr,
                 "Ensure that an instance of CallToFFixedX28 is created at the point native code calls to runtime.");
@@ -86,7 +91,8 @@ struct CallToFFixedX28 {
         }
     }
 private:
-    void VerifyImpl() {
+    void VerifyImpl()
+    {
         if (AssertionsEnabled && verify) {
             uintptr_t val;
             FixedRegToLocalVar(val);
@@ -116,7 +122,8 @@ private:
 #define TLS_ACTIVE_READ_BARRIER_BIT "62" // string, to simplify uses in __asm__, keep in sync with TLS_DATA_MASK
 constexpr uintptr_t TLS_DATA_MASK = (1L << 62) - 1; // keep in sync with TLS_ACTIVE_READ_BARRIER_BIT
 
-static inline uintptr_t ThreadLocalRegisterData() {
+static inline uintptr_t ThreadLocalRegisterData()
+{
     uintptr_t tlr;
     FixedRegToLocalVar(tlr);
     // Usually we access data pointed by x28 value without masking

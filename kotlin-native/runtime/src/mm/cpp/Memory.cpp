@@ -171,7 +171,8 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(AllocInstanceForCI, const Ty
 // on the path — so kfun:#main's stack roots are missed during STW preforward and
 // concurrent CMC compaction leaves them stale → SIGSEGV. Matches upstream mpcore/crt_dev.
 HAS_SAFEPOINT
-extern "C" NO_INLINE OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* typeInfo, int32_t elements) {
+extern "C" NO_INLINE OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* typeInfo, int32_t elements)
+{
     RETURN_RESULT_OF(AllocArrayInstance, typeInfo, elements);
 }
 
@@ -234,34 +235,44 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void ZeroStackRef(ObjHeader** loca
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStackRef(ObjHeader** location, const ObjHeader* object) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStackRef(ObjHeader** location, const ObjHeader* object) {
     mm::StackRefAccessor{location} = const_cast<ObjHeader*>(object);
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
     mm::RefFieldAccessor{location, thisPtr} = const_cast<ObjHeader*>(object);
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
     mm::RefFieldAccessor{location, thisPtr}.storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location,
+                                                  ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
     ObjHeader* actual = expectedValue;
     mm::RefFieldAccessor{location, thisPtr}.compareAndExchange(actual, newValue, std::memory_order_seq_cst);
     RETURN_OBJ(actual);
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
-    return mm::RefFieldAccessor{location, thisPtr}.compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue,
+                                                                        ObjHeader* newValue, ObjHeader* thisPtr) {
+    return mm::RefFieldAccessor{location, thisPtr}
+        .compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue, ObjHeader* thisPtr) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue,
+                                                  ObjHeader* thisPtr) {
     RETURN_OBJ(mm::RefFieldAccessor(location, thisPtr).exchange(newValue, std::memory_order_seq_cst));
 }
 
@@ -272,24 +283,30 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStaticRef(ObjHeader** l
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileStaticRef(ObjHeader** location, const ObjHeader* object) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileStaticRef(ObjHeader** location, const ObjHeader* object) {
     mm::GlobalRefAccessor{location}.storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileStaticRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileStaticRef, ObjHeader** location,
+                                                  ObjHeader* expectedValue, ObjHeader* newValue) {
     ObjHeader* actual = expectedValue;
     mm::GlobalRefAccessor{location}.compareAndExchange(actual, newValue, std::memory_order_seq_cst);
     RETURN_OBJ(actual);
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileStaticRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileStaticRef(ObjHeader** location, ObjHeader* expectedValue,
+                                                                          ObjHeader* newValue) {
     return mm::GlobalRefAccessor{location}.compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
-extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileStaticRef, ObjHeader** location, ObjHeader* newValue) {
+extern "C"
+    PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileStaticRef, ObjHeader** location, ObjHeader* newValue) {
     RETURN_OBJ(mm::GlobalRefAccessor{location}.exchange(newValue, std::memory_order_seq_cst));
 }
 
@@ -702,25 +719,29 @@ void kotlin::compactObjectPoolInCurrentThread() noexcept {
     alloc::compactObjectPoolInCurrentThread();
 }
 
-RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj) {
+RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj)
+{
     checkUseCRT<CheckMode::Slow>([&] {
         CRT_Pin(obj);
     });
 }
 
-RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCUnpin(KRef thiz, KRef obj) {
+RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCUnpin(KRef thiz, KRef obj)
+{
     checkUseCRT<CheckMode::Slow>([&] {
         CRT_UnPin(obj);
     });
 }
 
-void CRT_Pin(const void* obj) {
+void CRT_Pin(const void* obj)
+{
     if (common::IsHeapAddress(obj)) {
         common::BaseObjectPinned(reinterpret_cast<common::BaseObject*>(const_cast<void*>(obj)));
     }
 }
 
-void CRT_UnPin(const void* obj) {
+void CRT_UnPin(const void* obj)
+{
     if (common::IsHeapAddress(obj)) {
         common::BaseObjectUnPinned(reinterpret_cast<common::BaseObject*>(const_cast<void*>(obj)));
     }

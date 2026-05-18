@@ -398,7 +398,8 @@ class TerminateHandler : private kotlin::Pinned {
   TerminateHandler()
     : queuedHandler_((QH)std::set_terminate(kotlinHandler)) {}
 
-  static TerminateHandler* instance() {
+  static TerminateHandler* instance()
+  {
     static TerminateHandler singleton [[clang::no_destroy]];
     return &singleton;
   }

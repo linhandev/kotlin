@@ -35,8 +35,10 @@ private:
 
 class Allocator::ThreadData::Impl : private Pinned {
 public:
-    explicit Impl(Allocator::Impl& allocator) noexcept {
-        // Note: placement-new of union member is used to avoid referencing CRTAllocator if CRT is disabled at compile-time.
+    explicit Impl(Allocator::Impl& allocator) noexcept
+    {
+        // Note: placement-new of union member is used to avoid referencing
+        // CRTAllocator if CRT is disabled at compile-time.
         checkUseCRT<CheckMode::Slow>([&] {
             new (&alloc_.crt_) CRTAllocator();
         }, [&]() {
@@ -44,13 +46,20 @@ public:
         });
     }
 
-    CRTAllocator& crt_alloc() noexcept { assertUseCRT(); return alloc_.crt_; }
-    CustomAllocator& alloc() noexcept { assertNotCRT(); return alloc_.custom_; }
+    CRTAllocator& crt_alloc() noexcept {
+        assertUseCRT();
+        return alloc_.crt_;
+    }
+    CustomAllocator& alloc() noexcept {
+        assertNotCRT();
+        return alloc_.custom_;
+    }
 
 private:
     union Alloc { // Note: not a std::variant to avoid referencing ~CRTAllocator if CRT is disabled at compile-time.
         Alloc() {}
-        ~Alloc() {
+        ~Alloc()
+        {
             checkUseCRT<CheckMode::Slow>([&] {
                 crt_.~CRTAllocator();
             }, [&] {

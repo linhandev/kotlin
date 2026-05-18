@@ -42,7 +42,7 @@ public:
     static size_t GetAllocatedHeapSize(ObjHeader* object) noexcept;
 
     // Cache CRT TLS address so that we don't have to call GetThreadLocalData every time.
-    void* getCrtTls() noexcept { return crtTLS; }
+    void* GetCrtTls() noexcept { return crtTLS; }
 
 private:
     ALWAYS_INLINE uint8_t* AllocFromCMC(size_t size);

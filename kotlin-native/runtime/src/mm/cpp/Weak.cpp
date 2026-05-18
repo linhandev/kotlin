@@ -16,7 +16,8 @@
 using namespace kotlin;
 
 extern "C" {
-    RUNTIME_NOTHROW OBJ_GETTER(Konan_CRTWeakReferenceImpl_get, ObjHeader* weakRef) {
+    RUNTIME_NOTHROW OBJ_GETTER(Konan_CRTWeakReferenceImpl_get, ObjHeader* weakRef)
+    {
         auto addr = reinterpret_cast<uintptr_t>(weakRef);
         auto field = reinterpret_cast<ObjHeader**>(addr + sizeof(ObjHeader));
         auto ref = reinterpret_cast<uintptr_t>(ReadHeapRef(field, weakRef));

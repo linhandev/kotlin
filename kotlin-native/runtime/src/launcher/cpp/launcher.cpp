@@ -55,19 +55,19 @@ extern "C" KInt Konan_run_start(int argc, const char** argv) {
 }
 
 extern "C" RUNTIME_EXPORT int Init_and_run_start(int argc, const char** argv, int memoryDeInit) {
-  common::CallToFFixedX28 guard{};
-  Kotlin_initRuntimeIfNeeded();
-  Kotlin_mm_switchThreadStateRunnable();
+    common::CallToFFixedX28 guard{};
+    Kotlin_initRuntimeIfNeeded();
+    Kotlin_mm_switchThreadStateRunnable();
 
-  KInt exitStatus = Konan_run_start(argc, argv);
+    KInt exitStatus = Konan_run_start(argc, argv);
 
-  if (memoryDeInit) {
-      Kotlin_shutdownRuntime();
-  }
+    if (memoryDeInit) {
+        Kotlin_shutdownRuntime();
+    }
 
-  kotlin::programName = nullptr; // argv[0] might not be valid after this point
+    kotlin::programName = nullptr; // argv[0] might not be valid after this point
 
-  return exitStatus;
+    return exitStatus;
 }
 
 #ifndef KONAN_ANDROID

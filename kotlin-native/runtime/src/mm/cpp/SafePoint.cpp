@@ -4,7 +4,6 @@
  */
 
 #include "SafePoint.hpp"
-// #include "SafepointUtil.hpp"
 
 #include <atomic>
 
@@ -244,7 +243,8 @@ PERFORMANCE_INLINE void mm::safePoint(std::memory_order fastPathOrder) noexcept
     });
 }
 
-// When calling safepoint with threadData, one must not use the TLS information instead because TLS might already be freed.
+// When calling safepoint with threadData, one must not use the TLS information
+// instead because TLS might already be freed.
 ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept
 {
     assertNotCRT();
@@ -252,7 +252,6 @@ ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order f
 
     AssertThreadState(&threadData, ThreadState::kRunnable);
     auto action = safePointAction.load(fastPathOrder);
-
     if (__builtin_expect(action != nullptr, false)) {
         slowPath(threadData);
     }

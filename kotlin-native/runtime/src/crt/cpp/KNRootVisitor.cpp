@@ -28,18 +28,20 @@
 // only on the standard `_LLVM_StackMaps` section. `constexpr false` makes the
 // dead lazy branch (including `GetStackMapAddress`) statically eliminated, so
 // the unresolved `_LLVM_StackMap_Offsets` reference disappears at link time.
-static bool IsEnableLazyStackMap() {
+static bool IsEnableLazyStackMap()
+{
     return true;
 }
-static const bool enableLazyStackMap = IsEnableLazyStackMap();
-static constexpr bool enableLogStackMap = false; // used to debug, here we just hardcode it to false
+static const bool ENABLE_LAZY_STACK_MAP = IsEnableLazyStackMap();
+static constexpr bool ENABLE_LOG_STACK_MAP = false; // used to debug, here we just hardcode it to false
 
 namespace kotlin {
 
 // Mirrors gc/cms/cpp/ConcurrentMark.cpp::GetStackMapAddress: the AArch64
 // prologue stashes the absolute address of .Lstackmap_start.<func> at *(fp-2)
 // via ADRP+ADD (link-time-resolved). Top 16 bits are reserved for tag bits.
-static uint64_t* GetStackMapAddress(uint64_t* fp, uint32_t* funcStartPC) {
+static uint64_t* GetStackMapAddress(uint64_t* fp, uint32_t* funcStartPC)
+{
     uint64_t addr = *(fp - 2);
     constexpr uint64_t payloadMask = (1ULL << 48) - 1;
     return reinterpret_cast<uint64_t*>(addr & payloadMask);
@@ -54,27 +56,29 @@ struct StackMapRecord {
 
 StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stackmapStart);
 
-#define LOG_STACK_MAP(addr) enableLogStackMap&& logStackMapFile << (void*)(addr) << ": "
+#define LOG_STACK_MAP(addr) ENABLE_LOG_STACK_MAP && logStackMapFile << (void*)(addr) << ": "
 
-static std::ostream& operator<<(std::ostream& s, const stackMap::BitsManager& b) {
+static std::ostream& operator<<(std::ostream& s, const stackMap::BitsManager& b)
+{
     s << std::hex << "BitsManager(addr=" << b.getAddr() << ", bitPos=0x" << *(uint32_t*)((uint8_t**)(&b) + 1) << ")";
     return s;
 }
 
-StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stackmapStart) {
+StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stackmapStart)
+{
     using namespace stackMap;
 
     // inline the `CompressedStackMapHead::GetStackMapHead`
     StackMapHeaderVarInt stacksizeVarInt((uint8_t*)stackmapStart, 0);
     uint32_t stackSize = stacksizeVarInt.GetStacksize();
-    LOG_STACK_MAP(stackmapStart) << "\tstacksizeVarInt={value: " << stacksizeVarInt.GetNextTable() << "stackSize: " << std::dec << stackSize
-                                 << "}" << std::endl;
+    LOG_STACK_MAP(stackmapStart) << "\tstacksizeVarInt={value: " << stacksizeVarInt.GetNextTable()
+            << "stackSize: " << std::dec << stackSize << "}" << std::endl;
 
     StackMapHeaderVarInt compressedFormatVarInt(stacksizeVarInt.GetNextTable());
     uint32_t slotFormat = compressedFormatVarInt.GetStacksize();
     LOG_STACK_MAP(stacksizeVarInt.GetNextTable().getAddr())
-            << std::hex << "\tcompressedFormatVarInt={prologue: " << compressedFormatVarInt.GetNextTable() << "format: 0x" << slotFormat
-            << "}" << std::endl;
+            << std::hex << "\tcompressedFormatVarInt={prologue: " << compressedFormatVarInt.GetNextTable()
+            << "format: 0x" << slotFormat << "}" << std::endl;
 
     /**
      * `CompressedStackMapHead::CompressedStackMapHead` -> `PrologueVarInt::ResolvePrologue`
@@ -82,14 +86,15 @@ StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stac
      */
     BitsManager prologue = compressedFormatVarInt.GetNextTable();
     auto [bitMap, bitLen] = VarInt(prologue).GetValue();
-    LOG_STACK_MAP(prologue.getAddr()) << std::hex << "\tcalleeSavedRegisterBitMap=0x" << bitMap << " size=0x" << __builtin_popcount(bitMap)
-                                      << std::endl;
+    LOG_STACK_MAP(prologue.getAddr()) << std::hex << "\tcalleeSavedRegisterBitMap=0x" << bitMap
+            << " size=0x" << __builtin_popcount(bitMap) << std::endl;
 
     BitsManager offsetBitManager = prologue.GetNext(bitLen);
     for (uint32_t i = 0, size = __builtin_popcount(bitMap); i < size; ++i) {
         auto [value, bits] = VarInt(offsetBitManager).GetValue();
         LOG_STACK_MAP(offsetBitManager.getAddr())
-                << std::hex << offsetBitManager << "\tcalleeSavedRegister FP offset=0x" << value << " nextBits=0x" << bits << std::endl;
+                << std::hex << offsetBitManager << "\tcalleeSavedRegister FP offset=0x" << value
+                << " nextBits=0x" << bits << std::endl;
         offsetBitManager = offsetBitManager.GetNext(bits);
     }
     BitsManager nextTable = offsetBitManager;
@@ -98,10 +103,12 @@ StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stac
     StackMapTable stackMapTable(nextTable);
     RegTable regTable(stackMapTable.GetNextTable());
     SlotTable slotTable(regTable.GetNextTable(), slotFormat);
-    DerivedPtrTable derivedTable(slotTable.GetNextTable(), stackMapTable.GetRegBitsLen(), stackMapTable.GetSlotBitsLen());
-    LOG_STACK_MAP(nextTable.getAddr()) << std::hex << "\tstackMapTable=" << nextTable.getAddr() << " regTable=0x"
-                                       << stackMapTable.GetNextTable().getAddr() << " slotTable=0x" << regTable.GetNextTable().getAddr()
-                                       << " derivedTable=0x" << slotTable.GetNextTable().getAddr() << std::endl;
+    DerivedPtrTable derivedTable(slotTable.GetNextTable(),
+            stackMapTable.GetRegBitsLen(), stackMapTable.GetSlotBitsLen());
+    LOG_STACK_MAP(nextTable.getAddr()) << std::hex << "\tstackMapTable=" << nextTable.getAddr()
+            << " regTable=0x" << stackMapTable.GetNextTable().getAddr() << " slotTable=0x"
+            << regTable.GetNextTable().getAddr() << " derivedTable=0x"
+            << slotTable.GetNextTable().getAddr() << std::endl;
 
     return StackMapRecord{stackMapTable, regTable, slotTable, derivedTable};
 }
@@ -118,14 +125,16 @@ static NO_INLINE auto GenerateAllStackMaps() {
     std::unordered_map<uintptr_t, std::map<int32_t, std::vector<int32_t>>> pc2CallSiteInfo;
 
     std::ofstream logStackMapFile;
-    if (enableLogStackMap) {
+    if (ENABLE_LOG_STACK_MAP) {
         logStackMapFile.open("stack_map.log", std::ios::out);
     }
     using namespace stackMap;
 
     LOG_STACK_MAP(stackMapBase) << "FunctionCount=" << *(uint64_t*)stackMapBase << std::endl;
-    for (uint64_t stackMapIndex = 0, functionCount = *(uint64_t*)stackMapBase, stackMapAddr = (uint64_t)(stackMapBase + 8);
-         stackMapIndex < functionCount; ++stackMapIndex, stackMapAddr = stackMapAddr + *(uint32_t*)(stackMapAddr + 8)) {
+    for (uint64_t stackMapIndex = 0, functionCount = *(uint64_t*)stackMapBase,
+         stackMapAddr = (uint64_t)(stackMapBase + 8);
+         stackMapIndex < functionCount;
+         ++stackMapIndex, stackMapAddr = stackMapAddr + *(uint32_t*)(stackMapAddr + 8)) {
         // inilne the `CompressedStackMapHead::GetStackMapHead`
         uintptr_t stackmapStart = stackMapAddr;
         // funcAddrOffset is stored as (function_symbol - .Lstackmap_start.<func>),
@@ -162,11 +171,13 @@ static NO_INLINE auto GenerateAllStackMaps() {
             entry.VisitBaseAndDerivedSlotOffsets(
                     [&callSite, &logStackMapFile](int32_t base) {
                         size_t size = callSite[base].size(); // First save the base, size is zero.
-                        LOG_STACK_MAP(0) << std::dec << "\t\t\tbaseOffset=" << base << ", derivedPointerCount=" << size << std::endl;
+                        LOG_STACK_MAP(0) << std::dec << "\t\t\tbaseOffset=" << base
+                                << ", derivedPointerCount=" << size << std::endl;
                     },
                     [&callSite, &logStackMapFile](int32_t base, int32_t derived) {
                         callSite[base].push_back(derived);
-                        LOG_STACK_MAP(0) << std::dec << "\t\t\tbaseOffset=" << base << ", derivedPointerOffset=" << derived << std::endl;
+                        LOG_STACK_MAP(0) << std::dec << "\t\t\tbaseOffset=" << base
+                                << ", derivedPointerOffset=" << derived << std::endl;
                     });
             if (callSite.empty()) {
                 pc2CallSiteInfo.erase(curPC);
@@ -179,15 +190,17 @@ static NO_INLINE auto GenerateAllStackMaps() {
 }
 #undef LOG_STACK_MAP
 
-std::pair<void*, void*> StackMapHelper::GetStackMapInfo() {
+std::pair<void*, void*> StackMapHelper::GetStackMapInfo()
+{
     uint32_t* funcStartPC = (uint32_t*)*((uintptr_t*)currentFP - 1);
     uint64_t* stackMapAddress = kotlin::GetStackMapAddress((uint64_t*)currentFP, funcStartPC);
     return {funcStartPC, stackMapAddress};
 }
 
-void StackMapHelper::collectStackMapBaseRoot() {
-    if (enableLazyStackMap) {
-        RuntimeLogDebug({kTagGC}, "enableLazyStackMap: currentFP=%p, currentPC=%p", currentFP, currentPC);
+void StackMapHelper::CollectStackMapBaseRoot()
+{
+    if (ENABLE_LAZY_STACK_MAP) {
+        RuntimeLogDebug({kTagGC}, "ENABLE_LAZY_STACK_MAP: currentFP=%p, currentPC=%p", currentFP, currentPC);
         // Mirror gc/cms/cpp/ConcurrentMark.cpp's lazy path: use the shared
         // stackMap::StackMapBuilder API (which internally calls
         // CompressedStackMapHead::GetStackMapHead, applying the per-entry-base
@@ -207,8 +220,8 @@ void StackMapHelper::collectStackMapBaseRoot() {
             return;
         }
         // Reject frame pointers that land inside the binary's mapped code/data
-        // (real stack pointers on macOS arm64 are far above KEXE_ADDR_END_).
-        if (fpAddr >= KEXE_ADDR_START_ && fpAddr < KEXE_ADDR_END_) {
+        // (real stack pointers on macOS arm64 are far above g_kexeAddrEnd).
+        if (fpAddr >= g_kexeAddrStart && fpAddr < g_kexeAddrEnd) {
             return;
         }
         const auto stackMapInfo = GetStackMapInfo();
@@ -241,12 +254,13 @@ void StackMapHelper::collectStackMapBaseRoot() {
     }
 }
 
-void StackMapHelper::handleDerivedPointer(uintptr_t* address, ObjHeader* base, ptrdiff_t offset) {
+void StackMapHelper::handleDerivedPointer(uintptr_t* address, ObjHeader* base, ptrdiff_t offset)
+{
     if (offset == 0) {
         collectRoots((ObjHeader**)address);
         return;
     }
-    if (skipHandleDerivedPointer()) {
+    if (SkipHandleDerivedPointer()) {
         return;
     }
     RuntimeAssert(base != nullptr, "should skip null before handle derived");
@@ -256,7 +270,8 @@ void StackMapHelper::handleDerivedPointer(uintptr_t* address, ObjHeader* base, p
     visitDerived(visitorClosure, address, base, offset);
 }
 
-void StackMapHelper::collectRoots(ObjHeader** address) {
+void StackMapHelper::collectRoots(ObjHeader** address)
+{
     ObjHeader* object = *address;
 
     if (object == nullptr) {
@@ -271,13 +286,15 @@ void StackMapHelper::collectRoots(ObjHeader** address) {
     visitRoot(visitorClosure, address);
 }
 
-void StackMapHelper::resolveBase2DerivedOffset(const std::pair<const int32_t, std::vector<int32_t>>& pair) {
+void StackMapHelper::resolveBase2DerivedOffset(const std::pair<const int32_t, std::vector<int32_t>>& pair)
+{
     int32_t baseRootOffset = pair.first;
     ObjHeader** address = (ObjHeader**)((uintptr_t)currentFP + baseRootOffset);
     ObjHeader* object = *address; // snapshot base object
     RuntimeLogDebug(
-            {kTagGC}, "visit stackmap record={callsite: %p, baseOffset: %d derivedPointerCount: %ld} %p@%p", currentPC, baseRootOffset,
-            pair.second.size(), address, object);
+        {kTagGC},
+        "visit stackmap record={callsite: %p, baseOffset: %d derivedPointerCount: %ld} %p@%p",
+        currentPC, baseRootOffset, pair.second.size(), address, object);
     if (object == nullptr) {
         return;
     }
@@ -288,7 +305,8 @@ void StackMapHelper::resolveBase2DerivedOffset(const std::pair<const int32_t, st
     }
 }
 
-void StackMapHelper::tryCollectRootSet() {
+void StackMapHelper::TryCollectRootSet()
+{
     for (auto value : mm::ThreadRootSet(currentThread)) {
         collectRoots(&value.object);
     }
@@ -298,37 +316,42 @@ void StackMapHelper::tryCollectRootSet() {
         currentFP = reinterpret_cast<void*>(frameInfos[i].fa);
         currentPC = reinterpret_cast<void*>(const_cast<uint32_t*>(frameInfos[i].ip));
         RuntimeLogDebug(
-                {kTagGC}, "currentFP=%p, currentPC=%p checkMagicNum=%p", currentFP, currentPC,
-                (*(((uint64_t*)currentFP) - 2)) >> 48);
-        collectStackMapBaseRoot();
+            {kTagGC}, "currentFP=%p, currentPC=%p checkMagicNum=%p", currentFP, currentPC,
+            (*(((uint64_t*)currentFP) - 2)) >> 48);
+        CollectStackMapBaseRoot();
     }
 
 }
 
-void StackMapHelper::traverseBaseRoots(const common::RefFieldVisitor* visitor) {
+void StackMapHelper::traverseBaseRoots(const common::RefFieldVisitor* visitor)
+{
     visitorClosure = const_cast<common::RefFieldVisitor*>(visitor);
     visitRoot = [](void* closure, ObjHeader** address) {
         auto refVisitor = reinterpret_cast<const common::RefFieldVisitor*>(closure);
         (*refVisitor)(*reinterpret_cast<common::RefField<>*>(address));
     };
     visitDerived = nullptr;
-    tryCollectRootSet();
+    TryCollectRootSet();
 }
 
-void StackMapHelper::traverseBaseAndDerived(RootVisitor v1, DerivedPtrVisitor v2, void* colsure) {
+void StackMapHelper::TraverseBaseAndDerived(RootVisitor v1, DerivedPtrVisitor v2, void* colsure)
+{
     visitorClosure = colsure;
     visitRoot = v1;
     visitDerived = v2;
-    tryCollectRootSet();
+    TryCollectRootSet();
 }
 
 } // namespace kotlin
 
 namespace common {
 
-void KNRootsVisitor::VisitConcurrentRoots(const RefFieldVisitor& visitor) {
+void KNRootsVisitor::VisitConcurrentRoots(const RefFieldVisitor& visitor)
+{
     TraverseGlobalRoots([&visitor](ObjHeader*& object) {
-        RuntimeLogDebug({kotlin::kTagGC}, "global root: %p@%p isHeapAddr=%s", &object, object, IsHeapAddress(object) ? "true" : "false");
+        RuntimeLogDebug({kotlin::kTagGC},
+                "global root: %p@%p isHeapAddr=%s", &object, object,
+                IsHeapAddress(object) ? "true" : "false");
         if (!IsHeapAddress(object)) {
             // a global ref but is not a heap object.
             return;
@@ -337,7 +360,8 @@ void KNRootsVisitor::VisitConcurrentRoots(const RefFieldVisitor& visitor) {
     });
 }
 
-void KNRootsVisitor::VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHolder* threadHolder) {
+void KNRootsVisitor::VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHolder* threadHolder)
+{
     auto* kotlinThreadData = kotlin::mm::ThreadData::EvalKotlinThreadData(threadHolder);
     if (kotlinThreadData == nullptr) {
         // Race window: ThreadHolder is registered (GC-visible) but SetThreadHolder()
@@ -358,24 +382,27 @@ void KNRootsVisitor::VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHol
         return;
     }
 
-    stackMapHelper.traverseBaseAndDerived(
-            [](void* v, ObjHeader** addr) { (*reinterpret_cast<RefFieldVisitor*>(v))(reinterpret_cast<common::RefField<>&>(*addr)); },
-            [](void*, uintptr_t* derivedPointerRef, ObjHeader* base, ptrdiff_t off) {
-                BaseObject* object = reinterpret_cast<BaseObject*>(base);
-                if (!object->IsForwarded()) {
-                    return;
-                }
-                BaseObject* toObj = object->GetForwardingPointer();
-                uintptr_t pointer = *derivedPointerRef;
-                size_t objectSize = kotlin::alloc::allocatedHeapSize(reinterpret_cast<ObjHeader*>(toObj));
-                bool valid = (off >= 8) && static_cast<size_t>(off) < objectSize && common::IsHeapAddress(pointer);
-                if (valid) {
-                    *derivedPointerRef = reinterpret_cast<uintptr_t>(toObj) + off;
-                    return;
-                }
-                RuntimeFail("invalid derived pointer %p from %p, offset=%ld ObjectSize=%ld", (void*)pointer, base, off, objectSize);
-            },
-            (void*)&visitor);
+    stackMapHelper.TraverseBaseAndDerived(
+        [](void* v, ObjHeader** addr) {
+            (*reinterpret_cast<RefFieldVisitor*>(v))(reinterpret_cast<common::RefField<>&>(*addr));
+        },
+        [](void*, uintptr_t* derivedPointerRef, ObjHeader* base, ptrdiff_t off) {
+            BaseObject* object = reinterpret_cast<BaseObject*>(base);
+            if (!object->IsForwarded()) {
+                return;
+            }
+            BaseObject* toObj = object->GetForwardingPointer();
+            uintptr_t pointer = *derivedPointerRef;
+            size_t objectSize = kotlin::alloc::allocatedHeapSize(reinterpret_cast<ObjHeader*>(toObj));
+            bool valid = (off >= 8) && static_cast<size_t>(off) < objectSize && common::IsHeapAddress(pointer);
+            if (valid) {
+                *derivedPointerRef = reinterpret_cast<uintptr_t>(toObj) + off;
+                return;
+            }
+            RuntimeFail("invalid derived pointer %p from %p, offset=%ld ObjectSize=%ld",
+                    (void*)pointer, base, off, objectSize);
+        },
+        (void*)&visitor);
 }
 
 } // namespace common

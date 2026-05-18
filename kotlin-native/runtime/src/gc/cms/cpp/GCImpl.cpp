@@ -18,8 +18,8 @@
 
 using namespace kotlin;
 
-gc::GC::ThreadData::ThreadData(GC& gc, mm::ThreadData& threadData) noexcept :
-    impl_(checkUseCRT<CheckMode::Slow>([] {
+gc::GC::ThreadData::ThreadData(GC& gc, mm::ThreadData& threadData) noexcept
+    : impl_(checkUseCRT<CheckMode::Slow>([] {
         return std::unique_ptr<Impl>(nullptr);
     }, [&] {
         return std::make_unique<Impl>(gc.impl().mark_, threadData);
@@ -51,13 +51,15 @@ PERFORMANCE_INLINE void gc::GC::ThreadData::onAllocation(ObjHeader* object) noex
     });
 }
 
-gc::GC::GC(alloc::Allocator& allocator, gcScheduler::GCScheduler& gcScheduler) noexcept :
-    impl_(checkUseCRT<CheckMode::Slow>([] {
+gc::GC::GC(alloc::Allocator& allocator, gcScheduler::GCScheduler& gcScheduler) noexcept
+    : impl_(checkUseCRT<CheckMode::Slow>([] {
         RuntimeLogInfo({kTagGC}, "CRT GC initialized");
         return std::unique_ptr<Impl>(nullptr);
     }, [&] {
-        return std::make_unique<Impl>(allocator, gcScheduler, compiler::gcMutatorsCooperate(), compiler::auxGCThreads());
-    })) {
+        return std::make_unique<Impl>(
+            allocator, gcScheduler, compiler::gcMutatorsCooperate(), compiler::auxGCThreads());
+    }))
+    {
     checkNotCRT<CheckMode::Slow>([&] {
         RuntimeLogInfo({kTagGC}, "%s GC initialized", internal::CmsGCTraits::kName);
     });
@@ -75,7 +77,8 @@ void gc::GC::ClearForTests() noexcept {
     });
 }
 
-void gc::GC::StartFinalizerThreadIfNeeded() noexcept {
+void gc::GC::StartFinalizerThreadIfNeeded() noexcept
+{
     checkUseCRT<CheckMode::Slow>([] {
         RuntimeAssert(common::KNFinalizationInterface::FinalizerThreadIsRunning(),
             "CRT finalizer thread is expected to start during init");
@@ -84,12 +87,14 @@ void gc::GC::StartFinalizerThreadIfNeeded() noexcept {
     });
 }
 
-void gc::GC::StopFinalizerThreadIfRunning() noexcept {
+void gc::GC::StopFinalizerThreadIfRunning() noexcept
+{
     assertNotCRT();
     mm::GlobalData::Instance().allocator().stopFinalizerThreadIfRunning();
 }
 
-bool gc::GC::FinalizersThreadIsRunning() noexcept {
+bool gc::GC::FinalizersThreadIsRunning() noexcept
+{
     return checkUseCRT<CheckMode::Slow>([] {
         return common::KNFinalizationInterface::FinalizerThreadIsRunning();
     }, [&] {

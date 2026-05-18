@@ -291,18 +291,18 @@ extern "C" OBJ_GETTER(Kotlin_String_replace, KConstRef thizPtr, KChar oldChar, K
     // read stale (zeroed from-space) memory and the runtime to crash inside WriteBarrier
     // when the produced "string" is later touched. Mirrors mpcore/crt_dev fix 71fe96906fc.
     ObjHolder thizHolder(const_cast<KRef>(thizPtr));
-    return encodingAware(thizPtr, [=, &thizHolder](auto thizView) {
+    return encodingAware(thizPtr, [thizPtr, oldChar, newChar, &thizHolder, &__result__](auto thizView) { // NOLINT: encodingAware calls lambda inline
         if (!thizView.canEncode(oldChar)) RETURN_OBJ(thizHolder.obj());
         if (thizView.encoding == StringEncoding::kLatin1 && thizView.canEncode(newChar)) {
             RETURN_RESULT_OF(createString<StringEncoding::kLatin1>, thizView.sizeInUnits(),
-                [=, &thizHolder](uint8_t* out) {
+                [thizView, oldChar, newChar, &thizHolder](uint8_t* out) {
                     using ThizT = decltype(thizView);
                     ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
                     std::replace_copy(thiz_fresh.begin().ptr(), thiz_fresh.end().ptr(), out, oldChar, newChar);
                 })
         }
         RETURN_RESULT_OF(createString<StringEncoding::kUTF16>, thizView.sizeInChars(),
-            [=, &thizHolder](KChar* out) {
+            [thizView, oldChar, newChar, &thizHolder](KChar* out) {
                 using ThizT = decltype(thizView);
                 ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
                 std::replace_copy(thiz_fresh.begin(), thiz_fresh.end(), out, oldChar, newChar);
@@ -334,10 +334,11 @@ extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
     // Mirrors mpcore/crt_dev fix 71fe96906fc.
     ObjHolder thizHolder(const_cast<KRef>(thiz));
     ObjHolder otherHolder(const_cast<KRef>(other));
-    return encodingAware(thiz, other, [=, &thizHolder, &otherHolder](auto thizView, auto otherView) {
+    return encodingAware(thiz, other, [thiz, other, &thizHolder, &otherHolder, &__result__](auto thizView, auto otherView) { // NOLINT: encodingAware calls lambda inline
         RuntimeAssert(thizView.sizeInChars() <= MAX_STRING_SIZE, "this cannot be this large");
         RuntimeAssert(otherView.sizeInChars() <= MAX_STRING_SIZE, "other cannot be this large");
-        auto resultLength = thizView.sizeInChars() + otherView.sizeInChars(); // can't overflow since MAX_STRING_SIZE is (max value)/2
+        // can't overflow since MAX_STRING_SIZE is (max value)/2
+        auto resultLength = thizView.sizeInChars() + otherView.sizeInChars();
         if (resultLength > MAX_STRING_SIZE) {
             ThrowOutOfMemoryError();
         }
@@ -345,10 +346,11 @@ extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
         if (thizView.encoding == otherView.encoding &&
             // In non-UTF-16 encodings, the total size in units could still overflow, e.g.
             // UTF-8 has characters that encode to 3 bytes while only needing 2 in UTF-16.
-            (thizView.encoding == StringEncoding::kUTF16 || thizView.sizeInUnits() < std::numeric_limits<size_t>::max() - otherView.sizeInUnits())
+            (thizView.encoding == StringEncoding::kUTF16 ||
+                thizView.sizeInUnits() < std::numeric_limits<size_t>::max() - otherView.sizeInUnits())
         ) {
             RETURN_RESULT_OF(createString<thizView.encoding>, thizView.sizeInUnits() + otherView.sizeInUnits(),
-                [=, &thizHolder, &otherHolder](auto* out) {
+                [thizView, otherView, &thizHolder, &otherHolder](auto* out) {
                     using ThizT = decltype(thizView);
                     using OtherT = decltype(otherView);
                     ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
@@ -358,7 +360,7 @@ extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
                 });
         } else {
             RETURN_RESULT_OF(createString<StringEncoding::kUTF16>, thizView.sizeInChars() + otherView.sizeInChars(),
-                [=, &thizHolder, &otherHolder](KChar* out) {
+                [thizView, otherView, &thizHolder, &otherHolder](KChar* out) {
                     using ThizT = decltype(thizView);
                     using OtherT = decltype(otherView);
                     ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));

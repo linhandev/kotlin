@@ -27,7 +27,8 @@ namespace common {
 
 class KNFinalizationInterface : public common::BaseFinalizationInterface, private kotlin::Pinned {
 public:
-    void attachCurrentThread() override {
+    void attachCurrentThread() override
+    {
         CallToFFixedX28 guard{};
         RuntimeAssert(!finalizerThreadIsRunning_, "Finalizer thread is already running");
         // K/N GCs detect that finalizer thread is running by whether the thread is joinable,
@@ -36,7 +37,8 @@ public:
         Kotlin_initRuntimeIfNeeded(); // must be below the atomic store to match the checks order during termination
         threadData_ = kotlin::mm::ThreadRegistry::Instance().CurrentThreadData();
     }
-    void invokeFinalizer(BaseObject* obj) const override {
+    void invokeFinalizer(BaseObject* obj) const override
+    {
         // This function is invoked from CRT code after switching to kRunnable state.
         // However, since CRT is currently compiled without -ffixed-x28, we need to forcibly restore
         // its value here, taking care not to overwrite any value which might reside in x28 in CRT code.
@@ -45,7 +47,8 @@ public:
         kotlin::RunFinalizers(reinterpret_cast<ObjHeader*>(obj));
     }
 
-    void onHeapGarbageReclamation() const override {
+    void onHeapGarbageReclamation() const override
+    {
         // Iterating ExternalRCRefRegistry removes nodes whose stable refs have been disposed.
         // In upstream K/N, this happens via processWeaks() each GC cycle (by the side-effect of the iterator)
         // CRT doesn't call processWeaks, so we clean up here on the finalizer thread instead.

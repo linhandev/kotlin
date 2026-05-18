@@ -113,12 +113,12 @@ private:
         constexpr uint32_t compressCntMask = compressTagBit - 1;
         SlotBias baseBias = slotBias * biasCoef;
 
-        auto visitOneSlot = [&](int32_t idx) {
+        auto visitOneSlot = [this, &baseBias, &visitor](int32_t idx) {
             SlotBias bias = baseBias + static_cast<int32_t>(idx) * bytesPerSlot;
             visitor(bias);
         };
 
-        auto processOneSlotBits = [&](SlotBits bit) {
+        auto processOneSlotBits = [this, &visitOneSlot, &baseBias](SlotBits bit) {
             if (bit & pureValBit) {
                 bit &= pureValMask;
                 for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {

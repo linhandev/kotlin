@@ -36,26 +36,26 @@ namespace kotlin {
 extern "C" char end;
 #endif
 
-void initAddressScope()
+void InitAddressScope()
 {
 #ifndef _WIN32
     Dl_info info;
-    int succ = ::dladdr(reinterpret_cast<void*>(&initAddressScope), &info);
+    int succ = ::dladdr(reinterpret_cast<void*>(&InitAddressScope), &info);
     LOGF_CHECK(succ) << "dladdr fail";
-    KEXE_ADDR_START_ = reinterpret_cast<uintptr_t>(info.dli_fbase);
+    g_kexeAddrStart = reinterpret_cast<uintptr_t>(info.dli_fbase);
 
 #ifdef __APPLE__
     size_t size = 0;
     auto start = reinterpret_cast<uintptr_t>(::getsegmentdata((mach_header_64*)info.dli_fbase, SEG_DATA, &size));
-    KEXE_ADDR_END_ = start + size;
+    g_kexeAddrEnd = start + size;
 #else
-    KEXE_ADDR_END_ = reinterpret_cast<uintptr_t>(&end);;
+    g_kexeAddrEnd = reinterpret_cast<uintptr_t>(&end);
 #endif
 
 #else
 #warning "not implement to find section address on Windows"
-    KEXE_ADDR_START_ = 0;
-    KEXE_ADDR_END_ = 0;
+    g_kexeAddrStart = 0;
+    g_kexeAddrEnd = 0;
 #endif
 }
 
@@ -76,7 +76,7 @@ bool InitCRTRuntime()
     }
     initialized = true;
 
-    initAddressScope();
+    InitAddressScope();
     common::RuntimeParam param = common::DefaultRuntimeParam();
     // param.gcParam.enableGC = false;
     // param.gcParam.enableStwGC = true;
@@ -99,13 +99,16 @@ bool InitCRTRuntime()
     return true;
 }
 
-void DestroyCRTRuntime(MemoryState* currentThread) {
+void DestroyCRTRuntime(MemoryState* currentThread)
+{
     if (currentThread) {
         // Stop all GC threads before stopping the world to avoid a deadlock:
-        // it will wait for all GC threads to terminate, but some might get stuck waiting on stwMutex if the world is stopped already.
+        // it will wait for all GC threads to terminate, but some might get stuck
+        // waiting on stwMutex if the world is stopped already.
         common::Heap::GetHeap().StopGCWork();
         // Avoid still-running threads to access anything we're about to destroy.
-        common::BaseRuntime::GetInstance()->GetThreadHolderManager().SuspendAll(currentThread->GetThreadData()->GetThreadHolder());
+        common::BaseRuntime::GetInstance()->GetThreadHolderManager().SuspendAll(
+            currentThread->GetThreadData()->GetThreadHolder());
     }
     common::BaseRuntime::GetInstance()->FiniFromDynamic();
     common::BaseRuntime::DestroyInstance();

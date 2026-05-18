@@ -42,17 +42,18 @@ extern "C" {
 KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz);
 
 HAS_SAFEPOINT
-KInt Kotlin_Any_hashCode(KConstRef thiz) {
-  // NOTE: `Any?.identityHashCode()` is used in Blackhole implementations of both kotlinx-benchmark and
-  //        K/N's own benchmarks. These usages rely on this being an intrinsic property of the object.
-  //        it should be very cheap to call in order not to pollute the time measurements.
-  // Here we will use different mechanism for stable hashcode, using meta-objects
-  // if moving collector will be used.
-  return checkUseCRT<CheckMode::Fast>([=] {
-      return Kotlin_CRT_GetOrSetHashCode(const_cast<ObjHeader*>(thiz));
-  }, [=] {
-      return static_cast<KInt>(reinterpret_cast<uintptr_t>(thiz));
-  });
+KInt Kotlin_Any_hashCode(KConstRef thiz)
+{
+    // NOTE: `Any?.identityHashCode()` is used in Blackhole implementations of both kotlinx-benchmark and
+    //        K/N's own benchmarks. These usages rely on this being an intrinsic property of the object.
+    //        it should be very cheap to call in order not to pollute the time measurements.
+    // Here we will use different mechanism for stable hashcode, using meta-objects
+    // if moving collector will be used.
+    return checkUseCRT<CheckMode::Fast>([=] {
+        return Kotlin_CRT_GetOrSetHashCode(const_cast<ObjHeader*>(thiz));
+    }, [=] {
+        return static_cast<KInt>(reinterpret_cast<uintptr_t>(thiz));
+    });
 }
 
 HAS_SAFEPOINT

@@ -22,13 +22,15 @@ namespace kotlin {
 template <typename... Args>
 class EnterPinScope : private Pinned {
 public:
-    explicit EnterPinScope(Args... args) : items_{reinterpret_cast<const void*>(args)...} {
+    explicit EnterPinScope(Args... args) : items_{reinterpret_cast<const void*>(args)...}
+    {
         for (auto item : items_) {
             CRT_Pin(item);
         }
     }
 
-    ~EnterPinScope() {
+    ~EnterPinScope()
+    {
         for (auto item : items_) {
             CRT_UnPin(item);
         }

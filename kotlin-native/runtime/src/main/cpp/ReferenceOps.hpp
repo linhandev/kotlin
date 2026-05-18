@@ -55,9 +55,13 @@ public:
     ObjHeader** location() const noexcept { return refPtr_; }
 
     ALWAYS_INLINE operator ObjHeader*() const noexcept { return load(); }
-    ALWAYS_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
+    ALWAYS_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept {
+        store(desired);
+        return desired;
+    }
 
-    ALWAYS_INLINE ObjHeader* load() const noexcept {
+    ALWAYS_INLINE ObjHeader* load() const noexcept
+    {
 #if STRICT_ATOMICS_IN_HEAP
         // Consume stores in the object, that were released on the object's allocation
         // See `ObjectOps.cpp`
@@ -72,7 +76,8 @@ public:
 #endif
     }
 
-    ALWAYS_INLINE void store(ObjHeader* desired) noexcept {
+    ALWAYS_INLINE void store(ObjHeader* desired) noexcept
+    {
 #if STRICT_ATOMICS_IN_HEAP
         storeAtomic(desired, std::memory_order_relaxed);
 #else
@@ -80,23 +85,29 @@ public:
 #endif
     }
 
-    ALWAYS_INLINE auto atomic() noexcept {
+    ALWAYS_INLINE auto atomic() noexcept
+    {
         return std_support::atomic_ref{*refPtr_};
     }
-    ALWAYS_INLINE auto atomic() const noexcept {
+    ALWAYS_INLINE auto atomic() const noexcept
+    {
         return std_support::atomic_ref{*refPtr_};
     }
 
-    ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) const noexcept {
+    ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) const noexcept
+    {
         return atomic().load(order);
     }
-    ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept
+    {
         atomic().store(desired, order);
     }
-    ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept
+    {
         return atomic().exchange(desired, order);
     }
-    ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept
+    {
         return atomic().compare_exchange_strong(expected, desired, order);
     }
 
@@ -110,6 +121,8 @@ protected:
     RefHost() = delete;
     RefHost(RefHost&&) = default;
     RefHost(const RefHost&) = default;
+    RefHost& operator=(const RefHost&) = delete;
+    RefHost& operator=(RefHost&&) = delete;
     // No assert on thisPtr_ — the Kotlin compiler emits `UpdateHeapRef(loc, val, NULL)`
     // for some `$init_global` initializers, so a null thisPtr is a valid call shape.
     // The Heap-specialized beforeStore handles the null case by routing to
@@ -155,21 +168,26 @@ private:
 public:
     ALWAYS_INLINE operator ObjHeader*() noexcept { return load(); }
 
-    ALWAYS_INLINE ObjHeader* load() noexcept {
+    ALWAYS_INLINE ObjHeader* load() noexcept
+    {
         AssertThreadState(ThreadState::kRunnable);
         auto result = loadWithBarrier();
         afterLoad();
         return result;
     }
 
-    ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) noexcept {
+    ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) noexcept
+    {
         AssertThreadState(ThreadState::kRunnable);
         auto result = loadAtomicWithBarrier(order);
         afterLoad();
         return result;
     }
 
-    ALWAYS_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
+    ALWAYS_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept {
+        store(desired);
+        return desired;
+    }
 
     ALWAYS_INLINE void store(ObjHeader* desired) noexcept {
         AssertThreadState(ThreadState::kRunnable);

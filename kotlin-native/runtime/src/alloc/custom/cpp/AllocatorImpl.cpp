@@ -17,7 +17,7 @@ using namespace kotlin;
 namespace common {
 void* LoadCachedCRTTLS(alloc::Allocator::ThreadData::Impl& impl) {
     assertUseCRT();
-    return impl.crt_alloc().getCrtTls();
+    return impl.crt_alloc().GetCrtTls();
 }
 } // namespace common
 
