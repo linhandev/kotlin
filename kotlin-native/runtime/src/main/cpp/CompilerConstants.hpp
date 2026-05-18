@@ -104,6 +104,10 @@ const char* minidumpLocation() noexcept;
 bool printToAndroidLogcat() noexcept;
 #endif
 
+#ifdef KONAN_OHOS
+bool printToOhosHiLog() noexcept;
+#endif
+
 } // namespace compiler
 } // namespace kotlin
 

@@ -4,6 +4,7 @@ import kotlin.native.concurrent.*
 import kotlin.native.ref.*
 import kotlin.native.runtime.*
 import kotlinx.cinterop.*
+import platform.posix.*
 
 @ExperimentalForeignApi
 class Data {
@@ -65,5 +66,19 @@ val weakReference = WeakReference(Data())
 @OptIn(ExperimentalNativeApi::class, NativeRuntimeApi::class, ExperimentalForeignApi::class)
 fun dumpToStdOut() {
     val local = Data()
-    assertTrue(Debugging.dumpMemory(1))
+    // Avoid writing binary dump to stdout (hard to make it work over channels like hdc).
+    val file = tmpfile()
+    assertNotNull(file, "tmpfile() returned null")
+
+    val fd = fileno(file)
+    assertTrue(fd >= 0, "fileno(tmpfile()) failed: $fd")
+
+    assertTrue(Debugging.dumpMemory(fd.toLong()), "Debugging.dumpMemory to file failed")
+
+    fflush(file)
+    fseek(file, 0, SEEK_END)
+    val size = ftell(file)
+    assertTrue(size > 0, "Dumped file shouldn't be empty")
+
+    fclose(file)
 }

@@ -71,7 +71,8 @@ abstract class AbstractNativeCInteropLibraryAbiReaderTest : AbstractNativeSimple
     private fun produceCustomDependencies(sourceFile: File): List<TestCompilationArtifact.KLIB> {
         val targets: KotlinNativeTargets = testRunSettings.get()
 
-        assumeTrue(targets.hostTarget.family.isAppleFamily) // ObjC tests can run only on Apple targets.
+        // ObjC cinterop is only supported for Apple targets.
+        assumeTrue(targets.testTarget.family.isAppleFamily)
 
         val defFile = sourceFile.withExtension(".def")
         assertTrue(defFile.isFile) { "Def file does not exist: $defFile" }

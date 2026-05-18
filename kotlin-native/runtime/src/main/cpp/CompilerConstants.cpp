@@ -27,6 +27,9 @@ RUNTIME_WEAK int32_t Kotlin_CoreSymbolication_useOnlyKotlinImage = 0;
 #ifdef KONAN_ANDROID
 RUNTIME_WEAK int32_t Kotlin_printToAndroidLogcat = 1;
 #endif
+#ifdef KONAN_OHOS
+RUNTIME_WEAK int32_t Kotlin_printToOhosHiLog = 1;
+#endif
 // Keep it 0 even when the compiler defaults to 1: if the overriding mechanism breaks, keeping it disabled is safer.
 RUNTIME_WEAK int32_t Kotlin_appStateTracking = 0;
 RUNTIME_WEAK int32_t Kotlin_objcDisposeOnMain = 0;
@@ -61,6 +64,12 @@ ALWAYS_INLINE compiler::AppStateTracking compiler::appStateTracking() noexcept {
 #ifdef KONAN_ANDROID
 ALWAYS_INLINE bool compiler::printToAndroidLogcat() noexcept {
     return Kotlin_printToAndroidLogcat != 0;
+}
+#endif
+
+#ifdef KONAN_OHOS
+ALWAYS_INLINE bool compiler::printToOhosHiLog() noexcept {
+    return Kotlin_printToOhosHiLog != 0;
 }
 #endif
 
