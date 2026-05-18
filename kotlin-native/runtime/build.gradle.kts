@@ -347,8 +347,6 @@ bitcode {
                 test {}
                 testFixtures {}
             }
-
-            onlyIf { it.supportsCRT() }
         }
 
         module("custom_alloc") {
@@ -527,8 +525,6 @@ module("legacy_alloc") {
             sourceSets {
                 main {}
             }
-
-            onlyIf { it.supportsCRT() }
         }
 
         module("noop_gc") {
