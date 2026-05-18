@@ -65,26 +65,15 @@ public:
     bool IsWeakRefImplObject() const { return reinterpret_cast<const KNStateWord*>(this)->IsWeakRefImplObject(); }
 
 private:
-    // This is used for distinguish potential Kotlin reference during root scanning on stack and registers
-    static bool isValidKotlinObject(const ObjHeader* obj) noexcept
-    {
-        const uintptr_t addr = reinterpret_cast<uintptr_t>(obj);
-        // We assume only base pointer here, so it must be 8-bytes aligned.
-        // Dervived pointers are collected elsewhere
-        if (!common::IsHeapAddress(addr) || (addr & 7ul) != 0) {
-            return false;
-        }
-        auto commonObj = reinterpret_cast<const common::BaseObject*>(obj);
-        // In case typeinfo is forwarded awawy
-        if (commonObj->IsForwarded()) {
-            return isValidKotlinObject(reinterpret_cast<ObjHeader*>(commonObj->GetForwardingPointer()));
-        }
-        auto typeInfo = *reinterpret_cast<const uintptr_t*>(obj) & kImmTypeInfoMask;
-        if (typeInfo > kotlin::KEXE_ADDR_START_ && typeInfo < kotlin::KEXE_ADDR_END_) {
-            return *reinterpret_cast<uintptr_t*>(typeInfo) == typeInfo;
-        }
-        return false;
-    }
+    // Match upstream: this hook used to do a typeinfo self-reference check, but
+    // that's incorrect under concurrent compaction — during the COPY phase a
+    // forwarded object's to-version header can be only partially initialized
+    // when FixRefField inspects it, and the strict check fires in
+    // ark_collector.cpp:308 (`CHECK_CC(latest->IsValidObject())`). Upstream
+    // mpcore/crt_dev sets this to always-true. The "is this a Kotlin object?"
+    // discrimination it was trying to provide isn't needed: any heap-address
+    // pointer reaching FixRefField is already known to be a Kotlin object.
+    static bool isValidKotlinObject(const ObjHeader* obj) noexcept { return true; }
 };
 
 // helper function for KNBaseObjectOperator::ForEachRefField

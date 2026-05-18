@@ -53,7 +53,7 @@ FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
 
 #ifdef ENABLE_GC_FASTPATH
     if constexpr (mode == CheckMode::Fast) {
-        RuntimeAssert(common::ThreadLocalRegisterRawData() != common::CallToFFixedX28::MAGIC_MARKER,
+        RuntimeAssert(common::ThreadLocalRegisterData() != common::CallToFFixedX28::MAGIC_MARKER,
             "Value of x28 is a magic marker, check that there is a switch to kRunnable prior to checkUseCRT<Fast>");
         FAST_CHECK_MM_SWITCH(else_l); // fallthrough if x28 != 0 signifying that CRT MM is enabled, otherwise jump to `else_l`.
         RuntimeAssert(MemoryManagerSwitch::useCRT, "Value of x28 is inconsistent with the useCRT flag");

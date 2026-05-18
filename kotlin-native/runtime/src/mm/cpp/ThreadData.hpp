@@ -138,9 +138,19 @@ public:
     {
         assertUseCRT();
         threadHolder = holder;
-        void* mutator = threadHolder->GetMutator();
-        reinterpret_cast<common::MutatorBase*>(mutator)->SetThread(this);
-        RuntimeAssert(reinterpret_cast<common::MutatorBase*>(mutator)->GetThread() == this, "unknown error");
+        auto mutator = static_cast<common::MutatorBase*>(holder->GetMutator());
+        mutator->SetThread(this, UpdateStateCallback);
+        RuntimeAssert(mutator->GetThread() == this, "unknown error");
+    }
+
+    // CRT invokes this callback when it switches the mutator's safe state, so K/N's ThreadData
+    // mirror is kept in sync. Ported from upstream edcfa299. Wrapped with CallToFFixedX28
+    // because CRT code is compiled without -ffixed-x28 and we must not leak its x28 value into
+    // ThreadData::setState (which is -ffixed-x28).
+    static void UpdateStateCallback(void* threadData, bool toRunnable)
+    {
+        common::CallToFFixedX28 guard{};
+        static_cast<ThreadData*>(threadData)->setState(toRunnable ? ThreadState::kRunnable : ThreadState::kNative);
     }
 
     void ClearThreadHolder()

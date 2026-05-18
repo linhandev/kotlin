@@ -6,6 +6,7 @@
 #include "ExtraObjectData.hpp"
 
 #include "PointerBits.h"
+#include "ReferenceOps.hpp"
 #include "ThreadData.hpp"
 
 #ifdef KONAN_OBJC_INTEROP
@@ -51,9 +52,13 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
     std_support::atomic_ref objectAtomicTypeInfo{object->typeInfoOrMeta_};
     if (!objectAtomicTypeInfo.compare_exchange_strong(curHeader, newHeader)) {
         // CAS failure can only mean that somebody else created `mm::ExtraObjectData` for this object.
+        // Validate via AsMetaObject (which checks the meta-tag bit) rather than blind clearPointerBits;
+        // matches mpcore/crt_dev and protects against returning a non-meta-tagged TypeInfo as if it were
+        // an ExtraObjectData when a transient non-meta state is observed.
         allocator.destroyUnattachedExtraObjectData(extraObj);
-        auto* anotherExtraObj = clearPointerBits(curHeader, OBJECT_TAG_MASK);
-        return *reinterpret_cast<mm::ExtraObjectData*>(anotherExtraObj);
+        auto* metaObject = ObjHeader::AsMetaObject(curHeader);
+        RuntimeAssert(metaObject, "CAS failed while installing ExtraObject for %p, but new header %p is not an ExtraObject", object, curHeader);
+        return mm::ExtraObjectData::FromMetaObjHeader(metaObject);
     }
 
     // We have successfully installed the `extraObj`.
@@ -69,8 +74,16 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
 }
 
 void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
-    assertNotCRT();
-    auto* object = weakReferenceOrBaseObject_.exchange(nullptr);
+    // Ported from upstream 33af2848b3c: under CMS the base object may have been forwarded; reading
+    // via RefFieldAccessor routes through the read barrier so we get the to-version pointer instead
+    // of a stale from-version. Previously this used a raw atomic exchange with assertNotCRT() which
+    // crashed (or silently corrupted) when the unlink raced with a concurrent COPY phase.
+    // weakReferenceOrBaseObject_ is std::atomic<ObjHeader*> in v3-merge (upstream switched it to a
+    // plain ObjHeader* + std_support::atomic_ref everywhere). reinterpret-cast its address to
+    // ObjHeader** — same pattern as the existing forEachRefField helper in ExtraObjectData.hpp.
+    auto field = RefFieldAccessor{reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_),
+                                  reinterpret_cast<ObjHeader*>(this)};
+    auto* object = field.exchange(nullptr, std::memory_order_seq_cst);
     RuntimeAssert(
             !hasPointerBits(object, WEAK_REF_TAG), "ExtraObjectData %p has uncleared weak reference %p during unlink", this,
             clearPointerBits(object, WEAK_REF_TAG));

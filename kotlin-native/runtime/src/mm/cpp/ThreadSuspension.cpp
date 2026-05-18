@@ -69,15 +69,7 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
             threadData_.RuntimeSetLastFrame();
             auto* th = threadData_.GetThreadHolder();
             th->TransferToRunning();
-#ifdef ENABLE_GC_FASTPATH
-            // restore the TLS value on x28
-            void* tls = common::LoadCachedCRTTLS(threadData_.allocator().impl());
-            RuntimeAssert(tls != nullptr, "CRT TLS must not be null");
-            SetThreadLocalDataToFixedReg(tls);
-            // sync gc phase
-            auto* mutator = *(reinterpret_cast<common::MutatorBase**>(th));
-            common::UpdateThreadLocalDataReg(mutator);
-#endif
+            common::RestoreThreadLocalDataReg(&threadData_);
         } else {
             threadData_.GetThreadHolder()->TransferToNative();
         }
@@ -94,9 +86,7 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
             // so, loading SP here, or checking `internal::gSuspensionRequested` in
             // `suspendIfRequested` is enough.
             safePoint(threadData_, std::memory_order_seq_cst);
-#ifdef ENABLE_GC_FASTPATH
             common::ZeroThreadLocalDataReg();
-#endif
         }
         return oldState;
     });

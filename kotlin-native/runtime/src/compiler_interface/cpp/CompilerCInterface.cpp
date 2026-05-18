@@ -50,6 +50,18 @@ touchFunction(ZeroArrayRefs)
 touchFunction(ReadHeapRef)
 touchFunction(ReadVolatileHeapRef)
 
+// Static (global) ref ops. Ported from upstream 33af2848b3c — the Kotlin compiler imports these
+// by name from compiler_interface.bc (see ContextUtils.kt::CodegenLlvmHelpers). Without these
+// `touchFunction` references the LLVM bitcode wouldn't carry an external declaration and the
+// `importRtFunction("ReadStaticRef")` lookup throws "function ReadStaticRef not found".
+touchFunction(ReadStaticRef)
+touchFunction(ReadVolatileStaticRef)
+touchFunction(UpdateStaticRef)
+touchFunction(UpdateVolatileStaticRef)
+touchFunction(CompareAndSwapVolatileStaticRef)
+touchFunction(CompareAndSetVolatileStaticRef)
+touchFunction(GetAndSetVolatileStaticRef)
+
 touchFunction(EnterFrame)
 touchFunction(LeaveFrame)
 touchFunction(SetCurrentFrame)

@@ -79,6 +79,7 @@ bitcode {
                 "src/alloc/crt/cpp",
                 "src/mm/cpp",
                 "src/alloc/common/cpp",
+                "src/gcScheduler/common/cpp",
                 "src/gc/common/cpp",
                 "src/main/cpp",
                 "../../third-party/common-rt",

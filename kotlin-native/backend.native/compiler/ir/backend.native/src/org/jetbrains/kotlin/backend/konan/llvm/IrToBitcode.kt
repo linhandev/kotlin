@@ -609,11 +609,15 @@ internal class CodeGeneratorVisitor(
                             .forEach { irField ->
                                 if (irField.type.binaryTypeIsReference() && irField.storageKind != FieldStorageKind.THREAD_LOCAL) {
                                     val address = staticFieldPtr(irField, functionGenerationContext)
-                                    storeHeapRef(codegen.kNullObjHeaderRef, address)
+                                    // Upstream 33af2848b3c: globals use storeGlobalRef so the write
+                                    // dispatches to UpdateStaticRef → BaseRuntime::WriteRoot,
+                                    // avoiding the heap-ref barrier's UpdateRememberSet which
+                                    // dereferences thisPtr.
+                                    storeGlobalRef(codegen.kNullObjHeaderRef, address)
                                 }
                             }
                     state.globalSharedObjects.forEach { address ->
-                        storeHeapRef(codegen.kNullObjHeaderRef, address)
+                        storeGlobalRef(codegen.kNullObjHeaderRef, address)
                     }
                     state.globalInitState?.let {
                         store(llvm.intptr(FILE_NOT_INITIALIZED), it)

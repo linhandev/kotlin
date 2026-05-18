@@ -24,7 +24,7 @@ PERFORMANCE_INLINE void traverseClassObjectFields(ObjHeader* object, F process) 
     RuntimeAssert(typeInfo != theArrayTypeInfo, "Must not be an array of objects");
     for (int index = 0; index < typeInfo->objOffsetsCount_; index++) {
         auto fieldPtr = reinterpret_cast<ObjHeader**>(reinterpret_cast<uintptr_t>(object) + typeInfo->objOffsets_[index]);
-        process(mm::RefFieldAccessor(fieldPtr));
+        process(mm::RefFieldAccessor(fieldPtr, object));
     }
 }
 
@@ -32,7 +32,7 @@ template <typename F>
 PERFORMANCE_INLINE void traverseArrayOfObjectsElements(ArrayHeader* array, F process) noexcept(noexcept(process(std::declval<mm::RefFieldAccessor>()))) {
     RuntimeAssert(array->type_info() == theArrayTypeInfo, "Must be an array of objects");
     for (uint32_t index = 0; index < array->count_; index++) {
-        process(mm::RefFieldAccessor(ArrayAddressOfElementAt(array, index)));
+        process(mm::RefFieldAccessor(ArrayAddressOfElementAt(array, index), array->obj()));
     }
 }
 
@@ -43,12 +43,12 @@ PERFORMANCE_INLINE void traverseObjectFields(ObjHeader* object, F process) noexc
     if (typeInfo != theArrayTypeInfo) {
         for (int index = 0; index < typeInfo->objOffsetsCount_; index++) {
             auto fieldPtr = reinterpret_cast<ObjHeader**>(reinterpret_cast<uintptr_t>(object) + typeInfo->objOffsets_[index]);
-            process(mm::RefFieldAccessor(fieldPtr));
+            process(mm::RefFieldAccessor(fieldPtr, object));
         }
     } else {
         ArrayHeader* array = object->array();
         for (uint32_t index = 0; index < array->count_; index++) {
-            process(mm::RefFieldAccessor(ArrayAddressOfElementAt(array, index)));
+            process(mm::RefFieldAccessor(ArrayAddressOfElementAt(array, index), object));
         }
     }
 }

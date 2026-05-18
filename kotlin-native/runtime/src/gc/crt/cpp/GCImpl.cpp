@@ -71,7 +71,15 @@ void gc::GC::WaitFinished(int64_t epoch) noexcept {}
 
 void gc::GC::WaitFinalizers(int64_t epoch) noexcept {}
 
-ALWAYS_INLINE void gc::beforeHeapRefUpdate(mm::DirectRefAccessor ref, ObjHeader* value, bool loadAtomic) noexcept {}
+ALWAYS_INLINE void gc::beforeHeapRefUpdate(mm::DirectRefAccessor ref, ObjHeader* value, bool loadAtomic) noexcept {
+    // Match upstream 33af2848b3c: in CRT mode this path is unreachable; the CRT
+    // barrier is invoked from `RefAccessor<Heap>::beforeStore` directly. Our
+    // previous empty stub silently swallowed any wrong-branch routing (e.g.
+    // when checkUseCRT picks the else-branch because x28 isn't yet set), which
+    // would lose RSet entries and leave fields stale after compaction. Abort
+    // loudly so we can identify the offending call site instead.
+    NOT_SUPPORTED_BY_CRT();
+}
 
 ALWAYS_INLINE OBJ_GETTER(gc::weakRefReadBarrier, std_support::atomic_ref<ObjHeader*> weakReferee) noexcept
 {

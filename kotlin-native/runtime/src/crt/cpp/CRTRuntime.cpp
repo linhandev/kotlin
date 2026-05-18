@@ -80,9 +80,11 @@ bool InitCRTRuntime()
     common::RuntimeParam param = common::DefaultRuntimeParam();
     // param.gcParam.enableGC = false;
     // param.gcParam.enableStwGC = true;
-    // TODO: heapSize unit is KB (regional_heap.cpp multiplies by KB), so 4*MB = 4GB actual.
-    // The code reads as "4MB" but allocates 4GB. Clarify intent and fix value.
-    param.heapParam.heapSize = 4ULL * common::MB;
+    // heapSize unit is KB (heuristic_gc_policy.cpp multiplies by KB), so 8*MB = 8GB actual.
+    // Bumped from 4GB to 8GB: with the CMC semi-space split, only half the reservation
+    // is available to the mutator. The previous 4GB → 2GB cap was tripping ForceThrowOOM
+    // during COPY phase on burst-allocating benchmarks (3d_raytrace, TestAllocIntArrays).
+    param.heapParam.heapSize = 8ULL * common::MB;
     // KMP lacks foreground/background awareness, so ChangeGCParams() is never called.
     // Set multiplier to foreground value (3.0) at init time.
     param.gcParam.multiplier = 3.0;

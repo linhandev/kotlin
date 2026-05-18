@@ -268,11 +268,17 @@ enum class MemoryModel {
 extern const MemoryModel CurrentMemoryModel;
 
 // Reads heap/static data location. thisPtr is the owning object (used by CRT read barrier; nullptr for CMS).
-HeapObjPtr ReadHeapRef(HeapDerivedPtr location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+// `thisPtr` is declared `HeapObjPtr` (AS1 ObjHeader*) so the kotlin-native compiler-interface build
+// sees addrspace(1) for it; without AS1 here, kotlin-native's `call` would emit an
+// `addrspacecast ptr addrspace(1) %this to ptr` at the call site, and LLVM's LICM hoists that cast
+// out of any loop, producing a stale (from-space) pointer that crashes the WriteBarrier on the next
+// compaction. Matches the existing AS1 usage on `location`/`object`. C++ definitions in Memory.cpp
+// keep plain ObjHeader* because AS1 expands to nothing in the regular build.
+HeapObjPtr ReadHeapRef(HeapDerivedPtr location, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // Reads volatile heap/static data location.
-HeapObjPtr ReadVolatileHeapRef(HeapDerivedPtr location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+HeapObjPtr ReadVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // Zeroes heap location.
-void ZeroHeapRef(HeapDerivedPtr location, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+void ZeroHeapRef(HeapDerivedPtr location, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // Zeroes an array.
 void ZeroArrayRefs(ObjHeader* array) RUNTIME_NOTHROW;
 // Zeroes stack location.
@@ -280,15 +286,25 @@ void ZeroStackRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Updates stack location.
 void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates heap/static data location.
-void UpdateHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+void UpdateHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
-void UpdateVolatileHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
+void UpdateVolatileHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // OBJ_GETTER macros append an implicit HeapObjPtr* OBJ_RESULT param, so thisPtr cannot carry a default arg.
 OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr expectedValue,
-           HeapObjPtr newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+           HeapObjPtr newValue, HeapObjPtr thisPtr) RUNTIME_NOTHROW;
 bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
-                                  HeapObjPtr newValue, ObjHeader* thisPtr = nullptr) RUNTIME_NOTHROW;
-OBJ_GETTER(GetAndSetVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr newValue, ObjHeader* thisPtr) RUNTIME_NOTHROW;
+                                  HeapObjPtr newValue, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
+OBJ_GETTER(GetAndSetVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr newValue, HeapObjPtr thisPtr) RUNTIME_NOTHROW;
+
+// Static (global) ref ops. Ported from upstream 33af2848b3c — globals dispatch through
+// RefAccessor<Global> rather than pretending to be heap refs with thisPtr==NULL.
+HeapObjPtr ReadStaticRef(HeapDerivedPtr location) RUNTIME_NOTHROW;
+HeapObjPtr ReadVolatileStaticRef(HeapDerivedPtr location) RUNTIME_NOTHROW;
+void UpdateStaticRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+void UpdateVolatileStaticRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+OBJ_GETTER(CompareAndSwapVolatileStaticRef, HeapDerivedPtr location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+bool CompareAndSetVolatileStaticRef(HeapDerivedPtr location, HeapObjPtr expectedValue, HeapObjPtr newValue) RUNTIME_NOTHROW;
+OBJ_GETTER(GetAndSetVolatileStaticRef, HeapDerivedPtr location, HeapObjPtr newValue) RUNTIME_NOTHROW;
 
 // Updates location if it is null, atomically.
 // Updates reference in return slot.
@@ -481,7 +497,6 @@ private:
     MemoryState* thread_;
     ThreadState oldState_;
     bool reentrant_;
-    common::CallToFFixedX28 guard{};
 };
 
 // Scopely sets the kRunnable thread state for the current thread,
@@ -498,6 +513,7 @@ private:
     MemoryState* thread_;
     ThreadState oldState_;
     bool reentrant_;
+    common::CallToFFixedX28 guard{};
 };
 
 class CurrentFrameGuard : Pinned {

@@ -40,7 +40,7 @@ internal class CodeGenerator(override val generationState: NativeGenerationState
     internal val immThreeIntPtrType = LLVMConstInt(intPtrType, 3, 1)!!
     // Mask used to extract the TypeInfo* (or MetaObjHeader*) pointer out of
     // ObjHeader.typeInfoOrMeta_, which carries tag bits in BOTH the low 2
-// bits (OBJECT_TAG_MASK) and the high 16 bits (KNStateWord packed by
+    // bits (OBJECT_TAG_MASK) and the high 16 bits (KNStateWord packed by
     // CustomAllocator with `valid` and `remainded`; also used by CRT for
     // the language tag). Mirrors kImmTypeInfoMask in Memory.h.
     // 0x0000_FFFF_FFFF_FFFC = bits 48-63 + bits 0-1 cleared, bits 2-47 kept.
@@ -729,12 +729,18 @@ internal abstract class FunctionGenerationContext(
     }
 
     fun loadFromCMC(address: LLVMValueRef, thisPtr: LLVMValueRef, memoryOrder: LLVMAtomicOrdering?) : LLVMValueRef {
-        val result = if (memoryOrder == LLVMAtomicOrdering.LLVMAtomicOrderingSequentiallyConsistent) {
-            call(llvm.readVolatileHeapRefFunction, listOf(address, thisPtr))
+        // Upstream 33af2848b3c: routes globals (thisPtr==null) to the *StaticRef variants so the
+        // runtime can dispatch through RefAccessor<Global> instead of pretending to be a heap ref
+        // with thisPtr==null (which previously caused crashes in IdleBarrier::UpdateRememberSet).
+        val isVolatile = memoryOrder == LLVMAtomicOrdering.LLVMAtomicOrderingSequentiallyConsistent
+        val isStatic = thisPtr == codegen.kNullObjHeaderPtr
+        val target = if (isVolatile) {
+            if (isStatic) llvm.readVolatileStaticRefFunction else llvm.readVolatileHeapRefFunction
         } else {
-            call(llvm.readHeapRefFunction, listOf(address, thisPtr))
+            if (isStatic) llvm.readStaticRefFunction else llvm.readHeapRefFunction
         }
-        return result
+        val args = if (isStatic) listOf(address) else listOf(address, thisPtr)
+        return call(target, args)
     }
 
     fun loadSlot(
@@ -748,7 +754,7 @@ internal abstract class FunctionGenerationContext(
             alignment: Int? = null,
             thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr
     ): LLVMValueRef {
-val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
+        val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
         val value = if (isObjectField) {
             // CRT read barrier path (no-op at runtime when USE_CRT=false; loadFromCMC checks at runtime).
             loadFromCMC(address, thisPtr, memoryOrder)
@@ -763,10 +769,18 @@ val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
     }
 
     fun loadArraySize(thiz: LLVMValueRef): LLVMValueRef {
+        // Preserve `thiz`'s address space (typically addrspace(1) for Kotlin GC-tracked
+        // refs). The previous code unconditionally addrspacecast'd to 0, which
+        // produced a pointer LLVM's `gc.statepoint` passes don't relocate; under
+        // LICM the cast gets hoisted out of bounds-checked loops, and after a
+        // compaction the stale cast pointer reads zeroed from-space — making the
+        // size read as 0 and every subsequent `arr[i]` access throw OOB (SIGABRT).
+        // Mirrors the correct pattern already used in `intrinsicArrayGetLength` and
+        // matches the fix in `loadTypeInfo` (which uses `pointerTypeOne`).
         val objHeaderType = llvm.runtime.objHeaderType
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
         val headerPlus1 = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz, cValuesOf(llvm.int64(1)), 1, "size_gep")
-        val headerPlus0 = LLVMBuildAddrSpaceCast(builder, headerPlus1, LLVMPointerType(objHeaderType, 0), "")
-        val sizePtr = LLVMBuildBitCast(builder, headerPlus0, LLVMPointerType(llvm.int32Type, 0), "size_ptr")
+        val sizePtr = LLVMBuildBitCast(builder, headerPlus1, LLVMPointerType(llvm.int32Type, thizAddrSpace), "size_ptr")
         val sizeVal = LLVMBuildLoad2(builder, llvm.int32Type, sizePtr, "size_val")!!
         LLVMSetAlignment(sizeVal, 8)
         return sizeVal
@@ -988,6 +1002,12 @@ val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
         updateRef(value, ptr, onStack = false, thisPtr = thisPtr)
     }
 
+    // Ported from upstream 33af2848b3c: writes to globals go through this helper so
+    // they dispatch to UpdateStaticRef instead of UpdateHeapRef with thisPtr==null.
+    fun storeGlobalRef(value: LLVMValueRef, ptr: LLVMValueRef) {
+        updateRef(value, ptr, onStack = false, thisPtr = codegen.kNullObjHeaderPtr)
+    }
+
     fun storeStackRef(value: LLVMValueRef, ptr: LLVMValueRef) {
         updateRef(value, ptr, onStack = true)
     }
@@ -1011,11 +1031,18 @@ val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
             require(!isVolatile) { "Stack ref update can't be volatile"}
             store(value, address)
         } else {
-            if (isVolatile) {
-                call(llvm.UpdateVolatileHeapRef, listOf(address, value, thisPtr))
+            // Upstream 33af2848b3c: dispatch global writes to *StaticRef variants. The IdleBarrier's
+            // UpdateRememberSet dereferences the obj pointer to fetch its region metadata, which
+            // crashes if obj is null. RefAccessor<Global>::beforeStore → BaseRuntime::WriteRoot
+            // avoids that path entirely.
+            val isStatic = thisPtr == codegen.kNullObjHeaderPtr
+            val target = if (isVolatile) {
+                if (isStatic) llvm.UpdateVolatileStaticRef else llvm.UpdateVolatileHeapRef
             } else {
-                call(llvm.updateHeapRefFunction, listOf(address, value, thisPtr))
+                if (isStatic) llvm.updateStaticRefFunction else llvm.updateHeapRefFunction
             }
+            val args = if (isStatic) listOf(address, value) else listOf(address, value, thisPtr)
+            call(target, args)
         }
     }
 
@@ -1743,7 +1770,13 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         val memoryOrder = LLVMAtomicOrdering.LLVMAtomicOrderingMonotonic
 
         // TODO: Get rid of the bitcast here by supplying the type in the GEP above.
-        val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), typeInfoOrMetaPtr)
+        // Use `pointerTypeOne` (addrspace 1) here — `typeInfoOrMetaPtr` was derived from a
+        // GC-tracked Kotlin object pointer via `structGep`, so it lives in addrspace(1).
+        // Routing through `pointerType` (addrspace 0) emits an `addrspacecast` that LLVM's
+        // `gc.statepoint` passes don't relocate; the resulting hoisted-out-of-loop default-
+        // addrspace pointer then references the stale (from-space) iterator after compaction.
+        // Matches mpcore/crt_dev (K2.0).
+        val typeInfoOrMetaPtrRaw = bitcast(pointerTypeOne(codegen.intPtrType), typeInfoOrMetaPtr)
         val typeInfoOrMetaWithFlags = load(codegen.intPtrType, typeInfoOrMetaPtrRaw, memoryOrder = memoryOrder)
         // Clear low 2 (OBJECT_TAG_MASK) + high 5 (KNStateWord valid/remainded) bits;
         // see comment on `immTypeInfoMask`. The inner field (TypeInfo::typeInfo_

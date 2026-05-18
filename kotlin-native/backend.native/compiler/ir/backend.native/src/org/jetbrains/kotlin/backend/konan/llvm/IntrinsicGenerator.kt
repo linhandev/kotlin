@@ -334,16 +334,22 @@ internal class IntrinsicGenerator(private val environment: IntrinsicGeneratorEnv
         SET(1)
     }
 
-    private fun FunctionGenerationContext.emitCmpExchange(callSite: IrCall, args: List<LLVMValueRef>, mode: CmpExchangeMode, resultSlot: LLVMValueRef?): LLVMValueRef {
-        require(args.size == 4) { "The call to ${callSite.symbol.owner.name.asString()} expects 4 value arguments." }
-        val newarg1 = bitcast(pointerType(codegen.intPtrType), args[1])
-        val newarg2 = bitcast(pointerType(codegen.intPtrType), args[2])
-        val newargs = listOf(args[0], newarg1, newarg2, args[3])
+    private fun FunctionGenerationContext.emitCmpExchange(callSite: IrCall, args: List<LLVMValueRef>, mode: CmpExchangeMode, resultSlot: LLVMValueRef?, isStatic: Boolean = false): LLVMValueRef {
+        // Upstream 33af2848b3c: static-field intrinsics dispatch to *StaticRef variants and drop the
+        // trailing thisPtr arg (3 args vs heap's 4 args). Without this split, static volatile
+        // CAS/getAndSet went through *HeapRef with thisPtr==null and crashed UpdateRememberSet.
+        val expectedArgsCount = if (isStatic) 3 else 4
+        require(args.size == expectedArgsCount) { "The call to ${callSite.symbol.owner.name.asString()} expects $expectedArgsCount value arguments." }
+        val newargs = listOf(args[0]) + args.drop(1).map { bitcast(pointerType(codegen.intPtrType), it) }
         return if (callSite.symbol.owner.parameters.last().type.binaryTypeIsReference()) {
             when (mode) {
-                CmpExchangeMode.SET -> call(llvm.CompareAndSetVolatileHeapRef, newargs)
+                CmpExchangeMode.SET -> {
+                    val target = if (isStatic) llvm.CompareAndSetVolatileStaticRef else llvm.CompareAndSetVolatileHeapRef
+                    call(target, newargs)
+                }
                 CmpExchangeMode.SWAP -> {
-                    val rst = call(llvm.CompareAndSwapVolatileHeapRef, newargs,
+                    val target = if (isStatic) llvm.CompareAndSwapVolatileStaticRef else llvm.CompareAndSwapVolatileHeapRef
+                    val rst = call(target, newargs,
                         environment.calculateLifetime(callSite), resultSlot = resultSlot)
                     bitcast(llvm.kObjHeaderRef, rst)
                 }
@@ -359,13 +365,15 @@ internal class IntrinsicGenerator(private val environment: IntrinsicGeneratorEnv
         }
     }
 
-    private fun FunctionGenerationContext.emitAtomicRMW(callSite: IrCall, args: List<LLVMValueRef>, op: LLVMAtomicRMWBinOp, resultSlot: LLVMValueRef?): LLVMValueRef {
-        require(args.size == 3) { "The call to ${callSite.symbol.owner.name.asString()} expects 3 value arguments." }
+    private fun FunctionGenerationContext.emitAtomicRMW(callSite: IrCall, args: List<LLVMValueRef>, op: LLVMAtomicRMWBinOp, resultSlot: LLVMValueRef?, isStatic: Boolean = false): LLVMValueRef {
+        // Upstream 33af2848b3c: static getAndSet drops the trailing thisPtr arg (2 vs 3).
+        val expectedArgsCount = if (isStatic) 2 else 3
+        require(args.size == expectedArgsCount) { "The call to ${callSite.symbol.owner.name.asString()} expects $expectedArgsCount value arguments but got $args." }
         return if (callSite.symbol.owner.parameters.last().type.binaryTypeIsReference()) {
             require(op == LLVMAtomicRMWBinOp.LLVMAtomicRMWBinOpXchg)
-            val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), args[1])
-            val newargs = listOf(args[0], typeInfoOrMetaPtrRaw, args[2])
-            val rst = call(llvm.GetAndSetVolatileHeapRef, newargs,
+            val newargs = listOf(args[0]) + args.drop(1).map { bitcast(pointerType(codegen.intPtrType), it) }
+            val target = if (isStatic) llvm.GetAndSetVolatileStaticRef else llvm.GetAndSetVolatileHeapRef
+            val rst = call(target, newargs,
                     environment.calculateLifetime(callSite), resultSlot = resultSlot)
             bitcast(llvm.kObjHeaderRef, rst)
         } else {
@@ -384,21 +392,27 @@ internal class IntrinsicGenerator(private val environment: IntrinsicGeneratorEnv
             listOf(environment.getObjectFieldPointer(args[0], field)) + args.drop(1) + args[0]
         } else {
             require(field.isStatic)
-            listOf(environment.getStaticFieldPointer(field)) + args + codegen.kNullObjHeaderPtr
+            // Upstream 33af2848b3c: static refs no longer pad with a null thisPtr — they're routed
+            // through CompareAndSetVolatileStaticRef etc. which have a 3-arg signature.
+            listOf(environment.getStaticFieldPointer(field)) + args
         }
     }
 
     private fun FunctionGenerationContext.emitCompareAndSet(callSite: IrCall, args: List<LLVMValueRef>): LLVMValueRef {
-        return emitCmpExchange(callSite, transformArgsForVolatile(callSite, args), CmpExchangeMode.SET, null)
+        val field = callSite.symbol.owner.volatileField!!
+        return emitCmpExchange(callSite, transformArgsForVolatile(callSite, args), CmpExchangeMode.SET, null, field.isStatic)
     }
     private fun FunctionGenerationContext.emitCompareAndSwap(callSite: IrCall, args: List<LLVMValueRef>, resultSlot: LLVMValueRef?): LLVMValueRef {
-        return emitCmpExchange(callSite, transformArgsForVolatile(callSite, args), CmpExchangeMode.SWAP, resultSlot)
+        val field = callSite.symbol.owner.volatileField!!
+        return emitCmpExchange(callSite, transformArgsForVolatile(callSite, args), CmpExchangeMode.SWAP, resultSlot, field.isStatic)
     }
     private fun FunctionGenerationContext.emitGetAndSet(callSite: IrCall, args: List<LLVMValueRef>, resultSlot: LLVMValueRef?): LLVMValueRef {
-        return emitAtomicRMW(callSite, transformArgsForVolatile(callSite, args), LLVMAtomicRMWBinOp.LLVMAtomicRMWBinOpXchg, resultSlot)
+        val field = callSite.symbol.owner.volatileField!!
+        return emitAtomicRMW(callSite, transformArgsForVolatile(callSite, args), LLVMAtomicRMWBinOp.LLVMAtomicRMWBinOpXchg, resultSlot, field.isStatic)
     }
     private fun FunctionGenerationContext.emitGetAndAdd(callSite: IrCall, args: List<LLVMValueRef>): LLVMValueRef {
-        return emitAtomicRMW(callSite, transformArgsForVolatile(callSite, args), LLVMAtomicRMWBinOp.LLVMAtomicRMWBinOpAdd, null)
+        val field = callSite.symbol.owner.volatileField!!
+        return emitAtomicRMW(callSite, transformArgsForVolatile(callSite, args), LLVMAtomicRMWBinOp.LLVMAtomicRMWBinOpAdd, null, field.isStatic)
     }
 
     @Suppress("DEPRECATION")

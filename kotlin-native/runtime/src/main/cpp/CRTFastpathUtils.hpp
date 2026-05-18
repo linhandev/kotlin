@@ -17,7 +17,14 @@
 
 #include "KAssert.h"
 
+namespace kotlin::mm {
+class ThreadData;
+}
+
 namespace common {
+class Mutator;
+class MutatorBase;
+class ThreadHolder;
 
 #ifdef ENABLE_GC_FASTPATH
 
@@ -100,42 +107,50 @@ private:
 };
 
 #ifdef ENABLE_GC_FASTPATH
-struct ThreadLocalRegisterData {
-    uintptr_t threadLocalData : 62;
-    uintptr_t needBarrier : 1;
-};
-union ThreadLocalRegisterAccessor {
-    uintptr_t raw;
-    ThreadLocalRegisterData data;
-};
-static_assert(sizeof(ThreadLocalRegisterData) == sizeof(ThreadLocalRegisterAccessor::raw));
-
-static inline uintptr_t ThreadLocalRegisterRawData() {
-    uintptr_t tlr;
-    FixedRegToLocalVar(tlr);
-    return tlr;
-}
-
 #define SetThreadLocalDataToFixedReg(tls) \
     do { \
     common::CallToFFixedX28::Verify(); \
     LocalVarToFixedReg_UNCHECKED(tls); \
     } while (false);
 
-class MutatorBase;
-ALWAYS_INLINE void UpdateThreadLocalDataReg(common::MutatorBase* mutator);
+#define TLS_ACTIVE_READ_BARRIER_BIT "62" // string, to simplify uses in __asm__, keep in sync with TLS_DATA_MASK
+constexpr uintptr_t TLS_DATA_MASK = (1L << 62) - 1; // keep in sync with TLS_ACTIVE_READ_BARRIER_BIT
 
-static inline void ZeroThreadLocalDataReg() {
-    CallToFFixedX28::Verify();
-    __asm__ volatile("mov x28, #0" ::: "x28");
+static inline uintptr_t ThreadLocalRegisterData() {
+    uintptr_t tlr;
+    FixedRegToLocalVar(tlr);
+    // Usually we access data pointed by x28 value without masking
+    // relying on TBI, masking is only required for equality checks.
+    return tlr & TLS_DATA_MASK;
 }
+static_assert(CallToFFixedX28::MAGIC_MARKER == (CallToFFixedX28::MAGIC_MARKER & TLS_DATA_MASK));
 
 #define CHECK_READ_BARRIER_SLOW_PATH(slow_path) \
-    __asm__ volatile goto("tbnz x28, #62, %l[" #slow_path "]" : : : : slow_path);
+    __asm__ volatile goto("tbnz x28, #" TLS_ACTIVE_READ_BARRIER_BIT ", %l[" #slow_path "]" : : : : slow_path);
 
 #define FAST_CHECK_MM_SWITCH(slow_path) \
     __asm__ volatile goto("cbz x28, %l[" #slow_path "]" : : : : slow_path);
-
 #endif
+
+/// UpdateThreadLocalDataReg functions sync the TLS_ACTIVE_READ_BARRIER_BIT value in x28 to the current GC phase.
+/// These functions should be called at the earliest possible point below a call to CRT runtime
+/// which might step on a safe-point and thus trigger GC phase change.
+ALWAYS_INLINE void UpdateThreadLocalDataReg(const MutatorBase*);
+ALWAYS_INLINE void UpdateThreadLocalDataReg(const ThreadHolder*);
+ALWAYS_INLINE void UpdateThreadLocalDataReg();
+
+/// RestoreThreadLocalDataReg functions update the full x28 register with CRT TLS pointer and current GC phase.
+/// These functions should be called to complete the switch to kRunnable state,
+/// e.g. ensure proper x28 value in a K/N runtime function called from CRT after it performs a switch to safe state.
+ALWAYS_INLINE void RestoreThreadLocalDataReg(kotlin::mm::ThreadData*);
+ALWAYS_INLINE void RestoreThreadLocalDataReg();
+
+/// Ensures x28 == 0, which is its proper value when both -ffixed-x28 and non-CRT MM are enabled.
+ALWAYS_INLINE void ZeroThreadLocalDataReg();
+
+/// Obtains the current Mutator pointer from the CRT TLS stored in x28, or nullptr if x28 is not used.
+/// Ported from upstream 33af2848b3c: write barriers want the mutator pointer so they can route
+/// directly to that thread's SATB buffer rather than re-resolving it via `Mutator::GetMutator()`.
+ALWAYS_INLINE Mutator* GetMutatorOrNull();
 } // namespace common
 #endif

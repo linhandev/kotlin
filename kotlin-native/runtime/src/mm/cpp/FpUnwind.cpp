@@ -242,6 +242,12 @@ static bool IsInvokeCFunction(const uint32_t* ip)
             reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForInvokeCFunction);
 }
 
+static bool IsWorkerStub(const uint32_t* ip)
+{
+    return reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCStartForWorkerStub) &&
+            reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForWorkerStub);
+}
+
 static bool IsK2RStub(const uint32_t* ip)
 {
     return reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCForK2RStubStart) &&
@@ -373,6 +379,8 @@ static void UnwindKotlinFrame(FrameInfo& info, mm::FrameAddress* curFp, std::vec
         info.type = FrameType::R2K_STUB;
     } else if (IsKonanRunStartFrame(curFp->returnAddr)) {
         info.type = FrameType::KONAN_RUN_START_FRAME;
+    // } else if (IsWorkerStub(curFp->returnAddr)) {
+    //     info.type = FrameType::WORKER_STUB;
     } else if (IsCallInitGlobalPossiblyLock(curFp->returnAddr)) {
         info.type = FrameType::CALL_INIT_GLOBAL_POSSIIBLY_LOCK;
     } else if (IsInitOrDeinitGlobalVariables(curFp->returnAddr)) {

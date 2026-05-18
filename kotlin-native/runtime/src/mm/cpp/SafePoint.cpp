@@ -50,9 +50,7 @@ static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
 
     common::MutatorBase* mutator = reinterpret_cast<common::MutatorBase*>(mutatorPtr);
     mutator->DoLeaveSaferegion();
-#ifdef ENABLE_GC_FASTPATH
     common::UpdateThreadLocalDataReg(mutator);
-#endif
 };
 } // namespace kotlin
 

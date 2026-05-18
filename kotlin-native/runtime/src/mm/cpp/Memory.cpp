@@ -157,14 +157,21 @@ extern "C" OBJ_GETTER(AllocArrayInstance, const TypeInfo* typeInfo, int32_t elem
 }
 
 HAS_SAFEPOINT
-extern "C" RUNTIME_NOTHROW OBJ_GETTER(AllocInstanceForCI, const TypeInfo* typeInfo) {
+extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(AllocInstanceForCI, const TypeInfo* typeInfo) {
     // Trampoline to AllocInstance. CRT codegen emits calls to *ForCI; fp-unwind K2RStub
     // mechanism handles the K2N transition via the HAS_SAFEPOINT annotation, so no FrameGuard needed.
     RETURN_RESULT_OF(AllocInstance, typeInfo);
 }
 
+// NO_INLINE is critical: without it, LLVM inlines this thin trampoline into kfun:#main's call
+// site, which collapses the chain into a direct `bl kotlin::mm::AllocateArray`. That direct
+// call bypasses the K2R stub the KotlinStubGenerator pass would otherwise emit for this
+// HAS_SAFEPOINT/K2RStub-annotated entry, and the fp-unwind walker (FpUnwind.cpp's
+// UnwindRuntimeFrame) has no way to transition RUNTIME_FRAME → KOTLIN_FRAME without a stub
+// on the path — so kfun:#main's stack roots are missed during STW preforward and
+// concurrent CMC compaction leaves them stale → SIGSEGV. Matches upstream mpcore/crt_dev.
 HAS_SAFEPOINT
-extern "C" OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* typeInfo, int32_t elements) {
+extern "C" NO_INLINE OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* typeInfo, int32_t elements) {
     RETURN_RESULT_OF(AllocArrayInstance, typeInfo, elements);
 }
 
@@ -175,51 +182,41 @@ extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, cons
     mm::GlobalsRegistry::Instance().RegisterStorageForGlobal(threadData, location);
 }
 
-template<bool IsVolatile=false>
-NO_INLINE RUNTIME_NOTHROW ObjHeader *ReadHeapRefSlow(ObjHeader** location, ObjHeader* thisPtr) {
-    if constexpr (IsVolatile) {
-        return mm::RefAccessor<false>(location, thisPtr).loadAtomic(std::memory_order_seq_cst);
-    } else {
-        return mm::RefAccessor<false>(location, thisPtr).load();
-    }
-}
-
 extern "C" const MemoryModel CurrentMemoryModel = MemoryModel::kExperimental;
 
 HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
-    return checkUseCRT<CheckMode::Fast>([&] {
-        // TODO: combine with the fastpath barrier check after PR!22 is merged
-#ifdef ENABLE_GC_FASTPATH
-        CHECK_READ_BARRIER_SLOW_PATH(rb_slow_path)
-        return *location;
-#endif // ENABLE_GC_FASTPATH
-    rb_slow_path:
-        return ReadHeapRefSlow<false>(location, thisPtr);
-    }, [&] {
-        // v3 CMS path: plain load. fp-unwind state transitions handled by K2RStub annotations.
-        return mm::RefAccessor<false>(location, thisPtr).load();
-    });
+    // Barrier dispatch (CRT vs CMS, fast vs slow path) is fully encapsulated in
+    // RefFieldAccessor::load → loadWithBarrier (see ReferenceOps.cpp). Don't
+    // duplicate the x28-bit-62 check here — that previously bypassed the
+    // barrier under CRT because the slow path also went through DirectRefAccessor
+    // which wasn't actually wired to BaseRuntime::ReadBarrier in any meaningful way.
+    return mm::RefFieldAccessor{location, thisPtr}.load();
 }
 
 HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW ObjHeader* ReadVolatileHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
-    return checkUseCRT<CheckMode::Fast>([&] {
-        // TODO: combine with the fastpath barrier check after PR!22 is merged
-#ifdef ENABLE_GC_FASTPATH
-        CHECK_READ_BARRIER_SLOW_PATH(rb_slow_path)
-        return std_support::atomic_ref(*location).load(std::memory_order_seq_cst);
-#endif // ENABLE_GC_FASTPATH
-    rb_slow_path:
-        return ReadHeapRefSlow<true>(location, thisPtr);
-    }, [&] {
-        return mm::RefAccessor<false>(location, thisPtr).loadAtomic(std::memory_order_seq_cst);
-    });
+    return mm::RefFieldAccessor{location, thisPtr}.loadAtomic(std::memory_order_seq_cst);
+}
+
+// Ported from upstream 33af2848b3c: globals get their own access path so
+// barrier dispatch can route through RefAccessor<Global>::beforeStore →
+// BaseRuntime::WriteRoot instead of pretending to be a heap ref with
+// thisPtr==NULL. The Kotlin codegen emits these for `var`/`val` declared at
+// file or singleton scope.
+HAS_SAFEPOINT
+extern "C" RUNTIME_NOTHROW ObjHeader* ReadStaticRef(ObjHeader** location) {
+    return mm::GlobalRefAccessor{location}.load();
+}
+
+HAS_SAFEPOINT
+extern "C" RUNTIME_NOTHROW ObjHeader* ReadVolatileStaticRef(ObjHeader** location) {
+    return mm::GlobalRefAccessor{location}.loadAtomic(std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void ZeroHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
-    mm::RefAccessor<false>{location} = nullptr;
+    mm::RefFieldAccessor{location, thisPtr} = nullptr;
 }
 
 NO_SAFEPOINT
@@ -227,7 +224,7 @@ extern "C" RUNTIME_NOTHROW void ZeroArrayRefs(ObjHeader* array_) {
     auto array = array_->array();
     for (uint32_t index = 0; index < array->count_; ++index) {
         ObjHeader** location = ArrayAddressOfElementAt(array, index);
-        mm::RefFieldAccessor{location} = nullptr;
+        mm::RefFieldAccessor{location, array_} = nullptr;
     }
 }
 
@@ -243,29 +240,57 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStackRef(ObjHeader** lo
 
 NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
-    mm::RefAccessor<false>(location, thisPtr) = const_cast<ObjHeader*>(object);
+    mm::RefFieldAccessor{location, thisPtr} = const_cast<ObjHeader*>(object);
 }
 
 NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
-    mm::RefAccessor<false>(location, thisPtr).storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
+    mm::RefFieldAccessor{location, thisPtr}.storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileHeapRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
     ObjHeader* actual = expectedValue;
-    mm::RefAccessor<false>(location, thisPtr).compareAndExchange(actual, newValue, std::memory_order_seq_cst);
+    mm::RefFieldAccessor{location, thisPtr}.compareAndExchange(actual, newValue, std::memory_order_seq_cst);
     RETURN_OBJ(actual);
 }
 
 NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileHeapRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue, ObjHeader* thisPtr) {
-    return mm::RefAccessor<false>(location, thisPtr).compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
+    return mm::RefFieldAccessor{location, thisPtr}.compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
 extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileHeapRef, ObjHeader** location, ObjHeader* newValue, ObjHeader* thisPtr) {
-    RETURN_OBJ(mm::RefAccessor<false>(location, thisPtr).exchange(newValue, std::memory_order_seq_cst));
+    RETURN_OBJ(mm::RefFieldAccessor(location, thisPtr).exchange(newValue, std::memory_order_seq_cst));
+}
+
+// Static (i.e. global) ref write paths. Ported from upstream 33af2848b3c.
+NO_SAFEPOINT
+extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStaticRef(ObjHeader** location, const ObjHeader* object) {
+    mm::GlobalRefAccessor{location} = const_cast<ObjHeader*>(object);
+}
+
+NO_SAFEPOINT
+extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileStaticRef(ObjHeader** location, const ObjHeader* object) {
+    mm::GlobalRefAccessor{location}.storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
+}
+
+NO_SAFEPOINT
+extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(CompareAndSwapVolatileStaticRef, ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
+    ObjHeader* actual = expectedValue;
+    mm::GlobalRefAccessor{location}.compareAndExchange(actual, newValue, std::memory_order_seq_cst);
+    RETURN_OBJ(actual);
+}
+
+NO_SAFEPOINT
+extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW bool CompareAndSetVolatileStaticRef(ObjHeader** location, ObjHeader* expectedValue, ObjHeader* newValue) {
+    return mm::GlobalRefAccessor{location}.compareAndExchange(expectedValue, newValue, std::memory_order_seq_cst);
+}
+
+NO_SAFEPOINT
+extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW OBJ_GETTER(GetAndSetVolatileStaticRef, ObjHeader** location, ObjHeader* newValue) {
+    RETURN_OBJ(mm::GlobalRefAccessor{location}.exchange(newValue, std::memory_order_seq_cst));
 }
 
 NO_SAFEPOINT
@@ -341,12 +366,7 @@ extern "C" void Kotlin_native_internal_GC_collect(ObjHeader*) {
     checkUseCRT<CheckMode::Slow>([] {
         RuntimeSetLastFrame1();
         common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER, false, common::GCType::GC_TYPE_FULL);
-#ifdef ENABLE_GC_FASTPATH
-        // Refresh x28 — RequestGC may have run through STW which clobbers x28.
-        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
-        auto* mutator = reinterpret_cast<common::MutatorBase*>(threadData->GetThreadHolder()->GetMutator());
-        common::UpdateThreadLocalDataReg(mutator);
-#endif
+        common::UpdateThreadLocalDataReg();
     }, [] {
         auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
         AssertThreadState(threadData, ThreadState::kRunnable);
@@ -510,8 +530,9 @@ extern "C" void Kotlin_native_runtime_GC_MainThreadFinalizerProcessor_setBatchSi
 
 HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW void PerformFullGC(MemoryState* memory) {
-    checkUseCRT<CheckMode::Slow>([] {
-        common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER , false, common::GCType::GC_TYPE_FULL);
+    checkUseCRT<CheckMode::Slow>([&] {
+        common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER, false, common::GCType::GC_TYPE_FULL);
+        common::UpdateThreadLocalDataReg(memory->GetThreadData()->GetThreadHolder());
     }, [] {
         mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
     });

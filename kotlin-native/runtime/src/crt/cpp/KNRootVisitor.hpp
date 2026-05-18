@@ -31,10 +31,12 @@ namespace common {
 
 class KNRootsVisitor : public common::RootsRegistryInterface, private kotlin::Pinned {
 public:
-    // libcrt's STW path (ark_collector.cpp's EnumRootsImpl<VisitGlobalRoots> at line 1025
-    // and STW collection at line 479) calls only VisitGlobalRoots without VisitConcurrentRoots.
-    // Without this delegation, Kotlin globals + stable refs would be missed during STW
-    // collections like explicit GC.collect(), causing premature reclamation.
+    // Upstream 33af2848b3c made this a no-op assuming all root scanning runs via VisitConcurrentRoots.
+    // But our libcrt (cc-kotlin-dev) still has STW paths (ark_collector.cpp's EnumRootsImpl<VisitGlobalRoots>
+    // at line 1025 and STW collection at line 479) that only call VisitGlobalRoots. Empty here loses
+    // Kotlin globals + stable refs during STW GCs — GlobalRootsStress / StableRefStress / StableRef
+    // benchmark regress from 0 fails to 3 fails. Delegate to VisitConcurrentRoots so both STW and
+    // concurrent paths cover the same set of roots.
     void VisitGlobalRoots(const RefFieldVisitor& visitor) { VisitConcurrentRoots(visitor); }
 
     void VisitConcurrentRoots(const RefFieldVisitor& visitor);
@@ -63,14 +65,19 @@ public:
     }
 
 private:
-    // Iterate global Kotlin roots. We use the existing `mm::GlobalRootSet` abstraction,
-    // which already aggregates the global-side root sources in this codebase. Upstream's
-    // version splits this into globalsRegistry + specialRefRegistry but our HEAD doesn't
-    // expose a separate specialRefRegistry — GlobalRootSet covers both.
+    // Iterate global Kotlin roots. Ported from upstream 33af2848b3c — splits the iteration
+    // into globalsRegistry().LockForIter() (Kotlin object globals) and the externalRCRefRegistry
+    // roots (stable refs) so the visitor receives a true `ObjHeader*&` (`RefField<>&`) reference
+    // that the concurrent COPY/FIX phases can rewrite in place. The previous code went through
+    // `mm::GlobalRootSet` which after the *& → * change in RootSet.hpp can no longer bind a
+    // RefField<>& to the value-typed `Value::object` field.
     template <typename Visitor>
     static void TraverseGlobalRoots(const Visitor& visitorFunc) {
-        for (auto value : kotlin::mm::GlobalRootSet()) {
-            visitorFunc(value.object);
+        for (auto globalField : kotlin::mm::GlobalData::Instance().globalsRegistry().LockForIter()) {
+            visitorFunc(*globalField);
+        }
+        for (auto& specialRef : kotlin::mm::GlobalData::Instance().externalRCRefRegistry().roots()) {
+            visitorFunc(specialRef);
         }
     }
 };

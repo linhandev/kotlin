@@ -105,7 +105,7 @@ public:
     };
 
     struct Value {
-        ObjHeader* &object;
+        ObjHeader* object; // must be * not *& for CMS correctness
         Source source;
 
         bool operator==(const Value& rhs) const noexcept { return object == rhs.object && source == rhs.source; }

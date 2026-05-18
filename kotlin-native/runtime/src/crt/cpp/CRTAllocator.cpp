@@ -45,12 +45,9 @@ CRTAllocator::CRTAllocator() noexcept {
 
 CRTAllocator::~CRTAllocator() {}
 
-static NO_INLINE common::Address AllocFromCMCSlowPath(size_t size, uintptr_t tls) {
+static NO_INLINE common::Address AllocFromCMCSlowPath(size_t size) {
     auto allocPtr = common::HeapAllocator::Allocate(size, common::LanguageType::KOTLIN);
-
-#ifdef ENABLE_GC_FASTPATH
-    common::UpdateThreadLocalDataReg(*reinterpret_cast<common::MutatorBase**>(tls + common::TLS_MUTATOR_OFF));
-#endif
+    common::UpdateThreadLocalDataReg(); // CRT code might step on a safe-point, ensure x28 is updated
     return allocPtr;
 }
 
@@ -74,10 +71,19 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
         // code which may trigger STW; capture this frame so the GC walker can
         // unwind from here back through the Kotlin caller.
         RuntimeSetLastFrame1();
-        allocPtr = AllocFromCMCSlowPath(size, tls);
+        allocPtr = AllocFromCMCSlowPath(size);
     } else {
         *reinterpret_cast<uintptr_t*>(regionAddr + common::REGION_DESC_ALLOC_OFF) = endOfAlloc;
     }
+    // Required by Kotlin semantics (matches upstream mpcore/crt_dev): every
+    // alloc-site (CreateObject, CreateArray, CreateExtraObjectData...) must see
+    // zeroed memory so ref fields don't carry over stale heap-looking
+    // pointers from previously-freed objects in the same TLAB region. The
+    // pre-port code only memset'd inside CreateArray, leaving CreateObject
+    // returning uninitialized memory — the GC then traced garbage in the new
+    // object's ref fields and crashed during PRECOPY/Fix when those garbage
+    // values happened to point into a now-from-region.
+    std::memset(reinterpret_cast<void*>(allocPtr), 0, size);
     return reinterpret_cast<uint8_t*>(allocPtr);
 }
 
@@ -102,11 +108,6 @@ ALWAYS_INLINE ObjHeader* CRTAllocator::CreateObject(const TypeInfo* typeInfo) no
     if (typeInfo->flags_ & TF_HAS_FINALIZER) {
         common::BaseFinalizerProcessor::RegisterFinalizableObject(kobj);
     }
-    #ifdef KONAN_OHOS
-    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
-        restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_, TAG_RES_KMP_HEAP_MASK, true);
-    }
-    #endif
     return object;
 }
 
@@ -120,11 +121,6 @@ ALWAYS_INLINE ArrayHeader* CRTAllocator::CreateArray(const TypeInfo* typeInfo, u
     array->typeInfoOrMeta_ = reinterpret_cast<TypeInfo*>(
         reinterpret_cast<uintptr_t>(typeInfo) | kKotlinLangBits);
     array->count_ = count;
-    #ifdef KONAN_OHOS
-    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
-        restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_, TAG_RES_KMP_HEAP_MASK, true);
-    }
-    #endif
     return array;
 }
 
@@ -152,14 +148,9 @@ mm::ExtraObjectData* CRTAllocator::CreateExtraObjectDataForObject(ObjHeader* obj
     // Mirrors mpcore/crt_fp_unwind's CRTAllocator::CreateExtraObjectDataForObject.
     ObjHolder holder{object};
     auto extraObjectMemory = reinterpret_cast<void*>(common::HeapAllocator::AllocateExtra(size, common::LanguageType::KOTLIN));
+    common::UpdateThreadLocalDataReg(); // CRT code might step on a safe-point, ensure x28 is updated
     object = holder.obj();
-    auto* extraObject = new (extraObjectMemory) mm::ExtraObjectData(object, info);
-    #ifdef KONAN_OHOS
-    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
-        restrace(RES_KMP_HEAP_MASK, (void*)extraObject, size, TAG_RES_KMP_HEAP_MASK, true);
-    }
-    #endif
-    return extraObject;
+    return new (extraObjectMemory) mm::ExtraObjectData(object, info);
 }
 
 // static
