@@ -44,6 +44,9 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
 ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
 cd "$ROOT_DIR"
 
+# Add SSH host key for gitcode.com to avoid host key verification failure
+ssh-keyscan gitcode.com >> ~/.ssh/known_hosts 2>/dev/null
+
 if [ -d "third-party/common-rt/.git" ]; then
     echo "Submodule third-party/common-rt already initialized, pulling latest..."
     git submodule update --recursive third-party/common-rt
