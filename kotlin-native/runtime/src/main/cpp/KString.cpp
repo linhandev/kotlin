@@ -338,9 +338,8 @@ OBJ_GETTER(concatStringsUTF16, ThizView thizView, OtherView otherView,
         });
 }
 
-HAS_SAFEPOINT
-extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
 #ifdef KONAN_OHOS
+static OBJ_GETTER(handleProxyStringPlus, KConstRef thiz, KConstRef other) {
     bool isThizProxy = hmm::IsKStringProxy(thiz);
     bool isOtherProxy = hmm::IsKStringProxy(other);
     if (isThizProxy && isOtherProxy) {
@@ -352,6 +351,32 @@ extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
     if (isOtherProxy) {
         return hmm::Kotlin_String_plusStringProxyImpl(thiz, other, OBJ_RESULT);
     }
+    RETURN_OBJ(nullptr);
+}
+#endif
+
+template <typename ThizView, typename OtherView>
+OBJ_GETTER(concatStrings, ThizView thizView, OtherView otherView,
+           ObjHolder& thizHolder, ObjHolder& otherHolder) {
+    RuntimeAssert(thizView.sizeInChars() <= MAX_STRING_SIZE, "this cannot be this large");
+    RuntimeAssert(otherView.sizeInChars() <= MAX_STRING_SIZE, "other cannot be this large");
+    auto resultLength = thizView.sizeInChars() + otherView.sizeInChars();
+    if (resultLength > MAX_STRING_SIZE) ThrowOutOfMemoryError();
+    if (thizView.encoding == otherView.encoding &&
+        (thizView.encoding == StringEncoding::kUTF16 ||
+         thizView.sizeInUnits() < std::numeric_limits<size_t>::max() - otherView.sizeInUnits())) {
+        RETURN_RESULT_OF(concatStringsSameEncoding, thizView, otherView, thizHolder, otherHolder);
+    } else {
+        RETURN_RESULT_OF(concatStringsUTF16, thizView, otherView, thizHolder, otherHolder);
+    }
+}
+
+HAS_SAFEPOINT
+extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
+#ifdef KONAN_OHOS
+    if (hmm::IsKStringProxy(thiz) || hmm::IsKStringProxy(other)) {
+        RETURN_RESULT_OF(handleProxyStringPlus, thiz, other);
+    }
 #endif
     if (kotlin::compiler::latin1Strings()) {
         if (StringHeader::of(thiz)->size() == 0) RETURN_OBJ(const_cast<KRef>(other));
@@ -360,17 +385,7 @@ extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
     ObjHolder thizHolder(const_cast<KRef>(thiz));
     ObjHolder otherHolder(const_cast<KRef>(other));
     return encodingAware(thiz, other, [&](auto thizView, auto otherView) {
-        RuntimeAssert(thizView.sizeInChars() <= MAX_STRING_SIZE, "this cannot be this large");
-        RuntimeAssert(otherView.sizeInChars() <= MAX_STRING_SIZE, "other cannot be this large");
-        auto resultLength = thizView.sizeInChars() + otherView.sizeInChars();
-        if (resultLength > MAX_STRING_SIZE) ThrowOutOfMemoryError();
-        if (thizView.encoding == otherView.encoding &&
-            (thizView.encoding == StringEncoding::kUTF16 ||
-             thizView.sizeInUnits() < std::numeric_limits<size_t>::max() - otherView.sizeInUnits())) {
-            RETURN_RESULT_OF(concatStringsSameEncoding, thizView, otherView, thizHolder, otherHolder);
-        } else {
-            RETURN_RESULT_OF(concatStringsUTF16, thizView, otherView, thizHolder, otherHolder);
-        }
+        RETURN_RESULT_OF(concatStrings, thizView, otherView, thizHolder, otherHolder);
     });
 }
 
