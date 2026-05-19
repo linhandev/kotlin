@@ -71,6 +71,7 @@ public:
     ATTR_NO_INLINE BitsManager GetNext(uint32_t bitsLen) const;
 
 private:
+    // we don't use reinterpret_cast<uint64_t*> because of the effect of big-endien.
     uint64_t ConnectBytesToU64() const;
     static constexpr uint32_t bitsNumPerByte = 8;
     static constexpr uint32_t bitsShiftPerByte = 3;
@@ -80,6 +81,14 @@ private:
     uint32_t bitPos{ 0 };
 };
 
+// VarInt has two section
+// |   tag  |         payload               |
+// | 4 bits | 8/16/24/32 bits depends on tag|
+// e.g  varInt = 0b0101 GetValue() = {3, 4}
+// varInt = 0b1100 00010001 GetValue() = {0x11, 12}
+// varInt = 0b1101 00010001 00010001 GetValue() = {0x1111, 20}
+// varInt = 0b1110 00010001 00010001 00010001 GetValue() = {0x111111, 28}
+// varInt = 0b1111 00010001 00010001 00010001 00010001 GetValue() = {0x11111111, 36}
 class VarInt {
 public:
     enum TagType : uint8_t {
@@ -146,6 +155,9 @@ struct PrologueRegisterClosure {
 };
 
 using PrologueVisitor = std::function<void(PrologueRegisterClosure::Type, uint32_t)>;
+// Prologue Table : 1 columns
+// | VarInt   |  the first row is a varInt that records the bit map of callee-saved register.
+// | VarInt[] |  the next n rows is a varInt matrix that records the offset of the slot saving callee-saved register.
 class PrologueVarInt {
 public:
     PrologueVarInt(uint8_t* ptr, uint32_t bitPos, const PrologueVisitor& visitor) : prologue(ptr, bitPos)
@@ -167,6 +179,15 @@ private:
     BitsManager nextTable;
 };
 
+// Register Table Header : 2 columns
+// | VarInt num |  VarInt bitLength |
+// |     @1     |        @2         |
+// ----------------------------------
+// Register Table : 1 columns
+// | num * bitMap |
+// bitMap represents the active registers, and it is encoded in different ways according to the hardware platform.
+// Get the encoding ways in stackMap_aarch64.h and stackMap_X86.h
+// num is from @1, the bit length of bitMap is from @2
 class RegTable : public TableAPI {
 public:
     RegTable() = default;
@@ -190,6 +211,17 @@ private:
     uint32_t headerInfo[HEADER_COL_NUM]{ 0 };
 };
 
+// Slot Table Header : 3 columns
+// | VarInt num | VarInt bitLength | VarInt bitLength |
+// |      @1    |        @2        |        @3        |
+// ----------------------------------------------------
+// Slot Table : 2 columns
+// | baseOffset | bitmap |
+// baseOffset is compressed signed integer which represents the basic offset of all slots with respect to stack bottom.
+// bitmap represents the slot in stack
+// e.g. baseOffset = 0b10111000 (-72) bitmap = 0b11
+// then we resolve them as :
+// ((-72) + 0) * 8 = -576, ((-72) + 1) * 8 = -568
 class SlotTable : public TableAPI {
 public:
     SlotTable() = default;
@@ -205,6 +237,11 @@ public:
 
 private:
     void Init();
+    // WAHSlotBit is decompressed into a vector which value has 3 types:
+    // | bit31 | bit30 | bit29...bit0 |
+    // |   0   |   1   |    varInt    |  ====> (varInt * 31) bits of 1
+    // |   0   |   0   |    varInt    |  ====> (varInt * 31) bits of 0
+    // |   1   |       RawData        |  ====> 31 valid bits data.
     std::vector<SlotBits> GetWAHSlotBitMap(uint32_t row) const;
     enum HeaderColTag {
         RECORD_NUM = 0,
@@ -243,6 +280,7 @@ public:
 
     void CollectAllIdxSet(std::vector<IdxSet> &idxSetVec) const;
 
+    // Iterator over all IdxSet records, used by the precise CRT root visitor.
     class IdxSetIterator {
     public:
         IdxSetIterator(const StackMapTable& table, uint32_t pos) : table(table), i(pos) {}
@@ -280,6 +318,7 @@ private:
     uint32_t headerInfo[HEADER_COL_NUM]{ 0 };
 };
 
+// DerivedPtrTable doesn't have header info, the bits length is the same as stack map table.
 class DerivedPtrTable : public TableAPI {
 public:
     DerivedPtrTable() = default;

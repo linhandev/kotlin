@@ -310,6 +310,34 @@ extern "C" OBJ_GETTER(Kotlin_String_replace, KConstRef thizPtr, KChar oldChar, K
     });
 }
 
+template <typename ThizView, typename OtherView, typename ThizHolder, typename OtherHolder>
+OBJ_GETTER(concatStringsSameEncoding, ThizView thizView, OtherView otherView,
+           ThizHolder& thizHolder, OtherHolder& otherHolder) {
+    RETURN_RESULT_OF(createString<thizView.encoding>, thizView.sizeInUnits() + otherView.sizeInUnits(),
+        [thizView, otherView, &thizHolder, &otherHolder](auto* out) {
+            using ThizT = decltype(thizView);
+            using OtherT = decltype(otherView);
+            ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
+            OtherT other_fresh(StringHeader::of(otherHolder.obj()));
+            auto halfway = std::copy(thiz_fresh.begin().ptr(), thiz_fresh.end().ptr(), out);
+            std::copy(other_fresh.begin().ptr(), other_fresh.end().ptr(), halfway);
+        });
+}
+
+template <typename ThizView, typename OtherView, typename ThizHolder, typename OtherHolder>
+OBJ_GETTER(concatStringsUTF16, ThizView thizView, OtherView otherView,
+           ThizHolder& thizHolder, OtherHolder& otherHolder) {
+    RETURN_RESULT_OF(createString<StringEncoding::kUTF16>, thizView.sizeInChars() + otherView.sizeInChars(),
+        [thizView, otherView, &thizHolder, &otherHolder](KChar* out) {
+            using ThizT = decltype(thizView);
+            using OtherT = decltype(otherView);
+            ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
+            OtherT other_fresh(StringHeader::of(otherHolder.obj()));
+            auto halfway = std::copy(thiz_fresh.begin(), thiz_fresh.end(), out);
+            std::copy(other_fresh.begin(), other_fresh.end(), halfway);
+        });
+}
+
 HAS_SAFEPOINT
 extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
 #ifdef KONAN_OHOS
@@ -329,45 +357,19 @@ extern "C" OBJ_GETTER(Kotlin_String_plusImpl, KConstRef thiz, KConstRef other) {
         if (StringHeader::of(thiz)->size() == 0) RETURN_OBJ(const_cast<KRef>(other));
         if (StringHeader::of(other)->size() == 0) RETURN_OBJ(const_cast<KRef>(thiz));
     }
-    // Hold input strings as GC roots so that allocation inside createString can move them
-    // (CMC compaction) without invalidating the data pointers captured by the inner lambda.
-    // Mirrors mpcore/crt_dev fix 71fe96906fc.
     ObjHolder thizHolder(const_cast<KRef>(thiz));
     ObjHolder otherHolder(const_cast<KRef>(other));
-    return encodingAware(thiz, other, [thiz, other, &thizHolder, &otherHolder, &__result__](auto thizView, auto otherView) { // NOLINT: encodingAware calls lambda inline
+    return encodingAware(thiz, other, [&](auto thizView, auto otherView) {
         RuntimeAssert(thizView.sizeInChars() <= MAX_STRING_SIZE, "this cannot be this large");
         RuntimeAssert(otherView.sizeInChars() <= MAX_STRING_SIZE, "other cannot be this large");
-        // can't overflow since MAX_STRING_SIZE is (max value)/2
         auto resultLength = thizView.sizeInChars() + otherView.sizeInChars();
-        if (resultLength > MAX_STRING_SIZE) {
-            ThrowOutOfMemoryError();
-        }
-
+        if (resultLength > MAX_STRING_SIZE) ThrowOutOfMemoryError();
         if (thizView.encoding == otherView.encoding &&
-            // In non-UTF-16 encodings, the total size in units could still overflow, e.g.
-            // UTF-8 has characters that encode to 3 bytes while only needing 2 in UTF-16.
             (thizView.encoding == StringEncoding::kUTF16 ||
-                thizView.sizeInUnits() < std::numeric_limits<size_t>::max() - otherView.sizeInUnits())
-        ) {
-            RETURN_RESULT_OF(createString<thizView.encoding>, thizView.sizeInUnits() + otherView.sizeInUnits(),
-                [thizView, otherView, &thizHolder, &otherHolder](auto* out) {
-                    using ThizT = decltype(thizView);
-                    using OtherT = decltype(otherView);
-                    ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
-                    OtherT other_fresh(StringHeader::of(otherHolder.obj()));
-                    auto halfway = std::copy(thiz_fresh.begin().ptr(), thiz_fresh.end().ptr(), out);
-                    std::copy(other_fresh.begin().ptr(), other_fresh.end().ptr(), halfway);
-                });
+             thizView.sizeInUnits() < std::numeric_limits<size_t>::max() - otherView.sizeInUnits())) {
+            RETURN_RESULT_OF(concatStringsSameEncoding, thizView, otherView, thizHolder, otherHolder);
         } else {
-            RETURN_RESULT_OF(createString<StringEncoding::kUTF16>, thizView.sizeInChars() + otherView.sizeInChars(),
-                [thizView, otherView, &thizHolder, &otherHolder](KChar* out) {
-                    using ThizT = decltype(thizView);
-                    using OtherT = decltype(otherView);
-                    ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
-                    OtherT other_fresh(StringHeader::of(otherHolder.obj()));
-                    auto halfway = std::copy(thiz_fresh.begin(), thiz_fresh.end(), out);
-                    std::copy(other_fresh.begin(), other_fresh.end(), halfway);
-                });
+            RETURN_RESULT_OF(concatStringsUTF16, thizView, otherView, thizHolder, otherHolder);
         }
     });
 }
