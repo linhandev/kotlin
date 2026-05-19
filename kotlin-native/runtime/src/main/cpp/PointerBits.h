@@ -11,23 +11,23 @@
 #include "Common.h"
 
 template <typename T>
-ALWAYS_INLINE T* SetPointerBits(T* ptr, uintptr_t bits) {
+ALWAYS_INLINE T* setPointerBits(T* ptr, uintptr_t bits) {
     return reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(ptr) | bits);
 }
 
 template <typename T>
-ALWAYS_INLINE T* ClearPointerBits(T* ptr, uintptr_t bits) {
+ALWAYS_INLINE T* clearPointerBits(T* ptr, uintptr_t bits) {
     return reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(ptr) & ~bits);
 }
 
 template <typename T>
-ALWAYS_INLINE uintptr_t GetPointerBits(T* ptr, uintptr_t bits) {
+ALWAYS_INLINE uintptr_t getPointerBits(T* ptr, uintptr_t bits) {
     return reinterpret_cast<uintptr_t>(ptr) & bits;
 }
 
 template <typename T>
-ALWAYS_INLINE bool HasPointerBits(T* ptr, uintptr_t bits) {
-    return GetPointerBits(ptr, bits) != 0;
+ALWAYS_INLINE bool hasPointerBits(T* ptr, uintptr_t bits) {
+    return getPointerBits(ptr, bits) != 0;
 }
 
 #endif // RUNTIME_POINTER_BITS_H

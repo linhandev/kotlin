@@ -7,7 +7,7 @@
 
 #include <atomic>
 
-#define DARWIN_C_SOURCE
+#define _DARWIN_C_SOURCE
 #include <pthread.h>
 
 #include "GCScheduler.hpp"
@@ -45,7 +45,7 @@ namespace kotlin {
 // walker would have to skip anyway.
 static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
     RuntimeSetLastFrame1();
-    AssertUseCrt();
+    assertUseCRT();
 
     common::MutatorBase* mutator = reinterpret_cast<common::MutatorBase*>(mutatorPtr);
     mutator->DoLeaveSaferegion();
@@ -109,7 +109,7 @@ void safePointActionImpl(mm::ThreadData& threadData) noexcept {
 }
 
 ALWAYS_INLINE void slowPathImpl(mm::ThreadData& threadData) noexcept {
-    AssertNotCrt(); // NOTE: When CRT is enabled this function should not be called.
+    assertNotCRT(); // NOTE: When CRT is enabled this function should not be called.
 
     // reread an action to avoid register pollution outside the function
     auto action = safePointAction.load(std::memory_order_seq_cst);
@@ -247,7 +247,7 @@ PERFORMANCE_INLINE void mm::safePoint(std::memory_order fastPathOrder) noexcept
 // instead because TLS might already be freed.
 ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order fastPathOrder) noexcept
 {
-    AssertNotCrt();
+    assertNotCRT();
     mm::DisallowSafepointScope::AssertAllowSafepoint(threadData);
 
     AssertThreadState(&threadData, ThreadState::kRunnable);

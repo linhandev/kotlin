@@ -163,7 +163,7 @@ size_t CRTAllocator::GetAllocatedHeapSize(ObjHeader* object) noexcept {
 
 RUNTIME_NOTHROW extern "C" KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz)
 {
-    AssertUseCrt();
+    assertUseCRT();
 
     // Only object (i.e., non-primitive) can be hashed. Therefore if thiz does not belong to heap
     // it must be (when there is no Escape-analysis) a compiler-generated cached boxing value, which reside

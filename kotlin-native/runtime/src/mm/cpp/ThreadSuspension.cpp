@@ -37,7 +37,7 @@ std::atomic<mm::internal::SuspensionReason> mm::internal::gSuspensionRequestReas
 PERFORMANCE_INLINE mm::ThreadSuspensionData::MutatorPauseHandle::MutatorPauseHandle(const char* reason, mm::ThreadData& threadData) noexcept
     : reason_(reason), threadData_(threadData), pauseStartTimeMicros_(konan::getTimeMicros())
 {
-    AssertNotCrt();
+    assertNotCRT();
     auto prevState = threadData_.suspensionData().setStateNoSafePoint(ThreadState::kNative);
     // no special reason, fill free to implement pause from native if needed
     RuntimeAssert(prevState == ThreadState::kRunnable, "Expected runnable state");
@@ -111,7 +111,7 @@ NO_EXTERNAL_CALLS_CHECK void kotlin::mm::ThreadSuspensionData::suspendIfRequeste
 }
 
 void mm::ThreadSuspensionData::requestThreadsSuspension(const char* reason) noexcept {
-    AssertNotCrt();
+    assertNotCRT();
     RuntimeAssert(state() == ThreadState::kRunnable, "Requesting thread suspension from the Native state may lead to a deadlock");
 
     while (!TryRequestThreadsSuspension(reason)) {
@@ -124,7 +124,7 @@ PERFORMANCE_INLINE mm::ThreadSuspensionData::MutatorPauseHandle mm::ThreadSuspen
 }
 
 void kotlin::mm::RequestThreadsSuspension(internal::SuspensionReason reason) noexcept {
-    AssertNotCrt(); // NOTE: This function should not be called with CRT GC
+    assertNotCRT(); // NOTE: This function should not be called with CRT GC
 
     RuntimeAssert(!mm::ThreadRegistry::Instance().IsCurrentThreadRegistered(),
                   "Registered thread must properly handle concurrent suspension requests (suspend if requested)");
@@ -136,7 +136,7 @@ void kotlin::mm::RequestThreadsSuspension(internal::SuspensionReason reason) noe
 }
 
 bool kotlin::mm::TryRequestThreadsSuspension(internal::SuspensionReason reason) noexcept {
-    AssertNotCrt(); // TODO: CRT does not support thread suspension yet, or we still need this?
+    assertNotCRT(); // TODO: CRT does not support thread suspension yet, or we still need this?
 
     CallsCheckerIgnoreGuard guard;
 
@@ -155,7 +155,7 @@ bool kotlin::mm::TryRequestThreadsSuspension(internal::SuspensionReason reason) 
 }
 
 void kotlin::mm::WaitForThreadsSuspension() noexcept {
-    AssertNotCrt(); // TODO: CRT does not support thread suspension yet, or we still need this?
+    assertNotCRT(); // TODO: CRT does not support thread suspension yet, or we still need this?
 
     auto& threadRegistry = kotlin::mm::ThreadRegistry::Instance();
     auto* currentThread = (threadRegistry.IsCurrentThreadRegistered()) ? threadRegistry.CurrentThreadData() : nullptr;
@@ -166,7 +166,7 @@ void kotlin::mm::WaitForThreadsSuspension() noexcept {
 }
 
 void kotlin::mm::ResumeThreads() noexcept {
-    AssertNotCrt(); // TODO: CRT does not support thread suspension yet, or we still need this?
+    assertNotCRT(); // TODO: CRT does not support thread suspension yet, or we still need this?
     RuntimeAssert(gSafePointActivator != std::nullopt, "Current thread must have suspended threads");
     gSafePointActivator = std::nullopt;
 

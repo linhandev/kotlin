@@ -53,7 +53,7 @@ void gc::GC::StartFinalizerThreadIfNeeded() noexcept {
 }
 
 void gc::GC::StopFinalizerThreadIfRunning() noexcept {
-    AssertNotCrt();
+    assertNotCRT();
 }
 
 bool gc::GC::FinalizersThreadIsRunning() noexcept {

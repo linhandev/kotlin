@@ -132,7 +132,7 @@ NO_INLINE void beforeHeapRefUpdateSlowPath(mm::DirectRefAccessor ref, ObjHeader*
 
     ObjHeader* prev;
     if (loadAtomic) {
-        prev = ref.LoadAtomic(std::memory_order_relaxed);
+        prev = ref.loadAtomic(std::memory_order_relaxed);
     } else {
         prev = ref.load();
     }

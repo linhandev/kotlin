@@ -208,8 +208,8 @@ const mm::ExternalRCRefImpl* mm::ExternalRCRefImpl::fromRaw(const RawExternalRCR
 
 KRef kotlin::mm::externalRCRefAsPermanentObject(const RawExternalRCRef* ref) noexcept {
     RuntimeAssert(ref != nullptr, "Cannot handle nullptr");
-    if (HasPointerBits(ref, kPermanentTag)) {
-        auto obj = ClearPointerBits(reinterpret_cast<KConstRef>(ref), kPermanentTag);
+    if (hasPointerBits(ref, kPermanentTag)) {
+        auto obj = clearPointerBits(reinterpret_cast<KConstRef>(ref), kPermanentTag);
         RuntimeAssert(obj->permanent(), "Permanent ExternalRCRef for non-permanent object %p", obj);
         return const_cast<KRef>(obj); // RawExternalRCRef* for permanent objects is always created from KRef, not KConstRef.
     }
@@ -219,5 +219,5 @@ KRef kotlin::mm::externalRCRefAsPermanentObject(const RawExternalRCRef* ref) noe
 mm::RawExternalRCRef* kotlin::mm::permanentObjectAsExternalRCRef(KRef obj) noexcept {
     RuntimeAssert(obj != nullptr, "Cannot handle nullptr");
     RuntimeAssert(obj->permanent(), "Object %p must be permanent", obj);
-    return reinterpret_cast<mm::RawExternalRCRef*>(SetPointerBits(obj, kPermanentTag));
+    return reinterpret_cast<mm::RawExternalRCRef*>(setPointerBits(obj, kPermanentTag));
 }

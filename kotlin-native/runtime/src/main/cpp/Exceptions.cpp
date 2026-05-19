@@ -448,7 +448,7 @@ void RUNTIME_NORETURN kotlin::TerminateWithUnhandledException(KRef exception) no
 
 void ThrowInvalidMutabilityException(KConstRef where)
 {
-    AssertUseCrt();
+    assertUseCRT();
     // TODO: Implement proper CRT exception
     RuntimeAssert(false, "Invalid mutability for object at %p", where);
 }

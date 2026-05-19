@@ -457,7 +457,7 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     val Kotlin_mm_safePointFunctionPrologueStub = importRtStubFunction("Kotlin_mm_safePointFunctionPrologue", false)
     val Kotlin_mm_safePointWhileLoopBodyStub = importRtStubFunction("Kotlin_mm_safePointWhileLoopBody", false)
     val allocArrayFunction = importRtFunction("AllocArrayInstanceForCI", true)
-    // CRT-only entry points (used when MemoryManagerSwitch::USE_CRT is true at runtime).
+    // CRT-only entry points (used when MemoryManagerSwitch::useCRT is true at runtime).
     val readHeapRefFunction = importRtFunction("ReadHeapRef", false)
     val readStaticRefFunction = importRtFunction("ReadStaticRef", false)
     val readVolatileHeapRefFunction = importRtFunction("ReadVolatileHeapRef", false)

@@ -27,7 +27,7 @@ namespace common {
 
 class KNFinalizationInterface : public common::BaseFinalizationInterface, private kotlin::Pinned {
 public:
-    void AttachCurrentThread() override
+    void attachCurrentThread() override
     {
         CallToFFixedX28 guard{};
         RuntimeAssert(!finalizerThreadIsRunning_, "Finalizer thread is already running");
@@ -47,7 +47,7 @@ public:
         kotlin::RunFinalizers(reinterpret_cast<ObjHeader*>(obj));
     }
 
-    void OnHeapGarbageReclamation() const override
+    void onHeapGarbageReclamation() const override
     {
         // Iterating ExternalRCRefRegistry removes nodes whose stable refs have been disposed.
         // In upstream K/N, this happens via processWeaks() each GC cycle (by the side-effect of the iterator)

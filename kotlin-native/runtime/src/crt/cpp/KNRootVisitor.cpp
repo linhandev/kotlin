@@ -21,13 +21,13 @@
 #include "gc/common/cpp/GC.hpp"
 #include "FpUnwind.h"
 
-// LLVM 19.1.4 does not emit the `g_llvmStackMapOffsets` index symbol that the
+// LLVM 19.1.4 does not emit the `_LLVM_StackMap_Offsets` index symbol that the
 // "lazy" stackmap-lookup path expects (which reads a per-function index from
 // fp-2 and indexes into the offsets array). Force the eager path, which scans
 // `_LLVM_StackMaps` once at first use to build a PC->callsite map and depends
 // only on the standard `_LLVM_StackMaps` section. `constexpr false` makes the
 // dead lazy branch (including `GetStackMapAddress`) statically eliminated, so
-// the unresolved `g_llvmStackMapOffsets` reference disappears at link time.
+// the unresolved `_LLVM_StackMap_Offsets` reference disappears at link time.
 static bool IsEnableLazyStackMap()
 {
     return true;
@@ -60,7 +60,7 @@ StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stac
 
 static std::ostream& operator<<(std::ostream& s, const stackMap::BitsManager& b)
 {
-    s << std::hex << "BitsManager(addr=" << b.GetAddr() << ", bitPos=0x" << *(uint32_t*)((uint8_t**)(&b) + 1) << ")";
+    s << std::hex << "BitsManager(addr=" << b.getAddr() << ", bitPos=0x" << *(uint32_t*)((uint8_t**)(&b) + 1) << ")";
     return s;
 }
 
@@ -76,7 +76,7 @@ StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stac
 
     StackMapHeaderVarInt compressedFormatVarInt(stacksizeVarInt.GetNextTable());
     uint32_t slotFormat = compressedFormatVarInt.GetStacksize();
-    LOG_STACK_MAP(stacksizeVarInt.GetNextTable().GetAddr())
+    LOG_STACK_MAP(stacksizeVarInt.GetNextTable().getAddr())
             << std::hex << "\tcompressedFormatVarInt={prologue: " << compressedFormatVarInt.GetNextTable()
             << "format: 0x" << slotFormat << "}" << std::endl;
 
@@ -86,13 +86,13 @@ StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stac
      */
     BitsManager prologue = compressedFormatVarInt.GetNextTable();
     auto [bitMap, bitLen] = VarInt(prologue).GetValue();
-    LOG_STACK_MAP(prologue.GetAddr()) << std::hex << "\tcalleeSavedRegisterBitMap=0x" << bitMap
+    LOG_STACK_MAP(prologue.getAddr()) << std::hex << "\tcalleeSavedRegisterBitMap=0x" << bitMap
             << " size=0x" << __builtin_popcount(bitMap) << std::endl;
 
     BitsManager offsetBitManager = prologue.GetNext(bitLen);
     for (uint32_t i = 0, size = __builtin_popcount(bitMap); i < size; ++i) {
         auto [value, bits] = VarInt(offsetBitManager).GetValue();
-        LOG_STACK_MAP(offsetBitManager.GetAddr())
+        LOG_STACK_MAP(offsetBitManager.getAddr())
                 << std::hex << offsetBitManager << "\tcalleeSavedRegister FP offset=0x" << value
                 << " nextBits=0x" << bits << std::endl;
         offsetBitManager = offsetBitManager.GetNext(bits);
@@ -105,10 +105,10 @@ StackMapRecord ResolveStackMapEntry(std::ostream& logStackMapFile, uint8_t* stac
     SlotTable slotTable(regTable.GetNextTable(), slotFormat);
     DerivedPtrTable derivedTable(slotTable.GetNextTable(),
             stackMapTable.GetRegBitsLen(), stackMapTable.GetSlotBitsLen());
-    LOG_STACK_MAP(nextTable.getAddr()) << std::hex << "\tstackMapTable=" << nextTable.GetAddr()
-            << " regTable=0x" << stackMapTable.GetNextTable().GetAddr() << " slotTable=0x"
-            << regTable.GetNextTable().GetAddr() << " derivedTable=0x"
-            << slotTable.GetNextTable().GetAddr() << std::endl;
+    LOG_STACK_MAP(nextTable.getAddr()) << std::hex << "\tstackMapTable=" << nextTable.getAddr()
+            << " regTable=0x" << stackMapTable.GetNextTable().getAddr() << " slotTable=0x"
+            << regTable.GetNextTable().getAddr() << " derivedTable=0x"
+            << slotTable.GetNextTable().getAddr() << std::endl;
 
     return StackMapRecord{stackMapTable, regTable, slotTable, derivedTable};
 }

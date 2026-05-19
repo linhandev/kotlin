@@ -34,7 +34,7 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
     }
 
     // Try to allocate and install a new ExtraObject.
-    auto* cleanTypeInfo = ClearPointerBits(curHeader, OBJECT_TAG_MASK);
+    auto* cleanTypeInfo = clearPointerBits(curHeader, OBJECT_TAG_MASK);
     auto& allocator = mm::ThreadRegistry::Instance().CurrentThreadData()->allocator();
     auto& extraObj = allocator.allocateExtraObjectData(object, cleanTypeInfo);
 
@@ -46,13 +46,13 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
 
     // Ensure that `object` header would still have the same `tags` (low Kotlin tag bits
     // and high CRT BaseStateWord bits, e.g. language_/forwardState_).
-    const auto tags = GetPointerBits(curHeader, OBJECT_TAG_MASK);
-    auto* newHeader = SetPointerBits(reinterpret_cast<TypeInfo*>(&extraObj), tags);
+    const auto tags = getPointerBits(curHeader, OBJECT_TAG_MASK);
+    auto* newHeader = setPointerBits(reinterpret_cast<TypeInfo*>(&extraObj), tags);
 
     std_support::atomic_ref objectAtomicTypeInfo{object->typeInfoOrMeta_};
     if (!objectAtomicTypeInfo.compare_exchange_strong(curHeader, newHeader)) {
         // CAS failure can only mean that somebody else created `mm::ExtraObjectData` for this object.
-        // Validate via AsMetaObject (which checks the meta-tag bit) rather than blind ClearPointerBits;
+        // Validate via AsMetaObject (which checks the meta-tag bit) rather than blind clearPointerBits;
         // matches mpcore/crt_dev and protects against returning a non-meta-tagged TypeInfo as if it were
         // an ExtraObjectData when a transient non-meta state is observed.
         allocator.destroyUnattachedExtraObjectData(extraObj);
@@ -78,17 +78,17 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
 void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
     // Ported from upstream 33af2848b3c: under CMS the base object may have been forwarded; reading
     // via RefFieldAccessor routes through the read barrier so we get the to-version pointer instead
-    // of a stale from-version. Previously this used a raw atomic exchange with AssertNotCrt() which
+    // of a stale from-version. Previously this used a raw atomic exchange with assertNotCRT() which
     // crashed (or silently corrupted) when the unlink raced with a concurrent COPY phase.
     // weakReferenceOrBaseObject_ is std::atomic<ObjHeader*> in v3-merge (upstream switched it to a
     // plain ObjHeader* + std_support::atomic_ref everywhere). reinterpret-cast its address to
-    // ObjHeader** — same pattern as the existing ForEachRefField helper in ExtraObjectData.hpp.
+    // ObjHeader** — same pattern as the existing forEachRefField helper in ExtraObjectData.hpp.
     auto field = RefFieldAccessor{reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_),
                                   reinterpret_cast<ObjHeader*>(this)};
     auto* object = field.exchange(nullptr, std::memory_order_seq_cst);
     RuntimeAssert(
-            !HasPointerBits(object, WEAK_REF_TAG), "ExtraObjectData %p has uncleared weak reference %p during unlink", this,
-            ClearPointerBits(object, WEAK_REF_TAG));
+            !hasPointerBits(object, WEAK_REF_TAG), "ExtraObjectData %p has uncleared weak reference %p during unlink", this,
+            clearPointerBits(object, WEAK_REF_TAG));
     std_support::atomic_ref{object->typeInfoOrMeta_}.store(const_cast<TypeInfo*>(typeInfo_), std::memory_order_release);
     RuntimeAssert(
             !object->has_meta_object(), "Object %p has metaobject %p after removing metaobject %p", object, object->meta_object_or_null(),
@@ -111,7 +111,7 @@ void mm::ExtraObjectData::ReleaseAssociatedObject() noexcept {
 }
 
 void mm::ExtraObjectData::Uninstall() noexcept {
-    AssertNotCrt();
+    assertNotCRT();
     UnlinkFromBaseObject();
     ReleaseAssociatedObject();
 }
@@ -125,7 +125,7 @@ bool mm::ExtraObjectData::HasAssociatedObject() noexcept {
 }
 
 void mm::ExtraObjectData::ClearRegularWeakReferenceImpl() noexcept {
-    AssertNotCrt();
+    assertNotCRT();
     auto *object = GetBaseObject();
     // Not using `mm::SetHeapRef here`, because this code is called during sweep phase by the GC thread,
     // and so cannot affect marking.
@@ -135,8 +135,8 @@ void mm::ExtraObjectData::ClearRegularWeakReferenceImpl() noexcept {
 
 mm::ExtraObjectData::~ExtraObjectData() {
     auto* weakReference = weakReferenceOrBaseObject_.load(std::memory_order_relaxed);
-    if (HasPointerBits(weakReference, WEAK_REF_TAG)) {
-        weakReference = ClearPointerBits(weakReference, WEAK_REF_TAG);
+    if (hasPointerBits(weakReference, WEAK_REF_TAG)) {
+        weakReference = clearPointerBits(weakReference, WEAK_REF_TAG);
     } else {
         weakReference = nullptr;
     }

@@ -16,7 +16,7 @@ using namespace kotlin;
 
 namespace common {
 void* LoadCachedCRTTLS(alloc::Allocator::ThreadData::Impl& impl) {
-    AssertUseCrt();
+    assertUseCRT();
     return impl.crt_alloc().GetCrtTls();
 }
 } // namespace common
@@ -138,18 +138,18 @@ void alloc::initObjectPool() noexcept {}
 void alloc::compactObjectPoolInCurrentThread() noexcept {}
 
 gc::GC::ObjectData& alloc::objectDataForObject(ObjHeader* object) noexcept {
-    AssertNotCrt();
+    assertNotCRT();
     return CustomHeapObject::from(object).heapHeader();
 }
 
 ObjHeader* alloc::objectForObjectData(gc::GC::ObjectData& objectData) noexcept {
-    AssertNotCrt();
+    assertNotCRT();
     return CustomHeapObject::from(objectData).object();
 }
 
 size_t alloc::allocatedHeapSize(ObjHeader* object) noexcept {
     // TODO: can't be fast as it is invoked from GC thread,
-    //       but maybe it can be AssertUseCrt() instead? Seems it is only used by CRT.
+    //       but maybe it can be assertUseCRT() instead? Seems it is only used by CRT.
     return checkUseCRT<CheckMode::Slow>([&] {
         return CRTAllocator::GetAllocatedHeapSize(object);
     }, [&] {
@@ -158,7 +158,7 @@ size_t alloc::allocatedHeapSize(ObjHeader* object) noexcept {
 }
 
 size_t alloc::allocatedBytes() noexcept {
-    AssertNotCrt();
+    assertNotCRT();
     return GetAllocatedBytes();
 }
 

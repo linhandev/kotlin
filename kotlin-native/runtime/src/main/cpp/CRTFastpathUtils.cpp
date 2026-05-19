@@ -75,7 +75,7 @@ ALWAYS_INLINE void common::ZeroThreadLocalDataReg()
 // reach this function at all.
 ALWAYS_INLINE common::Mutator* common::GetMutatorOrNull()
 {
-    AssertUseCrt();
+    assertUseCRT();
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     uintptr_t tls;
     FixedRegToLocalVar(tls);

@@ -65,7 +65,7 @@ public:
 #if STRICT_ATOMICS_IN_HEAP
         // Consume stores in the object, that were released on the object's allocation
         // See `ObjectOps.cpp`
-        auto loaded = LoadAtomic(std::memory_order_consume);
+        auto loaded = loadAtomic(std::memory_order_consume);
 #if __has_feature(thread_sanitizer)
         // The stores were released by an atomic_thread_fence, TSAN doesn't support fences.
         __tsan_acquire(loaded);
@@ -79,7 +79,7 @@ public:
     ALWAYS_INLINE void store(ObjHeader* desired) noexcept
     {
 #if STRICT_ATOMICS_IN_HEAP
-        StoreAtomic(desired, std::memory_order_relaxed);
+        storeAtomic(desired, std::memory_order_relaxed);
 #else
         *refPtr_ = desired;
 #endif
@@ -94,11 +94,11 @@ public:
         return std_support::atomic_ref{*refPtr_};
     }
 
-    ALWAYS_INLINE ObjHeader* LoadAtomic(std::memory_order order) const noexcept
+    ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) const noexcept
     {
         return atomic().load(order);
     }
-    ALWAYS_INLINE void StoreAtomic(ObjHeader* desired, std::memory_order order) noexcept
+    ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept
     {
         atomic().store(desired, order);
     }
@@ -133,7 +133,7 @@ protected:
 
 template<> class RefHost<false> {};
 
-enum class RefLocation { Stack, Global, HEAP };
+enum class RefLocation { Stack, Global, Heap };
 
 /**
  * Represents Koltin-level operations on Koltin references.
@@ -141,15 +141,15 @@ enum class RefLocation { Stack, Global, HEAP };
  * Prefer using aliases below.
  */
 template<RefLocation refLocation>
-class RefAccessor : RefHost<refLocation == RefLocation::HEAP> {
+class RefAccessor : RefHost<refLocation == RefLocation::Heap> {
 public:
     RefAccessor() = delete;
     RefAccessor& operator=(const RefAccessor&) = delete;
 
-    template<bool nonHeap = refLocation != RefLocation::HEAP, typename = std::enable_if_t<nonHeap>>
+    template<bool nonHeap = refLocation != RefLocation::Heap, typename = std::enable_if_t<nonHeap>>
     explicit RefAccessor(ObjHeader** fieldPtr) noexcept : direct_(fieldPtr) {}
 
-    template<bool onHeap = refLocation == RefLocation::HEAP, typename = std::enable_if_t<onHeap>>
+    template<bool onHeap = refLocation == RefLocation::Heap, typename = std::enable_if_t<onHeap>>
     RefAccessor(ObjHeader** fieldPtr, ObjHeader* thisPtr) noexcept : RefHost<onHeap>(thisPtr), direct_(fieldPtr) {}
 
     // Copy constructor is defaulted to avoid explicitly referring to RefHost,
@@ -159,8 +159,8 @@ public:
     DirectRefAccessor direct() const noexcept { return direct_; }
 
 private:
-    ObjHeader* LoadWithBarrier() noexcept;
-    ObjHeader* LoadAtomicWithBarrier(std::memory_order order) noexcept;
+    ObjHeader* loadWithBarrier() noexcept;
+    ObjHeader* loadAtomicWithBarrier(std::memory_order order) noexcept;
     void afterLoad() noexcept;
     void beforeStore(ObjHeader* value) noexcept;
     void afterStore(ObjHeader* value) noexcept;
@@ -171,15 +171,15 @@ public:
     ALWAYS_INLINE ObjHeader* load() noexcept
     {
         AssertThreadState(ThreadState::kRunnable);
-        auto result = LoadWithBarrier();
+        auto result = loadWithBarrier();
         afterLoad();
         return result;
     }
 
-    ALWAYS_INLINE ObjHeader* LoadAtomic(std::memory_order order) noexcept
+    ALWAYS_INLINE ObjHeader* loadAtomic(std::memory_order order) noexcept
     {
         AssertThreadState(ThreadState::kRunnable);
-        auto result = LoadAtomicWithBarrier(order);
+        auto result = loadAtomicWithBarrier(order);
         afterLoad();
         return result;
     }
@@ -196,16 +196,16 @@ public:
         afterStore(desired);
     }
 
-    ALWAYS_INLINE void StoreAtomic(ObjHeader* desired, std::memory_order order) noexcept {
+    ALWAYS_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
         beforeStore(desired);
-        direct_.StoreAtomic(desired, order);
+        direct_.storeAtomic(desired, order);
         afterStore(desired);
     }
 
     ALWAYS_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
-        LoadWithBarrier(); // canonicalize stored pointer
+        loadWithBarrier(); // canonicalize stored pointer
         beforeStore(desired);
         auto result = direct_.exchange(desired, order);
         afterStore(desired);
@@ -215,7 +215,7 @@ public:
 
     ALWAYS_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
-        auto cur = LoadWithBarrier(); // canonicalize stored pointer
+        auto cur = loadWithBarrier(); // canonicalize stored pointer
         if (cur != expected) {
             // value has been moved, simply return false and update expected
             expected = cur;
@@ -233,7 +233,7 @@ private:
     DirectRefAccessor direct_;
 };
 
-using RefFieldAccessor = RefAccessor<RefLocation::HEAP>;
+using RefFieldAccessor = RefAccessor<RefLocation::Heap>;
 using GlobalRefAccessor = RefAccessor<RefLocation::Global>;
 using StackRefAccessor = RefAccessor<RefLocation::Stack>;
 

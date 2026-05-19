@@ -42,7 +42,7 @@ class ThreadHolder;
 /// An instance of this type must be created at the earliest point reachable from code
 /// which is NOT compiled with -ffixed-x28.
 struct CallToFFixedX28 {
-    static constexpr uintptr_t magicMarker = 0x28EE01505E70DEAD; // "x28 EE is set dead"
+    static constexpr uintptr_t MAGIC_MARKER = 0x28EE01505E70DEAD; // "x28 EE is set dead"
 
     CallToFFixedX28(CallToFFixedX28&&) = delete;
     CallToFFixedX28(const CallToFFixedX28&) = delete;
@@ -67,7 +67,7 @@ struct CallToFFixedX28 {
             verify = true;
             next = top;
             top = this;
-            val = magicMarker;
+            val = MAGIC_MARKER;
             LocalVarToFixedReg_UNCHECKED(val);
         }
     }
@@ -96,7 +96,7 @@ private:
         if (AssertionsEnabled && verify) {
             uintptr_t val;
             FixedRegToLocalVar(val);
-            RuntimeAssert(val == CallToFFixedX28::magicMarker,
+            RuntimeAssert(val == CallToFFixedX28::MAGIC_MARKER,
                 "Ensure that an instance of CallToFFixedX28 is created at the point native code calls to runtime.");
             verify = false; // only verify on the first write since this instance is created.
         }
@@ -130,7 +130,7 @@ static inline uintptr_t ThreadLocalRegisterData()
     // relying on TBI, masking is only required for equality checks.
     return tlr & TLS_DATA_MASK;
 }
-static_assert(CallToFFixedX28::magicMarker == (CallToFFixedX28::magicMarker & TLS_DATA_MASK));
+static_assert(CallToFFixedX28::MAGIC_MARKER == (CallToFFixedX28::MAGIC_MARKER & TLS_DATA_MASK));
 
 #define CHECK_READ_BARRIER_SLOW_PATH(slow_path) \
     __asm__ volatile goto("tbnz x28, #" TLS_ACTIVE_READ_BARRIER_BIT ", %l[" #slow_path "]" : : : : slow_path);

@@ -67,7 +67,7 @@ public:
         return ((ConnectBytesToU64() >> bitPos) & bitsMask);
     }
 
-    void* GetAddr() const { return addr; }
+    void* getAddr() const { return addr; }
     ATTR_NO_INLINE BitsManager GetNext(uint32_t bitsLen) const;
 
 private:

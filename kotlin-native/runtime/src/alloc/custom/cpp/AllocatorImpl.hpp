@@ -47,11 +47,11 @@ public:
     }
 
     CRTAllocator& crt_alloc() noexcept {
-        AssertUseCrt();
+        assertUseCRT();
         return alloc_.crt_;
     }
     CustomAllocator& alloc() noexcept {
-        AssertNotCrt();
+        assertNotCRT();
         return alloc_.custom_;
     }
 

@@ -45,9 +45,9 @@ enum class RuntimeAssertsMode : int32_t {
 
 // Must match MemoryManagerMode in MemoryManagerMode.kt
 enum class MemoryManagerMode : int32_t {
-    NATIVE = 0,
-    CRT = 1,
-    RUNTIME_SWITCH = 2,
+    kNative = 0,
+    kCRT = 1,
+    kRuntimeSwitch = 2,
 };
 
 // Must match AppStateTracking in AppStateTracking.kt

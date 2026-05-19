@@ -31,7 +31,7 @@ extern "C" {
 namespace {
 
 static_assert(sizeof(ObjHeader*) == sizeof(KLong));
-RUNTIME_NOTHROW ALWAYS_INLINE void InitCRTWeakReferenceImpl(ObjHeader* weakRef, ObjHeader* referred)
+RUNTIME_NOTHROW ALWAYS_INLINE void initCRTWeakReferenceImpl(ObjHeader* weakRef, ObjHeader* referred)
 {
     auto addr = reinterpret_cast<uintptr_t>(weakRef);
     auto field = reinterpret_cast<KLong*>(addr + sizeof(ObjHeader));
@@ -55,7 +55,7 @@ OBJ_GETTER(mm::createRegularWeakReferenceImpl, ObjHeader* object) noexcept {
     return checkUseCRT<CheckMode::Fast>([&] {
         auto holder = ObjHolder(object);
         auto* weakRef = makeCRTWeakReferenceImpl(OBJ_RESULT);
-        InitCRTWeakReferenceImpl(weakRef, holder.obj());
+        initCRTWeakReferenceImpl(weakRef, holder.obj());
         return weakRef;
     }, [&] {
         auto* thread = mm::ThreadRegistry::Instance().CurrentThreadData();

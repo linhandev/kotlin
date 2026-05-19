@@ -160,7 +160,7 @@ public:
             "Incorrect size %zu of what is supposed to be an ExtraObject", size);
         auto* objHeader = const_cast<ObjHeader*>(reinterpret_cast<const ObjHeader*>(extraObj));
         auto process = [&visitor, objHeader](ObjHeader*& field) { processFieldInMark(visitor, objHeader, field); };
-        reinterpret_cast<kotlin::mm::ExtraObjectData*>(extraObj)->ForEachRefField(process);
+        reinterpret_cast<kotlin::mm::ExtraObjectData*>(extraObj)->forEachRefField(process);
     }
 
     // Global instance for CRT to operate on KN objects

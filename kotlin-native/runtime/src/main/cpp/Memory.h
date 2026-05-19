@@ -44,14 +44,14 @@
   #define CODEGEN_INLINE_POLICY ALWAYS_INLINE
 #endif
 
-constexpr uint64_t IMM_TYPE_INFO_MASK = 0x0000fffffffffffc; // CRT places language and forwarding tags in higher bits
+constexpr uint64_t kImmTypeInfoMask = 0x0000fffffffffffc; // CRT places language and forwarding tags in higher bits
 typedef enum : uint64_t {
     OBJECT_TAG_HEAP = 0,
     OBJECT_TAG_PERMANENT = 1, // Must match to permanentTag() in Kotlin.
     OBJECT_TAG_STACK = 3,
     KOTLIN_OBJECT_TAG_MASK = (1 << 2) - 1,
     // Keep in sync with immTypeInfoMask in Kotlin.
-    OBJECT_TAG_MASK = ~IMM_TYPE_INFO_MASK
+    OBJECT_TAG_MASK = ~kImmTypeInfoMask
 } ObjectTag;
 
 struct ArrayHeader;
@@ -68,7 +68,7 @@ struct ObjHeader {
 
   // Returns `nullptr` if it's not a meta object.
   static MetaObjHeader* AsMetaObject(TypeInfo* typeInfo) noexcept {
-      auto* typeInfoOrMeta = ClearPointerBits(typeInfo, OBJECT_TAG_MASK);
+      auto* typeInfoOrMeta = clearPointerBits(typeInfo, OBJECT_TAG_MASK);
       if (typeInfoOrMeta != typeInfoOrMeta->typeInfo_) {
           return reinterpret_cast<MetaObjHeader*>(typeInfoOrMeta);
       } else {
@@ -92,7 +92,7 @@ struct ObjHeader {
    * Hardware guaranties on many supported platforms doesn't allow this to happen.
    */
   const TypeInfo* type_info() const {
-      auto typeInfoOrMeta = ClearPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK);
+      auto typeInfoOrMeta = clearPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK);
       auto atomicTypeInfoPtr = kotlin::std_support::atomic_ref{typeInfoOrMeta->typeInfo_};
       const TypeInfo* typeInfo = atomicTypeInfoPtr.load(std::memory_order_relaxed);
       RuntimeAssert(typeInfo != nullptr, "TypeInfo ptr in object %p in null", this);
@@ -119,7 +119,7 @@ struct ObjHeader {
 #endif
 
   inline bool stack() const {
-    return GetPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
+    return getPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
   }
 
   // Unsafe cast to ArrayHeader. Use carefully!
@@ -128,15 +128,15 @@ struct ObjHeader {
   const ArrayHeader* array() const { return reinterpret_cast<const ArrayHeader*>(this); }
 
   inline bool permanent() const {
-    return GetPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_PERMANENT;
+    return getPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_PERMANENT;
   }
 
   inline bool heap() const {
-    return GetPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_HEAP;
+    return getPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_HEAP;
   }
 
   inline bool local() const {
-    return GetPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
+    return getPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
   }
 
   static MetaObjHeader* createMetaObject(ObjHeader* object);
@@ -168,7 +168,7 @@ ALWAYS_INLINE inline bool isNullOrMarker(const ObjHeader* obj) noexcept {
     return reinterpret_cast<uintptr_t>(obj) <= 1;
 }
 
-ALWAYS_INLINE bool IsPermanentOrFrozen(const ObjHeader* obj);
+ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj);
 
 struct FrameOverlay;
 namespace kotlin {
@@ -261,13 +261,13 @@ void InitAndRegisterGlobal(HeapObjPtr* location, ConstHeapObjPtr initialValue) R
 
 // NOTE: Must match `MemoryModel` in `Platform.kt`
 enum class MemoryModel {
-    STRICT = 0,
-    RELAXED = 1,
-    EXPERIMENTAL = 2,
+    kStrict = 0,
+    kRelaxed = 1,
+    kExperimental = 2,
 };
 
 // Controls the current memory model, is compile-time constant.
-extern const MemoryModel CURRENT_MEMORY_MODEL;
+extern const MemoryModel CurrentMemoryModel;
 
 // Reads heap/static data location. thisPtr is the owning object (used by CRT read barrier; nullptr for CMS).
 // `thisPtr` is declared `HeapObjPtr` (AS1 ObjHeader*) so the kotlin-native compiler-interface build
