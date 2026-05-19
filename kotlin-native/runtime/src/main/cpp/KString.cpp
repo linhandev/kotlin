@@ -361,7 +361,9 @@ OBJ_GETTER(concatStrings, ThizView thizView, OtherView otherView,
     RuntimeAssert(thizView.sizeInChars() <= MAX_STRING_SIZE, "this cannot be this large");
     RuntimeAssert(otherView.sizeInChars() <= MAX_STRING_SIZE, "other cannot be this large");
     auto resultLength = thizView.sizeInChars() + otherView.sizeInChars();
-    if (resultLength > MAX_STRING_SIZE) ThrowOutOfMemoryError();
+    if (resultLength > MAX_STRING_SIZE) {
+        ThrowOutOfMemoryError();
+    }
     if (thizView.encoding == otherView.encoding &&
         (thizView.encoding == StringEncoding::kUTF16 ||
          thizView.sizeInUnits() < std::numeric_limits<size_t>::max() - otherView.sizeInUnits())) {

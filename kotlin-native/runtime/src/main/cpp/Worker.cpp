@@ -854,7 +854,9 @@ void* workerRoutine(void* argument)
     kotlin::ThreadStateGuard guard(worker->memoryState(), ThreadState::kRunnable);
 
     do {
-        if (worker->processQueueElement(true) == JOB_TERMINATE) break;
+        if (worker->processQueueElement(true) == JOB_TERMINATE) {
+            break;
+        }
     } while (true);
 
     return nullptr;

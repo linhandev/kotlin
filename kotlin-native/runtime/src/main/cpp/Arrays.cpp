@@ -89,7 +89,9 @@ template <class T, bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW inline void PrimitiveArraySet(KRef thiz, KInt index, T value)
 {
     ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) {
+        boundsCheck(array, index);
+    }
     mutabilityCheck(thiz);
     *PrimitiveArrayAddressOfElementAt<T>(array, index) = value;
 }
@@ -98,7 +100,9 @@ template <class T, bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW inline T PrimitiveArrayGet(KConstRef thiz, KInt index)
 {
     const ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) {
+        boundsCheck(array, index);
+    }
     return *PrimitiveArrayAddressOfElementAt<T>(array, index);
 }
 
@@ -106,7 +110,9 @@ template <bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW ALWAYS_INLINE KRef Kotlin_Array_get_value(KConstRef thiz, KInt index)
 {
     ArrayHeader* array = const_cast<ArrayHeader*>(thiz->array());
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) {
+        boundsCheck(array, index);
+    }
     return ReadHeapRef(ArrayAddressOfElementAt(array, index), array->obj());
 }
 
@@ -114,7 +120,9 @@ template <bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_Array_set_value(KRef thiz, KInt index, KConstRef value)
 {
     ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) {
+        boundsCheck(array, index);
+    }
     mutabilityCheck(thiz);
     UpdateHeapRef(ArrayAddressOfElementAt(array, index), value, array->obj());
 }
@@ -123,7 +131,9 @@ template <bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW ALWAYS_INLINE KByte Kotlin_ByteArray_get_value(KConstRef thiz, KInt index)
 {
     const ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) {
+        boundsCheck(array, index);
+    }
     return *ByteArrayAddressOfElementAt(array, index);
 }
 
@@ -131,7 +141,9 @@ template <bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_ByteArray_set_value(KRef thiz, KInt index, KByte value)
 {
     ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) {
+        boundsCheck(array, index);
+    }
     mutabilityCheck(thiz);
     *ByteArrayAddressOfElementAt(array, index) = value;
 }

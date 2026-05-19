@@ -165,7 +165,9 @@ NO_INLINE RuntimeState* initRuntime() {
     initObjectPool();
 
     RuntimeState* result = new RuntimeState();
-    if (!result) return kInvalidRuntime;
+    if (!result) {
+        return kInvalidRuntime;
+    }
     RuntimeCheck(!isValidRuntime(), "No active runtimes allowed");
     ::runtimeState = result;
 
@@ -214,8 +216,9 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
   ::runtimeState = state;
   --aliveRuntimesCount;
   ClearTLS(state->memoryState);
-  if (destroyRuntime)
-    InitOrDeinitGlobalVariables(DEINIT_GLOBALS, state->memoryState);
+  if (destroyRuntime) {
+      InitOrDeinitGlobalVariables(DEINIT_GLOBALS, state->memoryState);
+  }
 
   // Do not use ThreadStateGuard because memoryState will be destroyed during DeinitMemory.
   kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kNative);
@@ -245,8 +248,9 @@ bool kotlin::initializeGlobalRuntimeIfNeeded() noexcept {
     if (Kotlin_forceCheckedShutdown()) {
         RuntimeAssert(lastStatus != kGlobalRuntimeShutdown, "Kotlin runtime was shut down. Cannot create new runtimes.");
     }
-    if (lastStatus != kGlobalRuntimeUninitialized)
+    if (lastStatus != kGlobalRuntimeUninitialized) {
         return false;
+    }
 
     konan::consoleInit();
     logging::OnRuntimeInit();
