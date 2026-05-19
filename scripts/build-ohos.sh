@@ -44,6 +44,14 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
 ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
 cd "$ROOT_DIR"
 
+if [ -d "third-party/common-rt/.git" ]; then
+    echo "Submodule third-party/common-rt already initialized, pulling latest..."
+    git submodule update --recursive third-party/common-rt
+else
+    echo "Initializing submodule third-party/common-rt..."
+    git submodule update --init --recursive third-party/common-rt
+fi
+
 # Settings
 DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-OH-001}
 USE_CN_MIRROR=${USE_CN_MIRROR:-true}

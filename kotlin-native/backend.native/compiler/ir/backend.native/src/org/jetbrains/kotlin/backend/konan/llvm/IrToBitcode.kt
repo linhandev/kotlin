@@ -1945,7 +1945,8 @@ internal class CodeGeneratorVisitor(
         functionGenerationContext.storeAny(
                 valueToAssign, address, value.symbol.owner.type.binaryTypeIsReference(), false,
                 isVolatile = value.symbol.owner.hasAnnotation(KonanFqNames.volatile),
-                alignment = alignment, thisPtr = thisPtr ?: codegen.kNullObjHeaderPtr
+                alignment = alignment,
+                thisPtr = thisPtr ?: codegen.kNullObjHeaderPtr
         )
 
         assert (value.type.isUnit())
@@ -3167,7 +3168,7 @@ internal fun NativeGenerationState.generateRuntimeConstantsModule() : LLVMModule
     setRuntimeConstGlobal("Kotlin_runtimeLogs", runtimeLogs)
     setRuntimeConstGlobal("Kotlin_concurrentWeakSweep", llvm.constInt32(if (context.config.concurrentWeakSweep) 1 else 0))
     setRuntimeConstGlobal("Kotlin_gcMarkSingleThreaded", llvm.constInt32(if (config.gcMarkSingleThreaded) 1 else 0))
-setRuntimeConstGlobal("Kotlin_fixedBlockPageSize", llvm.constInt32(config.fixedBlockPageSize.toInt()))
+    setRuntimeConstGlobal("Kotlin_fixedBlockPageSize", llvm.constInt32(config.fixedBlockPageSize.toInt()))
     setRuntimeConstGlobal("Kotlin_pagedAllocator", llvm.constInt32(if (config.pagedAllocator) 1 else 0))
     setRuntimeConstGlobal("Kotlin_memoryManagerMode", llvm.constInt32(config.memoryManagerMode.value))
 
