@@ -179,7 +179,7 @@ NO_INLINE RuntimeState* initRuntime() {
             InitCRTRuntime();
         });
     }
-      result->memoryState = InitMemory();
+    result->memoryState = InitMemory();
     // Switch thread state because worker and globals inits require the runnable state.
     // This call may block if GC requested suspending threads.
     ThreadStateGuard stateGuard(result->memoryState, kotlin::ThreadState::kRunnable);
@@ -189,8 +189,9 @@ NO_INLINE RuntimeState* initRuntime() {
     CommitTLSStorage(result->memoryState);
     // Keep global variables in state as well.
     if (firstRuntime) {
-      InitOrDeinitGlobalVariables(INIT_GLOBALS, result->memoryState);
+        InitOrDeinitGlobalVariables(INIT_GLOBALS, result->memoryState);
     }
+
     InitOrDeinitGlobalVariables(INIT_THREAD_LOCAL_GLOBALS, result->memoryState);
     RuntimeAssert(result->status == RuntimeStatus::kUninitialized, "Runtime must still be in the uninitialized state");
     result->status = RuntimeStatus::kRunning;
@@ -231,7 +232,7 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
 }
 
 void Kotlin_deinitRuntimeCallback(void* argument) {
-      common::CallToFFixedX28 guard{};
+    common::CallToFFixedX28 guard{};
     auto* state = reinterpret_cast<RuntimeState*>(argument);
     // This callback may be called from any state, make sure it runs in the runnable state.
     kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
