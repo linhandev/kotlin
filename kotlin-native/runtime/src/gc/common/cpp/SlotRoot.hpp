@@ -70,9 +70,7 @@ public:
         for (size_t i = 0; i < slotBits.size(); ++i) {
             SlotBits bit = slotBits[i];
             for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
-                if ((bit & lowestBit) == 0) {
-                    continue;
-                }
+                if ((bit & lowestBit) == 0) continue;
                 SlotBias bias = static_cast<int32_t>(i * bitSize + j) * bytesPerSlot + slotBias * biasCoef;
                 slotOffsets.push_back(bias);
             }
@@ -91,9 +89,7 @@ public:
         for (size_t i = 0; i < slotBits.size(); ++i) {
             SlotBits bit = slotBits[i];
             for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
-                if ((bit & lowestBit) == 0) {
-                    continue;
-                }
+                if ((bit & lowestBit) == 0) continue;
                 SlotBias bias = static_cast<int32_t>(i * bitSize + j) * bytesPerSlot + slotBias * biasCoef;
                 visitor(bias);
             }
@@ -118,30 +114,30 @@ private:
             visitor(bias);
         };
 
-        auto processOneSlotBits = [this, &visitOneSlot, &baseBias](SlotBits bit) {
-            if (bit & pureValBit) {
-                bit &= pureValMask;
-                for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
-                    if ((bit & lowestBit) == 0) {
-                        continue;
-                    }
-                    visitOneSlot(j);
-                }
-                baseBias += static_cast<int32_t>(pureValWidth) * bytesPerSlot;
-            } else {
-                bool isAllRef = (bit & compressTagBit);
-                uint32_t bitNums = (bit & compressCntMask) * pureValWidth;
-                if (isAllRef) {
-                    for (uint32_t j = 0; j < bitNums; ++j) {
-                        visitOneSlot(j);
-                    }
-                }
-                baseBias += static_cast<int32_t>(bitNums) * bytesPerSlot;
+        auto processPureValBits = [&visitOneSlot, &baseBias](SlotBits bit) {
+            bit &= pureValMask;
+            for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
+                if ((bit & lowestBit) == 0) continue;
+                visitOneSlot(j);
             }
+            baseBias += static_cast<int32_t>(pureValWidth) * bytesPerSlot;
+        };
+
+        auto processCompressedBits = [&visitOneSlot, &baseBias](SlotBits bit) {
+            bool isAllRef = (bit & compressTagBit);
+            uint32_t bitNums = (bit & compressCntMask) * pureValWidth;
+            if (isAllRef) {
+                for (uint32_t j = 0; j < bitNums; ++j) visitOneSlot(j);
+            }
+            baseBias += static_cast<int32_t>(bitNums) * bytesPerSlot;
         };
 
         for (SlotBits bit : slotBits) {
-            processOneSlotBits(bit);
+            if (bit & pureValBit) {
+                processPureValBits(bit);
+            } else {
+                processCompressedBits(bit);
+            }
         }
     }
 
@@ -159,30 +155,30 @@ private:
             slotOffsets.push_back(bias);
         };
 
-        auto processOneSlotBits = [&](SlotBits bit) {
-            if (bit & pureValBit) {
-                bit &= pureValMask;
-                for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
-                    if ((bit & lowestBit) == 0) {
-                        continue;
-                    }
-                    visitOneSlot(j);
-                }
-                baseBias += static_cast<int32_t>(pureValWidth) * bytesPerSlot;
-            } else {
-                bool isAllRef = (bit & compressTagBit);
-                uint32_t bitNums = (bit & compressCntMask) * pureValWidth;
-                if (isAllRef) {
-                    for (uint32_t j = 0; j < bitNums; ++j) {
-                        visitOneSlot(j);
-                    }
-                }
-                baseBias += static_cast<int32_t>(bitNums) * bytesPerSlot;
+        auto processPureValBits = [&visitOneSlot, &baseBias](SlotBits bit) {
+            bit &= pureValMask;
+            for (uint32_t j = 0; bit != 0; ++j, bit >>= 1) {
+                if ((bit & lowestBit) == 0) continue;
+                visitOneSlot(j);
             }
+            baseBias += static_cast<int32_t>(pureValWidth) * bytesPerSlot;
+        };
+
+        auto processCompressedBits = [&visitOneSlot, &baseBias](SlotBits bit) {
+            bool isAllRef = (bit & compressTagBit);
+            uint32_t bitNums = (bit & compressCntMask) * pureValWidth;
+            if (isAllRef) {
+                for (uint32_t j = 0; j < bitNums; ++j) visitOneSlot(j);
+            }
+            baseBias += static_cast<int32_t>(bitNums) * bytesPerSlot;
         };
 
         for (SlotBits bit : slotBits) {
-            processOneSlotBits(bit);
+            if (bit & pureValBit) {
+                processPureValBits(bit);
+            } else {
+                processCompressedBits(bit);
+            }
         }
     }
     SlotBias slotBias;
