@@ -29,7 +29,8 @@ extern "C" void ThrowRangeIllegalArgumentException(KInt from, KInt to);
 namespace {
 // Duplicate range-check within runtime to avoid calling back to KT side which causes safepoint on non-throwing path.
 // Keep sync with ArrayUtil.kt::checkRangeIndexes
-static void checkRangeIndexes(KInt from, KInt to, KInt size) {
+static void checkRangeIndexes(KInt from, KInt to, KInt size)
+{
     if (from < 0 || to > size) {
         ThrowRangeIndexOutOfBoundsException(from, to, size);
     }
@@ -48,7 +49,8 @@ ALWAYS_INLINE inline void mutabilityCheck(KConstRef thiz)
 }
 
 HAS_SAFEPOINT_THROW
-ALWAYS_INLINE inline void boundsCheck(const ArrayHeader* array, KInt index) {
+ALWAYS_INLINE inline void boundsCheck(const ArrayHeader* array, KInt index)
+{
     // We couldn't have created an array bigger than max KInt value.
     // So if index is < 0, conversion to an unsigned value would make it bigger
     // than the array size.
@@ -58,7 +60,8 @@ ALWAYS_INLINE inline void boundsCheck(const ArrayHeader* array, KInt index) {
 }
 
 template <typename T>
-HAS_SAFEPOINT_THROW inline void fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, T value) {
+HAS_SAFEPOINT_THROW inline void fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, T value)
+{
     ArrayHeader* array = thiz->array();
     checkRangeIndexes(fromIndex, toIndex, array->count_);
     mutabilityCheck(thiz);
@@ -69,7 +72,8 @@ HAS_SAFEPOINT_THROW inline void fillImpl(KRef thiz, KInt fromIndex, KInt toIndex
 }
 
 template <typename T>
-HAS_SAFEPOINT_THROW inline void copyImpl(KConstRef thiz, KInt fromIndex, KRef destination, KInt toIndex, KInt count) {
+HAS_SAFEPOINT_THROW inline void copyImpl(KConstRef thiz, KInt fromIndex, KRef destination, KInt toIndex, KInt count)
+{
     const ArrayHeader* array = thiz->array();
     ArrayHeader* destinationArray = destination->array();
     if (count < 0 || fromIndex < 0 || static_cast<uint32_t>(count) + fromIndex > array->count_ || toIndex < 0 ||
@@ -82,7 +86,8 @@ HAS_SAFEPOINT_THROW inline void copyImpl(KConstRef thiz, KInt fromIndex, KRef de
 }
 
 template <class T, bool BoundsCheck = true>
-HAS_SAFEPOINT_THROW inline void PrimitiveArraySet(KRef thiz, KInt index, T value) {
+HAS_SAFEPOINT_THROW inline void PrimitiveArraySet(KRef thiz, KInt index, T value)
+{
     ArrayHeader* array = thiz->array();
     if (BoundsCheck) boundsCheck(array, index);
     mutabilityCheck(thiz);
@@ -90,21 +95,24 @@ HAS_SAFEPOINT_THROW inline void PrimitiveArraySet(KRef thiz, KInt index, T value
 }
 
 template <class T, bool BoundsCheck = true>
-HAS_SAFEPOINT_THROW inline T PrimitiveArrayGet(KConstRef thiz, KInt index) {
+HAS_SAFEPOINT_THROW inline T PrimitiveArrayGet(KConstRef thiz, KInt index)
+{
     const ArrayHeader* array = thiz->array();
     if (BoundsCheck) boundsCheck(array, index);
     return *PrimitiveArrayAddressOfElementAt<T>(array, index);
 }
 
 template <bool BoundsCheck = true>
-HAS_SAFEPOINT_THROW ALWAYS_INLINE KRef Kotlin_Array_get_value(KConstRef thiz, KInt index) {
+HAS_SAFEPOINT_THROW ALWAYS_INLINE KRef Kotlin_Array_get_value(KConstRef thiz, KInt index)
+{
     ArrayHeader* array = const_cast<ArrayHeader*>(thiz->array());
     if (BoundsCheck) boundsCheck(array, index);
     return ReadHeapRef(ArrayAddressOfElementAt(array, index), array->obj());
 }
 
 template <bool BoundsCheck = true>
-HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_Array_set_value(KRef thiz, KInt index, KConstRef value) {
+HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_Array_set_value(KRef thiz, KInt index, KConstRef value)
+{
     ArrayHeader* array = thiz->array();
     if (BoundsCheck) boundsCheck(array, index);
     mutabilityCheck(thiz);
@@ -112,14 +120,16 @@ HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_Array_set_value(KRef thiz, KInt in
 }
 
 template <bool BoundsCheck = true>
-HAS_SAFEPOINT_THROW ALWAYS_INLINE KByte Kotlin_ByteArray_get_value(KConstRef thiz, KInt index) {
+HAS_SAFEPOINT_THROW ALWAYS_INLINE KByte Kotlin_ByteArray_get_value(KConstRef thiz, KInt index)
+{
     const ArrayHeader* array = thiz->array();
     if (BoundsCheck) boundsCheck(array, index);
     return *ByteArrayAddressOfElementAt(array, index);
 }
 
 template <bool BoundsCheck = true>
-HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_ByteArray_set_value(KRef thiz, KInt index, KByte value) {
+HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_ByteArray_set_value(KRef thiz, KInt index, KByte value)
+{
     ArrayHeader* array = thiz->array();
     if (BoundsCheck) boundsCheck(array, index);
     mutabilityCheck(thiz);
@@ -137,34 +147,40 @@ extern const ObjHeader theEmptyArray;
 
 // Array.kt
 HAS_SAFEPOINT_THROW
-OBJ_GETTER(Kotlin_Array_get, KConstRef thiz, KInt index) {
+OBJ_GETTER(Kotlin_Array_get, KConstRef thiz, KInt index)
+{
     RETURN_OBJ(Kotlin_Array_get_value(thiz, index));
 }
 
 HAS_SAFEPOINT_THROW
-OBJ_GETTER(Kotlin_Array_get_without_BoundCheck, KConstRef thiz, KInt index) {
+OBJ_GETTER(Kotlin_Array_get_without_BoundCheck, KConstRef thiz, KInt index)
+{
     RETURN_OBJ(Kotlin_Array_get_value<false>(thiz, index));
 }
 
 HAS_SAFEPOINT_THROW
-void Kotlin_Array_set(KRef thiz, KInt index, KConstRef value) {
+void Kotlin_Array_set(KRef thiz, KInt index, KConstRef value)
+{
     Kotlin_Array_set_value(thiz, index, value);
 }
 
 HAS_SAFEPOINT_THROW
-void Kotlin_Array_set_without_BoundCheck(KRef thiz, KInt index, KConstRef value) {
+void Kotlin_Array_set_without_BoundCheck(KRef thiz, KInt index, KConstRef value)
+{
     Kotlin_Array_set_value<false>(thiz, index, value);
 }
 
 NO_SAFEPOINT
-ALWAYS_INLINE KInt Kotlin_Array_getArrayLength(KConstRef thiz) {
+ALWAYS_INLINE KInt Kotlin_Array_getArrayLength(KConstRef thiz)
+{
     const ArrayHeader* array = thiz->array();
     return array->count_;
 }
 
 // TODO: Add regression test for missing write barrier fix in Array.fill()
 HAS_SAFEPOINT_THROW
-void Kotlin_Array_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KRef value) {
+void Kotlin_Array_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KRef value)
+{
     ArrayHeader* array = thiz->array();
     checkRangeIndexes(fromIndex, toIndex, array->count_);
     mutabilityCheck(thiz);
@@ -175,7 +191,8 @@ void Kotlin_Array_fillImpl(KRef thiz, KInt fromIndex, KInt toIndex, KRef value) 
 
 // TODO: xiaowen: Utilize GCPhase to enable fastpath here
 HAS_SAFEPOINT_THROW
-void Kotlin_Array_copyImpl(KConstRef thiz, KInt fromIndex, KRef destination, KInt toIndex, KInt count) {
+void Kotlin_Array_copyImpl(KConstRef thiz, KInt fromIndex, KRef destination, KInt toIndex, KInt count)
+{
     // CRT readbarrier requires a non-const header TODO: rework the barrier?
     ArrayHeader* array = const_cast<ArrayHeader*>(thiz->array());
     ArrayHeader* destinationArray = destination->array();
@@ -200,27 +217,32 @@ void Kotlin_Array_copyImpl(KConstRef thiz, KInt fromIndex, KRef destination, KIn
 }
 
 // Arrays.kt
-ALWAYS_INLINE OBJ_GETTER0(Kotlin_emptyArray) {
+ALWAYS_INLINE OBJ_GETTER0(Kotlin_emptyArray)
+{
     RETURN_OBJ(const_cast<ObjHeader*>(&theEmptyArray));
 }
 
 HAS_SAFEPOINT_THROW
-KByte Kotlin_ByteArray_get(KConstRef thiz, KInt index) {
+KByte Kotlin_ByteArray_get(KConstRef thiz, KInt index)
+{
     return Kotlin_ByteArray_get_value(thiz, index);
 }
 
 HAS_SAFEPOINT_THROW
-KByte Kotlin_ByteArray_get_without_BoundCheck(KConstRef thiz, KInt index) {
+KByte Kotlin_ByteArray_get_without_BoundCheck(KConstRef thiz, KInt index)
+{
     return Kotlin_ByteArray_get_value<false>(thiz, index);
 }
 
 HAS_SAFEPOINT_THROW
-void Kotlin_ByteArray_set(KRef thiz, KInt index, KByte value) {
+void Kotlin_ByteArray_set(KRef thiz, KInt index, KByte value)
+{
     Kotlin_ByteArray_set_value(thiz, index, value);
 }
 
 HAS_SAFEPOINT_THROW
-void Kotlin_ByteArray_set_without_BoundCheck(KRef thiz, KInt index, KByte value) {
+void Kotlin_ByteArray_set_without_BoundCheck(KRef thiz, KInt index, KByte value)
+{
     Kotlin_ByteArray_set_value<false>(thiz, index, value);
 }
 
@@ -232,7 +254,8 @@ ALWAYS_INLINE KInt Kotlin_ByteArray_getArrayLength(KConstRef thiz)
 }
 
 HAS_SAFEPOINT_THROW
-KChar Kotlin_ByteArray_getCharAt(KConstRef thiz, KInt index) {
+KChar Kotlin_ByteArray_getCharAt(KConstRef thiz, KInt index)
+{
     const ArrayHeader* array = thiz->array();
     if (index < 0 || static_cast<uint32_t>(index) + 1 >= array->count_) {
         ThrowArrayIndexOutOfBoundsException();
@@ -251,7 +274,8 @@ KChar Kotlin_ByteArray_getCharAt(KConstRef thiz, KInt index) {
 }
 
 HAS_SAFEPOINT_THROW
-KShort Kotlin_ByteArray_getShortAt(KConstRef thiz, KInt index) {
+KShort Kotlin_ByteArray_getShortAt(KConstRef thiz, KInt index)
+{
     const ArrayHeader* array = thiz->array();
     if (index < 0 || static_cast<uint32_t>(index) + 1 >= array->count_) {
         ThrowArrayIndexOutOfBoundsException();
@@ -900,7 +924,8 @@ KNativePtr Kotlin_Arrays_getByteArrayAddressOfElement(KRef thiz, KInt index) {
 }
 
 HAS_SAFEPOINT_THROW
-KNativePtr Kotlin_Arrays_getCharArrayAddressOfElement(KRef thiz, KInt index) {
+KNativePtr Kotlin_Arrays_getCharArrayAddressOfElement(KRef thiz, KInt index)
+{
     ArrayHeader* array = thiz->array();
     boundsCheck(array, index);
 
@@ -908,7 +933,8 @@ KNativePtr Kotlin_Arrays_getCharArrayAddressOfElement(KRef thiz, KInt index) {
 }
 
 HAS_SAFEPOINT_THROW
-KNativePtr Kotlin_Arrays_getShortArrayAddressOfElement(KRef thiz, KInt index) {
+KNativePtr Kotlin_Arrays_getShortArrayAddressOfElement(KRef thiz, KInt index)
+{
     ArrayHeader* array = thiz->array();
     boundsCheck(array, index);
 
