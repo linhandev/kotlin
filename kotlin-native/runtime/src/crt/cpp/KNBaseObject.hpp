@@ -127,10 +127,9 @@ public:
             processFieldInMark(visitor, objHeader, *field);
         } else {
             kotlin::traverseObjectFields(objHeader, [&](auto elemAccessor) noexcept {
-                if (ObjHeader** elem = elemAccessor.direct().location()) {
-                    if (*elem) {
-                        processFieldInMark(visitor, objHeader, *elem);
-                    }
+                ObjHeader** elem = elemAccessor.direct().location();
+                if (elem && *elem) {
+                    processFieldInMark(visitor, objHeader, *elem);
                 }
             });
         }
