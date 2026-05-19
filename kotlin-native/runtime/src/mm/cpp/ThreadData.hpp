@@ -130,13 +130,13 @@ public:
 
     common::ThreadHolder *GetThreadHolder() const
     {
-        assertUseCRT();
+        AssertUseCrt();
         return threadHolder;
     }
 
     void SetThreadHolder(common::ThreadHolder *holder)
     {
-        assertUseCRT();
+        AssertUseCrt();
         threadHolder = holder;
         auto mutator = static_cast<common::MutatorBase*>(holder->GetMutator());
         mutator->SetThread(this, UpdateStateCallback);
@@ -155,7 +155,7 @@ public:
 
     void ClearThreadHolder()
     {
-        assertUseCRT();
+        AssertUseCrt();
         threadHolder->UnbindMutator();
         common::ThreadHolder::DestroyThreadHolder(threadHolder);
         threadHolder = nullptr;
@@ -163,7 +163,7 @@ public:
 
     static ThreadData* EvalKotlinThreadData(common::ThreadHolder* threadHolder)
     {
-        assertUseCRT();
+        AssertUseCrt();
         auto* mutator = reinterpret_cast<common::MutatorBase*>(threadHolder->GetMutator());
         auto* result = reinterpret_cast<ThreadData*>(mutator->GetThread());
         if (result == nullptr) {

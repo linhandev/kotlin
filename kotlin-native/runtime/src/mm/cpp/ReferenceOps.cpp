@@ -11,13 +11,13 @@
 using namespace kotlin;
 
 // Stack reference, doesn't require any barriers.
-template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Stack>::loadWithBarrier() noexcept {
+template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Stack>::LoadWithBarrier() noexcept {
     return direct_.load();
 }
 template<>
 ALWAYS_INLINE ObjHeader*
-mm::RefAccessor<mm::RefLocation::Stack>::loadAtomicWithBarrier(std::memory_order order) noexcept {
-    return direct_.loadAtomic(order);
+mm::RefAccessor<mm::RefLocation::Stack>::LoadAtomicWithBarrier(std::memory_order order) noexcept {
+    return direct_.LoadAtomic(order);
 }
 template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Stack>::afterLoad() noexcept {}
 template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Stack>::beforeStore(ObjHeader*) noexcept {}
@@ -47,7 +47,7 @@ slow_path:
 }
 
 // Global reference, e.g. a static variable.
-template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Global>::loadWithBarrier() noexcept {
+template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Global>::LoadWithBarrier() noexcept {
     return checkReadBarrier([&] {
         return reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(direct_.location()));
     }, [&] {
@@ -56,11 +56,11 @@ template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Global>::lo
 }
 template<>
 ALWAYS_INLINE ObjHeader*
-mm::RefAccessor<mm::RefLocation::Global>::loadAtomicWithBarrier(std::memory_order order) noexcept {
+mm::RefAccessor<mm::RefLocation::Global>::LoadAtomicWithBarrier(std::memory_order order) noexcept {
     return checkReadBarrier([&] {
         return reinterpret_cast<ObjHeader*>(common::BaseRuntime::AtomicReadBarrier(nullptr, direct_.location(), order));
     }, [&] {
-        return direct_.loadAtomic(order);
+        return direct_.LoadAtomic(order);
     });
 }
 template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Global>::afterLoad() noexcept {}
@@ -80,7 +80,7 @@ template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Global>::afterSto
 // `BaseRuntime::ReadBarrier(NULL, field)` dispatches to `ReadStaticRef`-style
 // forwarding via `Heap::GetBarrier()` (the implementations tolerate null obj
 // for read-side barriers; only the write side dereferences obj for RSet).
-template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Heap>::loadWithBarrier() noexcept {
+template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::HEAP>::LoadWithBarrier() noexcept {
     return checkReadBarrier([&] {
         return reinterpret_cast<ObjHeader*>(common::BaseRuntime::ReadBarrier(this->thisPtr_, direct_.location()));
     }, [&] {
@@ -89,16 +89,16 @@ template<> ALWAYS_INLINE ObjHeader* mm::RefAccessor<mm::RefLocation::Heap>::load
 }
 template<>
 ALWAYS_INLINE ObjHeader*
-mm::RefAccessor<mm::RefLocation::Heap>::loadAtomicWithBarrier(std::memory_order order) noexcept {
+mm::RefAccessor<mm::RefLocation::Heap>::LoadAtomicWithBarrier(std::memory_order order) noexcept {
     return checkReadBarrier([&] {
         return reinterpret_cast<ObjHeader*>(
             common::BaseRuntime::AtomicReadBarrier(this->thisPtr_, direct_.location(), order));
     }, [&] {
-        return direct_.loadAtomic(order);
+        return direct_.LoadAtomic(order);
     });
 }
-template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Heap>::afterLoad() noexcept {}
-template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Heap>::beforeStore(ObjHeader* value) noexcept {
+template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::HEAP>::afterLoad() noexcept {}
+template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::HEAP>::beforeStore(ObjHeader* value) noexcept {
     checkUseCRT<CheckMode::Fast>([&] {
         // Upstream 33af2848b3c: always route through WriteBarrier with the current mutator. The
         // thisPtr_==nullptr special-case is no longer needed — the Kotlin codegen now uses
@@ -110,7 +110,7 @@ template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Heap>::beforeStor
         gc::beforeHeapRefUpdate(direct_, value, false);
     });
 }
-template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Heap>::afterStore(ObjHeader*) noexcept {}
+template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::HEAP>::afterStore(ObjHeader*) noexcept {}
 
 ALWAYS_INLINE OBJ_GETTER(mm::weakRefReadBarrier, std_support::atomic_ref<ObjHeader*> weakReferee) noexcept {
     RETURN_RESULT_OF(gc::weakRefReadBarrier, weakReferee);

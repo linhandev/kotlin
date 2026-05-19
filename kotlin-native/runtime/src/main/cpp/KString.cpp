@@ -116,7 +116,7 @@ KRef allocateString(StringEncoding encoding, uint32_t sizeInUnits, Allocator&& a
 KRef allocatePermanentString(StringEncoding encoding, size_t sizeInUnits) {
     return allocateString(encoding, sizeInUnits, [](size_t sizeInChars) {
         auto result = reinterpret_cast<ObjHeader*>(std::calloc(sizeof(ArrayHeader) + sizeInChars * sizeof(KChar), 1));
-        result->typeInfoOrMeta_ = setPointerBits((TypeInfo *)theStringTypeInfo, OBJECT_TAG_PERMANENT);
+        result->typeInfoOrMeta_ = SetPointerBits((TypeInfo *)theStringTypeInfo, OBJECT_TAG_PERMANENT);
         result->array()->count_ = sizeInChars;
         return result;
     });
@@ -297,15 +297,15 @@ extern "C" OBJ_GETTER(Kotlin_String_replace, KConstRef thizPtr, KChar oldChar, K
             RETURN_RESULT_OF(createString<StringEncoding::kLatin1>, thizView.sizeInUnits(),
                 [thizView, oldChar, newChar, &thizHolder](uint8_t* out) {
                     using ThizT = decltype(thizView);
-                    ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
-                    std::replace_copy(thiz_fresh.begin().ptr(), thiz_fresh.end().ptr(), out, oldChar, newChar);
+                    ThizT thizFresh(StringHeader::of(thizHolder.obj()));
+                    std::replace_copy(thizFresh.begin().ptr(), thizFresh.end().ptr(), out, oldChar, newChar);
                 })
         }
         RETURN_RESULT_OF(createString<StringEncoding::kUTF16>, thizView.sizeInChars(),
             [thizView, oldChar, newChar, &thizHolder](KChar* out) {
                 using ThizT = decltype(thizView);
-                ThizT thiz_fresh(StringHeader::of(thizHolder.obj()));
-                std::replace_copy(thiz_fresh.begin(), thiz_fresh.end(), out, oldChar, newChar);
+                ThizT thizFresh(StringHeader::of(thizHolder.obj()));
+                std::replace_copy(thizFresh.begin(), thizFresh.end(), out, oldChar, newChar);
             });
     });
 }

@@ -92,7 +92,7 @@ void ObjHeader::destroyMetaObject(ObjHeader* object) {
     alloc::destroyExtraObjectData(extraObject);
 }
 
-ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj)
+ALWAYS_INLINE bool IsPermanentOrFrozen(const ObjHeader* obj)
 {
     return obj->permanent();
 }
@@ -183,12 +183,12 @@ extern "C" RUNTIME_NOTHROW void InitAndRegisterGlobal(ObjHeader** location, cons
     mm::GlobalsRegistry::Instance().RegisterStorageForGlobal(threadData, location);
 }
 
-extern "C" const MemoryModel CurrentMemoryModel = MemoryModel::kExperimental;
+extern "C" const MemoryModel CURRENT_MEMORY_MODEL = MemoryModel::EXPERIMENTAL;
 
 HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
     // Barrier dispatch (CRT vs CMS, fast vs slow path) is fully encapsulated in
-    // RefFieldAccessor::load → loadWithBarrier (see ReferenceOps.cpp). Don't
+    // RefFieldAccessor::load → LoadWithBarrier (see ReferenceOps.cpp). Don't
     // duplicate the x28-bit-62 check here — that previously bypassed the
     // barrier under CRT because the slow path also went through DirectRefAccessor
     // which wasn't actually wired to BaseRuntime::ReadBarrier in any meaningful way.
@@ -197,7 +197,7 @@ extern "C" RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeade
 
 HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW ObjHeader* ReadVolatileHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
-    return mm::RefFieldAccessor{location, thisPtr}.loadAtomic(std::memory_order_seq_cst);
+    return mm::RefFieldAccessor{location, thisPtr}.LoadAtomic(std::memory_order_seq_cst);
 }
 
 // Ported from upstream 33af2848b3c: globals get their own access path so
@@ -212,7 +212,7 @@ extern "C" RUNTIME_NOTHROW ObjHeader* ReadStaticRef(ObjHeader** location) {
 
 HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW ObjHeader* ReadVolatileStaticRef(ObjHeader** location) {
-    return mm::GlobalRefAccessor{location}.loadAtomic(std::memory_order_seq_cst);
+    return mm::GlobalRefAccessor{location}.LoadAtomic(std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
@@ -249,7 +249,7 @@ extern "C"
 NO_SAFEPOINT
 extern "C"
     PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileHeapRef(ObjHeader** location, const ObjHeader* object, ObjHeader* thisPtr) {
-    mm::RefFieldAccessor{location, thisPtr}.storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
+    mm::RefFieldAccessor{location, thisPtr}.StoreAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT
@@ -285,7 +285,7 @@ extern "C" PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateStaticRef(ObjHeader** l
 NO_SAFEPOINT
 extern "C"
     PERFORMANCE_INLINE RUNTIME_NOTHROW void UpdateVolatileStaticRef(ObjHeader** location, const ObjHeader* object) {
-    mm::GlobalRefAccessor{location}.storeAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
+    mm::GlobalRefAccessor{location}.StoreAtomic(const_cast<ObjHeader*>(object), std::memory_order_seq_cst);
 }
 
 NO_SAFEPOINT

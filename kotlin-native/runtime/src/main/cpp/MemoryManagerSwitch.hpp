@@ -28,7 +28,7 @@ namespace MemoryManagerSwitch {
         }
         return true;
     }
-    inline const bool useCRT = IsEnabled();
+    inline const bool USE_CRT = IsEnabled();
 };
 
 // not ALWAYS_INLINE to ensure that inline happens both in debug and release mode
@@ -39,18 +39,18 @@ namespace MemoryManagerSwitch {
 /// `Fast` is only available in kRunnable state and relies on the value of x28 register being consistent with the global var.
 enum class CheckMode { Slow, Fast };
 
-/// If currently selected MemoryManager is CRT then execute given `crt_f`, otherwise execute `else_f`.
+/// If currently selected MemoryManager is CRT then execute given `crtF`, otherwise execute `elseF`.
 template<CheckMode mode, typename F, typename G>
-FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
+FORCE_INLINE auto checkUseCRT(F crtF, G elseF)
 {
     using namespace kotlin;
 
     // First check if the memory manager to use is defined via compile-time option.
-    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kCRT) { return crt_f(); }
-    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::kNative) { return else_f(); }
+    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::CRT) { return crtF(); }
+    if (compiler::memoryManagerMode() == compiler::MemoryManagerMode::NATIVE) { return elseF(); }
 
     // Otherwise we are to select proper MM based on the run-time option.
-    RuntimeAssert(compiler::memoryManagerMode() == compiler::MemoryManagerMode::kRuntimeSwitch,
+    RuntimeAssert(compiler::memoryManagerMode() == compiler::MemoryManagerMode::RUNTIME_SWITCH,
         "Unexpected memory manager mode %d", compiler::memoryManagerMode());
 
 #ifdef ENABLE_GC_FASTPATH
@@ -59,42 +59,42 @@ FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
             "Value of x28 is a magic marker, check that there is a switch to kRunnable "
             "prior to checkUseCRT<Fast>");
         FAST_CHECK_MM_SWITCH(else_l); // fallthrough if x28 != 0 signifying that CRT MM is enabled, otherwise jump to `else_l`.
-        RuntimeAssert(MemoryManagerSwitch::useCRT, "Value of x28 is inconsistent with the useCRT flag");
-        return crt_f();
+        RuntimeAssert(MemoryManagerSwitch::USE_CRT, "Value of x28 is inconsistent with the USE_CRT flag");
+        return crtF();
     }
 #endif
 
-    if (__builtin_expect(MemoryManagerSwitch::useCRT, true)) { return crt_f(); }
+    if (__builtin_expect(MemoryManagerSwitch::USE_CRT, true)) { return crtF(); }
 
 else_l:
 #ifdef ENABLE_GC_FASTPATH
     if constexpr (mode == CheckMode::Fast) {
-        RuntimeAssert(!MemoryManagerSwitch::useCRT, "Value of x28 is inconsistent with the useCRT flag");
+        RuntimeAssert(!MemoryManagerSwitch::USE_CRT, "Value of x28 is inconsistent with the USE_CRT flag");
     }
 #endif
-    return else_f();
+    return elseF();
 }
 
-/// If currently selected MemoryManager is CRT then execute given `crt_f`, otherwise do nothing.
+/// If currently selected MemoryManager is CRT then execute given `crtF`, otherwise do nothing.
 template<CheckMode mode, typename F>
-FORCE_INLINE void checkUseCRT(F crt_f)
+FORCE_INLINE void checkUseCRT(F crtF)
 {
-    checkUseCRT<mode>(crt_f, [] {});
+    checkUseCRT<mode>(crtF, [] {});
 }
 
-/// If currently selected MemoryManager is CRT then do nothing, otherwise execute given `else_f`.
+/// If currently selected MemoryManager is CRT then do nothing, otherwise execute given `elseF`.
 template<CheckMode mode, typename G>
-FORCE_INLINE void checkNotCRT(G else_f)
+FORCE_INLINE void checkNotCRT(G elseF)
 {
-    checkUseCRT<mode>([]{}, else_f);
+    checkUseCRT<mode>([]{}, elseF);
 }
 
 /// Assert that currently selected MemoryManager is not CRT.
-FORCE_INLINE void assertNotCRT()
+FORCE_INLINE void AssertNotCrt()
 {
     checkUseCRT<CheckMode::Slow>([] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is disabled");
-        if (kotlin::compiler::memoryManagerMode() != kotlin::compiler::MemoryManagerMode::kRuntimeSwitch) {
+        if (kotlin::compiler::memoryManagerMode() != kotlin::compiler::MemoryManagerMode::RUNTIME_SWITCH) {
             // Only abort if the MM mode can be determined in compile-time to facilitate UCE below the std::abort(),
             // otherwise if assertions are disabled and the MM is not known in compile-time this lambda will be empty
             // so the run-time check won't be generated.
@@ -104,11 +104,11 @@ FORCE_INLINE void assertNotCRT()
 }
 
 /// Assert that currently selected MemoryManager is CRT.
-FORCE_INLINE void assertUseCRT()
+FORCE_INLINE void AssertUseCrt()
 {
     checkNotCRT<CheckMode::Slow>([] {
         RuntimeAssert(false, "Reached a statement which should only be reachable when CRT is enabled");
-        if (kotlin::compiler::memoryManagerMode() != kotlin::compiler::MemoryManagerMode::kRuntimeSwitch) {
+        if (kotlin::compiler::memoryManagerMode() != kotlin::compiler::MemoryManagerMode::RUNTIME_SWITCH) {
             // Only abort if the MM mode can be determined in compile-time to facilitate UCE below the std::abort(),
             // otherwise if assertions are disabled and the MM is not known in compile-time this lambda will be empty
             // so the run-time check won't be generated.

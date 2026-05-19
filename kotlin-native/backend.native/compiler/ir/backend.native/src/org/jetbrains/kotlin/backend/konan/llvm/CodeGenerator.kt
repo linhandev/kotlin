@@ -42,7 +42,7 @@ internal class CodeGenerator(override val generationState: NativeGenerationState
     // ObjHeader.typeInfoOrMeta_, which carries tag bits in BOTH the low 2
     // bits (OBJECT_TAG_MASK) and the high 16 bits (KNStateWord packed by
     // CustomAllocator with `valid` and `remainded`; also used by CRT for
-    // the language tag). Mirrors kImmTypeInfoMask in Memory.h.
+    // the language tag). Mirrors IMM_TYPE_INFO_MASK in Memory.h.
     // 0x0000_FFFF_FFFF_FFFC = bits 48-63 + bits 0-1 cleared, bits 2-47 kept.
     internal val immTypeInfoMask = LLVMConstInt(intPtrType, 0xFFFFFFFFFFFCL, 0)!!
 

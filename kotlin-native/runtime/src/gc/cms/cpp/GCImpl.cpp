@@ -89,7 +89,7 @@ void gc::GC::StartFinalizerThreadIfNeeded() noexcept
 
 void gc::GC::StopFinalizerThreadIfRunning() noexcept
 {
-    assertNotCRT();
+    AssertNotCrt();
     mm::GlobalData::Instance().allocator().stopFinalizerThreadIfRunning();
 }
 
@@ -104,13 +104,13 @@ bool gc::GC::FinalizersThreadIsRunning() noexcept
 
 // static
 PERFORMANCE_INLINE void gc::GC::processObjectInMark(void* state, ObjHeader* object) noexcept {
-    assertNotCRT();
+    AssertNotCrt();
     gc::internal::processObjectInMark<gc::mark::ConcurrentMark::MarkTraits>(state, object);
 }
 
 // static
 PERFORMANCE_INLINE void gc::GC::processArrayInMark(void* state, ArrayHeader* array) noexcept {
-    assertNotCRT();
+    AssertNotCrt();
     gc::internal::processArrayInMark<gc::mark::ConcurrentMark::MarkTraits>(state, array);
 }
 
@@ -141,17 +141,17 @@ PERFORMANCE_INLINE void gc::beforeHeapRefUpdate(mm::DirectRefAccessor ref, ObjHe
 }
 
 PERFORMANCE_INLINE OBJ_GETTER(gc::weakRefReadBarrier, std_support::atomic_ref<ObjHeader*> weakReferee) noexcept {
-    assertNotCRT();
+    AssertNotCrt();
     RETURN_OBJ(gc::barriers::weakRefReadBarrier(weakReferee));
 }
 
 PERFORMANCE_INLINE bool gc::isMarked(ObjHeader* object) noexcept {
-    assertNotCRT();
+    AssertNotCrt();
     return alloc::objectDataForObject(object).marked();
 }
 
 PERFORMANCE_INLINE bool gc::tryResetMark(GC::ObjectData& objectData) noexcept {
-    assertNotCRT();
+    AssertNotCrt();
     return objectData.tryResetMark();
 }
 

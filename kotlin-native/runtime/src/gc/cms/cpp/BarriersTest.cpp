@@ -137,7 +137,7 @@ TEST_F(BarriersTest, ConcurrentDeletion) {
             for (int j = 0; j < kObjsPerThread; ++j) {
                 auto& obj = AllocateObject(threadData);
                 // auto&& accessor = mm::RefFieldAccessor(&ref);
-                // accessor.storeAtomic(obj.header(), std::memory_order_release);
+                // accessor.StoreAtomic(obj.header(), std::memory_order_release);
                 UpdateHeapRef(&ref, obj.header(), nullptr);
             }
 

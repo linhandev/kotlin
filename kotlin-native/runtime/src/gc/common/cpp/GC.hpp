@@ -24,8 +24,8 @@ extern "C" uint8_t __LLVM_StackMap_Offsets;
 #define LLVM_STACKMAP_SYMBOL (&__LLVM_StackMaps)
 #else
 extern "C" uint8_t _LLVM_StackMaps;
-extern "C" uint8_t _LLVM_StackMap_Offsets;
-#define LLVM_STACKMAP_OFFSETS_SYMBOL (&_LLVM_StackMap_Offsets)
+extern "C" uint8_t g_llvmStackMapOffsets;
+#define LLVM_STACKMAP_OFFSETS_SYMBOL (&g_llvmStackMapOffsets)
 #define LLVM_STACKMAP_SYMBOL (&_LLVM_StackMaps)
 #endif
 namespace kotlin {

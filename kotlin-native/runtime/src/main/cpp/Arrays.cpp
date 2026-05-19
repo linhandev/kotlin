@@ -49,7 +49,7 @@ ALWAYS_INLINE inline void mutabilityCheck(KConstRef thiz)
 }
 
 HAS_SAFEPOINT_THROW
-ALWAYS_INLINE inline void boundsCheck(const ArrayHeader* array, KInt index)
+ALWAYS_INLINE inline void CheckBounds(const ArrayHeader* array, KInt index)
 {
     // We couldn't have created an array bigger than max KInt value.
     // So if index is < 0, conversion to an unsigned value would make it bigger
@@ -89,7 +89,7 @@ template <class T, bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW inline void PrimitiveArraySet(KRef thiz, KInt index, T value)
 {
     ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) CheckBounds(array, index);
     mutabilityCheck(thiz);
     *PrimitiveArrayAddressOfElementAt<T>(array, index) = value;
 }
@@ -98,7 +98,7 @@ template <class T, bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW inline T PrimitiveArrayGet(KConstRef thiz, KInt index)
 {
     const ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) CheckBounds(array, index);
     return *PrimitiveArrayAddressOfElementAt<T>(array, index);
 }
 
@@ -106,7 +106,7 @@ template <bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW ALWAYS_INLINE KRef Kotlin_Array_get_value(KConstRef thiz, KInt index)
 {
     ArrayHeader* array = const_cast<ArrayHeader*>(thiz->array());
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) CheckBounds(array, index);
     return ReadHeapRef(ArrayAddressOfElementAt(array, index), array->obj());
 }
 
@@ -114,7 +114,7 @@ template <bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_Array_set_value(KRef thiz, KInt index, KConstRef value)
 {
     ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) CheckBounds(array, index);
     mutabilityCheck(thiz);
     UpdateHeapRef(ArrayAddressOfElementAt(array, index), value, array->obj());
 }
@@ -123,7 +123,7 @@ template <bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW ALWAYS_INLINE KByte Kotlin_ByteArray_get_value(KConstRef thiz, KInt index)
 {
     const ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) CheckBounds(array, index);
     return *ByteArrayAddressOfElementAt(array, index);
 }
 
@@ -131,7 +131,7 @@ template <bool BoundsCheck = true>
 HAS_SAFEPOINT_THROW ALWAYS_INLINE void Kotlin_ByteArray_set_value(KRef thiz, KInt index, KByte value)
 {
     ArrayHeader* array = thiz->array();
-    if (BoundsCheck) boundsCheck(array, index);
+    if (BoundsCheck) CheckBounds(array, index);
     mutabilityCheck(thiz);
     *ByteArrayAddressOfElementAt(array, index) = value;
 }
@@ -918,7 +918,7 @@ KNativePtr Kotlin_ImmutableBlob_asCPointerImpl(KRef thiz, KInt offset) {
 HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getByteArrayAddressOfElement(KRef thiz, KInt index) {
     ArrayHeader* array = thiz->array();
-    boundsCheck(array, index);
+    CheckBounds(array, index);
 
     return AddressOfElementAt<KByte>(array, index);
 }
@@ -927,7 +927,7 @@ HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getCharArrayAddressOfElement(KRef thiz, KInt index)
 {
     ArrayHeader* array = thiz->array();
-    boundsCheck(array, index);
+    CheckBounds(array, index);
 
     return CharArrayAddressOfElementAt(array, index);
 }
@@ -936,7 +936,7 @@ HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getShortArrayAddressOfElement(KRef thiz, KInt index)
 {
     ArrayHeader* array = thiz->array();
-    boundsCheck(array, index);
+    CheckBounds(array, index);
 
     return AddressOfElementAt<KShort>(array, index);
 }
@@ -944,7 +944,7 @@ KNativePtr Kotlin_Arrays_getShortArrayAddressOfElement(KRef thiz, KInt index)
 HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getIntArrayAddressOfElement(KRef thiz, KInt index) {
     ArrayHeader* array = thiz->array();
-    boundsCheck(array, index);
+    CheckBounds(array, index);
 
     return AddressOfElementAt<KInt>(array, index);
 }
@@ -952,7 +952,7 @@ KNativePtr Kotlin_Arrays_getIntArrayAddressOfElement(KRef thiz, KInt index) {
 HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getLongArrayAddressOfElement(KRef thiz, KInt index) {
     ArrayHeader* array = thiz->array();
-    boundsCheck(array, index);
+    CheckBounds(array, index);
 
     return AddressOfElementAt<KLong>(array, index);
 }
@@ -960,7 +960,7 @@ KNativePtr Kotlin_Arrays_getLongArrayAddressOfElement(KRef thiz, KInt index) {
 HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getFloatArrayAddressOfElement(KRef thiz, KInt index) {
     ArrayHeader* array = thiz->array();
-    boundsCheck(array, index);
+    CheckBounds(array, index);
 
     return AddressOfElementAt<KFloat>(array, index);
 }
@@ -968,7 +968,7 @@ KNativePtr Kotlin_Arrays_getFloatArrayAddressOfElement(KRef thiz, KInt index) {
 HAS_SAFEPOINT_THROW
 KNativePtr Kotlin_Arrays_getDoubleArrayAddressOfElement(KRef thiz, KInt index) {
     ArrayHeader* array = thiz->array();
-    boundsCheck(array, index);
+    CheckBounds(array, index);
 
     return AddressOfElementAt<KDouble>(array, index);
 }

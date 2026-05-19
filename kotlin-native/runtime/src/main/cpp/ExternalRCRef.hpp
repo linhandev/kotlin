@@ -108,7 +108,7 @@ private:
     // TODO: Try to handle it atomically only when the GC is in progress.
     std_support::atomic_ref<KRef> objAtomic() noexcept { return std_support::atomic_ref{obj_}; }
     std_support::atomic_ref<const KRef> objAtomic() const noexcept { return std_support::atomic_ref{obj_}; }
-    KRef& getObjRef() noexcept { return obj_; }
+    KRef& GetObjRef() noexcept { return obj_; }
     KRef obj_ = nullptr;
 
     // Only ever updated using relaxed memory ordering. Any synchronization

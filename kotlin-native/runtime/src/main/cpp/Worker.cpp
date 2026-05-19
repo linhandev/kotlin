@@ -838,7 +838,7 @@ Worker::~Worker() {
 
 namespace {
 
-void* workerRoutine(void* argument)
+void* WorkerRoutine(void* argument)
 {
     common::CallToFFixedX28 g{};
     Worker* worker = reinterpret_cast<Worker*>(argument);
@@ -864,7 +864,7 @@ void* workerRoutine(void* argument)
 
 void Worker::startEventLoop() {
   kotlin::ThreadStateGuard guard(ThreadState::kNative);
-  pthread_create(&thread_, nullptr, workerRoutine, this);
+  pthread_create(&thread_, nullptr, WorkerRoutine, this);
 }
 
 void Worker::putJob(Job job, bool toFront) {

@@ -90,7 +90,7 @@ public:
 
         KRef& operator*() noexcept
         {
-            return ref_->getObjRef();
+            return ref_->GetObjRef();
         }
 
         RootsIterator& operator++() noexcept {

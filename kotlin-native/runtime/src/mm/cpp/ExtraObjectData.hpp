@@ -56,27 +56,27 @@ public:
     bool getFlag(Flags value) noexcept { return (flags_.load() & (1u << static_cast<uint32_t>(value))) != 0; }
     void setFlag(Flags value) noexcept { flags_.fetch_or(1u << static_cast<uint32_t>(value)); }
 
-    bool HasRegularWeakReferenceImpl() noexcept { return hasPointerBits(weakReferenceOrBaseObject_.load(), WEAK_REF_TAG); }
+    bool HasRegularWeakReferenceImpl() noexcept { return HasPointerBits(weakReferenceOrBaseObject_.load(), WEAK_REF_TAG); }
     void ClearRegularWeakReferenceImpl() noexcept; // TODO: Only exists for the sake of GetBaseObject. Refactor to remove the need for it.
     ObjHeader* GetRegularWeakReferenceImpl() noexcept {
-        assertNotCRT();
+        AssertNotCrt();
         auto* pointer = weakReferenceOrBaseObject_.load();
-        if (hasPointerBits(pointer, WEAK_REF_TAG)) return clearPointerBits(pointer, WEAK_REF_TAG);
+        if (HasPointerBits(pointer, WEAK_REF_TAG)) return ClearPointerBits(pointer, WEAK_REF_TAG);
         return nullptr;
     }
     ObjHeader* GetOrSetRegularWeakReferenceImpl(ObjHeader* object, ObjHeader* weakRef) noexcept {
-        assertNotCRT();
-        if (weakReferenceOrBaseObject_.compare_exchange_strong(object, setPointerBits(weakRef, WEAK_REF_TAG))) {
+        AssertNotCrt();
+        if (weakReferenceOrBaseObject_.compare_exchange_strong(object, SetPointerBits(weakRef, WEAK_REF_TAG))) {
             return weakRef;
         } else {
-            return clearPointerBits(object, WEAK_REF_TAG); // on fail current value of weakRef is stored to object
+            return ClearPointerBits(object, WEAK_REF_TAG); // on fail current value of weakRef is stored to object
         }
     }
     ObjHeader* GetBaseObject() noexcept {
-        assertNotCRT();
+        AssertNotCrt();
         auto* header = weakReferenceOrBaseObject_.load();
-        if (hasPointerBits(header, WEAK_REF_TAG)) {
-            return regularWeakReferenceImplBaseObjectUnsafe(clearPointerBits(header, WEAK_REF_TAG));
+        if (HasPointerBits(header, WEAK_REF_TAG)) {
+            return regularWeakReferenceImplBaseObjectUnsafe(ClearPointerBits(header, WEAK_REF_TAG));
         } else {
             return header;
         }
@@ -84,7 +84,7 @@ public:
 
     int hashCode()
     {
-        assertUseCRT();
+        AssertUseCrt();
         // CRT uses moving GC for ordinary objects and allocates ExtraObjects non-movable,
         // so identity hashcode is calculated based on the fixed address.
         // TODO: if a better-distributed hashcode is required, it should be stored in the ExtraObject,
@@ -122,7 +122,7 @@ public:
     // its layout matches ObjHeader* (atomic<T*> on trivially-copyable T*) so
     // libcrt's RefField<>& cast through the visitor stays valid.
     template <typename F>
-    void forEachRefField(F f)
+    void ForEachRefField(F f)
     {
         f(*reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_));
     }
