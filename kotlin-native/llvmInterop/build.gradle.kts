@@ -21,13 +21,34 @@ nativeInteropPlugin {
         addAll(listOf("-pedantic", "-Wno-long-long", "-Wcovered-switch-default", "-Wdelete-non-virtual-dtor"))
         addAll(listOf("-DNDEBUG", "-D__STDC_CONSTANT_MACROS", "-D__STDC_FORMAT_MACROS", "-D__STDC_LIMIT_MACROS"))
     })
-    cCompilerArgs.set(listOf("-std=c99"))
+    cCompilerArgs.set(buildList {
+        add("-std=c99")
+        if (PlatformInfo.isWindows()) {
+            add("-target")
+            add("x86_64-pc-windows-gnu")
+            add("-isystem")
+            add("${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/include")
+            add("-isystem")
+            add("${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/x86_64-w64-mingw32/include")
+        }
+    })
     cppCompilerArgs.set(buildList {
         add("-std=c++11")
         if (PlatformInfo.isLinux()) {
-            add("-stdlib=libc++")
             add("-stdlib++-isystem")
             add("${nativeDependencies.llvmPath}/include/c++/v1")
+        } else if (PlatformInfo.isWindows()) {
+            add("-nostdinc++")
+            nativeDependencies.hostLibcxxIncludeDirs.forEach {
+                add("-isystem")
+                add(it)
+            }
+            add("-target")
+            add("x86_64-pc-windows-gnu")
+            add("-isystem")
+            add("${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/include")
+            add("-isystem")
+            add("${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/x86_64-w64-mingw32/include")
         }
     })
     selfHeaders.set(emptyList<String>())
@@ -59,7 +80,23 @@ nativeInteropPlugin {
             add("-Wl,-z,noexecstack")
             addAll(listOf("-lrt", "-ldl", "-lpthread", "-lz", "-lm"))
         } else if (PlatformInfo.isWindows()) {
+            add("-target")
+            add("x86_64-pc-windows-gnu")
+            add("-L${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/lib/gcc/x86_64-w64-mingw32/9.2.0")
+            add("-L${nativeDependencies.hostPlatform.absoluteTargetSysRoot}/x86_64-w64-mingw32/lib")
+            add("-nostdlib++")
+            val lp = nativeDependencies.llvmPath
+            add("$lp/lib/libc++.a")
+            add("$lp/lib/libc++abi.a")
+            add("$lp/lib/libunwind.a")
+            add("-Wl,/WHOLEARCHIVE:$lp/lib/libLLVMCore.a")
+            val mingw = nativeDependencies.hostPlatform.absoluteTargetSysRoot
+            add("$mingw/lib/gcc/x86_64-w64-mingw32/9.2.0/libssp.a")
+            add("$mingw/x86_64-w64-mingw32/lib/libucrt.a")
+            add("$mingw/x86_64-w64-mingw32/lib/libvcruntime140_app.a")
             addAll(listOf("-lpsapi", "-lshell32", "-lole32", "-luuid", "-ladvapi32", "-lntdll"))
+            add("-static-libgcc")
+            add("$mingw/x86_64-w64-mingw32/lib/libwinpthread.a")
         }
     })
     additionalLinkedStaticLibraries.set(buildList {
@@ -79,7 +116,12 @@ nativeInteropPlugin {
             error("Unsupported host platform")
         }
         llvmLibs.split(" ").mapTo(this) {
-            "${nativeDependencies.llvmPath}/lib/${lib(it.removePrefix("-l"))}"
+            val name = it.removePrefix("-l")
+            if (PlatformInfo.isWindows()) {
+                "${nativeDependencies.llvmPath}/lib/lib$name.a"
+            } else {
+                "${nativeDependencies.llvmPath}/lib/${lib(name)}"
+            }
         }
     })
 }
