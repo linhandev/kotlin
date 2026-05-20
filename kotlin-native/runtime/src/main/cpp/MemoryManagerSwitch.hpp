@@ -34,9 +34,10 @@ namespace MemoryManagerSwitch {
 // not ALWAYS_INLINE to ensure that inline happens both in debug and release mode
 #define FORCE_INLINE __attribute__((always_inline)) inline
 
-/// `Slow` mode can be used in any place, but it will load a value to check
-/// from a global variable.
-/// `Fast` is only available in kRunnable state and relies on the value of x28 register being consistent with the global var.
+/// `Slow` mode can be used in any place, but it will load a value to check from a global variable.
+/// `Fast` is only available in kRunnable state. In runtime-switch mode, the CMS
+/// branch is selected from `useCRT` without reading x28; the CRT branch still
+/// relies on x28 being initialized and consistent with that global state.
 enum class CheckMode { Slow, Fast };
 
 /// If currently selected MemoryManager is CRT then execute given `crt_f`, otherwise execute `else_f`.
@@ -55,6 +56,9 @@ FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
 
 #ifdef ENABLE_GC_FASTPATH
     if constexpr (mode == CheckMode::Fast) {
+        if (!MemoryManagerSwitch::useCRT) {
+            return else_f();
+        }
         RuntimeAssert(common::ThreadLocalRegisterData() != common::CallToFFixedX28::MAGIC_MARKER,
             "Value of x28 is a magic marker, check that there is a switch to kRunnable "
             "prior to checkUseCRT<Fast>");

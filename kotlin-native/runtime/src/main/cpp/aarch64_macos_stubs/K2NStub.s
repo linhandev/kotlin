@@ -253,9 +253,9 @@ Lcopy_k2n_end:
         ldp  x25, x26, [sp, #ForwardStubCalleeSaveArea+0x30]
         cfi_restore (x25)
         cfi_restore (x26)
-        ldp  x27, x28, [sp, #ForwardStubCalleeSaveArea+0x40]
+        // do NOT restore x28 from the entry-saved slot.
+        ldr  x27, [sp, #ForwardStubCalleeSaveArea+0x40]
         cfi_restore (x27)
-        cfi_restore (x28)
 
         ldp     x29, x30, [sp], #ForwardStubFrameSize
         cfi_adjust_cfa_offset (-ForwardStubFrameSize)

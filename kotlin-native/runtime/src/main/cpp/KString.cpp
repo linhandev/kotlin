@@ -403,6 +403,10 @@ extern "C" OBJ_GETTER(Kotlin_String_unsafeStringFromCharArray, KConstRef thiz, K
 }
 
 static void Kotlin_String_overwriteArray(KConstRef string, KRef destination, KInt destinationOffset, KInt start, KInt size) {
+    // Pin both Kotlin objects across the proxy/native copy path — under CRT
+    // the GC can move them via concurrent COPY if no scope holder keeps them
+    // pinned, leaving the C++ pointers stale.
+    kotlin::EnterPinScope<void*, void*> scope((void*)string, (void*)destination);
 #ifdef KONAN_OHOS
     if (hmm::IsKStringProxy(string)) {
         ArkTSStringRef *ref = hmm::KStringProxyGetArkTSStringRef(string);

@@ -34,6 +34,11 @@
 #include "Porting.h"
 #include "utf8.h"
 #include "polyhash/PolyHash.h"
+// Ported from huxiaowen 520f37e5c "FFI: add pin and objholder": EnterPinScope
+// keeps Kotlin string objects from being moved by CRT's compacting GC while
+// native code holds raw pointers into their data (via the proxy or via
+// CreateUninitializedString).
+#include "PinScope.h"
 
 namespace hmm {
 using namespace hmm::string;
@@ -59,6 +64,7 @@ OBJ_GETTER(Kotlin_ArkTS_CreateStringByCopy, napi_env env, napi_value value) {
     }
 
     KRef result = CreateUninitializedString(StringEncoding::kUTF16, length, OBJ_RESULT);
+    kotlin::EnterPinScope<void*> scope((void*)result);
     {
         kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
         auto status = napi_get_value_string_utf16(
@@ -106,6 +112,7 @@ ALWAYS_INLINE OBJ_GETTER(Kotlin_StringProxy_replace, KConstRef thiz, KChar oldCh
     ArkTSStringRef* ref = KStringProxyGetArkTSStringRef(thiz);
     if (ref->getLength() == 0) RETURN_RESULT_OF0(TheEmptyString);
     KRef result = CreateUninitializedString(StringEncoding::kUTF16, ref->getLength(), OBJ_RESULT);
+    kotlin::EnterPinScope<void*> scope((void*)result);
     KChar *resultRaw = reinterpret_cast<KChar*>(StringHeader::of(result)->data());
     ref->withStringView([&](std::u16string_view sv) {
         for (char16_t c : sv) {
@@ -132,6 +139,7 @@ ALWAYS_INLINE OBJ_GETTER(Kotlin_StringProxy_plusStringProxyImpl, KConstRef thizP
 
     // Create a Kotlin String instance with expected length
     KRef result = CreateUninitializedString(StringEncoding::kUTF16, resultLength, OBJ_RESULT);
+    kotlin::EnterPinScope<void*> scope((void*)result);
     auto header = StringHeader::of(result);
     thizRef->copyTo(header->data(), thizLength * sizeof(KChar), 0);
     otherRef->copyTo(header->data() + thizLength * sizeof(KChar), otherLength * sizeof(KChar), 0);
@@ -139,6 +147,7 @@ ALWAYS_INLINE OBJ_GETTER(Kotlin_StringProxy_plusStringProxyImpl, KConstRef thizP
 }
 
 ALWAYS_INLINE OBJ_GETTER(Kotlin_StringProxy_plusStringImpl, KConstRef thizProxy, KConstRef other) {
+    kotlin::EnterPinScope<void*> otherScope((void*)other);
     ArkTSStringRef *thizRef = KStringProxyGetArkTSStringRef(thizProxy);
     auto thizLength = thizRef->getLength();
     return encodingAware(other, [=](auto other) {
@@ -149,6 +158,7 @@ ALWAYS_INLINE OBJ_GETTER(Kotlin_StringProxy_plusStringImpl, KConstRef thizProxy,
             ThrowOutOfMemoryError();
         }
         KRef result = CreateUninitializedString(StringEncoding::kUTF16, resultLength, OBJ_RESULT);
+        kotlin::EnterPinScope<void*> resScope((void*)result);
         KChar* out = reinterpret_cast<KChar*>(StringHeader::of(result)->data());
         thizRef->copyTo(out, thizLength * sizeof(KChar), 0);
         if constexpr (other.encoding == StringEncoding::kUTF16) {
@@ -161,6 +171,7 @@ ALWAYS_INLINE OBJ_GETTER(Kotlin_StringProxy_plusStringImpl, KConstRef thizProxy,
 }
 
 ALWAYS_INLINE OBJ_GETTER(Kotlin_String_plusStringProxyImpl, KConstRef thiz, KConstRef otherProxy) {
+    kotlin::EnterPinScope<void*> thizScope((void*)thiz);
     ArkTSStringRef *otherRef = KStringProxyGetArkTSStringRef(otherProxy);
     auto otherLength = otherRef->getLength();
     return encodingAware(thiz, [=](auto thiz) {
@@ -171,6 +182,7 @@ ALWAYS_INLINE OBJ_GETTER(Kotlin_String_plusStringProxyImpl, KConstRef thiz, KCon
             ThrowOutOfMemoryError();
         }
         KRef result = CreateUninitializedString(StringEncoding::kUTF16, resultLength, OBJ_RESULT);
+        kotlin::EnterPinScope<void*> resScope((void*)result);
         KChar* out = reinterpret_cast<KChar*>(StringHeader::of(result)->data());
         if (thiz.encoding == StringEncoding::kUTF16) {
             auto halfway = std::copy(thiz.begin().ptr(), thiz.end().ptr(), out);
@@ -207,6 +219,7 @@ ALWAYS_INLINE OBJ_GETTER(Kotlin_StringProxy_subSequence, KConstRef thizProxy, KI
     }
     KInt length = endIndex - startIndex;
     KRef result = CreateUninitializedString(StringEncoding::kUTF16, length, OBJ_RESULT);
+    kotlin::EnterPinScope<void*> scope((void*)result);
     ref->copyTo(StringHeader::of(result)->data(), length * sizeof(KChar), startIndex);
     RETURN_OBJ(result);
 }
@@ -225,6 +238,7 @@ ALWAYS_INLINE KInt Kotlin_StringProxy_compareToStringProxy(KConstRef thizProxy, 
 }
 
 ALWAYS_INLINE KInt Kotlin_StringProxy_compareToString(KConstRef thizProxy, KConstRef other) {
+    kotlin::EnterPinScope<void*> otherScope((void*)other);
     ArkTSStringRef *thizRef = KStringProxyGetArkTSStringRef(thizProxy);
     return encodingAware(other, [=](auto other) {
         return thizRef->withStringView([=](std::u16string_view thizView) {
@@ -245,6 +259,7 @@ ALWAYS_INLINE KInt Kotlin_StringProxy_compareToString(KConstRef thizProxy, KCons
 }
 
 ALWAYS_INLINE KInt Kotlin_String_compareToStringProxy(KConstRef thiz, KConstRef otherProxy) {
+    kotlin::EnterPinScope<void*> thizScope((void*)thiz);
     ArkTSStringRef *otherRef = KStringProxyGetArkTSStringRef(otherProxy);
     return encodingAware(thiz, [=](auto thiz) {
         return otherRef->withStringView([=](std::u16string_view otherView) {
@@ -289,6 +304,7 @@ ALWAYS_INLINE KBoolean Kotlin_StringProxy_equalsWithStringProxy(KConstRef thizPr
 }
 
 ALWAYS_INLINE KBoolean Kotlin_StringProxy_equalsWithString(KConstRef thizProxy, KConstRef other) {
+    kotlin::EnterPinScope<void*> otherScope((void*)other);
     ArkTSStringRef *thizRef = KStringProxyGetArkTSStringRef(thizProxy);
 
     if (auto thizHash = thizRef->getHashCode()) {
@@ -329,6 +345,7 @@ ALWAYS_INLINE KBoolean Kotlin_StringProxy_unsafeRangeEqualsWithString(KConstRef 
                                                                       KConstRef other,
                                                                       KInt otherOffset,
                                                                       KInt length) {
+    kotlin::EnterPinScope<void*> otherScope((void*)other);
     ArkTSStringRef *thizRef = KStringProxyGetArkTSStringRef(thizProxy);
 
     return encodingAware(other, [=](auto other) {
@@ -382,6 +399,7 @@ ALWAYS_INLINE KInt Kotlin_StringProxy_indexOfStringProxy(KConstRef thizProxy, KC
 }
 
 ALWAYS_INLINE KInt Kotlin_StringProxy_indexOfString(KConstRef thizProxy, KConstRef other, KInt fromIndex) {
+    kotlin::EnterPinScope<void*> otherScope((void*)other);
     ArkTSStringRef *thizRef = KStringProxyGetArkTSStringRef(thizProxy);
     return thizRef->withStringView([=](std::u16string_view thizView) {
         return encodingAware(other, [=](auto other) {
@@ -426,6 +444,7 @@ ALWAYS_INLINE KInt Kotlin_StringProxy_indexOfString(KConstRef thizProxy, KConstR
 }
 
 ALWAYS_INLINE KInt Kotlin_String_indexOfStringProxy(KConstRef thiz, KConstRef otherProxy, KInt fromIndex) {
+    kotlin::EnterPinScope<void*> thizScope((void*)thiz);
     return encodingAware(thiz, [=](auto thiz) {
         ArkTSStringRef *otherRef = KStringProxyGetArkTSStringRef(otherProxy);
         return otherRef->withStringView([&](std::u16string_view otherView) {

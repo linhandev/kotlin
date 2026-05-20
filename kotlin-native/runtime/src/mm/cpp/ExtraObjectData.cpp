@@ -89,7 +89,15 @@ void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
     RuntimeAssert(
             !hasPointerBits(object, WEAK_REF_TAG), "ExtraObjectData %p has uncleared weak reference %p during unlink", this,
             clearPointerBits(object, WEAK_REF_TAG));
-    std_support::atomic_ref{object->typeInfoOrMeta_}.store(const_cast<TypeInfo*>(typeInfo_), std::memory_order_release);
+    // Preserve the original tag bits (KOTLIN language bit, etc.) carried by the
+    // base object's typeInfoOrMeta_ slot — matches mpcore/crt_dev baseline. Writing
+    // the raw typeInfo_ without re-applying tags drops the language bits, leaving
+    // the base object's header in a state that downstream GC code (e.g.,
+    // KNBaseObjectOperator dispatch) misinterprets.
+    auto curHeader = object->typeInfoOrMeta_;
+    auto bits = getPointerBits(curHeader, OBJECT_TAG_MASK);
+    auto newHeader = setPointerBits(const_cast<TypeInfo*>(typeInfo_), bits);
+    std_support::atomic_ref{object->typeInfoOrMeta_}.store(const_cast<TypeInfo*>(newHeader), std::memory_order_release);
     RuntimeAssert(
             !object->has_meta_object(), "Object %p has metaobject %p after removing metaobject %p", object, object->meta_object_or_null(),
             this);
@@ -111,7 +119,6 @@ void mm::ExtraObjectData::ReleaseAssociatedObject() noexcept {
 }
 
 void mm::ExtraObjectData::Uninstall() noexcept {
-    assertNotCRT();
     UnlinkFromBaseObject();
     ReleaseAssociatedObject();
 }

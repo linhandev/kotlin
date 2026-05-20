@@ -255,9 +255,9 @@ Kotlin_K2NStub:
         ldp  x25, x26, [sp, #48+0x30]
         .cfi_restore x25
         .cfi_restore x26
-        ldp  x27, x28, [sp, #48+0x40]
+        // do NOT restore x28 from the entry-saved slot.
+        ldr  x27, [sp, #48+0x40]
         .cfi_restore x27
-        .cfi_restore x28
 
         ldp   x29, x30, [sp], #288
         .cfi_adjust_cfa_offset -288
