@@ -20,6 +20,7 @@
 #include <vector>
 #include <iostream>
 #include "Macros.hpp"
+#include <functional>
 
 namespace kotlin::stackMap {
 using VarValue = uint32_t;

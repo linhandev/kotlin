@@ -10,6 +10,6 @@ fun enabledTargets(platformManager: PlatformManager) = platformManager.enabled
         it in KonanTarget.deprecatedTargets && it !in KonanTarget.toleratedDeprecatedTargets
     }
     .filter {
-        // 保证crt只有两个平台编译
-        it in listOf(KonanTarget.MACOS_ARM64, KonanTarget.OHOS_ARM64)
+        // 保证crt只有3个平台编译
+        it in listOf(KonanTarget.MACOS_ARM64, KonanTarget.OHOS_ARM64, KonanTarget.LINUX_X64)
     }
