@@ -234,6 +234,7 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
         "noop" -> GC.NOOP
         "stms" -> GC.STOP_THE_WORLD_MARK_AND_SWEEP
         "cms" -> GC.CONCURRENT_MARK_AND_SWEEP
+        "cmc" -> GC.CONCURRENT_MARK_AND_COPY
         else -> {
             val validValues = enumValues<GC>().map {
                 val fullName = "$it".lowercase()
@@ -275,8 +276,9 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
             AllocationMode.CUSTOM
         }
         "custom" -> AllocationMode.CUSTOM
+        "crt" -> AllocationMode.CRT
         else -> {
-            report(ERROR, "Expected 'std', or 'custom' for allocator")
+            report(ERROR, "Expected 'std', 'custom', or 'crt' for allocator")
             AllocationMode.CUSTOM
         }
     })
@@ -356,6 +358,7 @@ internal fun CompilerConfiguration.setupCommonOptionsForCaches(konanConfig: Kona
     put(BinaryOptions.gc, konanConfig.gc)
     put(BinaryOptions.gcSchedulerType, konanConfig.gcSchedulerType)
     put(BinaryOptions.runtimeAssertionsMode, konanConfig.runtimeAssertsMode)
+    put(BinaryOptions.runtimeSwitchMemoryManager, konanConfig.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH)
     put(LAZY_IR_FOR_CACHES, konanConfig.lazyIrForCaches)
     put(CommonConfigurationKeys.PARALLEL_BACKEND_THREADS, konanConfig.threadsCount)
     putIfNotNull(KONAN_DATA_DIR, konanConfig.distribution.localKonanDir.absolutePath)

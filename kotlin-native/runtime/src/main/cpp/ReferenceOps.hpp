@@ -5,8 +5,13 @@
 
 #pragma once
 
+#include <cstdlib>
+#include "crt/cpp/HeapInterface.hpp"
+
 #include "Memory.h"
 #include "std_support/Atomic.hpp"
+#include "MemoryManagerSwitch.hpp"
+
 
 #if __has_feature(thread_sanitizer)
 #include <sanitizer/tsan_interface.h>
@@ -39,16 +44,24 @@ public:
     DirectRefAccessor() = delete;
     DirectRefAccessor& operator=(const DirectRefAccessor&) = delete;
 
-    explicit DirectRefAccessor(ObjHeader*& fieldRef) noexcept : ref_(fieldRef) {}
-    explicit DirectRefAccessor(ObjHeader** fieldPtr) noexcept : DirectRefAccessor(*fieldPtr) {}
-    DirectRefAccessor(const DirectRefAccessor& other) = default;
+    // Bind to an `ObjHeader*` lvalue (used by ExternalRCRefImpl, which holds an
+    // ObjHeader* member that GC needs to update). Restored from the pre-port API
+    // — upstream commented this out and changed callers to pass `&fieldRef`, but
+    // we keep it to avoid touching ExternalRCRef.cpp.
+    explicit DirectRefAccessor(ObjHeader*& fieldRef) noexcept : refPtr_(&fieldRef) {}
+    explicit DirectRefAccessor(ObjHeader** fieldPtr) noexcept : refPtr_(fieldPtr) {}
+    DirectRefAccessor(const DirectRefAccessor& other) noexcept : DirectRefAccessor(other.refPtr_) {}
 
-    ObjHeader** location() const noexcept { return &ref_; }
+    ObjHeader** location() const noexcept { return refPtr_; }
 
     PERFORMANCE_INLINE operator ObjHeader*() const noexcept { return load(); }
-    PERFORMANCE_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
+    PERFORMANCE_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept {
+        store(desired);
+        return desired;
+    }
 
-    PERFORMANCE_INLINE ObjHeader* load() const noexcept {
+    PERFORMANCE_INLINE ObjHeader* load() const noexcept
+    {
 #if STRICT_ATOMICS_IN_HEAP
         // Consume stores in the object, that were released on the object's allocation
         // See `ObjectOps.cpp`
@@ -59,83 +72,122 @@ public:
 #endif
         return loaded;
 #else
-        return ref_;
+        return *refPtr_;
 #endif
     }
 
-    PERFORMANCE_INLINE void store(ObjHeader* desired) noexcept {
+    PERFORMANCE_INLINE void store(ObjHeader* desired) noexcept
+    {
 #if STRICT_ATOMICS_IN_HEAP
         storeAtomic(desired, std::memory_order_relaxed);
 #else
-        ref_ = desired;
+        *refPtr_ = desired;
 #endif
     }
 
-    PERFORMANCE_INLINE auto atomic() noexcept {
-        return std_support::atomic_ref{ref_};
+    PERFORMANCE_INLINE auto atomic() noexcept
+    {
+        return std_support::atomic_ref{*refPtr_};
     }
-    PERFORMANCE_INLINE auto atomic() const noexcept {
-        return std_support::atomic_ref{ref_};
+    PERFORMANCE_INLINE auto atomic() const noexcept
+    {
+        return std_support::atomic_ref{*refPtr_};
     }
 
-    PERFORMANCE_INLINE ObjHeader* loadAtomic(std::memory_order order) const noexcept {
+    PERFORMANCE_INLINE ObjHeader* loadAtomic(std::memory_order order) const noexcept
+    {
         return atomic().load(order);
     }
-    PERFORMANCE_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept {
+    PERFORMANCE_INLINE void storeAtomic(ObjHeader* desired, std::memory_order order) noexcept
+    {
         atomic().store(desired, order);
     }
-    PERFORMANCE_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
+    PERFORMANCE_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept
+    {
         return atomic().exchange(desired, order);
     }
-    PERFORMANCE_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
+    PERFORMANCE_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept
+    {
         return atomic().compare_exchange_strong(expected, desired, order);
     }
 
 private:
-    ObjHeader*& ref_;
+    ObjHeader** refPtr_;
 };
+
+template<bool>
+class RefHost {
+protected:
+    RefHost() = delete;
+    RefHost(RefHost&&) = default;
+    RefHost(const RefHost&) = default;
+    RefHost& operator=(const RefHost&) = delete;
+    RefHost& operator=(RefHost&&) = delete;
+    // No assert on thisPtr_ — the Kotlin compiler emits `UpdateHeapRef(loc, val, NULL)`
+    // for some `$init_global` initializers, so a null thisPtr is a valid call shape.
+    // The Heap-specialized beforeStore handles the null case by routing to
+    // `BaseRuntime::WriteRoot` (Global semantics) instead of WriteBarrier.
+    explicit RefHost(ObjHeader* thisPtr) noexcept : thisPtr_(thisPtr) {}
+    ObjHeader* thisPtr_;
+};
+
+template<> class RefHost<false> {};
+
+enum class RefLocation { Stack, Global, Heap };
 
 /**
  * Represents Koltin-level operations on Koltin references.
  * With all the necessary GC barriers etc.
  * Prefer using aliases below.
  */
-template<bool kOnStack>
-class RefAccessor {
+template<RefLocation refLocation>
+class RefAccessor : RefHost<refLocation == RefLocation::Heap> {
 public:
     RefAccessor() = delete;
     RefAccessor& operator=(const RefAccessor&) = delete;
 
-    explicit RefAccessor(ObjHeader*& fieldRef) noexcept : direct_(fieldRef) {}
-    explicit RefAccessor(ObjHeader** fieldPtr) noexcept : RefAccessor(*fieldPtr) {}
-    RefAccessor(const RefAccessor& other) noexcept : direct_(other.direct_) {}
+    template<bool nonHeap = refLocation != RefLocation::Heap, typename = std::enable_if_t<nonHeap>>
+    explicit RefAccessor(ObjHeader** fieldPtr) noexcept : direct_(fieldPtr) {}
+
+    template<bool onHeap = refLocation == RefLocation::Heap, typename = std::enable_if_t<onHeap>>
+    RefAccessor(ObjHeader** fieldPtr, ObjHeader* thisPtr) noexcept : RefHost<onHeap>(thisPtr), direct_(fieldPtr) {}
+
+    // Copy constructor is defaulted to avoid explicitly referring to RefHost,
+    // its appropriate copy-constructor will be selected by compiler.
+    RefAccessor(const RefAccessor& other) noexcept = default;
 
     DirectRefAccessor direct() const noexcept { return direct_; }
 
-    void beforeLoad() noexcept;
+private:
+    ObjHeader* loadWithBarrier() noexcept;
+    ObjHeader* loadAtomicWithBarrier(std::memory_order order) noexcept;
     void afterLoad() noexcept;
     void beforeStore(ObjHeader* value) noexcept;
     void afterStore(ObjHeader* value) noexcept;
 
+public:
     PERFORMANCE_INLINE operator ObjHeader*() noexcept { return load(); }
 
-    PERFORMANCE_INLINE ObjHeader* load() noexcept {
+    PERFORMANCE_INLINE ObjHeader* load() noexcept
+    {
         AssertThreadState(ThreadState::kRunnable);
-        beforeLoad();
-        auto result = direct_.load();
+        auto result = loadWithBarrier();
         afterLoad();
         return result;
     }
 
-    PERFORMANCE_INLINE ObjHeader* loadAtomic(std::memory_order order) noexcept {
+    PERFORMANCE_INLINE ObjHeader* loadAtomic(std::memory_order order) noexcept
+    {
         AssertThreadState(ThreadState::kRunnable);
-        beforeLoad();
-        auto result = direct_.loadAtomic(order);
+        auto result = loadAtomicWithBarrier(order);
         afterLoad();
         return result;
     }
 
-    PERFORMANCE_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept { store(desired); return desired; }
+    PERFORMANCE_INLINE ObjHeader* operator=(ObjHeader* desired) noexcept {
+        store(desired);
+        return desired;
+    }
 
     PERFORMANCE_INLINE void store(ObjHeader* desired) noexcept {
         AssertThreadState(ThreadState::kRunnable);
@@ -153,7 +205,7 @@ public:
 
     PERFORMANCE_INLINE ObjHeader* exchange(ObjHeader* desired, std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
-        beforeLoad();
+        loadWithBarrier(); // canonicalize stored pointer
         beforeStore(desired);
         auto result = direct_.exchange(desired, order);
         afterStore(desired);
@@ -163,7 +215,13 @@ public:
 
     PERFORMANCE_INLINE bool compareAndExchange(ObjHeader*& expected, ObjHeader* desired, std::memory_order order) noexcept {
         AssertThreadState(ThreadState::kRunnable);
-        beforeLoad();
+        auto cur = loadWithBarrier(); // canonicalize stored pointer
+        if (cur != expected) {
+            // value has been moved, simply return false and update expected
+            expected = cur;
+            return false;
+        }
+
         beforeStore(desired);
         bool result = direct_.compareAndExchange(expected, desired, order);
         afterStore(desired);
@@ -175,14 +233,14 @@ private:
     DirectRefAccessor direct_;
 };
 
-using RefFieldAccessor = RefAccessor<false>;
-using GlobalRefAccessor = RefAccessor<false>;
-using StackRefAccessor = RefAccessor<true>;
+using RefFieldAccessor = RefAccessor<RefLocation::Heap>;
+using GlobalRefAccessor = RefAccessor<RefLocation::Global>;
+using StackRefAccessor = RefAccessor<RefLocation::Stack>;
 
 class RefField : private Pinned {
 public:
     auto accessor() noexcept {
-        return mm::RefFieldAccessor(value_);
+        return mm::RefFieldAccessor(&value_, &header);
     }
     auto direct() noexcept {
         return accessor().direct();
@@ -207,6 +265,12 @@ public:
     }
 
 private:
+    // Synthetic hosting object for `value_` so that `accessor()` can pass a
+    // non-null `thisPtr` to the read/write barriers (CRT `BaseRuntime::*Barrier`
+    // requires it; CMS barriers ignore it). Without this, the per-RefField
+    // accessor would skip the barrier dispatch, breaking remembered-set updates
+    // and read-barrier forwarding for stable refs.
+    ObjHeader header {.typeInfoOrMeta_ = nullptr};
     ObjHeader* value_ = nullptr;
 };
 

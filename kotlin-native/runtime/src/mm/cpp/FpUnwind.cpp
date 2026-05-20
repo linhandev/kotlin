@@ -242,6 +242,12 @@ static bool IsInvokeCFunction(const uint32_t* ip)
             reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForInvokeCFunction);
 }
 
+static bool IsWorkerStub(const uint32_t* ip)
+{
+    return reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCStartForWorkerStub) &&
+            reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForWorkerStub);
+}
+
 static bool IsK2RStub(const uint32_t* ip)
 {
     return reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCForK2RStubStart) &&

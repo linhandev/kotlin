@@ -351,14 +351,15 @@ internal class CodeGeneratorVisitor(
 
     private fun FunctionGenerationContext.initGlobalField(irField: IrField) {
         val address = staticFieldPtr(irField, this)
+        if (irField.needsGCRegistration) {
+            call(llvm.initAndRegisterGlobalFunction, listOf(address, kNullObjHeaderRef))
+        }
         val initialValue = if (irField.hasNonConstInitializer) {
             evaluateExpression(irField.initializer!!.expression)
         } else {
             null
         }
-        if (irField.needsGCRegistration) {
-            call(llvm.initAndRegisterGlobalFunction, listOf(address, initialValue?: kNullObjHeaderRef))
-        } else if (initialValue != null) {
+        if (initialValue != null) {
             storeAny(initialValue, address, irField.type.binaryTypeIsReference(), false)
         }
     }
@@ -608,11 +609,15 @@ internal class CodeGeneratorVisitor(
                             .forEach { irField ->
                                 if (irField.type.binaryTypeIsReference() && irField.storageKind != FieldStorageKind.THREAD_LOCAL) {
                                     val address = staticFieldPtr(irField, functionGenerationContext)
-                                    storeHeapRef(codegen.kNullObjHeaderRef, address)
+                                    // Upstream 33af2848b3c: globals use storeGlobalRef so the write
+                                    // dispatches to UpdateStaticRef → BaseRuntime::WriteRoot,
+                                    // avoiding the heap-ref barrier's UpdateRememberSet which
+                                    // dereferences thisPtr.
+                                    storeGlobalRef(codegen.kNullObjHeaderRef, address)
                                 }
                             }
                     state.globalSharedObjects.forEach { address ->
-                        storeHeapRef(codegen.kNullObjHeaderRef, address)
+                        storeGlobalRef(codegen.kNullObjHeaderRef, address)
                     }
                     state.globalInitState?.let {
                         store(llvm.intptr(FILE_NOT_INITIALIZED), it)
@@ -1857,16 +1862,20 @@ internal class CodeGeneratorVisitor(
         }
         val fieldAddress: LLVMValueRef
 
+        val thisPtr: LLVMValueRef
         when {
             !value.symbol.owner.isStatic -> {
-                fieldAddress = fieldPtrOfClass(evaluateExpression(value.receiver!!), value.symbol.owner)
+                thisPtr = evaluateExpression(value.receiver!!)
+                fieldAddress = fieldPtrOfClass(thisPtr, value.symbol.owner)
                 alignment = generationState.llvmDeclarations.forField(value.symbol.owner).alignment
             }
             value.symbol.owner.correspondingPropertySymbol?.owner?.isConst == true -> {
                 // TODO: probably can be removed, as they are inlined.
+                thisPtr = codegen.kNullObjHeaderPtr
                 return evaluateConst(value.symbol.owner.initializer?.expression as IrConst).llvm
             }
             else -> {
+                thisPtr = codegen.kNullObjHeaderPtr
                 fieldAddress = staticFieldPtr(value.symbol.owner, functionGenerationContext)
                 alignment = generationState.llvmDeclarations.forStaticField(value.symbol.owner).alignment
             }
@@ -1878,7 +1887,8 @@ internal class CodeGeneratorVisitor(
                 !value.symbol.owner.isFinal,
                 resultSlot,
                 memoryOrder = order,
-                alignment = alignment
+                alignment = alignment,
+                thisPtr = thisPtr
         )
     }
 
@@ -1936,6 +1946,7 @@ internal class CodeGeneratorVisitor(
                 valueToAssign, address, value.symbol.owner.type.binaryTypeIsReference(), false,
                 isVolatile = value.symbol.owner.hasAnnotation(KonanFqNames.volatile),
                 alignment = alignment,
+                thisPtr = thisPtr ?: codegen.kNullObjHeaderPtr
         )
 
         assert (value.type.isUnit())
@@ -3162,6 +3173,7 @@ internal fun NativeGenerationState.generateRuntimeConstantsModule() : LLVMModule
     setRuntimeConstGlobal("Kotlin_gcMarkSingleThreaded", llvm.constInt32(if (config.gcMarkSingleThreaded) 1 else 0))
     setRuntimeConstGlobal("Kotlin_fixedBlockPageSize", llvm.constInt32(config.fixedBlockPageSize.toInt()))
     setRuntimeConstGlobal("Kotlin_pagedAllocator", llvm.constInt32(if (config.pagedAllocator) 1 else 0))
+    setRuntimeConstGlobal("Kotlin_memoryManagerMode", llvm.constInt32(config.memoryManagerMode.value))
 
     return llvmModule
 }

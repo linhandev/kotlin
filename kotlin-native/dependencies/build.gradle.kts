@@ -15,6 +15,7 @@ nativeDependenciesDownloader {
     repositoryURL.set("https://maven.eazytec-cloud.com/nexus/repository/file-storage")
     dependenciesDirectory.set(DependencyDirectories.getDependenciesRoot(kotlinBuildProperties.konanDataDir))
 
+    hostTarget {}
     allTargets {}
 }
 
@@ -22,6 +23,7 @@ nativeDependenciesDownloader {
  * Download all dependencies.
  */
 val update by tasks.registering {
+    dependsOn(nativeDependencies.hostPlatformDependency)
     platformManager.allTargetsWithSanitizers.forEach {
         dependsOn(nativeDependencies.targetDependency(it))
     }

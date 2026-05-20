@@ -125,6 +125,9 @@ internal val RuntimeAware.kObjHeaderPtr: LLVMTypeRef
 internal val RuntimeAware.kObjHeaderRef: LLVMTypeRef
     get() = ReferencesType(kObjHeader)
 
+internal val RuntimeAware.kDerivedRef: LLVMTypeRef
+    get() = LLVMPointerType(LLVMPointerType(kObjHeader, 1)!!, 1)!!
+
 internal val RuntimeAware.kObjHeaderPtrReturnType: LlvmRetType
     get() = LlvmRetType(kObjHeaderPtr, isObjectType = true)
 internal val RuntimeAware.kObjHeaderPtrPtr: LLVMTypeRef
@@ -165,6 +168,14 @@ internal val RuntimeAware.kNothingFakeValue: LLVMValueRef
     get() = LLVMGetUndef(kObjHeaderRef)!!
 
 internal fun pointerType(pointeeType: LLVMTypeRef) = LLVMPointerType(pointeeType, 0)!!
+
+// Same as `pointerType` but in addrspace(1) — the GC-tracked address space. Use when the
+// pointee is reached via a Kotlin object pointer, so the resulting pointer continues to be
+// tracked by LLVM's `gc.statepoint` machinery (i.e., gets relocated across statepoints).
+// Restored from mpcore/crt_dev (K2.0); the K2.0→K2.2 port lost this and routed all bitcasts
+// through `pointerType` (addrspace 0), which introduced an `addrspacecast` that stripped
+// GC tracking in `loadTypeInfo` and caused stale-pointer crashes after compaction.
+internal fun pointerTypeOne(pointeeType: LLVMTypeRef) = LLVMPointerType(pointeeType, 1)!!
 
 internal fun ReferencesType(pointeeType: LLVMTypeRef) : LLVMTypeRef {
     val typeName = llvmtype2string(pointeeType)
@@ -397,6 +408,8 @@ fun setFunctionNoInline(function: LLVMValueRef) {
 }
 
 fun setFunctionAlwaysInline(function: LLVMValueRef) {
+    LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, LlvmFunctionAttribute.NoInline.asAttributeKindId().value)
+    LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, LlvmFunctionAttribute.OptimizeNone.asAttributeKindId().value)
     addLlvmFunctionEnumAttribute(function, LlvmFunctionAttribute.AlwaysInline)
 }
 

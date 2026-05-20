@@ -143,13 +143,11 @@ Kotlin_KonanStartStub:
         mov  x26, x6
         mov  x27, x7
 
-        mov  x19, x10
-
-        // x28 <- previous sp
-        add  x28, sp, #288
+        // x19 <- previous sp (x28 is preserved by CRT, so do not clobber it)
+        add  x19, sp, #288
 
         // x19 <- previous sp + cpStackSize
-        add  x19, x28, x19
+        add  x19, x19, x10
 
         mov  x29, sp
         .cfi_def_cfa_register x29
@@ -193,8 +191,10 @@ Kotlin_KonanStartStub:
         .cfi_restore x10
 
         // copy arg9, arg10, ... (if existed)
+        // x27 is no longer holding arg7 (it was moved to x7 above), reuse as scratch
+        sub x27, x19, x10
 .L_copy:
-        cmp x19, x28
+        cmp x19, x27
         ble .L_copy_end
         ldp x25, x26, [x19, #-16]!
         // SP is always 16 byte-aligned.

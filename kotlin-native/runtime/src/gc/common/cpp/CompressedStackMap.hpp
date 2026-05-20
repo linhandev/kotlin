@@ -54,6 +54,34 @@ public:
         return SlotRoot(slotTable.GetBaseOffset(idx - 1), slotTable.GetSlotBitMap(idx - 1), slotTable.slotFormat);
     }
 
+    // Streaming-visitor variant used by the precise CRT root visitor (KNRootVisitor).
+    // Visits each base-slot offset via `rootVisitor(bias)`. If derived pointers exist
+    // for the base, also visits each derived-slot offset via `derivedPtrVisitor(base, derived)`.
+    // Base is always visited before its derived offsets so that derived-pointer fix-up
+    // (during compaction) can read the live base.
+    template <typename RootVisitor, typename DerivedPtrVisitor>
+    void VisitBaseAndDerivedSlotOffsets(RootVisitor rootVisitor, DerivedPtrVisitor derivedPtrVisitor) const
+    {
+        uint32_t idx = idxSet.slotIdx;
+        if (idx == 0) {
+            return;
+        }
+        SlotRoot rootsSet(slotTable.GetBaseOffset(idx - 1), slotTable.GetSlotBitMap(idx - 1), slotTable.slotFormat);
+        uint32_t derivedPtrIdx = idxSet.derivedPtrIdx;
+        if (derivedPtrIdx == 0) {
+            rootsSet.VisitSlotOffsets(rootVisitor);
+            return;
+        }
+        rootsSet.VisitSlotOffsets([&](int32_t bias) {
+            DerivedPtr derivedPtr(derivedPtrTable, regTable, slotTable, derivedPtrIdx);
+            // Base must be handled before its derived pointers so that the derived
+            // visitor can observe the live base value.
+            rootVisitor(bias);
+            derivedPtr.VisitDerivedPtrSlots([&](int32_t derived) { derivedPtrVisitor(bias, derived); });
+            derivedPtrIdx++;
+        });
+    }
+
     void CollectBase2DerivedSlotOffsets(std::unordered_map<int32_t, std::vector<int32_t>> &base2DerivedSlotOffsets)
     {
         uint32_t idx = idxSet.slotIdx;

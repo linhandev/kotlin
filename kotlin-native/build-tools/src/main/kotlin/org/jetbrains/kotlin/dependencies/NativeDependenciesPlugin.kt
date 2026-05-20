@@ -54,6 +54,7 @@ abstract class NativeDependenciesExtension @Inject constructor(private val proje
         isCanBeResolved = true
         attributes {
             attribute(Usage.USAGE_ATTRIBUTE, project.objects.named(NativeDependenciesUsage.NATIVE_DEPENDENCY))
+            attribute(TargetWithSanitizer.TARGET_ATTRIBUTE, TargetWithSanitizer.host)
         }
         defaultDependencies {
             add(project.dependencies.project(":kotlin-native:dependencies"))

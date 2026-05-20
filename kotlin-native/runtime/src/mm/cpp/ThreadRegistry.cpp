@@ -9,6 +9,7 @@
 #include "Porting.h"
 #include "ThreadData.hpp"
 #include "ThreadState.hpp"
+#include "MemoryManagerSwitch.hpp"
 
 using namespace kotlin;
 
@@ -18,13 +19,28 @@ mm::ThreadRegistry& mm::ThreadRegistry::Instance() noexcept {
 }
 
 mm::ThreadRegistry::Node* mm::ThreadRegistry::RegisterCurrentThread() noexcept {
+    auto threadHolder = checkUseCRT<CheckMode::Slow>([] { // CheckMode::Slow because x28 is not yet set
+        // First take lock of MutatorManager for gc, avoid dead lock while gc iterate ThreadRegistry
+        // Kotlin::ThreadData is 1-1 corresponding to CRT ThreadHolder
+        // This also assume ThreadData is created on a new OSThread
+        auto threadHolder = common::ThreadHolder::CreateAndRegisterNewThreadHolder(nullptr);
+        threadHolder->BindMutator();
+        return threadHolder;
+    }, [] {
+        return static_cast<common::ThreadHolder*>(nullptr);
+    });
+
     auto lock = list_.LockForIter();
     auto* threadDataNode = list_.Emplace(konan::currentThreadId());
+    // only here ThreadData constructor is invoked and x28 is set
     AssertThreadState(threadDataNode->Get(), ThreadState::kNative);
     Node*& currentDataNode = currentThreadDataNode_;
     RuntimeAssert(!IsCurrentThreadRegistered(), "This thread already had some data assigned to it.");
     currentDataNode = threadDataNode;
     threadDataNode->Get()->gc().onThreadRegistration();
+    checkUseCRT<CheckMode::Slow>([&] {
+        threadDataNode->Get()->SetThreadHolder(threadHolder);
+    });
     return threadDataNode;
 }
 

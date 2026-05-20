@@ -15,6 +15,8 @@ import kotlin.properties.ReadOnlyProperty
 object BinaryOptions : BinaryOptionRegistry() {
     val runtimeAssertionsMode by option<RuntimeAssertsMode>()
 
+    val runtimeSwitchMemoryManager by booleanOption()
+
     val checkStateAtExternalCalls by booleanOption()
 
     val splitBCfile by uintOption()

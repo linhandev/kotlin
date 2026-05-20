@@ -838,24 +838,28 @@ Worker::~Worker() {
 
 namespace {
 
-void* workerRoutine(void* argument) {
-  Worker* worker = reinterpret_cast<Worker*>(argument);
+void* workerRoutine(void* argument)
+{
+    common::CallToFFixedX28 g{};
+    Worker* worker = reinterpret_cast<Worker*>(argument);
 
-  // Kotlin_initRuntimeIfNeeded calls WorkerInit that needs
-  // to see there's already a worker created for this thread.
-  ::g_worker = worker;
-  Kotlin_initRuntimeIfNeeded();
+    // Kotlin_initRuntimeIfNeeded calls WorkerInit that needs
+    // to see there's already a worker created for this thread.
+    ::g_worker = worker;
+    Kotlin_initRuntimeIfNeeded();
 
-  // Only run this routine in the runnable state. The moment between this routine exiting and thread
-  // destructors running will be spent in the native state. `Kotlin_deinitRuntimeCallback` ensures
-  // that runtime deinitialization switches back to the runnable state.
-  kotlin::ThreadStateGuard guard(worker->memoryState(), ThreadState::kRunnable);
+    // Only run this routine in the runnable state. The moment between this routine exiting and thread
+    // destructors running will be spent in the native state. `Kotlin_deinitRuntimeCallback` ensures
+    // that runtime deinitialization switches back to the runnable state.
+    kotlin::ThreadStateGuard guard(worker->memoryState(), ThreadState::kRunnable);
 
-  do {
-    if (worker->processQueueElement(true) == JOB_TERMINATE) break;
-  } while (true);
+    do {
+        if (worker->processQueueElement(true) == JOB_TERMINATE) {
+            break;
+        }
+    } while (true);
 
-  return nullptr;
+    return nullptr;
 }
 
 }  // namespace

@@ -358,7 +358,7 @@ class TerminateHandler : private kotlin::Pinned {
   RUNTIME_NORETURN static void queuedHandler() {
       concurrentTerminateWrapper([]() {
           // Not a Kotlin exception - call default handler
-          instance().queuedHandler_();
+          instance()->queuedHandler_;
       });
   }
 
@@ -398,9 +398,10 @@ class TerminateHandler : private kotlin::Pinned {
   TerminateHandler()
     : queuedHandler_((QH)std::set_terminate(kotlinHandler)) {}
 
-  static TerminateHandler& instance() {
+  static TerminateHandler* instance()
+  {
     static TerminateHandler singleton [[clang::no_destroy]];
-    return singleton;
+    return &singleton;
   }
 
   // Dtor might be in use to restore original handler. However, consequent install
@@ -443,4 +444,11 @@ void RUNTIME_NORETURN kotlin::TerminateWithUnhandledException(KRef exception) no
     // This may be called from any state, do reentrant state switch to runnable.
     kotlin::ThreadStateGuard guard(kotlin::ThreadState::kRunnable, /* reentrant = */ true);
     terminateWithUnhandledException(exception);
+}
+
+void ThrowInvalidMutabilityException(KConstRef where)
+{
+    assertUseCRT();
+    // TODO: Implement proper CRT exception
+    RuntimeAssert(false, "Invalid mutability for object at %p", where);
 }

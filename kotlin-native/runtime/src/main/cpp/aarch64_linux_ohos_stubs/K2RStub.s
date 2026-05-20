@@ -833,6 +833,89 @@ slowPathStub:
     ret
     .cfi_endproc
 
+// CRT-mode entry points. Each wraps a runtime function through CalleeSavedRegistersStub
+// so that fp-unwind K2RStub mechanism handles the K→Runtime transition when CRT is active.
+// Added for CRT/CMC + fp-unwind support.
+
+    .global ReadHeapRefStub
+ReadHeapRefStub:
+    CalleeSavedRegistersStub ReadHeapRef
+
+    .global ReadVolatileHeapRefStub
+ReadVolatileHeapRefStub:
+    CalleeSavedRegistersStub ReadVolatileHeapRef
+
+    .global AllocInstanceForCIStub
+AllocInstanceForCIStub:
+    CalleeSavedRegistersStub AllocInstanceForCI
+
+    .global AllocArrayInstanceForCIStub
+AllocArrayInstanceForCIStub:
+    CalleeSavedRegistersStub AllocArrayInstanceForCI
+
+    // Ported from mpcore/crt_fp_unwind 7e581cd. Asm trampoline for the safe-point
+    // slow path that spills callee-saved registers (x19-x27) onto its own frame
+    // before calling CSafePointSlowPath, so Kotlin object pointers held in those
+    // registers become visible to the GC walker during STW. x28 is preserved
+    // separately by CRT (carries the TLS pointer). Without this trampoline,
+    // when safePoint() hits the slow path while inlined into a Kotlin function,
+    // refs in x19-x27 stay only in registers and the walker can't see them.
+    .global SafePointSlowPathStub
+SafePointSlowPathStub:
+    .cfi_startproc
+    stp  x29, x30, [sp,  #-112]!
+    .cfi_adjust_cfa_offset 112
+    .cfi_rel_offset x29, 0
+    .cfi_rel_offset x30, 8
+
+    mov  x29, sp
+    .cfi_def_cfa_register sp
+
+    // save all used callee-saved registers (x28 preserved by CRT, skipped).
+    stp  x19, x20, [sp, #32]
+    .cfi_rel_offset x19, 32
+    .cfi_rel_offset x20, 32+8
+
+    stp  x21, x22, [sp, #32+0x10]
+    .cfi_rel_offset x21, 32+0x10
+    .cfi_rel_offset x22, 32+0x18
+
+    stp  x23, x24, [sp, #32+0x20]
+    .cfi_rel_offset x23, 32+0x20
+    .cfi_rel_offset x24, 32+0x28
+
+    stp  x25, x26, [sp, #32+0x30]
+    .cfi_rel_offset x25, 32+0x30
+    .cfi_rel_offset x26, 32+0x38
+
+    str  x27, [sp, #32+0x40]
+    .cfi_rel_offset x27, 32+0x40
+
+    bl   CSafePointSlowPath
+
+    // restore all used callee-saved registers.
+    ldp  x19, x20, [sp, #32]
+    .cfi_restore x19
+    .cfi_restore x20
+    ldp  x21, x22, [sp, #32+0x10]
+    .cfi_restore x21
+    .cfi_restore x22
+    ldp  x23, x24, [sp, #32+0x20]
+    .cfi_restore x23
+    .cfi_restore x24
+    ldp  x25, x26, [sp, #32+0x30]
+    .cfi_restore x25
+    .cfi_restore x26
+    ldr  x27, [sp, #32+0x40]
+    .cfi_restore x27
+
+    ldp  x29, x30, [sp], #112
+    .cfi_adjust_cfa_offset -112
+    .cfi_restore x29
+    .cfi_restore x30
+    ret
+    .cfi_endproc
+
     .global unwindPCForK2RStubEnd
 unwindPCForK2RStubEnd:
 

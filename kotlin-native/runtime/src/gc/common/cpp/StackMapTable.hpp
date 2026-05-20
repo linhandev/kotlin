@@ -20,6 +20,7 @@
 #include <vector>
 #include <iostream>
 #include "Macros.hpp"
+#include <functional>
 
 namespace kotlin::stackMap {
 using VarValue = uint32_t;
@@ -66,32 +67,13 @@ public:
         uint32_t bitsMask = static_cast<uint32_t>((1ULL << bitLen) - 1);
         return ((ConnectBytesToU64() >> bitPos) & bitsMask);
     }
-    ATTR_NO_INLINE BitsManager GetNext(uint32_t bitsLen) const
-    {
-        uint32_t addrStep = bitsLen >> bitsShiftPerByte;
-        constexpr uint32_t bitsMask = (1 << bitsShiftPerByte) - 1;
-        uint32_t bitPosStep = bitsLen & bitsMask;
-        uint8_t* nextAddr = addr + addrStep;
-        uint32_t nextBitPos = bitPos + bitPosStep;
-        if (nextBitPos >= bitsNumPerByte) {
-            ++nextAddr;
-            nextBitPos -= bitsNumPerByte;
-        }
-        return BitsManager(nextAddr, nextBitPos);
-    }
+
+    void* getAddr() const { return addr; }
+    ATTR_NO_INLINE BitsManager GetNext(uint32_t bitsLen) const;
 
 private:
     // we don't use reinterpret_cast<uint64_t*> because of the effect of big-endien.
-    uint64_t ConnectBytesToU64() const
-    {
-        constexpr uint32_t len = sizeof(uint32_t) / sizeof(uint8_t) + 1;
-        uint64_t value = 0;
-        uint32_t shiftSteps = 0;
-        for (uint32_t i = 0; i < len; ++i, shiftSteps += bitsNumPerByte) {
-            value |= static_cast<uint64_t>(addr[i]) << shiftSteps;
-        }
-        return value;
-    }
+    uint64_t ConnectBytesToU64() const;
     static constexpr uint32_t bitsNumPerByte = 8;
     static constexpr uint32_t bitsShiftPerByte = 3;
     static constexpr uint32_t bitsNumHalfByte = bitsNumPerByte >> 1;
@@ -111,11 +93,11 @@ private:
 class VarInt {
 public:
     enum TagType : uint8_t {
-        MAX_VALID_VALUE = 11, // When the tag is no greater than 11, the valid value is tag.
-        VAR_VALUE8 = 12,      // When the tag is equal to 12, the valid value is 8 bits of varValue.
-        VAR_VALUE16 = 13,     // When the tag is equal to 13, the valid value is 16 bits of varValue.
-        VAR_VALUE24 = 14,     // When the tag is equal to 14, the valid value is 24 bits of varValue.
-        VAR_VALUE32 = 15,     // When the tag is equal to 15, the valid value is 32 bits of varValue.
+        MAX_VALID_VALUE = 11,
+        VAR_VALUE8 = 12,
+        VAR_VALUE16 = 13,
+        VAR_VALUE24 = 14,
+        VAR_VALUE32 = 15,
     };
     enum BitsLen : uint32_t {
         TAG_LEN = 4,
@@ -129,34 +111,10 @@ public:
     explicit VarInt(const BitsManager& bitsManager) : bits(bitsManager) {}
     explicit VarInt(BitsManager&& bitsManager) : bits(bitsManager) {}
     ~VarInt() = default;
-    ATTR_NO_INLINE VarPair GetValue() const
-    {
-        uint8_t tag = static_cast<uint8_t>(bits.GetBits(TAG_LEN));
-        if (tag <= MAX_VALID_VALUE) {
-            return std::make_pair(static_cast<VarValue>(tag), TAG_LEN);
-        }
-        if (tag == VAR_VALUE8) {
-            VarValue value = GetPayload(FIRST_STEP_VAR_BITS);
-            return std::make_pair(value, TAG_LEN + FIRST_STEP_VAR_BITS);
-        }
-        if (tag == VAR_VALUE16) {
-            VarValue value = GetPayload(SECOND_STEP_VAR_BITS);
-            return std::make_pair(value, TAG_LEN + SECOND_STEP_VAR_BITS);
-        }
-        if (tag == VAR_VALUE24) {
-            uint32_t value = GetPayload(THIRD_STEP_VAR_BITS);
-            return std::make_pair(value, TAG_LEN + THIRD_STEP_VAR_BITS);
-        }
-        VarValue value = GetPayload(FORTH_STEP_VAR_BITS);
-        return std::make_pair(value, TAG_LEN + FORTH_STEP_VAR_BITS);
-    }
+    ATTR_NO_INLINE VarPair GetValue() const;
 
 private:
-    VarValue GetPayload(BitsLen bitsLen) const
-    {
-        BitsManager payload = bits.GetNext(TAG_LEN);
-        return payload.GetBits(bitsLen);
-    }
+    VarValue GetPayload(BitsLen bitsLen) const;
     BitsManager bits;
 };
 
@@ -170,18 +128,7 @@ public:
     BitsManager GetNextTable() const { return nextTable; };
 
 protected:
-    ATTR_NO_INLINE BitsManager ResolveHeader(uint32_t headerInfo[], uint32_t size)
-    {
-        BitsManager cur(tableBits);
-        for (uint32_t i = 0; i < size; ++i) {
-            VarInt varInt(cur);
-            VarPair headerPair = varInt.GetValue();
-            VarValue value = headerPair.first;
-            headerInfo[i] = value;
-            cur = cur.GetNext(headerPair.second);
-        }
-        return cur;
-    }
+    ATTR_NO_INLINE BitsManager ResolveHeader(uint32_t headerInfo[], uint32_t size);
     BitsManager tableBits;
     uint32_t rowBitsLen{ 0 };
     BitsManager data;
@@ -228,40 +175,7 @@ public:
     BitsManager GetNextTable() const { return nextTable; }
 
 private:
-    void ResolvePrologue(const PrologueVisitor& visitor)
-    {
-        VarInt regBits(prologue);
-        VarPair varPair = regBits.GetValue();
-        uint32_t bitMap = varPair.first;
-        uint32_t bitLen = varPair.second;
-        uint32_t size = 0;
-#if DUMP_DEBUG_INFO
-        std::cout << "-----wzl log bitMap: " << bitMap;
-#endif
-        for (uint32_t i = 0; bitMap != 0; ++i, bitMap >>= 1) {
-            constexpr uint32_t bitMask = 0x1;
-            if ((bitMap & bitMask) == 0) {
-                continue;
-            }
-            if (visitor != nullptr) {
-                visitor(PrologueRegisterClosure::Type::CALLEE_REGISTER, i);
-            }
-            ++size;
-        }
-#if DUMP_DEBUG_INFO
-        std::cout << ", size: " << size << std::endl;
-#endif
-        BitsManager offsetBitManager = prologue.GetNext(bitLen);
-        for (uint32_t i = 0; i < size; ++i) {
-            VarInt offsetVarInt(offsetBitManager);
-            VarPair offsetPair = offsetVarInt.GetValue();
-            if (visitor != nullptr) {
-                visitor(PrologueRegisterClosure::Type::OFFSET, offsetPair.first);
-            }
-            offsetBitManager = offsetBitManager.GetNext(offsetPair.second);
-        }
-        nextTable = offsetBitManager;
-    }
+    void ResolvePrologue(const PrologueVisitor& visitor);
     BitsManager prologue;
     BitsManager nextTable;
 };
@@ -289,12 +203,7 @@ public:
     }
 
 private:
-    void Init()
-    {
-        data = ResolveHeader(headerInfo, HEADER_COL_NUM);
-        rowBitsLen = headerInfo[BITS_LEN];
-        nextTable = data.GetNext(rowBitsLen * headerInfo[RECORD_NUM]);
-    }
+    void Init();
     enum HeaderColTag {
         RECORD_NUM = 0,
         BITS_LEN,
@@ -317,120 +226,24 @@ private:
 class SlotTable : public TableAPI {
 public:
     SlotTable() = default;
-    SlotTable(uint8_t* tableAddrStart,
-        uint32_t tableBitStart, uint32_t format) :
-        TableAPI(tableAddrStart, tableBitStart),
-        slotFormat(format) { Init(); }
+    SlotTable(uint8_t* tableAddrStart, uint32_t tableBitStart, uint32_t format)
+        : TableAPI(tableAddrStart, tableBitStart), slotFormat(format) { Init(); }
     SlotTable(const BitsManager& bits, uint32_t format) : TableAPI(bits), slotFormat(format) { Init(); }
     SlotTable(BitsManager&& bits, uint32_t format) : TableAPI(bits), slotFormat(format) { Init(); }
     ~SlotTable() = default;
 
-    int32_t GetBaseOffset(uint32_t row) const
-    {
-        uint32_t unsignedValue = data.GetNext(row * rowBitsLen).GetBits(headerInfo[BASE_OFF_BITS_LEN]);
-        switch (headerInfo[BASE_OFF_BITS_LEN]) {
-            case SIGNED8:
-                return static_cast<int32_t>(static_cast<int8_t>(unsignedValue));
-            case SIGNED16:
-                return static_cast<int32_t>(static_cast<int16_t>(unsignedValue));
-            case SIGNED32:
-                return static_cast<int32_t>(static_cast<int32_t>(unsignedValue));
-            default:
-                std::cout << "wrong length of base offset bits length";
-                return static_cast<int32_t>(unsignedValue);
-        }
-    }
-    std::vector<SlotBits> GetSlotBitMap(uint32_t row) const
-    {
-        if (slotFormat != STACKMAP_BITMAP) {
-            return GetWAHSlotBitMap(row);
-        }
-        // regular bits length : 32 bits
-        constexpr uint32_t regularSlotBitsLen = 32;
-        constexpr uint32_t regularShiftBits = 5;
-        constexpr uint32_t bitMask = (1 << regularShiftBits) - 1;
-        uint32_t bitMapLen = headerInfo[BIT_MAP_BITS_LEN];
-        uint32_t size = bitMapLen >> regularShiftBits;
-        uint32_t resident = bitMapLen & bitMask;
-        if (resident != 0) {
-            size++;
-        }
-        std::vector<SlotBits> buffer(size);
-        BitsManager bitMapBits = data.GetNext(row * rowBitsLen + headerInfo[BASE_OFF_BITS_LEN]);
-        for (uint32_t i = 0; i < size - 1; ++i, bitMapBits = bitMapBits.GetNext(regularSlotBitsLen)) {
-            buffer[i] = bitMapBits.GetBits(regularSlotBitsLen);
-        }
-        if (resident == 0) {
-            buffer[size - 1] = bitMapBits.GetBits(regularSlotBitsLen);
-        } else {
-            buffer[size - 1] = bitMapBits.GetBits(resident);
-        }
-        size_t validSize = size;
-        for (uint32_t i = size - 1; i != 0; i--) {
-            if (buffer[i] != 0) {
-                break;
-            }
-            validSize--;
-        }
-        buffer.resize(validSize);
-        return buffer;
-    }
+    int32_t GetBaseOffset(uint32_t row) const;
+    std::vector<SlotBits> GetSlotBitMap(uint32_t row) const;
     uint32_t slotFormat;
+
 private:
-    void Init()
-    {
-        data = ResolveHeader(headerInfo, HEADER_COL_NUM);
-        rowBitsLen = headerInfo[BASE_OFF_BITS_LEN] + headerInfo[BIT_MAP_BITS_LEN];
-        nextTable = data.GetNext(headerInfo[RECORD_NUM] * rowBitsLen);
-    }
+    void Init();
     // WAHSlotBit is decompressed into a vector which value has 3 types:
     // | bit31 | bit30 | bit29...bit0 |
     // |   0   |   1   |    varInt    |  ====> (varInt * 31) bits of 1
     // |   0   |   0   |    varInt    |  ====> (varInt * 31) bits of 0
     // |   1   |       RawData        |  ====> 31 valid bits data.
-    std::vector<SlotBits> GetWAHSlotBitMap(uint32_t row) const
-    {
-        uint32_t remainLen = headerInfo[BIT_MAP_BITS_LEN];
-        BitsManager bitMapBits = data.GetNext(row * rowBitsLen + headerInfo[BASE_OFF_BITS_LEN]);
-        std::vector<SlotBits> result;
-        uint32_t isPureVal;
-        uint32_t isAllRef;
-        VarValue cnts;
-        constexpr uint32_t pureValWidth = 31;
-        constexpr uint32_t pureValMask = 1 << pureValWidth;
-        constexpr uint32_t compressTagBitPos = 30;
-        while (remainLen != 0) {
-            isPureVal = bitMapBits.GetBits(1);
-            bitMapBits = bitMapBits.GetNext(1);
-            remainLen--;
-            if (isPureVal) {
-                uint32_t pureValBits = std::min(remainLen, pureValWidth);
-                result.push_back(bitMapBits.GetBits(pureValBits) | pureValMask);
-                bitMapBits = bitMapBits.GetNext(pureValBits);
-                remainLen -= pureValBits;
-            } else {
-                // bits are paddings when remain bits are less than shortest varInt bits + 1
-                if (remainLen < VarInt::TAG_LEN + 1) {
-                    break;
-                }
-                isAllRef = bitMapBits.GetBits(1);
-                bitMapBits = bitMapBits.GetNext(1);
-                remainLen--;
-
-                VarInt varInt(bitMapBits);
-                VarPair varIntPair = varInt.GetValue();
-                cnts = varIntPair.first;
-                bitMapBits = bitMapBits.GetNext(varIntPair.second);
-                remainLen -= varIntPair.second;
-                // Cnts == 0 means we are in paddings
-                if (cnts == 0) {
-                    break;
-                }
-                result.push_back(cnts |= (isAllRef << compressTagBitPos));
-            }
-        }
-        return result;
-    }
+    std::vector<SlotBits> GetWAHSlotBitMap(uint32_t row) const;
     enum HeaderColTag {
         RECORD_NUM = 0,
         BASE_OFF_BITS_LEN,
@@ -438,7 +251,6 @@ private:
         HEADER_COL_NUM,
     };
 
-    // because the base offset is a signed integar, so the bits length must be 8 or 16 or 32.
     enum BaseOffsetType {
         SIGNED8 = 8,
         SIGNED16 = 16,
@@ -465,86 +277,35 @@ public:
     explicit StackMapTable(const BitsManager& bits) : TableAPI(bits) { Init(); }
     explicit StackMapTable(BitsManager&& bits) : TableAPI(bits) { Init(); }
     ~StackMapTable() = default;
-    IdxSet GetIdxSet(Uptr startPC, Uptr framePC) const
-    {
-        uint32_t recordNum = headerInfo[RECORD_NUM];
-        if (recordNum == 0) {
-            return IdxSet();
-        }
-        // 32 bits is enough.
-        uint32_t targetPCOff = static_cast<uint32_t>(framePC - startPC);
-        uint32_t left = 0;
-        uint32_t right = recordNum - 1;
-        uint32_t leftPCOff = PCAt(left);
-        if (leftPCOff == targetPCOff) {
-            return IdxSet(RegIdxAt(left), SlotIdxAt(left), DerivePtrIdxAt(left));
-        }
-        uint32_t rightPCOff = PCAt(right);
-        if (rightPCOff == targetPCOff) {
-            return IdxSet(RegIdxAt(right), SlotIdxAt(right), DerivePtrIdxAt(right));
-        }
-        if (targetPCOff < leftPCOff || targetPCOff > rightPCOff) {
-            return IdxSet();
-        }
-        while (left <= right) {
-            // left + right won't exceed the limit of 32 bits.
-            uint32_t mid = (left + right) >> 1;
-            uint32_t midPCOff = PCAt(mid);
-            if (midPCOff == targetPCOff) {
-                return IdxSet(RegIdxAt(mid), SlotIdxAt(mid), DerivePtrIdxAt(mid));
-            } else if (midPCOff < targetPCOff) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-        return IdxSet();
-    }
+    IdxSet GetIdxSet(Uptr startPC, Uptr framePC) const;
 
-    void CollectAllIdxSet(std::vector<IdxSet> &idxSetVec) const
-    {
-        uint32_t recordNum = headerInfo[RECORD_NUM];
-#if DUMP_DEBUG_INFO
-        std::cout << "-------- wzl log callSiteNum recordNum: " << recordNum << std::endl;
-#endif
-        for (uint32_t i = 0; i < recordNum; ++i) {
-            idxSetVec.emplace_back(IdxSet(PCAt(i), RegIdxAt(i), SlotIdxAt(i), DerivePtrIdxAt(i)));
+    void CollectAllIdxSet(std::vector<IdxSet> &idxSetVec) const;
+
+    // Iterator over all IdxSet records, used by the precise CRT root visitor.
+    class IdxSetIterator {
+    public:
+        IdxSetIterator(const StackMapTable& table, uint32_t pos) : table(table), i(pos) {}
+        IdxSetIterator& operator++() { return (++i, *this); }
+        bool operator!=(const IdxSetIterator& other) const { return i != other.i; }
+        IdxSet operator*() const
+        {
+            return IdxSet(table.PCAt(i), table.RegIdxAt(i), table.SlotIdxAt(i), table.DerivePtrIdxAt(i));
         }
-    }
+        const StackMapTable& table;
+        uint32_t i;
+    };
+    IdxSetIterator IdxSetBegin() const { return IdxSetIterator(*this, 0); }
+    IdxSetIterator IdxSetEnd() const { return IdxSetIterator(*this, headerInfo[RECORD_NUM]); }
 
     uint32_t GetRegBitsLen() const { return headerInfo[REG_BITS_LEN]; }
     uint32_t GetSlotBitsLen() const { return headerInfo[SLOT_BITS_LEN]; }
 
 private:
-    void Init()
-    {
-        data = ResolveHeader(headerInfo, HEADER_COL_NUM - stackItemNum).GetNext(headerInfo[PADDING_BITS_LEN -
-                                                                                                stackItemNum]);
-        rowBitsLen = pcOffBits + headerInfo[REG_BITS_LEN] + headerInfo[SLOT_BITS_LEN] +
-                     headerInfo[DERIVE_PTR_BITS_LEN];
-        nextTable = data.GetNext(rowBitsLen * headerInfo[RECORD_NUM]);
-    }
-    uint32_t PCAt(uint32_t row) const
-    {
-        auto bitsManager = data.GetNext(row * rowBitsLen);
-        return bitsManager.GetBits(pcOffBits);
-    }
-    uint32_t RegIdxAt(uint32_t row) const
-    {
-        auto bitsManager = data.GetNext(row * rowBitsLen + pcOffBits);
-        return bitsManager.GetBits(headerInfo[REG_BITS_LEN]);
-    }
-    uint32_t SlotIdxAt(uint32_t row) const
-    {
-        auto bitsManager = data.GetNext(row * rowBitsLen + pcOffBits + headerInfo[REG_BITS_LEN]);
-        return bitsManager.GetBits(headerInfo[SLOT_BITS_LEN]);
-    }
-    uint32_t DerivePtrIdxAt(uint32_t row) const
-    {
-        uint32_t skipBitsLen = row * rowBitsLen + pcOffBits + headerInfo[REG_BITS_LEN] + headerInfo[SLOT_BITS_LEN];
-        auto bitsManager = data.GetNext(skipBitsLen);
-        return bitsManager.GetBits(headerInfo[DERIVE_PTR_BITS_LEN]);
-    }
+    void Init();
+    uint32_t PCAt(uint32_t row) const;
+    uint32_t RegIdxAt(uint32_t row) const;
+    uint32_t SlotIdxAt(uint32_t row) const;
+    uint32_t DerivePtrIdxAt(uint32_t row) const;
     enum HeaderColTag : uint32_t {
         RECORD_NUM = 0,
         REG_BITS_LEN,
@@ -567,18 +328,10 @@ public:
     explicit DerivedPtrTable(BitsManager&& bits, uint32_t regBits, uint32_t slotBits)
         : TableAPI(bits), regBitsLen(regBits), slotBitsLen(slotBits) { Init(); }
     ~DerivedPtrTable() = default;
-    DerivedPtrPair GetDerivePair(uint32_t row) const
-    {
-        BitsManager rowBits = data.GetNext(row * rowBitsLen);
-        return std::make_pair(rowBits.GetBits(regBitsLen), rowBits.GetNext(regBitsLen).GetBits(slotBitsLen));
-    }
+    DerivedPtrPair GetDerivePair(uint32_t row) const;
 
 private:
-    void Init()
-    {
-        data = ResolveHeader(headerInfo, HEADER_COL_NUM);
-        rowBitsLen = regBitsLen + slotBitsLen;
-    }
+    void Init();
     enum HeaderTag {
         RECORD_NUM = 0,
         HEADER_COL_NUM,

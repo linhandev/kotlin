@@ -32,8 +32,12 @@
 #define RUNTIME_WEAK __attribute__((weak))
 #define RUNTIME_NODEBUG __attribute__((nodebug))
 
+#ifndef ALWAYS_INLINE
 #define ALWAYS_INLINE __attribute__((always_inline))
+#endif
+#ifndef NO_INLINE
 #define NO_INLINE __attribute__((noinline))
+#endif
 #define PERFORMANCE_INLINE __attribute__((annotate("performance_inline")))
 
 #define OPTNONE __attribute__((optnone))
