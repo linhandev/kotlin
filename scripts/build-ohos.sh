@@ -50,6 +50,11 @@ if [[ -d "../common-rt" ]]; then
   mkdir -p ./third-party/common-rt
   cp -a ../common-rt/. ./third-party/common-rt/
   echo "✅ common-rt copied successfully."
+  echo "Updating git submodules in common-rt..."
+  cd ./third-party/common-rt
+  git submodule update --init --recursive
+  cd "$ROOT_DIR"
+  echo "✅ Submodules updated successfully."
 else
   echo "⚠️ ../common-rt not found, skipping copy."
 fi
