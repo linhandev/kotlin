@@ -1,4 +1,4 @@
 [submodule "common-runtime"]
 	path = third-party/common-rt
-	url = https://gitcode.com/CPF-KMP-CMP/common-rt.git
+	url = https://$gitcode_user:$gitcode_pwd@gitcode.com/${namespace}/CPF-KMP-CMP/common-rt.git
 	branch = develop
