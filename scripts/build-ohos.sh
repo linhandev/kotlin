@@ -46,7 +46,7 @@ cd "$ROOT_DIR"
 
 if [[ -n "${gitcode_user:-}" && -n "${gitcode_pwd:-}" ]]; then
   echo "Configuring git credentials for gitcode.com..."
-  git config --global url."https://${gitcode_user}:${gitcode_pwd}@gitcode.com/".insteadOf "git@gitcode.com:"
+  git config --global url."https://${gitcode_user}:${gitcode_pwd}@gitcode.com/".insteadOf "https://gitcode.com/"
 fi
 
 if [ -d "third-party/common-rt/.git" ]; then
