@@ -30,9 +30,10 @@ fun KonanTarget.pointerBits() = when (architecture) {
 }
 
 fun KonanTarget.supportsLibBacktrace(): Boolean =
-        this.family.isAppleFamily ||
-                this.family == Family.LINUX ||
-                this.family == Family.ANDROID
+    this.family.isAppleFamily ||
+            this.family == Family.LINUX ||
+            this.family == Family.ANDROID ||
+            this.family == Family.OHOS
 
 // TODO: Add explicit WATCHOS_DEVICE_ARM64 after compiler update.
 fun KonanTarget.supportsCoreSymbolication(): Boolean =

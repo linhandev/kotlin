@@ -137,6 +137,9 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     val splitBCfile: UInt
         get() = if (target == KonanTarget.OHOS_ARM64) configuration.get(BinaryOptions.splitBCfile) ?: 1u else 1u
 
+    val printToOhosHiLog: Boolean
+        get() = configuration.get(BinaryOptions.printToOhosHiLog) ?: (produce != CompilerOutputKind.PROGRAM)
+
     val llvmSplitPath: String
         get() = configuration.get(BinaryOptions.llvmSplitPath) ?: "${platform.absoluteLlvmHome}/bin/llvm-split"
 

@@ -76,26 +76,33 @@ void Kotlin_io_Console_printToStdErr(KConstRef message) {
 HAS_SAFEPOINT
 void Kotlin_io_Console_println(KConstRef message) {
     Kotlin_io_Console_print(message);
-#ifndef KONAN_ANDROID
-    Kotlin_io_Console_println0();
-#else
+#if defined(KONAN_ANDROID)
     // On Android single print produces logcat entry, so no need in linefeed.
     if (!kotlin::compiler::printToAndroidLogcat()) {
         Kotlin_io_Console_println0();
     }
+#elif defined(KONAN_OHOS)
+    if (!kotlin::compiler::printToOhosHiLog()) {
+        Kotlin_io_Console_println0();
+    }
+#else
+    Kotlin_io_Console_println0();
 #endif
 }
 
 HAS_SAFEPOINT
 void Kotlin_io_Console_printlnToStdErr(KConstRef message) {
     Kotlin_io_Console_printToStdErr(message);
-#ifndef KONAN_ANDROID
-    Kotlin_io_Console_println0ToStdErr();
-#else
-    // On Android single print produces logcat entry, so no need in linefeed.
+#if defined(KONAN_ANDROID)
     if (!kotlin::compiler::printToAndroidLogcat()) {
         Kotlin_io_Console_println0ToStdErr();
     }
+#elif defined(KONAN_OHOS)
+    if (!kotlin::compiler::printToOhosHiLog()) {
+        Kotlin_io_Console_println0ToStdErr();
+    }
+#else
+    Kotlin_io_Console_println0ToStdErr();
 #endif
 }
 
