@@ -44,6 +44,11 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
 ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
 cd "$ROOT_DIR"
 
+if [[ -n "${gitcode_user:-}" && -n "${gitcode_pwd:-}" ]]; then
+  echo "Configuring git credentials for gitcode.com..."
+  git config --global url."https://${gitcode_user}:${gitcode_pwd}@gitcode.com/".insteadOf "git@gitcode.com:"
+fi
+
 if [ -d "third-party/common-rt/.git" ]; then
     echo "Submodule third-party/common-rt already initialized, pulling latest..."
     git submodule update --recursive third-party/common-rt
