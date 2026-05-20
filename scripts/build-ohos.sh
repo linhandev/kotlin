@@ -47,14 +47,13 @@ cd "$ROOT_DIR"
 # Copy common-rt from sibling directory if available
 if [[ -d "../common-rt" ]]; then
   echo "Copying common-rt from ../common-rt to ./third-party/common-rt/..."
-  mkdir -p ./third-party/common-rt
-  cp -a ../common-rt/. ./third-party/common-rt/
-  echo "✅ common-rt copied successfully."
-  echo "Updating git submodules in common-rt..."
-  cd ./third-party/common-rt
+  # Initialize submodules in source directory first
+  cd ../common-rt
   git submodule update --init --recursive
   cd "$ROOT_DIR"
-  echo "✅ Submodules updated successfully."
+  # Copy everything except .git directory to avoid submodule conflicts
+  rsync -a --exclude='.git' ../common-rt/. ./third-party/common-rt/
+  echo "✅ common-rt copied successfully (excluding .git)."
 else
   echo "⚠️ ../common-rt not found, skipping copy."
 fi
