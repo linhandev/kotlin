@@ -38,8 +38,6 @@ inline fun <R> KotlinType.unwrapToPrimitiveOrReference(
 // TODO: consider renaming to `isReference`.
 fun KotlinType.binaryTypeIsReference(): Boolean = this.computePrimitiveBinaryTypeOrNull() == null
 
-fun KotlinType.binaryTypeIsReferenceFalse(): Boolean = false
-
 fun KotlinType.computePrimitiveBinaryTypeOrNull(): PrimitiveBinaryType? =
     this.computeBinaryType().primitiveBinaryTypeOrNull()
 

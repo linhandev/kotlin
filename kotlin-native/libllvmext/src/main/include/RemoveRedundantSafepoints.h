@@ -15,7 +15,13 @@
 extern "C" {
 # endif
 
-void LLVMKotlinRemoveRedundantSafepoints(LLVMModuleRef module, int isSafePointInliningAllowed);
+// `forceInlineFirstEligible` (third arg): runtime switch replacing the legacy
+// `#ifndef ENABLE_STACKMAP` compile-time gate. Pass non-zero (OFF mode) to
+// force-inline the first eligible safepoint per basic block (baseline perf
+// optimisation). Pass zero (ON mode) to skip the inline pass.
+void LLVMKotlinRemoveRedundantSafepoints(LLVMModuleRef module,
+                                         int isSafePointInliningAllowed,
+                                         int forceInlineFirstEligible);
 
 # ifdef __cplusplus
 }

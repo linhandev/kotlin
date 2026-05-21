@@ -72,6 +72,10 @@ enum {
   DEINIT_GLOBALS = 3
 };
 
+#ifdef ENABLE_STACKMAP
+// NO_INLINE + asm labels + KotlinCallScope are precise-stackmap-only
+// (FpUnwind.cpp consumes the unwindPCStart/End globals). OFF reduces to the
+// baseline simple while loop.
 NO_INLINE void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
   InitNode* currentNode = initHeadNode;
 #if KONAN_MACOSX
@@ -100,6 +104,15 @@ NO_INLINE void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) 
       "unwindPCEndForInitOrDeinitGlobalVariables:");
 #endif
 }
+#else
+void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
+  InitNode* currentNode = initHeadNode;
+  while (currentNode != nullptr) {
+    currentNode->init(initialize, memory);
+    currentNode = currentNode->next;
+  }
+}
+#endif
 
 KBoolean g_checkLeaks = false;
 KBoolean g_checkLeakedCleaners = false;
@@ -522,6 +535,10 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
         // actual initialization
         try {
             CurrentFrameGuard guard;
+#ifdef ENABLE_STACKMAP
+            // KotlinCallScope + asm labels for
+            // unwindPCStartForCallInitGlobalPossiblyLock / End are
+            // precise-stackmap-only.
             {
                 KotlinCallScope scope;
                 // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
@@ -546,6 +563,9 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
                 "unwindPCEndForCallInitGlobalPossiblyLock:");
 #endif
             }
+#else
+            init();
+#endif
         } catch (ExceptionObjHolder& e) {
             ObjHolder holder;
             auto *exception = Kotlin_getExceptionObject(&e, holder.slot());
@@ -565,6 +585,9 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
     *localState = FILE_INITIALIZED;
     try {
         CurrentFrameGuard guard;
+#ifdef ENABLE_STACKMAP
+        // Same structure as InitOrDeinitGlobalVariables above
+        // (KotlinCallScope + asm labels for unwindPCStartForCallInitThreadLocal/End).
         {
             KotlinCallScope scope;
 #if KONAN_MACOSX
@@ -587,6 +610,9 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
             "unwindPCEndForCallInitThreadLocal:");
 #endif
         }
+#else
+        init();
+#endif
     } catch(ExceptionObjHolder& e) {
         ObjHolder holder;
         auto *exception = Kotlin_getExceptionObject(&e, holder.slot());

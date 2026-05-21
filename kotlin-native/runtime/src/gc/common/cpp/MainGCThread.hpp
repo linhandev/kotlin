@@ -17,8 +17,6 @@
 #include "CompressedStackMap.hpp"
 #include <string_view>
 #include <iostream>
-#include <unistd.h>
-#include <fstream>
 
 #define ENABLE_LAZY_STACKMAP 1
 #if KONAN_LINUX || KONAN_OHOS
@@ -28,7 +26,6 @@ extern "C" uint8_t _LLVM_StackMaps;
 #endif
 
 #define DUMP_DEBUG_INFO 0
-#define ENABLE_LAZY_STACKMAP 1
 
 namespace kotlin::gc::internal {
 #define ENABLE_COMPERSSED_STACKMAP 1
@@ -143,8 +140,12 @@ private:
 #endif
             resumeTheWorld(gcHandle);
         }
+#ifdef ENABLE_STACKMAP
+        // GC live-bytes debug logging (unrelated to precise stack scanning).
+        // ON path emits GCLogInfo; OFF path falls back to the baseline (no log).
         size_t liveBytes = gcHandle.getKeptSizeBytes();
         GCLogInfo(epoch, "live bytes after one gc: %zu bytes", liveBytes);
+#endif
         state_.finish(epoch);
         gcHandle.finished();
 

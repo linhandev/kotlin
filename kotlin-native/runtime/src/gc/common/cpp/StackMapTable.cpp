@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#ifdef ENABLE_STACKMAP
 #include "StackMapTable.hpp"
 
 namespace kotlin::stackMap {
@@ -316,3 +317,5 @@ DerivedPtrPair DerivedPtrTable::GetDerivePair(uint32_t row) const
 }
 
 } // namespace kotlin::stackMap
+
+#endif // ENABLE_STACKMAP

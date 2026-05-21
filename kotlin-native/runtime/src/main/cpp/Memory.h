@@ -69,6 +69,11 @@ struct ObjHeader {
   // Returns `nullptr` if it's not a meta object.
   static MetaObjHeader* AsMetaObject(TypeInfo* typeInfo) noexcept {
       auto* typeInfoOrMeta = clearPointerBits(typeInfo, OBJECT_TAG_MASK);
+#ifdef ENABLE_STACKMAP
+      // OHOS arm64 pointer tagging requires clearing the top 16 bits of the tag.
+      // OFF path does not mask (baseline behaviour).
+      typeInfoOrMeta = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfoOrMeta) & 0xffffffffffff);
+#endif
       if (typeInfoOrMeta != typeInfoOrMeta->typeInfo_) {
           return reinterpret_cast<MetaObjHeader*>(typeInfoOrMeta);
       } else {
@@ -322,7 +327,13 @@ void LeaveFrame(HeapObjPtr* start, int parameters, int count) RUNTIME_NOTHROW;
 // Set current frame in case if exception caught.
 void SetCurrentFrame(HeapObjPtr* start) RUNTIME_NOTHROW;
 FrameOverlay* getCurrentFrame() RUNTIME_NOTHROW;
+#ifdef ENABLE_STACKMAP
+// ON path uses ALWAYS_INLINE on this declaration. OFF path falls back to the
+// upstream form without the explicit inline hint.
 ALWAYS_INLINE void CheckCurrentFrame(HeapObjPtr* frame) RUNTIME_NOTHROW;
+#else
+void CheckCurrentFrame(HeapObjPtr* frame) RUNTIME_NOTHROW;
+#endif
 // Add TLS object storage, called by the generated code.
 void AddTLSRecord(MemoryState* memory, void** key, int size) RUNTIME_NOTHROW;
 // Allocate storage for TLS. `AddTLSRecord` cannot be called after this.
@@ -344,6 +355,9 @@ void PerformFullGC(MemoryState* memory) RUNTIME_NOTHROW;
 
 // Sets state of the current thread to NATIVE (used by the new MM).
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative();
+// Stays declared in BOTH modes: K2NStub.s asm references this unconditionally.
+// RUNTIME_EXPORT here is load-bearing: it propagates @llvm.used so LTO doesn't
+// DCE the body.
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW RUNTIME_EXPORT void Kotlin_mm_switchThreadStateNativeWithoutUpdateLastFrame();
 // Sets state of the current thread to RUNNABLE (used by the new MM).
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable();
@@ -357,6 +371,9 @@ CODEGEN_INLINE_POLICY void Kotlin_mm_safePointFunctionPrologue() RUNTIME_NOTHROW
 CODEGEN_INLINE_POLICY void Kotlin_mm_safePointWhileLoopBody() RUNTIME_NOTHROW;
 
 RUNTIME_NOTHROW void DisposeRegularWeakReferenceImpl(HeapObjPtr counter);
+// RuntimeSetLastFrame / RuntimeSetLastFrame1 / SetLastFrameReliable stay
+// declared in BOTH modes — klib cstubs.bc bake-in references prevent
+// gating these symbols out of the OFF link.
 NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame(MemoryState* thread, kotlin::ThreadState state);
 NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame1();
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliable();
@@ -544,8 +561,12 @@ public:
             backingGuard_ = kotlin::ThreadStateGuard(kotlin::ThreadState::kNative, reentrant);
         }
     }
+#ifdef ENABLE_STACKMAP
+    // ON path keeps the explicit noexcept dtor (an exception-contract change so call
+    // sites stay nounwind). OFF path falls back to the implicitly generated dtor.
     ~NativeOrUnregisteredThreadGuard() noexcept {
     }
+#endif
 
 private:
     ThreadStateGuard backingGuard_;

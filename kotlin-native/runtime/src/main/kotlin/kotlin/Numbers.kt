@@ -13,26 +13,26 @@ import kotlin.native.internal.IntrinsicType
  * Returns `true` if the specified number is a
  * Not-a-Number (NaN) value, `false` otherwise.
  */
-@GCUnsafeCall("Kotlin_Double_isNaN", false)
+@GCUnsafeCall("Kotlin_Double_isNaN")
 public actual external fun Double.isNaN(): Boolean
 
 /**
  * Returns `true` if the specified number is a
  * Not-a-Number (NaN) value, `false` otherwise.
  */
-@GCUnsafeCall("Kotlin_Float_isNaN", false)
+@GCUnsafeCall("Kotlin_Float_isNaN")
 public actual external fun Float.isNaN(): Boolean
 
 /**
  * Returns `true` if this value is infinitely large in magnitude.
  */
-@GCUnsafeCall("Kotlin_Double_isInfinite", false)
+@GCUnsafeCall("Kotlin_Double_isInfinite")
 public actual external fun Double.isInfinite(): Boolean
 
 /**
  * Returns `true` if this value is infinitely large in magnitude.
  */
-@GCUnsafeCall("Kotlin_Float_isInfinite", false)
+@GCUnsafeCall("Kotlin_Float_isInfinite")
 public actual external fun Float.isInfinite(): Boolean
 
 /**
@@ -107,14 +107,14 @@ internal external fun fromBits(bits: Int): Float
  * Counts the number of set bits in the binary representation of this [Int] number.
  */
 @SinceKotlin("1.4")
-@GCUnsafeCall("Kotlin_Int_countOneBits", false)
+@GCUnsafeCall("Kotlin_Int_countOneBits")
 public actual external fun Int.countOneBits(): Int
 
 /**
  * Counts the number of consecutive most significant bits that are zero in the binary representation of [Int] [value].
  * Returns undefined result for zero [value].
  */
-@GCUnsafeCall("Kotlin_Int_countLeadingZeroBits", false)
+@GCUnsafeCall("Kotlin_Int_countLeadingZeroBits")
 private external fun countLeadingZeroBits(value: Int): Int
 
 /**
@@ -128,7 +128,7 @@ public actual fun Int.countLeadingZeroBits(): Int =
  * Counts the number of consecutive least significant bits that are zero in the binary representation of [Int] [value].
  * Returns undefined result for zero [value].
  */
-@GCUnsafeCall("Kotlin_Int_countTrailingZeroBits", false)
+@GCUnsafeCall("Kotlin_Int_countTrailingZeroBits")
 private external fun countTrailingZeroBits(value: Int): Int
 
 /**
@@ -188,14 +188,14 @@ public actual fun Int.rotateRight(bitCount: Int): Int =
  * Counts the number of set bits in the binary representation of this [Long] number.
  */
 @SinceKotlin("1.4")
-@GCUnsafeCall("Kotlin_Long_countOneBits", false)
+@GCUnsafeCall("Kotlin_Long_countOneBits")
 public actual external fun Long.countOneBits(): Int
 
 /**
  * Counts the number of consecutive most significant bits that are zero in the binary representation of [Long] [value].
  * Returns undefined result for zero [value].
  */
-@GCUnsafeCall("Kotlin_Long_countLeadingZeroBits", false)
+@GCUnsafeCall("Kotlin_Long_countLeadingZeroBits")
 private external fun countLeadingZeroBits(value: Long): Int
 
 /**
@@ -209,7 +209,7 @@ public actual fun Long.countLeadingZeroBits(): Int =
  * Counts the number of consecutive least significant bits that are zero in the binary representation of [Long] [value].
  * Returns undefined result for zero [value].
  */
-@GCUnsafeCall("Kotlin_Long_countTrailingZeroBits", false)
+@GCUnsafeCall("Kotlin_Long_countTrailingZeroBits")
 private external fun countTrailingZeroBits(value: Long): Int
 
 /**

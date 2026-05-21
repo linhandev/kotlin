@@ -16,15 +16,22 @@
 
 #ifndef RUNTIME_MM_FPUNWIND_H
 #define RUNTIME_MM_FPUNWIND_H
+// FpUnwind impl bodies are intentionally NOT #ifdef-gated out of the OFF
+// build: pre-compiled cinterop klib cstubs.bc files (cstubs/
+// platform.darwin/posix/zlib/etc.) bake in `_Kotlin_KonanStartStub` and
+// `_SaveCurrentFrameInfoAndSetReliable` / `_RestoreSavedFrameInfo`
+// references at klib-generation time, so gating the bodies out would break
+// the OFF link. The Linker stubObjectsForTarget gate still drops the asm
+// stubs on OFF, and the KotlinCallScope side effects on the OFF path are
+// accepted as no-op overhead. A full gate would require regenerating all
+// platform klibs in OFF mode (out of scope here).
+
 #include "Common.h"
 #include "ThreadData.hpp"
 #include <cstdint>
 #include <sstream>
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
-// region Tencent Code
-#include <hitrace/trace.h>
-// endregion
 #endif
 
 namespace kotlin {
@@ -72,4 +79,5 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndSta
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::FrameAddress *fp);
 std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData);
 } // namespace kotlin
+
 #endif // RUNTIME_MM_FPUNWIND_H

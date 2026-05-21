@@ -103,6 +103,26 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     }
     val runtimeAssertsMode: RuntimeAssertsMode get() = configuration.get(BinaryOptions.runtimeAssertionsMode) ?: RuntimeAssertsMode.IGNORE
     val checkStateAtExternalCalls: Boolean get() = configuration.get(BinaryOptions.checkStateAtExternalCalls) ?: false
+
+    // Per-target default: ohos_arm64 → ON (precise stackmap pipeline), every
+    // other target → OFF (shadow-stack baseline). Rationale:
+    //   - The precise stackmap pipeline requires the CRT runtime (libcrt.so) plus
+    //     arm64-only facilities (fp-based FpUnwind, OHOS arm64 TBI bit 59 trick for
+    //     KNStateWord, arm64 asm trampolines, fixed-size arm64 insn stackmap).
+    //   - libcrt.so is built only for ohos_arm64 (ELF aarch64). Other arm64 targets
+    //     (macos_arm64, linux_arm64, ios_arm64, ...) have no platform-matching
+    //     libcrt and would produce broken builds if defaulted ON, so they default
+    //     to the conservative shadow-stack baseline.
+    //   - x86_64 / x86_32 / ARM32 cannot use the pipeline at all (no arm64 asm
+    //     stubs, mixed-size insn encoding, etc.).
+    //   - This makes the switch transparent: ohos_arm64 keeps the ON behaviour
+    //     with no flag, every other target gets the OFF baseline automatically.
+    //
+    // Override with `-Xbinary=enableStackmap=true|false` to force a specific
+    // mode (CI A/B matrix testing or expert debugging). Must match the dist's
+    // per-target runtime bitcode build flavour; mismatch triggers link errors.
+    val enableStackmap: Boolean get() = configuration.get(BinaryOptions.enableStackmap)
+            ?: (target == KonanTarget.OHOS_ARM64)
     private val defaultDisableMmap get() = target.family == Family.MINGW || !pagedAllocator
     val disableMmap: Boolean by lazy {
         when (configuration.get(BinaryOptions.disableMmap)) {

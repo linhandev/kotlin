@@ -1016,6 +1016,12 @@ RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
       bool ok = true;
       try {
           objc_support::AutoreleasePool autoreleasePool;
+#ifdef ENABLE_STACKMAP
+          // KotlinCallScope ctor/dtor have real OFF side effects
+          // (SaveCurrentFrameInfoAndSetReliable / RestoreSavedFrameInfo
+          // unconditionally switch ThreadState + write lastFrameInfo_).
+          // The asm labels export unwindPCStartForWorkerStub / End globals that
+          // FpUnwind.cpp consumes only on the precise-stackmap pipeline.
           {
               KotlinCallScope scope;
               // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
@@ -1040,6 +1046,9 @@ RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
                     "unwindPCEndForWorkerStub:");
               #endif
           }
+#else
+          result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
+#endif
       } catch (ExceptionObjHolder& e) {
         ok = false;
         switch (exceptionHandling()) {
@@ -1140,6 +1149,10 @@ OBJ_GETTER0(Kotlin_Worker_getActiveWorkersInternal) {
 HAS_SAFEPOINT
 NO_INLINE OBJ_GETTER(Kotlin_Worker_invokeCFunction, ExecuteJob job, KRef jobArgument) {
     CurrentFrameGuard guard;
+#ifdef ENABLE_STACKMAP
+    // KotlinCallScope ctor/dtor + asm labels for
+    // unwindPCStartForInvokeCFunction/End are precise-stackmap-only
+    // (FpUnwind.cpp consumes the labels only on the precise pipeline).
     HeapObjPtr result;
     {
         KotlinCallScope scope;
@@ -1164,6 +1177,9 @@ NO_INLINE OBJ_GETTER(Kotlin_Worker_invokeCFunction, ExecuteJob job, KRef jobArgu
 #endif
     }
     return result;
+#else
+    RETURN_RESULT_OF(job, jobArgument);
+#endif
 }
 
 }  // extern "C"

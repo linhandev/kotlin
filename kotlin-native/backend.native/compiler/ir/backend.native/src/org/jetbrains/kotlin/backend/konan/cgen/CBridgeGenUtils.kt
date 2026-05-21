@@ -150,7 +150,11 @@ private fun createKotlinBridge(
     if (isExternal) {
         bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
                 stubs.symbols.symbolName.owner, cBridgeName)
-        if (addFilterExceptionsAnnotation) {
+        // The precise-stackmap path introduced the addFilterExceptionsAnnotation
+        // parameter (default false), making @FilterExceptions optional. The
+        // baseline emitted it unconditionally for K2N bridges. OFF restores the
+        // baseline (always emit).
+        if (addFilterExceptionsAnnotation || !stubs.enableStackmap) {
             bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
                     stubs.symbols.filterExceptions.owner,
                     foreignExceptionMode.value)

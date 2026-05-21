@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+#ifdef ENABLE_STACKMAP
+// Integral stackmap implementation file. The ON path includes the full
+// implementation; the OFF path defines no symbols (all callers must be
+// gated under the same macro).
+
+
 #include "StackMap.hpp"
 
 #include <cstring>
@@ -177,3 +183,5 @@ std::string kotlin::stackMap::Location::KindToString() const
             return "unknown location";
     }
 }
+
+#endif // ENABLE_STACKMAP

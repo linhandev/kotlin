@@ -16,6 +16,10 @@
 
 #pragma once
 
+#ifdef ENABLE_STACKMAP
+// Entire file is stackmap-only (kotlin::stackMap::DerivedPtr).
+// OFF mode: empty header. All consumers (ConcurrentMark.cpp etc) must also be gated.
+
 #include <cstdint>
 #include <iostream>
 #include "StackMapTable.hpp"
@@ -66,3 +70,5 @@ private:
     uint32_t derivedPtrIdx = 0;
 };
 } // namespace kotlin::stackMap
+
+#endif // ENABLE_STACKMAP

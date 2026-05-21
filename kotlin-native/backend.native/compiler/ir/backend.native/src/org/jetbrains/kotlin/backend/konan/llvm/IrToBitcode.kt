@@ -2774,15 +2774,28 @@ internal class CodeGeneratorVisitor(
 
     private val IrSimpleFunction.needsNativeThreadState: Boolean
         get() {
-            // Every K→C bridge enters NATIVE in K2NStub and needs an IR cleanup
-            // landing pad to restore the thread on the throw path (the stub has
-            // no exception personality). GCUnsafeCall stubs never switch — skip.
-            val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
-                    !annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)
-            if (result) {
-                check(isExternal)
+            if (context.config.enableStackmap) {
+                // ON path: every K->C bridge enters NATIVE in K2NStub and needs
+                // an IR cleanup landing pad to restore the thread on the throw
+                // path (the stub has no exception personality). GCUnsafeCall
+                // stubs never switch, so skip them.
+                val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
+                        !annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)
+                if (result) {
+                    check(isExternal)
+                }
+                return result
+            } else {
+                // OFF path baseline: all KOTLIN_TO_C_BRIDGE require a
+                // thread-state switch.
+                val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE
+                if (result) {
+                    check(isExternal)
+                    check(!annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
+                    check(annotations.hasAnnotation(RuntimeNames.filterExceptions))
+                }
+                return result
             }
-            return result
         }
 
     private val IrFunction.gcSafeCall: Boolean
@@ -2860,37 +2873,90 @@ internal class CodeGeneratorVisitor(
                      resultLifetime: Lifetime, resultSlot: LLVMValueRef?): LLVMValueRef {
         check(!function.isTypedIntrinsic)
 
-        val needsNativeThreadState = function.needsNativeThreadState
-        var exceptionHandler = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
-            val foreignExceptionMode = ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
-            functionGenerationContext.filteringExceptionHandler(
-                    currentCodeContext.exceptionHandler,
-                    foreignExceptionMode,
-                    needsNativeThreadState
-            )
-        } ?: currentCodeContext.exceptionHandler
+        if (context.config.enableStackmap) {
+            // ON path: gcSafeCall + tryHandleK2XIntrinsic + IR cleanup landing
+            // pad with needsThreadStateRestore=true.
+            val needsNativeThreadState = function.needsNativeThreadState
+            var exceptionHandler = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
+                val foreignExceptionMode = ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
+                functionGenerationContext.filteringExceptionHandler(
+                        currentCodeContext.exceptionHandler,
+                        foreignExceptionMode,
+                        needsNativeThreadState
+                )
+            } ?: currentCodeContext.exceptionHandler
 
-        if (function.gcSafeCall) {
-            val intrinsicResult = tryHandleK2XIntrinsic(function, llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)!!
-            return intrinsicResult
+            if (function.gcSafeCall) {
+                val intrinsicResult = tryHandleK2XIntrinsic(function, llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)!!
+                return intrinsicResult
+            }
+
+            if (needsNativeThreadState) {
+                exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
+                        exceptionHandler, needsThreadStateRestore = true) {}
+            }
+
+            val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
+
+            when  {
+                function.returnType.isNothing() -> functionGenerationContext.unreachable()
+            }
+
+            if (llvmCallable.returnType == llvm.voidType) {
+                return codegen.theUnitInstanceRef.llvm
+            }
+
+            return result
+        } else {
+            // OFF path baseline: explicit switchThreadState(Native/Runnable),
+            // forceNativeThreadStateForFunctions consumption (KT-75895/KT-79384
+            // escape hatch), and a defensive check(!needsNativeThreadState).
+            val foreignExceptionModeFromAnnotation = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
+                ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
+            }
+
+            val needsNativeThreadState: Boolean
+            val filterExceptionWith: ForeignExceptionMode.Mode?
+
+            if (llvmCallable.name in context.config.forceNativeThreadStateForFunctions) {
+                // Quick hack for SymbolName functions that are blocking and need native state.
+                needsNativeThreadState = true
+                filterExceptionWith = foreignExceptionModeFromAnnotation ?: ForeignExceptionMode.Mode.TERMINATE
+            } else {
+                needsNativeThreadState = function.needsNativeThreadState
+                filterExceptionWith = foreignExceptionModeFromAnnotation
+            }
+
+            val exceptionHandler = if (filterExceptionWith != null) {
+                functionGenerationContext.filteringExceptionHandler(
+                        currentCodeContext.exceptionHandler,
+                        filterExceptionWith,
+                        needsNativeThreadState
+                )
+            } else {
+                check(!needsNativeThreadState) {
+                    "${llvmCallable.name} needs native thread state, but doesn't have a filtering exception handler"
+                }
+                currentCodeContext.exceptionHandler
+            }
+
+            if (needsNativeThreadState) {
+                functionGenerationContext.switchThreadState(ThreadState.Native)
+            }
+
+            val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
+
+            when {
+                function.returnType.isNothing() -> functionGenerationContext.unreachable()
+                needsNativeThreadState -> functionGenerationContext.switchThreadState(ThreadState.Runnable)
+            }
+
+            if (llvmCallable.returnType == llvm.voidType) {
+                return codegen.theUnitInstanceRef.llvm
+            }
+
+            return result
         }
-
-        if (needsNativeThreadState) {
-            exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
-                    exceptionHandler, needsThreadStateRestore = true) {}
-        }
-
-        val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
-
-        when  {
-            function.returnType.isNothing() -> functionGenerationContext.unreachable()
-        }
-
-        if (llvmCallable.returnType == llvm.voidType) {
-            return codegen.theUnitInstanceRef.llvm
-        }
-
-        return result
     }
 
     private fun call(

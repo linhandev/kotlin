@@ -81,6 +81,13 @@ NO_INLINE OBJ_GETTER(Kotlin_TypeInfo_findAssociatedObject, KNativePtr typeInfo, 
   for (int index = 0; associatedObjects[index].key != nullptr; ++index) {
     if (associatedObjects[index].key == key) {
       ObjHeader* obj;
+#ifdef ENABLE_STACKMAP
+      // KotlinCallScope ctor/dtor + unwindPC*ForFindAssociatedObject asm
+      // labels are stackmap-only: they're consumed by FpUnwind.cpp's
+      // IsFindAssociatedObject helper (also gated under ENABLE_STACKMAP).
+      // On OFF builds we just invoke the associated-object getter directly,
+      // matching the Worker.cpp / Runtime.cpp pattern that gates the same
+      // KotlinCallScope + asm-label region.
       {
         KotlinCallScope scope;
 #if KONAN_MACOSX
@@ -105,6 +112,9 @@ NO_INLINE OBJ_GETTER(Kotlin_TypeInfo_findAssociatedObject, KNativePtr typeInfo, 
             "unwindPCEndForFindAssociatedObject:");
 #endif
       }
+#else
+      obj = associatedObjects[index].getAssociatedObjectInstance(__result__);
+#endif
       return obj;
     }
   }

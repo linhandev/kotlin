@@ -27,7 +27,7 @@ import kotlin.native.internal.TypedIntrinsic
  * In particular, it can crash.
  */
 @InternalForKotlinNative
-@GCUnsafeCall("Kotlin_objc_detachObjCObject", false)
+@GCUnsafeCall("Kotlin_objc_detachObjCObject")
 @OptIn(BetaInteropApi::class)
 public external fun detachObjCObject(obj: ObjCObject)
 

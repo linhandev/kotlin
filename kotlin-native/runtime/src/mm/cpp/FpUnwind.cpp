@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+// FpUnwind impl bodies stay defined in OFF (small overhead); see the note in
+// FpUnwind.h on why they can't be #ifdef-gated out (klib cstubs.bc bake in
+// references) until platform klibs are regenerated in OFF mode.
 #include "FpUnwind.h"
 #include "Common.h"
 #include "ThreadData.hpp"
@@ -22,11 +25,15 @@
 #include <iostream>
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
-// region Tencent Code
-#include <hitrace/trace.h>
-// endregion
 #endif
 
+#ifdef ENABLE_STACKMAP
+// unwindPC* are provided by the arm64 asm trampolines (K2RStub.s / N2KStub.s
+// / KonanStartStub.s) and by inline-asm labels in Worker.cpp / Runtime.cpp /
+// Types.cpp. On non-arm64 OFF targets none of these asm-stub PC anchors
+// exist, so the FpUnwind-based precise stack walk is unreachable. The
+// Is*Stub / IsAt* helpers below that read these globals are likewise gated.
+//
 // On macOS, unwindPCForN2KStub and unwindPCForKonanStartStub are .quad
 // pointers in __DATA,__const (to avoid non-private labels inside CFI regions
 // which cause compact-unwind encoding=0). Their *value* is the PC address.
@@ -47,6 +54,7 @@ extern uintptr_t unwindPCStartForCallInitThreadLocal;
 extern uintptr_t unwindPCEndForCallInitThreadLocal;
 extern uintptr_t unwindPCStartForInvokeCFunction;
 extern uintptr_t unwindPCEndForInvokeCFunction;
+#endif // ENABLE_STACKMAP
 
 namespace kotlin {
 
@@ -200,6 +208,13 @@ extern "C" RUNTIME_NOTHROW void RestoreSavedFrameInfo(const SavedKotlinFrameInfo
 
 namespace kotlin { // re-open for the rest of the file
 
+#ifdef ENABLE_STACKMAP
+// All frame-type predicates + GetStackFrame are stackmap-pipeline only:
+// every Is* helper reads an unwindPC* extern that exists only on arm64
+// (provided by K2RStub.s / N2KStub.s / KonanStartStub.s / inline-asm labels).
+// GetStackFrame is invoked only from ConcurrentMark.cpp:tryCollectRootSet and
+// KNRootVisitor.cpp, both of which are themselves gated under ENABLE_STACKMAP,
+// so dropping this block on non-arm64 OFF builds leaves no caller dangling.
 static bool IsR2KStub(const uint32_t* ip)
 {
 #ifdef __APPLE__
@@ -472,5 +487,6 @@ std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData)
 
     return stack;
 }
+#endif // ENABLE_STACKMAP
 
 } // namespace kotlin

@@ -94,7 +94,11 @@ bool InitCRTRuntime()
     // param.gcParam.gcThreshold = 1;
     common::BaseRuntime::GetInstance()->InitFromDynamic(param);
     common::BaseObject::RegisterKotlin(&common::KNBaseObjectOperator::Instance());
+#ifdef ENABLE_STACKMAP
+    // KNRootsVisitor is only declared when stackmap=on (see KNRootVisitor.hpp guard).
+    // stackmap=off implies CRT/CMC unused; skip registering the Kotlin root visitor.
     common::BaseRoots::Register<common::LanguageType::KOTLIN>(&common::KNRootsVisitor::Instance());
+#endif
     common::RegisterFinalizationInterface(&common::KNFinalizationInterface::Instance());
     return true;
 }
