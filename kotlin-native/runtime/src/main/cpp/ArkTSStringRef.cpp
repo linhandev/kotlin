@@ -19,6 +19,8 @@
 #include <dlfcn.h>
 #include "ArkTSConfig.h"
 #include "ArkTSStringRef.h"
+#include "Memory.h"
+#include "MemoryManagerSwitch.hpp"
 #include "Natives.h"
 #include "Runtime.h"
 #include "Types.h"
@@ -35,6 +37,10 @@ constexpr int kMinApiLevelForExternalString = 22;
 typedef void (*napi_finalize_callback)(void* finalize_data, void* finalize_hint);
 extern "C" void* CreateStablePointer(ObjHeader* object);
 extern "C" void DisposeStablePointer(void* ref);
+// DerefStablePointer is declared as OBJ_GETTER in Memory.cpp; spell out its
+// post-macro-expansion signature here so ExternalStringFinalizer can recover
+// the Kotlin object handle for CRT_UnPin without pulling in mm internals.
+extern "C" ObjHeader* DerefStablePointer(void* ref, ObjHeader** OBJ_RESULT);
 
 typedef napi_status (*OpenScopeFunc)(napi_env env, NapiCriticalScope* scope);
 typedef napi_status (*CloseScopeFunc)(napi_env env, NapiCriticalScope scope);
@@ -434,6 +440,15 @@ static void ExternalStringFinalizer(void *data, void* hint) {
     // Dispose stable pointer when ArkTS string is destroyed.
     if (hint != nullptr) {
         Kotlin_initRuntimeIfNeeded();
+        ObjHeader* slot_ = nullptr;
+        ObjHeader* obj = DerefStablePointer(hint, &slot_);
+        if (obj != nullptr) {
+            // CRT_UnPin reaches into CRT runtime state which is uninitialized under CMS GC;
+            // wrap with checkUseCRT so the non-CRT path is a no-op.
+            checkUseCRT<CheckMode::Slow>([&] {
+                CRT_UnPin(reinterpret_cast<const void*>(obj));
+            });
+        }
         DisposeStablePointer(hint);
     }
 }
@@ -460,6 +475,9 @@ napi_value CreateExternalStringUtf16(napi_env env, KConstRef thiz) {
     void *stablePtr = CreateStablePointer(const_cast<ObjHeader*>(thiz));
     napi_value result = nullptr;
     napi_status status = napi_ok;
+    checkUseCRT<CheckMode::Slow>([&] {
+        CRT_Pin(reinterpret_cast<const void*>(thiz));
+    });
     {
         kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
         status = g_arkApis.createExternalUtf16String(
@@ -471,6 +489,9 @@ napi_value CreateExternalStringUtf16(napi_env env, KConstRef thiz) {
             &result);
     }
     if (status != napi_ok) {
+        checkUseCRT<CheckMode::Slow>([&] {
+            CRT_UnPin(reinterpret_cast<const void*>(thiz));
+        });
         DisposeStablePointer(stablePtr);
         RuntimeLogWarning({ kotlin::logging::Tag::kRT },
                           "[String0Copy] napi_create_external_string_utf16 failed, status = %d",

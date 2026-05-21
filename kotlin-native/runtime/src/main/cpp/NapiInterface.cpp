@@ -16,6 +16,7 @@
 #include "Types.h"
 #include "KStringProxyOHOS.h"
 #include "ArkTSStringRef.h"
+#include "PinScope.h"
 
 #include <hilog/log.h>
 #include <napi/native_api.h>
@@ -238,7 +239,8 @@ extern "C" {
             return (KNativePtr)result;
         }
 
-        // Scenario 2: regular Kotlin String
+        // Scenario 2: regular Kotlin String.
+        EnterPinScope<void*> scope((void*)thiz);
         auto header = StringHeader::of(thiz);
         napi_status status = napi_ok;
         switch (header->encoding()) {
@@ -318,6 +320,7 @@ extern "C" {
         // Create an uninitialized UTF-16 string
         // Allocate str_size+1 to reserve space for the null terminator written by napi_get_value_string_utf16
         KRef kotlinString = CreateUninitializedString(StringEncoding::kUTF16, (uint32_t)(str_size + 1), OBJ_RESULT);
+        EnterPinScope<void*> scope((void*)kotlinString);
 
         StringHeader* kotlinHeader = StringHeader::of(kotlinString);
         // Get the data pointer from the Kotlin string

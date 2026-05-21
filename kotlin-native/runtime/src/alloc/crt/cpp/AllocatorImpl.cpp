@@ -91,7 +91,9 @@ size_t alloc::allocatedBytes() noexcept
 
 void alloc::destroyExtraObjectData(mm::ExtraObjectData& extraObject) noexcept
 {
-    extraObject.ReleaseAssociatedObject();
+    // base object's typeInfoOrMeta_ is restored to the original TypeInfo* (with
+    // tag bits preserved) before the ExtraObject memory is reclaimed.
+    extraObject.Uninstall();
 }
 
 void alloc::Allocator::startFinalizerThreadIfNeeded() noexcept {}

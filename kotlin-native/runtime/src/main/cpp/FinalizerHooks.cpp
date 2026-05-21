@@ -43,7 +43,9 @@ PERFORMANCE_INLINE void kotlin::RunFinalizers(ObjHeader* object) noexcept {
     auto* type = object->type_info();
     if ((type->flags_ & TF_HAS_FINALIZER) != 0) {
         // This is a cold path.
+        auto holder = ObjHolder{object};
         RunFinalizerHooksImpl(object, type);
+        object = holder.obj();
     }
     if (object->has_meta_object()) {
         ObjHeader::destroyMetaObject(object);

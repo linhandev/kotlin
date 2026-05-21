@@ -16,6 +16,7 @@
 
 #include <array>
 #include "Memory.h"
+#include "MemoryManagerSwitch.hpp"
 #include "Utils.hpp"
 
 namespace kotlin {
@@ -24,16 +25,20 @@ class EnterPinScope : private Pinned {
 public:
     explicit EnterPinScope(Args... args) : items_{reinterpret_cast<const void*>(args)...}
     {
-        for (auto item : items_) {
-            CRT_Pin(item);
-        }
+        checkUseCRT<CheckMode::Slow>([this] {
+            for (auto item : items_) {
+                CRT_Pin(item);
+            }
+        });
     }
 
     ~EnterPinScope()
     {
-        for (auto item : items_) {
-            CRT_UnPin(item);
-        }
+        checkUseCRT<CheckMode::Slow>([this] {
+            for (auto item : items_) {
+                CRT_UnPin(item);
+            }
+        });
     }
 private:
     std::array<const void*, sizeof...(Args)> items_;

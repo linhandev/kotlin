@@ -24,25 +24,23 @@ template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Stack>::beforeSto
 template<> ALWAYS_INLINE void mm::RefAccessor<mm::RefLocation::Stack>::afterStore(ObjHeader*) noexcept {}
 
 namespace {
-/// If read barriers are used and currently enabled, execute given `readBarrier`, otherwise execute `fastPath`.
-/// CRT mode: gated by x28 bit 62 (set during PRECOPY/COPY/FIX phases via UpdateThreadLocalDataReg).
-/// CMS mode: barriers always go through the slow path here; their own gating is internal.
 template<typename F, typename G>
-ALWAYS_INLINE auto checkReadBarrier(F readBarrier, G fastPath) {
+ALWAYS_INLINE auto fastReadBarrier(F readBarrier, G fastPath) {
 #ifdef ENABLE_GC_FASTPATH
-    // x28 is either zero (non-CRT MM) or has bit 62 set when CRT barriers are active
-    // (UpdateThreadLocalDataReg sets it for phase >= GC_PHASE_PRECOPY). Either way,
-    // checking bit 62 alone gates correctly: if zero we don't need the barrier;
-    // if set we route through CRT's BaseRuntime::ReadBarrier which dispatches to the
-    // phase-appropriate Heap::GetBarrier() implementation.
+    // x28 bit 62 is a CRT/CMC phase bit only. It must not participate in
+    // deciding whether the current runtime is CMS.
     CHECK_READ_BARRIER_SLOW_PATH(slow_path)
     return fastPath();
 slow_path:
-    return readBarrier();
-#else
-    // No fastpath gating available; always defer to checkUseCRT.
-    return checkUseCRT<CheckMode::Slow>(readBarrier, fastPath);
 #endif
+    return readBarrier();
+}
+
+template<typename F, typename G>
+ALWAYS_INLINE auto checkReadBarrier(F readBarrier, G fastPath) {
+    return checkUseCRT<CheckMode::Slow>([&] {
+        return fastReadBarrier(readBarrier, fastPath);
+    }, fastPath);
 }
 }
 
