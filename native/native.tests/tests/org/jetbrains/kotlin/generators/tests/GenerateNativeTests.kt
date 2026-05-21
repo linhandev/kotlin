@@ -442,7 +442,6 @@ fun main() {
                 annotations = listOf(
                     *crtGc(),
                     provider<UseStandardTestCaseGroupProvider>(),
-                    *frontendFir(),
                 )
             ) {
                 model()
@@ -600,8 +599,6 @@ private fun cinterfaceMode(mode: String = "V1") = annotation(
 private fun gc() = arrayOf(
     annotation(Tag::class.java, "gc"),
 )
-private fun capi() = arrayOf(
-    annotation(Tag::class.java, "capi"),
 private fun crtGc() = arrayOf(
     annotation(Tag::class.java, "crt-gc"),
 )
