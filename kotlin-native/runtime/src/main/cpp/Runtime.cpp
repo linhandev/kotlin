@@ -36,8 +36,10 @@
 extern "C" __attribute__((weak)) HiDebug_ErrorCode OH_HiDebug_RegisterMemDumpListener(
     const char*, OH_HiDebug_MemDumpListener);
 #endif
+#ifdef ENABLE_CRT
 #include "base/common.h"
 #include "crt/cpp/CRTRuntime.hpp"
+#endif
 #include "MemoryManagerSwitch.hpp"
 
 using namespace kotlin;
@@ -622,4 +624,3 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
 }
 
 }  // extern "C"
-

@@ -13,7 +13,9 @@
 #include "Heap.hpp"
 #include "SegregatedFinalizerProcessor.hpp"
 
+#ifdef ENABLE_CRT
 #include "crt/cpp/CRTAllocator.hpp"
+#endif
 #include "MemoryManagerSwitch.hpp"
 
 namespace kotlin::alloc {

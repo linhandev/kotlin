@@ -44,12 +44,21 @@
   #define CODEGEN_INLINE_POLICY ALWAYS_INLINE
 #endif
 
-constexpr uint64_t kImmTypeInfoMask = 0x0000fffffffffffc; // CRT places language and forwarding tags in higher bits
-typedef enum : uint64_t {
+constexpr uintptr_t kKotlinObjectTagMask = (1u << 2) - 1;
+#ifdef ENABLE_STACKMAP
+// Bit 59 of typeInfoOrMeta_ is used by KNStateWord::valid. Mask strips the
+// top 16 bits (TBI territory) plus the low 2 tag bits. Only the precise-
+// stackmap path (OHOS arm64) writes bit 59; other paths get the plain mask.
+constexpr uintptr_t kImmTypeInfoMask = sizeof(uintptr_t) == sizeof(uint64_t) ?
+        static_cast<uintptr_t>(0x0000fffffffffffcULL) : ~kKotlinObjectTagMask;
+#else
+constexpr uintptr_t kImmTypeInfoMask = ~kKotlinObjectTagMask;
+#endif
+typedef enum : uintptr_t {
     OBJECT_TAG_HEAP = 0,
     OBJECT_TAG_PERMANENT = 1, // Must match to permanentTag() in Kotlin.
     OBJECT_TAG_STACK = 3,
-    KOTLIN_OBJECT_TAG_MASK = (1 << 2) - 1,
+    KOTLIN_OBJECT_TAG_MASK = kKotlinObjectTagMask,
     // Keep in sync with immTypeInfoMask in Kotlin.
     OBJECT_TAG_MASK = ~kImmTypeInfoMask
 } ObjectTag;

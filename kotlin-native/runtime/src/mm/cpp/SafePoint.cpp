@@ -17,10 +17,16 @@
 #include "ThreadState.hpp"
 #include "DisallowSafepointScope.h"
 
-#include "macros.h"
 #include "CRTFastpathUtils.hpp"
+#ifdef ENABLE_CRT
+// libpandabase/macros.h provides the UNLIKELY macro used in checkUseCRT
+// fast-path lambdas (SafePoint::safePointStub / safePoint). On ENABLE_CRT=0
+// CRTStubs.hpp provides an inline UNLIKELY stub instead. No common-rt header
+// transitively pulls macros.h, so it has to be included explicitly here.
+#include "macros.h"
 #include "crt/cpp/HeapInterface.hpp"
 #include "crt/cpp/KNRootVisitor.hpp"
+#endif
 #include "MemoryManagerSwitch.hpp"
 
 // TODO: Remove after the bootstrap that brings changes in ClangArgs.kt
@@ -239,10 +245,10 @@ PERFORMANCE_INLINE void mm::safePoint(std::memory_order fastPathOrder) noexcept
 #endif
     AssertThreadState(ThreadState::kRunnable);
     checkUseCRT<CheckMode::Fast>([&] {
-#ifdef ENABLE_STACKMAP
         // CRT branch references SafePointSlowPathStub which only exists when ENABLE_STACKMAP=1.
         // stackmap=off implies CRT/CMC unused; checkUseCRT routes elsewhere at runtime, but the
         // lambda body still has to compile. Stub-out when stackmap=off.
+#ifdef ENABLE_STACKMAP
 #ifdef ENABLE_GC_FASTPATH
         // CRT fastpath: x28 holds the TLS pointer.
         uintptr_t tls;

@@ -6,7 +6,6 @@
 #pragma once
 
 #include <cstdlib>
-#include "crt/cpp/HeapInterface.hpp"
 
 #include "Memory.h"
 #include "std_support/Atomic.hpp"

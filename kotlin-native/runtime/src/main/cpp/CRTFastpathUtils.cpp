@@ -20,11 +20,14 @@
 #include "ThreadData.hpp"
 #include "ThreadRegistry.hpp"
 #include "MemoryManagerSwitch.hpp"
+#ifdef ENABLE_CRT
 #include "crt/cpp/HeapInterface.hpp"
 #include "common_interfaces/thread/mutator_base.h"
 #include "common_interfaces/thread/thread_holder.h"
 #include "common_components/mutator/mutator.h"
+#endif
 
+#ifdef ENABLE_CRT
 namespace {
 ALWAYS_INLINE void UpdateThreadLocalDataRegImpl(common::GCPhase phase)
 {
@@ -110,4 +113,12 @@ ALWAYS_INLINE common::Mutator* common::GetMutatorOrNull()
     return nullptr;
 #endif
 }
-
+#else
+ALWAYS_INLINE void common::UpdateThreadLocalDataReg(const MutatorBase*) {}
+ALWAYS_INLINE void common::UpdateThreadLocalDataReg(const ThreadHolder*) {}
+ALWAYS_INLINE void common::UpdateThreadLocalDataReg() {}
+ALWAYS_INLINE void common::RestoreThreadLocalDataReg(kotlin::mm::ThreadData*) {}
+ALWAYS_INLINE void common::RestoreThreadLocalDataReg() {}
+ALWAYS_INLINE void common::ZeroThreadLocalDataReg() {}
+ALWAYS_INLINE common::Mutator* common::GetMutatorOrNull() { return nullptr; }
+#endif
