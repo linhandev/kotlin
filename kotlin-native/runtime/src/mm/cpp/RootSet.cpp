@@ -9,6 +9,12 @@
 #include "GlobalData.hpp"
 #include "ThreadData.hpp"
 
+// The previous in-source `#define ENABLE_STACKMAP 1` has been removed. The macro
+// is now driven by the build script via `-DENABLE_STACKMAP=1`
+// (see `kotlin-native/runtime/build.gradle.kts::enableStackmap`). The mm module
+// declares `if (enableStackmap) compilerArgs.add("-DENABLE_STACKMAP=1")`, so this
+// file still resolves the same way under default ON builds.
+
 using namespace kotlin;
 
 mm::ThreadRootSet::Iterator::Iterator(begin_t, ThreadRootSet& owner) noexcept

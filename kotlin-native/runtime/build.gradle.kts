@@ -68,6 +68,45 @@ googletest {
 
 val targetList = enabledTargets(extensions.getByType<PlatformManager>())
 
+// Per-target toggle for the precise-stackmap path. Rationale:
+//   - x86_64 and x86_32 are unsupported by the precise stackmap pipeline (the
+//     runtime needs fp-based FpUnwind, OHOS arm64 TBI for KNStateWord bit 59,
+//     arm64 asm trampolines, and fixed-size arm64 insn stackmap encoding), so
+//     they default OFF.
+//   - ARM32 is OFF for the same architectural reason (Thumb mixed-size insn
+//     encoding breaks fixed-size stackmap; lacks arm64 asm trampolines).
+//   - Of the arm64 targets the pipeline supports, only ohos_arm64 defaults ON
+//     (it is the single target with a matching libcrt.so). Every other target,
+//     arm64 or not, defaults OFF (conservative/shadow-stack baseline).
+//
+// Resulting one-dist layout (only ohos_arm64 is ON by default):
+//   dist/konan/targets/ohos_arm64/native/runtime.bc   — ENABLE_STACKMAP=1
+//   dist/konan/targets/macos_arm64/native/runtime.bc  — ENABLE_STACKMAP=0
+//   dist/konan/targets/linux_x64/native/runtime.bc    — ENABLE_STACKMAP=0
+//   dist/konan/targets/macos_x64/native/runtime.bc    — ENABLE_STACKMAP=0
+//
+// User app build picks the matching codegen behaviour via
+// KonanConfig.enableStackmap (also target-aware default: ohos_arm64 only), so
+// users do not need to pass `-Xbinary=enableStackmap=...` for the common case.
+//
+// Override priority (highest to lowest):
+//   1. -Pkotlin.native.precise.stackmap.<target_name>=true|false  (per-target)
+//   2. -Pkotlin.native.precise.stackmap=true|false                (global)
+//   3. Default: only ohos_arm64 (the single target with a matching libcrt.so)
+fun resolveEnableStackmap(target: KonanTarget): Boolean {
+    val perTarget = project.findProperty("kotlin.native.precise.stackmap.${target.name}") as String?
+    if (perTarget != null) return perTarget.toBoolean()
+    val global = project.findProperty("kotlin.native.precise.stackmap") as String?
+    if (global != null) return global.toBoolean()
+    return target == KonanTarget.OHOS_ARM64
+}
+
+// stdlib klib is a single artifact whose manifest covers all targets (see
+// stdlibBuildTask in §Stdlib region below). For v1 we honour the GLOBAL property
+// here without per-target override. Default = true preserves the original ON
+// behaviour; user app codegen handles per-target stub vs non-stub dispatch.
+val globalStackmapFlagForStdlib = (project.findProperty("kotlin.native.precise.stackmap") as String?)?.toBoolean() ?: true
+
 // NOTE: the list of modules is duplicated in `RuntimeModule.kt`
 bitcode {
     allTargets {
@@ -122,6 +161,8 @@ bitcode {
                     }
                 }
             }
+            // Memory.cpp / Memory.h / Natives.cpp are guarded by #ifdef ENABLE_STACKMAP.
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
         }
 
         testsGroup("main_test") {
@@ -132,11 +173,13 @@ bitcode {
 
         // Headers from here get reused by Swift Export, so this module should not depend on anything in the runtime
         module("objcExport") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             // There must not be any implementation files, only headers.
             sourceSets {}
         }
 
         module("breakpad") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(breakpadLocation)
             val sources = listOf(
                     "client/mac/crash_generation/crash_generation_client.cc",
@@ -181,6 +224,7 @@ bitcode {
         }
 
         module("libbacktrace") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             val elfSize = when (target.architecture) {
                 TargetArchitecture.X64, TargetArchitecture.ARM64 -> 64
                 TargetArchitecture.X86, TargetArchitecture.ARM32 -> 32
@@ -237,10 +281,14 @@ bitcode {
             sourceSets {
                 main {}
             }
-            compilerArgs.add("-DKONAN_COMPILER_INTERFACE=1")
+            // KONAN_COMPILER_INTERFACE is enabled together with ENABLE_STACKMAP so the
+            // compiler-interface module stays consistent with the stackmap build flavour.
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DKONAN_COMPILER_INTERFACE=1")
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
         }
 
         module("launcher") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -248,6 +296,7 @@ bitcode {
         }
 
         module("crt") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/crt"))
             headersDirs.from(files(
                     "src/alloc/common/cpp",
@@ -269,6 +318,7 @@ bitcode {
         }
 
         module("debug") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -276,6 +326,7 @@ bitcode {
         }
 
         module("common_alloc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/alloc/common"))
             headersDirs.from(files(
                 "src/gcScheduler/common/cpp",
@@ -303,6 +354,7 @@ bitcode {
         }
 
         module("std_alloc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/alloc/std"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -326,6 +378,7 @@ bitcode {
         }
 
         module("crt_alloc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/alloc/crt"))
             headersDirs.from(files(
                 "src",
@@ -352,6 +405,7 @@ bitcode {
         }
 
         module("custom_alloc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/alloc/custom"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -382,7 +436,8 @@ bitcode {
             testSupportModules.addAll("main", "noop_externalCallsChecker", "mm", "common_alloc", "common_gc", "concurrent_ms_gc", "common_gcScheduler", "manual_gcScheduler", "objc", "noop_crashHandler")
         }
 
-module("legacy_alloc") {
+        module("legacy_alloc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/alloc/legacy"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -412,6 +467,7 @@ module("legacy_alloc") {
         }
 
         module("exceptionsSupport") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/exceptions_support"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -420,6 +476,7 @@ module("legacy_alloc") {
         }
 
         module("source_info_core_symbolication") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/source_info/core_symbolication"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -430,6 +487,7 @@ module("legacy_alloc") {
         }
 
         module("source_info_libbacktrace") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/source_info/libbacktrace"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp", "src/libbacktrace/c/include"))
             sourceSets {
@@ -440,6 +498,7 @@ module("legacy_alloc") {
         }
 
         module("objc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -447,6 +506,7 @@ module("legacy_alloc") {
         }
 
         module("test_support") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             headersDirs.from(files(
                     "src/externalCallsChecker/common/cpp",
                     "src/objcExport/cpp",
@@ -471,6 +531,8 @@ module("legacy_alloc") {
                 testFixtures {}
                 test {}
             }
+            // ThreadData.hpp is guarded by #ifdef ENABLE_STACKMAP.
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
         }
 
         testsGroup("mm_test") {
@@ -498,6 +560,9 @@ module("legacy_alloc") {
                 main {}
                 test {}
             }
+            // MainGCThread.hpp plus the integral stackmap sources (StackMap.cpp/hpp/...)
+            // are all guarded by #ifdef ENABLE_STACKMAP.
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
         }
 
         testsGroup("common_gc_test") {
@@ -506,6 +571,7 @@ module("legacy_alloc") {
         }
 
         module("cmc_gc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/gc/crt"))
             headersDirs.from(files(
                 "src",
@@ -530,6 +596,7 @@ module("legacy_alloc") {
         }
 
         module("noop_gc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/gc/noop"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -538,6 +605,7 @@ module("legacy_alloc") {
         }
 
         module("same_thread_ms_gc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/gc/stms"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -557,6 +625,7 @@ module("legacy_alloc") {
         }
 
         module("pmcs_gc") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/gc/pmcs"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -579,6 +648,8 @@ module("legacy_alloc") {
         module("concurrent_ms_gc") {
             srcRoot.set(layout.projectDirectory.dir("src/gc/cms"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            // ConcurrentMark.cpp is guarded by #ifdef ENABLE_STACKMAP.
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             sourceSets {
                 main {}
                 test {}
@@ -596,6 +667,7 @@ module("legacy_alloc") {
         }
 
         module("common_gcScheduler") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/common"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -610,6 +682,7 @@ module("legacy_alloc") {
         }
 
         module("manual_gcScheduler") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/manual"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -618,6 +691,7 @@ module("legacy_alloc") {
         }
 
         module("adaptive_gcScheduler") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/adaptive"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -632,6 +706,7 @@ module("legacy_alloc") {
         }
 
         module("aggressive_gcScheduler") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/aggressive"))
             headersDirs.from(files("src/alloc/common/cpp", "src/alloc/crt/cpp", "src/gc/crt/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -646,6 +721,7 @@ module("legacy_alloc") {
         }
 
         module("impl_externalCallsChecker") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/externalCallsChecker/impl"))
             headersDirs.from("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp")
             sourceSets {
@@ -654,6 +730,7 @@ module("legacy_alloc") {
         }
 
         module("noop_externalCallsChecker") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/externalCallsChecker/noop"))
             headersDirs.from("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp")
             sourceSets {
@@ -662,6 +739,7 @@ module("legacy_alloc") {
         }
 
         module("impl_crashHandler") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/crashHandler/impl"))
             headersDirs.from("src/main/cpp", "src/breakpad/cpp", breakpadLocation.get().dir("src"))
             sourceSets {
@@ -676,6 +754,7 @@ module("legacy_alloc") {
         }
 
         module("noop_crashHandler") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             srcRoot.set(layout.projectDirectory.dir("src/crashHandler/noop"))
             sourceSets {
                 main {}
@@ -683,6 +762,7 @@ module("legacy_alloc") {
         }
 
         module("xctest_launcher") {
+            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
 
             sourceSets {
@@ -930,6 +1010,25 @@ val stdlibBuildTask by tasks.registering(KonanCompileTask::class) {
             "-Xstdlib-compilation",
             "-Xfragment-refines=nativeMain:nativeWasm,nativeMain:common,nativeWasm:common,nativeWasm:commonNonJvm,commonNonJvm:common",
             "-Xmanifest-native-targets=${platformManager.targetValues.joinToString(separator = ",") { it.visibleName }}",
+            // stdlibBuildTask is a SINGLE task producing one stdlib klib whose manifest
+            // covers all targets (see -Xmanifest-native-targets above), so the klib
+            // cannot be per-target. We honour the GLOBAL property here as a v1
+            // simplification:
+            //   - default (no property): emit stub-suffix calls (klib is "ON-flavoured").
+            //   - `-Pkotlin.native.precise.stackmap=false`: emit non-stub calls (klib
+            //     is "OFF-flavoured", suitable when ALL targets are OFF).
+            // For target-default mode (arm64 ON + x86 OFF in one dist) the rooting still
+            // works because the user app's CodeGenerator dispatches stub vs non-stub
+            // at app build time based on KonanConfig.enableStackmap (per-target default,
+            // see KonanConfig.kt). The pre-baked klib stub references in stdlib are
+            // re-lowered against the user app's CodeGenerator config.
+            // TODO(per-target-stdlib): refactor stdlibBuildTask to fan out per-target if
+            //   the link-time GlobalDCE failure described below resurfaces in x86 builds.
+            // Without this, OFF user code links against an ON-built stdlib that
+            // pulls in K2RStub.o, which then references `_Kotlin_Any_hashCode`
+            // whose `used` attribute (from HAS_SAFEPOINT) is gated out by ENABLE_STACKMAP,
+            // so GlobalDCE strips the symbol and ld fails.
+            if (!globalStackmapFlagForStdlib) "-Xbinary=enableStackmap=false" else null,
     ))
 
     val common by sourceSets.creating {
@@ -970,6 +1069,11 @@ cacheableTargetNames.forEach { targetName ->
         // Requires Native distribution with stdlib klib and runtime modules for `targetName`.
         this.compilerDistribution.set(dist)
         dependsOn(":kotlin-native:${targetName}CrossDistRuntime")
+        // KonanCacheTask invokes konanc -> Linker which links stub .o files
+        // (N2KStub/K2NStub/K2RStub/KonanStartStub) on OHOS_ARM64 / MACOS_ARM64 targets.
+        // The existing `gradle.projectsEvaluated` hook (~line 685) targets `bundle`/`crossDist`
+        // etc. but misses `runtime:${target}StdlibCache`, so stub.o aren't copied to dist
+        // before libtool runs. Direct dependsOn here is robust against config cache hits.
         dependsOn(copyStubObjsToDist)
         inputs.dir(dist.map { it.runtime(targetName) }) // manually depend on runtime modules (stdlib cache links these modules in)
 

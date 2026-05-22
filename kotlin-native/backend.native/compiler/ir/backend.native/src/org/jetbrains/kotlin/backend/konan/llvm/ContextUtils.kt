@@ -140,6 +140,12 @@ internal interface ContextUtils : RuntimeAware {
     override val runtime: Runtime
         get() = generationState.llvm.runtime
 
+    // Pull the toggle from KonanConfig so ReferencesType-based properties
+    // (kObjHeaderRef etc.) emit AS0 on the OFF path and stay AS1 on the ON path
+    // (default).
+    override val enableStackmap: Boolean
+        get() = context.config.enableStackmap
+
     val argumentAbiInfo: TargetAbiInfo
         get() = context.targetAbiInfo
 
@@ -337,6 +343,11 @@ internal open class BasicLlvmHelpers(bitcodeContext: BitcodePostProcessingContex
 @Suppress("FunctionName", "PropertyName", "PrivatePropertyName")
 internal class CodegenLlvmHelpers(private val generationState: NativeGenerationState, module: LLVMModuleRef) : BasicLlvmHelpers(generationState, module), RuntimeAware {
     private val context = generationState.context
+
+    // Same source as ContextUtils.enableStackmap, but cached as a backing field
+    // (vs the getter chain) and read once at construction. Hot codegen loops do
+    // thousands of `if (enableStackmap)` checks per binary.
+    override val enableStackmap: Boolean = context.config.enableStackmap
 
     private fun importFunction(name: String, otherModule: LLVMModuleRef, returnsObjectType: Boolean): LlvmCallable {
         if (LLVMGetNamedFunction(module, name) != null) {

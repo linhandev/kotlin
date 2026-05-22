@@ -41,6 +41,11 @@ extern "C" {
 
 KInt Kotlin_CRT_GetOrSetHashCode(ObjHeader* thiz);
 
+// HAS_SAFEPOINT must be unconditional (no `#ifdef ENABLE_STACKMAP` wrapper).
+// The macro itself expands to either the full `(annotate(...), used)` form
+// (ON) or just `((used))` (OFF). The `used` attribute is required in OFF
+// builds to keep this symbol alive: K2RStub.s asm references it via
+// `_unwindPCForK2RStubStart` and GlobalDCE would otherwise strip it.
 HAS_SAFEPOINT
 KInt Kotlin_Any_hashCode(KConstRef thiz)
 {

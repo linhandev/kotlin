@@ -16,6 +16,10 @@
 
 #pragma once
 
+#ifdef ENABLE_STACKMAP
+// Entire file is stackmap-only (kotlin::stackMap::SlotRoot).
+// OFF mode: empty header.
+
 #include <cstdint>
 #include <vector>
 #include "Macros.hpp"
@@ -202,3 +206,5 @@ private:
     constexpr static int32_t biasCoef = 1;
 };
 } // namespace kotlin::stackMap
+
+#endif // ENABLE_STACKMAP

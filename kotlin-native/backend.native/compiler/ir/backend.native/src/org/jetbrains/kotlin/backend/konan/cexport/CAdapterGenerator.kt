@@ -310,8 +310,9 @@ internal class ExportedElement(
     private fun translateBody(cfunction: List<SignatureElement>): String {
         val visibility = if (isTopLevelFunction) "RUNTIME_EXPORT extern \"C\"" else "static"
         val builder = StringBuilder()
+        val ktstubAttr = if (owner.enableStackmap) " __attribute__((annotate(\"ktstub\")))" else ""
         builder.append("$visibility ${typeTranslator.translateType(cfunction[0])} ${cnameImpl}(${cfunction.drop(1).
-                mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")}) __attribute__((annotate(\"ktstub\"))) {\n")
+                mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")})$ktstubAttr {\n")
         // TODO: do we really need that in every function?
         builder.append("  ScopedFastPathGuard fastPathGuard;\n")
         builder.append("  Kotlin_initRuntimeIfNeeded();\n")
@@ -393,6 +394,7 @@ internal class CAdapterGenerator(
     internal val prefix = typeTranslator.prefix
     private val paramNamesRecorded = mutableMapOf<String, Int>()
     private val moduleIncludeOnly: Set<String> = context.config.moduleIncludeOnly.toSet()
+    internal val enableStackmap: Boolean = context.config.enableStackmap
 
     internal val symbolTable get() = context.symbolTable!!
 

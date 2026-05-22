@@ -50,9 +50,18 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
     }
     #endif
 
-    // Try setting the tag here
+    // SetValid writes bit 59 (KNStateWord::valid) into typeInfoOrMeta_. Only the
+    // precise-stackmap (ON) path reads it via ConcurrentMark.cpp:IsValid(), and only
+    // the ON path's AsMetaObject in Memory.h strips the high 16 bits. Without this
+    // gate, OFF builds poison every heap object's typeInfoOrMeta_ with bit 59,
+    // AsMetaObject misreads it as a meta-object pointer (typeInfoOrMeta != ->typeInfo_),
+    // and sweep's setFlag(FLAGS_IN_FINALIZER_QUEUE) does an atomic OR on
+    // (TypeInfo + 8) which lands in __DATA_CONST after TBI strips the tag,
+    // producing a SIGBUS in OFF builds under heavy allocation.
+#ifdef ENABLE_STACKMAP
     KNStateWord *word = reinterpret_cast<KNStateWord*>(object);
     word->SetValid();
+#endif
 
      return object;
 }
@@ -72,9 +81,11 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
             TAG_RES_KMP_HEAP_MASK, true);
     }
     #endif
-    // Try setting the tag here
+    // Same gating rationale as CreateObject above.
+#ifdef ENABLE_STACKMAP
     KNStateWord *word = reinterpret_cast<KNStateWord*>(array);
     word->SetValid();
+#endif
 
     return array;
 }

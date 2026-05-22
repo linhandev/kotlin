@@ -66,7 +66,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_ByteArray_set", false)
+    @GCUnsafeCall("Kotlin_ByteArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Byte): Unit
 
@@ -145,7 +145,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_CharArray_set", false)
+    @GCUnsafeCall("Kotlin_CharArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Char): Unit
 
@@ -224,7 +224,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_ShortArray_set", false)
+    @GCUnsafeCall("Kotlin_ShortArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Short): Unit
 
@@ -303,7 +303,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_IntArray_set", false)
+    @GCUnsafeCall("Kotlin_IntArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Int): Unit
 
@@ -382,7 +382,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_LongArray_set", false)
+    @GCUnsafeCall("Kotlin_LongArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Long): Unit
 
@@ -461,7 +461,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_FloatArray_set", false)
+    @GCUnsafeCall("Kotlin_FloatArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Float): Unit
 
@@ -540,7 +540,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_DoubleArray_set", false)
+    @GCUnsafeCall("Kotlin_DoubleArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Double): Unit
 
@@ -619,7 +619,7 @@ public actual constructor(size: Int) {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_BooleanArray_set", false)
+    @GCUnsafeCall("Kotlin_BooleanArray_set")
     @Escapes.Nothing
     public actual external operator fun set(index: Int, value: Boolean): Unit
 

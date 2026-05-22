@@ -16,6 +16,11 @@
 
 #pragma once
 
+#ifdef ENABLE_STACKMAP
+// Integral stackmap implementation header. The ON path exposes the full API;
+// the OFF path defines no symbols (all callers must be gated under the same
+// macro).
+
 #include "StackMapTable.hpp"
 #include "StackSizeVarInt.hpp"
 #include "SlotRoot.hpp"
@@ -316,3 +321,5 @@ protected:
     std::unordered_map<uintptr_t, CallSiteInfo> pc2CallSiteInfo_;
 };
 } // namespace kotlin::stackMap
+
+#endif // ENABLE_STACKMAP

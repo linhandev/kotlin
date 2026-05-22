@@ -139,7 +139,7 @@ internal annotation class InternalForKotlinNative
 @Target(AnnotationTarget.FUNCTION)
 @Retention(value = AnnotationRetention.BINARY)
 @InternalForKotlinNative
-public annotation class GCUnsafeCall(val callee: String, val needStub: Boolean = true)
+public annotation class GCUnsafeCall(val callee: String)
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(value = AnnotationRetention.BINARY)

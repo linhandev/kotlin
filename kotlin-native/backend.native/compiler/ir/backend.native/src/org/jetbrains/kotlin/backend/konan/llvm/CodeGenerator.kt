@@ -594,6 +594,11 @@ internal abstract class FunctionGenerationContext(
     )
 
     override val generationState = codegen.generationState
+    // Cache enableStackmap as a backing field. Hot codegen loops (loadSlot,
+    // EnterFrame/LeaveFrame gates, Array intrinsics) do thousands of
+    // `if (enableStackmap)` checks per binary; the backing field avoids the
+    // 3-layer getter chain (context -> config -> HashMap.get).
+    override val enableStackmap: Boolean = codegen.generationState.context.config.enableStackmap
     val llvmDeclarations = generationState.llvmDeclarations
     val vars = VariableManager(this)
     private val basicBlockToLastLocation = mutableMapOf<LLVMBasicBlockRef, LocationInfoRange>()
@@ -625,11 +630,20 @@ internal abstract class FunctionGenerationContext(
 
     // Functions that can be exported and called not only from Kotlin code should have cleanup_landingpad and `LeaveFrame`
     // because there is no guarantee of catching Kotlin exception in Kotlin code.
+    // OFF path uses the baseline condition only (exportForCppRuntime ||
+    // switchToRunnable). ON path adds exportForIntrinsic + gcUnsafeCall +
+    // isCleanupLandingpadUsed (these are precise-stackmap pipeline additions
+    // tied to K2X stub injection).
     protected open val needCleanupLandingpadAndLeaveFrame: Boolean
-        get() = irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true ||
-                irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForIntrinsic) == true ||
-                irFunction?.annotations?.hasAnnotation(KonanFqNames.gcUnsafeCall) == true ||
-                switchToRunnable || isCleanupLandingpadUsed
+        get() {
+            val baseline = irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true ||
+                           switchToRunnable
+            if (!enableStackmap) return baseline
+            return baseline ||
+                   irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForIntrinsic) == true ||
+                   irFunction?.annotations?.hasAnnotation(KonanFqNames.gcUnsafeCall) == true ||
+                   isCleanupLandingpadUsed
+        }
 
     private var setCurrentFrameIsCalled: Boolean = false
 
@@ -757,7 +771,15 @@ internal abstract class FunctionGenerationContext(
         val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
         val value = if (isObjectField) {
             // CRT read barrier path (no-op at runtime when USE_CRT=false; loadFromCMC checks at runtime).
-            loadFromCMC(address, thisPtr, memoryOrder)
+            // `loadFromCMC` calls runtime functions (ReadHeapRef / ReadVolatileHeapRef / ReadStaticRef /
+            // ReadVolatileStaticRef) imported from compiler_interface.bc. That bitcode is built with
+            // -DKONAN_COMPILER_INTERFACE=1 whenever resolveEnableStackmap(target) is true — on every
+            // arm64 target by default, regardless of the user's -Xbinary=enableStackmap=. So the call
+            // returns `ptr addrspace(1)` even in OFF codegen mode where `type`/`kObjHeaderRef` are
+            // addrspace(0). Reconcile with bitcast which is a no-op when source and target addrspaces
+            // already agree (ON path), and emits an LLVMBuildAddrSpaceCast on mismatch (OFF + AS1
+            // runtime). Mirrors the existing pattern after allocInstance/allocArray/extractKotlinException.
+            bitcast(type, loadFromCMC(address, thisPtr, memoryOrder))
         } else {
             applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
         }
@@ -1533,7 +1555,9 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         if (switchThreadState) {
             switchThreadState(Runnable)
         }
-        if (setCurrentFrame) {
+        // OFF path skips the setCurrentFrame call — `Kotlin_mm_setCurrentFrame`
+        // is a precise-stackmap-only runtime symbol.
+        if (setCurrentFrame && enableStackmap) {
             call(llvm.setCurrentFrameFunction, listOf(slotsPhi!!))
             setCurrentFrameIsCalled = true
         }
@@ -1770,13 +1794,14 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         val memoryOrder = LLVMAtomicOrdering.LLVMAtomicOrderingMonotonic
 
         // TODO: Get rid of the bitcast here by supplying the type in the GEP above.
-        // Use `pointerTypeOne` (addrspace 1) here — `typeInfoOrMetaPtr` was derived from a
-        // GC-tracked Kotlin object pointer via `structGep`, so it lives in addrspace(1).
-        // Routing through `pointerType` (addrspace 0) emits an `addrspacecast` that LLVM's
-        // `gc.statepoint` passes don't relocate; the resulting hoisted-out-of-loop default-
-        // addrspace pointer then references the stale (from-space) iterator after compaction.
-        // Matches mpcore/crt_dev (K2.0).
-        val typeInfoOrMetaPtrRaw = bitcast(pointerTypeOne(codegen.intPtrType), typeInfoOrMetaPtr)
+        // Preserve `typeInfoOrMetaPtr`'s address space — on stackmap=on it's addrspace(1)
+        // (GC-tracked, prevents gc.statepoint losing track under CMC compaction); on
+        // stackmap=off it's addrspace(0) (plain pointer). Mirrors the loadArraySize fix
+        // pattern. Previously hardcoded `pointerTypeOne` broke stackmap=off (the bitcast
+        // to addrspace(1) didn't match the addrspace(0) source -> codegen assertion fails
+        // on every Kotlin program because stdlib's BaseContinuationImpl.resumeWith hits it).
+        val typeInfoOrMetaPtrAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(typeInfoOrMetaPtr))
+        val typeInfoOrMetaPtrRaw = bitcast(LLVMPointerType(codegen.intPtrType, typeInfoOrMetaPtrAddrSpace)!!, typeInfoOrMetaPtr)
         val typeInfoOrMetaWithFlags = load(codegen.intPtrType, typeInfoOrMetaPtrRaw, memoryOrder = memoryOrder)
         // Clear low 2 (OBJECT_TAG_MASK) + high 5 (KNStateWord valid/remainded) bits;
         // see comment on `immTypeInfoMask`. The inner field (TypeInfo::typeInfo_
@@ -1936,22 +1961,44 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                 call(llvm.saveX28, emptyList())
                 call(llvm.initRuntimeIfNeeded, emptyList())
             }
-            if (needsSetReliableStatus) {
+            // SetLastFrameReliable is a precise-stackmap-only runtime symbol;
+            // skip the emit on the OFF path.
+            if (needsSetReliableStatus && enableStackmap) {
                 call(llvm.setLastFrameReliable, emptyList())
             }
             if (switchToRunnable) {
                 switchThreadState(Runnable)
             }
             if (needSlots || needCleanupLandingpadAndLeaveFrame) {
-                if (setCurrentFrameIsCalled) {
+                // OFF path uses baseline shadow-stack root collection
+                // (RootSet.cpp `#if !ENABLE_STACKMAP` branch iterates
+                // `threadData.shadowStack()`). The shadow stack is populated by
+                // EnterFrame/LeaveFrame calls. The precise-stackmap path gates
+                // these calls behind `setCurrentFrameIsCalled` (set only by
+                // exception landing pads) because the stackmap pass extracts GC
+                // roots from PC-keyed stackmap data instead. On the OFF path we
+                // have no stackmap, so we must restore the unconditional
+                // EnterFrame/LeaveFrame to give the GC a non-empty shadow-stack
+                // root set; otherwise GC mark sees 0 roots and reclaims live
+                // objects, producing a SEGFAULT/ABORT.
+                if (setCurrentFrameIsCalled || !enableStackmap) {
                     call(llvm.enterFrameFunction, listOf(slotsPhi!!, llvm.int32(vars.skipSlots), llvm.int32(slotCount)))
                 }
             } else {
                 check(!setCurrentFrameIsCalled)
             }
+            // OFF path calls the non-stub safePointFunctionPrologue
+            // (lazy-imported); the stub-suffixed symbol is a
+            // precise-stackmap-only patchpoint anchor created via
+            // importRtStubFunction. The ThrowArrayIndexOutOfBoundsException
+            // skip is also stackmap-only (intrinsic optimisation).
             if (!forbidRuntime && needSafePoint) {
-                if (!function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException")) {
-                    call(llvm.Kotlin_mm_safePointFunctionPrologueStub, emptyList())
+                val safepointFn = if (enableStackmap)
+                    llvm.Kotlin_mm_safePointFunctionPrologueStub
+                else
+                    llvm.Kotlin_mm_safePointFunctionPrologue
+                if (!(enableStackmap && function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException"))) {
+                    call(safepointFn, emptyList())
                 }
             }
             resetDebugLocation()
@@ -2148,7 +2195,9 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     private fun releaseVars() {
         if (needCleanupLandingpadAndLeaveFrame || needSlots) {
             check(!forbidRuntime) { "Attempt to leave a frame where runtime usage is forbidden" }
-            if (setCurrentFrameIsCalled) {
+            // Match the EnterFrame condition above. OFF path always pops the
+            // shadow stack frame so root counts stay balanced.
+            if (setCurrentFrameIsCalled || !enableStackmap) {
                 call(llvm.leaveFrameFunction,
                      listOf(slotsPhi!!, llvm.int32(vars.skipSlots), llvm.int32(slotCount)))
             }

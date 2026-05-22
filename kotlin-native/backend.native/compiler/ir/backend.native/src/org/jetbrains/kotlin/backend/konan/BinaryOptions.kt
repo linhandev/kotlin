@@ -19,6 +19,15 @@ object BinaryOptions : BinaryOptionRegistry() {
 
     val checkStateAtExternalCalls by booleanOption()
 
+    // Toggle the precise-stackmap codegen path (emit `addrspace(1)` heap
+    // pointers, phi cast across AS0/AS1 boundary). Must match the runtime build
+    // property `kotlin.native.precise.stackmap` (which controls cpp
+    // `-DENABLE_STACKMAP=1`). Default = unset, which the consumer
+    // (KonanConfig.enableStackmap) resolves per-target: ON only for ohos_arm64,
+    // OFF for every other target. Pass `-Xbinary=enableStackmap=true|false` to
+    // konanc to force a specific mode (must match the dist's per-target flavour).
+    val enableStackmap by booleanOption()
+
     val splitBCfile by uintOption()
 
     val llvmSplitPath by stringOption()

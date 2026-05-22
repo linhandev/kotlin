@@ -215,7 +215,16 @@ internal class LlvmFunctionProto(
 
     fun createLlvmFunction(context: Context, llvmModule: LLVMModuleRef): LlvmCallable {
         val function = LLVMAddFunction(llvmModule, name, signature.llvmFunctionType)!!
-        LLVMSetGC(function, "kotlin-native")
+        // In OFF mode skip `gc "kotlin-native"` so LLVM's RewriteStatepointsForGC
+        // pass does not fire (no slowPathStub injections, avoiding a large
+        // throughput regression). Pattern matches the existing `clearGcCollector()` usage in
+        // CAdapterCodegen.kt:78 ("type-getter has no gc.statepoint, so it must
+        // not use the kotlin-native stackmap protocol"). With
+        // RemoveRedundantSafepoints + the stackmap mllvm flags both stripped in
+        // OFF, the previous CJFFI cast-assertion path is also closed.
+        if (context.config.enableStackmap) {
+            LLVMSetGC(function, "kotlin-native")
+        }
         addDefaultLlvmFunctionAttributes(context, function)
         addTargetCpuAndFeaturesAttributes(context, function)
         signature.addFunctionAttributes(function)
@@ -249,20 +258,29 @@ private fun inferFunctionAttributes(contextUtils: ContextUtils, irFunction: IrSi
                 require(!irFunction.isSuspend) { "Suspend functions should be lowered out at this point"}
                 add(LlvmFunctionAttribute.NoReturn)
             }
-            if (irFunction.origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
-                    !irFunction.annotations.hasAnnotation(RuntimeNames.filterExceptions) &&
-                    !irFunction.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
-                // No NoUnwind: the Kotlin wrapper rethrows non-OK return codes via
-                // __cxa_throw, so callers must emit invoke for the IR cleanup
-                // landing pad. NoInline keeps the bridge as a distinct GC frame.
-                add(LlvmFunctionAttribute.NoInline)
-            }
             if (mustNotInline(contextUtils.context, irFunction)) {
                 add(LlvmFunctionAttribute.NoInline)
             }
-            add(LlvmFunctionAttribute.KFunc)
-            val classId = NativeRuntimeNames.Annotations.exportForCppRuntimeClassId
-            if (irFunction.hasAnnotation(classId)) {
-                add(LlvmFunctionAttribute.ExportForCppRuntimeKFunc)
+            // The KOTLIN_TO_C_BRIDGE NoInline policy and the KFunc /
+            // ExportForCppRuntimeKFunc string attributes are part of the
+            // precise-stackmap pipeline. The pre-stackmap baseline emits neither.
+            // Gate on enableStackmap so the OFF dist produces baseline-equivalent
+            // attribute sets and the addCallSiteAttributesAtIndex /
+            // addDeclarationAttributesAtIndex double-path (which only matters
+            // when a value=0 string attribute is present) becomes dead code.
+            if (contextUtils.context.config.enableStackmap) {
+                if (irFunction.origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
+                        !irFunction.annotations.hasAnnotation(RuntimeNames.filterExceptions) &&
+                        !irFunction.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
+                    // No NoUnwind: the Kotlin wrapper rethrows non-OK return codes via
+                    // __cxa_throw, so callers must emit invoke for the IR cleanup
+                    // landing pad. NoInline keeps the bridge as a distinct GC frame.
+                    add(LlvmFunctionAttribute.NoInline)
+                }
+                add(LlvmFunctionAttribute.KFunc)
+                val classId = NativeRuntimeNames.Annotations.exportForCppRuntimeClassId
+                if (irFunction.hasAnnotation(classId)) {
+                    add(LlvmFunctionAttribute.ExportForCppRuntimeKFunc)
+                }
             }
         }

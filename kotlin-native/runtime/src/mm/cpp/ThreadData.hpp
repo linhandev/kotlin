@@ -8,8 +8,13 @@
 
 #include <cstdint>
 #include <vector>
+#ifdef ENABLE_STACKMAP
+// Upstream precise-stackmap pipeline pulls these in (transitively required
+// by stackmap codegen helpers). OFF path drops them since the shadow-stack
+// baseline does not depend on them.
 #include <stack>
 #include <sstream>
+#endif
 
 #include "DisallowSafepointScope.h"
 #include "HandleScope.h"
@@ -32,6 +37,11 @@ namespace kotlin {
 namespace mm {
 
 
+// Precise-stackmap pipeline metadata. Type declarations stay defined in
+// both modes because FpUnwind.h consumes mm::FrameStatus/FrameAddress
+// unconditionally (FpUnwind asm-stub bodies are intentionally not gated out
+// of OFF; see FpUnwind.h). Only the ThreadData methods that USE these types
+// (RuntimeSetLastFrame body) are gated — see below.
 enum class FrameStatus : uint8_t {
     RISKY,
     RELIABLE
@@ -87,6 +97,11 @@ public:
 
     ThreadSuspensionData& suspensionData() { return suspensionData_; }
 
+    // GetLastFrameInfo / SetLastFrameInfo stay defined in BOTH modes —
+    // FpUnwind.cpp consumes them unconditionally (asm stubs reference
+    // SetLastFrameRisky/Reliable as undefined externs and link
+    // unconditionally; the FpUnwind asm-stub bodies are not gated out of OFF).
+    // The private field lastFrameInfo_ also stays ungated for the same reason.
     const LastFrameInfo &GetLastFrameInfo()
     {
         return lastFrameInfo_;

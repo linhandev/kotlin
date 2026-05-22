@@ -25,11 +25,20 @@ struct MemoryState;
 // The annotated function is guaranteed to NOT cross safepoint
 #define NO_SAFEPOINT __attribute__((annotate("no_safepoint")))
 
-// The annotated function can potentially cross a safepoint
+// The annotated function can potentially cross a safepoint.
+// The `used` attribute MUST be unconditional. K2RStub.s asm objects reference
+// these functions (via `_unwindPCForK2RStub*` data slots) regardless of build
+// mode; without `used`, GlobalDCE in OFF builds (ENABLE_STACKMAP undefined)
+// strips them and ld fails on undefined symbols. The `has_safepoint` and
+// `K2RStub` annotations are stackmap-pipeline metadata and remain conditional
+// on ENABLE_STACKMAP.
+#ifdef ENABLE_STACKMAP
 #define HAS_SAFEPOINT __attribute__((annotate("has_safepoint"), annotate("K2RStub"), used))
-
-// Function can potentially cross a safepoint, but only by throwing an exception
 #define HAS_SAFEPOINT_THROW __attribute__((annotate("has_safepoint_throw"), annotate("K2RStub"), used))
+#else
+#define HAS_SAFEPOINT __attribute__((used))
+#define HAS_SAFEPOINT_THROW __attribute__((used))
+#endif
 
 namespace kotlin::mm {
 class ThreadData;

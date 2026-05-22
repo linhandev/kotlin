@@ -385,8 +385,11 @@ extern "C" void Kotlin_native_internal_GC_collect(ObjHeader*) {
         common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER, false, common::GCType::GC_TYPE_FULL);
         common::UpdateThreadLocalDataReg();
     }, [] {
+#ifdef ENABLE_STACKMAP
+        // ON keeps the AssertThreadState check; OFF drops it to match baseline.
         auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
         AssertThreadState(threadData, ThreadState::kRunnable);
+#endif
         mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
     });
 }
@@ -583,18 +586,28 @@ extern "C" RUNTIME_NOTHROW NO_INLINE RUNTIME_EXPORT void Kotlin_mm_safePointFunc
     mm::safePoint();
 }
 
+#ifdef ENABLE_STACKMAP
+// *Stub function bodies invoke mm::safePointStub() which in turn references
+// `slowPathStub` (provided only by the arm64 asm trampoline K2RStub.s).
+// On non-arm64 OFF targets there is no asm stub, so we drop these bodies
+// entirely. CodeGenerator.kt picks the non-Stub
+// `Kotlin_mm_safePointFunctionPrologue` / `Kotlin_mm_safePointWhileLoopBody`
+// when enableStackmap=false, so user code never references the *Stub names.
 extern "C" RUNTIME_NOTHROW ALWAYS_INLINE RUNTIME_EXPORT void Kotlin_mm_safePointFunctionPrologueStub() {
     mm::safePointStub();
 }
+#endif
 
 HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW CODEGEN_INLINE_POLICY RUNTIME_EXPORT void Kotlin_mm_safePointWhileLoopBody() {
     mm::safePoint();
 }
 
+#ifdef ENABLE_STACKMAP
 extern "C" RUNTIME_NOTHROW CODEGEN_INLINE_POLICY RUNTIME_EXPORT void Kotlin_mm_safePointWhileLoopBodyStub() {
     mm::safePointStub();
 }
+#endif
 
 HAS_SAFEPOINT
 extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative() {

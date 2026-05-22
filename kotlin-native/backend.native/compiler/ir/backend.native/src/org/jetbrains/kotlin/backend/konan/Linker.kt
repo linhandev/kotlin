@@ -101,6 +101,16 @@ internal class Linker(
 
     private fun stubObjectsForTarget(): List<String> {
         if (target != KonanTarget.OHOS_ARM64 && target != KonanTarget.MACOS_ARM64) return emptyList()
+        // The 4 asm stubs can't be dropped from the OFF link: pre-compiled klib
+        // cstubs.bc files (platform.darwin/posix/zlib/iconv/builtin) bake in
+        // `_Kotlin_KonanStartStub` references at klib generation time, so dropping
+        // the stub objects breaks the link.
+        //
+        // For a proper follow-up, all platform klibs would need regeneration in
+        // OFF mode (a large invasive change beyond scope). Asm stubs stay linked
+        // unconditionally — they're small and harmless when not called (the
+        // compiler emits non-stub paths in OFF per the CodeGenerator gate below,
+        // so the asm trampolines are dead code in OFF binaries).
         val stubsDir = "${config.distribution.konanHome}/konan/targets/${target.name}/stubs_objs"
         return listOf("N2KStub.o", "K2NStub.o", "K2RStub.o", "KonanStartStub.o").map { "$stubsDir/$it" }
     }
@@ -178,7 +188,11 @@ internal class Linker(
                     when (config.produce) {
                         CompilerOutputKind.DYNAMIC_CACHE ->
                             listOf("-install_name", outputFiles.dynamicCacheInstallName)
-                        else -> listOf("")
+                        // The precise-stackmap path replaces "-dead_strip" with "" on the
+                        // Apple non-DYNAMIC_CACHE path to protect the __LLVM_STACKMAPS section
+                        // from dead-strip. OFF restores baseline `-dead_strip` for smaller binaries.
+                        // Note: OHOS uses lld (not Apple ld), this branch is Apple-only.
+                        else -> if (config.enableStackmap) listOf("") else listOf("-dead_strip")
                     }
                 } else {
                     emptyList()
