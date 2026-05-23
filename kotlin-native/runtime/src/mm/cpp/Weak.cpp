@@ -11,11 +11,14 @@
 #include "Types.h"
 
 #include "MemoryManagerSwitch.hpp"
+#ifdef ENABLE_CRT
 #include "crt/cpp/KNBaseObject.hpp"
+#endif
 
 using namespace kotlin;
 
 extern "C" {
+#ifdef ENABLE_CRT
     RUNTIME_NOTHROW OBJ_GETTER(Konan_CRTWeakReferenceImpl_get, ObjHeader* weakRef)
     {
         auto addr = reinterpret_cast<uintptr_t>(weakRef);
@@ -24,12 +27,14 @@ extern "C" {
         RETURN_OBJ(reinterpret_cast<ObjHeader*>(ref & common::WEAK_REF_TAGS_MASK));
     }
     OBJ_GETTER0(makeCRTWeakReferenceImpl);
+#endif
 
     OBJ_GETTER(makeRegularWeakReferenceImpl, KRef, void*);
 }
 
 namespace {
 
+#ifdef ENABLE_CRT
 static_assert(sizeof(ObjHeader*) == sizeof(KLong));
 RUNTIME_NOTHROW ALWAYS_INLINE void initCRTWeakReferenceImpl(ObjHeader* weakRef, ObjHeader* referred)
 {
@@ -38,6 +43,7 @@ RUNTIME_NOTHROW ALWAYS_INLINE void initCRTWeakReferenceImpl(ObjHeader* weakRef, 
     *field = reinterpret_cast<KLong>(referred) | common::REF_FIELD_TAG_WEAK;
     reinterpret_cast<common::KNBaseObject*>(weakRef)->SetWeakRefImplObjectFlag(true);
 }
+#endif
 
 struct RegularWeakReferenceImpl {
     ObjHeader header;
@@ -52,6 +58,7 @@ RegularWeakReferenceImpl* asRegularWeakReferenceImpl(ObjHeader* weakRef) noexcep
 } // namespace
 
 OBJ_GETTER(mm::createRegularWeakReferenceImpl, ObjHeader* object) noexcept {
+#ifdef ENABLE_CRT
     return checkUseCRT<CheckMode::Fast>([&] {
         auto holder = ObjHolder(object);
         auto* weakRef = makeCRTWeakReferenceImpl(OBJ_RESULT);
@@ -70,6 +77,19 @@ OBJ_GETTER(mm::createRegularWeakReferenceImpl, ObjHeader* object) noexcept {
         auto* setWeakRef = extraObject.GetOrSetRegularWeakReferenceImpl(object, weakRef);
         RETURN_OBJ(setWeakRef);
     });
+#else
+    auto* thread = mm::ThreadRegistry::Instance().CurrentThreadData();
+    AssertThreadState(thread, ThreadState::kRunnable);
+
+    auto& extraObject = mm::ExtraObjectData::GetOrInstall(object);
+    if (auto* weakRef = extraObject.GetRegularWeakReferenceImpl()) {
+        RETURN_OBJ(weakRef);
+    }
+    ObjHolder holder;
+    auto* weakRef = makeRegularWeakReferenceImpl(object, object, holder.slot());
+    auto* setWeakRef = extraObject.GetOrSetRegularWeakReferenceImpl(object, weakRef);
+    RETURN_OBJ(setWeakRef);
+#endif
 }
 
 void mm::disposeRegularWeakReferenceImpl(ObjHeader* weakRef) noexcept {

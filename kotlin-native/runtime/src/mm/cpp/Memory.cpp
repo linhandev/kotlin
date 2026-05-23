@@ -29,12 +29,15 @@
 
 #include "MemoryManagerSwitch.hpp"
 #include "CRTFastpathUtils.hpp"
+#ifdef ENABLE_CRT
 #include "common_interfaces/base_runtime.h"
 #include "common_interfaces/thread/mutator_base.h"
+#include "crt/cpp/CRTRuntime.hpp"
+#include "crt/cpp/HeapInterface.hpp"
+#endif
 
 #include "MemoryDump.hpp"
 #include "StackTrace.hpp"
-#include "crt/cpp/CRTRuntime.hpp"
 
 using namespace kotlin;
 
@@ -734,6 +737,7 @@ void kotlin::compactObjectPoolInCurrentThread() noexcept {
 
 RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj)
 {
+    (void)thiz;
     checkUseCRT<CheckMode::Slow>([&] {
         CRT_Pin(obj);
     });
@@ -741,6 +745,7 @@ RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj)
 
 RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCUnpin(KRef thiz, KRef obj)
 {
+    (void)thiz;
     checkUseCRT<CheckMode::Slow>([&] {
         CRT_UnPin(obj);
     });

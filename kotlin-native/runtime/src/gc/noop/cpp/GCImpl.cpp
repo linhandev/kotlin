@@ -10,7 +10,10 @@
 #include "GCStatistics.hpp"
 #include "KAssert.h"
 #include "Logging.hpp"
+#include "MemoryManagerSwitch.hpp"
+#ifdef ENABLE_CRT
 #include "crt/cpp/KNFinalizer.hpp"
+#endif
 
 using namespace kotlin;
 

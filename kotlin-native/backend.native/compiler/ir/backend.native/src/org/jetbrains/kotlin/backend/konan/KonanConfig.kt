@@ -97,9 +97,18 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         return@takeIf true
     }
 
+    private val supportsPreciseStackmapAndCrt get() = target == KonanTarget.OHOS_ARM64
     private val defaultGC get() = GC.CONCURRENT_MARK_AND_SWEEP
-    val gc: GC get() = configuration.get(BinaryOptions.gc) ?: run {
-        if (swiftExport) GC.CONCURRENT_MARK_AND_SWEEP else defaultGC
+    val gc: GC by lazy {
+        val selected = configuration.get(BinaryOptions.gc) ?: run {
+            if (swiftExport) GC.CONCURRENT_MARK_AND_SWEEP else defaultGC
+        }
+        if (selected == GC.CONCURRENT_MARK_AND_COPY && !supportsPreciseStackmapAndCrt) {
+            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=gc=cmc is only supported on ohos_arm64")
+            defaultGC
+        } else {
+            selected
+        }
     }
     val runtimeAssertsMode: RuntimeAssertsMode get() = configuration.get(BinaryOptions.runtimeAssertionsMode) ?: RuntimeAssertsMode.IGNORE
     val checkStateAtExternalCalls: Boolean get() = configuration.get(BinaryOptions.checkStateAtExternalCalls) ?: false
@@ -121,8 +130,15 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     // Override with `-Xbinary=enableStackmap=true|false` to force a specific
     // mode (CI A/B matrix testing or expert debugging). Must match the dist's
     // per-target runtime bitcode build flavour; mismatch triggers link errors.
-    val enableStackmap: Boolean get() = configuration.get(BinaryOptions.enableStackmap)
-            ?: (target == KonanTarget.OHOS_ARM64)
+    val enableStackmap: Boolean by lazy {
+        val explicit = configuration.get(BinaryOptions.enableStackmap)
+        if (explicit == true && !supportsPreciseStackmapAndCrt) {
+            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=enableStackmap=true is only supported on ohos_arm64")
+            false
+        } else {
+            explicit ?: supportsPreciseStackmapAndCrt
+        }
+    }
     private val defaultDisableMmap get() = target.family == Family.MINGW || !pagedAllocator
     val disableMmap: Boolean by lazy {
         when (configuration.get(BinaryOptions.disableMmap)) {
@@ -469,7 +485,14 @@ val allocationMode by lazy {
             }
             explicitMode == null -> defaultAllocationMode
             explicitMode == AllocationMode.STD -> AllocationMode.STD
-            explicitMode == AllocationMode.CRT -> AllocationMode.CRT
+            explicitMode == AllocationMode.CRT -> {
+                if (!supportsPreciseStackmapAndCrt) {
+                    configuration.report(CompilerMessageSeverity.ERROR, "-Xallocator=crt is only supported on ohos_arm64")
+                    defaultAllocationMode
+                } else {
+                    AllocationMode.CRT
+                }
+            }
             explicitMode == AllocationMode.CUSTOM -> {
                 if (sanitizer != null) {
                     configuration.report(CompilerMessageSeverity.STRONG_WARNING, "Sanitizers are useful only with the std allocator")
@@ -487,6 +510,11 @@ val minidumpLocation by lazy {
     val memoryManagerMode: MemoryManagerMode by lazy {
         when (configuration.get(BinaryOptions.runtimeSwitchMemoryManager)) {
             true -> {
+                if (!supportsPreciseStackmapAndCrt) {
+                    configuration.report(CompilerMessageSeverity.ERROR,
+                            "-Xbinary=runtimeSwitchMemoryManager=true is only supported on ohos_arm64")
+                    return@lazy MemoryManagerMode.NATIVE
+                }
                 if (gc == GC.CONCURRENT_MARK_AND_COPY) {
                     configuration.report(CompilerMessageSeverity.ERROR,
                             "Run-time switching of memory manager requires -Xbinary=gc={noop|stwms|pmcs|cms} to set a non-CMC backup GC")
@@ -495,6 +523,11 @@ val minidumpLocation by lazy {
             }
             else -> {
                 if (gc == GC.CONCURRENT_MARK_AND_COPY || allocationMode == AllocationMode.CRT) {
+                    if (!supportsPreciseStackmapAndCrt) {
+                        configuration.report(CompilerMessageSeverity.ERROR,
+                                "-Xallocator=crt and -Xbinary=gc=cmc are only supported on ohos_arm64")
+                        return@lazy MemoryManagerMode.NATIVE
+                    }
                     if (gc != GC.CONCURRENT_MARK_AND_COPY || allocationMode != AllocationMode.CRT) {
                         configuration.report(CompilerMessageSeverity.ERROR,
                                 "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")

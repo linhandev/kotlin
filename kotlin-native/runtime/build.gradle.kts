@@ -76,8 +76,10 @@ val targetList = enabledTargets(extensions.getByType<PlatformManager>())
 //   - ARM32 is OFF for the same architectural reason (Thumb mixed-size insn
 //     encoding breaks fixed-size stackmap; lacks arm64 asm trampolines).
 //   - Of the arm64 targets the pipeline supports, only ohos_arm64 defaults ON
-//     (it is the single target with a matching libcrt.so). Every other target,
-//     arm64 or not, defaults OFF (conservative/shadow-stack baseline).
+//     to match the bundled CRT layer (ohos_arm64 is the single target with a
+//     matching libcrt.so). Every other arm64 target defaults OFF (conservative
+//     /shadow-stack baseline) but can be flipped ON independently of CRT — see
+//     resolveEnableCrt below for the STACKMAP / CRT split.
 //
 // Resulting one-dist layout (only ohos_arm64 is ON by default):
 //   dist/konan/targets/ohos_arm64/native/runtime.bc   — ENABLE_STACKMAP=1
@@ -92,13 +94,31 @@ val targetList = enabledTargets(extensions.getByType<PlatformManager>())
 // Override priority (highest to lowest):
 //   1. -Pkotlin.native.precise.stackmap.<target_name>=true|false  (per-target)
 //   2. -Pkotlin.native.precise.stackmap=true|false                (global)
-//   3. Default: only ohos_arm64 (the single target with a matching libcrt.so)
+//   3. Default: only ohos_arm64
 fun resolveEnableStackmap(target: KonanTarget): Boolean {
     val perTarget = project.findProperty("kotlin.native.precise.stackmap.${target.name}") as String?
     if (perTarget != null) return perTarget.toBoolean()
     val global = project.findProperty("kotlin.native.precise.stackmap") as String?
     if (global != null) return global.toBoolean()
     return target == KonanTarget.OHOS_ARM64
+}
+
+// CRT requires STACKMAP; STACKMAP can stand alone. STACKMAP=false + explicit
+// CRT=true fails loudly. Override via -Pkotlin.native.crt[.<target>].
+fun resolveEnableCrt(target: KonanTarget): Boolean {
+    val stackmap = resolveEnableStackmap(target)
+    val perTarget = project.findProperty("kotlin.native.crt.${target.name}") as String?
+    val global = project.findProperty("kotlin.native.crt") as String?
+    val explicit = perTarget?.toBoolean() ?: global?.toBoolean()
+    if (explicit == true && !stackmap) {
+        error("kotlin.native.crt=true is incompatible with kotlin.native.precise.stackmap=false on target ${target.name}: CRT requires the precise-stackmap pipeline")
+    }
+    return explicit ?: stackmap
+}
+
+fun CompileToBitcodeExtension.Module.enablePreciseStackmapAndCrt(target: KonanTarget) {
+    if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+    if (resolveEnableCrt(target)) compilerArgs.add("-DENABLE_CRT=1")
 }
 
 // stdlib klib is a single artifact whose manifest covers all targets (see
@@ -162,7 +182,7 @@ bitcode {
                 }
             }
             // Memory.cpp / Memory.h / Natives.cpp are guarded by #ifdef ENABLE_STACKMAP.
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
         }
 
         testsGroup("main_test") {
@@ -173,13 +193,13 @@ bitcode {
 
         // Headers from here get reused by Swift Export, so this module should not depend on anything in the runtime
         module("objcExport") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             // There must not be any implementation files, only headers.
             sourceSets {}
         }
 
         module("breakpad") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(breakpadLocation)
             val sources = listOf(
                     "client/mac/crash_generation/crash_generation_client.cc",
@@ -224,7 +244,7 @@ bitcode {
         }
 
         module("libbacktrace") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             val elfSize = when (target.architecture) {
                 TargetArchitecture.X64, TargetArchitecture.ARM64 -> 64
                 TargetArchitecture.X86, TargetArchitecture.ARM32 -> 32
@@ -284,11 +304,11 @@ bitcode {
             // KONAN_COMPILER_INTERFACE is enabled together with ENABLE_STACKMAP so the
             // compiler-interface module stays consistent with the stackmap build flavour.
             if (resolveEnableStackmap(target)) compilerArgs.add("-DKONAN_COMPILER_INTERFACE=1")
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
         }
 
         module("launcher") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -296,7 +316,9 @@ bitcode {
         }
 
         module("crt") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
+            val crtEnabled = resolveEnableCrt(target)
+            onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/crt"))
             headersDirs.from(files(
                     "src/alloc/common/cpp",
@@ -318,7 +340,7 @@ bitcode {
         }
 
         module("debug") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -326,7 +348,7 @@ bitcode {
         }
 
         module("common_alloc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/alloc/common"))
             headersDirs.from(files(
                 "src/gcScheduler/common/cpp",
@@ -354,7 +376,7 @@ bitcode {
         }
 
         module("std_alloc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/alloc/std"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -378,7 +400,9 @@ bitcode {
         }
 
         module("crt_alloc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
+            val crtEnabled = resolveEnableCrt(target)
+            onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/alloc/crt"))
             headersDirs.from(files(
                 "src",
@@ -405,7 +429,7 @@ bitcode {
         }
 
         module("custom_alloc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/alloc/custom"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -437,7 +461,7 @@ bitcode {
         }
 
         module("legacy_alloc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/alloc/legacy"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -467,7 +491,7 @@ bitcode {
         }
 
         module("exceptionsSupport") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/exceptions_support"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -476,7 +500,7 @@ bitcode {
         }
 
         module("source_info_core_symbolication") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/source_info/core_symbolication"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -487,7 +511,7 @@ bitcode {
         }
 
         module("source_info_libbacktrace") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/source_info/libbacktrace"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp", "src/libbacktrace/c/include"))
             sourceSets {
@@ -498,7 +522,7 @@ bitcode {
         }
 
         module("objc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -506,7 +530,7 @@ bitcode {
         }
 
         module("test_support") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files(
                     "src/externalCallsChecker/common/cpp",
                     "src/objcExport/cpp",
@@ -532,7 +556,7 @@ bitcode {
                 test {}
             }
             // ThreadData.hpp is guarded by #ifdef ENABLE_STACKMAP.
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
         }
 
         testsGroup("mm_test") {
@@ -562,7 +586,7 @@ bitcode {
             }
             // MainGCThread.hpp plus the integral stackmap sources (StackMap.cpp/hpp/...)
             // are all guarded by #ifdef ENABLE_STACKMAP.
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
         }
 
         testsGroup("common_gc_test") {
@@ -571,7 +595,9 @@ bitcode {
         }
 
         module("cmc_gc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
+            val crtEnabled = resolveEnableCrt(target)
+            onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/gc/crt"))
             headersDirs.from(files(
                 "src",
@@ -596,7 +622,7 @@ bitcode {
         }
 
         module("noop_gc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gc/noop"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -605,7 +631,7 @@ bitcode {
         }
 
         module("same_thread_ms_gc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gc/stms"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -625,7 +651,7 @@ bitcode {
         }
 
         module("pmcs_gc") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gc/pmcs"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -649,7 +675,7 @@ bitcode {
             srcRoot.set(layout.projectDirectory.dir("src/gc/cms"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             // ConcurrentMark.cpp is guarded by #ifdef ENABLE_STACKMAP.
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             sourceSets {
                 main {}
                 test {}
@@ -667,7 +693,7 @@ bitcode {
         }
 
         module("common_gcScheduler") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/common"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -682,7 +708,7 @@ bitcode {
         }
 
         module("manual_gcScheduler") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/manual"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -691,7 +717,7 @@ bitcode {
         }
 
         module("adaptive_gcScheduler") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/adaptive"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -706,7 +732,7 @@ bitcode {
         }
 
         module("aggressive_gcScheduler") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/aggressive"))
             headersDirs.from(files("src/alloc/common/cpp", "src/alloc/crt/cpp", "src/gc/crt/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -721,7 +747,7 @@ bitcode {
         }
 
         module("impl_externalCallsChecker") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/externalCallsChecker/impl"))
             headersDirs.from("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp")
             sourceSets {
@@ -730,7 +756,7 @@ bitcode {
         }
 
         module("noop_externalCallsChecker") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/externalCallsChecker/noop"))
             headersDirs.from("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp")
             sourceSets {
@@ -739,7 +765,7 @@ bitcode {
         }
 
         module("impl_crashHandler") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/crashHandler/impl"))
             headersDirs.from("src/main/cpp", "src/breakpad/cpp", breakpadLocation.get().dir("src"))
             sourceSets {
@@ -754,7 +780,7 @@ bitcode {
         }
 
         module("noop_crashHandler") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/crashHandler/noop"))
             sourceSets {
                 main {}
@@ -762,7 +788,7 @@ bitcode {
         }
 
         module("xctest_launcher") {
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
 
             sourceSets {

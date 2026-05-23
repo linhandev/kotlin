@@ -7,6 +7,9 @@
 #include "ThreadData.hpp"
 #include "MemoryManagerSwitch.hpp"
 #include "CRTFastpathUtils.hpp"
+#ifdef ENABLE_CRT
+#include "crt/cpp/HeapInterface.hpp"
+#endif
 
 using namespace kotlin;
 

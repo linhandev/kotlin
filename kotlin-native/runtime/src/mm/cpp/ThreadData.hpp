@@ -27,7 +27,10 @@
 #include "Utils.hpp"
 #include "ThreadSuspension.hpp"
 
+#ifdef ENABLE_CRT
 #include "common_interfaces/thread/thread_holder.h"
+#endif
+#include "CRTStubs.hpp"
 #include "Runtime.h"
 #include "MemoryManagerSwitch.hpp"
 
@@ -143,13 +146,13 @@ public:
         allocator_.clearForTests();
     }
 
-    common::ThreadHolder *GetThreadHolder() const
+    common::ThreadHolder* GetThreadHolder() const
     {
         assertUseCRT();
         return threadHolder;
     }
 
-    void SetThreadHolder(common::ThreadHolder *holder)
+    void SetThreadHolder(common::ThreadHolder* holder)
     {
         assertUseCRT();
         threadHolder = holder;

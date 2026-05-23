@@ -17,16 +17,21 @@
 #define KOTLIN_NATIVE_MMSWITCH_HPP
 
 #include "CRTFastpathUtils.hpp"
+#include "CRTStubs.hpp"
 #include "KAssert.h"
 
 namespace MemoryManagerSwitch {
     inline bool IsEnabled()
     {
+#ifndef ENABLE_CRT
+        return false;
+#else
         const char* v = std::getenv("USE_CRT");
         if (v && v[0] == '0' && v[1] == '\0') {
             return false;
         }
         return true;
+#endif
     }
     inline const bool useCRT = IsEnabled();
 };
@@ -44,6 +49,10 @@ enum class CheckMode { Slow, Fast };
 template<CheckMode mode, typename F, typename G>
 FORCE_INLINE auto checkUseCRT(F crt_f, G else_f)
 {
+#ifndef ENABLE_CRT
+    (void)crt_f;
+    return else_f();
+#else
     using namespace kotlin;
 
     // First check if the memory manager to use is defined via compile-time option.
@@ -77,6 +86,7 @@ else_l:
     }
 #endif
     return else_f();
+#endif
 }
 
 /// If currently selected MemoryManager is CRT then execute given `crt_f`, otherwise do nothing.
