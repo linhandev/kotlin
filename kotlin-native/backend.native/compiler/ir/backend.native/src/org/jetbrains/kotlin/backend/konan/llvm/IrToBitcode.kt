@@ -1081,7 +1081,7 @@ internal class CodeGeneratorVisitor(
                 // (Cannot do this before the global is initialized).
                 if (moduleIncludeOnly.isNotEmpty()) {
                     LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMExternalLinkage)
-                } else LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMExternalLinkage)
+                } else LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMInternalLinkage)
             }
             llvm.initializersGenerationState.scopeState.topLevelFields.add(declaration)
         }
