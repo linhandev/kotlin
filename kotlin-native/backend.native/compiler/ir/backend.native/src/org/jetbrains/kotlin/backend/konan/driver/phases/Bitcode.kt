@@ -335,6 +335,11 @@ internal val AddressSanitizerPhase = optimizationPipelinePass(
         pipeline = ::AddressSanitizerPipeline
 )
 
+internal val HWASanSanitizerPhase = optimizationPipelinePass(
+        name = "HWASanSanitizerPhase",
+        pipeline = ::HWASanSanitizerPipeline
+)
+
 internal val RemoveRedundantSafepointsPhase = createSimpleNamedCompilerPhase<BitcodePostProcessingContext, Unit>(
         name = "RemoveRedundantSafepoints",
         postactions = getDefaultLlvmModuleActions(),
@@ -390,7 +395,8 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
         it.runPhase(LTOBitcodeOptimizationPhase, module)
         when (context.config.sanitizer) {
             SanitizerKind.THREAD -> it.runPhase(ThreadSanitizerPhase, module)
-            SanitizerKind.ADDRESS -> context.reportCompilationError("Address sanitizer is not supported yet")
+            SanitizerKind.ADDRESS -> it.runPhase(AddressSanitizerPhase, module)
+            SanitizerKind.HWADDRESS -> it.runPhase(HWASanSanitizerPhase, module)
             null -> {}
         }
     }
@@ -674,7 +680,8 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
                 bitcodeEngine.runPhase(LTOBitcodeOptimizationPhase, moduleTmp)
                 when (context.config.sanitizer) {
                     SanitizerKind.THREAD -> bitcodeEngine.runPhase(ThreadSanitizerPhase, moduleTmp)
-                    SanitizerKind.ADDRESS -> context.reportCompilationError("Address sanitizer is not supported yet")
+                    SanitizerKind.ADDRESS -> bitcodeEngine.runPhase(AddressSanitizerPhase, moduleTmp)
+                    SanitizerKind.HWADDRESS -> bitcodeEngine.runPhase(HWASanSanitizerPhase, moduleTmp)
                     null -> {}
                 }
             }

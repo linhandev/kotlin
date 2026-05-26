@@ -48,6 +48,7 @@ private val SanitizerKind?.taskSuffix
     get() = when (this) {
         null -> ""
         SanitizerKind.ADDRESS -> "_ASAN"
+        SanitizerKind.HWADDRESS -> "_HWASAN"
         SanitizerKind.THREAD -> "_TSAN"
     }
 
@@ -55,6 +56,7 @@ private val SanitizerKind?.description
     get() = when (this) {
         null -> ""
         SanitizerKind.ADDRESS -> " with ASAN"
+        SanitizerKind.HWADDRESS -> " with HWASAN"
         SanitizerKind.THREAD -> " with TSAN"
     }
 
@@ -233,6 +235,7 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
                 null -> emptyList()
                 SanitizerKind.ADDRESS -> listOf("-fsanitize=address")
                 SanitizerKind.THREAD -> listOf("-fsanitize=thread")
+                SanitizerKind.HWADDRESS -> listOf("-fsanitize=hwaddress")
             }
         }
 
