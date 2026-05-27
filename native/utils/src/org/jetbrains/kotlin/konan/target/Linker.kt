@@ -208,12 +208,6 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
     override fun filterStaticLibraries(binaries: List<String>) = binaries.filter { it.isUnixStaticLib }
 
     override fun LinkerArguments.finalLinkCommands(): List<Command> {
-        if (sanitizer != null && sanitizer !in listOf(SanitizerKind.ADDRESS, SanitizerKind.HWADDRESS, SanitizerKind.THREAD)) {
-            require(false) {
-                "Only ADDRESS, HWADDRESS and THREAD sanitizer is supported on OHOS, got: $sanitizer"
-            }
-        }
-
         if (kind == LinkerOutputKind.STATIC_LIBRARY)
             return staticGnuArCommands(ar, executable, objectFiles, libraries)
 
