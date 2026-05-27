@@ -10,6 +10,7 @@ import hprof.readProfile
 import hprof.write
 import kdump.hprof.toHProfProfile
 import kdump.item
+import kdump.maybeDecompress
 import kdump.readDump
 import text.prettyPrintln
 import java.io.File
@@ -73,6 +74,7 @@ fun mainPrintHprof(pathname: String) {
 fun mainConvertKdumpHprof(inPathname: String, outPathname: String) {
     File(inPathname)
             .inputStream()
+            .maybeDecompress()
             .buffered()
             .let { PushbackInputStream(it) }
             .readDump()
