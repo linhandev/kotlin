@@ -17,6 +17,7 @@
 import org.jetbrains.kotlin.NativeFullCrossDistKt
 import org.jetbrains.kotlin.konan.target.*
 import org.jetbrains.kotlin.CopySamples
+import org.jetbrains.kotlin.CrtEnablementKt
 import org.jetbrains.kotlin.PlatformInfo
 import org.jetbrains.kotlin.cpp.CompilationDatabasePlugin
 import org.jetbrains.kotlin.cpp.CppUsage
@@ -370,6 +371,69 @@ targetList.each { target ->
         if (target in cacheableTargetNames) {
             dependsOn "${target}StdlibCache"
         }
+    }
+}
+
+// CRT/CMC only applies to ohos_arm64 (see KonanConfig.supportsPreciseStackmapAndCrt).
+// Build libcrt.so from third-party/common-rt via its GN/Ninja build.sh, stage into
+// dist/konan/targets/ohos_arm64/native/ next to the .bc files.
+def crtEnabledForOhosArm64 = CrtEnablementKt.resolveEnableCrt(project, KonanTarget.OHOS_ARM64.INSTANCE)
+if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
+    def commonRtDir = rootProject.file("third-party/common-rt")
+    def libCrtSo    = file("${commonRtDir}/out/libcrt.so")
+    def repoRoot    = rootProject.projectDir
+    // DEVECO_SDK_HOME conventionally ends in /sdk; CRT's BUILD.gn adds it itself.
+    def sdkHome     = (project.findProperty("kotlin.native.deveco.sdk.home") as String) ?: System.getenv("DEVECO_SDK_HOME")
+    def sdkPath     = sdkHome?.replaceAll(/[\\\/]sdk[\\\/]?$/, '')
+
+    tasks.register("buildLibCrt", Exec) {
+        group = "build"
+        description = "Build libcrt.so from third-party/common-rt for ohos_arm64."
+        workingDir = commonRtDir
+        commandLine "./build.sh", "--ohos=${sdkPath ?: ''}"
+        // fileTree (not inputs.dir): tolerates a missing submodule at snapshot time;
+        // the doFirst check below produces an actionable message.
+        inputs.files(fileTree(commonRtDir) {
+            include "build.sh", "common_components/**", "common_interfaces/**",
+                    "libpandabase/**", "standalone_support/**",
+                    "third_party_bounds_checking_function/**"
+        }).withPropertyName("commonRtSources")
+        outputs.file(libCrtSo)
+        outputs.cacheIf { false }  // SDK path is host-specific
+        doFirst {
+            def buildSh = new File(commonRtDir, "build.sh")
+            if (!buildSh.isFile()) {
+                logger.lifecycle("syncing submodule third-party/common-rt...")
+                def exit = new ProcessBuilder("git", "submodule", "update", "--init", "--recursive", "third-party/common-rt")
+                        .directory(repoRoot).inheritIO().start().waitFor()
+                if (exit != 0 || !buildSh.isFile()) throw new GradleException(
+                        "third-party/common-rt is not synced (git exit=${exit}). " +
+                        "Run 'git submodule update --init --recursive' or use -Pkotlin.native.crt=false.")
+            }
+            if (!sdkPath) throw new GradleException(
+                    "OHOS SDK required: set -Pkotlin.native.deveco.sdk.home=<path> or the DEVECO_SDK_HOME env var.")
+            if (!new File(sdkPath).isDirectory()) throw new GradleException(
+                    "OHOS SDK path does not exist: ${sdkPath}")
+        }
+    }
+
+    tasks.register("ohos_arm64CrossDistLibCrtCopy", Copy) {
+        group = "build"
+        description = "Stage libcrt.so into dist/konan/targets/ohos_arm64/native/."
+        dependsOn("buildLibCrt")
+        from(libCrtSo)
+        into(nativeDistribution.map { it.runtime("ohos_arm64") })
+    }
+
+    tasks.named("ohos_arm64CrossDistRuntime").configure {
+        dependsOn("ohos_arm64CrossDistLibCrtCopy")
+    }
+    tasks.named("ohos_arm64CrossDistRuntimeFingerprint").configure {
+        // Fingerprint also covers libcrt.so so cache invalidation triggers when the .so changes.
+        input.from(tasks.named("ohos_arm64CrossDistLibCrtCopy"))
+    }
+    tasks.named("ohos_arm64CrossDistBitcodeCopy").configure {
+        preserve { include "libcrt.so" }
     }
 }
 

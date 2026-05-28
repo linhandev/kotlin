@@ -4,6 +4,8 @@
  */
 import org.jetbrains.kotlin.ExecClang
 import org.jetbrains.kotlin.PlatformInfo
+import org.jetbrains.kotlin.resolveEnableCrt
+import org.jetbrains.kotlin.resolveEnableStackmap
 import org.jetbrains.kotlin.bitcode.CompileToBitcodeExtension
 import org.jetbrains.kotlin.cpp.CppUsage
 import org.jetbrains.kotlin.dependencies.NativeDependenciesExtension
@@ -68,57 +70,9 @@ googletest {
 
 val targetList = enabledTargets(extensions.getByType<PlatformManager>())
 
-// Per-target toggle for the precise-stackmap path. Rationale:
-//   - x86_64 and x86_32 are unsupported by the precise stackmap pipeline (the
-//     runtime needs fp-based FpUnwind, OHOS arm64 TBI for KNStateWord bit 59,
-//     arm64 asm trampolines, and fixed-size arm64 insn stackmap encoding), so
-//     they default OFF.
-//   - ARM32 is OFF for the same architectural reason (Thumb mixed-size insn
-//     encoding breaks fixed-size stackmap; lacks arm64 asm trampolines).
-//   - Of the arm64 targets the pipeline supports, only ohos_arm64 defaults ON
-//     to match the bundled CRT layer (ohos_arm64 is the single target with a
-//     matching libcrt.so). Every other arm64 target defaults OFF (conservative
-//     /shadow-stack baseline) but can be flipped ON independently of CRT — see
-//     resolveEnableCrt below for the STACKMAP / CRT split.
-//
-// Resulting one-dist layout (only ohos_arm64 is ON by default):
-//   dist/konan/targets/ohos_arm64/native/runtime.bc   — ENABLE_STACKMAP=1
-//   dist/konan/targets/macos_arm64/native/runtime.bc  — ENABLE_STACKMAP=0
-//   dist/konan/targets/linux_x64/native/runtime.bc    — ENABLE_STACKMAP=0
-//   dist/konan/targets/macos_x64/native/runtime.bc    — ENABLE_STACKMAP=0
-//
-// User app build picks the matching codegen behaviour via
-// KonanConfig.enableStackmap (also target-aware default: ohos_arm64 only), so
-// users do not need to pass `-Xbinary=enableStackmap=...` for the common case.
-//
-// Override priority (highest to lowest):
-//   1. -Pkotlin.native.precise.stackmap.<target_name>=true|false  (per-target)
-//   2. -Pkotlin.native.precise.stackmap=true|false                (global)
-//   3. Default: only ohos_arm64
-fun resolveEnableStackmap(target: KonanTarget): Boolean {
-    val perTarget = project.findProperty("kotlin.native.precise.stackmap.${target.name}") as String?
-    if (perTarget != null) return perTarget.toBoolean()
-    val global = project.findProperty("kotlin.native.precise.stackmap") as String?
-    if (global != null) return global.toBoolean()
-    return target == KonanTarget.OHOS_ARM64
-}
-
-// CRT requires STACKMAP; STACKMAP can stand alone. STACKMAP=false + explicit
-// CRT=true fails loudly. Override via -Pkotlin.native.crt[.<target>].
-fun resolveEnableCrt(target: KonanTarget): Boolean {
-    val stackmap = resolveEnableStackmap(target)
-    val perTarget = project.findProperty("kotlin.native.crt.${target.name}") as String?
-    val global = project.findProperty("kotlin.native.crt") as String?
-    val explicit = perTarget?.toBoolean() ?: global?.toBoolean()
-    if (explicit == true && !stackmap) {
-        error("kotlin.native.crt=true is incompatible with kotlin.native.precise.stackmap=false on target ${target.name}: CRT requires the precise-stackmap pipeline")
-    }
-    return explicit ?: stackmap
-}
-
 fun CompileToBitcodeExtension.Module.enablePreciseStackmapAndCrt(target: KonanTarget) {
-    if (resolveEnableStackmap(target)) compilerArgs.add("-DENABLE_STACKMAP=1")
-    if (resolveEnableCrt(target)) compilerArgs.add("-DENABLE_CRT=1")
+    if (resolveEnableStackmap(project, target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+    if (resolveEnableCrt(project, target)) compilerArgs.add("-DENABLE_CRT=1")
 }
 
 // stdlib klib is a single artifact whose manifest covers all targets (see
@@ -303,7 +257,7 @@ bitcode {
             }
             // KONAN_COMPILER_INTERFACE is enabled together with ENABLE_STACKMAP so the
             // compiler-interface module stays consistent with the stackmap build flavour.
-            if (resolveEnableStackmap(target)) compilerArgs.add("-DKONAN_COMPILER_INTERFACE=1")
+            if (resolveEnableStackmap(project, target)) compilerArgs.add("-DKONAN_COMPILER_INTERFACE=1")
             enablePreciseStackmapAndCrt(target)
         }
 
@@ -317,7 +271,7 @@ bitcode {
 
         module("crt") {
             enablePreciseStackmapAndCrt(target)
-            val crtEnabled = resolveEnableCrt(target)
+            val crtEnabled = resolveEnableCrt(project, target)
             onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/crt"))
             headersDirs.from(files(
@@ -401,7 +355,7 @@ bitcode {
 
         module("crt_alloc") {
             enablePreciseStackmapAndCrt(target)
-            val crtEnabled = resolveEnableCrt(target)
+            val crtEnabled = resolveEnableCrt(project, target)
             onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/alloc/crt"))
             headersDirs.from(files(
@@ -596,7 +550,7 @@ bitcode {
 
         module("cmc_gc") {
             enablePreciseStackmapAndCrt(target)
-            val crtEnabled = resolveEnableCrt(target)
+            val crtEnabled = resolveEnableCrt(project, target)
             onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/gc/crt"))
             headersDirs.from(files(
