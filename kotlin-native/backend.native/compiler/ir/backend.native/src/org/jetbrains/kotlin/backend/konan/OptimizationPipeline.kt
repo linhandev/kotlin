@@ -184,7 +184,6 @@ abstract class LlvmOptimizationPipeline(
         private val logger: LoggingContext? = null
 ) : Closeable {
     open fun executeCustomPreprocessing(config: LlvmPipelineConfig, module: LLVMModuleRef) {}
-    open fun executeCustomPostprocessing(config: LlvmPipelineConfig, module: LLVMModuleRef) {}
 
     abstract val pipelineName: String
     abstract val passes: List<String>
@@ -243,7 +242,6 @@ abstract class LlvmOptimizationPipeline(
             require(errorCode == null) {
                 LLVMGetErrorMessage(errorCode)!!.toKString()
             }
-            executeCustomPostprocessing(config, llvmModule)
             if (config.timePasses) {
                 LLVMPrintAllTimersToStdOut()
                 LLVMClearAllTimers()
@@ -334,48 +332,6 @@ class ThreadSanitizerPipeline(config: LlvmPipelineConfig, logger: LoggingContext
         getFunctions(module)
                 .filter { LLVMIsDeclaration(it) == 0 }
                 .forEach { addLlvmFunctionEnumAttribute(it, LlvmFunctionAttribute.SanitizeThread) }
-    }
-
-    // LLVM TSan instrumentation pass replaces atomic loads/stores on Kotlin object fields
-    // (which live in addrspace(1)) with calls to __tsan_atomic*_load/store/... helpers,
-    // but those helpers are declared with addrspace(0) pointers. The resulting IR fails
-    // verification with "Call parameter type does not match function signature".
-    // Fix it by inserting an addrspacecast to addrspace(0) on every offending argument.
-    override fun executeCustomPostprocessing(config: LlvmPipelineConfig, module: LLVMModuleRef) {
-        val context = LLVMGetModuleContext(module) ?: return
-        val ptrAddrSpace0 = LLVMPointerTypeInContext(context, 0) ?: return
-        val builder = LLVMCreateBuilderInContext(context) ?: return
-        try {
-            getFunctions(module).filter { it.isDefinition() }.forEach { function ->
-                getBasicBlocks(function).forEach { block ->
-                    val callsToFix = getInstructions(block).filter { instr ->
-                        if (!instr.isFunctionCall()) return@filter false
-                        val callee = LLVMGetCalledValue(instr) ?: return@filter false
-                        if (LLVMIsAFunction(callee) == null) return@filter false
-                        val name = callee.name ?: return@filter false
-                        name.startsWith("__tsan_atomic")
-                    }.toList()
-                    for (call in callsToFix) {
-                        val numArgs = LLVMGetNumArgOperands(call)
-                        var positioned = false
-                        for (i in 0 until numArgs) {
-                            val arg = LLVMGetArgOperand(call, i) ?: continue
-                            val argType = LLVMTypeOf(arg)
-                            if (LLVMGetTypeKind(argType) != LLVMTypeKind.LLVMPointerTypeKind) continue
-                            if (LLVMGetPointerAddressSpace(argType) == 0) continue
-                            if (!positioned) {
-                                LLVMPositionBuilderBefore(builder, call)
-                                positioned = true
-                            }
-                            val casted = LLVMBuildAddrSpaceCast(builder, arg, ptrAddrSpace0, "") ?: continue
-                            LLVMSetOperand(call, i, casted)
-                        }
-                    }
-                }
-            }
-        } finally {
-            LLVMDisposeBuilder(builder)
-        }
     }
 }
 
