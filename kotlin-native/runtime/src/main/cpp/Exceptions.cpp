@@ -152,7 +152,7 @@ static std::string buildStandardBacktrace(ArrayHeader* stackTrace, Dl_info& info
 }
 
 // API < 23 (1004 bytes): compressed format to fit within the small buffer.
-// Format: sofiles:\n/path/lib1.so(id1),/path/lib2.so(id2)\naddresses:\n[0] 0x1a 0x2b\n[1] 0x3c
+// Format: sofiles:\nlib1.so(id1),lib2.so(id2)\naddresses:\n[0] 0x1a 0x2b\n[1] 0x3c
 static std::string buildCompressedBacktrace(ArrayHeader* stackTrace, Dl_info& info,
                                             std::vector<MapsEntry>& mapCache,
                                             unsigned long messageSize,
@@ -175,8 +175,9 @@ static std::string buildCompressedBacktrace(ArrayHeader* stackTrace, Dl_info& in
 
         std::vector<uint8_t> buildId;
         std::string soPath = BuildIdUtils::findSoPathFromMaps(reinterpret_cast<uintptr_t>(ptr), mapCache);
+        std::string soFileName = soPath.substr(soPath.find_last_of("/") + 1);
         std::string buildIdStr = BuildIdUtils::getSoBuildId(soPath, buildId);
-        std::string soInfo = buildIdStr.empty() ? soPath : soPath + "(" + buildIdStr + ")";
+        std::string soInfo = buildIdStr.empty() ? soFileName : soFileName + "(" + buildIdStr + ")";
 
         uintptr_t offset = reinterpret_cast<uintptr_t>(ptr) - reinterpret_cast<uintptr_t>(info.dli_fbase) - 1;
         std::stringstream ss;
