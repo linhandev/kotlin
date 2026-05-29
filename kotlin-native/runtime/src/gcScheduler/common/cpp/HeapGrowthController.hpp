@@ -29,17 +29,18 @@ public:
         kTarget,
     };
 
-    explicit HeapGrowthController(GCSchedulerConfig& config) noexcept :
-        config_(config), targetHeapBytes_(config.targetHeapBytes.load(std::memory_order_relaxed)) {
-        triggerHeapBytes_ = targetHeapBytes_ * config_.heapTriggerCoefficient.load(std::memory_order_relaxed);
-    }
+    explicit HeapGrowthController(GCSchedulerConfig& config) noexcept : config_(config) {}
 
     // Can be called by any thread.
     MemoryBoundary boundaryForHeapSize(size_t totalAllocatedBytes) noexcept {
+        const size_t target = static_cast<size_t>(
+            config_.targetHeapBytes.load(std::memory_order_acquire));
+        const size_t trigger = static_cast<size_t>(
+            target * config_.heapTriggerCoefficient.load(std::memory_order_relaxed));
         RuntimeLogDebug({logging::Tag::kGCScheduler}, "Total allocated %zu bytes", totalAllocatedBytes);
-        if (totalAllocatedBytes >= targetHeapBytes_) {
+        if (totalAllocatedBytes >= target) {
             return config_.mutatorAssists() ? MemoryBoundary::kTarget : MemoryBoundary::kTrigger;
-        } else if (totalAllocatedBytes >= triggerHeapBytes_) {
+        } else if (totalAllocatedBytes >= trigger) {
             return MemoryBoundary::kTrigger;
         } else {
             return MemoryBoundary::kNone;
@@ -65,23 +66,23 @@ public:
             double minHeapBytes = static_cast<double>(config_.minHeapBytes.load(std::memory_order_relaxed));
             double maxHeapBytes = static_cast<double>(config_.maxHeapBytes.load(std::memory_order_relaxed));
             targetHeapBytes = std::min(std::max(targetHeapBytes, minHeapBytes), maxHeapBytes);
-            triggerHeapBytes_ = static_cast<size_t>(targetHeapBytes * config_.heapTriggerCoefficient.load(std::memory_order_relaxed));
-            config_.targetHeapBytes.store(static_cast<int64_t>(targetHeapBytes), std::memory_order_relaxed);
-            targetHeapBytes_ = static_cast<size_t>(targetHeapBytes);
-        } else {
-            targetHeapBytes_ = config_.targetHeapBytes.load(std::memory_order_relaxed);
+            config_.targetHeapBytes.store(
+                static_cast<int64_t>(targetHeapBytes), std::memory_order_release);
         }
-        RuntimeLogInfo({logging::Tag::kGCScheduler},
-                       "Updated heap boundaries: alive %zu, target %zu, trigger %zu", aliveBytes, targetHeapBytes_, triggerHeapBytes_);
+        RuntimeLogInfo({logging::Tag::kGCScheduler}, "Updated heap boundaries: alive %zu, target %zu, trigger %zu",
+            aliveBytes, targetHeapBytes(), triggerHeapBytes());
     }
 
-    size_t targetHeapBytes() const noexcept { return targetHeapBytes_; }
-    size_t triggerHeapBytes() const noexcept { return triggerHeapBytes_; }
+    size_t targetHeapBytes() const noexcept {
+        return static_cast<size_t>(config_.targetHeapBytes.load(std::memory_order_relaxed));
+    }
+    size_t triggerHeapBytes() const noexcept {
+        return static_cast<size_t>(
+            targetHeapBytes() * config_.heapTriggerCoefficient.load(std::memory_order_relaxed));
+    }
 
 private:
     GCSchedulerConfig& config_;
-    size_t targetHeapBytes_ = 0;
-    size_t triggerHeapBytes_ = 0;
 };
 
 } // namespace kotlin::gcScheduler::internal
