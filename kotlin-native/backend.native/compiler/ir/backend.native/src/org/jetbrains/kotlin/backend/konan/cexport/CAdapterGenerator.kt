@@ -15,8 +15,15 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptor
 import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
+import org.jetbrains.kotlin.ir.declarations.IrDeclaration
+import org.jetbrains.kotlin.ir.declarations.IrDeclarationParent
+import org.jetbrains.kotlin.ir.declarations.IrExternalPackageFragment
+import org.jetbrains.kotlin.ir.declarations.IrPackageFragment
+import org.jetbrains.kotlin.ir.declarations.moduleDescriptor
 import org.jetbrains.kotlin.ir.util.referenceFunction
 import org.jetbrains.kotlin.library.uniqueName
+import org.jetbrains.kotlin.library.metadata.CurrentKlibModuleOrigin
+import org.jetbrains.kotlin.library.metadata.KlibModuleOrigin
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.isChildOf
@@ -51,6 +58,10 @@ private enum class Direction {
     KOTLIN_TO_C,
     C_TO_KOTLIN
 }
+
+// Typical IR parent walk: getter/class/file/module (~4–10 hops).
+// Deep nesting + compiler synthetics rarely exceed ~30; 64 is a 2× safety margin.
+private const val MAX_IR_PARENT_WALK_DEPTH = 64
 
 private fun isExportedFunction(descriptor: FunctionDescriptor): Boolean {
     if (!descriptor.isEffectivelyPublicApi || !descriptor.kind.isReal || descriptor.isExpect)
@@ -422,8 +433,40 @@ internal class CAdapterGenerator(
         descriptor.accept(this, null)
     }
 
+    /**
+     * Skip exports whose IR parent chain reaches an [IrExternalPackageFragment]
+     */
+    @OptIn(ObsoleteDescriptorBasedAPI::class)
+    private fun shouldExportInCAdapter(descriptor: FunctionDescriptor): Boolean {
+        val irFunction = runCatching {
+            symbolTable.referenceFunction(descriptor).owner
+        }.getOrNull()
+        if (irFunction == null) {
+            // Extension on external receiver: declaring module is still the current module.
+            if (descriptor.extensionReceiverParameter != null) return false
+            return isDeclaredInCurrentCompilationModule(descriptor)
+        }
+
+        var current: IrDeclarationParent = irFunction
+        var depth = 0
+        while (depth++ < MAX_IR_PARENT_WALK_DEPTH) {
+            when (current) {
+                is IrDeclaration -> current = current.parent
+                is IrExternalPackageFragment -> return false
+                is IrPackageFragment -> return isDeclaredInCurrentCompilationModule(descriptor)
+                else -> return isDeclaredInCurrentCompilationModule(descriptor)
+            }
+        }
+        return false
+    }
+
+    private fun isDeclaredInCurrentCompilationModule(descriptor: DeclarationDescriptor): Boolean {
+        return descriptor.module.getCapability(KlibModuleOrigin.CAPABILITY) is CurrentKlibModuleOrigin
+    }
+
     override fun visitConstructorDescriptor(descriptor: ConstructorDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
@@ -431,6 +474,7 @@ internal class CAdapterGenerator(
     override fun visitFunctionDescriptor(descriptor: FunctionDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
         if (!shouldIncludeModule(descriptor.module)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
@@ -462,12 +506,14 @@ internal class CAdapterGenerator(
 
     override fun visitPropertyGetterDescriptor(descriptor: PropertyGetterDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
 
     override fun visitPropertySetterDescriptor(descriptor: PropertySetterDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
