@@ -16,12 +16,9 @@ import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptor
 import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
 import org.jetbrains.kotlin.ir.declarations.IrDeclaration
-import org.jetbrains.kotlin.ir.declarations.IrDeclarationParent
 import org.jetbrains.kotlin.ir.declarations.IrExternalPackageFragment
-import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
-import org.jetbrains.kotlin.ir.declarations.IrPackageFragment
 import org.jetbrains.kotlin.ir.declarations.moduleDescriptor
-import org.jetbrains.kotlin.ir.util.referenceClass
+import org.jetbrains.kotlin.ir.util.getPackageFragment
 import org.jetbrains.kotlin.ir.util.referenceFunction
 import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.name.FqName
@@ -59,10 +56,6 @@ private enum class Direction {
     C_TO_KOTLIN
 }
 
-// Typical IR parent walk: getter/class/file/module (~4–10 hops).
-// Deep nesting + compiler synthetics rarely exceed ~30; 64 is a 2× safety margin.
-private const val MAX_IR_PARENT_WALK_DEPTH = 64
-
 private fun isExportedFunction(descriptor: FunctionDescriptor): Boolean {
     if (!descriptor.isEffectivelyPublicApi || !descriptor.kind.isReal || descriptor.isExpect)
         return false
@@ -88,38 +81,12 @@ private fun isExportedClass(descriptor: ClassDescriptor): Boolean {
     return true
 }
 
-/** Same rule as [org.jetbrains.kotlin.backend.konan.objcexport.isHiddenFromObjC] for callables. */
-private fun AnnotationDescriptor.hidesFromObjC(): Boolean =
-        annotationClass?.annotations?.any { it.fqName == KonanFqNames.hidesFromObjC } ?: false
-
-private fun CallableMemberDescriptor.isHiddenFromObjC(): Boolean = when {
-    overriddenDescriptors.isNotEmpty() -> overriddenDescriptors.first().isHiddenFromObjC()
-    (this as? FunctionDescriptor)?.contextReceiverParameters?.isNotEmpty() == true -> true
-    annotations.any { it.hidesFromObjC() } -> true
-    this is PropertyAccessorDescriptor ->
-        correspondingProperty.annotations.any { it.hidesFromObjC() }
-    else -> false
-}
-
 /**
- * Walk IR parents; return true if an [IrExternalPackageFragment] is reached
- * (declaration body lives under a dependency klib, not the current source module).
+ * Same notion as [org.jetbrains.kotlin.backend.konan.LlvmModuleSpecificationBase.containsDeclaration]:
+ * declarations in [IrExternalPackageFragment] come from dependency klibs (Fir2Ir external IR).
  */
-private fun irParentChainContainsExternalPackage(start: IrDeclarationParent): Boolean {
-    var current: IrDeclarationParent = start
-    var depth = 0
-    while (depth++ < MAX_IR_PARENT_WALK_DEPTH) {
-        when (current) {
-            is IrExternalPackageFragment -> return true
-            is IrDeclaration -> current = current.parent
-            is IrPackageFragment -> current = current.parent
-            is IrModuleFragment -> return false
-            else -> return false
-        }
-    }
-    // Abnormal / cyclic parent chain — be conservative.
-    return true
-}
+private fun IrDeclaration.isUnderExternalPackageFragment(): Boolean =
+        getPackageFragment() is IrExternalPackageFragment
 
 internal fun AnnotationDescriptor.properValue(key: String) =
         this.argumentValue(key)?.toString()?.removeSurrounding("\"")
@@ -467,33 +434,26 @@ internal class CAdapterGenerator(
     }
 
     /**
-     * Whether [descriptor] should appear in the sharedLib C API.
+     * Skip C export only when IR parent chain reaches [IrExternalPackageFragment]
+     * NPE during codegen is prevented separately by safe [konanLibrary] in [NewIrUtils].
      */
     @OptIn(ObsoleteDescriptorBasedAPI::class)
     private fun shouldExportInCAdapter(descriptor: FunctionDescriptor): Boolean {
-        if ((descriptor as CallableMemberDescriptor).isHiddenFromObjC()) return false
-
         val irFunction = runCatching {
             symbolTable.referenceFunction(descriptor).owner
         }.getOrNull()
         if (irFunction != null) {
-            return !irParentChainContainsExternalPackage(irFunction)
+            return !irFunction.isUnderExternalPackageFragment()
         }
-
-        if (descriptor.extensionReceiverParameter != null) {
-            return !descriptor.isExtensionOnExternalDeclaredType()
+        if (descriptor.extensionReceiverParameter == null) {
+            return true
         }
-        return true
-    }
-
-    @OptIn(ObsoleteDescriptorBasedAPI::class)
-    private fun FunctionDescriptor.isExtensionOnExternalDeclaredType(): Boolean {
-        val receiverClass = extensionReceiverParameter?.type?.constructor?.declarationDescriptor as? ClassDescriptor
-                ?: return true
+        val receiverClass = descriptor.extensionReceiverParameter?.type?.constructor?.declarationDescriptor as? ClassDescriptor
+                ?: return false
         val irClass = runCatching {
-            symbolTable.referenceClass(receiverClass).owner
-        }.getOrNull() ?: return true
-        return irParentChainContainsExternalPackage(irClass)
+            symbolTable.descriptorExtension.referenceClass(receiverClass).owner
+        }.getOrNull() ?: return false
+        return !irClass.isUnderExternalPackageFragment()
     }
 
     override fun visitConstructorDescriptor(descriptor: ConstructorDescriptor, ignored: Void?): Boolean {
