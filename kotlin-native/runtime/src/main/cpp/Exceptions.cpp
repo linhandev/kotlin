@@ -104,8 +104,8 @@ static std::string getExceptionSummary(KRef exception)
 }
 
 // API >= OHOS_HIDEBUG_MIN_API (64K): standard readable backtrace format, e.g.:
-//   #00 pc 00000000001a3f00 libA.so(buildid) (symbolName+0x10) (MyFile.kt:42)
-//   #01 pc 0000000000002b4c libB.so(buildid)
+//   #00 pc 00000000001a3f00 /path/to/libA.so(buildid) (symbolName+0x10) (MyFile.kt:42)
+//   #01 pc 0000000000002b4c /path/to/libB.so(buildid)
 
 static std::string buildStandardBacktrace(ArrayHeader* stackTrace, Dl_info& info,
                                           std::vector<MapsEntry>& mapCache,
@@ -124,9 +124,8 @@ static std::string buildStandardBacktrace(ArrayHeader* stackTrace, Dl_info& info
 
         std::vector<uint8_t> buildId;
         std::string soPath = BuildIdUtils::findSoPathFromMaps(reinterpret_cast<uintptr_t>(ptr), mapCache);
-        std::string soFileName = soPath.substr(soPath.find_last_of("/") + 1);
         std::string buildIdStr = BuildIdUtils::getSoBuildId(soPath, buildId);
-        std::string soInfo = buildIdStr.empty() ? soFileName : soFileName + "(" + buildIdStr + ")";
+        std::string soInfo = buildIdStr.empty() ? soPath : soPath + "(" + buildIdStr + ")";
 
         uintptr_t offset = reinterpret_cast<uintptr_t>(ptr) - reinterpret_cast<uintptr_t>(info.dli_fbase) - 1;
         std::stringstream ss;
