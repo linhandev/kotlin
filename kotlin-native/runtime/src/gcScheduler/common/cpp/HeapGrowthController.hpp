@@ -69,8 +69,8 @@ public:
             config_.targetHeapBytes.store(
                 static_cast<int64_t>(targetHeapBytes), std::memory_order_release);
         }
-        RuntimeLogInfo({logging::Tag::kGCScheduler},
-                       "Updated heap boundaries: alive %zu, target %zu, trigger %zu", aliveBytes, targetHeapBytes(), triggerHeapBytes());
+        RuntimeLogInfo({logging::Tag::kGCScheduler}, "Updated heap boundaries: alive %zu, target %zu, trigger %zu",
+            aliveBytes, targetHeapBytes(), triggerHeapBytes());
     }
 
     size_t targetHeapBytes() const noexcept {
