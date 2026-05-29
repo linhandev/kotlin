@@ -18,12 +18,12 @@ import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
 import org.jetbrains.kotlin.ir.declarations.IrDeclaration
 import org.jetbrains.kotlin.ir.declarations.IrDeclarationParent
 import org.jetbrains.kotlin.ir.declarations.IrExternalPackageFragment
+import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.declarations.IrPackageFragment
 import org.jetbrains.kotlin.ir.declarations.moduleDescriptor
+import org.jetbrains.kotlin.ir.util.referenceClass
 import org.jetbrains.kotlin.ir.util.referenceFunction
 import org.jetbrains.kotlin.library.uniqueName
-import org.jetbrains.kotlin.library.metadata.CurrentKlibModuleOrigin
-import org.jetbrains.kotlin.library.metadata.KlibModuleOrigin
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.isChildOf
@@ -85,6 +85,39 @@ private fun isExportedClass(descriptor: ClassDescriptor): Boolean {
     // Do not export inline classes for now. TODO: add proper support.
     if (descriptor.isInlined()) return false
 
+    return true
+}
+
+/** Same rule as [org.jetbrains.kotlin.backend.konan.objcexport.isHiddenFromObjC] for callables. */
+private fun AnnotationDescriptor.hidesFromObjC(): Boolean =
+        annotationClass?.annotations?.any { it.fqName == KonanFqNames.hidesFromObjC } ?: false
+
+private fun CallableMemberDescriptor.isHiddenFromObjC(): Boolean = when {
+    overriddenDescriptors.isNotEmpty() -> overriddenDescriptors.first().isHiddenFromObjC()
+    (this as? FunctionDescriptor)?.contextReceiverParameters?.isNotEmpty() == true -> true
+    annotations.any { it.hidesFromObjC() } -> true
+    this is PropertyAccessorDescriptor ->
+        correspondingProperty.annotations.any { it.hidesFromObjC() }
+    else -> false
+}
+
+/**
+ * Walk IR parents; return true if an [IrExternalPackageFragment] is reached
+ * (declaration body lives under a dependency klib, not the current source module).
+ */
+private fun irParentChainContainsExternalPackage(start: IrDeclarationParent): Boolean {
+    var current: IrDeclarationParent = start
+    var depth = 0
+    while (depth++ < MAX_IR_PARENT_WALK_DEPTH) {
+        when (current) {
+            is IrExternalPackageFragment -> return true
+            is IrDeclaration -> current = current.parent
+            is IrPackageFragment -> current = current.parent
+            is IrModuleFragment -> return false
+            else -> return false
+        }
+    }
+    // Abnormal / cyclic parent chain — be conservative.
     return true
 }
 
@@ -434,34 +467,33 @@ internal class CAdapterGenerator(
     }
 
     /**
-     * Skip exports whose IR parent chain reaches an [IrExternalPackageFragment]
+     * Whether [descriptor] should appear in the sharedLib C API.
      */
     @OptIn(ObsoleteDescriptorBasedAPI::class)
     private fun shouldExportInCAdapter(descriptor: FunctionDescriptor): Boolean {
+        if ((descriptor as CallableMemberDescriptor).isHiddenFromObjC()) return false
+
         val irFunction = runCatching {
             symbolTable.referenceFunction(descriptor).owner
         }.getOrNull()
-        if (irFunction == null) {
-            // Extension on external receiver: declaring module is still the current module.
-            if (descriptor.extensionReceiverParameter != null) return false
-            return isDeclaredInCurrentCompilationModule(descriptor)
+        if (irFunction != null) {
+            return !irParentChainContainsExternalPackage(irFunction)
         }
 
-        var current: IrDeclarationParent = irFunction
-        var depth = 0
-        while (depth++ < MAX_IR_PARENT_WALK_DEPTH) {
-            when (current) {
-                is IrDeclaration -> current = current.parent
-                is IrExternalPackageFragment -> return false
-                is IrPackageFragment -> return isDeclaredInCurrentCompilationModule(descriptor)
-                else -> return isDeclaredInCurrentCompilationModule(descriptor)
-            }
+        if (descriptor.extensionReceiverParameter != null) {
+            return !descriptor.isExtensionOnExternalDeclaredType()
         }
-        return false
+        return true
     }
 
-    private fun isDeclaredInCurrentCompilationModule(descriptor: DeclarationDescriptor): Boolean {
-        return descriptor.module.getCapability(KlibModuleOrigin.CAPABILITY) is CurrentKlibModuleOrigin
+    @OptIn(ObsoleteDescriptorBasedAPI::class)
+    private fun FunctionDescriptor.isExtensionOnExternalDeclaredType(): Boolean {
+        val receiverClass = extensionReceiverParameter?.type?.constructor?.declarationDescriptor as? ClassDescriptor
+                ?: return true
+        val irClass = runCatching {
+            symbolTable.referenceClass(receiverClass).owner
+        }.getOrNull() ?: return true
+        return irParentChainContainsExternalPackage(irClass)
     }
 
     override fun visitConstructorDescriptor(descriptor: ConstructorDescriptor, ignored: Void?): Boolean {
@@ -506,6 +538,7 @@ internal class CAdapterGenerator(
 
     override fun visitPropertyGetterDescriptor(descriptor: PropertyGetterDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldIncludeModule(descriptor.module)) return true
         if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
@@ -513,6 +546,7 @@ internal class CAdapterGenerator(
 
     override fun visitPropertySetterDescriptor(descriptor: PropertySetterDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldIncludeModule(descriptor.module)) return true
         if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
