@@ -435,7 +435,6 @@ internal class CAdapterGenerator(
 
     /**
      * Skip C export only when IR parent chain reaches [IrExternalPackageFragment]
-     * NPE during codegen is prevented separately by safe [konanLibrary] in [NewIrUtils].
      */
     @OptIn(ObsoleteDescriptorBasedAPI::class)
     private fun shouldExportInCAdapter(descriptor: FunctionDescriptor): Boolean {
