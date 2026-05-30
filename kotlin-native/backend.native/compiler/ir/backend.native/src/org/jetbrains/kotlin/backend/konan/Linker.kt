@@ -112,7 +112,13 @@ internal class Linker(
         // compiler emits non-stub paths in OFF per the CodeGenerator gate below,
         // so the asm trampolines are dead code in OFF binaries).
         val stubsDir = "${config.distribution.konanHome}/konan/targets/${target.name}/stubs_objs"
-        return listOf("N2KStub.o", "K2NStub.o", "K2RStub.o", "KonanStartStub.o").map { "$stubsDir/$it" }
+        return listOf(
+                "N2KStub.o",
+                "K2NStub.o",
+                "K2RStub.o",
+                "KonanStartStub.o",
+                "EnterKotlinFromCppStub.o", // Plan-B: independent N2K trampoline for C++-side fn-ptr calls
+        ).map { "$stubsDir/$it" }
     }
 
     private fun asLinkerArgs(args: List<String>): List<String> {

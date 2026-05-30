@@ -30,7 +30,7 @@
 #include "Exceptions.h"
 #include "ExternalRCRef.hpp"
 #include "KAssert.h"
-#include "KotlinCallScope.h"
+#include "EnterKotlinFromCpp.h"
 #include "Memory.h"
 #include "Natives.h"
 #include "Runtime.h"
@@ -1017,35 +1017,12 @@ RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
       try {
           objc_support::AutoreleasePool autoreleasePool;
 #ifdef ENABLE_STACKMAP
-          // KotlinCallScope ctor/dtor have real OFF side effects
-          // (SaveCurrentFrameInfoAndSetReliable / RestoreSavedFrameInfo
-          // unconditionally switch ThreadState + write lastFrameInfo_).
-          // The asm labels export unwindPCStartForWorkerStub / End globals that
-          // FpUnwind.cpp consumes only on the precise-stackmap pipeline.
-          {
-              KotlinCallScope scope;
-              // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
-              // Global symbols are exported as .quad pointers in __DATA,__const (see bottom of file).
-              #if KONAN_MACOSX
-                asm volatile(".alt_entry _unwindPCStartForWorkerStub\n"
-                    ".global _unwindPCStartForWorkerStub\n"
-                    "_unwindPCStartForWorkerStub:");
-              #else
-                asm("  .p2align 3\n"
-                    "  .global unwindPCStartForWorkerStub\n"
-                    "unwindPCStartForWorkerStub:");
-              #endif
-              result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
-              #if KONAN_MACOSX
-                asm volatile(".alt_entry _unwindPCEndForWorkerStub\n"
-                    ".global _unwindPCEndForWorkerStub\n"
-                    "_unwindPCEndForWorkerStub:");
-              #else
-                asm("  .p2align 3\n"
-                    "  .global unwindPCEndForWorkerStub\n"
-                    "unwindPCEndForWorkerStub:");
-              #endif
-          }
+          // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+          // Stub handles lfi snapshot/restore + ThreadState transition.
+          result.reset(reinterpret_cast<mm::RawExternalRCRef*>(EnterKotlinFromCppStub(
+              reinterpret_cast<void*>(WorkerExecuteLaunchpad),
+              reinterpret_cast<void*>(job.regularJob.function),
+              reinterpret_cast<void*>(job.regularJob.argument))));
 #else
           result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
 #endif
@@ -1054,7 +1031,7 @@ RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
         switch (exceptionHandling()) {
             case WorkerExceptionHandling::kIgnore:
                 break;
-            case WorkerExceptionHandling::kDefault: // TODO: Pass exception object into the future and do nothing in the default case.
+            case WorkerExceptionHandling::kDefault:
                 ReportUnhandledException(e.GetExceptionObject());
                 break;
         }
@@ -1148,35 +1125,12 @@ OBJ_GETTER0(Kotlin_Worker_getActiveWorkersInternal) {
 
 HAS_SAFEPOINT
 NO_INLINE OBJ_GETTER(Kotlin_Worker_invokeCFunction, ExecuteJob job, KRef jobArgument) {
-    CurrentFrameGuard guard;
 #ifdef ENABLE_STACKMAP
-    // KotlinCallScope ctor/dtor + asm labels for
-    // unwindPCStartForInvokeCFunction/End are precise-stackmap-only
-    // (FpUnwind.cpp consumes the labels only on the precise pipeline).
-    HeapObjPtr result;
-    {
-        KotlinCallScope scope;
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCStartForInvokeCFunction\n"
-            ".global _unwindPCStartForInvokeCFunction\n"
-            "_unwindPCStartForInvokeCFunction:");
-#else
-        asm("  .p2align 3\n"
-            "  .global unwindPCStartForInvokeCFunction\n"
-            "unwindPCStartForInvokeCFunction:");
-#endif
-        result = job(jobArgument, __result__);
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCEndForInvokeCFunction\n"
-            ".global _unwindPCEndForInvokeCFunction\n"
-            "_unwindPCEndForInvokeCFunction:");
-#else
-        asm("  .p2align 3\n"
-            "  .global unwindPCEndForInvokeCFunction\n"
-            "unwindPCEndForInvokeCFunction:");
-#endif
-    }
-    return result;
+    // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+    return reinterpret_cast<ObjHeader*>(EnterKotlinFromCppStub(
+        reinterpret_cast<void*>(job),
+        reinterpret_cast<void*>(jobArgument),
+        reinterpret_cast<void*>(__result__)));
 #else
     RETURN_RESULT_OF(job, jobArgument);
 #endif
