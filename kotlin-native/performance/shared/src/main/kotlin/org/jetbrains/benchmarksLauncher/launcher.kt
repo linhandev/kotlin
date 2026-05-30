@@ -188,7 +188,7 @@ object BenchmarksRunner {
     private fun requireNextArg(args: Array<String>, optionIndex: Int, option: String): String {
         val valueIndex = optionIndex + 1
         if (valueIndex >= args.size) {
-            printStderr("Missing value for option $option\n")
+            printStderr("Missing value for option $option\nUsage: benchmark [-w N] [-r N] [-p PREFIX] [-o FILE] [-f NAME] [-fr REGEX] [-q]\n")
             error("Missing value for option $option")
         }
         return args[valueIndex]
@@ -197,7 +197,7 @@ object BenchmarksRunner {
     private fun parseIntArg(args: Array<String>, optionIndex: Int, option: String): Int {
         val value = requireNextArg(args, optionIndex, option)
         return value.toIntOrNull() ?: run {
-            printStderr("Invalid integer for option $option: $value\n")
+            printStderr("Invalid integer for option $option: $value\nUsage: benchmark [-w N] [-r N] [-p PREFIX] [-o FILE] [-f NAME] [-fr REGEX] [-q]\n")
             error("Invalid integer for option $option: $value")
         }
     }
