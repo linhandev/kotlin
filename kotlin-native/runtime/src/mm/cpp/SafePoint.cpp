@@ -50,6 +50,8 @@ namespace kotlin {
 // the shadow-stack book-keeping is dead weight and adds an extra slot the
 // walker would have to skip anyway.
 static NO_INLINE void SafePointSlowPath(void* mutatorPtr) {
+    auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    threadData->RuntimeSetLastFrame();
     assertUseCRT();
 
     common::MutatorBase* mutator = reinterpret_cast<common::MutatorBase*>(mutatorPtr);
