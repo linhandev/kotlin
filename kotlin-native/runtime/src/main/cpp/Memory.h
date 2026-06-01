@@ -380,11 +380,6 @@ CODEGEN_INLINE_POLICY void Kotlin_mm_safePointFunctionPrologue() RUNTIME_NOTHROW
 CODEGEN_INLINE_POLICY void Kotlin_mm_safePointWhileLoopBody() RUNTIME_NOTHROW;
 
 RUNTIME_NOTHROW void DisposeRegularWeakReferenceImpl(HeapObjPtr counter);
-// RuntimeSetLastFrame / RuntimeSetLastFrame1 / SetLastFrameReliable stay
-// declared in BOTH modes — klib cstubs.bc bake-in references prevent
-// gating these symbols out of the OFF link.
-NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame(MemoryState* thread, kotlin::ThreadState state);
-NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame1();
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliable();
 
 RUNTIME_NOTHROW ALWAYS_INLINE void SaveX28();
@@ -469,7 +464,15 @@ inline ThreadState GetThreadState() noexcept {
 }
 
 // Switches the state of the given thread to `newState` and returns the previous thread state.
-ThreadState SwitchThreadState(MemoryState* thread, ThreadState newState, bool reentrant = false) noexcept;
+//
+// `not_tail_called`: prevents callers from converting this call into a tail
+// call.  Tail-calling would deallocate caller's frame before this wrapper's
+// safepoint check + slowPath chain run.  When slowPath pushes its own frame
+// it would overlap with caller's just-released stack region, including the
+// LFI-pointed saved-fp slot, corrupting *LFI which the GC walker is reading.
+[[clang::not_tail_called]] ThreadState SwitchThreadState(
+    MemoryState* thread, ThreadState newState, bool reentrant = false,
+    bool needSetLastFrame = true) noexcept;
 
 // Asserts that the given thread is in the given state.
 void AssertThreadState(MemoryState* thread, ThreadState expected) noexcept;
@@ -494,25 +497,32 @@ ALWAYS_INLINE inline void AssertThreadState(std::initializer_list<ThreadState> e
 class ThreadStateGuard final : private MoveOnly {
 public:
     // Do not set any state. Useful to create a variable to move another guard into.
-    ThreadStateGuard() : thread_(nullptr), oldState_(ThreadState::kNative), reentrant_(false) {}
+    ALWAYS_INLINE ThreadStateGuard() : thread_(nullptr), oldState_(ThreadState::kNative), reentrant_(false) {}
 
     // Set the state for the given thread.
-    ThreadStateGuard(MemoryState* thread, ThreadState state, bool reentrant = false) noexcept : thread_(thread), reentrant_(reentrant) {
+    //
+    // ALWAYS_INLINE: ensures this ctor (and thus the embedded call to the
+    // NO_INLINE SwitchThreadState wrapper) lives in the caller's frame.
+    // If not inlined, LFI would record THIS ctor's fp; when ctor returns its
+    // own frame retires, leaving LFI pointing to retired stack memory that
+    // subsequent caller calls (e.g. cv.wait) will overwrite -- corrupting *LFI
+    // for the GC walker.
+    ALWAYS_INLINE ThreadStateGuard(MemoryState* thread, ThreadState state, bool reentrant = false) noexcept : thread_(thread), reentrant_(reentrant) {
         oldState_ = SwitchThreadState(thread_, state, reentrant_);
     }
 
     // Sets the state for the current thread.
-    explicit ThreadStateGuard(ThreadState state, bool reentrant = false) noexcept
+    ALWAYS_INLINE explicit ThreadStateGuard(ThreadState state, bool reentrant = false) noexcept
         : ThreadStateGuard(mm::GetMemoryState(), state, reentrant) {};
 
-    ThreadStateGuard(ThreadStateGuard&& other) noexcept
+    ALWAYS_INLINE ThreadStateGuard(ThreadStateGuard&& other) noexcept
         : thread_(other.thread_), oldState_(other.oldState_), reentrant_(other.reentrant_) {
         other.thread_ = nullptr;
     }
 
-    ~ThreadStateGuard() noexcept {
+    ALWAYS_INLINE ~ThreadStateGuard() noexcept {
         if (thread_ != nullptr) {
-            SwitchThreadState(thread_, oldState_, reentrant_);
+            SwitchThreadState(thread_, oldState_, reentrant_, /*needSetLastFrame=*/false);
         }
     }
 
@@ -538,7 +548,7 @@ public:
     CalledFromNativeGuard(bool reentrant = false) noexcept;
 
     ~CalledFromNativeGuard() noexcept {
-        SwitchThreadState(thread_, oldState_, reentrant_);
+        SwitchThreadState(thread_, oldState_, reentrant_, /*needSetLastFrame=*/false);
     }
 private:
     MemoryState* thread_;
@@ -563,7 +573,12 @@ ALWAYS_INLINE inline R CallWithThreadState(R(*function)(Args...), Args... args) 
 
 class NativeOrUnregisteredThreadGuard final : private MoveOnly {
 public:
-    explicit NativeOrUnregisteredThreadGuard(bool reentrant = false) noexcept {
+    // ALWAYS_INLINE: see ThreadStateGuard comment. If this ctor is not
+    // inlined into its caller (e.g. scheduleAndWaitFinalized), this ctor
+    // becomes the outermost non-inline frame that owns LFI's recorded fp.
+    // When the ctor returns, its frame retires while the caller continues
+    // in cv.wait etc., whose nested calls would overwrite LFI's stack region.
+    ALWAYS_INLINE explicit NativeOrUnregisteredThreadGuard(bool reentrant = false) noexcept {
         // The default ctor of ThreadStateGuard doesn't set the state.
         // So the actual state switching is performed only if the thread is registered.
         if (kotlin::mm::IsCurrentThreadRegistered()) {
@@ -573,7 +588,7 @@ public:
 #ifdef ENABLE_STACKMAP
     // ON path keeps the explicit noexcept dtor (an exception-contract change so call
     // sites stay nounwind). OFF path falls back to the implicitly generated dtor.
-    ~NativeOrUnregisteredThreadGuard() noexcept {
+    ALWAYS_INLINE ~NativeOrUnregisteredThreadGuard() noexcept {
     }
 #endif
 

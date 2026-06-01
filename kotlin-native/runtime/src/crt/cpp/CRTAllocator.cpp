@@ -25,6 +25,7 @@
 #include "KAssert.h"
 #include "Memory.h"
 #include "CRTFastpathUtils.hpp"
+#include "ThreadData.hpp"
 
 #include "common_interfaces/heap/heap_allocator.h"
 #include "HeapInterface.hpp"
@@ -70,7 +71,8 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
         // Ported from mpcore/crt_fp_unwind 7e581cd. Slow-path enters CRT C++
         // code which may trigger STW; capture this frame so the GC walker can
         // unwind from here back through the Kotlin caller.
-        RuntimeSetLastFrame1();
+        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+        threadData->RuntimeSetLastFrame();
         allocPtr = AllocFromCMCSlowPath(size);
     } else {
         *reinterpret_cast<uintptr_t*>(regionAddr + common::REGION_DESC_ALLOC_OFF) = endOfAlloc;
@@ -128,7 +130,8 @@ mm::ExtraObjectData* CRTAllocator::CreateExtraObjectDataForObject(ObjHeader* obj
     // Ported from mpcore/crt_fp_unwind 7e581cd. The AllocateExtra call below can
     // trigger STW. Record this frame so the GC walker can unwind through it
     // back to the Kotlin caller.
-    RuntimeSetLastFrame1();
+    auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    threadData->RuntimeSetLastFrame();
     constexpr auto size = sizeof(mm::ExtraObjectData);
     static_assert(size % sizeof(uint64_t) == 0, "non-movable allocator requirement failed");
     // Use `AllocateExtra` (EXTRA_OBJECT region). The GC's marking / resurrection
