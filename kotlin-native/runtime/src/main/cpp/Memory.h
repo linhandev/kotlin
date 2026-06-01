@@ -471,7 +471,8 @@ inline ThreadState GetThreadState() noexcept {
 // it would overlap with caller's just-released stack region, including the
 // LFI-pointed saved-fp slot, corrupting *LFI which the GC walker is reading.
 [[clang::not_tail_called]] ThreadState SwitchThreadState(
-    MemoryState* thread, ThreadState newState, bool reentrant = false,
+    MemoryState* thread, ThreadState newState,
+    bool reentrant = false,
     bool needSetLastFrame = true) noexcept;
 
 // Asserts that the given thread is in the given state.
@@ -507,7 +508,8 @@ public:
     // own frame retires, leaving LFI pointing to retired stack memory that
     // subsequent caller calls (e.g. cv.wait) will overwrite -- corrupting *LFI
     // for the GC walker.
-    ALWAYS_INLINE ThreadStateGuard(MemoryState* thread, ThreadState state, bool reentrant = false) noexcept : thread_(thread), reentrant_(reentrant) {
+    ALWAYS_INLINE ThreadStateGuard(MemoryState* thread, ThreadState state,
+        bool reentrant = false) noexcept : thread_(thread), reentrant_(reentrant) {
         oldState_ = SwitchThreadState(thread_, state, reentrant_);
     }
 
@@ -522,7 +524,7 @@ public:
 
     ALWAYS_INLINE ~ThreadStateGuard() noexcept {
         if (thread_ != nullptr) {
-            SwitchThreadState(thread_, oldState_, reentrant_, /*needSetLastFrame=*/false);
+            SwitchThreadState(thread_, oldState_, reentrant_, false /*needSetLastFrame*/);
         }
     }
 
@@ -548,7 +550,7 @@ public:
     CalledFromNativeGuard(bool reentrant = false) noexcept;
 
     ~CalledFromNativeGuard() noexcept {
-        SwitchThreadState(thread_, oldState_, reentrant_, /*needSetLastFrame=*/false);
+        SwitchThreadState(thread_, oldState_, reentrant_, false /*needSetLastFrame*/);
     }
 private:
     MemoryState* thread_;

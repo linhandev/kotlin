@@ -28,7 +28,8 @@ std::string kotlin::internal::statesToString(std::initializer_list<ThreadState> 
     return result;
 }
 
-NO_INLINE ThreadState kotlin::SwitchThreadState(MemoryState* thread, ThreadState newState, bool reentrant, bool needSetLastFrame) noexcept {
+NO_INLINE ThreadState kotlin::SwitchThreadState(MemoryState* thread, ThreadState newState,
+                                                bool reentrant, bool needSetLastFrame) noexcept {
     RuntimeAssert(thread != nullptr, "thread must not be nullptr");
     return SwitchThreadState(thread->GetThreadData(), newState, reentrant, needSetLastFrame);
 }
