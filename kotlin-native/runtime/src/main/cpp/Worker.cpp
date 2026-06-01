@@ -1016,16 +1016,7 @@ RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
       bool ok = true;
       try {
           objc_support::AutoreleasePool autoreleasePool;
-#ifdef ENABLE_STACKMAP
-          // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
-          // Stub handles lfi snapshot/restore + ThreadState transition.
-          result.reset(reinterpret_cast<mm::RawExternalRCRef*>(EnterKotlinFromCppStub(
-              reinterpret_cast<void*>(WorkerExecuteLaunchpad),
-              reinterpret_cast<void*>(job.regularJob.function),
-              reinterpret_cast<void*>(job.regularJob.argument))));
-#else
           result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
-#endif
       } catch (ExceptionObjHolder& e) {
         ok = false;
         switch (exceptionHandling()) {
