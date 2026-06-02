@@ -23,12 +23,14 @@
 #ifdef KONAN_OHOS
 #include <string>
 #include <thread>
+#include <mutex>
 #include <unistd.h>
 #include <vector>
 #include <napi/native_api.h>
 
 #include "Types.h"
 #include "KStringExtract.h"
+#include "Runtime.h"
 
 typedef void* NapiCriticalScope;
 
@@ -184,13 +186,14 @@ public:
 private:
     // Get napi_value from napi_ref, returns nullptr if ref_ has been released.
     ALWAYS_INLINE napi_value getNapiValue() const {
-        if (ref_ == nullptr) return nullptr;
+        napi_ref ref = this->ref_.load(std::memory_order_acquire);
+        if (ref == nullptr) return nullptr;
         kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
         napi_value result = nullptr;
-        auto status = napi_get_reference_value(this->env_, this->ref_, &result);
+        auto status = napi_get_reference_value(this->env_, ref, &result);
         RuntimeAssert(status == napi_ok,
                       "napi_get_reference_value failed, status = %d, ref_=%p",
-                      status, this->ref_);
+                      status, ref);
         return result;
     }
 
@@ -205,7 +208,7 @@ private:
     }
 
     ALWAYS_INLINE bool needOpenScope() {
-        if (hasCached_ || !isSameThread()) {
+        if (hasCached_.load(std::memory_order_acquire) || !isSameThread()) {
             return false;
         }
         // Get napi_value before opening scope.
@@ -219,7 +222,7 @@ private:
     void fallbackToCopy();
 
     napi_env env_ {nullptr};
-    napi_ref ref_ {nullptr};
+    std::atomic<napi_ref> ref_ {nullptr};
     napi_value value_ {nullptr};
     pid_t threadId_ {0};
     size_t length_ {0};
