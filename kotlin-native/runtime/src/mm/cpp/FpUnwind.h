@@ -34,17 +34,30 @@
 #include <hilog/log.h>
 #endif
 
+#ifdef ENABLE_STACKMAP
+// unwindPC* are provided by the arm64 asm trampolines (K2RStub.s / N2KStub.s
+// / KonanStartStub.s / EnterKotlinFromCppStub.s) and by inline-asm labels in
+// Worker.cpp / Runtime.cpp / Types.cpp. On non-arm64 OFF targets none of these
+// asm-stub PC anchors exist, so the FpUnwind-based precise stack walk is
+// unreachable. The Is*Stub / IsAt* helpers below that read these globals are
+// likewise gated.
+//
+// On macOS, unwindPCForN2KStub and unwindPCForKonanStartStub are .quad
+// pointers in __DATA,__const (to avoid non-private labels inside CFI regions
+// which cause compact-unwind encoding=0). Their *value* is the PC address.
+// On OHOS/Linux, they are code labels whose *address* is the PC.
+extern uintptr_t unwindPCForN2KStub;
+extern uintptr_t unwindPCForKonanStartStub;
+extern uintptr_t unwindPCForK2RStubStart;
+extern uintptr_t unwindPCForK2RStubEnd;
+extern uintptr_t unwindPCForEnterKotlinFromCppStub;
+#endif // ENABLE_STACKMAP
+
 namespace kotlin {
 
 enum class FrameType : uint8_t {
     R2K_STUB,
     KONAN_RUN_START_FRAME,
-    WORKER_STUB,
-    CALL_INIT_GLOBAL_POSSIIBLY_LOCK,
-    INIT_OR_DEINIT_GLOBAL_VARIABLES,
-    FIND_ASSOCIATED_OBJECT,
-    INIT_THREAD_LOCAL,
-    INVOKE_C_FUNCTION,
     K2N_STUB,
     K2R_STUB,
     RUNTIME_FRAME,

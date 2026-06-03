@@ -384,7 +384,8 @@ extern "C" RUNTIME_NOTHROW ObjHeader** LookupTLS(void** key, int index) {
 HAS_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_collect(ObjHeader*) {
     checkUseCRT<CheckMode::Slow>([] {
-        RuntimeSetLastFrame1();
+        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+        threadData->RuntimeSetLastFrame();
         common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER, false, common::GCType::GC_TYPE_FULL);
         common::UpdateThreadLocalDataReg();
     }, [] {
@@ -634,19 +635,6 @@ extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable() 
 HAS_SAFEPOINT
 extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable_debug() {
     SwitchThreadState(mm::ThreadRegistry::Instance().CurrentThreadData(), ThreadState::kRunnable);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame(MemoryState* thread, ThreadState state) noexcept {
-    if (state == thread->GetThreadData()->state()) {
-        RuntimeAssert(0, "Can't save frame in the same state.");
-        return;
-    }
-    thread->GetThreadData()->RuntimeSetLastFrame();
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame1() {
-    auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
-    threadData->RuntimeSetLastFrame();
 }
 
 // CRT-specific x28 register save/restore. x28 holds the CRT TLS pointer (fastpath).

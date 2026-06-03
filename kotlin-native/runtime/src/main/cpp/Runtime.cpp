@@ -21,7 +21,7 @@
 #ifdef KONAN_OHOS
 #include "ArkTSInit.h"
 #endif
-#include "KotlinCallScope.h"
+#include "EnterKotlinFromCpp.h"
 #include <algorithm>
 #include <atomic>
 #include <cstdlib>
@@ -75,36 +75,19 @@ enum {
 };
 
 #ifdef ENABLE_STACKMAP
-// NO_INLINE + asm labels + KotlinCallScope are precise-stackmap-only
-// (FpUnwind.cpp consumes the unwindPCStart/End globals). OFF reduces to the
+// NO_INLINE + asm labels + EnterKotlinFromCppStub are precise-stackmap-only
+// (FpUnwind.cpp consumes the unwindPCForEnterKotlinFromCppStub global). OFF reduces to the
 // baseline simple while loop.
 NO_INLINE void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
   InitNode* currentNode = initHeadNode;
-#if KONAN_MACOSX
-  asm volatile(".alt_entry _unwindPCStartForInitOrDeinitGlobalVariables\n"
-      ".global _unwindPCStartForInitOrDeinitGlobalVariables\n"
-      "_unwindPCStartForInitOrDeinitGlobalVariables:");
-#else
-  asm("  .p2align 3\n"
-      "  .global unwindPCStartForInitOrDeinitGlobalVariables\n"
-      "unwindPCStartForInitOrDeinitGlobalVariables:");
-#endif
   while (currentNode != nullptr) {
-    {
-      KotlinCallScope scope;
-      currentNode->init(initialize, memory);
-    }
+    // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+    (void)EnterKotlinFromCppStub(
+        reinterpret_cast<void*>(currentNode->init),
+        reinterpret_cast<void*>(static_cast<intptr_t>(initialize)),
+        reinterpret_cast<void*>(memory));
     currentNode = currentNode->next;
   }
-#if KONAN_MACOSX
-  asm volatile(".alt_entry _unwindPCEndForInitOrDeinitGlobalVariables\n"
-      ".global _unwindPCEndForInitOrDeinitGlobalVariables\n"
-      "_unwindPCEndForInitOrDeinitGlobalVariables:");
-#else
-  asm("  .p2align 3\n"
-      "  .global unwindPCEndForInitOrDeinitGlobalVariables\n"
-      "unwindPCEndForInitOrDeinitGlobalVariables:");
-#endif
 }
 #else
 void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
@@ -538,33 +521,10 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
         try {
             CurrentFrameGuard guard;
 #ifdef ENABLE_STACKMAP
-            // KotlinCallScope + asm labels for
-            // unwindPCStartForCallInitGlobalPossiblyLock / End are
-            // precise-stackmap-only.
-            {
-                KotlinCallScope scope;
-                // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
-                // Global symbols are exported as .quad pointers in __DATA,__const (see bottom of file).
-#if KONAN_MACOSX
-            asm volatile(".alt_entry _unwindPCStartForCallInitGlobalPossiblyLock\n"
-                ".global _unwindPCStartForCallInitGlobalPossiblyLock\n"
-                "_unwindPCStartForCallInitGlobalPossiblyLock:");
-#else
-            asm("  .p2align 3\n"
-                "  .global unwindPCStartForCallInitGlobalPossiblyLock\n"
-                "unwindPCStartForCallInitGlobalPossiblyLock:");
-#endif
-                init();
-#if KONAN_MACOSX
-            asm volatile(".alt_entry _unwindPCEndForCallInitGlobalPossiblyLock\n"
-                ".global _unwindPCEndForCallInitGlobalPossiblyLock\n"
-                "_unwindPCEndForCallInitGlobalPossiblyLock:");
-#else
-            asm("  .p2align 3\n"
-                "  .global unwindPCEndForCallInitGlobalPossiblyLock\n"
-                "unwindPCEndForCallInitGlobalPossiblyLock:");
-#endif
-            }
+            // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+            (void)EnterKotlinFromCppStub(
+                reinterpret_cast<void*>(init),
+                nullptr, nullptr);
 #else
             init();
 #endif
@@ -588,30 +548,10 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
     try {
         CurrentFrameGuard guard;
 #ifdef ENABLE_STACKMAP
-        // Same structure as InitOrDeinitGlobalVariables above
-        // (KotlinCallScope + asm labels for unwindPCStartForCallInitThreadLocal/End).
-        {
-            KotlinCallScope scope;
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCStartForCallInitThreadLocal\n"
-            ".global _unwindPCStartForCallInitThreadLocal\n"
-            "_unwindPCStartForCallInitThreadLocal:");
-#else
-        asm("  .p2align 3\n"
-            "  .global unwindPCStartForCallInitThreadLocal\n"
-            "unwindPCStartForCallInitThreadLocal:");
-#endif
-            init();
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCEndForCallInitThreadLocal\n"
-            ".global _unwindPCEndForCallInitThreadLocal\n"
-            "_unwindPCEndForCallInitThreadLocal:");
-#else
-        asm("  .p2align 3\n"
-            "  .global unwindPCEndForCallInitThreadLocal\n"
-            "unwindPCEndForCallInitThreadLocal:");
-#endif
-        }
+        // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+        (void)EnterKotlinFromCppStub(
+            reinterpret_cast<void*>(init),
+            nullptr, nullptr);
 #else
         init();
 #endif
