@@ -17,7 +17,7 @@ public:
 
     static std::string findSoPathFromMaps(uintptr_t address, const std::vector<MapsEntry>& maps_entries);
 
-    static std::string getSoBuildId(const std::string& soPath, std::vector<uint8_t>& buildId)
+    static std::string getSoBuildId(const std::string& soPath, std::vector<uint8_t>& buildId);
 
     static std::string buildIdToString(const std::vector<uint8_t>& buildId);
 
