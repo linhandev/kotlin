@@ -27,7 +27,7 @@ import platform.posix.*
  * Runtime flow:
  *   heap > threshold → ShouldDumpAndMark (CAS) → CleanupOldDumpFiles → BuildDumpMetadata
  *   → ReportOomEventViaHiAppEvent (API>=26, dlsym) → DumpMemoryToFile
- *   init: RegistDumpListenerIfNeeded → OH_HIDEBUG_DUMP_SNAPSHOT → dumpMemory(fd)
+ *   init: RegistDumpListenerIfNeeded → OH_HIDEBUG_DUMP_SNAPSHOT → dumpMemory(fd) (see OhosMemDumpListenerTest)
  *
  * Mirrors C++ helpers and exercises OHOS APIs. Does not allocate 1.5GB to hit real OOM threshold.
  */
@@ -46,11 +46,6 @@ class OomMemDumpHiAppEventTest {
     private val frameworkTypeFlutterDart = 0
     private val frameworkTypeReactNativeHermes = 1
     private val frameworkTypeKmpKotlin = 2
-
-    /** OH_HiDebug_MemListenerType values (@since API 26). */
-    private val memListenerDoNothing = 0
-    private val memListenerRunningGc = 1
-    private val memListenerDumpSnapshot = 2
 
     private val maxOomDumpFiles = 10
 
@@ -163,22 +158,6 @@ class OomMemDumpHiAppEventTest {
     private fun buildDumpMetadata(fileName: String, timestamp: String): Pair<String, String> {
         val finalPath = "$oomDumpDir/$fileName"
         return finalPath to timestamp
-    }
-
-    /**
-     * Mirrors Runtime.cpp MemDumpListener callback branches (Kotlin mirror for DUMP_SNAPSHOT checks).
-     */
-    private fun handleMemDumpListenerTag(
-        tag: Int,
-        fd: Int,
-        mayReportToOEM: Boolean,
-        dumpMemory: (Long) -> Boolean,
-    ): Boolean = when (tag) {
-        memListenerDoNothing -> true
-        memListenerRunningGc -> true
-        memListenerDumpSnapshot ->
-            if (!mayReportToOEM && fd >= 0) dumpMemory(fd.toLong()) else true
-        else -> true
     }
 
     // ---------- Constants, naming, and description format ----------
@@ -436,54 +415,7 @@ class OomMemDumpHiAppEventTest {
         )
     }
 
-    // ---------- HiDebug MemDumpListener (Runtime.cpp; mirrored tag values) ----------
-
-    @Test
-    fun testMemListenerTypeConstants_api26() {
-        assertEquals(0, memListenerDoNothing)
-        assertEquals(1, memListenerRunningGc)
-        assertEquals(2, memListenerDumpSnapshot)
-        logLine("OH_HiDebug_MemListenerType constants ok")
-    }
-
-    @Test
-    fun testMemDumpListener_mirror_doNothingAndRunningGc() {
-        var dumpCalled = false
-        val dump: (Long) -> Boolean = { dumpCalled = true; true }
-        assertTrue(handleMemDumpListenerTag(memListenerDoNothing, -1, false, dump))
-        assertTrue(handleMemDumpListenerTag(memListenerRunningGc, -1, false, dump))
-        assertFalse(dumpCalled)
-        logLine("DO_NOTHING/RUNNING_GC ok")
-    }
-
-    @Test
-    fun testMemDumpListener_mirror_dumpSnapshotCallsDumpMemory() {
-        var capturedFd = -1
-        val dump: (Long) -> Boolean = { fd ->
-            capturedFd = fd.toInt()
-            true
-        }
-        assertTrue(handleMemDumpListenerTag(memListenerDumpSnapshot, 42, false, dump))
-        assertEquals(42, capturedFd)
-        assertTrue(handleMemDumpListenerTag(memListenerDumpSnapshot, 42, true, dump))
-        logLine("DUMP_SNAPSHOT mirror ok")
-    }
-
-    @Test
-    fun testMemDumpListener_mirror_dumpSnapshot_viaDebugging() {
-        val file = tmpfile()
-        assertNotNull(file)
-        val fd = fileno(file)
-        assertTrue(
-            handleMemDumpListenerTag(memListenerDumpSnapshot, fd, false) {
-                Debugging.dumpMemory(it)
-            },
-        )
-        fclose(file)
-        logLine("DUMP_SNAPSHOT + Debugging.dumpMemory ok")
-    }
-
-    // ---------- DumpMemoryToFile and Debugging.dumpMemory ----------
+    // ---------- DumpMemoryToFile (OOM dump file path; listener tests: OhosMemDumpListenerTest) ----------
 
     @Test
     fun testDebugging_dumpMemory_toTmpFile() {
