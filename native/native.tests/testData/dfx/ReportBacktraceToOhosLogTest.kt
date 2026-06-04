@@ -37,6 +37,32 @@ class ReportBacktraceToOhosLogTest {
 
     private fun logLine(msg: String) = println(msg)
 
+    /** get_fatal_message exposes stored length only; compare against set text length (often includes NUL, so size >= text.length). */
+    private fun fatalMessageStoredSize(): Long {
+        val p = get_fatal_message()
+        assertNotNull(p)
+        return p.pointed.size.toLong()
+    }
+
+    private fun assertFatalMessageSizeAtLeast(text: String, message: String = "") {
+        val size = fatalMessageStoredSize()
+        assertTrue(
+            size >= text.length.toLong(),
+            message.ifEmpty { "fatal_message size=$size expected >= ${text.length} for text length" },
+        )
+    }
+
+    /** SetCrashObj may return NOT_SUPPORTED / INVALID_ARGUMENT when API < 23 or the weak symbol is absent. */
+    private fun assertSetCrashObjAcceptable(rc: UInt) {
+        val code = rc.toInt()
+        assertTrue(
+            code == HIDEBUG_SUCCESS.toInt() ||
+                code == HIDEBUG_NOT_SUPPORTED.toInt() ||
+                code == HIDEBUG_INVALID_ARGUMENT.toInt(),
+            "unexpected SetCrashObj ret=$rc (code=$code)",
+        )
+    }
+
     // ---------- Constants aligned with Exceptions.cpp ----------
 
     /** OHOS_HIDEBUG_MIN_API */
@@ -290,7 +316,8 @@ class ReportBacktraceToOhosLogTest {
             "#00 pc 00000000001a3f00 /system/lib64/test.so(abcdef) (testFunc+0x10)\n" +
             "#01 pc 0000000000002b4c /system/lib64/libc.so\n"
         set_fatal_message(backtraceMsg)
-        logLine("set_fatal_message standard backtrace format ok, len=${backtraceMsg.length}")
+        assertFatalMessageSizeAtLeast(backtraceMsg, "standard backtrace")
+        logLine("set_fatal_message standard backtrace format ok, len=${backtraceMsg.length} size=${fatalMessageStoredSize()}")
     }
 
     @Test
@@ -303,7 +330,7 @@ class ReportBacktraceToOhosLogTest {
         val message = buildStandardBacktraceHeader(reason) +
             "#00 pc 00000000001a3f00 /data/lib/libkn.so(deadbeef) (entry+0x0)\n"
         val rc = setCrashObjWithString(message)
-        assertNotNull(rc)
+        assertSetCrashObjAcceptable(rc)
         logLine("SetCrashObj(standard backtrace) ret=$rc len=${message.length}")
     }
 
@@ -337,9 +364,8 @@ class ReportBacktraceToOhosLogTest {
         val compressedBacktrace = buildCompressedBacktraceHeader("RuntimeException: ohos crash probe") +
             "sofiles:\nlibentry.so(001122),libc.so(334455)\naddresses:\n[0] 0x1a3f00 0x2b4c\n[1] 0x3c5d\n"
         set_fatal_message(compressedBacktrace)
-        val p = get_fatal_message()
-        assertNotNull(p)
-        logLine("set_fatal_message compressed format size=${p.pointed.size}")
+        assertFatalMessageSizeAtLeast(compressedBacktrace, "compressed backtrace")
+        logLine("set_fatal_message compressed format size=${fatalMessageStoredSize()}")
     }
 
     @Test
@@ -371,11 +397,8 @@ class ReportBacktraceToOhosLogTest {
     fun testSetFatalMessageRoundtrip() {
         val text = "ReportBacktraceToOhosLogTest_roundtrip"
         set_fatal_message(text)
-        val p = get_fatal_message()
-        assertNotNull(p)
-        val size = p.pointed.size.toLong()
-        assertTrue(size > 0L)
-        logLine("roundtrip ok size=$size")
+        assertFatalMessageSizeAtLeast(text, "roundtrip")
+        logLine("roundtrip ok size=${fatalMessageStoredSize()}")
     }
 
     @Test
@@ -389,11 +412,9 @@ class ReportBacktraceToOhosLogTest {
         val largeMsg = buildStandardBacktraceHeader(reason) + frames
         val truncated = truncateFatalMessage(largeMsg, getFatalMessageSize(23))
         set_fatal_message(truncated)
-        val p = get_fatal_message()
-        assertNotNull(p)
-        assertTrue(p.pointed.size.toLong() > 0L)
+        assertFatalMessageSizeAtLeast(truncated, "large truncated backtrace")
         assertTrue(truncated.length <= getFatalMessageSize(23).toInt())
-        logLine("large standard backtrace truncated len=${truncated.length}")
+        logLine("large standard backtrace truncated len=${truncated.length} size=${fatalMessageStoredSize()}")
     }
 
     @Test
@@ -402,15 +423,12 @@ class ReportBacktraceToOhosLogTest {
         val msg1 = "backtrace_probe_1"
         val msg2 = "backtrace_probe_2_with_longer_content_for_testing"
         set_fatal_message(msg1)
-        val p1 = get_fatal_message()
-        assertNotNull(p1)
-        val size1 = p1.pointed.size.toLong()
+        val size1 = fatalMessageStoredSize()
+        assertFatalMessageSizeAtLeast(msg1, "first message")
         set_fatal_message(msg2)
-        val p2 = get_fatal_message()
-        assertNotNull(p2)
-        val size2 = p2.pointed.size.toLong()
-        assertTrue(size1 > 0L)
-        assertTrue(size2 > 0L)
+        val size2 = fatalMessageStoredSize()
+        assertFatalMessageSizeAtLeast(msg2, "second message")
+        assertTrue(size2 >= size1, "longer message should not shrink stored size: size1=$size1 size2=$size2")
         logLine("repeated set_fatal_message ok size1=$size1 size2=$size2")
     }
 
@@ -421,9 +439,8 @@ class ReportBacktraceToOhosLogTest {
             "sofiles:\na.so\naddresses:\n[0] 0x1\n"
         set_fatal_message(standard)
         set_fatal_message(compressed)
-        val p = get_fatal_message()
-        assertNotNull(p)
-        logLine("switch standard->compressed fatal_message size=${p.pointed.size}")
+        assertFatalMessageSizeAtLeast(compressed, "after switch to compressed")
+        logLine("switch standard->compressed fatal_message size=${fatalMessageStoredSize()}")
     }
 
     // ---------- HiDebug enums and SetCrashObj probes ----------
@@ -457,7 +474,7 @@ class ReportBacktraceToOhosLogTest {
                 logLine("OH_HiDebug_SetCrashObj(null) exception (API < 23): $e")
                 HIDEBUG_NOT_SUPPORTED
             }
-            assertNotNull(rc)
+            assertSetCrashObjAcceptable(rc)
             logLine("OH_HiDebug_SetCrashObj(null) ret=$rc")
         }
     }
@@ -465,7 +482,7 @@ class ReportBacktraceToOhosLogTest {
     @Test
     fun testOH_HiDebug_SetCrashObj_WithString() {
         val rc = setCrashObjWithString("ReportBacktraceToOhosLogTest_crashobj_probe")
-        assertNotNull(rc)
+        assertSetCrashObjAcceptable(rc)
         logLine("OH_HiDebug_SetCrashObj(string) ret=$rc")
     }
 
@@ -480,6 +497,8 @@ class ReportBacktraceToOhosLogTest {
             buildStandardBacktraceHeader("IllegalStateException: second") +
                 "#00 pc 0000000000000001 /lib/x.so\n",
         )
+        assertSetCrashObjAcceptable(rc1)
+        assertSetCrashObjAcceptable(rc2)
         logLine("repeated SetCrashObj ret1=$rc1 ret2=$rc2")
     }
 }
