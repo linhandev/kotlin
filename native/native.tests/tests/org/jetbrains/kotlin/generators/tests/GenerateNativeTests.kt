@@ -426,6 +426,18 @@ fun main() {
                 model()
             }
         }
+        // DFX tests（HiDebug / fatal_message 等，与 runtime Exceptions.cpp 等配套）
+        testGroup("native/native.tests/tests-gen", "native/native.tests/testData/dfx") {
+            testClass<AbstractNativeBlackBoxTest>(
+                suiteTestClassName = "OhosDFXTestGenerated",
+                annotations = listOf(
+                    *dfx(),
+                    provider<UseStandardTestCaseGroupProvider>(),
+                )
+            ) {
+                model()
+            }
+        }
     }
 }
 
@@ -590,6 +602,14 @@ private fun codegenBox() = annotation(Tag::class.java, "codegen-box")
 private fun klibIrInliner() = annotation(Tag::class.java, KLIB_IR_INLINER)
 private fun capi() = arrayOf(
     annotation(Tag::class.java, "capi"),
+    annotation(
+        EnforcedProperty::class.java,
+        "property" to ClassLevelProperty.TEST_KIND,
+        "propertyValue" to "STANDALONE"
+    ),
+)
+private fun dfx() = arrayOf(
+    annotation(Tag::class.java, "dfx"),
     annotation(
         EnforcedProperty::class.java,
         "property" to ClassLevelProperty.TEST_KIND,
