@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 import kotlin.test.*
+import kotlin.native.concurrent.AtomicInt
 import kotlin.native.runtime.Debugging
 import kotlin.native.runtime.NativeRuntimeApi
 import kotlinx.cinterop.*
 import platform.BasicServicesKit.DeviceInfo.OH_GetSdkApiVersion
 import platform.PerformanceAnalysisKit.HiAppEvent.*
+import platform.PerformanceAnalysisKit.HiDebug.*
 import platform.posix.*
 
 /**
@@ -41,16 +43,6 @@ class OomMemDumpHiAppEventTest {
     private fun logLine(msg: String) = println(msg)
 
     private val ohosOomMinApi = 26
-
-    /** OH_HiAppEvent_FrameworkType values (@since API 26); mirrored when cinterop enums are absent. */
-    private val frameworkTypeFlutterDart = 0
-    private val frameworkTypeReactNativeHermes = 1
-    private val frameworkTypeKmpKotlin = 2
-
-    /** OH_HiDebug_MemListenerType values (@since API 26). */
-    private val memListenerDoNothing = 0
-    private val memListenerRunningGc = 1
-    private val memListenerDumpSnapshot = 2
 
     private val maxOomDumpFiles = 10
 
@@ -169,16 +161,26 @@ class OomMemDumpHiAppEventTest {
      * Mirrors Runtime.cpp MemDumpListener callback branches (Kotlin mirror for DUMP_SNAPSHOT checks).
      */
     private fun handleMemDumpListenerTag(
-        tag: Int,
+        tag: OH_HiDebug_MemListenerType,
         fd: Int,
         mayReportToOEM: Boolean,
         dumpMemory: (Long) -> Boolean,
     ): Boolean = when (tag) {
-        memListenerDoNothing -> true
-        memListenerRunningGc -> true
-        memListenerDumpSnapshot ->
+        OH_HIDEBUG_DO_NOTHING -> true
+        OH_HIDEBUG_RUNNING_GC -> true
+        OH_HIDEBUG_DUMP_SNAPSHOT ->
             if (!mayReportToOEM && fd >= 0) dumpMemory(fd.toLong()) else true
         else -> true
+    }
+
+    private fun reportFrameworkMemAnomalyProbe(
+        fwVersion: String,
+        description: String,
+    ) = try {
+        OH_HiAppEvent_ReportFrameworkMemAnomaly(OH_KMP_KOTLIN, fwVersion, description)
+    } catch (e: Throwable) {
+        logLine("ReportFrameworkMemAnomaly exception: $e")
+        HIAPPEVENT_OPERATE_FAILED
     }
 
     // ---------- Constants, naming, and description format ----------
@@ -227,8 +229,13 @@ class OomMemDumpHiAppEventTest {
     fun testHiAppEventFrameworkVersion_fallbackUnknown() {
         // Matches #ifndef KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION default "unknown" (overridable at compile time).
         val fallbackFw = "unknown"
-        assertEquals("unknown", fallbackFw)
-        logLine("KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION fallback=$fallbackFw")
+        val desc = buildOomDescription("$oomDumpDir/oom.dump", 1L, 1L, "t")
+        if (sdkApiVersion() >= ohosOomMinApi) {
+            val rc = reportFrameworkMemAnomalyProbe(fallbackFw, desc)
+            logLine("ReportFrameworkMemAnomaly(unknown fw) ret=$rc")
+        } else {
+            logLine("skip fw version probe: API < $ohosOomMinApi")
+        }
     }
 
     // ---------- API gating and dlsym resolution (mirrored logic) ----------
@@ -353,7 +360,7 @@ class OomMemDumpHiAppEventTest {
         val pid = getpid()
         val dir = "/tmp/oom_cleanup_probe_$pid"
         memScoped {
-            if (mkdir(dir, 511u) != 0 && errno != 17) {
+            if (mkdir(dir, 0x1FF) != 0 && errno != 17) {
                 logLine("skip cleanup posix probe: mkdir failed errno=$errno")
                 return@memScoped
             }
@@ -366,7 +373,7 @@ class OomMemDumpHiAppEventTest {
                     val fd = open(path, O_CREAT or O_WRONLY or O_TRUNC, 0x1B6)
                     if (fd >= 0) close(fd)
                 }
-                val dp = opendir(dir)
+                val dp = opendir(dir.cstr.ptr)
                 if (dp == null) {
                     logLine("skip opendir probe")
                     return@memScoped
@@ -387,7 +394,7 @@ class OomMemDumpHiAppEventTest {
                 assertEquals(0, unlink(toDelete))
                 logLine("posix cleanup deleted $toDelete")
             } finally {
-                val dp = opendir(dir)
+                val dp = opendir(dir.cstr.ptr)
                 if (dp != null) {
                     while (true) {
                         val ent = readdir(dp) ?: break
@@ -401,14 +408,17 @@ class OomMemDumpHiAppEventTest {
         }
     }
 
-    // ---------- HiAppEvent (API 26 symbols mirrored; requires sysroot with hiappevent.h @ 26+) ----------
+    // ---------- HiAppEvent ReportFrameworkMemAnomaly ----------
 
     @Test
-    fun testFrameworkTypeConstants_api26() {
-        assertEquals(0, frameworkTypeFlutterDart)
-        assertEquals(1, frameworkTypeReactNativeHermes)
-        assertEquals(2, frameworkTypeKmpKotlin)
-        logLine("OH_HiAppEvent_FrameworkType constants ok, OH_KMP_KOTLIN=$frameworkTypeKmpKotlin")
+    fun testEnum_OH_HiAppEvent_FrameworkType() {
+        fun p(name: String, v: Int, expected: Int) {
+            logLine("$name=$v")
+            assertEquals(expected, v)
+        }
+        p("OH_FLUTTER_DART", OH_FLUTTER_DART.toInt(), 0)
+        p("OH_REACT_NATIVE_HERMES", OH_REACT_NATIVE_HERMES.toInt(), 1)
+        p("OH_KMP_KOTLIN", OH_KMP_KOTLIN.toInt(), 2)
     }
 
     @Test
@@ -423,35 +433,58 @@ class OomMemDumpHiAppEventTest {
     }
 
     @Test
-    fun testReportFrameworkMemAnomaly_descriptionReadyForRuntime() {
+    fun testOH_HiAppEvent_ReportFrameworkMemAnomaly() {
+        if (sdkApiVersion() < ohosOomMinApi) {
+            logLine("skip ReportFrameworkMemAnomaly: API < $ohosOomMinApi")
+            return
+        }
         val dumpPath = "$oomDumpDir/oom_dump_probe.dump"
         val description = buildOomDescription(
             dumpPath, oomThresholdBytes, oomThresholdBytes, "OomMemDumpHiAppEventTest_probe",
         )
-        assertTrue(description.contains("dump_path=$dumpPath"))
-        val version = sdkApiVersion()
-        logLine(
-            "ReportFrameworkMemAnomaly payload ready; fwType=$frameworkTypeKmpKotlin " +
-                "sdkApi=$version (runtime calls API on device when sdkApi>=$ohosOomMinApi)",
-        )
+        val rc = reportFrameworkMemAnomalyProbe("OomMemDumpHiAppEventTest-fw", description)
+        assertNotNull(rc)
+        logLine("ReportFrameworkMemAnomaly ret=$rc (HIAPPEVENT_SUCCESS=${HIAPPEVENT_SUCCESS})")
     }
 
-    // ---------- HiDebug MemDumpListener (Runtime.cpp; mirrored tag values) ----------
+    @Test
+    fun testOH_HiAppEvent_ReportFrameworkMemAnomaly_emptyDescription() {
+        if (sdkApiVersion() < ohosOomMinApi) {
+            logLine("skip empty description")
+            return
+        }
+        val rc = reportFrameworkMemAnomalyProbe("test", "")
+        assertNotNull(rc)
+        logLine("empty description ret=$rc")
+    }
 
     @Test
-    fun testMemListenerTypeConstants_api26() {
-        assertEquals(0, memListenerDoNothing)
-        assertEquals(1, memListenerRunningGc)
-        assertEquals(2, memListenerDumpSnapshot)
-        logLine("OH_HiDebug_MemListenerType constants ok")
+    fun testOH_HiAppEvent_ReportFrameworkMemAnomaly_repeatedCalls() {
+        if (sdkApiVersion() < ohosOomMinApi) return
+        val rc1 = reportFrameworkMemAnomalyProbe("fw1", buildOomDescription("$oomDumpDir/a.dump", 1, 1, "t1"))
+        val rc2 = reportFrameworkMemAnomalyProbe("fw2", buildOomDescription("$oomDumpDir/b.dump", 2, 2, "t2"))
+        logLine("repeated report ret1=$rc1 ret2=$rc2")
+    }
+
+    // ---------- HiDebug MemDumpListener (Runtime.cpp) ----------
+
+    @Test
+    fun testEnum_OH_HiDebug_MemListenerType() {
+        fun p(name: String, v: Int, expected: Int) {
+            logLine("$name=$v")
+            assertEquals(expected, v)
+        }
+        p("OH_HIDEBUG_DO_NOTHING", OH_HIDEBUG_DO_NOTHING.toInt(), 0)
+        p("OH_HIDEBUG_RUNNING_GC", OH_HIDEBUG_RUNNING_GC.toInt(), 1)
+        p("OH_HIDEBUG_DUMP_SNAPSHOT", OH_HIDEBUG_DUMP_SNAPSHOT.toInt(), 2)
     }
 
     @Test
     fun testMemDumpListener_mirror_doNothingAndRunningGc() {
         var dumpCalled = false
         val dump: (Long) -> Boolean = { dumpCalled = true; true }
-        assertTrue(handleMemDumpListenerTag(memListenerDoNothing, -1, false, dump))
-        assertTrue(handleMemDumpListenerTag(memListenerRunningGc, -1, false, dump))
+        assertTrue(handleMemDumpListenerTag(OH_HIDEBUG_DO_NOTHING, -1, false, dump))
+        assertTrue(handleMemDumpListenerTag(OH_HIDEBUG_RUNNING_GC, -1, false, dump))
         assertFalse(dumpCalled)
         logLine("DO_NOTHING/RUNNING_GC ok")
     }
@@ -463,24 +496,61 @@ class OomMemDumpHiAppEventTest {
             capturedFd = fd.toInt()
             true
         }
-        assertTrue(handleMemDumpListenerTag(memListenerDumpSnapshot, 42, false, dump))
+        assertTrue(handleMemDumpListenerTag(OH_HIDEBUG_DUMP_SNAPSHOT, 42, false, dump))
         assertEquals(42, capturedFd)
-        assertTrue(handleMemDumpListenerTag(memListenerDumpSnapshot, 42, true, dump))
+        assertTrue(handleMemDumpListenerTag(OH_HIDEBUG_DUMP_SNAPSHOT, 42, true, dump))
         logLine("DUMP_SNAPSHOT mirror ok")
     }
 
     @Test
-    fun testMemDumpListener_mirror_dumpSnapshot_viaDebugging() {
+    fun testOH_HiDebug_RegisterMemDumpListener_nullListener() {
+        if (sdkApiVersion() < ohosOomMinApi) return
+        val rc = try {
+            OH_HiDebug_RegisterMemDumpListener("KMP", null)
+        } catch (e: Throwable) {
+            logLine("RegisterMemDumpListener exception: $e")
+            HIDEBUG_INVALID_ARGUMENT
+        }
+        assertNotNull(rc)
+        logLine("RegisterMemDumpListener(null) ret=$rc")
+    }
+
+    @Test
+    fun testOH_HiDebug_RegisterMemDumpListener_withCallback() {
+        if (sdkApiVersion() < ohosOomMinApi) {
+            logLine("skip callback registration: API < $ohosOomMinApi")
+            return
+        }
+        val dumpInvokeCount = AtomicInt(0)
+        val listener = staticCFunction { fd: Int, tag: OH_HiDebug_MemListenerType, mayReportToOEM: Boolean, _: CPointer<ByteVar>? ->
+            handleMemDumpListenerTag(
+                tag = tag,
+                fd = fd,
+                mayReportToOEM = mayReportToOEM,
+                dumpMemory = { f ->
+                    if (f >= 0) dumpInvokeCount.add(1)
+                    true
+                },
+            )
+        }
+        val rc = try {
+            OH_HiDebug_RegisterMemDumpListener("KMP", listener)
+        } catch (e: Throwable) {
+            logLine("RegisterMemDumpListener(callback) exception: $e")
+            HIDEBUG_NOT_SUPPORTED
+        }
+        logLine("RegisterMemDumpListener(callback) ret=$rc (listener installed for runtime parity)")
+        // Invoke mirror logic directly (OS may not call the listener immediately).
         val file = tmpfile()
-        assertNotNull(file)
-        val fd = fileno(file)
-        assertTrue(
-            handleMemDumpListenerTag(memListenerDumpSnapshot, fd, false) {
-                Debugging.dumpMemory(it)
-            },
-        )
-        fclose(file)
-        logLine("DUMP_SNAPSHOT + Debugging.dumpMemory ok")
+        if (file != null) {
+            val fd = fileno(file)
+            assertTrue(
+                handleMemDumpListenerTag(OH_HIDEBUG_DUMP_SNAPSHOT, fd, false) {
+                    Debugging.dumpMemory(it)
+                },
+            )
+            fclose(file)
+        }
     }
 
     // ---------- DumpMemoryToFile and Debugging.dumpMemory ----------

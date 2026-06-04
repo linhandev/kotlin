@@ -402,13 +402,9 @@ class ReportBacktraceToOhosLogTest {
         val msg1 = "backtrace_probe_1"
         val msg2 = "backtrace_probe_2_with_longer_content_for_testing"
         set_fatal_message(msg1)
-        val p1 = get_fatal_message()
-        assertNotNull(p1)
-        val size1 = p1.pointed.size.toLong()
+        val size1 = get_fatal_message().pointed.size.toLong()
         set_fatal_message(msg2)
-        val p2 = get_fatal_message()
-        assertNotNull(p2)
-        val size2 = p2.pointed.size.toLong()
+        val size2 = get_fatal_message().pointed.size.toLong()
         assertTrue(size1 > 0L)
         assertTrue(size2 > 0L)
         logLine("repeated set_fatal_message ok size1=$size1 size2=$size2")
