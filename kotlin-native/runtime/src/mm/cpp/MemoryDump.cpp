@@ -321,19 +321,12 @@ private:
         int32_t elementSize = -type->instanceSize_;
         size_t dataOffset = alignUp(sizeof(ArrayHeader), elementSize);
 
-        if (type == theArrayTypeInfo) {
-            // Object array: must write all elements (they are references)
-            size_t dataSize = elementSize * count;
-            DumpU32(dataSize);
-
-            uint8_t* data = reinterpret_cast<uint8_t*>(arr) + dataOffset;
-            DumpSpan(std_support::span<uint8_t>(data, dataSize));
-        } else if (type == theByteArrayTypeInfo || type == theCharArrayTypeInfo) {
+        if (type == theByteArrayTypeInfo || type == theCharArrayTypeInfo || type == theStringTypeInfo) {
             // ByteArray and CharArray (String backing): strip content to save space.
             // kdumputil reconstructs zero-filled data from count * elementSize.
             DumpU32(0);
         } else {
-            // Other primitive arrays (IntArray, LongArray, etc.): write full content.
+            // Primitive array: write raw data.
             size_t dataSize = elementSize * count;
             DumpU32(dataSize);
 
