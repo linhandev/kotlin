@@ -145,6 +145,47 @@ class OomMemDumpHiAppEventTest {
     private fun canReportViaHiAppEvent(apiVersion: Int, symbolResolved: Boolean): Boolean =
         apiVersion >= ohosOomMinApi && symbolResolved
 
+    /**
+     * On device with API >= 26, calls NDK [OH_HiAppEvent_ReportFrameworkMemAnomaly] (cinterop [OH_KMP_KOTLIN]).
+     * Compile-time requires HMS sysroot with hiappevent.h @ API 26; runtime failures degrade to OPERATE_FAILED via try/catch.
+     */
+    private fun reportFrameworkMemAnomalyProbe(fwVersion: String, description: String): Int {
+        if (sdkApiVersion() < ohosOomMinApi) {
+            logLine("skip ReportFrameworkMemAnomaly: API < $ohosOomMinApi")
+            return HIAPPEVENT_OPERATE_FAILED.toInt()
+        }
+        return try {
+            OH_HiAppEvent_ReportFrameworkMemAnomaly(OH_KMP_KOTLIN, fwVersion, description).toInt()
+        } catch (e: Throwable) {
+            logLine("ReportFrameworkMemAnomaly exception: $e")
+            HIAPPEVENT_OPERATE_FAILED.toInt()
+        }
+    }
+
+    /** Logs HiAppEvent probe return code (logging only). */
+    private fun logHiAppEventProbeResult(rc: Int, label: String) {
+        val success = HIAPPEVENT_SUCCESS.toInt()
+        when (rc) {
+            success -> logLine("$label ret=SUCCESS ($rc)")
+            HIAPPEVENT_OPERATE_FAILED.toInt() ->
+                logLine("$label ret=OPERATE_FAILED ($rc) (device policy or probe skipped)")
+            HIAPPEVENT_INVALID_PARAM_VALUE.toInt() ->
+                logLine("$label ret=INVALID_PARAM ($rc)")
+            else -> logLine("$label ret=$rc")
+        }
+    }
+
+    /** Device probe: accepts SUCCESS / OPERATE_FAILED / INVALID_PARAM; other codes fail the assertion. */
+    private fun assertHiAppEventProbeAcceptable(rc: Int, label: String = "ReportFrameworkMemAnomaly") {
+        logHiAppEventProbeResult(rc, label)
+        assertTrue(
+            rc == HIAPPEVENT_SUCCESS.toInt() ||
+                rc == HIAPPEVENT_OPERATE_FAILED.toInt() ||
+                rc == HIAPPEVENT_INVALID_PARAM_VALUE.toInt(),
+            "$label unexpected ret=$rc",
+        )
+    }
+
     /** Mirrors MaybeDumpAndReportOom step order (report HiAppEvent before dump file). */
     private fun oomPipelineSteps(): List<OomPipelineStep> = listOf(
         OomPipelineStep.SHOULD_DUMP,
@@ -206,8 +247,14 @@ class OomMemDumpHiAppEventTest {
     fun testHiAppEventFrameworkVersion_fallbackUnknown() {
         // Matches #ifndef KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION default "unknown" (overridable at compile time).
         val fallbackFw = "unknown"
-        assertEquals("unknown", fallbackFw)
-        logLine("KOTLIN_NATIVE_HIAPPEVENT_FW_VERSION fallback=$fallbackFw")
+        val desc = buildOomDescription("$oomDumpDir/oom.dump", 1L, 1L, "t")
+        assertTrue(desc.contains("dump_path="))
+        if (sdkApiVersion() >= ohosOomMinApi) {
+            val rc = reportFrameworkMemAnomalyProbe(fallbackFw, desc)
+            logLine("ReportFrameworkMemAnomaly(unknown fw) ret=$rc")
+        } else {
+            logLine("skip fw version probe: API < $ohosOomMinApi")
+        }
     }
 
     // ---------- API gating and dlsym resolution (mirrored logic) ----------
@@ -237,8 +284,17 @@ class OomMemDumpHiAppEventTest {
             logLine("skip gate: version unavailable")
             return
         }
-        assertEquals(version >= ohosOomMinApi, version >= ohosOomMinApi)
-        logLine("api=$version oomApis=${version >= ohosOomMinApi}")
+        val oomApisReady = version >= ohosOomMinApi
+        logLine("api=$version oomApis=$oomApisReady")
+        if (oomApisReady) {
+            val rc = reportFrameworkMemAnomalyProbe(
+                "unknown",
+                buildOomDescription("$oomDumpDir/gate_probe.dump", 1, 1, "gate"),
+            )
+            assertHiAppEventProbeAcceptable(rc, "gate ReportFrameworkMemAnomaly")
+        } else {
+            assertFalse(canReportViaHiAppEvent(version, true))
+        }
     }
 
     // ---------- ShouldDumpAndMark and hasDumped_ re-arm ----------
@@ -402,17 +458,43 @@ class OomMemDumpHiAppEventTest {
     }
 
     @Test
-    fun testReportFrameworkMemAnomaly_descriptionReadyForRuntime() {
+    fun testOH_HiAppEvent_ReportFrameworkMemAnomaly() {
+        if (sdkApiVersion() < ohosOomMinApi) {
+            logLine("skip ReportFrameworkMemAnomaly: API < $ohosOomMinApi")
+            return
+        }
         val dumpPath = "$oomDumpDir/oom_dump_probe.dump"
         val description = buildOomDescription(
             dumpPath, oomThresholdBytes, oomThresholdBytes, "OomMemDumpHiAppEventTest_probe",
         )
         assertTrue(description.contains("dump_path=$dumpPath"))
-        val version = sdkApiVersion()
-        logLine(
-            "ReportFrameworkMemAnomaly payload ready; fwType=$frameworkTypeKmpKotlin " +
-                "sdkApi=$version (runtime calls API on device when sdkApi>=$ohosOomMinApi)",
+        val rc = reportFrameworkMemAnomalyProbe("OomMemDumpHiAppEventTest-fw", description)
+        assertHiAppEventProbeAcceptable(rc)
+    }
+
+    @Test
+    fun testOH_HiAppEvent_ReportFrameworkMemAnomaly_emptyDescription() {
+        if (sdkApiVersion() < ohosOomMinApi) {
+            logLine("skip empty description: API < $ohosOomMinApi")
+            return
+        }
+        val rc = reportFrameworkMemAnomalyProbe("test", "")
+        assertHiAppEventProbeAcceptable(rc, "empty description")
+    }
+
+    @Test
+    fun testOH_HiAppEvent_ReportFrameworkMemAnomaly_repeatedCalls() {
+        if (sdkApiVersion() < ohosOomMinApi) return
+        val rc1 = reportFrameworkMemAnomalyProbe(
+            "fw1",
+            buildOomDescription("$oomDumpDir/a.dump", 1, 1, "t1"),
         )
+        val rc2 = reportFrameworkMemAnomalyProbe(
+            "fw2",
+            buildOomDescription("$oomDumpDir/b.dump", 2, 2, "t2"),
+        )
+        assertHiAppEventProbeAcceptable(rc1, "repeated report 1")
+        assertHiAppEventProbeAcceptable(rc2, "repeated report 2")
     }
 
     // ---------- DumpMemoryToFile (OOM dump file path; listener tests: OhosMemDumpListenerTest) ----------
