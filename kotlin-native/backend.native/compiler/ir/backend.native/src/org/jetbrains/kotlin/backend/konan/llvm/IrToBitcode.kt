@@ -1781,7 +1781,7 @@ internal class CodeGeneratorVisitor(
             genInstanceOfObjC(obj, dstClass)
         } else with(VirtualTablesLookup) {
             checkIsSubtype(
-                    objTypeInfo = loadTypeInfo(bitcast(codegen.kObjHeaderPtr, obj)),
+                    objTypeInfo = loadTypeInfo(bitcast(codegen.kObjHeaderRef, obj)),
                     dstClass
             )
         }
