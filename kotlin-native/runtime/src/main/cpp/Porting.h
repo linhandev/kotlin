@@ -51,7 +51,7 @@ uint64_t getSystemTimeNanos();
 bool isLittleEndian();
 
 // region Tencent Code
-void startTrace(const char* utf8);
+void startTrace(const char* sectionName);
 void finishTrace();
 // endregion
 }  // namespace konan
