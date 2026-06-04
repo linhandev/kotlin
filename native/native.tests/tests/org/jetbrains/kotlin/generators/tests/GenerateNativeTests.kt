@@ -426,7 +426,7 @@ fun main() {
                 model()
             }
         }
-        // DFX tests（HiDebug / fatal_message 等，与 runtime Exceptions.cpp 等配套）
+        // DFX tests
         testGroup("native/native.tests/tests-gen", "native/native.tests/testData/dfx") {
             testClass<AbstractNativeBlackBoxTest>(
                 suiteTestClassName = "OhosDFXTestGenerated",
