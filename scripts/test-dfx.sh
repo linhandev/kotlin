@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# DFX test script: run Ohos DFX black-box tests (HiDebug / fatal_message / backtrace 等).
+# DFX test script: run Ohos DFX black-box tests (HiDebug / fatal_message / backtrace, etc.).
 # POSIX sh compatible (run with sh or zsh).
 
 set -e
@@ -42,10 +42,10 @@ _is_in_list() { case " $2 " in *" $1 "*) return 0;; *) return 1;; esac; }
 _count_words() { set -- $1; echo $#; }
 
 # ========== Minimum API level per test class ==========
-# get_min_api TEST_NAME -> N (default 17). 新增用例且依赖高 API 时在此扩展。
+# get_min_api TEST_NAME -> N (default 17). Extend here when adding tests that require a higher API.
 get_min_api() {
   case "$1" in
-    ReportBacktraceToOhosLogTest) echo 17 ;;  # HiDebug_SetCrashObj 在 <23 由用例内 try-catch 容错
+    ReportBacktraceToOhosLogTest) echo 17 ;;  # HiDebug_SetCrashObj on API <23: tolerated via try-catch in tests
     OomMemDumpHiAppEventTest) echo 26 ;;      # ReportFrameworkMemAnomaly / RegisterMemDumpListener @ API 26
     *) echo 17 ;;
   esac
@@ -66,7 +66,7 @@ get_min_api() {
 #   ./scripts/test-dfx.sh -r
 #   ./scripts/test-dfx.sh -api23 all
 
-# 模拟器可跑的 DFX 用例（新增用例后按需追加）
+# DFX tests allowed on emulator (-v); append new class names when adding cases
 EMULATOR_SUPPORTED_TESTS="ReportBacktraceToOhosLogTest OomMemDumpHiAppEventTest"
 
 # ========== Regenerate test sources ==========
