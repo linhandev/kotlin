@@ -1993,10 +1993,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             // importRtStubFunction. The ThrowArrayIndexOutOfBoundsException
             // skip is also stackmap-only (intrinsic optimisation).
             if (!forbidRuntime && needSafePoint) {
-                val safepointFn = if (enableStackmap)
-                    llvm.Kotlin_mm_safePointFunctionPrologueStub
-                else
-                    llvm.Kotlin_mm_safePointFunctionPrologue
+                val safepointFn = llvm.Kotlin_mm_safePointFunctionPrologue
                 if (!(enableStackmap && function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException"))) {
                     call(safepointFn, emptyList())
                 }
