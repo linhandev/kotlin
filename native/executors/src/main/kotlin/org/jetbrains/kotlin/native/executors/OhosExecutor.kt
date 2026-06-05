@@ -31,9 +31,10 @@
   * HDC path resolution is done by scripts/test-capi.sh; here we use HDC_PATH when set, else "hdc".
   */
  @OptIn(ExperimentalTime::class)
- class OhosExecutor : Executor {
+ class OhosExecutor(
+     private val hostExecutor: Executor = HostExecutor(),
+ ) : Executor {
      private val logger = Logger.getLogger(OhosExecutor::class.java.name)
-     private val hostExecutor: Executor = HostExecutor()
      private val hdcPath = findHdcPath()
      private val deviceExeDir = "/data/local/tmp"
  
@@ -107,7 +108,6 @@
              }
              else -> response
          }
-         return response
      }
  
      /**

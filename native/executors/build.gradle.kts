@@ -35,6 +35,9 @@ dependencies {
     } else {
         implementation(project(":native:kotlin-native-utils"))
     }
+
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 group = "org.jetbrains.kotlin"
@@ -43,6 +46,10 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(8))
     }
+}
+
+sourceSets {
+    "test" { projectDefault() }
 }
 
 tasks.withType<KotlinJvmCompile>().configureEach {
@@ -59,5 +66,13 @@ tasks.withType<KotlinJvmCompile>().configureEach {
                 "-Xsuppress-version-warnings",
             )
         )
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+        showExceptions = true
     }
 }
