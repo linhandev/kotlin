@@ -502,7 +502,7 @@ class OhosMemDumpStripTest {
         val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
         val stringType = parsed.types.values.firstOrNull { it.relativeName == "String" }
         assertNotNull(stringType, "String type must appear in TYPE records")
-        val stringArrays = parsed.arrays.filter { it.typeIdKey == stringType!!.idKey && it.count > 0 }
+        val stringArrays = parsed.arrays.filter { it.typeIdKey == stringType.idKey && it.count > 0 }
         assertTrue(stringArrays.isNotEmpty(), "expected String array instances in dump")
         assertTrue(
             stringArrays.any { it.payloadSize == 0 },
