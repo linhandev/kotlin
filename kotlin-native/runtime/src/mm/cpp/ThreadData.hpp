@@ -174,6 +174,9 @@ public:
     void ClearThreadHolder()
     {
         assertUseCRT();
+        // Must precede UnbindMutator, which nulls allocBuffer_ without releasing it —
+        // otherwise the buffer and its TL regions leak. Same order as ~TryBindMutatorScope.
+        threadHolder->ReleaseAllocBuffer();
         threadHolder->UnbindMutator();
         common::ThreadHolder::DestroyThreadHolder(threadHolder);
         threadHolder = nullptr;

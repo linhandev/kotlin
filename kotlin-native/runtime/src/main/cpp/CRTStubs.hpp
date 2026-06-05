@@ -85,6 +85,7 @@ public:
     static void DestroyThreadHolder(ThreadHolder*) noexcept {}
     void* GetMutator() const noexcept { return nullptr; }
     GCPhase GetMutatorPhase() const noexcept { return GCPhase::GC_PHASE_IDLE; }
+    void ReleaseAllocBuffer() noexcept {}
     void BindMutator() noexcept {}
     void UnbindMutator() noexcept {}
     void TransferToRunning() noexcept {}
