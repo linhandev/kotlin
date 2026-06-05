@@ -42,7 +42,7 @@ OBJ_GETTER(setupArgs, int argc, const char** argv) {
   for (int index = 1; index < argc; index++) {
     ObjHolder result;
     CreateStringFromCString(argv[index], result.slot());
-    UpdateHeapRef(ArrayAddressOfElementAt(array, index - 1), result.obj());
+    UpdateHeapRef(ArrayAddressOfElementAt(array, index - 1), result.obj(), array->obj());
   }
   return result;
 }
@@ -55,18 +55,19 @@ extern "C" KInt Konan_run_start(int argc, const char** argv) {
 }
 
 extern "C" RUNTIME_EXPORT int Init_and_run_start(int argc, const char** argv, int memoryDeInit) {
-  Kotlin_initRuntimeIfNeeded();
-  Kotlin_mm_switchThreadStateRunnable();
+    common::CallToFFixedX28 guard{};
+    Kotlin_initRuntimeIfNeeded();
+    Kotlin_mm_switchThreadStateRunnable();
 
-  KInt exitStatus = Konan_run_start(argc, argv);
+    KInt exitStatus = Konan_run_start(argc, argv);
 
-  if (memoryDeInit) {
-      Kotlin_shutdownRuntime();
-  }
+    if (memoryDeInit) {
+        Kotlin_shutdownRuntime();
+    }
 
-  kotlin::programName = nullptr; // argv[0] might not be valid after this point
+    kotlin::programName = nullptr; // argv[0] might not be valid after this point
 
-  return exitStatus;
+    return exitStatus;
 }
 
 #ifndef KONAN_ANDROID

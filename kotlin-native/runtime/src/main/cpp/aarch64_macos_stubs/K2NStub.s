@@ -143,13 +143,11 @@ _Kotlin_K2NStub:
         mov  x26, x6
         mov  x27, x7
 
-        mov  x19, x10
-
-        // x28 <- previous sp
-        add  x28, sp, #ForwardStubFrameSize
+        // x19 <- previous sp
+        add  x19, sp, #ForwardStubFrameSize
 
         // x19 <- previous sp + cpStackSize
-        add  x19, x28, x19
+        add  x19, x19, x10
 
         mov  x29, sp
         cfi_def_cfa_register (x29)
@@ -194,8 +192,9 @@ _Kotlin_K2NStub:
         cfi_restore (x10)
 
         // copy arg9, arg10, ... (if existed)
+        sub x27, x19, x10
 Lcopy_k2n:
-        cmp x19, x28
+        cmp x19, x27
         ble Lcopy_k2n_end
         ldp x25, x26, [x19, #-16]!
         // SP is always 16 byte-aligned.
@@ -254,9 +253,9 @@ Lcopy_k2n_end:
         ldp  x25, x26, [sp, #ForwardStubCalleeSaveArea+0x30]
         cfi_restore (x25)
         cfi_restore (x26)
-        ldp  x27, x28, [sp, #ForwardStubCalleeSaveArea+0x40]
+        // do NOT restore x28 from the entry-saved slot.
+        ldr  x27, [sp, #ForwardStubCalleeSaveArea+0x40]
         cfi_restore (x27)
-        cfi_restore (x28)
 
         ldp     x29, x30, [sp], #ForwardStubFrameSize
         cfi_adjust_cfa_offset (-ForwardStubFrameSize)

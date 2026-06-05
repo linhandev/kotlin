@@ -10,6 +10,10 @@
 #include "GCStatistics.hpp"
 #include "KAssert.h"
 #include "Logging.hpp"
+#include "MemoryManagerSwitch.hpp"
+#ifdef ENABLE_CRT
+#include "crt/cpp/KNFinalizer.hpp"
+#endif
 
 using namespace kotlin;
 
@@ -33,6 +37,25 @@ gc::GC::~GC() = default;
 
 void gc::GC::ClearForTests() noexcept {
     GCHandle::ClearForTests();
+}
+
+void gc::GC::StartFinalizerThreadIfNeeded() noexcept {
+    checkUseCRT<CheckMode::Slow>([] {
+        RuntimeAssert(common::KNFinalizationInterface::FinalizerThreadIsRunning(),
+            "CRT finalizer thread is expected to start during init");
+    });
+}
+
+void gc::GC::StopFinalizerThreadIfRunning() noexcept {
+    assertNotCRT();
+}
+
+bool gc::GC::FinalizersThreadIsRunning() noexcept {
+    return checkUseCRT<CheckMode::Slow>([] {
+        return common::KNFinalizationInterface::FinalizerThreadIsRunning();
+    }, [&] {
+        return false;
+    });
 }
 
 // static

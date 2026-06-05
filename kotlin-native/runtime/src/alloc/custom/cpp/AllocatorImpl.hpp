@@ -13,6 +13,11 @@
 #include "Heap.hpp"
 #include "SegregatedFinalizerProcessor.hpp"
 
+#ifdef ENABLE_CRT
+#include "crt/cpp/CRTAllocator.hpp"
+#endif
+#include "MemoryManagerSwitch.hpp"
+
 namespace kotlin::alloc {
 
 class Allocator::Impl : private Pinned {
@@ -32,12 +37,41 @@ private:
 
 class Allocator::ThreadData::Impl : private Pinned {
 public:
-    explicit Impl(Allocator::Impl& allocator) noexcept : alloc_(allocator.heap()) {}
+    explicit Impl(Allocator::Impl& allocator) noexcept
+    {
+        // Note: placement-new of union member is used to avoid referencing
+        // CRTAllocator if CRT is disabled at compile-time.
+        checkUseCRT<CheckMode::Slow>([&] {
+            new (&alloc_.crt_) CRTAllocator();
+        }, [&]() {
+            new (&alloc_.custom_) CustomAllocator(allocator.heap());
+        });
+    }
 
-    alloc::CustomAllocator& alloc() noexcept { return alloc_; }
+    CRTAllocator& crt_alloc() noexcept {
+        assertUseCRT();
+        return alloc_.crt_;
+    }
+    CustomAllocator& alloc() noexcept {
+        assertNotCRT();
+        return alloc_.custom_;
+    }
 
 private:
-    CustomAllocator alloc_;
+    union Alloc { // Note: not a std::variant to avoid referencing ~CRTAllocator if CRT is disabled at compile-time.
+        Alloc() {}
+        ~Alloc()
+        {
+            checkUseCRT<CheckMode::Slow>([&] {
+                crt_.~CRTAllocator();
+            }, [&] {
+                custom_.~CustomAllocator();
+            });
+        }
+
+        CRTAllocator crt_;
+        CustomAllocator custom_;
+    } alloc_;
 };
 
 } // namespace kotlin::alloc

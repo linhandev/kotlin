@@ -229,11 +229,22 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
         }
     }
 
+    // Precise-stackmap (ON) forces the default GC to CMS and keeps "cms" -> CMS.
+    // In OFF mode:
+    //   - explicit "cms"  -> PMCS (PARALLEL_MARK_CONCURRENT_SWEEP);
+    //   - unspecified gc  -> null here, which then falls through to KonanConfig.gc's
+    //     defaultGC = CMS (i.e. unchanged from the pre-switch baseline, which also
+    //     defaulted to CMS). Only the explicit-"cms" case is actually remapped.
+    // The default mirrors KonanConfig.enableStackmap (target-aware: ON only for
+    // ohos_arm64) so the GC choice agrees with codegen; a null target means the
+    // host, which is never ohos_arm64.
+    val stackmapEnabled = get(BinaryOptions.enableStackmap) ?: (arguments.target == KonanTarget.OHOS_ARM64.name)
     val gcFromArgument = when (arguments.gc) {
-        null -> GC.CONCURRENT_MARK_AND_SWEEP
+        null -> if (stackmapEnabled) GC.CONCURRENT_MARK_AND_SWEEP else null
         "noop" -> GC.NOOP
         "stms" -> GC.STOP_THE_WORLD_MARK_AND_SWEEP
-        "cms" -> GC.CONCURRENT_MARK_AND_SWEEP
+        "cms" -> if (stackmapEnabled) GC.CONCURRENT_MARK_AND_SWEEP else GC.PARALLEL_MARK_CONCURRENT_SWEEP
+        "cmc" -> GC.CONCURRENT_MARK_AND_COPY
         else -> {
             val validValues = enumValues<GC>().map {
                 val fullName = "$it".lowercase()
@@ -275,8 +286,9 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
             AllocationMode.CUSTOM
         }
         "custom" -> AllocationMode.CUSTOM
+        "crt" -> AllocationMode.CRT
         else -> {
-            report(ERROR, "Expected 'std', or 'custom' for allocator")
+            report(ERROR, "Expected 'std', 'custom', or 'crt' for allocator")
             AllocationMode.CUSTOM
         }
     })
@@ -356,6 +368,7 @@ internal fun CompilerConfiguration.setupCommonOptionsForCaches(konanConfig: Kona
     put(BinaryOptions.gc, konanConfig.gc)
     put(BinaryOptions.gcSchedulerType, konanConfig.gcSchedulerType)
     put(BinaryOptions.runtimeAssertionsMode, konanConfig.runtimeAssertsMode)
+    put(BinaryOptions.runtimeSwitchMemoryManager, konanConfig.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH)
     put(LAZY_IR_FOR_CACHES, konanConfig.lazyIrForCaches)
     put(CommonConfigurationKeys.PARALLEL_BACKEND_THREADS, konanConfig.threadsCount)
     putIfNotNull(KONAN_DATA_DIR, konanConfig.distribution.localKonanDir.absolutePath)

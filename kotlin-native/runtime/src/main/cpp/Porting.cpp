@@ -70,7 +70,11 @@ void consoleWriteUtf8(const char* utf8, uint32_t sizeBytes) {
   }
 // region Tencent Code
 #elif KONAN_OHOS
-  OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "Konan_main", "%{public}s", utf8);
+  if (kotlin::compiler::printToOhosHiLog()) {
+    OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "Konan_main", "%{public}s", utf8);
+  } else {
+    ::write(STDOUT_FILENO, utf8, sizeBytes);
+  }
 // endregion
 #else
   ::write(STDOUT_FILENO, utf8, sizeBytes);
@@ -87,7 +91,11 @@ void consoleErrorUtf8(const char* utf8, uint32_t sizeBytes) {
   }
 // region Tencent Code
 #elif KONAN_OHOS
-  OH_LOG_Print(LOG_APP, LOG_ERROR, LOG_DOMAIN, "Konan_main", "%{public}s", utf8);
+  if (kotlin::compiler::printToOhosHiLog()) {
+    OH_LOG_Print(LOG_APP, LOG_ERROR, LOG_DOMAIN, "Konan_main", "%{public}s", utf8);
+  } else {
+    ::write(STDERR_FILENO, utf8, sizeBytes);
+  }
 // endregion
 #else
   ::write(STDERR_FILENO, utf8, sizeBytes);
@@ -268,11 +276,9 @@ NO_EXTERNAL_CALLS_CHECK uintptr_t currentThreadId() {
 #elif KONAN_ANDROID
     return gettid();
 // region Tencent Code
-#elif KONAN_OHOS
+#elif KONAN_LINUX || KONAN_OHOS
     return gettid();
 // endregion
-#elif KONAN_LINUX
-    return gettid();
 #elif KONAN_WINDOWS
   return GetCurrentThreadId();
 #else

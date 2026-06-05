@@ -38,7 +38,9 @@ private:
 };
 
 void safePoint(std::memory_order fastPathOrder = std::memory_order_relaxed) noexcept;
+#ifdef ENABLE_STACKMAP
 void safePointStub(std::memory_order fastPathOrder = std::memory_order_relaxed) noexcept;
+#endif
 void safePoint(ThreadData& threadData, std::memory_order fastPathOrder = std::memory_order_relaxed) noexcept;
 
 /**

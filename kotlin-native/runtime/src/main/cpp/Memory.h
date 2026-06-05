@@ -26,6 +26,8 @@
 #include "Common.h"
 #include "TypeInfo.h"
 #include "PointerBits.h"
+#include "MemoryManagerSwitch.hpp"
+#include "CRTFastpathUtils.hpp"
 #include "Utils.hpp"
 
 #ifdef KONAN_OHOS
@@ -42,12 +44,23 @@
   #define CODEGEN_INLINE_POLICY ALWAYS_INLINE
 #endif
 
-typedef enum {
+constexpr uintptr_t kKotlinObjectTagMask = (1u << 2) - 1;
+#ifdef ENABLE_STACKMAP
+// Bit 59 of typeInfoOrMeta_ is used by KNStateWord::valid. Mask strips the
+// top 16 bits (TBI territory) plus the low 2 tag bits. Only the precise-
+// stackmap path (OHOS arm64) writes bit 59; other paths get the plain mask.
+constexpr uintptr_t kImmTypeInfoMask = sizeof(uintptr_t) == sizeof(uint64_t) ?
+        static_cast<uintptr_t>(0x0000fffffffffffcULL) : ~kKotlinObjectTagMask;
+#else
+constexpr uintptr_t kImmTypeInfoMask = ~kKotlinObjectTagMask;
+#endif
+typedef enum : uintptr_t {
     OBJECT_TAG_HEAP = 0,
     OBJECT_TAG_PERMANENT = 1, // Must match to permanentTag() in Kotlin.
     OBJECT_TAG_STACK = 3,
+    KOTLIN_OBJECT_TAG_MASK = kKotlinObjectTagMask,
     // Keep in sync with immTypeInfoMask in Kotlin.
-    OBJECT_TAG_MASK = (1 << 2) - 1
+    OBJECT_TAG_MASK = ~kImmTypeInfoMask
 } ObjectTag;
 
 struct ArrayHeader;
@@ -65,7 +78,11 @@ struct ObjHeader {
   // Returns `nullptr` if it's not a meta object.
   static MetaObjHeader* AsMetaObject(TypeInfo* typeInfo) noexcept {
       auto* typeInfoOrMeta = clearPointerBits(typeInfo, OBJECT_TAG_MASK);
+#ifdef ENABLE_STACKMAP
+      // OHOS arm64 pointer tagging requires clearing the top 16 bits of the tag.
+      // OFF path does not mask (baseline behaviour).
       typeInfoOrMeta = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfoOrMeta) & 0xffffffffffff);
+#endif
       if (typeInfoOrMeta != typeInfoOrMeta->typeInfo_) {
           return reinterpret_cast<MetaObjHeader*>(typeInfoOrMeta);
       } else {
@@ -89,17 +106,8 @@ struct ObjHeader {
    * Hardware guaranties on many supported platforms doesn't allow this to happen.
    */
   const TypeInfo* type_info() const {
-      // typeInfoOrMeta_ carries tag bits in BOTH the low 2 bits (OBJECT_TAG_MASK)
-      // and the high 5 bits (KNStateWord: bit 59 `valid`, bits 60-63 `remainded`,
-      // set by CustomAllocator). Clear both before dereferencing/comparing.
-      // Mirrors the 48-bit mask in ObjHeader::AsMetaObject above and the
-      // immTypeInfoMask in CodeGenerator.kt.
-      // ExtraObjectData::Install strips the high tag before storing into its
-      // typeInfo_ field, so the inner load is already clean and no second
-      // mask is needed here.
-      auto* cleaned = clearPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK);
-      cleaned = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(cleaned) & 0xffffffffffff);
-      auto atomicTypeInfoPtr = kotlin::std_support::atomic_ref{cleaned->typeInfo_};
+      auto typeInfoOrMeta = clearPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK);
+      auto atomicTypeInfoPtr = kotlin::std_support::atomic_ref{typeInfoOrMeta->typeInfo_};
       const TypeInfo* typeInfo = atomicTypeInfoPtr.load(std::memory_order_relaxed);
       RuntimeAssert(typeInfo != nullptr, "TypeInfo ptr in object %p in null", this);
       return typeInfo;
@@ -125,7 +133,7 @@ struct ObjHeader {
 #endif
 
   inline bool stack() const {
-    return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
+    return getPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
   }
 
   // Unsafe cast to ArrayHeader. Use carefully!
@@ -134,11 +142,15 @@ struct ObjHeader {
   const ArrayHeader* array() const { return reinterpret_cast<const ArrayHeader*>(this); }
 
   inline bool permanent() const {
-    return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_PERMANENT;
+    return getPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_PERMANENT;
   }
 
   inline bool heap() const {
-    return getPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK) == OBJECT_TAG_HEAP;
+    return getPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_HEAP;
+  }
+
+  inline bool local() const {
+    return getPointerBits(typeInfoOrMetaRelaxed(), KOTLIN_OBJECT_TAG_MASK) == OBJECT_TAG_STACK;
   }
 
   static MetaObjHeader* createMetaObject(ObjHeader* object);
@@ -153,11 +165,15 @@ static_assert(alignof(ObjHeader) <= kotlin::kObjectAlignment);
   uint32_t count_;
 
 struct ArrayHeader {
-  ARRAY_HEADER_FIELDS
+    ARRAY_HEADER_FIELDS
 
-  ObjHeader* obj() { return reinterpret_cast<ObjHeader*>(this); }
-  const ObjHeader* obj() const { return reinterpret_cast<const ObjHeader*>(this); }
-  const TypeInfo* type_info() const { return obj()->type_info(); }
+    const TypeInfo* type_info() const
+    {
+        return obj()->type_info(); // Array hashCode is identityHashCode so arrays might have ExtraObject installed.
+    }
+
+    ObjHeader* obj() { return reinterpret_cast<ObjHeader*>(this); }
+    const ObjHeader* obj() const { return reinterpret_cast<const ObjHeader*>(this); }
 };
 static_assert(alignof(ArrayHeader) <= kotlin::kObjectAlignment);
 
@@ -165,6 +181,8 @@ static inline ObjHeader* const kInitializingSingleton = reinterpret_cast<ObjHead
 ALWAYS_INLINE inline bool isNullOrMarker(const ObjHeader* obj) noexcept {
     return reinterpret_cast<uintptr_t>(obj) <= 1;
 }
+
+ALWAYS_INLINE bool isPermanentOrFrozen(const ObjHeader* obj);
 
 struct FrameOverlay;
 namespace kotlin {
@@ -176,6 +194,10 @@ enum class ThreadState {
 #ifdef __cplusplus
 extern "C" {
 #endif
+// Stackmap requires AS1 (address space 1) on pointer types in function signatures
+// to correctly identify heap references. However, applying AS1 throughout the
+// runtime would require pervasive type changes. We use AS1 when declaring the
+// signatures and in the actual definition uses regular pointer
 typedef AS1 ObjHeader * HeapObjPtr;
 typedef const AS1 ObjHeader * ConstHeapObjPtr;
 typedef AS1 ObjHeader * AS1 * HeapDerivedPtr;
@@ -217,6 +239,12 @@ OBJ_GETTER(AllocInstance, const TypeInfo* type_info) RUNTIME_NOTHROW;
 
 OBJ_GETTER(AllocArrayInstance, const TypeInfo* type_info, int32_t elements);
 
+// Followings are the APIs used by the compiler, differences from the runtime
+// counterpart, they have the enterFrame operations
+OBJ_GETTER(AllocInstanceForCI, const TypeInfo* type_info) RUNTIME_NOTHROW;
+
+OBJ_GETTER(AllocArrayInstanceForCI, const TypeInfo* type_info, int32_t elements);
+
 
 // `initialValue` may be `nullptr`, which signifies that the appropriate initial value was already
 // set by static initialization.
@@ -245,23 +273,57 @@ void InitAndRegisterGlobal(HeapObjPtr* location, ConstHeapObjPtr initialValue) R
 //    in intermediate frames when throwing
 //
 
+// NOTE: Must match `MemoryModel` in `Platform.kt`
+enum class MemoryModel {
+    kStrict = 0,
+    kRelaxed = 1,
+    kExperimental = 2,
+};
+
+// Controls the current memory model, is compile-time constant.
+extern const MemoryModel CurrentMemoryModel;
+
+// Reads heap/static data location. thisPtr is the owning object (used by CRT read barrier; nullptr for CMS).
+// `thisPtr` is declared `HeapObjPtr` (AS1 ObjHeader*) so the kotlin-native compiler-interface build
+// sees addrspace(1) for it; without AS1 here, kotlin-native's `call` would emit an
+// `addrspacecast ptr addrspace(1) %this to ptr` at the call site, and LLVM's LICM hoists that cast
+// out of any loop, producing a stale (from-space) pointer that crashes the WriteBarrier on the next
+// compaction. Matches the existing AS1 usage on `location`/`object`. C++ definitions in Memory.cpp
+// keep plain ObjHeader* because AS1 expands to nothing in the regular build.
+HeapObjPtr ReadHeapRef(HeapDerivedPtr location, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
+// Reads volatile heap/static data location.
+HeapObjPtr ReadVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // Zeroes heap location.
-void ZeroHeapRef(HeapDerivedPtr location) RUNTIME_NOTHROW;
+void ZeroHeapRef(HeapDerivedPtr location, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // Zeroes an array.
-void ZeroArrayRefs(ArrayHeader* array) RUNTIME_NOTHROW;
+void ZeroArrayRefs(ObjHeader* array) RUNTIME_NOTHROW;
 // Zeroes stack location.
 void ZeroStackRef(HeapObjPtr* location) RUNTIME_NOTHROW;
 // Updates stack location.
 void UpdateStackRef(HeapObjPtr* location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
 // Updates heap/static data location.
-void UpdateHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+void UpdateHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
 // Updates volatile heap/static data location.
-void UpdateVolatileHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+void UpdateVolatileHeapRef(HeapDerivedPtr location, ConstHeapObjPtr object,
+                           HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
+// OBJ_GETTER macros append an implicit HeapObjPtr* OBJ_RESULT param, so thisPtr cannot carry a default arg.
 OBJ_GETTER(CompareAndSwapVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr expectedValue,
-           HeapObjPtr newValue) RUNTIME_NOTHROW;
+           HeapObjPtr newValue, HeapObjPtr thisPtr) RUNTIME_NOTHROW;
 bool CompareAndSetVolatileHeapRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
-                                  HeapObjPtr newValue) RUNTIME_NOTHROW;
-OBJ_GETTER(GetAndSetVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr newValue) RUNTIME_NOTHROW;
+                                  HeapObjPtr newValue, HeapObjPtr thisPtr = nullptr) RUNTIME_NOTHROW;
+OBJ_GETTER(GetAndSetVolatileHeapRef, HeapDerivedPtr location, HeapObjPtr newValue, HeapObjPtr thisPtr) RUNTIME_NOTHROW;
+
+// Static (global) ref ops. Ported from upstream 33af2848b3c — globals dispatch through
+// RefAccessor<Global> rather than pretending to be heap refs with thisPtr==NULL.
+HeapObjPtr ReadStaticRef(HeapDerivedPtr location) RUNTIME_NOTHROW;
+HeapObjPtr ReadVolatileStaticRef(HeapDerivedPtr location) RUNTIME_NOTHROW;
+void UpdateStaticRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+void UpdateVolatileStaticRef(HeapDerivedPtr location, ConstHeapObjPtr object) RUNTIME_NOTHROW;
+OBJ_GETTER(CompareAndSwapVolatileStaticRef, HeapDerivedPtr location, HeapObjPtr expectedValue,
+           HeapObjPtr newValue) RUNTIME_NOTHROW;
+bool CompareAndSetVolatileStaticRef(HeapDerivedPtr location, HeapObjPtr expectedValue,
+                                    HeapObjPtr newValue) RUNTIME_NOTHROW;
+OBJ_GETTER(GetAndSetVolatileStaticRef, HeapDerivedPtr location, HeapObjPtr newValue) RUNTIME_NOTHROW;
 
 // Updates location if it is null, atomically.
 // Updates reference in return slot.
@@ -274,7 +336,13 @@ void LeaveFrame(HeapObjPtr* start, int parameters, int count) RUNTIME_NOTHROW;
 // Set current frame in case if exception caught.
 void SetCurrentFrame(HeapObjPtr* start) RUNTIME_NOTHROW;
 FrameOverlay* getCurrentFrame() RUNTIME_NOTHROW;
+#ifdef ENABLE_STACKMAP
+// ON path uses ALWAYS_INLINE on this declaration. OFF path falls back to the
+// upstream form without the explicit inline hint.
 ALWAYS_INLINE void CheckCurrentFrame(HeapObjPtr* frame) RUNTIME_NOTHROW;
+#else
+void CheckCurrentFrame(HeapObjPtr* frame) RUNTIME_NOTHROW;
+#endif
 // Add TLS object storage, called by the generated code.
 void AddTLSRecord(MemoryState* memory, void** key, int size) RUNTIME_NOTHROW;
 // Allocate storage for TLS. `AddTLSRecord` cannot be called after this.
@@ -284,6 +352,10 @@ void ClearTLS(MemoryState* memory) RUNTIME_NOTHROW;
 // Lookup element in TLS object storage.
 HeapObjPtr* LookupTLS(void** key, int index) RUNTIME_NOTHROW;
 
+// APIs for GC pin, used only internally by Runtime
+void CRT_Pin(const void* obj);
+void CRT_UnPin(const void* obj);
+
 void Kotlin_native_internal_GC_collect(HeapObjPtr);
 void Kotlin_native_internal_GC_setTuneThreshold(HeapObjPtr, bool value);
 bool Kotlin_native_internal_GC_getTuneThreshold(HeapObjPtr);
@@ -292,6 +364,9 @@ void PerformFullGC(MemoryState* memory) RUNTIME_NOTHROW;
 
 // Sets state of the current thread to NATIVE (used by the new MM).
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateNative();
+// Stays declared in BOTH modes: K2NStub.s asm references this unconditionally.
+// RUNTIME_EXPORT here is load-bearing: it propagates @llvm.used so LTO doesn't
+// DCE the body.
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW RUNTIME_EXPORT void Kotlin_mm_switchThreadStateNativeWithoutUpdateLastFrame();
 // Sets state of the current thread to RUNNABLE (used by the new MM).
 CODEGEN_INLINE_POLICY RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable();
@@ -305,10 +380,10 @@ CODEGEN_INLINE_POLICY void Kotlin_mm_safePointFunctionPrologue() RUNTIME_NOTHROW
 CODEGEN_INLINE_POLICY void Kotlin_mm_safePointWhileLoopBody() RUNTIME_NOTHROW;
 
 RUNTIME_NOTHROW void DisposeRegularWeakReferenceImpl(HeapObjPtr counter);
-NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame(MemoryState* thread, kotlin::ThreadState state);
-NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame1();
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliable();
 
+RUNTIME_NOTHROW ALWAYS_INLINE void SaveX28();
+RUNTIME_NOTHROW ALWAYS_INLINE void RestoreX28();
 #ifdef __cplusplus
 }
 #endif
@@ -389,7 +464,16 @@ inline ThreadState GetThreadState() noexcept {
 }
 
 // Switches the state of the given thread to `newState` and returns the previous thread state.
-ThreadState SwitchThreadState(MemoryState* thread, ThreadState newState, bool reentrant = false) noexcept;
+//
+// `not_tail_called`: prevents callers from converting this call into a tail
+// call.  Tail-calling would deallocate caller's frame before this wrapper's
+// safepoint check + slowPath chain run.  When slowPath pushes its own frame
+// it would overlap with caller's just-released stack region, including the
+// LFI-pointed saved-fp slot, corrupting *LFI which the GC walker is reading.
+[[clang::not_tail_called]] ThreadState SwitchThreadState(
+    MemoryState* thread, ThreadState newState,
+    bool reentrant = false,
+    bool needSetLastFrame = true) noexcept;
 
 // Asserts that the given thread is in the given state.
 void AssertThreadState(MemoryState* thread, ThreadState expected) noexcept;
@@ -414,25 +498,33 @@ ALWAYS_INLINE inline void AssertThreadState(std::initializer_list<ThreadState> e
 class ThreadStateGuard final : private MoveOnly {
 public:
     // Do not set any state. Useful to create a variable to move another guard into.
-    ThreadStateGuard() : thread_(nullptr), oldState_(ThreadState::kNative), reentrant_(false) {}
+    ALWAYS_INLINE ThreadStateGuard() : thread_(nullptr), oldState_(ThreadState::kNative), reentrant_(false) {}
 
     // Set the state for the given thread.
-    ThreadStateGuard(MemoryState* thread, ThreadState state, bool reentrant = false) noexcept : thread_(thread), reentrant_(reentrant) {
+    //
+    // ALWAYS_INLINE: ensures this ctor (and thus the embedded call to the
+    // NO_INLINE SwitchThreadState wrapper) lives in the caller's frame.
+    // If not inlined, LFI would record THIS ctor's fp; when ctor returns its
+    // own frame retires, leaving LFI pointing to retired stack memory that
+    // subsequent caller calls (e.g. cv.wait) will overwrite -- corrupting *LFI
+    // for the GC walker.
+    ALWAYS_INLINE ThreadStateGuard(MemoryState* thread, ThreadState state,
+        bool reentrant = false) noexcept : thread_(thread), reentrant_(reentrant) {
         oldState_ = SwitchThreadState(thread_, state, reentrant_);
     }
 
     // Sets the state for the current thread.
-    explicit ThreadStateGuard(ThreadState state, bool reentrant = false) noexcept
+    ALWAYS_INLINE explicit ThreadStateGuard(ThreadState state, bool reentrant = false) noexcept
         : ThreadStateGuard(mm::GetMemoryState(), state, reentrant) {};
 
-    ThreadStateGuard(ThreadStateGuard&& other) noexcept
+    ALWAYS_INLINE ThreadStateGuard(ThreadStateGuard&& other) noexcept
         : thread_(other.thread_), oldState_(other.oldState_), reentrant_(other.reentrant_) {
         other.thread_ = nullptr;
     }
 
-    ~ThreadStateGuard() noexcept {
+    ALWAYS_INLINE ~ThreadStateGuard() noexcept {
         if (thread_ != nullptr) {
-            SwitchThreadState(thread_, oldState_, reentrant_);
+            SwitchThreadState(thread_, oldState_, reentrant_, false /*needSetLastFrame*/);
         }
     }
 
@@ -458,12 +550,13 @@ public:
     CalledFromNativeGuard(bool reentrant = false) noexcept;
 
     ~CalledFromNativeGuard() noexcept {
-        SwitchThreadState(thread_, oldState_, reentrant_);
+        SwitchThreadState(thread_, oldState_, reentrant_, false /*needSetLastFrame*/);
     }
 private:
     MemoryState* thread_;
     ThreadState oldState_;
     bool reentrant_;
+    common::CallToFFixedX28 guard{};
 };
 
 class CurrentFrameGuard : Pinned {
@@ -482,15 +575,24 @@ ALWAYS_INLINE inline R CallWithThreadState(R(*function)(Args...), Args... args) 
 
 class NativeOrUnregisteredThreadGuard final : private MoveOnly {
 public:
-    explicit NativeOrUnregisteredThreadGuard(bool reentrant = false) noexcept {
+    // ALWAYS_INLINE: see ThreadStateGuard comment. If this ctor is not
+    // inlined into its caller (e.g. scheduleAndWaitFinalized), this ctor
+    // becomes the outermost non-inline frame that owns LFI's recorded fp.
+    // When the ctor returns, its frame retires while the caller continues
+    // in cv.wait etc., whose nested calls would overwrite LFI's stack region.
+    ALWAYS_INLINE explicit NativeOrUnregisteredThreadGuard(bool reentrant = false) noexcept {
         // The default ctor of ThreadStateGuard doesn't set the state.
         // So the actual state switching is performed only if the thread is registered.
         if (kotlin::mm::IsCurrentThreadRegistered()) {
             backingGuard_ = kotlin::ThreadStateGuard(kotlin::ThreadState::kNative, reentrant);
         }
     }
-    ~NativeOrUnregisteredThreadGuard() noexcept {
+#ifdef ENABLE_STACKMAP
+    // ON path keeps the explicit noexcept dtor (an exception-contract change so call
+    // sites stay nounwind). OFF path falls back to the implicitly generated dtor.
+    ALWAYS_INLINE ~NativeOrUnregisteredThreadGuard() noexcept {
     }
+#endif
 
 private:
     ThreadStateGuard backingGuard_;

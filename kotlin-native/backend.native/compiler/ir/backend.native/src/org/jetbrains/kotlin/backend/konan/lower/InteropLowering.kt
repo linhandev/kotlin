@@ -140,6 +140,7 @@ private abstract class BaseInteropIrTransformer(
                 get() = klib?.manifestProperties?.getProperty("language") ?: "C"
 
             override val isSwiftExportEnabled = context.config.swiftExport
+            override val enableStackmap = context.config.enableStackmap
 
             override fun addKotlin(declaration: IrDeclaration) {
                 addKotlin(declaration)

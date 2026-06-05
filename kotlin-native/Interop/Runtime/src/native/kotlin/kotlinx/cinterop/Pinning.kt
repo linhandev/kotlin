@@ -12,10 +12,15 @@ import kotlin.native.internal.GCUnsafeCall
 public class Pinned<T : Any> @PublishedApi internal constructor(obj: T) {
     private var obj: T? = obj.pinnable()
 
+    init {
+        GCPin(obj)
+    }
+
     /**
      * Disposes the handle. It must not be [used][get] after that.
      */
     public fun unpin() {
+        GCUnpin(obj)
         obj = null
     }
 
@@ -112,41 +117,47 @@ private inline fun <T : Any, P : CPointed> T.usingPinned(
     }
 }
 
-@GCUnsafeCall("Kotlin_Interop_pinnable", false)
+@GCUnsafeCall("Kotlin_Interop_pinnable")
 private external fun <T> T.pinnable(): T
 
-@GCUnsafeCall("Kotlin_Arrays_getByteArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getByteArrayAddressOfElement")
 private external fun ByteArray.addressOfElement(index: Int): CPointer<ByteVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getStringAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getStringAddressOfElement")
 private external fun String.addressOfElement(index: Int): CPointer<COpaque>
 
-@GCUnsafeCall("Kotlin_Arrays_getCharArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getCharArrayAddressOfElement")
 private external fun CharArray.addressOfElement(index: Int): CPointer<COpaque>
 
-@GCUnsafeCall("Kotlin_Arrays_getShortArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getShortArrayAddressOfElement")
 private external fun ShortArray.addressOfElement(index: Int): CPointer<ShortVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getIntArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getIntArrayAddressOfElement")
 private external fun IntArray.addressOfElement(index: Int): CPointer<IntVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getLongArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getLongArrayAddressOfElement")
 private external fun LongArray.addressOfElement(index: Int): CPointer<LongVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getByteArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getByteArrayAddressOfElement")
 private external fun UByteArray.addressOfElement(index: Int): CPointer<UByteVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getShortArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getShortArrayAddressOfElement")
 private external fun UShortArray.addressOfElement(index: Int): CPointer<UShortVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getIntArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getIntArrayAddressOfElement")
 private external fun UIntArray.addressOfElement(index: Int): CPointer<UIntVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getLongArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getLongArrayAddressOfElement")
 private external fun ULongArray.addressOfElement(index: Int): CPointer<ULongVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getFloatArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getFloatArrayAddressOfElement")
 private external fun FloatArray.addressOfElement(index: Int): CPointer<FloatVar>
 
-@GCUnsafeCall("Kotlin_Arrays_getDoubleArrayAddressOfElement", false)
+@GCUnsafeCall("Kotlin_Arrays_getDoubleArrayAddressOfElement")
 private external fun DoubleArray.addressOfElement(index: Int): CPointer<DoubleVar>
+
+@GCUnsafeCall("Kotlin_Pinned_GCPin")
+private external fun <T : Any> Pinned<T>.GCPin(obj: T?)
+
+@GCUnsafeCall("Kotlin_Pinned_GCUnpin")
+private external fun <T : Any> Pinned<T>.GCUnpin(obj: T?)

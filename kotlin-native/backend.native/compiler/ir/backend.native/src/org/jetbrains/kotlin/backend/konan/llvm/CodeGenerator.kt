@@ -40,19 +40,10 @@ internal class CodeGenerator(override val generationState: NativeGenerationState
     internal val immThreeIntPtrType = LLVMConstInt(intPtrType, 3, 1)!!
     // Mask used to extract the TypeInfo* (or MetaObjHeader*) pointer out of
     // ObjHeader.typeInfoOrMeta_, which carries tag bits in BOTH the low 2
-    // bits (OBJECT_TAG_MASK) and the high 5 bits (KNStateWord packed fields:
-    // bit 59 = `valid`, bits 60-63 = `remainded`, set by CustomAllocator).
-    // Clearing only the low bits leaves the high tag in the resulting
-    // pointer; ARM64 TBI hides it from `ldr [x]` so field access still
-    // works, but a 64-bit `cmp` (used by IsSubtype's class-chain check) sees
-    // the tagged actual ≠ untagged expected and raises a spurious
-    // ClassCastException whose `actual::class` and expected `class` strings
-    // match. This mirrors the 48-bit mask used in ObjHeader::AsMetaObject
-    // (Memory.h) and ObjHeader::type_info().
-    //
+    // bits (OBJECT_TAG_MASK) and the high 16 bits (KNStateWord packed by
+    // CustomAllocator with `valid` and `remainded`; also used by CRT for
+    // the language tag). Mirrors kImmTypeInfoMask in Memory.h.
     // 0x0000_FFFF_FFFF_FFFC = bits 48-63 + bits 0-1 cleared, bits 2-47 kept.
-    // User-space pointers on AArch64 are 48-bit, so clearing bits 48-63
-    // covers bit 59 (valid) and bits 60-63 (remainded).
     internal val immTypeInfoMask = LLVMConstInt(intPtrType, 0xFFFFFFFFFFFCL, 0)!!
 
     //-------------------------------------------------------------------------//
@@ -536,7 +527,7 @@ internal class StackLocalsManagerImpl(
                     if (refsOnly)
                         storeHeapRef(kNullObjHeaderRef, fieldPtr)
                     else
-                        call(llvm.zeroHeapRefFunction, listOf(fieldPtr))
+                        call(llvm.zeroHeapRefFunction, listOf(fieldPtr, stackLocal.stackAllocationPtr))
                 }
             }
 
@@ -603,6 +594,11 @@ internal abstract class FunctionGenerationContext(
     )
 
     override val generationState = codegen.generationState
+    // Cache enableStackmap as a backing field. Hot codegen loops (loadSlot,
+    // EnterFrame/LeaveFrame gates, Array intrinsics) do thousands of
+    // `if (enableStackmap)` checks per binary; the backing field avoids the
+    // 3-layer getter chain (context -> config -> HashMap.get).
+    override val enableStackmap: Boolean = codegen.generationState.context.config.enableStackmap
     val llvmDeclarations = generationState.llvmDeclarations
     val vars = VariableManager(this)
     private val basicBlockToLastLocation = mutableMapOf<LLVMBasicBlockRef, LocationInfoRange>()
@@ -634,11 +630,20 @@ internal abstract class FunctionGenerationContext(
 
     // Functions that can be exported and called not only from Kotlin code should have cleanup_landingpad and `LeaveFrame`
     // because there is no guarantee of catching Kotlin exception in Kotlin code.
+    // OFF path uses the baseline condition only (exportForCppRuntime ||
+    // switchToRunnable). ON path adds exportForIntrinsic + gcUnsafeCall +
+    // isCleanupLandingpadUsed (these are precise-stackmap pipeline additions
+    // tied to K2X stub injection).
     protected open val needCleanupLandingpadAndLeaveFrame: Boolean
-        get() = irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true ||
-                irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForIntrinsic) == true ||
-                irFunction?.annotations?.hasAnnotation(KonanFqNames.gcUnsafeCall) == true ||
-                switchToRunnable || isCleanupLandingpadUsed
+        get() {
+            val baseline = irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForCppRuntime) == true ||
+                           switchToRunnable
+            if (!enableStackmap) return baseline
+            return baseline ||
+                   irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForIntrinsic) == true ||
+                   irFunction?.annotations?.hasAnnotation(KonanFqNames.gcUnsafeCall) == true ||
+                   isCleanupLandingpadUsed
+        }
 
     private var setCurrentFrameIsCalled: Boolean = false
 
@@ -737,6 +742,21 @@ internal abstract class FunctionGenerationContext(
         return applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
     }
 
+    fun loadFromCMC(address: LLVMValueRef, thisPtr: LLVMValueRef, memoryOrder: LLVMAtomicOrdering?) : LLVMValueRef {
+        // Upstream 33af2848b3c: routes globals (thisPtr==null) to the *StaticRef variants so the
+        // runtime can dispatch through RefAccessor<Global> instead of pretending to be a heap ref
+        // with thisPtr==null (which previously caused crashes in IdleBarrier::UpdateRememberSet).
+        val isVolatile = memoryOrder == LLVMAtomicOrdering.LLVMAtomicOrderingSequentiallyConsistent
+        val isStatic = thisPtr == codegen.kNullObjHeaderPtr
+        val target = if (isVolatile) {
+            if (isStatic) llvm.readVolatileStaticRefFunction else llvm.readVolatileHeapRefFunction
+        } else {
+            if (isStatic) llvm.readStaticRefFunction else llvm.readHeapRefFunction
+        }
+        val args = if (isStatic) listOf(address) else listOf(address, thisPtr)
+        return call(target, args)
+    }
+
     fun loadSlot(
             type: LLVMTypeRef,
             isObjectType: Boolean,
@@ -745,16 +765,44 @@ internal abstract class FunctionGenerationContext(
             resultSlot: LLVMValueRef? = null,
             name: String = "",
             memoryOrder: LLVMAtomicOrdering? = null,
-            alignment: Int? = null
+            alignment: Int? = null,
+            thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr
     ): LLVMValueRef {
-        return applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
+        val isObjectField = isObjectType && thisPtr != codegen.kNullObjHeaderPtr
+        val value = if (isObjectField) {
+            // CRT read barrier path (no-op at runtime when USE_CRT=false; loadFromCMC checks at runtime).
+            // `loadFromCMC` calls runtime functions (ReadHeapRef / ReadVolatileHeapRef / ReadStaticRef /
+            // ReadVolatileStaticRef) imported from compiler_interface.bc. That bitcode is built with
+            // -DKONAN_COMPILER_INTERFACE=1 whenever resolveEnableStackmap(target) is true — on every
+            // arm64 target by default, regardless of the user's -Xbinary=enableStackmap=. So the call
+            // returns `ptr addrspace(1)` even in OFF codegen mode where `type`/`kObjHeaderRef` are
+            // addrspace(0). Reconcile with bitcast which is a no-op when source and target addrspaces
+            // already agree (ON path), and emits an LLVMBuildAddrSpaceCast on mismatch (OFF + AS1
+            // runtime). Mirrors the existing pattern after allocInstance/allocArray/extractKotlinException.
+            bitcast(type, loadFromCMC(address, thisPtr, memoryOrder))
+        } else {
+            applyMemoryOrderAndAlignment(LLVMBuildLoad2(builder, type, address, name)!!, memoryOrder, alignment)
+        }
+        if (isObjectType && isVar) {
+            val slot = resultSlot ?: alloca(type, isObjectType, variableLocation = null)
+            storeStackRef(value, slot)
+        }
+        return value
     }
 
     fun loadArraySize(thiz: LLVMValueRef): LLVMValueRef {
+        // Preserve `thiz`'s address space (typically addrspace(1) for Kotlin GC-tracked
+        // refs). The previous code unconditionally addrspacecast'd to 0, which
+        // produced a pointer LLVM's `gc.statepoint` passes don't relocate; under
+        // LICM the cast gets hoisted out of bounds-checked loops, and after a
+        // compaction the stale cast pointer reads zeroed from-space — making the
+        // size read as 0 and every subsequent `arr[i]` access throw OOB (SIGABRT).
+        // Mirrors the correct pattern already used in `intrinsicArrayGetLength` and
+        // matches the fix in `loadTypeInfo` (which uses `pointerTypeOne`).
         val objHeaderType = llvm.runtime.objHeaderType
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
         val headerPlus1 = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz, cValuesOf(llvm.int64(1)), 1, "size_gep")
-        val headerPlus0 = LLVMBuildAddrSpaceCast(builder, headerPlus1, LLVMPointerType(objHeaderType, 0), "")
-        val sizePtr = LLVMBuildBitCast(builder, headerPlus0, LLVMPointerType(llvm.int32Type, 0), "size_ptr")
+        val sizePtr = LLVMBuildBitCast(builder, headerPlus1, LLVMPointerType(llvm.int32Type, thizAddrSpace), "size_ptr")
         val sizeVal = LLVMBuildLoad2(builder, llvm.int32Type, sizePtr, "size_val")!!
         LLVMSetAlignment(sizeVal, 8)
         return sizeVal
@@ -777,7 +825,8 @@ internal abstract class FunctionGenerationContext(
         val objHeaderType = llvm.runtime.objHeaderType
         val dataBase = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz, cValuesOf(llvm.int64(2)), 1, "data_base")
 
-        val elemPtrType = LLVMPointerType(elementType, 1)
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
+        val elemPtrType = LLVMPointerType(elementType, thizAddrSpace)
         val dataBaseCasted = LLVMBuildBitCast(builder, dataBase, elemPtrType, "data_base_cast")
 
         val index64 = LLVMBuildSExt(builder, index, llvm.int64Type, "index_sext")
@@ -788,7 +837,8 @@ internal abstract class FunctionGenerationContext(
 
     fun intrinsicArrayGetLength(thiz: LLVMValueRef): LLVMValueRef {
         val arrayHeaderType = codegen.runtime.arrayHeaderType
-        val arrayHeaderPtrType = LLVMPointerType(arrayHeaderType, 1)
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
+        val arrayHeaderPtrType = LLVMPointerType(arrayHeaderType, thizAddrSpace)
         val typedArrayPtr = LLVMBuildBitCast(builder, thiz, arrayHeaderPtrType, "typedArrayPtr")
 
         val countPtr = LLVMBuildStructGEP2(builder, arrayHeaderType, typedArrayPtr, 1, "countPtr")
@@ -806,8 +856,9 @@ internal abstract class FunctionGenerationContext(
         val int64Type = llvm.int64Type
         val objHeaderType = LLVMGetTypeByName(llvm.module, "struct.ObjHeader")!!
 
-        val objHeaderPtrAS1 = LLVMPointerType(objHeaderType, 1)
-        val objHeaderPtrPtrAS1 = LLVMPointerType(objHeaderPtrAS1, 1)
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
+        val objHeaderPtrAS = LLVMPointerType(objHeaderType, thizAddrSpace)
+        val objHeaderPtrPtrAS = LLVMPointerType(objHeaderPtrAS, thizAddrSpace)
 
         val dataBase = LLVMBuildInBoundsGEP2(builder, objHeaderType, thiz,
             cValuesOf(LLVMConstInt(int64Type, 2, 0)), 1, "data_base")
@@ -816,9 +867,9 @@ internal abstract class FunctionGenerationContext(
         val elementAddr = LLVMBuildInBoundsGEP2(builder, objHeaderType, dataBase,
             cValuesOf(index64), 1, "element_addr")
 
-        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS1, "element_slot")
+        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS, "element_slot")
 
-        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS1, elementSlot, "element_val")!!
+        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS, elementSlot, "element_val")!!
         LLVMSetAlignment(elementVal, 8)
 
         if (resultSlot != null) {
@@ -843,8 +894,9 @@ internal abstract class FunctionGenerationContext(
         val int64Type = llvm.int64Type
         val objHeaderType = LLVMGetTypeByName(llvm.module, "struct.ObjHeader")!!
 
-        val objHeaderPtrAS1 = LLVMPointerType(objHeaderType, 1)
-        val objHeaderPtrPtrAS1 = LLVMPointerType(objHeaderPtrAS1, 1)
+        val thizAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(thiz))
+        val objHeaderPtrAS = LLVMPointerType(objHeaderType, thizAddrSpace)
+        val objHeaderPtrPtrAS = LLVMPointerType(objHeaderPtrAS, thizAddrSpace)
 
         val sizeVal = loadArraySize(thiz)
 
@@ -857,9 +909,9 @@ internal abstract class FunctionGenerationContext(
         val elementAddr = LLVMBuildInBoundsGEP2(builder, objHeaderType, dataBase,
             cValuesOf(index64), 1, "element_addr")
 
-        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS1, "element_slot")
+        val elementSlot = LLVMBuildBitCast(builder, elementAddr, objHeaderPtrPtrAS, "element_slot")
 
-        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS1, elementSlot, "element_val")!!
+        val elementVal = LLVMBuildLoad2(builder, objHeaderPtrAS, elementSlot, "element_val")!!
         LLVMSetAlignment(elementVal, 8)
 
         if (resultSlot != null) {
@@ -968,17 +1020,24 @@ internal abstract class FunctionGenerationContext(
         alignment?.let { LLVMSetAlignment(store, it) }
     }
 
-    fun storeHeapRef(value: LLVMValueRef, ptr: LLVMValueRef) {
-        updateRef(value, ptr, onStack = false)
+    fun storeHeapRef(value: LLVMValueRef, ptr: LLVMValueRef, thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr) {
+        updateRef(value, ptr, onStack = false, thisPtr = thisPtr)
+    }
+
+    // Ported from upstream 33af2848b3c: writes to globals go through this helper so
+    // they dispatch to UpdateStaticRef instead of UpdateHeapRef with thisPtr==null.
+    fun storeGlobalRef(value: LLVMValueRef, ptr: LLVMValueRef) {
+        updateRef(value, ptr, onStack = false, thisPtr = codegen.kNullObjHeaderPtr)
     }
 
     fun storeStackRef(value: LLVMValueRef, ptr: LLVMValueRef) {
         updateRef(value, ptr, onStack = true)
     }
 
-    fun storeAny(value: LLVMValueRef, ptr: LLVMValueRef, isObjectRef: Boolean, onStack: Boolean, isVolatile: Boolean = false, alignment: Int? = null) {
+    fun storeAny(value: LLVMValueRef, ptr: LLVMValueRef, isObjectRef: Boolean,
+        onStack: Boolean, isVolatile: Boolean = false, alignment: Int? = null, thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr) {
         when {
-            isObjectRef -> updateRef(value, ptr, onStack, isVolatile, alignment)
+            isObjectRef -> updateRef(value, ptr, onStack, isVolatile, alignment, thisPtr = thisPtr)
             else -> store(value, ptr, if (isVolatile) LLVMAtomicOrdering.LLVMAtomicOrderingSequentiallyConsistent else null, alignment)
         }
     }
@@ -988,17 +1047,24 @@ internal abstract class FunctionGenerationContext(
     }
 
     private fun updateRef(value: LLVMValueRef, address: LLVMValueRef, onStack: Boolean,
-                          isVolatile: Boolean = false, alignment: Int? = null) {
+                          isVolatile: Boolean = false, alignment: Int? = null, thisPtr: LLVMValueRef = codegen.kNullObjHeaderPtr) {
         require(alignment == null || alignment % runtime.pointerAlignment == 0)
         if (onStack) {
             require(!isVolatile) { "Stack ref update can't be volatile"}
             store(value, address)
         } else {
-            if (isVolatile) {
-                call(llvm.UpdateVolatileHeapRef, listOf(address, value))
+            // Upstream 33af2848b3c: dispatch global writes to *StaticRef variants. The IdleBarrier's
+            // UpdateRememberSet dereferences the obj pointer to fetch its region metadata, which
+            // crashes if obj is null. RefAccessor<Global>::beforeStore → BaseRuntime::WriteRoot
+            // avoids that path entirely.
+            val isStatic = thisPtr == codegen.kNullObjHeaderPtr
+            val target = if (isVolatile) {
+                if (isStatic) llvm.UpdateVolatileStaticRef else llvm.UpdateVolatileHeapRef
             } else {
-                call(llvm.updateHeapRefFunction, listOf(address, value))
+                if (isStatic) llvm.updateStaticRefFunction else llvm.updateHeapRefFunction
             }
+            val args = if (isStatic) listOf(address, value) else listOf(address, value, thisPtr)
+            call(target, args)
         }
     }
 
@@ -1060,10 +1126,10 @@ internal abstract class FunctionGenerationContext(
             appendingTo(unreachableBlock) {
                 unreachable()
             }
-            val result = llvm.caxRethrowFunction.buildInvoke(builder, listOf(), unreachableBlock, unwind)
+            val result = llvm.cxaRethrowFunction.buildInvoke(builder, listOf(), unreachableBlock, unwind)
             if (outerHandler == ExceptionHandler.Caller) {
                 isCleanupLandingpadUsed = true
-                invokeInstructions.add(0, FunctionInvokeInformation(result, llvm.caxRethrowFunction, listOf(), unreachableBlock))
+                invokeInstructions.add(0, FunctionInvokeInformation(result, llvm.cxaRethrowFunction, listOf(), unreachableBlock))
             }
         }
 
@@ -1489,7 +1555,9 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         if (switchThreadState) {
             switchThreadState(Runnable)
         }
-        if (setCurrentFrame) {
+        // OFF path skips the setCurrentFrame call — `Kotlin_mm_setCurrentFrame`
+        // is a precise-stackmap-only runtime symbol.
+        if (setCurrentFrame && enableStackmap) {
             call(llvm.setCurrentFrameFunction, listOf(slotsPhi!!))
             setCurrentFrameIsCalled = true
         }
@@ -1726,7 +1794,14 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         val memoryOrder = LLVMAtomicOrdering.LLVMAtomicOrderingMonotonic
 
         // TODO: Get rid of the bitcast here by supplying the type in the GEP above.
-        val typeInfoOrMetaPtrRaw = bitcast(pointerType(codegen.intPtrType), typeInfoOrMetaPtr)
+        // Preserve `typeInfoOrMetaPtr`'s address space — on stackmap=on it's addrspace(1)
+        // (GC-tracked, prevents gc.statepoint losing track under CMC compaction); on
+        // stackmap=off it's addrspace(0) (plain pointer). Mirrors the loadArraySize fix
+        // pattern. Previously hardcoded `pointerTypeOne` broke stackmap=off (the bitcast
+        // to addrspace(1) didn't match the addrspace(0) source -> codegen assertion fails
+        // on every Kotlin program because stdlib's BaseContinuationImpl.resumeWith hits it).
+        val typeInfoOrMetaPtrAddrSpace = LLVMGetPointerAddressSpace(LLVMTypeOf(typeInfoOrMetaPtr))
+        val typeInfoOrMetaPtrRaw = bitcast(LLVMPointerType(codegen.intPtrType, typeInfoOrMetaPtrAddrSpace)!!, typeInfoOrMetaPtr)
         val typeInfoOrMetaWithFlags = load(codegen.intPtrType, typeInfoOrMetaPtrRaw, memoryOrder = memoryOrder)
         // Clear low 2 (OBJECT_TAG_MASK) + high 5 (KNStateWord valid/remainded) bits;
         // see comment on `immTypeInfoMask`. The inner field (TypeInfo::typeInfo_
@@ -1883,24 +1958,47 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             startLocation?.let { debugLocation(it, it) }
             if (needsRuntimeInit || switchToRunnable) {
                 check(!forbidRuntime) { "Attempt to init runtime where runtime usage is forbidden" }
+                call(llvm.saveX28, emptyList())
                 call(llvm.initRuntimeIfNeeded, emptyList())
             }
-            if (needsSetReliableStatus) {
+            // SetLastFrameReliable is a precise-stackmap-only runtime symbol;
+            // skip the emit on the OFF path.
+            if (needsSetReliableStatus && enableStackmap) {
                 call(llvm.setLastFrameReliable, emptyList())
             }
             if (switchToRunnable) {
                 switchThreadState(Runnable)
             }
             if (needSlots || needCleanupLandingpadAndLeaveFrame) {
-                if (setCurrentFrameIsCalled) {
+                // OFF path uses baseline shadow-stack root collection
+                // (RootSet.cpp `#if !ENABLE_STACKMAP` branch iterates
+                // `threadData.shadowStack()`). The shadow stack is populated by
+                // EnterFrame/LeaveFrame calls. The precise-stackmap path gates
+                // these calls behind `setCurrentFrameIsCalled` (set only by
+                // exception landing pads) because the stackmap pass extracts GC
+                // roots from PC-keyed stackmap data instead. On the OFF path we
+                // have no stackmap, so we must restore the unconditional
+                // EnterFrame/LeaveFrame to give the GC a non-empty shadow-stack
+                // root set; otherwise GC mark sees 0 roots and reclaims live
+                // objects, producing a SEGFAULT/ABORT.
+                if (setCurrentFrameIsCalled || !enableStackmap) {
                     call(llvm.enterFrameFunction, listOf(slotsPhi!!, llvm.int32(vars.skipSlots), llvm.int32(slotCount)))
                 }
             } else {
                 check(!setCurrentFrameIsCalled)
             }
+            // OFF path calls the non-stub safePointFunctionPrologue
+            // (lazy-imported); the stub-suffixed symbol is a
+            // precise-stackmap-only patchpoint anchor created via
+            // importRtStubFunction. The ThrowArrayIndexOutOfBoundsException
+            // skip is also stackmap-only (intrinsic optimisation).
             if (!forbidRuntime && needSafePoint) {
-                if (!function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException")) {
-                    call(llvm.Kotlin_mm_safePointFunctionPrologueStub, emptyList())
+                val safepointFn = if (enableStackmap)
+                    llvm.Kotlin_mm_safePointFunctionPrologueStub
+                else
+                    llvm.Kotlin_mm_safePointFunctionPrologue
+                if (!(enableStackmap && function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException"))) {
+                    call(safepointFn, emptyList())
                 }
             }
             resetDebugLocation()
@@ -1961,6 +2059,10 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)
+        }
+
+        if (switchToRunnable || needsRuntimeInit) {
+            call(llvm.restoreX28, listOf())
         }
     }
 
@@ -2093,7 +2195,9 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     private fun releaseVars() {
         if (needCleanupLandingpadAndLeaveFrame || needSlots) {
             check(!forbidRuntime) { "Attempt to leave a frame where runtime usage is forbidden" }
-            if (setCurrentFrameIsCalled) {
+            // Match the EnterFrame condition above. OFF path always pops the
+            // shadow stack frame so root counts stay balanced.
+            if (setCurrentFrameIsCalled || !enableStackmap) {
                 call(llvm.leaveFrameFunction,
                      listOf(slotsPhi!!, llvm.int32(vars.skipSlots), llvm.int32(slotCount)))
             }

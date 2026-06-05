@@ -81,6 +81,16 @@ internal fun checkRangeIndexes(fromIndex: Int, toIndex: Int, size: Int) {
     }
 }
 
+@ExportForCppRuntime
+internal fun ThrowRangeIndexOutOfBoundsException(fromIndex: Int, toIndex: Int, size: Int) {
+    throw IndexOutOfBoundsException("fromIndex: $fromIndex, toIndex: $toIndex, size: $size")
+}
+
+@ExportForCppRuntime
+internal fun ThrowRangeIllegalArgumentException(fromIndex: Int, toIndex: Int) {
+    throw IllegalArgumentException("fromIndex: $fromIndex > toIndex: $toIndex")
+}
+
 /**
  * Resets a range of array elements at a specified [fromIndex] (inclusive) to [toIndex] (exclusive) range of indices
  * to some implementation-specific _uninitialized_ value.

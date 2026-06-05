@@ -22,7 +22,6 @@ import java.io.File
 import kotlin.test.assertTrue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
-import kotlin.time.measureTimedValue
 
 /**
  * Specifies which Clang should be used for compilation.

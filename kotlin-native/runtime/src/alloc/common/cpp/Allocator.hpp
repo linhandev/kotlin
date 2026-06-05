@@ -85,3 +85,7 @@ size_t allocatedBytes() noexcept;
 
 void destroyExtraObjectData(mm::ExtraObjectData& extraObject) noexcept;
 }
+
+namespace common {
+void* LoadCachedCRTTLS(kotlin::alloc::Allocator::ThreadData::Impl& impl);
+}

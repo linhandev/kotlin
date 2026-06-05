@@ -346,7 +346,13 @@ internal val RemoveRedundantSafepointsPhase = createSimpleNamedCompilerPhase<Bit
         op = { context, _ ->
             RemoveRedundantSafepointsPass().runOnModule(
                     module = context.llvm.module,
-                    isSafepointInliningAllowed = context.shouldInlineSafepoints()
+                    isSafepointInliningAllowed = context.shouldInlineSafepoints(),
+                    // Pass !enableStackmap to libllvmext: OFF mode (shadow-stack
+                    // baseline) re-enables the force-inline of the first eligible
+                    // safepoint per basic block. ON mode does not. This replaces
+                    // the legacy compile-time `#ifndef ENABLE_STACKMAP` gate and
+                    // is now per-target via KonanConfig.enableStackmap.
+                    forceInlineFirstEligible = !context.config.enableStackmap,
             )
         }
 )
@@ -400,6 +406,11 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
             null -> {}
         }
     }
+    // RemoveRedundantSafepointsPhase erases redundant prologue safepoint calls
+    // and (under libllvmext built with `-DENABLE_STACKMAP=0`) force-inlines the
+    // first eligible safepoint. Run it unconditionally for both ON and OFF: it
+    // operates on AS0 IR with no `cast<Ty>` assertion, and gating it off
+    // regresses throughput significantly.
     runPhase(RemoveRedundantSafepointsPhase)
     if (context.config.optimizationsEnabled) {
         runPhase(OptimizeTLSDataLoadsPhase)
@@ -685,6 +696,9 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
                     null -> {}
                 }
             }
+            // Run RemoveRedundantSafepointsPhase unconditionally for both ON and
+            // OFF: the OFF baseline runs the phase safely and gating it off
+            // regresses throughput.
             tmpPhaseEngine.runPhase(RemoveRedundantSafepointsPhase)
             if (context.config.optimizationsEnabled) {
                 tmpPhaseEngine.runPhase(OptimizeTLSDataLoadsPhase)

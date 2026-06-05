@@ -397,8 +397,12 @@ internal fun PhaseEngine<NativeGenerationState>.compileModule(
     }
 
     if (context.config.splitBCfile == 1u) {
-        disableBoundryFunctionInline(context.llvm.module)
-        addDelayInline(context.llvm.module)
+        // The precise-stackmap path adds disableBoundryFunctionInline + addDelayInline
+        // unconditionally in the splitBC path. OFF restores baseline (no boundary-inline disable).
+        if (context.config.enableStackmap) {
+            disableBoundryFunctionInline(context.llvm.module)
+            addDelayInline(context.llvm.module)
+        }
         newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
         // Run post-optimization phases for serial path
         if (checkExternalCalls) {
@@ -451,6 +455,12 @@ internal fun <C : PhaseContext> PhaseEngine<C>.compileAndLink(
             cacheBinaries,
     )
     runPhase(LinkerPhase, linkerPhaseInput)
+    val copyDynamicLibrariesPhaseInput = CopyDynamicLibrariesPhaseInput(
+            linkerOutputKind,
+            outputFiles,
+            moduleCompilationOutput.dependenciesTrackingResult
+    )
+    runPhase(CopyDynamicLibrariesPhase, copyDynamicLibrariesPhaseInput)
     if (context.config.produce.isCache) {
         runPhase(FinalizeCachePhase, outputFiles)
     }
@@ -550,7 +560,13 @@ private fun PhaseEngine<NativeGenerationState>.runCodegen(module: IrModuleFragme
     runPhase(CreateLLVMDeclarationsPhase, module)
     runPhase(GHAPhase, module, disable = !optimize)
     runPhase(RTTIPhase, RTTIInput(module, dceResult))
-    val lifetimes = runPhase(EscapeAnalysisPhase, EscapeAnalysisInput(module, moduleDFG), disable = true)
+    // The precise-stackmap path forces disable=true. OFF restores the baseline
+    // `disable = !optimize` (escape analysis enabled in -opt builds).
+    val lifetimes = runPhase(
+            EscapeAnalysisPhase,
+            EscapeAnalysisInput(module, moduleDFG),
+            disable = if (context.config.enableStackmap) true else !optimize
+    )
     runPhase(CodegenPhase, CodegenInput(module, irBuiltIns, lifetimes))
 }
 

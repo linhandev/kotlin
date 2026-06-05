@@ -44,6 +44,20 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
 ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
 cd "$ROOT_DIR"
 
+# Copy common-rt from sibling directory if available
+if [[ -d "../common-rt" ]]; then
+  echo "Copying common-rt from ../common-rt to ./third-party/common-rt/..."
+  # Initialize submodules in source directory first
+  cd ../common-rt
+  git submodule update --init --recursive
+  cd "$ROOT_DIR"
+  # Copy everything except .git directory to avoid submodule conflicts
+  rsync -a --exclude='.git' ../common-rt/. ./third-party/common-rt/
+  echo "✅ common-rt copied successfully (excluding .git)."
+else
+  echo "⚠️ ../common-rt not found, skipping copy."
+fi
+
 # Settings
 DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-OH-001}
 USE_CN_MIRROR=${USE_CN_MIRROR:-true}

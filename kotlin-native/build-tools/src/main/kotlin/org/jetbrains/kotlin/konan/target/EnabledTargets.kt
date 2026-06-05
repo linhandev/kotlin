@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.konan.target
 
-fun enabledTargets(platformManager: PlatformManager) = platformManager.enabled.filterNot {
-    it in KonanTarget.deprecatedTargets && it !in KonanTarget.toleratedDeprecatedTargets
-}
+fun enabledTargets(platformManager: PlatformManager) = platformManager.enabled
+    .filterNot {
+        it in KonanTarget.deprecatedTargets && it !in KonanTarget.toleratedDeprecatedTargets
+    }

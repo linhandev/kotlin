@@ -140,6 +140,12 @@ internal interface ContextUtils : RuntimeAware {
     override val runtime: Runtime
         get() = generationState.llvm.runtime
 
+    // Pull the toggle from KonanConfig so ReferencesType-based properties
+    // (kObjHeaderRef etc.) emit AS0 on the OFF path and stay AS1 on the ON path
+    // (default).
+    override val enableStackmap: Boolean
+        get() = context.config.enableStackmap
+
     val argumentAbiInfo: TargetAbiInfo
         get() = context.targetAbiInfo
 
@@ -338,6 +344,11 @@ internal open class BasicLlvmHelpers(bitcodeContext: BitcodePostProcessingContex
 internal class CodegenLlvmHelpers(private val generationState: NativeGenerationState, module: LLVMModuleRef) : BasicLlvmHelpers(generationState, module), RuntimeAware {
     private val context = generationState.context
 
+    // Same source as ContextUtils.enableStackmap, but cached as a backing field
+    // (vs the getter chain) and read once at construction. Hot codegen loops do
+    // thousands of `if (enableStackmap)` checks per binary.
+    override val enableStackmap: Boolean = context.config.enableStackmap
+
     private fun importFunction(name: String, otherModule: LLVMModuleRef, returnsObjectType: Boolean): LlvmCallable {
         if (LLVMGetNamedFunction(module, name) != null) {
             throw IllegalArgumentException("function $name already exists")
@@ -439,13 +450,35 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     private fun importRtFunction(name: String, returnsObjectType: Boolean) = importFunction(name, runtime.llvmModule, returnsObjectType)
     private fun importRtStubFunction(name: String, returnsObjectType: Boolean = false) = importStubFunction(name, runtime.llvmModule, returnsObjectType)
 
-    val allocInstanceFunction = importRtFunction("AllocInstance", true)
-    val allocInstanceFunctionStub = importRtStubFunction("AllocInstance", true)
+    // v3 fp-unwind: KotlinStubGenerator pass emits *Stub variants for K2RStub-annotated entry points.
+    //
+    // Align with upstream mpcore/crt_dev: codegen must call the `*ForCI` variants (NOT the bare
+    // `AllocInstance` / `AllocArrayInstance`). The bare entries are small wrappers around the
+    // mm:: implementation; LLVM optimization inlines them, which collapses `bl AllocArrayInstance`
+    // into a direct `bl kotlin::mm::AllocateArray`. That direct call bypasses the K2R stub
+    // (mm::AllocateArray is not in the K2RStub annotation set), leaving the fp-unwind walker
+    // unable to transition from RUNTIME_FRAME → KOTLIN_FRAME when scanning. The result: stack
+    // slots holding heap-resident objects (e.g., `Holder` in VirtRepro) go un-forwarded during
+    // STW preforward, then `ReadHeapRef` reads from a reclaimed from-space page after CMC
+    // compaction → SIGSEGV. The `*ForCI` variants are marked `NO_INLINE` in Memory.cpp so they
+    // survive optimization, and they carry `HAS_SAFEPOINT`/`K2RStub` annotations so the
+    // KotlinStubGenerator pass auto-emits `*ForCIStub` wrappers that the walker recognizes.
+    val allocInstanceFunction = importRtFunction("AllocInstanceForCI", true)
+    val allocInstanceFunctionStub = importRtStubFunction("AllocInstanceForCI", true)
     val Kotlin_mm_safePointFunctionPrologueStub = importRtStubFunction("Kotlin_mm_safePointFunctionPrologue", false)
     val Kotlin_mm_safePointWhileLoopBodyStub = importRtStubFunction("Kotlin_mm_safePointWhileLoopBody", false)
-    val allocArrayFunction = importRtFunction("AllocArrayInstance", true)
+    val allocArrayFunction = importRtFunction("AllocArrayInstanceForCI", true)
+    // CRT-only entry points (used when MemoryManagerSwitch::useCRT is true at runtime).
+    val readHeapRefFunction = importRtFunction("ReadHeapRef", false)
+    val readStaticRefFunction = importRtFunction("ReadStaticRef", false)
+    val readVolatileHeapRefFunction = importRtFunction("ReadVolatileHeapRef", false)
+    val readVolatileStaticRefFunction = importRtFunction("ReadVolatileStaticRef", false)
+    // NOTE: allocInstanceFunction / allocArrayFunction above already import the *ForCI variants;
+    // the previous duplicate `allocInstanceForCIFunction` / `allocArrayInstanceForCIFunction`
+    // imports were unused and caused "function already exists" once codegen switched to ForCI.
     val initAndRegisterGlobalFunction = importRtFunction("InitAndRegisterGlobal", false)
     val updateHeapRefFunction = importRtFunction("UpdateHeapRef", false)
+    val updateStaticRefFunction = importRtFunction("UpdateStaticRef", false)
     val updateStackRefFunction = importRtFunction("UpdateStackRef", false)
     val updateReturnRefFunction = importRtFunction("UpdateReturnRef", false)
     val zeroHeapRefFunction = importRtFunction("ZeroHeapRef", false)
@@ -523,11 +556,21 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     val CompareAndSwapVolatileHeapRef by lazy { importRtFunction("CompareAndSwapVolatileHeapRef", true) }
     val GetAndSetVolatileHeapRef by lazy { importRtFunction("GetAndSetVolatileHeapRef", true) }
 
+    // Static-ref volatile/atomic operations. Ported from upstream 33af2848b3c.
+    val UpdateVolatileStaticRef by lazy { importRtFunction("UpdateVolatileStaticRef", false) }
+    val CompareAndSetVolatileStaticRef by lazy { importRtFunction("CompareAndSetVolatileStaticRef", false) }
+    val CompareAndSwapVolatileStaticRef by lazy { importRtFunction("CompareAndSwapVolatileStaticRef", true) }
+    val GetAndSetVolatileStaticRef by lazy { importRtFunction("GetAndSetVolatileStaticRef", true) }
+
     // TODO: Consider implementing them directly in the code generator.
     val Kotlin_arrayGetElementAddress by lazy { importRtFunction("Kotlin_arrayGetElementAddress", false) }
     val Kotlin_intArrayGetElementAddress by lazy { importRtFunction("Kotlin_intArrayGetElementAddress", false) }
     val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
     val setLastFrameReliable by lazy { importRtFunction("SetLastFrameReliable", false) }
+
+    // CRT-specific x28 register save/restore (not part of fp-unwind).
+    val saveX28 by lazy { importRtFunction("SaveX28", false) }
+    val restoreX28 by lazy { importRtFunction("RestoreX28", false) }
 
     val usedFunctions = mutableListOf<LlvmCallable>()
     val usedGlobals = mutableListOf<LLVMValueRef>()
@@ -653,7 +696,7 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
             functionAttributes = listOf(LlvmFunctionAttribute.NoUnwind)
     )
 
-    val caxRethrowFunction = externalNativeRuntimeFunction(
+    val cxaRethrowFunction = externalNativeRuntimeFunction(
             "__cxa_rethrow",
             returnType = LlvmRetType(voidType, isObjectType = false)
     )

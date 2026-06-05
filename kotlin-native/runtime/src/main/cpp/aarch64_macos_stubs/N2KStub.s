@@ -143,13 +143,11 @@ _Kotlin_N2KStub:
         mov  x26, x6
         mov  x27, x7
 
-        mov  x19, x10
-
-        // x28 <- previous sp
-        add  x28, sp, #ForwardStubFrameSize
+        // x19 <- previous sp
+        add  x19, sp, #ForwardStubFrameSize
 
         // x19 <- previous sp + cpStackSize
-        add  x19, x28, x19
+        add  x19, x19, x10
 
         mov  x29, sp
         cfi_def_cfa_register (x29)
@@ -192,8 +190,9 @@ _Kotlin_N2KStub:
         cfi_restore (x9)
         cfi_restore (x10)
         // copy arg9, arg10, ... (if existed)
+        sub x27, x19, x10
 Lcopy_n2k:
-        cmp x19, x28
+        cmp x19, x27
         ble Lcopy_n2k_end
         ldp x25, x26, [x19, #-16]!
         // SP is always 16 byte-aligned.

@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+// FpUnwind impl bodies stay defined in OFF (small overhead); see the note in
+// FpUnwind.h on why they can't be #ifdef-gated out (klib cstubs.bc bake in
+// references) until platform klibs are regenerated in OFF mode.
 #include "FpUnwind.h"
 #include "Common.h"
 #include "ThreadData.hpp"
@@ -22,31 +25,7 @@
 #include <iostream>
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
-// region Tencent Code
-#include <hitrace/trace.h>
-// endregion
 #endif
-
-// On macOS, unwindPCForN2KStub and unwindPCForKonanStartStub are .quad
-// pointers in __DATA,__const (to avoid non-private labels inside CFI regions
-// which cause compact-unwind encoding=0). Their *value* is the PC address.
-// On OHOS/Linux, they are code labels whose *address* is the PC.
-extern uintptr_t unwindPCForN2KStub;
-extern uintptr_t unwindPCForKonanStartStub;
-extern uintptr_t unwindPCForK2RStubStart;
-extern uintptr_t unwindPCForK2RStubEnd;
-extern uintptr_t unwindPCStartForWorkerStub;
-extern uintptr_t unwindPCEndForWorkerStub;
-extern uintptr_t unwindPCStartForCallInitGlobalPossiblyLock;
-extern uintptr_t unwindPCEndForCallInitGlobalPossiblyLock;
-extern uintptr_t unwindPCStartForInitOrDeinitGlobalVariables;
-extern uintptr_t unwindPCEndForInitOrDeinitGlobalVariables;
-extern uintptr_t unwindPCStartForFindAssociatedObject;
-extern uintptr_t unwindPCEndForFindAssociatedObject;
-extern uintptr_t unwindPCStartForCallInitThreadLocal;
-extern uintptr_t unwindPCEndForCallInitThreadLocal;
-extern uintptr_t unwindPCStartForInvokeCFunction;
-extern uintptr_t unwindPCEndForInvokeCFunction;
 
 namespace kotlin {
 
@@ -111,7 +90,7 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliabl
 // If the thread was Native, setState(Runnable) goes through safePoint; if GC has
 // requested suspension, we block here until the scan completes, so the scanner never
 // reads lastFrameInfo_ concurrently with our write.
-extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndStatus(mm::FrameAddress *fp) noexcept
+extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndStatus(mm::FrameAddress *fp) noexcept
 {
     K2CSlotData *data = reinterpret_cast<K2CSlotData*>(fp + OFFSET_K2C_SLOT_DATA);
     // Default to kNative for unregistered threads: they are not in a Kotlin-managed
@@ -128,7 +107,7 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndSta
 }
 
 // invoke after leave kotlin (called from N2K stub exit, KonanStart stub)
-extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::FrameAddress *fp) noexcept
+extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::FrameAddress *fp) noexcept
 {
     if (!mm::IsCurrentThreadRegistered()) {
         return;
@@ -145,101 +124,29 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAnd
 
 } // namespace kotlin
 
-// ============================================================================
-// KotlinCallScope support (C linkage helpers used by main/cpp/KotlinCallScope.h)
-// Defined here so we can access ThreadData without exposing it to main/cpp.
-// ============================================================================
-struct SavedKotlinFrameInfo {
-    void* fa;
-    int status;
-    const void* pc;
-    int prevThreadState;
-};
-
-extern "C" RUNTIME_NOTHROW void SaveCurrentFrameInfoAndSetReliable(SavedKotlinFrameInfo* saved) noexcept
-{
-    if (!kotlin::mm::IsCurrentThreadRegistered()) {
-        saved->fa = nullptr;
-        saved->status = 0;
-        saved->pc = nullptr;
-        // Unregistered threads are not in a Kotlin-managed Runnable state; conceptually Native.
-        saved->prevThreadState = static_cast<int>(kotlin::ThreadState::kNative);
-        return;
-    }
-    auto *threadData = kotlin::mm::ThreadRegistry::Instance().CurrentThreadData();
-    // Transition to Runnable BEFORE touching lastFrameInfo_.  If we were Native, this
-    // goes through safePoint and blocks until an in-progress GC scan completes, so the
-    // scanner never reads lastFrameInfo_ concurrently with our write.
-    auto prevState = threadData->suspensionData().setState(kotlin::ThreadState::kRunnable);
-    saved->prevThreadState = static_cast<int>(prevState);
-    auto info = threadData->GetLastFrameInfo();
-    saved->fa = info.lastFrame;
-    saved->status = static_cast<int>(info.status);
-    saved->pc = info.lastPC;
-    // Set Reliable for the Kotlin code about to run.
-    threadData->SetLastFrameInfo({ nullptr, kotlin::mm::FrameStatus::RELIABLE, nullptr });
-}
-
-extern "C" RUNTIME_NOTHROW void RestoreSavedFrameInfo(const SavedKotlinFrameInfo* saved) noexcept
-{
-    if (!kotlin::mm::IsCurrentThreadRegistered()) {
-        return;
-    }
-    auto *threadData = kotlin::mm::ThreadRegistry::Instance().CurrentThreadData();
-    threadData->SetLastFrameInfo({
-        static_cast<kotlin::mm::FrameAddress*>(saved->fa),
-        static_cast<kotlin::mm::FrameStatus>(saved->status),
-        const_cast<uint32_t*>(static_cast<const uint32_t*>(saved->pc))
-    });
-    // Roll ThreadState back to what it was before the scope.
-    auto prevState = static_cast<kotlin::ThreadState>(saved->prevThreadState);
-    if (prevState == kotlin::ThreadState::kNative) {
-        threadData->suspensionData().setStateNoSafePoint(prevState);
-    }
-}
-
 namespace kotlin { // re-open for the rest of the file
 
+#ifdef ENABLE_STACKMAP
+// All frame-type predicates + GetStackFrame are stackmap-pipeline only:
+// every Is* helper reads an unwindPC* extern that exists only on arm64
+// (provided by K2RStub.s / N2KStub.s / KonanStartStub.s / inline-asm labels).
+// GetStackFrame is invoked only from ConcurrentMark.cpp:tryCollectRootSet and
+// KNRootVisitor.cpp, both of which are themselves gated under ENABLE_STACKMAP,
+// so dropping this block on non-arm64 OFF builds leaves no caller dangling.
 static bool IsR2KStub(const uint32_t* ip)
 {
+    // EnterKotlinFromCppStub shares the K2CSlotData layout (slot at stub_fp+16),
+    // so the walker treats its frame the same as a regular N2K stub frame.
 #ifdef __APPLE__
-    // On macOS the symbol is a .quad pointer; compare against its value.
-    return reinterpret_cast<uintptr_t>(ip) == unwindPCForN2KStub;
+    // On macOS the symbols are .quad pointers; compare against their values.
+    auto ipv = reinterpret_cast<uintptr_t>(ip);
+    return ipv == unwindPCForN2KStub
+        || ipv == unwindPCForEnterKotlinFromCppStub;
 #else
-    return reinterpret_cast<uintptr_t>(ip) == reinterpret_cast<uintptr_t>(&unwindPCForN2KStub);
+    auto ipv = reinterpret_cast<uintptr_t>(ip);
+    return ipv == reinterpret_cast<uintptr_t>(&unwindPCForN2KStub)
+        || ipv == reinterpret_cast<uintptr_t>(&unwindPCForEnterKotlinFromCppStub);
 #endif
-}
-
-static bool IsCallInitGlobalPossiblyLock(const uint32_t* ip)
-{
-    return
-        reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCStartForCallInitGlobalPossiblyLock) &&
-            reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForCallInitGlobalPossiblyLock);
-}
-
-static bool IsInitOrDeinitGlobalVariables(const uint32_t* ip)
-{
-    return
-        reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCStartForInitOrDeinitGlobalVariables) &&
-            reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForInitOrDeinitGlobalVariables);
-}
-
-static bool IsFindAssociatedObject(const uint32_t* ip)
-{
-    return reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCStartForFindAssociatedObject) &&
-            reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForFindAssociatedObject);
-}
-
-static bool IsInitThreadLocal(const uint32_t* ip)
-{
-    return reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCStartForCallInitThreadLocal) &&
-            reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForCallInitThreadLocal);
-}
-
-static bool IsInvokeCFunction(const uint32_t* ip)
-{
-    return reinterpret_cast<uintptr_t>(ip) > reinterpret_cast<uintptr_t>(&unwindPCStartForInvokeCFunction) &&
-            reinterpret_cast<uintptr_t>(ip) <= reinterpret_cast<uintptr_t>(&unwindPCEndForInvokeCFunction);
 }
 
 static bool IsK2RStub(const uint32_t* ip)
@@ -270,16 +177,6 @@ static bool IsKonanRunStartFrame(const uint32_t* ip)
             return "RUNTIME_FRAME";
         case FrameType::KOTLIN_FRAME:
             return "KOTLIN_FRAME";
-        case FrameType::WORKER_STUB:
-            return "WORKER_STUB";
-        case FrameType::CALL_INIT_GLOBAL_POSSIIBLY_LOCK:
-            return "CALL_INIT_GLOBAL_POSSIIBLY_LOCK";
-        case FrameType::INIT_OR_DEINIT_GLOBAL_VARIABLES:
-            return "INIT_OR_DEINIT_GLOBAL_VARIABLES";
-        case FrameType::INIT_THREAD_LOCAL:
-            return "INIT_THREAD_LOCAL";
-        case FrameType::INVOKE_C_FUNCTION:
-            return "INVOKE_C_FUNCTION";
         case FrameType::KONAN_RUN_START_FRAME:
             return "KONAN_RUN_START_FRAME";
         default:
@@ -324,17 +221,6 @@ static inline void LogUnwindStart(mm::ThreadData& threadData, const FrameInfo& i
 #endif // ~DUMP_UNWIND_FRAME_INFO
 }
 
-static void UnwindCommonReturn(FrameInfo& info, mm::FrameAddress* curFp, bool forceRuntime)
-{
-    info.fa = curFp->prevThreadState;
-    info.ip = curFp->returnAddr;
-    if (forceRuntime) {
-        info.type = FrameType::RUNTIME_FRAME;
-    } else {
-        info.type = IsK2RStub(info.ip) ? FrameType::K2R_STUB : FrameType::RUNTIME_FRAME;
-    }
-}
-
 static void UnwindR2KStub(FrameInfo& info, mm::FrameAddress* curFp)
 {
     K2CSlotData* data = reinterpret_cast<K2CSlotData*>(curFp + OFFSET_K2C_SLOT_DATA);
@@ -373,16 +259,6 @@ static void UnwindKotlinFrame(FrameInfo& info, mm::FrameAddress* curFp, std::vec
         info.type = FrameType::R2K_STUB;
     } else if (IsKonanRunStartFrame(curFp->returnAddr)) {
         info.type = FrameType::KONAN_RUN_START_FRAME;
-    } else if (IsCallInitGlobalPossiblyLock(curFp->returnAddr)) {
-        info.type = FrameType::CALL_INIT_GLOBAL_POSSIIBLY_LOCK;
-    } else if (IsInitOrDeinitGlobalVariables(curFp->returnAddr)) {
-        info.type = FrameType::INIT_OR_DEINIT_GLOBAL_VARIABLES;
-    } else if (IsFindAssociatedObject(curFp->returnAddr)) {
-        info.type = FrameType::FIND_ASSOCIATED_OBJECT;
-    } else if (IsInitThreadLocal(curFp->returnAddr)) {
-        info.type = FrameType::INIT_THREAD_LOCAL;
-    } else if (IsInvokeCFunction(curFp->returnAddr)) {
-        info.type = FrameType::INVOKE_C_FUNCTION;
     } else {
         info.type = FrameType::KOTLIN_FRAME;
         stack.push_back(info);
@@ -396,10 +272,6 @@ static void UnwindSpecialFrame(FrameInfo& info, FrameType currentType, std::vect
             if (!stack.empty()) stack.pop_back();
             info.fa = nullptr;
             info.type = FrameType::KONAN_RUN_START_FRAME;
-            break;
-        case FrameType::WORKER_STUB:
-            info.fa = nullptr;
-            info.type = FrameType::RUNTIME_FRAME;
             break;
         default:
             RuntimeAssert(0, "Unexpected special frame type");
@@ -444,17 +316,7 @@ std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData)
             case FrameType::KOTLIN_FRAME:
                 UnwindKotlinFrame(info, curFp, stack);
                 break;
-            case FrameType::CALL_INIT_GLOBAL_POSSIIBLY_LOCK:
-            case FrameType::FIND_ASSOCIATED_OBJECT:
-            case FrameType::INIT_THREAD_LOCAL:
-            case FrameType::INVOKE_C_FUNCTION:
-                UnwindCommonReturn(info, curFp, false); // forceRuntime=false
-                break;
-            case FrameType::INIT_OR_DEINIT_GLOBAL_VARIABLES:
-                UnwindCommonReturn(info, curFp, true); // forceRuntime=true
-                break;
             case FrameType::KONAN_RUN_START_FRAME:
-            case FrameType::WORKER_STUB:
                 UnwindSpecialFrame(info, currentFrameType, stack);
                 break;
             default:
@@ -466,5 +328,6 @@ std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData)
 
     return stack;
 }
+#endif // ENABLE_STACKMAP
 
 } // namespace kotlin

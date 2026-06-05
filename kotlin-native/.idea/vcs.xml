@@ -17,5 +17,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../third-party/common-rt" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../third-party/common-rt/third_party_bounds_checking_function" vcs="Git" />
   </component>
 </project>

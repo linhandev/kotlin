@@ -16,6 +16,10 @@
 
 #pragma once
 
+#ifdef ENABLE_STACKMAP
+// Entire file is stackmap-only (kotlin::stackMap::DerivedPtr).
+// OFF mode: empty header. All consumers (ConcurrentMark.cpp etc) must also be gated.
+
 #include <cstdint>
 #include <iostream>
 #include "StackMapTable.hpp"
@@ -43,6 +47,22 @@ public:
         }
     }
 
+    // Visitor-style variant used by the precise CRT root visitor.
+    template <typename Visitor>
+    void VisitDerivedPtrSlots(Visitor visitor)
+    {
+        DerivedPtrPair idxPair = derivePtrTable.GetDerivePair(derivedPtrIdx - 1);
+        uint32_t regIdx = idxPair.first;
+        uint32_t slotIdx = idxPair.second;
+        if (regIdx != 0) {
+            std::cerr << "unexpected reg-derived pointer in VisitDerivedPtrSlots, regIdx: " << regIdx << std::endl;
+        }
+        if (slotIdx != 0) {
+            SlotRoot(slotTable.GetBaseOffset(slotIdx - 1), slotTable.GetSlotBitMap(slotIdx - 1),
+                     slotTable.slotFormat).VisitSlotOffsets(visitor);
+        }
+    }
+
 private:
     DerivedPtrTable derivePtrTable;
     RegTable regTable;
@@ -50,3 +70,5 @@ private:
     uint32_t derivedPtrIdx = 0;
 };
 } // namespace kotlin::stackMap
+
+#endif // ENABLE_STACKMAP

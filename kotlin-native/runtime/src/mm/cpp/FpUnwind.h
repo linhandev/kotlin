@@ -16,28 +16,48 @@
 
 #ifndef RUNTIME_MM_FPUNWIND_H
 #define RUNTIME_MM_FPUNWIND_H
+// FpUnwind impl bodies are intentionally NOT #ifdef-gated out of the OFF
+// build: pre-compiled cinterop klib cstubs.bc files (cstubs/
+// platform.darwin/posix/zlib/etc.) bake in `_Kotlin_KonanStartStub` and
+// `_SaveCurrentFrameInfoAndSetReliable` / `_RestoreSavedFrameInfo`
+// references at klib-generation time, so gating the bodies out would break
+// the OFF link. The Linker stubObjectsForTarget gate still drops the asm
+// stubs on OFF, and the KotlinCallScope side effects on the OFF path are
+// accepted as no-op overhead. A full gate would require regenerating all
+// platform klibs in OFF mode (out of scope here).
+
 #include "Common.h"
 #include "ThreadData.hpp"
 #include <cstdint>
 #include <sstream>
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
-// region Tencent Code
-#include <hitrace/trace.h>
-// endregion
 #endif
+
+#ifdef ENABLE_STACKMAP
+// unwindPC* are provided by the arm64 asm trampolines (K2RStub.s / N2KStub.s
+// / KonanStartStub.s / EnterKotlinFromCppStub.s) and by inline-asm labels in
+// Worker.cpp / Runtime.cpp / Types.cpp. On non-arm64 OFF targets none of these
+// asm-stub PC anchors exist, so the FpUnwind-based precise stack walk is
+// unreachable. The Is*Stub / IsAt* helpers below that read these globals are
+// likewise gated.
+//
+// On macOS, unwindPCForN2KStub and unwindPCForKonanStartStub are .quad
+// pointers in __DATA,__const (to avoid non-private labels inside CFI regions
+// which cause compact-unwind encoding=0). Their *value* is the PC address.
+// On OHOS/Linux, they are code labels whose *address* is the PC.
+extern uintptr_t unwindPCForN2KStub;
+extern uintptr_t unwindPCForKonanStartStub;
+extern uintptr_t unwindPCForK2RStubStart;
+extern uintptr_t unwindPCForK2RStubEnd;
+extern uintptr_t unwindPCForEnterKotlinFromCppStub;
+#endif // ENABLE_STACKMAP
 
 namespace kotlin {
 
 enum class FrameType : uint8_t {
     R2K_STUB,
     KONAN_RUN_START_FRAME,
-    WORKER_STUB,
-    CALL_INIT_GLOBAL_POSSIIBLY_LOCK,
-    INIT_OR_DEINIT_GLOBAL_VARIABLES,
-    FIND_ASSOCIATED_OBJECT,
-    INIT_THREAD_LOCAL,
-    INVOKE_C_FUNCTION,
     K2N_STUB,
     K2R_STUB,
     RUNTIME_FRAME,
@@ -72,4 +92,5 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndSta
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::FrameAddress *fp);
 std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData);
 } // namespace kotlin
+
 #endif // RUNTIME_MM_FPUNWIND_H

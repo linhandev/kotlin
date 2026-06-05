@@ -101,8 +101,24 @@ internal class Linker(
 
     private fun stubObjectsForTarget(): List<String> {
         if (target != KonanTarget.OHOS_ARM64 && target != KonanTarget.MACOS_ARM64) return emptyList()
+        // The 4 asm stubs can't be dropped from the OFF link: pre-compiled klib
+        // cstubs.bc files (platform.darwin/posix/zlib/iconv/builtin) bake in
+        // `_Kotlin_KonanStartStub` references at klib generation time, so dropping
+        // the stub objects breaks the link.
+        //
+        // For a proper follow-up, all platform klibs would need regeneration in
+        // OFF mode (a large invasive change beyond scope). Asm stubs stay linked
+        // unconditionally — they're small and harmless when not called (the
+        // compiler emits non-stub paths in OFF per the CodeGenerator gate below,
+        // so the asm trampolines are dead code in OFF binaries).
         val stubsDir = "${config.distribution.konanHome}/konan/targets/${target.name}/stubs_objs"
-        return listOf("N2KStub.o", "K2NStub.o", "K2RStub.o", "KonanStartStub.o").map { "$stubsDir/$it" }
+        return listOf(
+                "N2KStub.o",
+                "K2NStub.o",
+                "K2RStub.o",
+                "KonanStartStub.o",
+                "EnterKotlinFromCppStub.o", // Plan-B: independent N2K trampoline for C++-side fn-ptr calls
+        ).map { "$stubsDir/$it" }
     }
 
     private fun asLinkerArgs(args: List<String>): List<String> {
@@ -120,6 +136,21 @@ internal class Linker(
             }
         }
         return result
+    }
+
+    private fun asLinkerArgs(konanTarget: KonanTarget, binaries: List<String>): List<String> {
+        val dynamicPrefix = konanTarget.family.dynamicPrefix
+        val dynamicSuffix = konanTarget.family.dynamicSuffix
+        val validLibraries = binaries.filter { it.endsWith(".${dynamicSuffix}") }
+                .map { File(it) }
+                .filter { it.name.startsWith(dynamicPrefix) }
+
+        return validLibraries.flatMap {
+            listOf(
+                    "-L${it.parentFile.canonicalPath}",
+                    "-l${it.name.removePrefix(dynamicPrefix).removeSuffix(".${dynamicSuffix}")}"
+            )
+        }
     }
 
     private fun runLinker(
@@ -163,7 +194,11 @@ internal class Linker(
                     when (config.produce) {
                         CompilerOutputKind.DYNAMIC_CACHE ->
                             listOf("-install_name", outputFiles.dynamicCacheInstallName)
-                        else -> listOf("")
+                        // The precise-stackmap path replaces "-dead_strip" with "" on the
+                        // Apple non-DYNAMIC_CACHE path to protect the __LLVM_STACKMAPS section
+                        // from dead-strip. OFF restores baseline `-dead_strip` for smaller binaries.
+                        // Note: OHOS uses lld (not Apple ld), this branch is Apple-only.
+                        else -> if (config.enableStackmap) listOf("") else listOf("-dead_strip")
                     }
                 } else {
                     emptyList()
@@ -174,9 +209,28 @@ internal class Linker(
         File(executable).delete()
 
         val moduleIncludesFlags = buildModuleIncludesLinkerFlags()
-        val linkerArgs = asLinkerArgs(config.configuration.getNotNull(KonanConfigKeys.LINKER_ARGS)) +
+        val linkerArgsForDynamicLibs = asLinkerArgs(config.target, includedBinaries)
+        
+        var linkerArgs = asLinkerArgs(config.configuration.getNotNull(KonanConfigKeys.LINKER_ARGS)) +
                 caches.dynamic +
-                libraryProvidedLinkerFlags + additionalLinkerArgs + moduleIncludesFlags
+                libraryProvidedLinkerFlags + additionalLinkerArgs + moduleIncludesFlags +
+                linkerArgsForDynamicLibs
+        
+        var libraries = linker.linkStaticLibraries(includedBinaries) + caches.static
+        
+        if (config.allocationMode == AllocationMode.CRT || config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) { // TODO: refact this
+            val libcrtPath = System.getenv("LIBCRT_PATH")
+            if (libcrtPath != null) {
+                libraries += listOf("${libcrtPath}/libcrt.so")
+                linkerArgs += if (target.family.isAppleFamily) {
+                    listOf("-rpath", libcrtPath)
+                } else {
+                    listOf("-rpath=$libcrtPath")
+                }
+            } else {
+                throw IllegalStateException("LIBCRT_PATH environment variable must be set for CRT allocation mode")
+            }
+        }
 
         // Stub .o files (N2KStub / K2NStub / K2RStub / KonanStartStub) live under the runtime-resolved
         // Kotlin/Native distribution dir, not under any property-file constant. Resolve them here so
@@ -188,7 +242,7 @@ internal class Linker(
                     tempFiles = tempFiles,
                     objectFiles = objectFiles + stubObjects,
                     executable = executable,
-                    libraries = linker.linkStaticLibraries(includedBinaries) + caches.static,
+                    libraries = libraries,
                     linkerArgs = linkerArgs,
                     optimize = optimize,
                     debug = debug,

@@ -15,6 +15,10 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptor
 import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
+import org.jetbrains.kotlin.ir.declarations.IrDeclaration
+import org.jetbrains.kotlin.ir.declarations.IrExternalPackageFragment
+import org.jetbrains.kotlin.ir.declarations.moduleDescriptor
+import org.jetbrains.kotlin.ir.util.getPackageFragment
 import org.jetbrains.kotlin.ir.util.referenceFunction
 import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.name.FqName
@@ -76,6 +80,13 @@ private fun isExportedClass(descriptor: ClassDescriptor): Boolean {
 
     return true
 }
+
+/**
+ * Same notion as [org.jetbrains.kotlin.backend.konan.LlvmModuleSpecificationBase.containsDeclaration]:
+ * declarations in [IrExternalPackageFragment] come from dependency klibs (Fir2Ir external IR).
+ */
+private fun IrDeclaration.isUnderExternalPackageFragment(): Boolean =
+        getPackageFragment() is IrExternalPackageFragment
 
 internal fun AnnotationDescriptor.properValue(key: String) =
         this.argumentValue(key)?.toString()?.removeSurrounding("\"")
@@ -245,6 +256,7 @@ internal class ExportedElement(
             |
             |extern "C" KObjHeader* ${cname}_instance(KObjHeader**);
             |static $objectClassC ${cname}_instance_impl(void) {
+            |  ScopedFastPathGuard fastPathGuard;
             |  Kotlin_initRuntimeIfNeeded();
             |  ScopedRunnableState stateGuard;
             |  KObjHolder result_holder;
@@ -264,6 +276,7 @@ internal class ExportedElement(
         return """
               |extern "C" KObjHeader* $cname(KObjHeader**);
               |static $enumClassC ${cname}_impl(void) {
+              |  ScopedFastPathGuard fastPathGuard;
               |  Kotlin_initRuntimeIfNeeded();
               |  ScopedRunnableState stateGuard;
               |  KObjHolder result_holder;
@@ -308,9 +321,11 @@ internal class ExportedElement(
     private fun translateBody(cfunction: List<SignatureElement>): String {
         val visibility = if (isTopLevelFunction) "RUNTIME_EXPORT extern \"C\"" else "static"
         val builder = StringBuilder()
+        val ktstubAttr = if (owner.enableStackmap) " __attribute__((annotate(\"ktstub\")))" else ""
         builder.append("$visibility ${typeTranslator.translateType(cfunction[0])} ${cnameImpl}(${cfunction.drop(1).
-                mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")}) __attribute__((annotate(\"ktstub\"))) {\n")
+                mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")})$ktstubAttr {\n")
         // TODO: do we really need that in every function?
+        builder.append("  ScopedFastPathGuard fastPathGuard;\n")
         builder.append("  Kotlin_initRuntimeIfNeeded();\n")
         builder.append("  ScopedRunnableState stateGuard;\n")
         builder.append("  FrameOverlay* frame = getCurrentFrame();")
@@ -390,6 +405,7 @@ internal class CAdapterGenerator(
     internal val prefix = typeTranslator.prefix
     private val paramNamesRecorded = mutableMapOf<String, Int>()
     private val moduleIncludeOnly: Set<String> = context.config.moduleIncludeOnly.toSet()
+    internal val enableStackmap: Boolean = context.config.enableStackmap
 
     internal val symbolTable get() = context.symbolTable!!
 
@@ -417,8 +433,31 @@ internal class CAdapterGenerator(
         descriptor.accept(this, null)
     }
 
+    /**
+     * Skip C export only when IR parent chain reaches [IrExternalPackageFragment]
+     */
+    @OptIn(ObsoleteDescriptorBasedAPI::class)
+    private fun shouldExportInCAdapter(descriptor: FunctionDescriptor): Boolean {
+        val irFunction = runCatching {
+            symbolTable.referenceFunction(descriptor).owner
+        }.getOrNull()
+        if (irFunction != null) {
+            return !irFunction.isUnderExternalPackageFragment()
+        }
+        if (descriptor.extensionReceiverParameter == null) {
+            return true
+        }
+        val receiverClass = descriptor.extensionReceiverParameter?.type?.constructor?.declarationDescriptor as? ClassDescriptor
+                ?: return false
+        val irClass = runCatching {
+            symbolTable.descriptorExtension.referenceClass(receiverClass).owner
+        }.getOrNull() ?: return false
+        return !irClass.isUnderExternalPackageFragment()
+    }
+
     override fun visitConstructorDescriptor(descriptor: ConstructorDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
@@ -426,6 +465,7 @@ internal class CAdapterGenerator(
     override fun visitFunctionDescriptor(descriptor: FunctionDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
         if (!shouldIncludeModule(descriptor.module)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
@@ -457,12 +497,16 @@ internal class CAdapterGenerator(
 
     override fun visitPropertyGetterDescriptor(descriptor: PropertyGetterDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldIncludeModule(descriptor.module)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
 
     override fun visitPropertySetterDescriptor(descriptor: PropertySetterDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldIncludeModule(descriptor.module)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }

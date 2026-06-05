@@ -105,6 +105,7 @@ sealed class LlvmFunctionAttribute(private val llvmAttributeName: String,
     object NoReturn : LlvmFunctionAttribute("noreturn")
     object NoInline : LlvmFunctionAttribute("noinline")
     object AlwaysInline : LlvmFunctionAttribute("alwaysinline")
+    object OptimizeNone : LlvmFunctionAttribute("optnone")
     object SanitizeThread : LlvmFunctionAttribute("sanitize_thread")
     object Ssp : LlvmFunctionAttribute("ssp")
     object SspStrong : LlvmFunctionAttribute("sspstrong")

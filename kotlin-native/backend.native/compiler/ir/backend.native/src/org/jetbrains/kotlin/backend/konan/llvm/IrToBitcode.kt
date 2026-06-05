@@ -351,14 +351,15 @@ internal class CodeGeneratorVisitor(
 
     private fun FunctionGenerationContext.initGlobalField(irField: IrField) {
         val address = staticFieldPtr(irField, this)
+        if (irField.needsGCRegistration) {
+            call(llvm.initAndRegisterGlobalFunction, listOf(address, kNullObjHeaderRef))
+        }
         val initialValue = if (irField.hasNonConstInitializer) {
             evaluateExpression(irField.initializer!!.expression)
         } else {
             null
         }
-        if (irField.needsGCRegistration) {
-            call(llvm.initAndRegisterGlobalFunction, listOf(address, initialValue?: kNullObjHeaderRef))
-        } else if (initialValue != null) {
+        if (initialValue != null) {
             storeAny(initialValue, address, irField.type.binaryTypeIsReference(), false)
         }
     }
@@ -608,11 +609,15 @@ internal class CodeGeneratorVisitor(
                             .forEach { irField ->
                                 if (irField.type.binaryTypeIsReference() && irField.storageKind != FieldStorageKind.THREAD_LOCAL) {
                                     val address = staticFieldPtr(irField, functionGenerationContext)
-                                    storeHeapRef(codegen.kNullObjHeaderRef, address)
+                                    // Upstream 33af2848b3c: globals use storeGlobalRef so the write
+                                    // dispatches to UpdateStaticRef → BaseRuntime::WriteRoot,
+                                    // avoiding the heap-ref barrier's UpdateRememberSet which
+                                    // dereferences thisPtr.
+                                    storeGlobalRef(codegen.kNullObjHeaderRef, address)
                                 }
                             }
                     state.globalSharedObjects.forEach { address ->
-                        storeHeapRef(codegen.kNullObjHeaderRef, address)
+                        storeGlobalRef(codegen.kNullObjHeaderRef, address)
                     }
                     state.globalInitState?.let {
                         store(llvm.intptr(FILE_NOT_INITIALIZED), it)
@@ -1076,7 +1081,7 @@ internal class CodeGeneratorVisitor(
                 // (Cannot do this before the global is initialized).
                 if (moduleIncludeOnly.isNotEmpty()) {
                     LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMExternalLinkage)
-                } else LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMExternalLinkage)
+                } else LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMInternalLinkage)
             }
             llvm.initializersGenerationState.scopeState.topLevelFields.add(declaration)
         }
@@ -1776,7 +1781,7 @@ internal class CodeGeneratorVisitor(
             genInstanceOfObjC(obj, dstClass)
         } else with(VirtualTablesLookup) {
             checkIsSubtype(
-                    objTypeInfo = loadTypeInfo(bitcast(codegen.kObjHeaderPtr, obj)),
+                    objTypeInfo = loadTypeInfo(bitcast(codegen.kObjHeaderRef, obj)),
                     dstClass
             )
         }
@@ -1857,16 +1862,20 @@ internal class CodeGeneratorVisitor(
         }
         val fieldAddress: LLVMValueRef
 
+        val thisPtr: LLVMValueRef
         when {
             !value.symbol.owner.isStatic -> {
-                fieldAddress = fieldPtrOfClass(evaluateExpression(value.receiver!!), value.symbol.owner)
+                thisPtr = evaluateExpression(value.receiver!!)
+                fieldAddress = fieldPtrOfClass(thisPtr, value.symbol.owner)
                 alignment = generationState.llvmDeclarations.forField(value.symbol.owner).alignment
             }
             value.symbol.owner.correspondingPropertySymbol?.owner?.isConst == true -> {
                 // TODO: probably can be removed, as they are inlined.
+                thisPtr = codegen.kNullObjHeaderPtr
                 return evaluateConst(value.symbol.owner.initializer?.expression as IrConst).llvm
             }
             else -> {
+                thisPtr = codegen.kNullObjHeaderPtr
                 fieldAddress = staticFieldPtr(value.symbol.owner, functionGenerationContext)
                 alignment = generationState.llvmDeclarations.forStaticField(value.symbol.owner).alignment
             }
@@ -1878,7 +1887,8 @@ internal class CodeGeneratorVisitor(
                 !value.symbol.owner.isFinal,
                 resultSlot,
                 memoryOrder = order,
-                alignment = alignment
+                alignment = alignment,
+                thisPtr = thisPtr
         )
     }
 
@@ -1936,6 +1946,7 @@ internal class CodeGeneratorVisitor(
                 valueToAssign, address, value.symbol.owner.type.binaryTypeIsReference(), false,
                 isVolatile = value.symbol.owner.hasAnnotation(KonanFqNames.volatile),
                 alignment = alignment,
+                thisPtr = thisPtr ?: codegen.kNullObjHeaderPtr
         )
 
         assert (value.type.isUnit())
@@ -2763,15 +2774,28 @@ internal class CodeGeneratorVisitor(
 
     private val IrSimpleFunction.needsNativeThreadState: Boolean
         get() {
-            // Every K→C bridge enters NATIVE in K2NStub and needs an IR cleanup
-            // landing pad to restore the thread on the throw path (the stub has
-            // no exception personality). GCUnsafeCall stubs never switch — skip.
-            val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
-                    !annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)
-            if (result) {
-                check(isExternal)
+            if (context.config.enableStackmap) {
+                // ON path: every K->C bridge enters NATIVE in K2NStub and needs
+                // an IR cleanup landing pad to restore the thread on the throw
+                // path (the stub has no exception personality). GCUnsafeCall
+                // stubs never switch, so skip them.
+                val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
+                        !annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)
+                if (result) {
+                    check(isExternal)
+                }
+                return result
+            } else {
+                // OFF path baseline: all KOTLIN_TO_C_BRIDGE require a
+                // thread-state switch.
+                val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE
+                if (result) {
+                    check(isExternal)
+                    check(!annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
+                    check(annotations.hasAnnotation(RuntimeNames.filterExceptions))
+                }
+                return result
             }
-            return result
         }
 
     private val IrFunction.gcSafeCall: Boolean
@@ -2849,37 +2873,90 @@ internal class CodeGeneratorVisitor(
                      resultLifetime: Lifetime, resultSlot: LLVMValueRef?): LLVMValueRef {
         check(!function.isTypedIntrinsic)
 
-        val needsNativeThreadState = function.needsNativeThreadState
-        var exceptionHandler = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
-            val foreignExceptionMode = ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
-            functionGenerationContext.filteringExceptionHandler(
-                    currentCodeContext.exceptionHandler,
-                    foreignExceptionMode,
-                    needsNativeThreadState
-            )
-        } ?: currentCodeContext.exceptionHandler
+        if (context.config.enableStackmap) {
+            // ON path: gcSafeCall + tryHandleK2XIntrinsic + IR cleanup landing
+            // pad with needsThreadStateRestore=true.
+            val needsNativeThreadState = function.needsNativeThreadState
+            var exceptionHandler = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
+                val foreignExceptionMode = ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
+                functionGenerationContext.filteringExceptionHandler(
+                        currentCodeContext.exceptionHandler,
+                        foreignExceptionMode,
+                        needsNativeThreadState
+                )
+            } ?: currentCodeContext.exceptionHandler
 
-        if (function.gcSafeCall) {
-            val intrinsicResult = tryHandleK2XIntrinsic(function, llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)!!
-            return intrinsicResult
+            if (function.gcSafeCall) {
+                val intrinsicResult = tryHandleK2XIntrinsic(function, llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)!!
+                return intrinsicResult
+            }
+
+            if (needsNativeThreadState) {
+                exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
+                        exceptionHandler, needsThreadStateRestore = true) {}
+            }
+
+            val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
+
+            when  {
+                function.returnType.isNothing() -> functionGenerationContext.unreachable()
+            }
+
+            if (llvmCallable.returnType == llvm.voidType) {
+                return codegen.theUnitInstanceRef.llvm
+            }
+
+            return result
+        } else {
+            // OFF path baseline: explicit switchThreadState(Native/Runnable),
+            // forceNativeThreadStateForFunctions consumption (KT-75895/KT-79384
+            // escape hatch), and a defensive check(!needsNativeThreadState).
+            val foreignExceptionModeFromAnnotation = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
+                ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
+            }
+
+            val needsNativeThreadState: Boolean
+            val filterExceptionWith: ForeignExceptionMode.Mode?
+
+            if (llvmCallable.name in context.config.forceNativeThreadStateForFunctions) {
+                // Quick hack for SymbolName functions that are blocking and need native state.
+                needsNativeThreadState = true
+                filterExceptionWith = foreignExceptionModeFromAnnotation ?: ForeignExceptionMode.Mode.TERMINATE
+            } else {
+                needsNativeThreadState = function.needsNativeThreadState
+                filterExceptionWith = foreignExceptionModeFromAnnotation
+            }
+
+            val exceptionHandler = if (filterExceptionWith != null) {
+                functionGenerationContext.filteringExceptionHandler(
+                        currentCodeContext.exceptionHandler,
+                        filterExceptionWith,
+                        needsNativeThreadState
+                )
+            } else {
+                check(!needsNativeThreadState) {
+                    "${llvmCallable.name} needs native thread state, but doesn't have a filtering exception handler"
+                }
+                currentCodeContext.exceptionHandler
+            }
+
+            if (needsNativeThreadState) {
+                functionGenerationContext.switchThreadState(ThreadState.Native)
+            }
+
+            val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
+
+            when {
+                function.returnType.isNothing() -> functionGenerationContext.unreachable()
+                needsNativeThreadState -> functionGenerationContext.switchThreadState(ThreadState.Runnable)
+            }
+
+            if (llvmCallable.returnType == llvm.voidType) {
+                return codegen.theUnitInstanceRef.llvm
+            }
+
+            return result
         }
-
-        if (needsNativeThreadState) {
-            exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
-                    exceptionHandler, needsThreadStateRestore = true) {}
-        }
-
-        val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
-
-        when  {
-            function.returnType.isNothing() -> functionGenerationContext.unreachable()
-        }
-
-        if (llvmCallable.returnType == llvm.voidType) {
-            return codegen.theUnitInstanceRef.llvm
-        }
-
-        return result
     }
 
     private fun call(
@@ -2932,6 +3009,9 @@ internal class CodeGeneratorVisitor(
             val configuration = context.config.configuration
             val programType = configuration.get(BinaryOptions.androidProgramType) ?: AndroidProgramType.Default
             overrideRuntimeGlobal("Kotlin_printToAndroidLogcat", llvm.constInt32(if (programType.consolePrintsToLogcat) 1 else 0))
+        }
+        if (context.config.target.family == Family.OHOS) {
+            overrideRuntimeGlobal("Kotlin_printToOhosHiLog", llvm.constInt32(if (context.config.printToOhosHiLog) 1 else 0))
         }
         overrideRuntimeGlobal("Kotlin_appStateTracking", llvm.constInt32(context.config.appStateTracking.value))
         overrideRuntimeGlobal("Kotlin_objcDisposeOnMain", llvm.constInt32(if (context.config.objcDisposeOnMain) 1 else 0))
@@ -3159,6 +3239,7 @@ internal fun NativeGenerationState.generateRuntimeConstantsModule() : LLVMModule
     setRuntimeConstGlobal("Kotlin_gcMarkSingleThreaded", llvm.constInt32(if (config.gcMarkSingleThreaded) 1 else 0))
     setRuntimeConstGlobal("Kotlin_fixedBlockPageSize", llvm.constInt32(config.fixedBlockPageSize.toInt()))
     setRuntimeConstGlobal("Kotlin_pagedAllocator", llvm.constInt32(if (config.pagedAllocator) 1 else 0))
+    setRuntimeConstGlobal("Kotlin_memoryManagerMode", llvm.constInt32(config.memoryManagerMode.value))
 
     return llvmModule
 }

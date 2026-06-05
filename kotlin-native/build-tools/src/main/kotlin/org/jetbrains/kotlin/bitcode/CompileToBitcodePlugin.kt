@@ -33,6 +33,7 @@ import org.jetbrains.kotlin.konan.target.PlatformManager
 import org.jetbrains.kotlin.konan.target.SanitizerKind
 import org.jetbrains.kotlin.konan.target.TargetDomainObjectContainer
 import org.jetbrains.kotlin.konan.target.TargetWithSanitizer
+import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.target.enabledTargets
 import org.jetbrains.kotlin.nativeDistribution.nativeProtoDistribution
 import org.jetbrains.kotlin.testing.native.GoogleTestExtension
@@ -151,16 +152,31 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
     }
 
     // TODO: These should be set by the plugin users.
-    private val DEFAULT_CPP_FLAGS = listOfNotNull(
-            "-gdwarf-2".takeIf { project.kotlinBuildProperties.getBoolean("kotlin.native.isNativeRuntimeDebugInfoEnabled", false) },
+    val isGcFastPathEnabled = project.kotlinBuildProperties.getBoolean("kotlin.native.gc_fastpath", false)
+
+    // decide flags related to gc fastpath
+    private fun getCppGcFastpathFlags(target: KonanTarget): List<String> {
+        return if (isGcFastPathEnabled) {
+            when (target) {
+                KonanTarget.OHOS_ARM64 -> listOf("-ffixed-x28", "-DENABLE_GC_FASTPATH")
+                else -> emptyList()
+            }
+        } else {
+            emptyList()
+        }
+    }
+
+    private fun getDefaultCppFlags(target: KonanTarget): List<String> {
+        return getCppGcFastpathFlags(target) + listOfNotNull(
             "-std=c++17",
-            "-Werror",
+            "-DNDEBUG", // This is required because crt header file corrupts ALWAYS_INLINE without NDEBUG
             "-O2",
             "-fno-aligned-allocation", // TODO: Remove when all targets support aligned allocation in C++ runtime.
+            "-Wno-unused-parameter",  // False positives with polymorphic functions.
             "-Wall",
             "-Wextra",
-            "-Wno-unused-parameter",  // False positives with polymorphic functions.
-    )
+        )
+    }
 
     private val allTestsTasks by lazy {
         val name = project.name.capitalized
@@ -251,6 +267,26 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
             // Add the sources, as clang by default adds directory with the source to the include path.
             this.headersDirs.from(this@SourceSet.inputFiles.dir)
             this.headersDirs.from(this@SourceSet.headersDirs)
+            // Add CRT headers unconditionally
+            val nativeRoot = project.rootProject.layout.projectDirectory.dir("kotlin-native")
+            val thirdParty = project.rootProject.layout.projectDirectory.dir("third-party")
+            this.arguments.add("-I${nativeRoot.dir("runtime/src").asFile.absolutePath}")
+            this.arguments.add("-I${nativeRoot.dir("runtime/src/main/cpp").asFile.absolutePath}")
+            this.arguments.addAll(allCompilerArgs.map { args ->
+                if ("-DENABLE_CRT=1" in args) {
+                    listOf(
+                            "-I${thirdParty.dir("common-rt").asFile.absolutePath}",
+                            "-I${thirdParty.dir("common-rt/common_interfaces").asFile.absolutePath}",
+                            "-I${thirdParty.dir("common-rt/libpandabase").asFile.absolutePath}",
+                            "-I${thirdParty.dir("common-rt/libpandabase/utils").asFile.absolutePath}",
+                            "-I${thirdParty.dir("common-rt/third_party_bounds_checking_function/include").asFile.absolutePath}",
+                    )
+                } else {
+                    emptyList()
+                }
+            })
+            this.arguments.add("-I${nativeRoot.dir("runtime/src/mm/cpp").asFile.absolutePath}")
+            this.arguments.add("-I${nativeRoot.dir("runtime/src/alloc/common/cpp").asFile.absolutePath}")
             this.inputFiles.from(this@SourceSet.inputFiles)
             this.workingDirectory.set(module.compilerWorkingDirectory)
             dependsOn(nativeDependencies.llvmDependency)
@@ -553,7 +589,7 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
                     this.srcRoot.convention(project.layout.projectDirectory.dir("src/$name"))
                     this.headersDirs.from(this.srcRoot.dir("cpp"))
                     this.compiler.convention("clang++")
-                    this.compilerArgs.set(owner.DEFAULT_CPP_FLAGS)
+                    this.compilerArgs.set(owner.getDefaultCppFlags(_target.target))
                     this.compilerWorkingDirectory.set(project.layout.projectDirectory.dir("src"))
                 }
             }

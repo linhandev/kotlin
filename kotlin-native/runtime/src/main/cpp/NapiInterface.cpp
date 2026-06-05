@@ -16,6 +16,8 @@
 #include "Types.h"
 #include "KStringProxyOHOS.h"
 #include "ArkTSStringRef.h"
+#include "PinScope.h"
+#include "ArkTSConfig.h"
 
 #include <hilog/log.h>
 #include <napi/native_api.h>
@@ -238,7 +240,8 @@ extern "C" {
             return (KNativePtr)result;
         }
 
-        // Scenario 2: regular Kotlin String
+        // Scenario 2: regular Kotlin String.
+        EnterPinScope<void*> scope((void*)thiz);
         auto header = StringHeader::of(thiz);
         napi_status status = napi_ok;
         switch (header->encoding()) {
@@ -291,50 +294,50 @@ extern "C" {
         napi_env napiEnv = reinterpret_cast<napi_env>(env);
         napi_value napiValue = reinterpret_cast<napi_value>(value);
 
-        // Try zero-copy proxy first
-        ArkTSStringRef* proxyRef = ArkTSStringRef::tryCreate(napiEnv, napiValue);
-        if (proxyRef != nullptr) {
-            return hmm::Kotlin_ArkTS_CreateStringByProxy(proxyRef, OBJ_RESULT);
+        size_t str_size;
+        napi_status status;
+        {
+            kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+            status = napi_get_value_string_utf16(napiEnv, napiValue, NULL, 0, &str_size);
         }
 
-        // Fall back to copy
-        size_t str_size;
-
-        napi_status status = napi_get_value_string_utf16(
-                napiEnv,
-                napiValue,
-                NULL, 0, &str_size
-        );
         if (status != napi_ok) {
             OH_LOG_Print(LOG_APP, LOG_ERROR, NAPI_LOG_DOMAIN, NAPI_LOG_TAG,
                 "Failed to get UTF-16 string length in getStringFromValue, status: %{public}d",
                 status);
             RETURN_OBJ(nullptr);
         }
-
         if (str_size == 0) {
             RETURN_RESULT_OF0(TheEmptyString);
         }
+
+        // Try zero-copy proxy first
+        if (str_size >= static_cast<size_t>(Kotlin_ArkTSConfig_getMinLengthForArkString())) {
+            ArkTSStringRef* proxyRef = ArkTSStringRef::tryCreate(napiEnv, napiValue);
+            if (proxyRef != nullptr) {
+                return hmm::Kotlin_ArkTS_CreateStringByProxy(proxyRef, OBJ_RESULT);
+            }
+        }
+
+        // Fall back to copy
         // Create an uninitialized UTF-16 string
         // Allocate str_size+1 to reserve space for the null terminator written by napi_get_value_string_utf16
         KRef kotlinString = CreateUninitializedString(StringEncoding::kUTF16, (uint32_t)(str_size + 1), OBJ_RESULT);
+        EnterPinScope<void*> scope((void*)kotlinString);
 
         StringHeader* kotlinHeader = StringHeader::of(kotlinString);
         // Get the data pointer from the Kotlin string
         char16_t* data = reinterpret_cast<char16_t*>(kotlinHeader->data());
         // Now get the string directly from napi into the Kotlin string's buffer
         size_t str_size_read;
-        status = napi_get_value_string_utf16(
-                napiEnv,
-                napiValue,
-                data,
-                str_size + 1, &str_size_read
-        );
-
+        {
+            kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
+            status = napi_get_value_string_utf16(napiEnv, napiValue, data, str_size + 1, &str_size_read);
+        }
         if (status != napi_ok) {
             OH_LOG_Print(LOG_APP, LOG_ERROR, NAPI_LOG_DOMAIN, NAPI_LOG_TAG,
-                "Failed to read UTF-16 string content in getStringFromValue, status: %{public}d",
-                status);
+                    "Failed to read UTF-16 string content in getStringFromValue, status: %{public}d",
+                    status);
             RETURN_OBJ(nullptr);
         }
 

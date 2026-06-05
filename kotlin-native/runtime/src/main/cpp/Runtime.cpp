@@ -21,10 +21,11 @@
 #ifdef KONAN_OHOS
 #include "ArkTSInit.h"
 #endif
-#include "KotlinCallScope.h"
+#include "EnterKotlinFromCpp.h"
+#include <algorithm>
 #include <atomic>
-#include <cstdint>
 #include <cstdlib>
+#include <string>
 #include <thread>
 
 #ifdef KONAN_OHOS
@@ -35,6 +36,11 @@
 extern "C" __attribute__((weak)) HiDebug_ErrorCode OH_HiDebug_RegisterMemDumpListener(
     const char*, OH_HiDebug_MemDumpListener);
 #endif
+#ifdef ENABLE_CRT
+#include "base/common.h"
+#include "crt/cpp/CRTRuntime.hpp"
+#endif
+#include "MemoryManagerSwitch.hpp"
 
 using namespace kotlin;
 
@@ -68,34 +74,30 @@ enum {
   DEINIT_GLOBALS = 3
 };
 
+#ifdef ENABLE_STACKMAP
+// NO_INLINE + asm labels + EnterKotlinFromCppStub are precise-stackmap-only
+// (FpUnwind.cpp consumes the unwindPCForEnterKotlinFromCppStub global). OFF reduces to the
+// baseline simple while loop.
 NO_INLINE void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
   InitNode* currentNode = initHeadNode;
-#if KONAN_MACOSX
-  asm volatile(".alt_entry _unwindPCStartForInitOrDeinitGlobalVariables\n"
-      ".global _unwindPCStartForInitOrDeinitGlobalVariables\n"
-      "_unwindPCStartForInitOrDeinitGlobalVariables:");
-#else
-  asm("  .p2align 3\n"
-      "  .global unwindPCStartForInitOrDeinitGlobalVariables\n"
-      "unwindPCStartForInitOrDeinitGlobalVariables:");
-#endif
   while (currentNode != nullptr) {
-    {
-      KotlinCallScope scope;
-      currentNode->init(initialize, memory);
-    }
+    // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+    (void)EnterKotlinFromCppStub(
+        reinterpret_cast<void*>(currentNode->init),
+        reinterpret_cast<void*>(static_cast<intptr_t>(initialize)),
+        reinterpret_cast<void*>(memory));
     currentNode = currentNode->next;
   }
-#if KONAN_MACOSX
-  asm volatile(".alt_entry _unwindPCEndForInitOrDeinitGlobalVariables\n"
-      ".global _unwindPCEndForInitOrDeinitGlobalVariables\n"
-      "_unwindPCEndForInitOrDeinitGlobalVariables:");
-#else
-  asm("  .p2align 3\n"
-      "  .global unwindPCEndForInitOrDeinitGlobalVariables\n"
-      "unwindPCEndForInitOrDeinitGlobalVariables:");
-#endif
 }
+#else
+void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
+  InitNode* currentNode = initHeadNode;
+  while (currentNode != nullptr) {
+    currentNode->init(initialize, memory);
+    currentNode = currentNode->next;
+  }
+}
+#endif
 
 KBoolean g_checkLeaks = false;
 KBoolean g_checkLeakedCleaners = false;
@@ -154,43 +156,53 @@ void RegistDumpListenerIfNeeded()
 }
 #endif
 
+NO_INLINE void InitAddressScope();
+
 NO_INLINE RuntimeState* initRuntime() {
-  SetKonanTerminateHandler();
-  initObjectPool();
+    SetKonanTerminateHandler();
+    initObjectPool();
 
-  RuntimeState* result = new RuntimeState();
-  if (!result) return kInvalidRuntime;
-  RuntimeCheck(!isValidRuntime(), "No active runtimes allowed");
-  ::runtimeState = result;
+    RuntimeState* result = new RuntimeState();
+    if (!result) {
+        return kInvalidRuntime;
+    }
+    RuntimeCheck(!isValidRuntime(), "No active runtimes allowed");
+    ::runtimeState = result;
 
-  // First update `aliveRuntimesCount` and then update `globalRuntimeStatus`, for synchronization with
-  // runtime shutdown, which does it the other way around.
-  ++aliveRuntimesCount;
+    // First update `aliveRuntimesCount` and then update `globalRuntimeStatus`, for synchronization with
+    // runtime shutdown, which does it the other way around.
+    ++aliveRuntimesCount;
 
-  bool firstRuntime = initializeGlobalRuntimeIfNeeded();
-  result->memoryState = InitMemory();
-  // Switch thread state because worker and globals inits require the runnable state.
-  // This call may block if GC requested suspending threads.
-  ThreadStateGuard stateGuard(result->memoryState, kotlin::ThreadState::kRunnable);
-  result->worker = WorkerInit(result->memoryState);
+    bool firstRuntime = initializeGlobalRuntimeIfNeeded();
+    if (firstRuntime) {
+        checkUseCRT<CheckMode::Slow>([] { // CheckMode must be Slow, x28 will be set up below
+            InitCRTRuntime();
+        });
+    }
+    result->memoryState = InitMemory();
+    // Switch thread state because worker and globals inits require the runnable state.
+    // This call may block if GC requested suspending threads.
+    ThreadStateGuard stateGuard(result->memoryState, kotlin::ThreadState::kRunnable);
+    result->worker = WorkerInit(result->memoryState);
 
-  InitOrDeinitGlobalVariables(ALLOC_THREAD_LOCAL_GLOBALS, result->memoryState);
-  CommitTLSStorage(result->memoryState);
-  // Keep global variables in state as well.
-  if (firstRuntime) {
-    InitOrDeinitGlobalVariables(INIT_GLOBALS, result->memoryState);
-  }
-  InitOrDeinitGlobalVariables(INIT_THREAD_LOCAL_GLOBALS, result->memoryState);
-  RuntimeAssert(result->status == RuntimeStatus::kUninitialized, "Runtime must still be in the uninitialized state");
-  result->status = RuntimeStatus::kRunning;
+    InitOrDeinitGlobalVariables(ALLOC_THREAD_LOCAL_GLOBALS, result->memoryState);
+    CommitTLSStorage(result->memoryState);
+    // Keep global variables in state as well.
+    if (firstRuntime) {
+        InitOrDeinitGlobalVariables(INIT_GLOBALS, result->memoryState);
+    }
 
-  // Register runtime deinit function at thread cleanup.
-  konan::onThreadExit(Kotlin_deinitRuntimeCallback, runtimeState);
+    InitOrDeinitGlobalVariables(INIT_THREAD_LOCAL_GLOBALS, result->memoryState);
+    RuntimeAssert(result->status == RuntimeStatus::kUninitialized, "Runtime must still be in the uninitialized state");
+    result->status = RuntimeStatus::kRunning;
+
+    // Register runtime deinit function at thread cleanup.
+    konan::onThreadExit(Kotlin_deinitRuntimeCallback, runtimeState);
 
 #ifdef KONAN_OHOS
-  RegistDumpListenerIfNeeded();
+    RegistDumpListenerIfNeeded();
 #endif
-  return result;
+    return result;
 }
 
 void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
@@ -202,8 +214,9 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
   ::runtimeState = state;
   --aliveRuntimesCount;
   ClearTLS(state->memoryState);
-  if (destroyRuntime)
-    InitOrDeinitGlobalVariables(DEINIT_GLOBALS, state->memoryState);
+  if (destroyRuntime) {
+      InitOrDeinitGlobalVariables(DEINIT_GLOBALS, state->memoryState);
+  }
 
   // Do not use ThreadStateGuard because memoryState will be destroyed during DeinitMemory.
   kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kNative);
@@ -215,15 +228,17 @@ void deinitRuntime(RuntimeState* state, bool destroyRuntime) {
   delete state;
   WorkerDestroyThreadDataIfNeeded(workerId);
   ::runtimeState = kInvalidRuntime;
+  // TODO: crt common::BaseRuntime::GetInstance()->Fini()
+  // TODO: crt common::BaseRuntime::GetInstance()->DestroyInstance()
 }
 
 void Kotlin_deinitRuntimeCallback(void* argument) {
-  auto* state = reinterpret_cast<RuntimeState*>(argument);
-  // This callback may be called from any state, make sure it runs in the runnable state.
-  kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
-  deinitRuntime(state, false);
+    common::CallToFFixedX28 guard{};
+    auto* state = reinterpret_cast<RuntimeState*>(argument);
+    // This callback may be called from any state, make sure it runs in the runnable state.
+    kotlin::SwitchThreadState(state->memoryState, kotlin::ThreadState::kRunnable, /* reentrant = */ true);
+    deinitRuntime(state, false);
 }
-
 }  // namespace
 
 bool kotlin::initializeGlobalRuntimeIfNeeded() noexcept {
@@ -231,8 +246,9 @@ bool kotlin::initializeGlobalRuntimeIfNeeded() noexcept {
     if (Kotlin_forceCheckedShutdown()) {
         RuntimeAssert(lastStatus != kGlobalRuntimeShutdown, "Kotlin runtime was shut down. Cannot create new runtimes.");
     }
-    if (lastStatus != kGlobalRuntimeUninitialized)
+    if (lastStatus != kGlobalRuntimeUninitialized) {
         return false;
+    }
 
     konan::consoleInit();
     logging::OnRuntimeInit();
@@ -285,6 +301,9 @@ void Kotlin_shutdownRuntime() {
         // The main thread is not doing anything Kotlin anymore, but will stick around to cleanup C++ globals and the like.
         // Mark the thread native, and don't make the GC thread wait on it.
         kotlin::SwitchThreadState(runtime->memoryState, kotlin::ThreadState::kNative);
+        checkUseCRT<CheckMode::Slow>([&] {
+            DestroyCRTRuntime(runtime->memoryState); // CRT must be destroyed before C++ globals are.
+        });
         return;
     }
 
@@ -501,30 +520,14 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
         // actual initialization
         try {
             CurrentFrameGuard guard;
-            {
-                KotlinCallScope scope;
-                // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
-                // Global symbols are exported as .quad pointers in __DATA,__const (see bottom of file).
-#if KONAN_MACOSX
-            asm volatile(".alt_entry _unwindPCStartForCallInitGlobalPossiblyLock\n"
-                ".global _unwindPCStartForCallInitGlobalPossiblyLock\n"
-                "_unwindPCStartForCallInitGlobalPossiblyLock:");
+#ifdef ENABLE_STACKMAP
+            // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+            (void)EnterKotlinFromCppStub(
+                reinterpret_cast<void*>(init),
+                nullptr, nullptr);
 #else
-            asm("  .p2align 3\n"
-                "  .global unwindPCStartForCallInitGlobalPossiblyLock\n"
-                "unwindPCStartForCallInitGlobalPossiblyLock:");
+            init();
 #endif
-                init();
-#if KONAN_MACOSX
-            asm volatile(".alt_entry _unwindPCEndForCallInitGlobalPossiblyLock\n"
-                ".global _unwindPCEndForCallInitGlobalPossiblyLock\n"
-                "_unwindPCEndForCallInitGlobalPossiblyLock:");
-#else
-            asm("  .p2align 3\n"
-                "  .global unwindPCEndForCallInitGlobalPossiblyLock\n"
-                "unwindPCEndForCallInitGlobalPossiblyLock:");
-#endif
-            }
         } catch (ExceptionObjHolder& e) {
             ObjHolder holder;
             auto *exception = Kotlin_getExceptionObject(&e, holder.slot());
@@ -544,28 +547,14 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
     *localState = FILE_INITIALIZED;
     try {
         CurrentFrameGuard guard;
-        {
-            KotlinCallScope scope;
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCStartForCallInitThreadLocal\n"
-            ".global _unwindPCStartForCallInitThreadLocal\n"
-            "_unwindPCStartForCallInitThreadLocal:");
+#ifdef ENABLE_STACKMAP
+        // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+        (void)EnterKotlinFromCppStub(
+            reinterpret_cast<void*>(init),
+            nullptr, nullptr);
 #else
-        asm("  .p2align 3\n"
-            "  .global unwindPCStartForCallInitThreadLocal\n"
-            "unwindPCStartForCallInitThreadLocal:");
+        init();
 #endif
-            init();
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCEndForCallInitThreadLocal\n"
-            ".global _unwindPCEndForCallInitThreadLocal\n"
-            "_unwindPCEndForCallInitThreadLocal:");
-#else
-        asm("  .p2align 3\n"
-            "  .global unwindPCEndForCallInitThreadLocal\n"
-            "unwindPCEndForCallInitThreadLocal:");
-#endif
-        }
     } catch(ExceptionObjHolder& e) {
         ObjHolder holder;
         auto *exception = Kotlin_getExceptionObject(&e, holder.slot());
@@ -575,4 +564,3 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
 }
 
 }  // extern "C"
-

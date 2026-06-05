@@ -15,6 +15,11 @@
  */
 
 #pragma once
+
+#ifdef ENABLE_STACKMAP
+// Entire file is stackmap-only (kotlin::stackMap macros + types).
+// OFF mode: empty header.
+
 #include <cstdint>
 
 namespace kotlin::stackMap {
@@ -34,3 +39,5 @@ enum StackMapFormat : uint8_t {
     STACKMAP_COMPRESSED_BITMAP = 1,
 };
 } // namespace kotlin::stackMap
+
+#endif // ENABLE_STACKMAP
