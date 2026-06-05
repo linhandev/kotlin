@@ -12,6 +12,7 @@
 
 #include "MemoryManagerSwitch.hpp"
 #ifdef ENABLE_CRT
+#include "CRTFastpathUtils.hpp"
 #include "crt/cpp/KNBaseObject.hpp"
 #endif
 
@@ -40,6 +41,9 @@ RUNTIME_NOTHROW ALWAYS_INLINE void initCRTWeakReferenceImpl(ObjHeader* weakRef, 
 {
     auto addr = reinterpret_cast<uintptr_t>(weakRef);
     auto field = reinterpret_cast<KLong*>(addr + sizeof(ObjHeader));
+    // The raw tagged store bypasses RefAccessor<Heap>, so emit the write barrier
+    // explicitly; otherwise SATB and remembered-set updates are missed.
+    common::BaseRuntime::WriteBarrier(weakRef, field, referred, common::GetMutatorOrNull());
     *field = reinterpret_cast<KLong>(referred) | common::REF_FIELD_TAG_WEAK;
     reinterpret_cast<common::KNBaseObject*>(weakRef)->SetWeakRefImplObjectFlag(true);
 }
