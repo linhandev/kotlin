@@ -19,8 +19,10 @@ package org.jetbrains.kotlin.konan.target
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
+import java.io.File
 import java.nio.file.Path
 
 /**
@@ -102,6 +104,30 @@ class OhosLinkerTest {
         assertEquals(
             listOf("libfoo.a"),
             linker.filterStaticLibraries(listOf("libfoo.a", "libbar.so", "not-a-lib.txt")),
+        )
+    }
+
+    @Test
+    fun `static library linking - uses qcs for object files and qsL for nested archives`(@TempDir tempDir: Path) {
+        assumeTrue(HostManager.hostIsLinux || HostManager.hostIsMac || HostManager.hostIsMingw)
+
+        val configurables = StubOhosConfigurables(KonanTarget.OHOS_ARM64, tempDir.toFile())
+        val commands = ohosLinkCommands(
+            configurables,
+            kind = LinkerOutputKind.STATIC_LIBRARY,
+            executable = "out.a",
+            objectFiles = listOf("obj1.o", "obj2.o"),
+            libraries = listOf("lib1.a", "lib2.a"),
+        )
+
+        assertEquals(2, commands.size)
+        assertEquals(
+            listOf("${configurables.absoluteTargetToolchain}/bin/llvm-ar", "qcs", "out.a", "obj1.o", "obj2.o"),
+            commands[0].argsWithExecutable,
+        )
+        assertEquals(
+            listOf("${configurables.absoluteTargetToolchain}/bin/llvm-ar", "qsL", "out.a", "lib1.a", "lib2.a"),
+            commands[1].argsWithExecutable,
         )
     }
 
@@ -200,14 +226,65 @@ class OhosLinkerTest {
     }
 
     @Test
-    fun `ohos dynamic library link sets soname`(@TempDir tempDir: Path) {
+    fun `dynamic library linking - uses response file when there are more than 16 libraries`(@TempDir tempDir: Path) {
+        val configurables = StubOhosConfigurables(KonanTarget.OHOS_ARM64, tempDir.toFile())
+        val libraries = (1..17).map { "/libs/lib$it.a" }
+        val args = ohosLinkCommandArgs(
+            configurables,
+            libraries = libraries,
+            kind = LinkerOutputKind.DYNAMIC_LIBRARY,
+            executable = "out.so",
+        )
+
+        val responseFileArgument = args.single { it.startsWith("@") }
+        val responseFileLines = File(responseFileArgument.removePrefix("@")).readLines()
+        assertEquals(libraries, responseFileLines)
+    }
+
+    @Test
+    fun `dynamic library linking - passes libraries directly when there are at most 16 libraries`(@TempDir tempDir: Path) {
+        val libraries = (1..16).map { "/libs/lib$it.a" }
         val args = ohosLinkCommandArgs(
             StubOhosConfigurables(KonanTarget.OHOS_ARM64, tempDir.toFile()),
+            libraries = libraries,
+            kind = LinkerOutputKind.DYNAMIC_LIBRARY,
+            executable = "out.so",
+        )
+
+        assertTrue(args.containsAll(libraries))
+        assertFalse(args.any { it.startsWith("@") })
+    }
+
+    @Test
+    fun `ohos dynamic library link sets soname`(@TempDir tempDir: Path) {
+        val args = ohosLinkCommandArgs(
+            StubOhosConfigurables(
+                KonanTarget.OHOS_ARM64,
+                tempDir.toFile(),
+                linkerDynamicFlags = listOf("-shared"),
+            ),
             kind = LinkerOutputKind.DYNAMIC_LIBRARY,
             executable = "/tmp/out/libfoo.so",
         )
         assertTrue(args.contains("--soname=libfoo.so"))
         assertTrue(args.contains("-shared"))
+    }
+
+    @Test
+    fun `dynamic debug linking - includes gc-sections and pack-relative-relocs flags`(@TempDir tempDir: Path) {
+        val args = ohosLinkCommandArgs(
+            StubOhosConfigurables(
+                KonanTarget.OHOS_ARM64,
+                tempDir.toFile(),
+                linkerDynamicFlags = listOf("-shared", "--gc-sections", "-z", "pack-relative-relocs"),
+            ),
+            kind = LinkerOutputKind.DYNAMIC_LIBRARY,
+            executable = "out.so",
+        )
+
+        assertTrue(args.contains("-shared"))
+        assertTrue(args.contains("--gc-sections"))
+        assertTrue(args.contains("pack-relative-relocs"))
     }
 
     @Test
