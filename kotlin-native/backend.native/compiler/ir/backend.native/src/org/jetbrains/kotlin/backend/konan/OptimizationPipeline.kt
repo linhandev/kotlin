@@ -220,6 +220,11 @@ abstract class LlvmOptimizationPipeline(
                 }
             }
             LLVMPassBuilderOptionsSetMaxDevirtIterations(options, 0)
+            // Kotlin/Native: skip the fork's RewriteStatepointsForGC tail in the konanc
+            // in-process pipeline so safepoints stay plain calls (the per-module dedup +
+            // inline-poll lowering in RemoveRedundantSafepoints acts on the simple form).
+            // The clang -cc1 stage keeps the default (on) and wraps them into gc.statepoint.
+            LLVMPassBuilderOptionsSetRunRewriteStatepointsForGC(options, 0)
             if (config.timePasses) {
                 LLVMSetTimePasses(1)
             }
