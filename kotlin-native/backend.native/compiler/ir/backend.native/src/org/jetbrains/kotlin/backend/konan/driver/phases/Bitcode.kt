@@ -18,232 +18,15 @@ import org.jetbrains.kotlin.backend.konan.driver.utilities.getDefaultLlvmModuleA
 import org.jetbrains.kotlin.backend.konan.driver.utilities.createTempFiles
 import org.jetbrains.kotlin.backend.konan.llvm.verifyModule
 import org.jetbrains.kotlin.backend.konan.llvm.parseBitcodeFile
+import org.jetbrains.kotlin.backend.konan.llvm.K2RStubFunctions
 import org.jetbrains.kotlin.backend.konan.optimizations.RemoveRedundantSafepointsPass
 import org.jetbrains.kotlin.backend.konan.optimizations.removeMultipleThreadDataLoads
+import org.jetbrains.kotlin.konan.target.CompilerOutputKind
 import org.jetbrains.kotlin.konan.target.SanitizerKind
 import java.io.File
 import java.io.IOException
 import kotlin.coroutines.*
 import kotlinx.coroutines.*
-
-internal fun addAlwaysInline(module: LLVMModuleRef) {
-    var globalAnnotations = LLVMGetNamedGlobal(module, "llvm.global.annotations")
-    if (globalAnnotations == null) {
-        return
-    }
-    var initializer = LLVMGetInitializer(globalAnnotations)
-    if (LLVMIsAConstantArray(initializer) == null) {
-        return
-    }
-    var numElements = LLVMGetNumOperands(initializer)
-    var i = 0
-    while (i < numElements) {
-        var element = LLVMGetOperand(initializer, i)
-        if (LLVMIsAConstantStruct(element) == null) {
-            i++
-            continue
-        }
-        var functionField = LLVMGetOperand(element, 0)
-        val function = when {
-            LLVMIsAConstantExpr(functionField) != null &&
-                    LLVMGetConstOpcode(functionField) == LLVMOpcode.LLVMBitCast ->
-                LLVMGetOperand(functionField, 0)
-            else -> functionField
-        }
-        var annotationField = LLVMGetOperand(element, 1)
-
-        if (LLVMIsAConstantExpr(annotationField) != null) {
-            var opcode = LLVMGetConstOpcode(annotationField)
-            if (opcode != LLVMOpcode.LLVMGetElementPtr) {
-                i++
-                continue
-            }
-        }
-        var globalVar = LLVMGetOperand(annotationField, 0);
-        if (globalVar != null && LLVMIsAGlobalVariable(globalVar) != null) {
-            // Get the initial value of the global variable (string)
-            var initializer = LLVMGetInitializer(globalVar)
-
-            if (LLVMIsAConstantDataArray(initializer) != null) {
-                memScoped {
-                    val lengthVar = alloc<size_tVar>()
-                    var annotation = LLVMGetAsString(initializer, lengthVar.ptr)
-                    if (annotation?.toKString() == "K2RStub") {
-                        val context = LLVMGetModuleContext(module)
-                        val delayInlineAttr = LLVMGetStringAttributeAtIndex(function, LLVMAttributeFunctionIndex, "delayinline", 11)
-                        if (delayInlineAttr != null) {
-                            val noinlineID = LLVMGetEnumAttributeKindForName("noinline", 8)
-                            LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, noinlineID)
-
-                            LLVMRemoveStringAttributeAtIndex(function, LLVMAttributeFunctionIndex, "delayinline", 11)
-                            val alwaysinlineID = LLVMGetEnumAttributeKindForName("alwaysinline", 12)
-                            val alwaysinlineAttr = LLVMCreateEnumAttribute(context, alwaysinlineID, 0)
-                            LLVMAddAttributeAtIndex(function, LLVMAttributeFunctionIndex, alwaysinlineAttr)
-                        }
-                    }
-                }
-            }
-        }
-        i++
-    }
-}
-
-internal fun disableBoundryFunctionInline(module: LLVMModuleRef) {
-    var currentFunction = LLVMGetFirstFunction(module);
-
-    while (currentFunction != null) {
-        val context = LLVMGetModuleContext(module)
-        if (LLVMIsDeclaration(currentFunction) != 0) {
-            currentFunction = LLVMGetNextFunction(currentFunction);
-            continue;
-        }
-        val funcName = LLVMGetValueName(currentFunction)?.toKString()
-        // n2k callee
-        if (funcName?.startsWith("_konan_function_") == true) {
-            val noinlineID = LLVMGetEnumAttributeKindForName("noinline", 8)
-            val alwaysinlineID = LLVMGetEnumAttributeKindForName("alwaysinline", 12)
-            val alwaysinlineAttr = LLVMGetEnumAttributeAtIndex(currentFunction, LLVMAttributeFunctionIndex, alwaysinlineID)
-            if (alwaysinlineAttr != null) {
-                LLVMRemoveEnumAttributeAtIndex(currentFunction, LLVMAttributeFunctionIndex, alwaysinlineID)
-            }
-            val noinlineAttr = LLVMCreateEnumAttribute(context, noinlineID, 1)
-            LLVMAddAttributeAtIndex(currentFunction, LLVMAttributeFunctionIndex, noinlineAttr)
-        }
-        // export_for_cpp_runtime_k, n2k callee
-        val stubTypeAttr = LLVMGetStringAttributeAtIndex(currentFunction, LLVMAttributeFunctionIndex, "stubtype", 8)
-        if (stubTypeAttr == null) {
-            currentFunction = LLVMGetNextFunction(currentFunction);
-            continue;
-        }
-        memScoped {
-            val attrLength = alloc<IntVar>()
-            val attrValue = LLVMGetStringAttributeValue(stubTypeAttr, attrLength.ptr)
-
-            if (attrValue != null) {
-                val len = attrLength.value.toInt()
-                val value = attrValue.readBytes(len).toKString()
-                if (value == "export_for_cpp_runtime_k") {
-                    val noinlineID = LLVMGetEnumAttributeKindForName("noinline", 8)
-                    val alwaysinlineID = LLVMGetEnumAttributeKindForName("alwaysinline", 12)
-                    val alwaysinlineAttr = LLVMGetEnumAttributeAtIndex(currentFunction, LLVMAttributeFunctionIndex, alwaysinlineID)
-                    if (alwaysinlineAttr != null) {
-                        LLVMRemoveEnumAttributeAtIndex(currentFunction, LLVMAttributeFunctionIndex, alwaysinlineID)
-                    }
-                    val noinlineAttr = LLVMCreateEnumAttribute(context, noinlineID, 1)
-                    LLVMAddAttributeAtIndex(currentFunction, LLVMAttributeFunctionIndex, noinlineAttr)
-                }
-            }
-        }
-        currentFunction = LLVMGetNextFunction(currentFunction);
-    }
-}
-
-private fun getAnnotationString(element: LLVMValueRef?): String? {
-    if (element == null || LLVMIsAConstantStruct(element) == null) return null
-    var annotationField = LLVMGetOperand(element, 1) ?: return null
-    if (LLVMIsAConstantExpr(annotationField) != null) {
-        if (LLVMGetConstOpcode(annotationField) != LLVMOpcode.LLVMGetElementPtr) return null
-    }
-    val globalVar = LLVMGetOperand(annotationField, 0) ?: return null
-    if (LLVMIsAGlobalVariable(globalVar) == null) return null
-    val init = LLVMGetInitializer(globalVar) ?: return null
-    if (LLVMIsAConstantDataArray(init) == null) return null
-    return memScoped {
-        val lengthVar = alloc<size_tVar>()
-        LLVMGetAsString(init, lengthVar.ptr)?.toKString()
-    }
-}
-
-private fun getAnnotatedFunction(element: LLVMValueRef?): LLVMValueRef? {
-    if (element == null || LLVMIsAConstantStruct(element) == null) return null
-    val functionField = LLVMGetOperand(element, 0) ?: return null
-    return when {
-        LLVMIsAConstantExpr(functionField) != null &&
-                LLVMGetConstOpcode(functionField) == LLVMOpcode.LLVMBitCast ->
-            LLVMGetOperand(functionField, 0)
-        else -> functionField
-    }
-}
-
-internal fun addDelayInline(module: LLVMModuleRef) {
-    var globalAnnotations = LLVMGetNamedGlobal(module, "llvm.global.annotations")
-    if (globalAnnotations == null) {
-        return
-    }
-    var initializer = LLVMGetInitializer(globalAnnotations)
-    if (LLVMIsAConstantArray(initializer) == null) {
-        return
-    }
-    var numElements = LLVMGetNumOperands(initializer)
-
-    // Indices of entries to keep (non-k2n) vs remove (k2n)
-    val keepIndices = mutableListOf<Int>()
-
-    var i = 0
-    while (i < numElements) {
-        var element = LLVMGetOperand(initializer, i)
-        val annotation = getAnnotationString(element)
-        val function = getAnnotatedFunction(element)
-
-        if (annotation != null && function != null) {
-            val context = LLVMGetModuleContext(module)
-            if (annotation == "K2RStub") {
-                val alwaysinlineID = LLVMGetEnumAttributeKindForName("alwaysinline", 12)
-                val alwaysinlineAttr = LLVMGetEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, alwaysinlineID)
-                if (alwaysinlineAttr != null) {
-                    LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, alwaysinlineID)
-                    val delayInlineAttr = LLVMCreateStringAttribute(context, "delayinline", 11, "true", 4)
-                    LLVMAddAttributeAtIndex(function, LLVMAttributeFunctionIndex, delayInlineAttr)
-                }
-                val noinlineID = LLVMGetEnumAttributeKindForName("noinline", 8)
-                val noinlineAttr = LLVMCreateEnumAttribute(context, noinlineID, 0)
-                LLVMAddAttributeAtIndex(function, LLVMAttributeFunctionIndex, noinlineAttr)
-                keepIndices.add(i)
-            } else if (annotation == "ktstub" || annotation == "k2n") {
-                val alwaysinlineID = LLVMGetEnumAttributeKindForName("alwaysinline", 12)
-                val alwaysinlineAttr = LLVMGetEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, alwaysinlineID)
-                if (alwaysinlineAttr != null) {
-                    LLVMRemoveEnumAttributeAtIndex(function, LLVMAttributeFunctionIndex, alwaysinlineID)
-                }
-                val noinlineID = LLVMGetEnumAttributeKindForName("noinline", 8)
-                val noinlineAttr = LLVMCreateEnumAttribute(context, noinlineID, 1)
-                LLVMAddAttributeAtIndex(function, LLVMAttributeFunctionIndex, noinlineAttr)
-                // Transfer k2n annotation to function attribute for LLVM 15 backend,
-                // then exclude this entry from annotations to unblock GlobalDCE.
-                if (annotation == "k2n") {
-                    val k2nAttr = LLVMCreateStringAttribute(context, "k2n", 3, "true", 4)
-                    LLVMAddAttributeAtIndex(function, LLVMAttributeFunctionIndex, k2nAttr)
-                } else {
-                    // ktstub: keep in annotations (needed by other passes)
-                    keepIndices.add(i)
-                }
-            } else {
-                // Unknown annotation, keep it
-                keepIndices.add(i)
-            }
-        } else {
-            keepIndices.add(i)
-        }
-        i++
-    }
-
-    // Rebuild @llvm.global.annotations without k2n entries to unblock GlobalDCE
-    if (keepIndices.size < numElements) {
-        if (keepIndices.isEmpty()) {
-            LLVMDeleteGlobal(globalAnnotations)
-        } else {
-            val elementType = LLVMTypeOf(LLVMGetOperand(initializer, 0))
-            memScoped {
-                val kept = allocArray<LLVMValueRefVar>(keepIndices.size)
-                for ((idx, origIdx) in keepIndices.withIndex()) {
-                    kept[idx] = LLVMGetOperand(initializer, origIdx)
-                }
-                val newArray = LLVMConstArray(elementType, kept, keepIndices.size)
-                LLVMSetInitializer(globalAnnotations, newArray)
-            }
-        }
-    }
-}
 
 internal data class WriteBitcodeFileInput(
         override val llvmModule: LLVMModuleRef,
@@ -393,6 +176,8 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
             timePasses = context.config.phaseConfig.needProfiling,
     )
     mergeLlvmCompilerUsedIntoLlvmUsed(this@runBitcodePostProcessing.context.llvmModule)
+    // KSG ran in the caller (TopLevelPhases.kt `compileModule` / `runBitcodeBackend`,
+    // pre split=1/N branch). The module reaching here is post-KSG.
     useContext(OptimizationState(context.config, optimizationConfig)) {
         val module = this@runBitcodePostProcessing.context.llvmModule
         it.runPhase(StackProtectorPhase, module)
@@ -435,6 +220,69 @@ private fun collectUsedSymbolNames(module: LLVMModuleRef, globalName: String): L
             operand = LLVMGetOperand(operand, 0) ?: return@mapNotNull null
         }
         LLVMGetValueName(operand)?.toKString()?.takeIf { it.isNotEmpty() }
+    }
+}
+
+// Augments the given module's @llvm.used with any of `names` that resolve to a
+// global/function in this module. Symbol names not present in the part are
+// skipped silently (their definition lives in another part; this part doesn't
+// need to keep them). Pre-existing @llvm.used entries are preserved.
+//
+// Purpose: counteract llvm-split distributing appending metadata globals
+// (@llvm.used, @llvm.compiler.used) to only one part. Without this, the other
+// parts' GlobalDCE drops the K2RStub runtime helpers (whose only references
+// come from K2RStub.s assembly outside the bitcode world), which then shows
+// up as link-time `ld.lld: undefined symbol: ...` referenced from K2RStub.o
+// under `-Xbinary=splitBCfile=N -produce program -opt`.
+//
+// The set of names to pin is sourced from `K2RStubFunctions.linkRootSet`
+// (canonical Kotlin-side list, build-time-verified against K2RStub.s by the
+// `verifyK2RStubFunctions` Gradle task). Previously sourced from a runtime-cpp
+// `__attribute__((annotate("K2RStub")))` walk via `collectAnnotatedFunctionNames`,
+// which produced an incomplete set (only HAS_SAFEPOINT-marked functions, ~8 of
+// 157), and worked only by coincidence — most K2RStub helpers got pinned via
+// other per-function `used` attributes that survived split only on the recipient
+// part. Switching to the canonical list closes that gap.
+private fun pinK2RStubCalleesInLlvmUsed(module: LLVMModuleRef, names: Collection<String>) {
+    if (names.isEmpty()) return
+    val context = LLVMGetModuleContext(module) ?: return
+    val ptrType = LLVMPointerTypeInContext(context, 0) ?: return
+
+    val existingNames = collectUsedSymbolNames(module, "llvm.used").toMutableSet()
+
+    val newEntries = names.mapNotNull { name ->
+        if (name in existingNames) return@mapNotNull null
+        val value = LLVMGetNamedGlobal(module, name)
+                ?: LLVMGetNamedFunction(module, name)
+                ?: return@mapNotNull null
+        existingNames.add(name)
+        LLVMConstBitCast(value, ptrType)
+    }
+    if (newEntries.isEmpty()) return
+
+    // Snapshot existing entries before deleting the global.
+    val carriedOver = mutableListOf<LLVMValueRef>()
+    val existingUsed = LLVMGetNamedGlobal(module, "llvm.used")
+    if (existingUsed != null) {
+        val init = LLVMGetInitializer(existingUsed)
+        if (init != null && LLVMIsAConstantArray(init) != null) {
+            val n = LLVMGetArrayLength(LLVMTypeOf(init))
+            for (i in 0 until n) {
+                LLVMGetOperand(init, i)?.let { carriedOver.add(it) }
+            }
+        }
+        LLVMDeleteGlobal(existingUsed)
+    }
+
+    val allEntries = carriedOver + newEntries
+    val arrayType = LLVMArrayType(ptrType, allEntries.size) ?: return
+    memScoped {
+        val arr = allocArrayOf(allEntries)
+        val newArrayValue = LLVMConstArray(ptrType, arr, allEntries.size) ?: return@memScoped
+        val newUsed = LLVMAddGlobal(module, arrayType, "llvm.used") ?: return@memScoped
+        LLVMSetInitializer(newUsed, newArrayValue)
+        LLVMSetLinkage(newUsed, LLVMLinkage.LLVMAppendingLinkage)
+        LLVMSetSection(newUsed, "llvm.metadata")
     }
 }
 
@@ -613,6 +461,50 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
     val bitcodeFiletmp = tempFiles.create(context.config.shortModuleName ?: "tmp_ori", ".bc")
     val originalModule = this@runBitcodePostProcessingCoroutines.context.llvmModule
     bitcodeFile = File(bitcodeFiletmp.toString())
+    // KSG ran in the caller (TopLevelPhases.kt `compileModule` / `runBitcodeBackend`,
+    // pre split=1/N branch) on this same `context.llvmModule` (=== originalModule),
+    // BEFORE llvm-split. Running pre-split is mandatory: @llvm.global.annotations
+    // is appending-linkage and llvm-split attaches it to a single part; once split,
+    // the other parts can't see the annotation set and per-part KSG would
+    // early-return. The module reaching here is post-KSG.
+    // The standalone disableBoundryFunctionInline + addDelayInline + the
+    // post-merge addAlwaysInline trio used to live here; their work is now
+    // folded into KSG step 6 (applyStubBoundaryNoInline) above. K2RStub
+    // helpers are unaffected by per-part inlining because KSG step 1 has
+    // already retargeted kfunc → helper calls to kfunc → helperStub, so
+    // inlining the helper bodies in per-part LTO can't erase a Stub edge.
+    // Collect (as strings, safe to ferry across LLVMContext) the names of all
+    // symbols that must be kept alive: existing @llvm.used / @llvm.compiler.used
+    // entries plus the canonical K2RStub.o link-root set (Kotlin-side authoritative
+    // list, build-time-verified against K2RStub.s by the `verifyK2RStubFunctions`
+    // Gradle task — see K2RStubFunctions.kt).
+    // Two reasons to do this:
+    //  (a) llvm-split hands appending metadata globals to a single part, so the
+    //      other parts' GlobalDCE would drop these functions. We re-pin them
+    //      into every part's @llvm.used after parse (per-part injection below).
+    //  (b) saveLlvmUsedComplete / restoreLlvmUsedComplete snapshot the
+    //      pre-split llvm.used and overwrite the post-merge one. If we only
+    //      did the per-part injection, the restore step at stage B would wipe
+    //      our additions before clang++ sees them. So we also augment the
+    //      original module's @llvm.used here, before saveLlvmUsedComplete, so
+    //      the snapshot itself contains everything. clang++'s O3 GlobalDCE
+    //      then preserves these K2RStub runtime helpers whose only references
+    //      come from the K2RStub.s assembly stub object.
+    val symbolsToPinPerPart: Set<String> = linkedSetOf<String>().apply {
+        addAll(collectUsedSymbolNames(originalModule, "llvm.used"))
+        addAll(collectUsedSymbolNames(originalModule, "llvm.compiler.used"))
+        addAll(K2RStubFunctions.linkRootSet)
+    }
+    // Only augment @llvm.used for static-binary outputs (`-produce program`).
+    // For shared-library outputs (DYNAMIC, FRAMEWORK, etc.) the runtime is
+    // pulled in via whole-archive at link time, so K2RStub.o references resolve
+    // without keeping every K2RStub helper alive in user.bc.
+    // Augmenting in dynamic mode pins extra symbols whose .llvm_stackmaps
+    // entries then carry PREL64 relocations against externally-visible symbols
+    // ("R_AARCH64_PREL64 cannot be used against symbol 'TheEmptyString'; recompile with -fPIC").
+    if (context.config.produce == CompilerOutputKind.PROGRAM) {
+        pinK2RStubCalleesInLlvmUsed(originalModule, symbolsToPinPerPart)
+    }
     savedUsed = saveLlvmUsedComplete(originalModule)
     LLVMWriteBitcodeToFile(originalModule, bitcodeFile!!.absolutePath)
     val outputPrefix = bitcodeFile!!.absolutePath.removeSuffix(".bc") + "_part_"
@@ -636,6 +528,11 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
                     useContext(OptimizationState(context.config, optimizationConfig)) { bitcodeEngine ->
                         if (File(partFile).exists()) {
                             val partModule = parseBitcodeFile(context, context.messageCollector, independentContext, partFile)
+                            // Re-pin symbols that the original @llvm.used /
+                            // @llvm.compiler.used / K2RStubFunctions.linkRootSet
+                            // wanted alive but llvm-split routed to a different
+                            // part. Names not present in this part are no-ops.
+                            pinK2RStubCalleesInLlvmUsed(partModule, symbolsToPinPerPart)
                             bitcodeEngine.runPhase(MandatoryBitcodeLLVMPostprocessingPhase, partModule)
                             bitcodeEngine.runPhase(ModuleBitcodeOptimizationPhase, partModule)
                             val tempFile = "${bitcodeFile!!.absolutePath.removeSuffix(".bc")}_opt_temp_$i.bc"
@@ -722,6 +619,13 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
             }
         }
 
+        // The `Kotlin_{K2N,N2K,KonanStart}Stub` decls + per-function `<F>.KotlinStubGV`
+        // globals that per-part LTO + llvm-link strip from the merged module are NO LONGER
+        // re-established here. They are AsmPrinter-only (no IR uses) and are re-materialised
+        // from fn attrs by the clang-stage LLVM KotlinStubGenerator
+        // (`-mllvm -enable-kotlin-stub-generator`), which runs on this very out.bc right
+        // before codegen — so the split strip is harmless. Steps 1/3/4 (callsite rewrite /
+        // attr / n2k marking) are fn-level and already survive split/merge.
         runPhase(WriteBitcodeFilePhase, WriteBitcodeFileInput(moduleTmp, bitcodeFileOriFinal))
 
         // clear temp file

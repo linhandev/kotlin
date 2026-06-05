@@ -457,7 +457,10 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
      * this redirect misses (e.g. directly imported via `importFunction`).
      */
     private fun importRtFunction(name: String, returnsObjectType: Boolean) =
-            if (name in K2RStubFunctions.names)
+            // Stub redirection is part of the precise-stackmap pipeline (same gate as KSG
+            // and the @llvm.used pin). OFF emits the direct `bl <name>` so the helper keeps
+            // a bitcode caller and matches the pre-stackmap baseline.
+            if (enableStackmap && name in K2RStubFunctions.names)
                 importStubFunction(name, runtime.llvmModule, returnsObjectType)
             else
                 importFunction(name, runtime.llvmModule, returnsObjectType)

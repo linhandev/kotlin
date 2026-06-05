@@ -997,7 +997,9 @@ internal class CodeGeneratorVisitor(
         // .bc would contain `bl XXX` and rely on KSG step 1 finding the right helper set —
         // which fails for cached per-file .bc that carries no @llvm.global.annotations, see
         // K2RStubFunctions.kt for the full rationale.
-        val effectiveCalleeName = if (calleeName in K2RStubFunctions.names)
+        // Stub redirection is gated on enableStackmap (same as KSG / the @llvm.used pin):
+        // OFF emits the direct call so the helper keeps a bitcode caller (pre-stackmap baseline).
+        val effectiveCalleeName = if (context.config.enableStackmap && calleeName in K2RStubFunctions.names)
             K2RStubFunctions.stubNameOf(calleeName)
         else
             calleeName
