@@ -40,6 +40,13 @@ class OomMemDumpHiAppEventTest {
 
     private fun logLine(msg: String) = println(msg)
 
+    /** [Debugging.dumpMemory] closes the fd it receives; dup first so the caller's [FILE] stays valid. */
+    private fun dumpMemoryPreservingFd(keepFd: Int): Boolean {
+        val dumpFd = dup(keepFd)
+        assertTrue(dumpFd >= 0, "dup($keepFd) failed")
+        return Debugging.dumpMemory(dumpFd.toLong())
+    }
+
     private val ohosOomMinApi = 26
 
     /** OH_HiAppEvent_FrameworkType values (@since API 26); mirrored when cinterop enums are absent. */
@@ -505,7 +512,7 @@ class OomMemDumpHiAppEventTest {
         assertNotNull(file)
         val fd = fileno(file)
         assertTrue(fd >= 0)
-        assertTrue(Debugging.dumpMemory(fd.toLong()))
+        assertTrue(dumpMemoryPreservingFd(fd))
         fflush(file)
         fseek(file, 0, SEEK_END)
         assertTrue(ftell(file) > 0L)
@@ -522,8 +529,8 @@ class OomMemDumpHiAppEventTest {
             return
         }
         try {
+            // dumpMemory closes [fd]; reopen by path to verify file size (AllocatedSizeTracker path).
             assertTrue(Debugging.dumpMemory(fd.toLong()))
-            assertTrue(close(fd) == 0)
             val readFd = open(path, O_RDONLY)
             if (readFd >= 0) {
                 val size = lseek(readFd, 0, SEEK_END)

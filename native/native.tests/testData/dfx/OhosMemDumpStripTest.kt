@@ -41,6 +41,13 @@ class OhosMemDumpStripTest {
 
     private fun logLine(msg: String) = println(msg)
 
+    /** [Debugging.dumpMemory] closes the fd it receives; dup first so the caller's [FILE] stays valid. */
+    private fun dumpMemoryPreservingFd(keepFd: Int): Boolean {
+        val dumpFd = dup(keepFd)
+        assertTrue(dumpFd >= 0, "dup($keepFd) failed")
+        return Debugging.dumpMemory(dumpFd.toLong())
+    }
+
     // ---------- Mirrors MemoryDump.cpp / kdumputil (post-37b1dac) ----------
 
     private val strippedArrayRelativeNames = setOf("ByteArray", "CharArray", "String")
@@ -82,36 +89,63 @@ class OhosMemDumpStripTest {
         fflush(file)
         rewind(file)
         fseek(file, 0, SEEK_END)
-        val size = ftell(file).toInt()
-        assertTrue(size > 0, "compressed dump size must be > 0")
+        val size = ftell(file)
+        assertTrue(size > 0L, "compressed dump size must be > 0")
+        assertTrue(
+            size <= Int.MAX_VALUE.toLong(),
+            "compressed dump size $size exceeds Int.MAX_VALUE",
+        )
+        val sizeInt = size.toInt()
         rewind(file)
         return memScoped {
-            val buf = allocArray<ByteVar>(size)
-            val read = fread(buf, 1u, size.toULong(), file)
-            assertEquals(size.toULong(), read, "fread compressed dump")
-            ByteArray(size) { i -> buf[i] }
+            val buf = allocArray<ByteVar>(sizeInt)
+            val read = fread(buf, 1u, sizeInt.toULong(), file)
+            assertEquals(sizeInt.toULong(), read, "fread compressed dump")
+            ByteArray(sizeInt) { i -> buf[i] }
         }
     }
 
     private fun gunzipGzip(compressed: ByteArray): ByteArray {
-        val outCapacity = maxOf(compressed.size * 32, 256 * 1024)
-        return memScoped {
-            val out = ByteArray(outCapacity)
-            compressed.usePinned { inPinned ->
-                out.usePinned { outPinned ->
-                    val stream = alloc<z_stream>().apply {
-                        next_in = inPinned.addressOf(0).reinterpret()
-                        avail_in = compressed.size.toUInt()
-                        next_out = outPinned.addressOf(0).reinterpret()
-                        avail_out = outCapacity.toUInt()
+        var outCapacity = maxOf(compressed.size * 32, outputBufferSizeBytes)
+        while (true) {
+            assertTrue(
+                outCapacity <= Int.MAX_VALUE,
+                "gzip inflate capacity $outCapacity exceeds Int.MAX_VALUE",
+            )
+            val inflated = inflateGzipOnce(compressed, outCapacity)
+            if (inflated != null) {
+                return inflated
+            }
+            assertTrue(
+                outCapacity <= Int.MAX_VALUE / 2,
+                "gzip inflate buffer exhausted at $outCapacity bytes",
+            )
+            outCapacity *= 2
+        }
+    }
+
+    /** Returns null on [Z_BUF_ERROR] so [gunzipGzip] can grow the output buffer and retry. */
+    private fun inflateGzipOnce(compressed: ByteArray, outCapacity: Int): ByteArray? = memScoped {
+        val out = ByteArray(outCapacity)
+        compressed.usePinned { inPinned ->
+            out.usePinned { outPinned ->
+                val stream = alloc<z_stream>().apply {
+                    next_in = inPinned.addressOf(0).reinterpret()
+                    avail_in = compressed.size.toUInt()
+                    next_out = outPinned.addressOf(0).reinterpret()
+                    avail_out = outCapacity.toUInt()
+                }
+                val initRc = inflateInit2(stream.ptr, 15 + 16)
+                assertEquals(Z_OK, initRc, "inflateInit2(gzip)")
+                val inflateRc = inflate(stream.ptr, Z_FINISH)
+                inflateEnd(stream.ptr)
+                when (inflateRc) {
+                    Z_STREAM_END -> {
+                        val produced = outCapacity - stream.avail_out.toInt()
+                        out.copyOf(produced)
                     }
-                    val initRc = inflateInit2(stream.ptr, 15 + 16)
-                    assertEquals(Z_OK, initRc, "inflateInit2(gzip)")
-                    val inflateRc = inflate(stream.ptr, Z_FINISH)
-                    assertEquals(Z_STREAM_END, inflateRc, "inflate gzip dump")
-                    inflateEnd(stream.ptr)
-                    val produced = outCapacity - stream.avail_out.toInt()
-                    out.copyOf(produced)
+                    Z_BUF_ERROR -> null
+                    else -> fail("inflate gzip dump failed with rc=$inflateRc")
                 }
             }
         }
@@ -123,7 +157,7 @@ class OhosMemDumpStripTest {
         var ok = false
         var compressed = ByteArray(0)
         withTmpFile { file, fd ->
-            ok = Debugging.dumpMemory(fd.toLong())
+            ok = dumpMemoryPreservingFd(fd)
             if (ok) compressed = readCompressedDumpFromFile(file)
         }
         assertTrue(ok, "Debugging.dumpMemory() must return true")
@@ -400,7 +434,7 @@ class OhosMemDumpStripTest {
         val file = tmpfile()
         assertNotNull(file)
         val fd = fileno(file)
-        assertTrue(Debugging.dumpMemory(fd.toLong()))
+        assertTrue(dumpMemoryPreservingFd(fd))
         fflush(file)
         rewind(file)
         memScoped {

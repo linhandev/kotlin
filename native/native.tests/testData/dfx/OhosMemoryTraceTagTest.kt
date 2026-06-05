@@ -16,13 +16,14 @@
 // DISABLE_NATIVE: gcType=NOOP
 // TARGET_BACKEND: NATIVE
 // Tests OHOS memory tagging from SR005 commits: restrace (CustomAllocator / CustomFinalizerProcessor)
-// and VMA anon name (GCApi::SafeAlloc). On non-OHOS kernels /proc checks are skipped.
+// and VMA anon name (GCApi::SafeAlloc). Smaps probes run only on OHOS (OH_GetSdkApiVersion) with procfs.
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.native.internal.InternalForKotlinNative,kotlin.ExperimentalStdlibApi,kotlinx.cinterop.ExperimentalForeignApi
 
 import kotlin.test.*
 import kotlin.native.ref.createCleaner
 import kotlin.native.runtime.GC
 import kotlinx.cinterop.*
+import platform.BasicServicesKit.DeviceInfo.OH_GetSdkApiVersion
 import platform.posix.*
 
 /**
@@ -57,11 +58,36 @@ class OhosMemoryTraceTagTest {
     private fun shouldInvokeRestrace(sdkApiVersion: Int): Boolean =
         sdkApiVersion >= ohosRestraceMinApi
 
-    // ---------- /proc helpers ----------
+    // ---------- Device /proc probes (SR005 smaps integration) ----------
 
-    private fun isOhosKernel(): Boolean {
+    private fun sdkApiVersion(): Int = try {
+        OH_GetSdkApiVersion()
+    } catch (e: Throwable) {
+        logLine("OH_GetSdkApiVersion exception: $e")
+        -1
+    }
+
+    /** Linux/Android also expose /proc/self/smaps; this only checks procfs readability. */
+    private fun canReadProcSmaps(): Boolean {
         val f = fopen("/proc/self/smaps", "r") ?: return false
         fclose(f)
+        return true
+    }
+
+    /**
+     * Smaps-based VMA/restrace checks require OHOS (KONAN_OHOS runtime) and readable procfs.
+     * [canReadProcSmaps] alone is insufficient — Android/Linux would pass it too.
+     */
+    private fun shouldProbeSmapsMemoryTags(): Boolean {
+        if (!canReadProcSmaps()) {
+            logLine("skip smaps probes: /proc/self/smaps not readable")
+            return false
+        }
+        val api = sdkApiVersion()
+        if (api < 0) {
+            logLine("skip smaps probes: OH_GetSdkApiVersion unavailable")
+            return false
+        }
         return true
     }
 
@@ -233,7 +259,7 @@ class OhosMemoryTraceTagTest {
 
     @Test
     fun testVmaLabelPresentAfterAllocation() {
-        if (!isOhosKernel()) return
+        if (!shouldProbeSmapsMemoryTags()) return
         val objects = Array(16) { LargeData() }
         GC.collect()
         val labels = readSmapsNameLabels()
@@ -246,7 +272,7 @@ class OhosMemoryTraceTagTest {
 
     @Test
     fun testVmaLabelSurvivesGcCycle() {
-        if (!isOhosKernel()) return
+        if (!shouldProbeSmapsMemoryTags()) return
         repeat(3) { cycle ->
             val batch = Array(8) { LargeData() }
             GC.collect()
@@ -260,7 +286,7 @@ class OhosMemoryTraceTagTest {
 
     @Test
     fun testVmaLabelForLargeSingleAllocation() {
-        if (!isOhosKernel()) return
+        if (!shouldProbeSmapsMemoryTags()) return
         val bigArray = IntArray(1024 * 1024) { it }
         GC.collect()
         assertTrue(vmaAnonName in readSmapsNameLabels())
@@ -269,7 +295,7 @@ class OhosMemoryTraceTagTest {
 
     @Test
     fun testVmaLabelAfterScopedLargeAllocation() {
-        if (!isOhosKernel()) return
+        if (!shouldProbeSmapsMemoryTags()) return
         val data = LargeData()
         val size = data.array.size
         GC.collect()
@@ -279,7 +305,7 @@ class OhosMemoryTraceTagTest {
 
     @Test
     fun testVmaLabelCountAndContent() {
-        if (!isOhosKernel()) return
+        if (!shouldProbeSmapsMemoryTags()) return
         val objects = buildList {
             for (kb in listOf(4, 8, 16, 32, 64, 128)) {
                 add(IntArray(kb * 256) { it })
@@ -296,7 +322,7 @@ class OhosMemoryTraceTagTest {
 
     @Test
     fun testRestraceOrVmaLabelInSmapsAfterHeapGrowth() {
-        if (!isOhosKernel()) return
+        if (!shouldProbeSmapsMemoryTags()) return
         val objs = Array(32) { MediumObj() }
         GC.collect()
         val labels = readSmapsNameLabels()
@@ -310,7 +336,7 @@ class OhosMemoryTraceTagTest {
 
     @Test
     fun testRestraceTagPersistsAfterGcAndRealloc() {
-        if (!isOhosKernel()) return
+        if (!shouldProbeSmapsMemoryTags()) return
         val phase1 = Array(16) { MediumObj() }
         GC.collect()
         assertEquals(1024, phase1[0].data.size)

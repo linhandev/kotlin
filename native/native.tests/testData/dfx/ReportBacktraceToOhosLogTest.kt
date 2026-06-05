@@ -101,11 +101,18 @@ class ReportBacktraceToOhosLogTest {
     /** Mirrors apiVersion >= OHOS_HIDEBUG_MIN_API branch in ReportBacktraceToOhosLog. */
     private fun shouldUseStandardBacktrace(apiVersion: Int): Boolean = apiVersion >= ohosHidebugMinApi
 
-    /** Mirrors getExceptionSummary(): "ClassName: message" or class name only. */
+    /**
+     * Mirrors [TypeInfo::fqName] (packageName + "." + relativeName, or "<anonymous>").
+     * [KClass.qualifiedName] matches runtime fqName for Kotlin/Native exception types in tests.
+     */
+    private fun exceptionFqName(exception: Throwable): String =
+        exception::class.qualifiedName ?: "<anonymous>"
+
+    /** Mirrors getExceptionSummary(): "fqName: message" or fqName only. */
     private fun buildExceptionSummary(exception: Throwable): String {
-        val typeName = exception::class.simpleName ?: "unknown"
+        val fqName = exceptionFqName(exception)
         val message = exception.message
-        return if (message != null) "$typeName: $message" else typeName
+        return if (message != null) "$fqName: $message" else fqName
     }
 
     /** Mirrors static truncated.assign(fatalMessage, 0, messageSize). */
@@ -231,17 +238,18 @@ class ReportBacktraceToOhosLogTest {
 
     @Test
     fun testBuildExceptionSummary_withMessage() {
-        val summary = buildExceptionSummary(IllegalStateException("test backtrace"))
-        assertTrue(summary.contains("IllegalStateException"))
-        assertTrue(summary.contains("test backtrace"))
-        assertTrue(summary.contains(": "))
+        val exception = IllegalStateException("test backtrace")
+        val summary = buildExceptionSummary(exception)
+        assertEquals("${exceptionFqName(exception)}: test backtrace", summary)
+        assertTrue(summary.startsWith("kotlin."))
         logLine("exception summary=$summary")
     }
 
     @Test
     fun testBuildExceptionSummary_withoutMessage() {
-        val summary = buildExceptionSummary(RuntimeException())
-        assertTrue(summary.contains("RuntimeException"))
+        val exception = RuntimeException()
+        val summary = buildExceptionSummary(exception)
+        assertEquals(exceptionFqName(exception), summary)
         assertFalse(summary.contains(": "))
         logLine("exception summary(no message)=$summary")
     }
@@ -291,7 +299,7 @@ class ReportBacktraceToOhosLogTest {
 
     @Test
     fun testStandardBacktraceHeaderFormat() {
-        val reason = "IllegalStateException: probe"
+        val reason = buildExceptionSummary(IllegalStateException("probe"))
         val header = buildStandardBacktraceHeader(reason)
         assertTrue(header.startsWith("\nUncaught Kotlin exception at following addresses:\n"))
         assertTrue(header.contains("Reason: $reason"))
@@ -311,7 +319,7 @@ class ReportBacktraceToOhosLogTest {
 
     @Test
     fun testSetFatalMessageStandardBacktraceFormat() {
-        val reason = "IllegalStateException: test backtrace"
+        val reason = buildExceptionSummary(IllegalStateException("test backtrace"))
         val backtraceMsg = buildStandardBacktraceHeader(reason) +
             "#00 pc 00000000001a3f00 /system/lib64/test.so(abcdef) (testFunc+0x10)\n" +
             "#01 pc 0000000000002b4c /system/lib64/libc.so\n"
@@ -326,7 +334,7 @@ class ReportBacktraceToOhosLogTest {
             logLine("skip SetCrashObj standard message: SDK API < $ohosHidebugMinApi")
             return
         }
-        val reason = "IllegalStateException: crashobj standard probe"
+        val reason = buildExceptionSummary(IllegalStateException("crashobj standard probe"))
         val message = buildStandardBacktraceHeader(reason) +
             "#00 pc 00000000001a3f00 /data/lib/libkn.so(deadbeef) (entry+0x0)\n"
         val rc = setCrashObjWithString(message)
@@ -338,7 +346,7 @@ class ReportBacktraceToOhosLogTest {
 
     @Test
     fun testCompressedBacktraceHeaderFormat() {
-        val reason = "RuntimeException: ohos crash probe"
+        val reason = buildExceptionSummary(RuntimeException("ohos crash probe"))
         val header = buildCompressedBacktraceHeader(reason)
         assertTrue(header.startsWith("\nUncaught Kotlin exception:\n"))
         assertTrue(header.contains("Reason: $reason"))
@@ -347,7 +355,7 @@ class ReportBacktraceToOhosLogTest {
 
     @Test
     fun testCompressedBacktraceSections_useFilenameNotFullPath() {
-        val body = buildCompressedBacktraceHeader("RuntimeException: x") +
+        val body = buildCompressedBacktraceHeader(buildExceptionSummary(RuntimeException("x"))) +
             "sofiles:\nlibentry.so(001122),libc.so(334455)\naddresses:\n[0] 0x1a3f00 0x2b4c\n[1] 0x3c5d\n"
         val sections = parseCompressedSections(body)
         assertNotNull(sections)
@@ -361,7 +369,9 @@ class ReportBacktraceToOhosLogTest {
 
     @Test
     fun testSetFatalMessageCompressedBacktraceFormat() {
-        val compressedBacktrace = buildCompressedBacktraceHeader("RuntimeException: ohos crash probe") +
+        val compressedBacktrace = buildCompressedBacktraceHeader(
+            buildExceptionSummary(RuntimeException("ohos crash probe")),
+        ) +
             "sofiles:\nlibentry.so(001122),libc.so(334455)\naddresses:\n[0] 0x1a3f00 0x2b4c\n[1] 0x3c5d\n"
         set_fatal_message(compressedBacktrace)
         assertFatalMessageSizeAtLeast(compressedBacktrace, "compressed backtrace")
@@ -494,7 +504,7 @@ class ReportBacktraceToOhosLogTest {
         }
         val rc1 = setCrashObjWithString("crash_report_first")
         val rc2 = setCrashObjWithString(
-            buildStandardBacktraceHeader("IllegalStateException: second") +
+            buildStandardBacktraceHeader(buildExceptionSummary(IllegalStateException("second"))) +
                 "#00 pc 0000000000000001 /lib/x.so\n",
         )
         assertSetCrashObjAcceptable(rc1)

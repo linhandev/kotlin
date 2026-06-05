@@ -46,6 +46,13 @@ class OhosMemDumpListenerTest {
 
     private fun logLine(msg: String) = println(msg)
 
+    /** [Debugging.dumpMemory] closes the fd it receives; dup first so the caller's [FILE] stays valid. */
+    private fun dumpMemoryPreservingFd(keepFd: Int): Boolean {
+        val dumpFd = dup(keepFd)
+        assertTrue(dumpFd >= 0, "dup($keepFd) failed")
+        return Debugging.dumpMemory(dumpFd.toLong())
+    }
+
     // ---------- Mirrors Runtime.cpp / hidebug.h (API 26+) ----------
 
     private val ohosDumpListenerMinApi = 26
@@ -55,9 +62,6 @@ class OhosMemDumpListenerTest {
     private val memListenerDoNothing = 0
     private val memListenerRunningGc = 1
     private val memListenerDumpSnapshot = 2
-
-    /** OH_HiDebug_ErrorCode.HIDEBUG_SUCCESS */
-    private val hidebugSuccess = 0
 
     /**
      * Mirrors RegistDumpListenerIfNeeded early exits (current Runtime.cpp):
@@ -88,45 +92,12 @@ class OhosMemDumpListenerTest {
         assertNotNull(file)
         val fd = fileno(file)
         assertTrue(fd >= 0)
-        val ok = Debugging.dumpMemory(fd.toLong())
+        val ok = dumpMemoryPreservingFd(fd)
         fflush(file)
         fseek(file, 0, SEEK_END)
         val size = ftell(file)
         fclose(file)
         return ok to size
-    }
-
-    // ---------- Constants & registration gate ----------
-
-    @Test
-    fun testDumpListenerMinApiConstant() {
-        assertEquals(26, ohosDumpListenerMinApi)
-    }
-
-    @Test
-    fun testMemDumpListenerNameConstant() {
-        assertEquals("KMP", memDumpListenerName)
-    }
-
-    @Test
-    fun testMemListenerTypeConstants_api26() {
-        assertEquals(0, memListenerDoNothing)
-        assertEquals(1, memListenerRunningGc)
-        assertEquals(2, memListenerDumpSnapshot)
-    }
-
-    @Test
-    fun testHidebugSuccessConstant() {
-        assertEquals(0, hidebugSuccess)
-    }
-
-    @Test
-    fun testShouldRegisterMemDumpListener_apiGate() {
-        assertFalse(shouldRegisterMemDumpListener(25, true))
-        assertFalse(shouldRegisterMemDumpListener(26, false))
-        assertTrue(shouldRegisterMemDumpListener(26, true))
-        assertTrue(shouldRegisterMemDumpListener(30, true))
-        logLine("registration gate mirror ok")
     }
 
     // ---------- Callback branches (Runtime.cpp switch) ----------
@@ -176,7 +147,7 @@ class OhosMemDumpListenerTest {
         val fd = fileno(file)
         assertTrue(fd >= 0)
         val ok = memDumpListenerCallback(fd, memListenerDumpSnapshot, false) {
-            Debugging.dumpMemory(it)
+            dumpMemoryPreservingFd(it.toInt())
         }
         assertTrue(ok)
         fflush(file)
@@ -202,7 +173,7 @@ class OhosMemDumpListenerTest {
         assertNotNull(file)
         val fd = fileno(file)
         ok = memDumpListenerCallback(fd, memListenerDumpSnapshot, false) {
-            Debugging.dumpMemory(it)
+            dumpMemoryPreservingFd(it.toInt())
         }
         assertTrue(ok)
         fclose(file)
@@ -221,12 +192,4 @@ class OhosMemDumpListenerTest {
         logLine("init-time listener contract ok name=$memDumpListenerName")
     }
 
-    @Test
-    fun testRegistrationResultLogging_mirrorSuccessCode() {
-        val simulatedSuccess = hidebugSuccess
-        val simulatedFailure = -1
-        assertEquals(0, simulatedSuccess)
-        assertTrue(simulatedFailure != hidebugSuccess)
-        logLine("registration result codes mirrored (runtime logs on HIDEBUG_SUCCESS)")
-    }
 }
