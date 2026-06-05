@@ -127,15 +127,46 @@ internal val RemoveRedundantSafepointsPhase = createSimpleNamedCompilerPhase<Bit
         name = "RemoveRedundantSafepoints",
         postactions = getDefaultLlvmModuleActions(),
         op = { context, _ ->
+            // Expand surviving safepoints into the inline fast/slow poll in the precise-
+            // stackmap dist. RewriteStatepointsForGC is gated off in the konanc pipeline (it
+            // runs only at the clang stage), so safepoints are still plain calls here — both
+            // the dedup and this expansion act on the simple form; clang's RSP then wraps the
+            // cold slow call into a gc.statepoint and does the relocation/SSA fixup.
+            //
+            // Expansion is a PERFORMANCE optimization, NOT a correctness requirement: it turns
+            // the per-hit `...PrologueStub` asm trampoline (unconditional x19-x28 spill) into a
+            // straight-line fast check + cold call. Correctness (a single K2R boundary) holds
+            // whether or not a safepoint is expanded, because mm::safePoint()'s cold edge calls
+            // the plain C++ SafePointSlowPath — so the un-expanded chain `kfunc ->
+            // PrologueStub(K2R) -> mm::safePoint(C++) -> SafePointSlowPath(C++)` has the
+            // trampoline as its lone K2R boundary. (See the STABILITY INVARIANT in
+            // RemoveRedundantSafepoints.cpp.)
+            //
+            // Mode selects the expanded fast check + DIRECT (no-trampoline) cold edge:
+            //   CrtFastpath  : CRT + ENABLE_GC_FASTPATH — inline `mov x0, x28` TLS read; cold SafePointSlowPathStub.
+            //   CrtNoFastpath: CRT, no fastpath — x28 is not the reserved TLS pointer, so the check
+            //                  goes via the lean C++ helper Kotlin_mm_safePointCheckCRT(); cold SafePointSlowPathStub.
+            //   Native       : global *Kotlin_mm_safePointActionAddr != null; cold slowPathStub.
+            //   None         : RUNTIME_SWITCH / OFF — keep the surviving stub call (still single-boundary;
+            //                  it just keeps paying the trampoline spill).
+            val expansionMode = if (context.config.enableStackmap)
+                when (context.config.memoryManagerMode) {
+                    MemoryManagerMode.CRT ->
+                        if (context.config.enableGcFastpath) SafepointExpansionCrtFastpath
+                        else SafepointExpansionCrtNoFastpath
+                    MemoryManagerMode.NATIVE -> SafepointExpansionNative
+                    else -> SafepointExpansionNone
+                }
+            else SafepointExpansionNone
             RemoveRedundantSafepointsPass().runOnModule(
                     module = context.llvm.module,
                     isSafepointInliningAllowed = context.shouldInlineSafepoints(),
-                    // Pass !enableStackmap to libllvmext: OFF mode (shadow-stack
-                    // baseline) re-enables the force-inline of the first eligible
-                    // safepoint per basic block. ON mode does not. This replaces
-                    // the legacy compile-time `#ifndef ENABLE_STACKMAP` gate and
-                    // is now per-target via KonanConfig.enableStackmap.
-                    forceInlineFirstEligible = !context.config.enableStackmap,
+                    // ON (precise-stackmap) -> expand the surviving safepoint into the inline
+                    // poll; OFF (shadow-stack baseline) -> force-inline the first eligible bare
+                    // prologue. Replaces the legacy compile-time `#ifndef ENABLE_STACKMAP` gate;
+                    // per-target via KonanConfig.enableStackmap.
+                    enableStackmap = context.config.enableStackmap,
+                    safepointExpansionMode = expansionMode,
             )
         }
 )
@@ -195,7 +226,9 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
     // and (under libllvmext built with `-DENABLE_STACKMAP=0`) force-inlines the
     // first eligible safepoint. Run it unconditionally for both ON and OFF: it
     // operates on AS0 IR with no `cast<Ty>` assertion, and gating it off
-    // regresses throughput significantly.
+    // regresses throughput significantly. Must run AFTER the opt block so that
+    // inlining has already merged callee prologues into the caller — only then
+    // can the per-function dedup see and erase the redundant safepoints.
     runPhase(RemoveRedundantSafepointsPhase)
     if (context.config.optimizationsEnabled) {
         runPhase(OptimizeTLSDataLoadsPhase)

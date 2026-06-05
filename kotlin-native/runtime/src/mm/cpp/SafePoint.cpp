@@ -160,6 +160,14 @@ void decrementActiveCount() noexcept {
 
 } // namespace
 
+// Exposed so the Kotlin backend's inlined safepoint poll (NATIVE memory manager) can read the
+// safe-point flag without a runtime call. `safePointAction` itself has internal linkage (anonymous
+// namespace), so we publish its address through this stable external symbol: at a safepoint the
+// backend loads `*Kotlin_mm_safePointActionAddr` (== `safePointAction`) and takes the slow path iff
+// it is non-null. Kept in sync with mm::safePoint()'s non-CRT fast path.
+extern "C" RUNTIME_EXPORT std::atomic<void (*)(mm::ThreadData&)>* const Kotlin_mm_safePointActionAddr =
+        &safePointAction;
+
 extern "C" void SafePointSlowPathStub(void*);
 
 extern "C" NO_INLINE RUNTIME_EXPORT void CSafePointSlowPath(void* mutatorPtr) {
@@ -173,6 +181,26 @@ extern "C" void slowPathStub();
 extern "C" NO_INLINE RUNTIME_EXPORT void CslowPath() {
     slowPath();
 }
+
+#if defined(ENABLE_STACKMAP) && defined(ENABLE_CRT) && !defined(ENABLE_GC_FASTPATH)
+// Lean CRT no-fastpath safepoint check, used by RemoveRedundantSafepoints' CrtNoFastpath
+// expansion. Mirrors mm::safePoint()'s non-fastpath CRT branch but RETURNS the
+// Mutator* iff a safepoint is pending (else nullptr), so the expanded poll can do
+// the fast check here and call `SafePointSlowPathStub(mutator)` DIRECTLY on its cold
+// edge. This keeps the slow chain a SINGLE K2R boundary: this helper is plain C++
+// (not a K2R stub) and has already returned by the time SafePointSlowPathStub is on
+// the stack, so only SafePointSlowPathStub crosses the boundary. Without fastpath x28
+// is not the reserved TLS pointer, so the check must go through CurrentThreadData /
+// LoadCachedCRTTLS rather than an inline `mov $0, x28`.
+extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void* Kotlin_mm_safePointCheckCRT() noexcept {
+    auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    void* tls = common::LoadCachedCRTTLS(threadData->allocator().impl());
+    if (UNLIKELY(common::IsSafePointActive(tls))) {
+        return threadData->GetThreadHolder()->GetMutator();
+    }
+    return nullptr;
+}
+#endif
 
 mm::SafePointActivator::SafePointActivator() noexcept : active_(true) {
     incrementActiveCount();

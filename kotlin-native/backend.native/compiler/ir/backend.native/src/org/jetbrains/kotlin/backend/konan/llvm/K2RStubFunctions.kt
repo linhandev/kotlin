@@ -220,8 +220,14 @@ internal object K2RStubFunctions {
      *    block (CRT cold edge — see `aarch64_*_stubs/K2RStub.s` line ~810).
      *  - `CslowPath`: called from the hand-written `slowPathStub` block (NATIVE cold
      *    edge — the expanded NATIVE safepoint poll's direct stub call).
+     *  - `Kotlin_mm_safePointCheckCRT`: lean C++ helper called from the CrtNoFastpath
+     *    expanded poll's fast check. Pinned so it survives DCE during linking
+     *    (the call is inserted by the post-link RemoveRedundantSafepoints pass). NOT in
+     *    [names]: it must stay a plain C++ call, never redirected to a `...Stub` K2R
+     *    trampoline (the whole point is that it is not a K2R boundary). Absent in
+     *    fastpath builds, where pinning skips it silently.
      *
      * Consumer: `pinK2RStubCalleesInLlvmUsed` in Bitcode.kt.
      */
-    val linkRootSet: Set<String> = names + setOf("CSafePointSlowPath", "CslowPath")
+    val linkRootSet: Set<String> = names + setOf("CSafePointSlowPath", "CslowPath", "Kotlin_mm_safePointCheckCRT")
 }

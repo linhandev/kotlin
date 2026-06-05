@@ -15,13 +15,27 @@
 extern "C" {
 # endif
 
-// `forceInlineFirstEligible` (third arg): runtime switch replacing the legacy
-// `#ifndef ENABLE_STACKMAP` compile-time gate. Pass non-zero (OFF mode) to
-// force-inline the first eligible safepoint per basic block (baseline perf
-// optimisation). Pass zero (ON mode) to skip the inline pass.
+// Lowering strategy for the surviving safepoint poll. As a plain (non-typedef) C enum,
+// cinterop exposes it to Kotlin as `typealias SafepointExpansionMode = Int` plus named
+// top-level constants (SafepointExpansionNone, ...) — not a strong enum class — so both
+// sides share the same names and int values.
+enum SafepointExpansionMode {
+    SafepointExpansionNone          = 0, // RUNTIME_SWITCH / OFF: keep the surviving stub call
+    SafepointExpansionNative        = 1, // global safePointAction; cold edge slowPathStub
+    SafepointExpansionCrtFastpath   = 2, // inline x28 TLS read;   cold edge SafePointSlowPathStub
+    SafepointExpansionCrtNoFastpath = 3, // Kotlin_mm_safePointCheckCRT helper; cold SafePointSlowPathStub
+};
+
+// `enableStackmap` (third arg): runtime switch replacing the legacy `#ifndef
+// ENABLE_STACKMAP` compile-time gate. Pass non-zero (precise-stackmap ON) to expand
+// the surviving safepoint per block into the inline fast/slow poll; pass zero (OFF /
+// shadow-stack) to force-inline the first eligible bare prologue instead.
+// `safepointExpansionMode` (fourth arg): which expanded fast check / cold edge to emit;
+// SafepointExpansionNone keeps the surviving stub call (no expansion).
 void LLVMKotlinRemoveRedundantSafepoints(LLVMModuleRef module,
                                          int isSafePointInliningAllowed,
-                                         int forceInlineFirstEligible);
+                                         int enableStackmap,
+                                         enum SafepointExpansionMode safepointExpansionMode);
 
 # ifdef __cplusplus
 }
