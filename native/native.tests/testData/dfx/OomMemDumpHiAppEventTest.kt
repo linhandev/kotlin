@@ -29,7 +29,8 @@ import platform.posix.*
  *   → ReportOomEventViaHiAppEvent (API>=26, dlsym) → DumpMemoryToFile
  *   init: RegistDumpListenerIfNeeded → OH_HIDEBUG_DUMP_SNAPSHOT → dumpMemory(fd) (see OhosMemDumpListenerTest)
  *
- * Mirrors C++ helpers and exercises OHOS APIs. Does not allocate 1.5GB to hit real OOM threshold.
+ * Mirrors C++ helpers and exercises OHOS APIs. Does not allocate 1.5GB to hit real OOM threshold
+ * (see [OomMemDumpLiveStressTest] for opt-in live ~1.5GB trigger + dump validation).
  */
 @OptIn(
     kotlin.experimental.ExperimentalNativeApi::class,
