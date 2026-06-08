@@ -5,14 +5,20 @@
 
 #include "MemoryDump.hpp"
 
+#include <unistd.h>
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
-#include <unordered_set>
+#include <limits>
+#include <vector>
 #include <queue>
+#include <cinttypes>
+#include <zlib.h>
 
+#include "Logging.hpp"
 #include "Porting.h"
 #include "TypeInfo.h"
+#include "Types.h"
 #include "KString.h"
 #include "ObjectTraversal.hpp"
 #include "GlobalData.hpp"
@@ -20,13 +26,209 @@
 #include "ThreadData.hpp"
 #include "std_support/Span.hpp"
 
+#ifdef KONAN_OHOS
+#include <hilog/log.h>
+#endif
+
 constexpr auto kTagMemDump = kotlin::logging::Tag::kMemoryDump;
 
 namespace kotlin::mm {
 
+// using PointerSet replace std::unordered_set,
+// speed up insert and lookup operations,
+//  and reduce memory overhead by avoiding node allocations;
+class PointerSet {
+public:
+    static const size_t kExpansionFactor = 2;
+    explicit PointerSet(size_t capacity = 1024) : size_(0) {
+        size_t tableSize = 1;
+        while (tableSize < capacity * kExpansionFactor) {
+            tableSize <<= 1;
+        }
+        table_.resize(tableSize, nullptr);
+        mask_ = tableSize - 1;
+    }
+
+    bool Insert(const void* ptr) {
+        if (NeedsResize()) {
+            Resize();
+        }
+        size_t idx = Hash(ptr);
+        size_t probe = 0;
+        while (true) {
+            const void*& slot = table_[idx];
+            if (slot == nullptr) {
+                slot = ptr;
+                ++size_;
+                return true;
+            }
+            if (slot == ptr) {
+                return false;
+            }
+            ++probe;
+            if (probe > mask_) {
+                return false;
+            }
+            idx = (idx + probe) & mask_;
+        }
+        return false;
+    }
+
+    bool Contains(const void* ptr) const {
+        size_t idx = Hash(ptr);
+        size_t probe = 0;
+        while (true) {
+            const void* slot = table_[idx];
+            if (slot == nullptr) {
+                return false;
+            }
+            if (slot == ptr) {
+                return true;
+            }
+            ++probe;
+            if (probe > mask_) {
+                return false;
+            }
+            idx = (idx + probe) & mask_;
+        }
+        return false;
+    }
+
+    size_t Size() const { return size_; }
+
+    void Reserve(size_t capacity) {
+        size_t tableSize = 1;
+        while (tableSize < capacity * kExpansionFactor) {
+            tableSize <<= 1;
+        }
+        if (tableSize > table_.size()) {
+            table_.clear();
+            table_.resize(tableSize, nullptr);
+            mask_ = tableSize - 1;
+            size_ = 0;
+        }
+    }
+
+private:
+    static constexpr double kMaxLoadFactor = 0.7;
+    static constexpr int kShiftBits = 3; // Assuming 8-byte alignment, so lower 3 bits are zero.
+
+    size_t Hash(const void* ptr) const { return (reinterpret_cast<size_t>(ptr) >> kShiftBits) & mask_; }
+
+    bool NeedsResize() const { return static_cast<double>(size_) / table_.size() >= kMaxLoadFactor; }
+
+    void Resize() {
+        size_t newTableSize = table_.size() << 1;
+        std::vector<const void*> oldTable = std::move(table_);
+        table_.clear();
+        table_.resize(newTableSize, nullptr);
+        mask_ = newTableSize - 1;
+        size_ = 0;
+
+        for (const void* ptr : oldTable) {
+            if (ptr != nullptr) {
+                InsertNoResize(ptr);
+            }
+        }
+    }
+
+    void InsertNoResize(const void* ptr) {
+        size_t idx = Hash(ptr);
+        size_t probe = 0;
+        while (true) {
+            const void*& slot = table_[idx];
+            if (slot == nullptr) {
+                slot = ptr;
+                ++size_;
+                return;
+            }
+            ++probe;
+            if (probe > mask_) {
+                return;
+            }
+            idx = (idx + probe) & mask_;
+        }
+        return;
+    }
+
+    std::vector<const void*> table_;
+    size_t mask_;
+    size_t size_;
+};
+
+// using OutputBuffer to buffer data before writing to gzFile
+// , reducing the number of gzwrite calls and improving performance
+// , especially for small writes;
+class OutputBuffer {
+public:
+    static constexpr size_t kBufferSize = 1 * 1024 * 1024; // 1MB buffer
+
+    explicit OutputBuffer(gzFile file) : file_(file), buffer_(new char[kBufferSize]), pos_(0) {}
+
+    ~OutputBuffer() {
+        Flush();
+        delete[] buffer_;
+    }
+
+    void Write(const void* data, size_t size) {
+        if (size > kBufferSize) {
+            // Large block: write directly to file, bypass buffer
+            Flush();
+            const char* ptr = static_cast<const char*>(data);
+            size_t remaining = size;
+            const size_t kMaxChunk = static_cast<size_t>(std::numeric_limits<unsigned>::max());
+            while (remaining > 0) {
+                unsigned toWrite = static_cast<unsigned>(remaining > kMaxChunk ? kMaxChunk : remaining);
+                gzwrite(file_, ptr, toWrite);
+                ptr += toWrite;
+                remaining -= toWrite;
+            }
+            return;
+        }
+
+        if (pos_ + size > kBufferSize) {
+            Flush();
+        }
+
+        std::memcpy(buffer_ + pos_, data, size);
+        pos_ += size;
+    }
+
+    void Flush() {
+        if (pos_ > 0) {
+            char* ptr = buffer_;
+            size_t remaining = pos_;
+            const size_t kMaxChunk = static_cast<size_t>(std::numeric_limits<unsigned>::max());
+            while (remaining > 0) {
+                unsigned toWrite = static_cast<unsigned>(remaining > kMaxChunk ? kMaxChunk : remaining);
+                gzwrite(file_, ptr, toWrite);
+                ptr += toWrite;
+                remaining -= toWrite;
+            }
+            pos_ = 0;
+        }
+    }
+
+private:
+    gzFile file_;
+    char* buffer_;
+    size_t pos_;
+};
+
 class MemoryDumper {
 public:
-    explicit MemoryDumper(FILE* file) : file_(file) {}
+    static constexpr size_t kInitialObjectSetCapacity = 8388608; // 8M objects
+    static constexpr size_t kInitialTypeSetCapacity = 4096;
+
+    explicit MemoryDumper(gzFile file) : file_(file), outputBuffer_(file) {
+        dumpedObjs_.Reserve(kInitialObjectSetCapacity);
+        dumpedTypes_.Reserve(kInitialTypeSetCapacity);
+    }
+
+    MemoryDumper SetStrip(bool isStrip) {
+        isStrip_ = isStrip;
+        return *this;
+    }
 
     // Dumps the memory and returns the success flag.
     void Dump() {
@@ -67,10 +269,7 @@ public:
 private:
     template <typename T>
     void DumpSpan(std_support::span<T> span) {
-        size_t written = fwrite(span.data(), sizeof(T), span.size(), file_);
-        if (written != span.size()) {
-            throw std::system_error(errno, std::generic_category());
-        }
+        outputBuffer_.Write(span.data(), span.size() * sizeof(T));
     }
 
     template <typename T>
@@ -149,11 +348,19 @@ private:
 
         int32_t elementSize = -type->instanceSize_;
         size_t dataOffset = alignUp(sizeof(ArrayHeader), elementSize);
-        size_t dataSize = elementSize * count;
-        DumpU32(dataSize);
 
-        uint8_t* data = reinterpret_cast<uint8_t*>(arr) + dataOffset;
-        DumpSpan(std_support::span<uint8_t>(data, dataSize));
+        if ( isStrip_ && (type == theByteArrayTypeInfo || type == theCharArrayTypeInfo || type == theStringTypeInfo) ) {
+            // ByteArray and CharArray (String backing): strip content to save space.
+            // kdumputil reconstructs zero-filled data from count * elementSize.
+            DumpU32(0);
+        } else {
+            // Primitive array: write raw data.
+            size_t dataSize = elementSize * count;
+            DumpU32(dataSize);
+
+            uint8_t* data = reinterpret_cast<uint8_t*>(arr) + dataOffset;
+            DumpSpan(std_support::span<uint8_t>(data, dataSize));
+        }
     }
 
     void DumpObjectOrArray(ObjHeader* obj) {
@@ -233,7 +440,7 @@ private:
     }
 
     void DumpTransitively(const TypeInfo* type) {
-        if (dumpedTypes_.insert(type).second) {
+        if (dumpedTypes_.Insert(type)) {
             // Dump super-type recursively, as the depth is not going to be a problem.
             if (type->superType_ != nullptr) {
                 DumpTransitively(type->superType_);
@@ -244,7 +451,7 @@ private:
     }
 
     void DumpTransitively(ObjHeader* obj) {
-        if (dumpedObjs_.insert(obj).second) {
+        if (dumpedObjs_.Insert(obj)) {
             DumpTransitively(obj->type_info());
 
             DumpObjectOrArray(obj);
@@ -359,60 +566,60 @@ private:
     const uint8_t TYPE_FLAG_OBJECT_ARRAY = 1 << 2;
 
     // Target file.
-    FILE* file_;
+    gzFile file_;
+    OutputBuffer outputBuffer_;
 
     // A set of already dumped type pointers.
-    std::unordered_set<const TypeInfo*> dumpedTypes_;
+    PointerSet dumpedTypes_;
 
     // A set of already dumped objects.
-    std::unordered_set<ObjHeader*> dumpedObjs_;
+    PointerSet dumpedObjs_;
 
     // A queue of objects to dump transitively.
     std::queue<ObjHeader*> objQueue_;
+
+    bool isStrip_ = false;
 };
 
 void PrepareForMemoryDump() {
     mm::GlobalData::Instance().threadRegistry().PublishAll();
 }
 
-void DumpMemoryOrThrow(int fd) {
-    // 1. Use unique_ptr to automatically manage FILE*
-    // decltype(&fclose) defines the type of the deleter
-    // &fclose is the actual deleter function, ensuring fclose is called automatically when the object is destroyed
-    std::unique_ptr<FILE, decltype(&fclose)> file(fdopen(fd, "w"), &fclose);
-
+void DumpMemoryOrThrow(int fd, bool isStrip) {
+    gzFile file = gzdopen(fd, "w");
     if (!file) {
-        // fdopen failed. At this point, unique_ptr is empty and will not trigger fclose.
-        // The fd is still owned by the caller; throw an exception to notify the caller to handle it.
         throw std::system_error(errno, std::generic_category());
     }
 
-    // 2. Perform memory dump
-    // Use .get() to retrieve the raw FILE* pointer
-    MemoryDumper(file.get()).Dump();
+    // Perform memory dump with zlib compression
+    MemoryDumper(file).SetStrip(isStrip).Dump();
 
-    // 3. Check if the write operation was successful
-    if (fflush(file.get()) == EOF) {
-        throw std::system_error(errno, std::generic_category());
+    // gzclose flushes remaining data, finalizes the gzip stream,
+    // and closes the underlying file descriptor.
+    int ret = gzclose(file);
+    if (ret != Z_OK) {
+        const char* zmsg = zError(ret);
+        throw std::runtime_error(std::string("zlib error: ") + (zmsg ? zmsg : "unknown"));
     }
-
-    // 4. When the function exits (or an exception occurs):
-    // unique_ptr will automatically call fclose(file).
-    // fclose will automatically close the underlying file descriptor (fd).
-    // Resources are released properly, complying with FDSAN requirements.
 }
 
-bool DumpMemory(int fd) noexcept {
+bool DumpMemory(int fd, bool isStrip) noexcept {
     PrepareForMemoryDump();
 
     bool success = true;
     try {
-        DumpMemoryOrThrow(fd);
+#ifndef KONAN_OHOS
+        DumpMemoryOrThrow(fd, isStrip);
+#else
+        if (fork() == 0) {
+            DumpMemoryOrThrow(fd, isStrip);
+            exit(0);
+        }
+#endif
     } catch (const std::system_error& e) {
         success = false;
         RuntimeLogError({kTagMemDump}, "Memory dump error: %s", e.what());
     }
-
     return success;
 }
 

@@ -139,11 +139,11 @@ void RegistDumpListenerIfNeeded()
       case OH_HiDebug_MemListenerType::OH_HIDEBUG_DO_NOTHING:
         return true;
       case OH_HiDebug_MemListenerType::OH_HIDEBUG_RUNNING_GC:
+        Kotlin_native_internal_GC_collect(nullptr);
         return true;
       case OH_HiDebug_MemListenerType::OH_HIDEBUG_DUMP_SNAPSHOT:
-        if (!mayReportToOEM) {
-          return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
-        }
+        Kotlin_native_internal_GC_collect(nullptr);
+        return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd, mayReportToOEM);
       default:
         return true;
     }

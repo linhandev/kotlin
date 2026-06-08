@@ -256,7 +256,7 @@ void alloc::AllocatedSizeTracker::Heap::DumpMemoryToFile(
     if (fd >= 0) {
         // Runtime Dump API writes memory to fd (does not close fd).
         DBG_OOM("Begin to dump memory to dump file");
-        dumpSuccess = Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
+        dumpSuccess = Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd, true);
         DBG_OOM("Finish to dump memory to dump file");
         if (close(fd) != 0) {
             DBG_OOM("Failed to close OOM dump fd, errno: %{public}d", errno);
