@@ -88,5 +88,6 @@ internal fun linuxLinkCommandArgs(
     debug = true,
     kind = LinkerOutputKind.EXECUTABLE,
     outputDsymBundle = "",
+    mimallocEnabled = false,
     sanitizer = sanitizer,
 ).single().args

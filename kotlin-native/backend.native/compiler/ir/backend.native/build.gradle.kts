@@ -38,6 +38,11 @@ dependencies {
     implementation(project(":native:kotlin-native-utils"))
     implementation(project(":native:objcexport-header-generator"))
     implementation(project(":native:objcexport-header-generator-k1"))
+
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(testFixtures(project(":native:kotlin-native-utils")))
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(kotlinStdlib())
 }
 
 tasks.withType<KotlinJvmCompile>().configureEach {
@@ -52,7 +57,13 @@ tasks.withType<KotlinJvmCompile>().configureEach {
 
 sourceSets {
     "main" { projectDefault() }
-    "test" { none() }
+    "test" {
+        projectDefault()
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 sourcesJar()
