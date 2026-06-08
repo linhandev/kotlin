@@ -39,9 +39,10 @@ import kotlin.time.Duration.Companion.seconds
  *     redirection in inner command. All other tc takes input from /dev/null
  */
 
-class OhosExecutor : Executor {
+class OhosExecutor(
+    private val hostExecutor: Executor = HostExecutor(),
+) : Executor {
     private val logger = Logger.getLogger(OhosExecutor::class.java.name)
-    private val hostExecutor: Executor = HostExecutor()
     private val deviceExeDir = "/data/local/tmp/native.tests"
 
     companion object {
