@@ -57,7 +57,13 @@ class OomMemDumpLiveStressTest {
     private val oomThresholdBytes = 1_610_612_736L // 1536 * 1024 * 1024
     private val maxGzipDumpFileBytes = 100L * 1024 * 1024
     private val chunkBytes = 1024 * 1024
-    /** DFX guide: 1600 × 1 MiB headroom for allocator accounting and GC re-arm to cross the 1536 MiB threshold. */
+    /**
+     * Upper bound on 1 MiB [ByteArray] chunks retained in the allocation loop — not a fixed target.
+     * [AllocatedSizeTracker] fires when tracked heap bytes exceed 1536 MiB; counting MiB-sized chunks
+     * here does not match that accounting byte-for-byte, so 1600 (=1536 + 64 MiB slack) avoids stopping
+     * the loop before the tracker triggers. The loop breaks as soon as a new oom_dump_*.dump is seen,
+     * which is usually well before 1600 chunks.
+     */
     private val maxChunks = 1600
     /** How often to scan dump dir while retaining heap (MiB per poll); one new dump expected per run. */
     private val pollEveryChunks = 64
@@ -343,6 +349,7 @@ class OomMemDumpLiveStressTest {
             logLine("OOM stress start: threshold=$oomThresholdBytes chunk=${chunkBytes}B maxChunks=$maxChunks")
 
             var newDumpPath: String? = null
+            // Retain up to maxChunks × 1 MiB; poll dump dir every pollEveryChunks and break on first new dump.
             for (i in 1..maxChunks) {
                 retainedChunks.add(ByteArray(chunkBytes) { (it and 0xFF).toByte() })
                 if (i % pollEveryChunks == 0 || i == maxChunks) {
@@ -360,8 +367,8 @@ class OomMemDumpLiveStressTest {
             }
 
             val dumpPath = checkNotNull(newDumpPath) {
-                "expected new oom_dump_*.dump under $oomDumpDir after retaining up to ${maxChunks}MiB " +
-                    "(retained=${retainedChunks.size} chunks; baseline dumps=${pathsBefore.size})"
+                "expected new oom_dump_*.dump under $oomDumpDir after retaining up to $maxChunks × 1 MiB " +
+                    "(retained=${retainedChunks.size} chunks; loop cap=$maxChunks; baseline dumps=${pathsBefore.size})"
             }
             val dump = waitForDumpWriteComplete(dumpPath)
             assertTrue(
