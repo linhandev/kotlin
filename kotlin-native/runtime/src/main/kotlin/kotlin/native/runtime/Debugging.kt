@@ -43,7 +43,7 @@ public object Debugging {
      */
     @GCUnsafeCall("Kotlin_native_runtime_Debugging_dumpMemory")
     @Escapes.Nothing
-    public external fun dumpMemory(fd: Long): Boolean
+    public external fun dumpMemory(fd: Long, isStrip: Boolean): Boolean
 }
 
 

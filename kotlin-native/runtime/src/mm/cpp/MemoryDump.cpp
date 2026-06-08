@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
+#include <limits>
 #include <vector>
 #include <queue>
 #include <cinttypes>
@@ -33,6 +34,9 @@ constexpr auto kTagMemDump = kotlin::logging::Tag::kMemoryDump;
 
 namespace kotlin::mm {
 
+// using PointerSet replace std::unordered_set,
+// speed up insert and lookup operations,
+//  and reduce memory overhead by avoiding node allocations;
 class PointerSet {
 public:
     static const size_t kExpansionFactor = 2;
@@ -152,6 +156,9 @@ private:
     size_t size_;
 };
 
+// using OutputBuffer to buffer data before writing to gzFile
+// , reducing the number of gzwrite calls and improving performance
+// , especially for small writes;
 class OutputBuffer {
 public:
     static constexpr size_t kBufferSize = 1 * 1024 * 1024; // 1MB buffer
@@ -167,7 +174,15 @@ public:
         if (size > kBufferSize) {
             // Large block: write directly to file, bypass buffer
             Flush();
-            gzwrite(file_, data, static_cast<unsigned>(size));
+            const char* ptr = static_cast<const char*>(data);
+            size_t remaining = size;
+            const size_t kMaxChunk = static_cast<size_t>(std::numeric_limits<unsigned>::max());
+            while (remaining > 0) {
+                unsigned toWrite = static_cast<unsigned>(remaining > kMaxChunk ? kMaxChunk : remaining);
+                gzwrite(file_, ptr, toWrite);
+                ptr += toWrite;
+                remaining -= toWrite;
+            }
             return;
         }
 
@@ -181,7 +196,15 @@ public:
 
     void Flush() {
         if (pos_ > 0) {
-            gzwrite(file_, buffer_, static_cast<unsigned>(pos_));
+            char* ptr = buffer_;
+            size_t remaining = pos_;
+            const size_t kMaxChunk = static_cast<size_t>(std::numeric_limits<unsigned>::max());
+            while (remaining > 0) {
+                unsigned toWrite = static_cast<unsigned>(remaining > kMaxChunk ? kMaxChunk : remaining);
+                gzwrite(file_, ptr, toWrite);
+                ptr += toWrite;
+                remaining -= toWrite;
+            }
             pos_ = 0;
         }
     }
@@ -200,6 +223,11 @@ public:
     explicit MemoryDumper(gzFile file) : file_(file), outputBuffer_(file) {
         dumpedObjs_.Reserve(kInitialObjectSetCapacity);
         dumpedTypes_.Reserve(kInitialTypeSetCapacity);
+    }
+
+    MemoryDumper SetStrip(bool isStrip) {
+        isStrip_ = isStrip;
+        return *this;
     }
 
     // Dumps the memory and returns the success flag.
@@ -321,7 +349,7 @@ private:
         int32_t elementSize = -type->instanceSize_;
         size_t dataOffset = alignUp(sizeof(ArrayHeader), elementSize);
 
-        if (type == theByteArrayTypeInfo || type == theCharArrayTypeInfo || type == theStringTypeInfo) {
+        if ( isStrip_ && (type == theByteArrayTypeInfo || type == theCharArrayTypeInfo || type == theStringTypeInfo) ) {
             // ByteArray and CharArray (String backing): strip content to save space.
             // kdumputil reconstructs zero-filled data from count * elementSize.
             DumpU32(0);
@@ -549,40 +577,43 @@ private:
 
     // A queue of objects to dump transitively.
     std::queue<ObjHeader*> objQueue_;
+
+    bool isStrip_ = false;
 };
 
 void PrepareForMemoryDump() {
     mm::GlobalData::Instance().threadRegistry().PublishAll();
 }
 
-void DumpMemoryOrThrow(int fd) {
+void DumpMemoryOrThrow(int fd, bool isStrip) {
     gzFile file = gzdopen(fd, "w");
     if (!file) {
         throw std::system_error(errno, std::generic_category());
     }
 
     // Perform memory dump with zlib compression
-    MemoryDumper(file).Dump();
+    MemoryDumper(file).SetStrip(isStrip).Dump();
 
     // gzclose flushes remaining data, finalizes the gzip stream,
     // and closes the underlying file descriptor.
     int ret = gzclose(file);
     if (ret != Z_OK) {
-        throw std::system_error(errno, std::generic_category());
+        const char* zmsg = zError(ret);
+        throw std::runtime_error(std::string("zlib error: ") + (zmsg ? zmsg : "unknown"));
     }
 }
 
-bool DumpMemory(int fd) noexcept {
+bool DumpMemory(int fd, bool isStrip) noexcept {
     PrepareForMemoryDump();
 
     bool success = true;
     try {
 #ifndef KONAN_OHOS
-        DumpMemoryOrThrow(fd);
+        DumpMemoryOrThrow(fd, isStrip);
 #else
         if (fork() == 0) {
-            DumpMemoryOrThrow(fd);
-            exit(-1);
+            DumpMemoryOrThrow(fd, isStrip);
+            exit(0);
         }
 #endif
     } catch (const std::system_error& e) {

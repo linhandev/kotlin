@@ -359,7 +359,7 @@ void CRT_UnPin(const void* obj);
 void Kotlin_native_internal_GC_collect(HeapObjPtr);
 void Kotlin_native_internal_GC_setTuneThreshold(HeapObjPtr, bool value);
 bool Kotlin_native_internal_GC_getTuneThreshold(HeapObjPtr);
-RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(HeapObjPtr, int fd);
+RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(HeapObjPtr, int fd, bool isStrip);
 void PerformFullGC(MemoryState* memory) RUNTIME_NOTHROW;
 
 // Sets state of the current thread to NATIVE (used by the new MM).
