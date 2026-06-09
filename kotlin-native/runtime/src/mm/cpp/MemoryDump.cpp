@@ -225,9 +225,8 @@ public:
         dumpedTypes_.Reserve(kInitialTypeSetCapacity);
     }
 
-    MemoryDumper SetStrip(bool isStrip) {
+    void SetStrip(bool isStrip) {
         isStrip_ = isStrip;
-        return *this;
     }
 
     // Dumps the memory and returns the success flag.
@@ -592,7 +591,9 @@ void DumpMemoryOrThrow(int fd, bool isStrip) {
     }
 
     // Perform memory dump with zlib compression
-    MemoryDumper(file).SetStrip(isStrip).Dump();
+    auto dumper = MemoryDumper(file);
+    dumper.SetStrip(isStrip);
+    dumper.Dump();
 
     // gzclose flushes remaining data, finalizes the gzip stream,
     // and closes the underlying file descriptor.
