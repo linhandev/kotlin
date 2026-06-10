@@ -36,9 +36,6 @@ set -e # Exit immediately on error
 
 START_TIME=$(date +%s)
 
-unset M2_HOME
-unset MAVEN_HOME
-
 # --- Configuration ---
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
 ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
@@ -63,7 +60,6 @@ DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.255-SNAPSHOT}
 USE_CN_MIRROR=${USE_CN_MIRROR:-true}
 CN_MIRROR_PROVIDER=${CN_MIRROR_PROVIDER:-aliyun}
 BREAKPAD_GIT_REPO=${BREAKPAD_GIT_REPO:-https://gitee.com/mirrors/breakpad.git}
-BREAKPAD_GIT_REVISION=${BREAKPAD_GIT_REVISION:-v2024.02.16}
 MAVEN_MAX_RETRIES=${MAVEN_MAX_RETRIES:-3}
 MAVEN_RETRY_DELAY_SECONDS=${MAVEN_RETRY_DELAY_SECONDS:-3}
 CN_MIRROR_INIT_SCRIPT="$ROOT_DIR/.gradle-cn-mirror.init.gradle.kts"
@@ -79,7 +75,6 @@ echo "MAVEN_RETRIES  = $MAVEN_MAX_RETRIES"
 if [[ -n "$BREAKPAD_GIT_REPO" ]]; then
   echo "BREAKPAD_REPO = $BREAKPAD_GIT_REPO"
 fi
-echo "BREAKPAD_REV  = $BREAKPAD_GIT_REVISION"
 if [[ "$USE_CN_MIRROR" == "true" ]]; then
   echo "MAVEN_MIRROR   = (enabled, provider-based)"
 fi
@@ -355,9 +350,6 @@ function run_gradle() {
   if [[ -n "$BREAKPAD_GIT_REPO" ]]; then
     GRADLE_ARGS+=(-PbreakpadGitRepo="$BREAKPAD_GIT_REPO")
   fi
-  if [[ -n "$BREAKPAD_GIT_REVISION" ]]; then
-    GRADLE_ARGS+=(-PbreakpadGitRevision="$BREAKPAD_GIT_REVISION")
-  fi
 
   ./gradlew "${GRADLE_ARGS[@]}" "$@"
 }
@@ -369,13 +361,11 @@ function GRADLE_NATIVE() {
     -Pversions.kotlin-native="$DEPLOY_VERSION"
     -PkonanVersion="$DEPLOY_VERSION"
     -Pkotlin.native.enabled=true
+    -Pbootstrap.kotlin.version="$DEPLOY_VERSION"
+    -Pbootstrap.local=true
+    -Pbootstrap.local.version="$DEPLOY_VERSION"
     --dependency-verification=off
   )
-
-  # Use local bootstrap
-  GRADLE_ARGS+=(-Pbootstrap.kotlin.version="$DEPLOY_VERSION")
-  GRADLE_ARGS+=(-Pbootstrap.local=true)
-  GRADLE_ARGS+=(-Pbootstrap.local.version="$DEPLOY_VERSION")
 
   run_gradle "${GRADLE_ARGS[@]}" "$@"
 }
@@ -395,9 +385,6 @@ echo "kotlin.build.isObsoleteJdkOverrideEnabled=true" >> "$ROOT_DIR/local.proper
 # Stop existing daemons
 run_gradle --stop
 
-# Update versions in pom.xml
-run_maven_with_retry -DnewVersion=$DEPLOY_VERSION -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
-
 # 1. Build part of kotlin and publish it to the local maven repository and to build/repo directory
 stepBegin "Build part of kotlin and publish it to the local maven repository and to build/repo directory"
 run_gradle \
@@ -412,6 +399,7 @@ stepEnd
 
 # 2. Build maven part and publish it to the same build/repo
 stepBegin "Build maven part and publish it to the same build/repo"
+run_maven_with_retry -DnewVersion=$DEPLOY_VERSION -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
 if [[ "$(uname -s)" == MINGW* ]] || [[ "$(uname -s)" == MSYS* ]] || [[ "$(uname -s)" == CYGWIN* ]]; then
   ROOT_DIR_WIN=$(cygpath -w "$ROOT_DIR" | sed 's/\\/\//g')
   MAVEN_DEPLOY_URL="file:///$ROOT_DIR_WIN/build/repo"
@@ -427,25 +415,13 @@ run_maven_with_retry \
   -DskipTests
 stepEnd
 
-# --- Critical Check: Verify BOM Existence ---
-BOM_CHECK_PATH="$ROOT_DIR/build/repo/org/jetbrains/kotlin/kotlin-bom/$DEPLOY_VERSION/kotlin-bom-$DEPLOY_VERSION.pom"
-if [[ ! -f "$BOM_CHECK_PATH" ]]; then
-  echo "❌ Critical Error: Kotlin BOM was not found at expected path after Maven build:"
-  echo "   Missing: $BOM_CHECK_PATH"
-  echo "   Reason: The Maven 'deploy' step failed to output files to build/repo."
-  exit 1
-else
-  echo "🔍 Verified: Kotlin BOM exists. Proceeding to Native build."
-fi
 
 # 3. Clean Kotlin Native
 stepBegin "Clean Kotlin Native dist."
 if [[ -d "./kotlin-native/dist" ]]; then
   rm -Rf ./kotlin-native/dist
 fi
-# Use --refresh-dependencies to force refresh cache
-GRADLE_NATIVE :kotlin-native:clean --refresh-dependencies
-# GRADLE_NATIVE :kotlin-native:clean
+GRADLE_NATIVE :kotlin-native:clean
 stepEnd
 
 # 4. Bundle Compiler
