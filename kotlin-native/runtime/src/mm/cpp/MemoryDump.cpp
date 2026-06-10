@@ -226,7 +226,6 @@ public:
     explicit MemoryDumper(gzFile file, bool isStrip) : file_(file), outputBuffer_(file), isStrip_(isStrip) {
         dumpedObjs_.Reserve(kInitialObjectSetCapacity);
         dumpedTypes_.Reserve(kInitialTypeSetCapacity);
-        isStrip_ = isStrip;
     }
 
     // Dumps the memory and returns the success flag.
