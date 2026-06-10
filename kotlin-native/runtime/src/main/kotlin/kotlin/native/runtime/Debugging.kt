@@ -45,9 +45,6 @@ public object Debugging {
     @Escapes.Nothing
     public external fun dumpMemory(fd: Long, isStrip: Boolean): Boolean
 
-    @GCUnsafeCall("Kotlin_native_runtime_Debugging_disableFork")
-    @Escapes.Nothing
-    public external fun disableFork(): Unit
 }
 
 
