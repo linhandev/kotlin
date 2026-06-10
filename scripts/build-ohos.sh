@@ -423,6 +423,7 @@ run_maven_with_retry \
   -f "$ROOT_DIR/libraries/pom.xml" \
   clean deploy \
   -Ddeploy-url="$MAVEN_DEPLOY_URL" \
+  -Ddeploy-snapshot-url="$MAVEN_DEPLOY_URL" \
   -DskipTests
 stepEnd
 
