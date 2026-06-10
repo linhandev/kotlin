@@ -71,7 +71,6 @@ echo "ROOT_DIR       = $ROOT_DIR"
 echo "DEPLOY_VERSION = $DEPLOY_VERSION"
 echo "USE_CN_MIRROR  = $USE_CN_MIRROR"
 echo "MIRROR_PROVIDER= $CN_MIRROR_PROVIDER"
-echo "MAVEN_RETRIES  = $MAVEN_MAX_RETRIES"
 if [[ -n "$BREAKPAD_GIT_REPO" ]]; then
   echo "BREAKPAD_REPO = $BREAKPAD_GIT_REPO"
 fi
@@ -82,7 +81,6 @@ echo "ARCH           = $(uname -m)"
 echo "USER           = $(whoami)"
 echo "========================================"
 
-# Check JDK 1.8
 # Check JDK 1.8
 if [ -z "$JDK_18" ]; then
   if [[ "$(uname -s)" == "Darwin" ]]; then
@@ -101,6 +99,13 @@ fi
 if [ -z "$JDK_18" ]; then
   echo "❌ Error: JDK 1.8 is required."
   echo "   Please install JDK 8 and run: export JDK_18=<path_to_jdk_8>"
+  exit 1
+fi
+
+# Maven wrapper requires unzip: without it, it downloads .tar.gz but validates with the .zip checksum → failure
+if ! command -v unzip >/dev/null 2>&1; then
+  echo "❌ Error: unzip is required."
+  echo "   Please install unzip and re-run."
   exit 1
 fi
 
@@ -152,13 +157,6 @@ if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]
   fi
 fi
 
-# Maven wrapper requires unzip: without it, it downloads .tar.gz but validates with the .zip checksum → failure
-if ! command -v unzip >/dev/null 2>&1; then
-  echo "❌ Error: unzip is required."
-  echo "   Please install unzip and re-run."
-  exit 1
-fi
-
 STEP=1
 STEP_MESSAGE=""
 
@@ -196,15 +194,6 @@ function cleanUp() {
 
 # Register cleanUp to run on ANY exit
 trap cleanUp EXIT
-
-function readHostArch() {
-  if [[ "$(uname -m)" == "arm64" ]]; then
-      ARCH=aarch64
-  else
-      ARCH=x86_64
-  fi
-  echo "Build on $ARCH."
-}
 
 MIRROR_INIT_ARGS=()
 
@@ -372,7 +361,6 @@ function GRADLE_NATIVE() {
 
 # --- Main Build Script ---
 
-readHostArch
 prepareCnMirrorInitScript
 prepareCnMirrorMavenSettings
 
