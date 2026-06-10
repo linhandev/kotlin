@@ -29,8 +29,8 @@
 #include "hilog/log.h"
 #undef LOG_DOMAIN
 #undef LOG_TAG
-#define LOG_DOMAIN 0xFF00  // 全局domain宏，标识业务领域
-#define LOG_TAG "DEBUG_MEMORYDUMP"   // 全局tag宏，标识模块日志tag
+#define LOG_DOMAIN 0xFF00
+#define LOG_TAG "DEBUG_MEMORYDUMP"
 #endif
 
 constexpr auto kTagMemDump = kotlin::logging::Tag::kMemoryDump;
