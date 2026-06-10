@@ -132,7 +132,8 @@ namespace kotlin {
 // Stubs for crt/cpp/CRTRuntime.hpp (declarations there are normally satisfied by
 // crt/cpp/CRTRuntime.cpp, which is not compiled when ENABLE_CRT is off).
 inline bool InitCRTRuntime() noexcept { return false; }
-inline void DestroyCRTRuntime(::MemoryState*) noexcept {}
+inline void DestroyCRTRuntime() noexcept {}
+inline void StopCRTGCWork() noexcept {}
 } // namespace kotlin
 
 namespace kotlin::alloc {
