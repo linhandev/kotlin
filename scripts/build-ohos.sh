@@ -59,7 +59,7 @@ else
 fi
 
 # Settings
-DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-OH-001}
+DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.255-SNAPSHOT}
 USE_CN_MIRROR=${USE_CN_MIRROR:-true}
 CN_MIRROR_PROVIDER=${CN_MIRROR_PROVIDER:-aliyun}
 BREAKPAD_GIT_REPO=${BREAKPAD_GIT_REPO:-https://gitee.com/mirrors/breakpad.git}
@@ -330,65 +330,6 @@ function run_maven() {
   fi
 }
 
-function cleanDependencyCache() {
-  echo "🧹 Cleaning dependency caches to avoid pollution..."
-
-  # Clean Gradle project-level cache
-  echo " attempt to remove $ROOT_DIR/.gradle."
-  if [[ -d "$ROOT_DIR/.gradle" ]]; then
-    rm -rf "$ROOT_DIR/.gradle"
-    echo "   Removed project .gradle cache."
-  fi
-
-  # Clean Gradle global downloaded dependencies
-  local gradleHome="${GRADLE_USER_HOME:-$HOME/.gradle}"
-  echo " attempt to remove $gradleHome/caches/modules-2."
-  if [[ -d "$gradleHome/caches/modules-2" ]]; then
-    rm -rf "$gradleHome/caches/modules-2"
-    echo "   Removed $gradleHome/caches/modules-2."
-  fi
-
- echo "  attempt to remove $HOME/.m2/repository."
-  if [[ -d "$HOME/.m2/repository" ]]; then
-    rm -rf "$HOME/.m2/repository"
-    echo "   Removed $HOME/.m2/repository."
-  fi
-
-  # Clean Kotlin Native toolchain cache
-  local konanHome="${KONAN_DATA_DIR:-$HOME/.konan}"
-   echo " attempt to remove $konanHome/dependencies."
-  if [[ -d "$konanHome/dependencies" ]]; then
-    rm -rf "$konanHome/dependencies"
-    echo "   Removed $konanHome/dependencies."
-  fi
-
-  echo "✅ Dependency cache cleaned."
-}
-
-function cleanMavenStaleParts() {
-  local repoDir="$HOME/.m2/repository"
-  if [[ ! -d "$repoDir" ]]; then
-    return
-  fi
-
-  local deletedPartCount=0
-  local deletedLockCount=0
-
-  while IFS= read -r partFile; do
-    rm -f "$partFile"
-    ((deletedPartCount++))
-  done < <(command find "$repoDir" -type f -name '*.part' 2>/dev/null)
-
-  while IFS= read -r lockFile; do
-    rm -f "$lockFile"
-    ((deletedLockCount++))
-  done < <(command find "$repoDir" -type f -name '*.lock' 2>/dev/null)
-
-  if (( deletedPartCount > 0 || deletedLockCount > 0 )); then
-    echo "🧼 Cleared stale Maven temp files: .part=$deletedPartCount .lock=$deletedLockCount"
-  fi
-}
-
 function run_maven_with_retry() {
   local attempt=1
   local maxAttempts=$MAVEN_MAX_RETRIES
@@ -403,8 +344,6 @@ function run_maven_with_retry() {
       return 1
     fi
 
-    echo "⚠️ Maven command failed (attempt $attempt/$maxAttempts), cleaning stale temp files and retrying in ${MAVEN_RETRY_DELAY_SECONDS}s..."
-    cleanMavenStaleParts
     sleep "$MAVEN_RETRY_DELAY_SECONDS"
     ((attempt++))
   done
@@ -455,9 +394,6 @@ echo "kotlin.build.isObsoleteJdkOverrideEnabled=true" >> "$ROOT_DIR/local.proper
 
 # Stop existing daemons
 run_gradle --stop
-
-# Clean dependency caches before build to avoid stale/polluted artifacts
-cleanDependencyCache
 
 # Update versions in pom.xml
 run_maven_with_retry -DnewVersion=$DEPLOY_VERSION -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
@@ -522,8 +458,10 @@ stepBegin "Publish Kotlin Native compiler to local."
 GRADLE_NATIVE :kotlin-native:publishBundlePrebuiltPublicationToMavenRepository
 stepEnd
 
-# Final cleanup is handled by 'trap' automatically.
-cd - > /dev/null
+# 6. Smoke Test
+stepBegin "Run Kotlin Native smoke tests."
+GRADLE_NATIVE :kotlin-native:smokeTest
+stepEnd
 
 ELAPSED=$(($(date +%s) - START_TIME))
 echo ""
