@@ -14,7 +14,6 @@
 #include <queue>
 #include <cinttypes>
 #include <zlib.h>
-
 #include "Logging.hpp"
 #include "Porting.h"
 #include "TypeInfo.h"
@@ -27,7 +26,11 @@
 #include "std_support/Span.hpp"
 
 #ifdef KONAN_OHOS
-#include <hilog/log.h>
+#include "hilog/log.h"
+#undef LOG_DOMAIN
+#undef LOG_TAG
+#define LOG_DOMAIN 0xFF00
+#define LOG_TAG "DEBUG_MEMORYDUMP"
 #endif
 
 constexpr auto kTagMemDump = kotlin::logging::Tag::kMemoryDump;
@@ -220,14 +223,9 @@ public:
     static constexpr size_t kInitialObjectSetCapacity = 8388608; // 8M objects
     static constexpr size_t kInitialTypeSetCapacity = 4096;
 
-    explicit MemoryDumper(gzFile file) : file_(file), outputBuffer_(file) {
+    explicit MemoryDumper(gzFile file, bool isStrip) : file_(file), outputBuffer_(file), isStrip_(isStrip) {
         dumpedObjs_.Reserve(kInitialObjectSetCapacity);
         dumpedTypes_.Reserve(kInitialTypeSetCapacity);
-    }
-
-    MemoryDumper SetStrip(bool isStrip) {
-        isStrip_ = isStrip;
-        return *this;
     }
 
     // Dumps the memory and returns the success flag.
@@ -592,7 +590,7 @@ void DumpMemoryOrThrow(int fd, bool isStrip) {
     }
 
     // Perform memory dump with zlib compression
-    MemoryDumper(file).SetStrip(isStrip).Dump();
+    MemoryDumper(file, isStrip).Dump();
 
     // gzclose flushes remaining data, finalizes the gzip stream,
     // and closes the underlying file descriptor.
@@ -611,8 +609,16 @@ bool DumpMemory(int fd, bool isStrip) noexcept {
 #ifndef KONAN_OHOS
         DumpMemoryOrThrow(fd, isStrip);
 #else
-        if (fork() == 0) {
+        OH_LOG_INFO(LOG_APP, "Attempting to fork process for memory dump.");
+        int pid = fork();
+        OH_LOG_INFO(LOG_APP, "Forked process %d for memory dump.", pid);
+        if (pid < 0) {
+            OH_LOG_ERROR(LOG_APP, "Failed to fork process for memory dump.");
+            return false;
+        }
+        if (pid == 0) {
             DumpMemoryOrThrow(fd, isStrip);
+            OH_LOG_INFO(LOG_APP, "Forked process memory dump done.");
             exit(0);
         }
 #endif
