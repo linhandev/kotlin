@@ -218,18 +218,17 @@ internal class Linker(
         
         var libraries = linker.linkStaticLibraries(includedBinaries) + caches.static
         
-        if (config.allocationMode == AllocationMode.CRT || config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) { // TODO: refact this
-            val libcrtPath = System.getenv("LIBCRT_PATH")
-            if (libcrtPath != null) {
-                libraries += listOf("${libcrtPath}/libcrt.so")
-                linkerArgs += if (target.family.isAppleFamily) {
-                    listOf("-rpath", libcrtPath)
-                } else {
-                    listOf("-rpath=$libcrtPath")
-                }
-            } else {
-                throw IllegalStateException("LIBCRT_PATH environment variable must be set for CRT allocation mode")
+        if (config.allocationMode == AllocationMode.CRT || config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) {
+            // libcrt.so is shipped inside the kotlin-native dist:
+            //   <konanHome>/konan/targets/<target>/native/libcrt.so
+            val libcrtFile = File(config.distribution.defaultNatives(target)).child("libcrt.so")
+            check(libcrtFile.exists) {
+                "libcrt.so not found at ${libcrtFile.absolutePath}. " +
+                        "The Kotlin/Native distribution is incomplete or was built without CRT support " +
+                        "(-Pkotlin.native.crt=false). Rebuild the dist with CRT enabled, or compile without " +
+                        "CRT (-Xallocator=crt / -Xbinary=runtimeSwitchMemoryManager=true)."
             }
+            libraries += listOf(libcrtFile.absolutePath)
         }
 
         // Stub .o files (N2KStub / K2NStub / K2RStub / KonanStartStub) live under the runtime-resolved
