@@ -206,9 +206,12 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
             closedWorld = context.config.isFinalBinary,
             timePasses = context.config.phaseConfig.needProfiling,
     )
-    mergeLlvmCompilerUsedIntoLlvmUsed(this@runBitcodePostProcessing.context.llvmModule)
-    // KSG ran in the caller (TopLevelPhases.kt `compileModule` / `runBitcodeBackend`,
-    // pre split=1/N branch). The module reaching here is post-KSG.
+    // Pin only in the precise-stackmap pipeline (gated like KSG; see the split path
+    // in runBitcodePostProcessingCoroutines). OFF keeps direct helper callers, so no
+    // pin is needed and pinning would only bloat the binary.
+    if (context.config.enableStackmap) {
+        pinK2RStubCalleesInLlvmUsed(this@runBitcodePostProcessing.context.llvmModule, K2RStubFunctions.linkRootSet)
+    }
     useContext(OptimizationState(context.config, optimizationConfig)) {
         val module = this@runBitcodePostProcessing.context.llvmModule
         it.runPhase(StackProtectorPhase, module)
@@ -312,40 +315,6 @@ private fun pinK2RStubCalleesInLlvmUsed(module: LLVMModuleRef, names: Collection
     memScoped {
         val arr = allocArrayOf(allEntries)
         val newArrayValue = LLVMConstArray(ptrType, arr, allEntries.size) ?: return@memScoped
-        val newUsed = LLVMAddGlobal(module, arrayType, "llvm.used") ?: return@memScoped
-        LLVMSetInitializer(newUsed, newArrayValue)
-        LLVMSetLinkage(newUsed, LLVMLinkage.LLVMAppendingLinkage)
-        LLVMSetSection(newUsed, "llvm.metadata")
-    }
-}
-
-private fun mergeLlvmCompilerUsedIntoLlvmUsed(module: LLVMModuleRef) {
-    val mergedNames = linkedSetOf<String>().apply {
-        addAll(collectUsedSymbolNames(module, "llvm.used"))
-        addAll(collectUsedSymbolNames(module, "llvm.compiler.used"))
-    }
-
-    if (mergedNames.isEmpty()) return
-
-    val context = LLVMGetModuleContext(module) ?: return
-    val ptrType = LLVMPointerTypeInContext(context, 0) ?: return
-    val elements = mergedNames.mapNotNull { symbolName ->
-        val value = LLVMGetNamedGlobal(module, symbolName)
-            ?: LLVMGetNamedFunction(module, symbolName)
-            ?: return@mapNotNull null
-        LLVMConstBitCast(value, ptrType)
-    }
-    if (elements.isEmpty()) return
-
-    val existingUsed = LLVMGetNamedGlobal(module, "llvm.used")
-    if (existingUsed != null) {
-        LLVMDeleteGlobal(existingUsed)
-    }
-
-    val arrayType = LLVMArrayType(ptrType, elements.size) ?: return
-    memScoped {
-        val elementsArray = allocArrayOf(elements)
-        val newArrayValue = LLVMConstArray(ptrType, elementsArray, elements.size) ?: return@memScoped
         val newUsed = LLVMAddGlobal(module, arrayType, "llvm.used") ?: return@memScoped
         LLVMSetInitializer(newUsed, newArrayValue)
         LLVMSetLinkage(newUsed, LLVMLinkage.LLVMAppendingLinkage)
@@ -494,49 +463,16 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
     val bitcodeFiletmp = tempFiles.create(context.config.shortModuleName ?: "tmp_ori", ".bc")
     val originalModule = this@runBitcodePostProcessingCoroutines.context.llvmModule
     bitcodeFile = File(bitcodeFiletmp.toString())
-    // KSG ran in the caller (TopLevelPhases.kt `compileModule` / `runBitcodeBackend`,
-    // pre split=1/N branch) on this same `context.llvmModule` (=== originalModule),
-    // BEFORE llvm-split. Running pre-split is mandatory: @llvm.global.annotations
-    // is appending-linkage and llvm-split attaches it to a single part; once split,
-    // the other parts can't see the annotation set and per-part KSG would
-    // early-return. The module reaching here is post-KSG.
-    // The standalone disableBoundryFunctionInline + addDelayInline + the
-    // post-merge addAlwaysInline trio used to live here; their work is now
-    // folded into KSG step 6 (applyStubBoundaryNoInline) above. K2RStub
-    // helpers are unaffected by per-part inlining because KSG step 1 has
-    // already retargeted kfunc → helper calls to kfunc → helperStub, so
-    // inlining the helper bodies in per-part LTO can't erase a Stub edge.
-    // Collect (as strings, safe to ferry across LLVMContext) the names of all
-    // symbols that must be kept alive: existing @llvm.used / @llvm.compiler.used
-    // entries plus the canonical K2RStub.o link-root set (Kotlin-side authoritative
-    // list, build-time-verified against K2RStub.s by the `verifyK2RStubFunctions`
-    // Gradle task — see K2RStubFunctions.kt).
-    // Two reasons to do this:
-    //  (a) llvm-split hands appending metadata globals to a single part, so the
-    //      other parts' GlobalDCE would drop these functions. We re-pin them
-    //      into every part's @llvm.used after parse (per-part injection below).
-    //  (b) saveLlvmUsedComplete / restoreLlvmUsedComplete snapshot the
-    //      pre-split llvm.used and overwrite the post-merge one. If we only
-    //      did the per-part injection, the restore step at stage B would wipe
-    //      our additions before clang++ sees them. So we also augment the
-    //      original module's @llvm.used here, before saveLlvmUsedComplete, so
-    //      the snapshot itself contains everything. clang++'s O3 GlobalDCE
-    //      then preserves these K2RStub runtime helpers whose only references
-    //      come from the K2RStub.s assembly stub object.
-    val symbolsToPinPerPart: Set<String> = linkedSetOf<String>().apply {
-        addAll(collectUsedSymbolNames(originalModule, "llvm.used"))
-        addAll(collectUsedSymbolNames(originalModule, "llvm.compiler.used"))
-        addAll(K2RStubFunctions.linkRootSet)
-    }
-    // Only augment @llvm.used for static-binary outputs (`-produce program`).
-    // For shared-library outputs (DYNAMIC, FRAMEWORK, etc.) the runtime is
-    // pulled in via whole-archive at link time, so K2RStub.o references resolve
-    // without keeping every K2RStub helper alive in user.bc.
-    // Augmenting in dynamic mode pins extra symbols whose .llvm_stackmaps
-    // entries then carry PREL64 relocations against externally-visible symbols
-    // ("R_AARCH64_PREL64 cannot be used against symbol 'TheEmptyString'; recompile with -fPIC").
-    if (context.config.produce == CompilerOutputKind.PROGRAM) {
-        pinK2RStubCalleesInLlvmUsed(originalModule, symbolsToPinPerPart)
+    // Only in the precise-stackmap pipeline (same gate as KSG): KSG has rewritten
+    // kfunc->helper calls to kfunc->helperStub, so the real helpers have no bitcode
+    // caller (only K2RStub.s asm references them) and must be pinned into @llvm.used
+    // to survive GlobalDCE -> else ld.lld undefined symbol from K2RStub.o. Pinned
+    // once pre-split here so the saveLlvmUsedComplete snapshot carries it through
+    // restore, and llvm-split --preserve-locals propagates it into every part.
+    // In OFF mode KSG does not rewrite, the helpers keep their direct callers, and
+    // pinning would only bloat the binary by defeating dead-strip.
+    if (context.config.enableStackmap) {
+        pinK2RStubCalleesInLlvmUsed(originalModule, K2RStubFunctions.linkRootSet)
     }
     savedUsed = saveLlvmUsedComplete(originalModule)
     LLVMWriteBitcodeToFile(originalModule, bitcodeFile!!.absolutePath)
@@ -561,11 +497,6 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
                     useContext(OptimizationState(context.config, optimizationConfig)) { bitcodeEngine ->
                         if (File(partFile).exists()) {
                             val partModule = parseBitcodeFile(context, context.messageCollector, independentContext, partFile)
-                            // Re-pin symbols that the original @llvm.used /
-                            // @llvm.compiler.used / K2RStubFunctions.linkRootSet
-                            // wanted alive but llvm-split routed to a different
-                            // part. Names not present in this part are no-ops.
-                            pinK2RStubCalleesInLlvmUsed(partModule, symbolsToPinPerPart)
                             bitcodeEngine.runPhase(MandatoryBitcodeLLVMPostprocessingPhase, partModule)
                             bitcodeEngine.runPhase(ModuleBitcodeOptimizationPhase, partModule)
                             val tempFile = "${bitcodeFile!!.absolutePath.removeSuffix(".bc")}_opt_temp_$i.bc"
@@ -601,7 +532,6 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
                 ?: throw RuntimeException("Failed to parse merged bitcode file")
         // restore llvm.used
         restoreLlvmUsedComplete(moduleTmp, savedUsed)
-        mergeLlvmCompilerUsedIntoLlvmUsed(moduleTmp)
 
         // Create a new BitcodePostProcessingContext for moduleTmp which makes the phases operate on the correct module
         val tmpBitcodeContext = BitcodePostProcessingContextImpl(

@@ -342,6 +342,11 @@ targetList.each { target ->
         dependsOn ":kotlin-native:distStdlib"
         dependsOn "${target}CrossDistBitcodeCopy"
         dependsOn "${target}CrossDistRuntimeFingerprint"
+        // Stub .o (N2KStub/K2NStub/K2RStub/KonanStartStub/EnterKotlinFromCppStub) are part of the
+        // per-target runtime dist. Both runtime StdlibCache and platformLibs cache (KonanCacheTask)
+        // transitively depend on this task, so copying the stub objs here guarantees they are in
+        // dist/konan/targets/<target>/stubs_objs/ before any konanc->Linker links them.
+        dependsOn ":kotlin-native:runtime:copyStubObjsToDist"
     }
 
     tasks.register("${target}PlatformLibs") {
