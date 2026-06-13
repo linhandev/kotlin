@@ -451,6 +451,20 @@ class GccBasedLinker(targetProperties: GccConfigurables)
         }
         val dynamic = kind == LinkerOutputKind.DYNAMIC_LIBRARY
         val crtPrefix = "$absoluteTargetSysRoot/$crtFilesLocation"
+        val staticLibrariesArgs: List<String> = if (staticLibraries.isNotEmpty()) {
+            val responseFile = tempFiles.create("static_libraries")
+            responseFile.writeLines(staticLibraries)
+            listOf("@${responseFile.absolutePath}")
+        } else {
+            staticLibraries
+        }
+        val dynamicLibrariesArgs: List<String> = if (dynamicLibraries.isNotEmpty()) {
+            val responseFile = tempFiles.create("dynamic_libraries")
+            responseFile.writeLines(dynamicLibraries)
+            listOf("@${responseFile.absolutePath}")
+        } else {
+            dynamicLibraries
+        }
         // TODO: Can we extract more to the konan.configurables?
         return listOf(Command(absoluteLinker).apply {
             +"--sysroot=${absoluteTargetSysRoot}"
@@ -487,8 +501,8 @@ class GccBasedLinker(targetProperties: GccConfigurables)
                     +provideCompilerRtLibrary("tsan_cxx")!!
                 }
             }
-            +staticLibraries
-            +dynamicLibraries
+            +staticLibrariesArgs
+            +dynamicLibrariesArgs
             +linkerArgs
             // See explanation about `-u__llvm_profile_runtime` here:
             // https://github.com/llvm/llvm-project/blob/21e270a479a24738d641e641115bce6af6ed360a/llvm/lib/Transforms/Instrumentation/InstrProfiling.cpp#L930
