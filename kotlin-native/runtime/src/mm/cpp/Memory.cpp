@@ -31,10 +31,18 @@
 #include "MemoryManagerSwitch.hpp"
 #include "CRTFastpathUtils.hpp"
 #ifdef ENABLE_CRT
+// Define LIBCRT_STANDALONE to fix VLOG symbol mismatch when including CRT headers.
+// This macro affects VLOG symbol definitions in CRT common interfaces.
+// Scope is limited to CRT header includes to avoid affecting other code.
+#define LIBCRT_STANDALONE
 #include "common_interfaces/base_runtime.h"
 #include "common_interfaces/thread/mutator_base.h"
+#include "common_components/mutator/mutator_manager.h"
+#include "common_components/mutator/mutator.inline.h"
+#include "common_components/common/scoped_object_access.h"
 #include "crt/cpp/CRTRuntime.hpp"
 #include "crt/cpp/HeapInterface.hpp"
+#undef LIBCRT_STANDALONE
 #endif
 
 #include "MemoryDump.hpp"
@@ -405,6 +413,30 @@ extern "C" void Kotlin_native_internal_GC_schedule(ObjHeader*) {
 }
 
 extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHeader*, int fd, bool isStrip) {
+#ifdef ENABLE_CRT
+    return checkUseCRT<CheckMode::Slow>(
+        [fd, isStrip] {
+            // CRT path: RAII saferegion + STW (LIBCRT_STANDALONE fixes VLOG symbol mismatch).
+            Kotlin_initRuntimeIfNeeded();
+            common::ScopedEnterSaferegion enterSafe(false);
+            common::STWParam stwParam { .stwReason = "Kotlin HeapDump" };
+            common::ScopedStopTheWorld stw(stwParam);
+            return mm::DumpMemory(fd, isStrip);
+        },
+        [fd, isStrip] {
+            // CMS path: original STW protocol.
+            auto mainGCLock = mm::GlobalData::Instance().gc().gcLock();
+            auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+            threadData->suspensionData().requestThreadsSuspension("Memory dump");
+            CallsCheckerIgnoreGuard guard;
+            mm::WaitForThreadsSuspension();
+            bool success = mm::DumpMemory(fd, isStrip);
+            mm::ResumeThreads();
+            return success;
+        }
+    );
+#else
+    // CMS-only path when CRT is not enabled at compile time.
     auto mainGCLock = mm::GlobalData::Instance().gc().gcLock();
 
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
@@ -416,6 +448,7 @@ extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHe
     bool success = mm::DumpMemory(fd, isStrip);
     mm::ResumeThreads();
     return success;
+#endif
 }
 
 NO_SAFEPOINT

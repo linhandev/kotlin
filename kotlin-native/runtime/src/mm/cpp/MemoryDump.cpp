@@ -33,6 +33,15 @@
 #define LOG_TAG "DEBUG_MEMORYDUMP"
 #endif
 
+#ifdef ENABLE_CRT
+#include "crt/cpp/HeapInterface.hpp"
+#include "crt/cpp/KNBaseObject.hpp"
+#include "common_components/heap/allocator/region_desc.h"
+#include "common_components/heap/allocator/region_manager.h"
+#include "common_components/heap/heap.h"
+#include "common_interfaces/objects/ref_field.h"
+#endif
+
 constexpr auto kTagMemDump = kotlin::logging::Tag::kMemoryDump;
 
 namespace kotlin::mm {
@@ -249,11 +258,26 @@ public:
             }
         }
 
+#ifdef ENABLE_CRT
+        checkUseCRT<CheckMode::Slow>([&] {
+            // safe=false: caller already holds ScopedStopTheWorld.
+            common::Heap::GetHeap().ForEachObject([&](common::BaseObject* baseObj) {
+                DumpTransitively(reinterpret_cast<ObjHeader*>(baseObj));
+            }, false);
+        }, [&] {
+            RuntimeLogInfo({kTagMemDump}, "Dumping objects from the heap");
+            GlobalData::Instance().allocator().TraverseAllocatedObjects([&](auto obj) { DumpTransitively(obj); });
+
+            RuntimeLogInfo({kTagMemDump}, "Dumping extra objects from the heap");
+            GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) { DumpTransitively(extraObj); });
+        });
+#else
         RuntimeLogInfo({kTagMemDump}, "Dumping objects from the heap");
         GlobalData::Instance().allocator().TraverseAllocatedObjects([&](auto obj) { DumpTransitively(obj); });
 
         RuntimeLogInfo({kTagMemDump}, "Dumping extra objects from the heap");
         GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) { DumpTransitively(extraObj); });
+#endif
 
         RuntimeLogInfo({kTagMemDump}, "Dumping stable references");
         DumpStableRefs();
@@ -331,8 +355,49 @@ private:
         size_t dataSize = size - dataOffset;
         uint8_t* data = reinterpret_cast<uint8_t*>(obj) + dataOffset;
 
+        // For CRT mode, use RefField::GetTargetObject() to get clean pointers (without high 16 bits)
+#ifdef ENABLE_CRT
+        checkUseCRT<CheckMode::Slow>([&] {
+            // Resize buffer if needed and copy object data
+            if (dataBuffer_.size() < dataSize) {
+                dataBuffer_.resize(dataSize);
+            }
+            std::memcpy(dataBuffer_.data(), data, dataSize);
+            
+            // Iterate reference fields and use RefField::GetTargetObject() to get clean pointers
+            traverseClassObjectFields(obj, [&](auto accessor) noexcept {
+                ObjHeader** fieldPtr = accessor.direct().location();
+                size_t fieldOffset = reinterpret_cast<uintptr_t>(fieldPtr) - reinterpret_cast<uintptr_t>(obj) - dataOffset;
+                if (fieldOffset < dataSize) {
+                    // Interpret the field as RefField and use GetTargetObject() to get clean pointer
+                    auto* refField = reinterpret_cast<common::RefField<false>*>(fieldPtr);
+                    uintptr_t cleanValue = reinterpret_cast<uintptr_t>(refField->GetTargetObject());
+                    
+                    // Check if reference points to a free/invalid object, set to null
+                    if (cleanValue != 0 && cleanValue != 1 && common::Heap::IsHeapAddress(cleanValue)) {
+                        auto* refRegion = common::RegionDesc::GetRegionDescAt(cleanValue);
+                        if ((refRegion->IsMonoSizeNonMovableRegion() && 
+                             refRegion->IsFreeNonMovableObject(reinterpret_cast<common::BaseObject*>(cleanValue)))) {
+                            cleanValue = 0;  // Set to null
+                        }
+                    }
+                    
+                    // Write clean pointer to buffer
+                    *reinterpret_cast<uintptr_t*>(dataBuffer_.data() + fieldOffset) = cleanValue;
+                }
+            });
+            
+            DumpU32(dataSize);
+            DumpSpan(std_support::span<uint8_t>(dataBuffer_.data(), dataSize));
+        }, [&] {
+            // CMS mode: write raw data directly
+            DumpU32(dataSize);
+            DumpSpan(std_support::span<uint8_t>(data, dataSize));
+        });
+#else
         DumpU32(dataSize);
         DumpSpan(std_support::span<uint8_t>(data, dataSize));
+#endif
     }
 
     void DumpArray(const TypeInfo* type, ArrayHeader* arr) {
@@ -357,7 +422,53 @@ private:
             DumpU32(dataSize);
 
             uint8_t* data = reinterpret_cast<uint8_t*>(arr) + dataOffset;
+            
+            // For CRT mode, use RefField::GetTargetObject() to read reference elements in object arrays
+#ifdef ENABLE_CRT
+            checkUseCRT<CheckMode::Slow>([&] {
+                // Check if this is an object array (elementSize == pointer size)
+                if (elementSize == sizeof(void*)) {
+                    // Resize buffer if needed and copy array data
+                    if (dataBuffer_.size() < dataSize) {
+                        dataBuffer_.resize(dataSize);
+                    }
+                    std::memcpy(dataBuffer_.data(), data, dataSize);
+                    
+                    // Iterate reference elements and use RefField::GetTargetObject() to get clean pointers
+                    traverseArrayOfObjectsElements(arr, [&](auto accessor) noexcept {
+                        ObjHeader** elemPtr = accessor.direct().location();
+                        size_t elemOffset = reinterpret_cast<uintptr_t>(elemPtr) - reinterpret_cast<uintptr_t>(arr) - dataOffset;
+                        if (elemOffset < dataSize) {
+                            // Interpret the element as RefField and use GetTargetObject() to get clean pointer
+                            auto* refField = reinterpret_cast<common::RefField<false>*>(elemPtr);
+                            uintptr_t cleanValue = reinterpret_cast<uintptr_t>(refField->GetTargetObject());
+                            
+                            // Check if reference points to a free/invalid object, set to null
+                            if (cleanValue != 0 && cleanValue != 1 && common::Heap::IsHeapAddress(cleanValue)) {
+                                auto* refRegion = common::RegionDesc::GetRegionDescAt(cleanValue);
+                                if ((refRegion->IsMonoSizeNonMovableRegion() && 
+                                     refRegion->IsFreeNonMovableObject(reinterpret_cast<common::BaseObject*>(cleanValue)))) {
+                                    cleanValue = 0;  // Set to null
+                                }
+                            }
+                            
+                            // Write clean pointer to buffer
+                            *reinterpret_cast<uintptr_t*>(dataBuffer_.data() + elemOffset) = cleanValue;
+                        }
+                    });
+                    
+                    DumpSpan(std_support::span<uint8_t>(dataBuffer_.data(), dataSize));
+                } else {
+                    // Primitive array: write raw data directly
+                    DumpSpan(std_support::span<uint8_t>(data, dataSize));
+                }
+            }, [&] {
+                // CMS mode: write raw data directly
+                DumpSpan(std_support::span<uint8_t>(data, dataSize));
+            });
+#else
             DumpSpan(std_support::span<uint8_t>(data, dataSize));
+#endif
         }
     }
 
@@ -368,6 +479,39 @@ private:
         } else {
             DumpObject(type, obj);
         }
+    }
+
+    void EnqueuePermanentRefs(ObjHeader* obj) {
+        checkUseCRT<CheckMode::Slow>([&] {
+            auto enqueueRef = [&](ObjHeader* refObj) {
+                // Skip null or marker values
+                if (isNullOrMarker(refObj)) return;
+                // Skip heap addresses - they will be processed normally through the heap traversal
+                if (common::Heap::IsHeapAddress(reinterpret_cast<void*>(refObj))) return;
+                // check if it's a valid permanent.
+                if (!refObj->permanent()) return;
+                Enqueue(refObj);
+            };
+
+            const TypeInfo* type = obj->type_info();
+            if (type == theArrayTypeInfo) {
+                // Use traverseArrayOfObjectsElements to iterate reference elements
+                traverseArrayOfObjectsElements(obj->array(), [&](auto accessor) noexcept {
+                    // Use RefField::GetTargetObject() to get clean pointer (without high 16 bits)
+                    auto* refField = reinterpret_cast<common::RefField<false>*>(accessor.direct().location());
+                    ObjHeader* refObj = reinterpret_cast<ObjHeader*>(refField->GetTargetObject());
+                    enqueueRef(refObj);
+                });
+            } else {
+                // Use traverseClassObjectFields to iterate reference fields
+                traverseClassObjectFields(obj, [&](auto accessor) noexcept {
+                    // Use RefField::GetTargetObject() to get clean pointer (without high 16 bits)
+                    auto* refField = reinterpret_cast<common::RefField<false>*>(accessor.direct().location());
+                    ObjHeader* refObj = reinterpret_cast<ObjHeader*>(refField->GetTargetObject());
+                    enqueueRef(refObj);
+                });
+            }
+        });
     }
 
     void DumpType(const TypeInfo* type) {
@@ -454,9 +598,11 @@ private:
 
             DumpObjectOrArray(obj);
 
-            // Enqueue referred objects to dump, as dumping them recursively may cause
-            // stack overflow.
-            traverseReferredObjects(obj, [&](auto refObj) { Enqueue(refObj); });
+            checkUseCRT<CheckMode::Slow>([&] {
+                EnqueuePermanentRefs(obj);
+            }, [&] {
+                traverseReferredObjects(obj, [&](auto refObj) { Enqueue(refObj); });
+            });
         }
     }
 
@@ -465,7 +611,14 @@ private:
         DumpU8(TAG_EXTRA_OBJECT);
         DumpId(extraObj);
 
-        ObjHeader* baseObj = extraObj->GetBaseObject();
+        ObjHeader* baseObj = nullptr;
+        checkUseCRT<CheckMode::Slow>([&] {
+            extraObj->forEachRefField([&](ObjHeader* ref) {
+                baseObj = ref;
+            });
+        }, [&] {
+            baseObj = extraObj->GetBaseObject();
+        });
         DumpId(baseObj);
 
         if (!isNullOrMarker(baseObj)) {
@@ -577,6 +730,12 @@ private:
     std::queue<ObjHeader*> objQueue_;
 
     bool isStrip_ = false;
+
+#ifdef ENABLE_CRT
+    // Reusable buffer for CRT mode to avoid per-object heap allocation
+    // when copying object/array data for pointer cleaning.
+    std::vector<uint8_t> dataBuffer_;
+#endif
 };
 
 void PrepareForMemoryDump() {
@@ -606,22 +765,22 @@ bool DumpMemory(int fd, bool isStrip) noexcept {
 
     bool success = true;
     try {
-#ifndef KONAN_OHOS
+ #ifndef KONAN_OHOS
         DumpMemoryOrThrow(fd, isStrip);
-#else
-        OH_LOG_INFO(LOG_APP, "Attempting to fork process for memory dump.");
-        int pid = fork();
-        OH_LOG_INFO(LOG_APP, "Forked process %d for memory dump.", pid);
-        if (pid < 0) {
-            OH_LOG_ERROR(LOG_APP, "Failed to fork process for memory dump.");
-            return false;
-        }
-        if (pid == 0) {
-            DumpMemoryOrThrow(fd, isStrip);
-            OH_LOG_INFO(LOG_APP, "Forked process memory dump done.");
-            exit(0);
-        }
-#endif
+ #else
+         OH_LOG_INFO(LOG_APP, "Attempting to fork process for memory dump.");
+         int pid = fork();
+         OH_LOG_INFO(LOG_APP, "Forked process %d for memory dump.", pid);
+         if (pid < 0) {
+             OH_LOG_ERROR(LOG_APP, "Failed to fork process for memory dump.");
+             return false;
+         }
+         if (pid == 0) {
+             DumpMemoryOrThrow(fd, isStrip);
+             OH_LOG_INFO(LOG_APP, "Forked process memory dump done.");
+             exit(0);
+         }
+ #endif
     } catch (const std::system_error& e) {
         success = false;
         RuntimeLogError({kTagMemDump}, "Memory dump error: %s", e.what());
