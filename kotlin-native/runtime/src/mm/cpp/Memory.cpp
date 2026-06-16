@@ -387,7 +387,8 @@ extern "C" void Kotlin_native_internal_GC_collect(ObjHeader*) {
     checkUseCRT<CheckMode::Slow>([] {
         auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
         threadData->RuntimeSetLastFrame();
-        common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER, false, common::GCType::GC_TYPE_FULL);
+        // sync GC, be consistent with `scheduleAndWaitFinalized`
+        common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_FORCE, false, common::GCType::GC_TYPE_FULL);
         common::UpdateThreadLocalDataReg();
     }, [] {
 #ifdef ENABLE_STACKMAP
