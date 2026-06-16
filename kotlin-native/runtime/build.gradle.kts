@@ -37,14 +37,10 @@ val breakpadRepo = providers.gradleProperty("breakpadGitRepo")
         .orElse(providers.environmentVariable("BREAKPAD_GIT_REPO"))
         .getOrElse("https://github.com/google/breakpad.git")
 
-val breakpadRevision = providers.gradleProperty("breakpadGitRevision")
-        .orElse(providers.environmentVariable("BREAKPAD_GIT_REVISION"))
-        .getOrElse("v2024.02.16")
-
 val downloadBreakpad = tasks.register<GitDownloadTask>("downloadBreakpad") {
     description = "Retrieves Breakpad sources"
     repository.set(URI.create(breakpadRepo))
-    revision.set(breakpadRevision)
+    revision.set("v2024.02.16")
     outputDirectory.set(layout.buildDirectory.dir("breakpad"))
 }
 

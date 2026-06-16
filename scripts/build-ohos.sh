@@ -36,9 +36,6 @@ set -e # Exit immediately on error
 
 START_TIME=$(date +%s)
 
-unset M2_HOME
-unset MAVEN_HOME
-
 # --- Configuration ---
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd -P)
 ROOT_DIR=$(cd "$SCRIPT_DIR"/../ && pwd -P)
@@ -59,11 +56,10 @@ else
 fi
 
 # Settings
-DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.21-OH-001}
+DEPLOY_VERSION=${DEPLOY_VERSION:-2.2.255-SNAPSHOT}
 USE_CN_MIRROR=${USE_CN_MIRROR:-true}
 CN_MIRROR_PROVIDER=${CN_MIRROR_PROVIDER:-aliyun}
 BREAKPAD_GIT_REPO=${BREAKPAD_GIT_REPO:-https://gitee.com/mirrors/breakpad.git}
-BREAKPAD_GIT_REVISION=${BREAKPAD_GIT_REVISION:-v2024.02.16}
 MAVEN_MAX_RETRIES=${MAVEN_MAX_RETRIES:-3}
 MAVEN_RETRY_DELAY_SECONDS=${MAVEN_RETRY_DELAY_SECONDS:-3}
 CN_MIRROR_INIT_SCRIPT="$ROOT_DIR/.gradle-cn-mirror.init.gradle.kts"
@@ -75,11 +71,9 @@ echo "ROOT_DIR       = $ROOT_DIR"
 echo "DEPLOY_VERSION = $DEPLOY_VERSION"
 echo "USE_CN_MIRROR  = $USE_CN_MIRROR"
 echo "MIRROR_PROVIDER= $CN_MIRROR_PROVIDER"
-echo "MAVEN_RETRIES  = $MAVEN_MAX_RETRIES"
 if [[ -n "$BREAKPAD_GIT_REPO" ]]; then
   echo "BREAKPAD_REPO = $BREAKPAD_GIT_REPO"
 fi
-echo "BREAKPAD_REV  = $BREAKPAD_GIT_REVISION"
 if [[ "$USE_CN_MIRROR" == "true" ]]; then
   echo "MAVEN_MIRROR   = (enabled, provider-based)"
 fi
@@ -87,7 +81,6 @@ echo "ARCH           = $(uname -m)"
 echo "USER           = $(whoami)"
 echo "========================================"
 
-# Check JDK 1.8
 # Check JDK 1.8
 if [ -z "$JDK_18" ]; then
   if [[ "$(uname -s)" == "Darwin" ]]; then
@@ -106,6 +99,13 @@ fi
 if [ -z "$JDK_18" ]; then
   echo "❌ Error: JDK 1.8 is required."
   echo "   Please install JDK 8 and run: export JDK_18=<path_to_jdk_8>"
+  exit 1
+fi
+
+# Maven wrapper requires unzip: without it, it downloads .tar.gz but validates with the .zip checksum → failure
+if ! command -v unzip >/dev/null 2>&1; then
+  echo "❌ Error: unzip is required."
+  echo "   Please install unzip and re-run."
   exit 1
 fi
 
@@ -157,13 +157,6 @@ if [[ "$(uname -s)" == MINGW* ]] && { [ -z "${INCLUDE:-}" ] || [ -z "${LIB:-}" ]
   fi
 fi
 
-# Maven wrapper requires unzip: without it, it downloads .tar.gz but validates with the .zip checksum → failure
-if ! command -v unzip >/dev/null 2>&1; then
-  echo "❌ Error: unzip is required."
-  echo "   Please install unzip and re-run."
-  exit 1
-fi
-
 STEP=1
 STEP_MESSAGE=""
 
@@ -201,15 +194,6 @@ function cleanUp() {
 
 # Register cleanUp to run on ANY exit
 trap cleanUp EXIT
-
-function readHostArch() {
-  if [[ "$(uname -m)" == "arm64" ]]; then
-      ARCH=aarch64
-  else
-      ARCH=x86_64
-  fi
-  echo "Build on $ARCH."
-}
 
 MIRROR_INIT_ARGS=()
 
@@ -330,65 +314,6 @@ function run_maven() {
   fi
 }
 
-function cleanDependencyCache() {
-  echo "🧹 Cleaning dependency caches to avoid pollution..."
-
-  # Clean Gradle project-level cache
-  echo " attempt to remove $ROOT_DIR/.gradle."
-  if [[ -d "$ROOT_DIR/.gradle" ]]; then
-    rm -rf "$ROOT_DIR/.gradle"
-    echo "   Removed project .gradle cache."
-  fi
-
-  # Clean Gradle global downloaded dependencies
-  local gradleHome="${GRADLE_USER_HOME:-$HOME/.gradle}"
-  echo " attempt to remove $gradleHome/caches/modules-2."
-  if [[ -d "$gradleHome/caches/modules-2" ]]; then
-    rm -rf "$gradleHome/caches/modules-2"
-    echo "   Removed $gradleHome/caches/modules-2."
-  fi
-
- echo "  attempt to remove $HOME/.m2/repository."
-  if [[ -d "$HOME/.m2/repository" ]]; then
-    rm -rf "$HOME/.m2/repository"
-    echo "   Removed $HOME/.m2/repository."
-  fi
-
-  # Clean Kotlin Native toolchain cache
-  local konanHome="${KONAN_DATA_DIR:-$HOME/.konan}"
-   echo " attempt to remove $konanHome/dependencies."
-  if [[ -d "$konanHome/dependencies" ]]; then
-    rm -rf "$konanHome/dependencies"
-    echo "   Removed $konanHome/dependencies."
-  fi
-
-  echo "✅ Dependency cache cleaned."
-}
-
-function cleanMavenStaleParts() {
-  local repoDir="$HOME/.m2/repository"
-  if [[ ! -d "$repoDir" ]]; then
-    return
-  fi
-
-  local deletedPartCount=0
-  local deletedLockCount=0
-
-  while IFS= read -r partFile; do
-    rm -f "$partFile"
-    ((deletedPartCount++))
-  done < <(command find "$repoDir" -type f -name '*.part' 2>/dev/null)
-
-  while IFS= read -r lockFile; do
-    rm -f "$lockFile"
-    ((deletedLockCount++))
-  done < <(command find "$repoDir" -type f -name '*.lock' 2>/dev/null)
-
-  if (( deletedPartCount > 0 || deletedLockCount > 0 )); then
-    echo "🧼 Cleared stale Maven temp files: .part=$deletedPartCount .lock=$deletedLockCount"
-  fi
-}
-
 function run_maven_with_retry() {
   local attempt=1
   local maxAttempts=$MAVEN_MAX_RETRIES
@@ -403,8 +328,6 @@ function run_maven_with_retry() {
       return 1
     fi
 
-    echo "⚠️ Maven command failed (attempt $attempt/$maxAttempts), cleaning stale temp files and retrying in ${MAVEN_RETRY_DELAY_SECONDS}s..."
-    cleanMavenStaleParts
     sleep "$MAVEN_RETRY_DELAY_SECONDS"
     ((attempt++))
   done
@@ -415,9 +338,6 @@ function run_gradle() {
 
   if [[ -n "$BREAKPAD_GIT_REPO" ]]; then
     GRADLE_ARGS+=(-PbreakpadGitRepo="$BREAKPAD_GIT_REPO")
-  fi
-  if [[ -n "$BREAKPAD_GIT_REVISION" ]]; then
-    GRADLE_ARGS+=(-PbreakpadGitRevision="$BREAKPAD_GIT_REVISION")
   fi
 
   ./gradlew "${GRADLE_ARGS[@]}" "$@"
@@ -430,20 +350,17 @@ function GRADLE_NATIVE() {
     -Pversions.kotlin-native="$DEPLOY_VERSION"
     -PkonanVersion="$DEPLOY_VERSION"
     -Pkotlin.native.enabled=true
+    -Pbootstrap.kotlin.version="$DEPLOY_VERSION"
+    -Pbootstrap.local=true
+    -Pbootstrap.local.version="$DEPLOY_VERSION"
     --dependency-verification=off
   )
-
-  # Use local bootstrap
-  GRADLE_ARGS+=(-Pbootstrap.kotlin.version="$DEPLOY_VERSION")
-  GRADLE_ARGS+=(-Pbootstrap.local=true)
-  GRADLE_ARGS+=(-Pbootstrap.local.version="$DEPLOY_VERSION")
 
   run_gradle "${GRADLE_ARGS[@]}" "$@"
 }
 
 # --- Main Build Script ---
 
-readHostArch
 prepareCnMirrorInitScript
 prepareCnMirrorMavenSettings
 
@@ -455,12 +372,6 @@ echo "kotlin.build.isObsoleteJdkOverrideEnabled=true" >> "$ROOT_DIR/local.proper
 
 # Stop existing daemons
 run_gradle --stop
-
-# Clean dependency caches before build to avoid stale/polluted artifacts
-cleanDependencyCache
-
-# Update versions in pom.xml
-run_maven_with_retry -DnewVersion=$DEPLOY_VERSION -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
 
 # 1. Build part of kotlin and publish it to the local maven repository and to build/repo directory
 stepBegin "Build part of kotlin and publish it to the local maven repository and to build/repo directory"
@@ -476,6 +387,7 @@ stepEnd
 
 # 2. Build maven part and publish it to the same build/repo
 stepBegin "Build maven part and publish it to the same build/repo"
+run_maven_with_retry -DnewVersion=$DEPLOY_VERSION -DgenerateBackupPoms=false -DprocessAllModules=true -f "$ROOT_DIR/libraries/pom.xml" versions:set
 if [[ "$(uname -s)" == MINGW* ]] || [[ "$(uname -s)" == MSYS* ]] || [[ "$(uname -s)" == CYGWIN* ]]; then
   ROOT_DIR_WIN=$(cygpath -w "$ROOT_DIR" | sed 's/\\/\//g')
   MAVEN_DEPLOY_URL="file:///$ROOT_DIR_WIN/build/repo"
@@ -487,28 +399,17 @@ run_maven_with_retry \
   -f "$ROOT_DIR/libraries/pom.xml" \
   clean deploy \
   -Ddeploy-url="$MAVEN_DEPLOY_URL" \
+  -Ddeploy-snapshot-url="$MAVEN_DEPLOY_URL" \
   -DskipTests
 stepEnd
 
-# --- Critical Check: Verify BOM Existence ---
-BOM_CHECK_PATH="$ROOT_DIR/build/repo/org/jetbrains/kotlin/kotlin-bom/$DEPLOY_VERSION/kotlin-bom-$DEPLOY_VERSION.pom"
-if [[ ! -f "$BOM_CHECK_PATH" ]]; then
-  echo "❌ Critical Error: Kotlin BOM was not found at expected path after Maven build:"
-  echo "   Missing: $BOM_CHECK_PATH"
-  echo "   Reason: The Maven 'deploy' step failed to output files to build/repo."
-  exit 1
-else
-  echo "🔍 Verified: Kotlin BOM exists. Proceeding to Native build."
-fi
 
 # 3. Clean Kotlin Native
 stepBegin "Clean Kotlin Native dist."
 if [[ -d "./kotlin-native/dist" ]]; then
   rm -Rf ./kotlin-native/dist
 fi
-# Use --refresh-dependencies to force refresh cache
-GRADLE_NATIVE :kotlin-native:clean --refresh-dependencies
-# GRADLE_NATIVE :kotlin-native:clean
+GRADLE_NATIVE :kotlin-native:clean
 stepEnd
 
 # 4. Bundle Compiler
@@ -522,8 +423,10 @@ stepBegin "Publish Kotlin Native compiler to local."
 GRADLE_NATIVE :kotlin-native:publishBundlePrebuiltPublicationToMavenRepository
 stepEnd
 
-# Final cleanup is handled by 'trap' automatically.
-cd - > /dev/null
+# 6. Smoke Test
+stepBegin "Run Kotlin Native smoke tests."
+GRADLE_NATIVE :kotlin-native:smokeTest
+stepEnd
 
 ELAPSED=$(($(date +%s) - START_TIME))
 echo ""
