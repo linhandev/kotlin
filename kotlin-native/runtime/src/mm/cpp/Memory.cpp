@@ -121,8 +121,7 @@ extern "C" void DeinitMemory(MemoryState* state, bool destroyRuntime) {
         node->Get()->ClearThreadHolder();
         if (destroyRuntime) {
             // CRT will properly stop its own GC and Finalizer threads upon destruction.
-            // No other running threads are expected to exist by this point,
-            // so we pass `nullptr` instead of the `state` to avoid stopping the world before destruction.
+            // No other running threads are expected to exist by this point.
             DestroyCRTRuntime();
         }
     }, [&] {
