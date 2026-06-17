@@ -390,7 +390,13 @@ if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
         group = "build"
         description = "Build libcrt.so from third-party/common-rt for ohos_arm64."
         workingDir = commonRtDir
-        commandLine "./build.sh", "--ohos=${sdkPath ?: ''}"
+        if (PlatformInfo.isWindows()) {
+            // Gradle's Exec spawns a native process; on Windows it can't launch a .sh directly.
+            // Drive build.sh through Git Bash's bash. Git/bin should be in environment PATH.
+            commandLine "sh", "build.sh", "--ohos=${sdkPath ?: ''}"
+        } else {
+            commandLine "./build.sh", "--ohos=${sdkPath ?: ''}"
+        }
         // fileTree (not inputs.dir): tolerates a missing submodule at snapshot time;
         // the doFirst check below produces an actionable message.
         inputs.files(fileTree(commonRtDir) {
