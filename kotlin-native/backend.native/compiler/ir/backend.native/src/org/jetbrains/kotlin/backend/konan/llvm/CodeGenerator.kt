@@ -711,6 +711,22 @@ internal abstract class FunctionGenerationContext(
 
         appendingTo(prologueBb) {
             val slotAddress = LLVMBuildAlloca(builder, type, name)!!
+            // Precise-stackmap (ON) path forces local reference variables to
+            // isObjectType=false (see VariableManager.createMutable), so they land here as
+            // plain allocas instead of the zero-initialized shadow-stack slot array. The
+            // coroutine state machine can spill such a slot into the heap continuation
+            // (UpdateHeapRef) BEFORE its first assignment — e.g. a loop-carried `val` whose
+            // only real store is on the resume path. Without zeroing, uninitialized stack
+            // garbage escapes into a heap ref field that the GC scans unconditionally ->
+            // SIGSEGV@0x0 in markInSTW (observed under splitBC, whose stack layout leaves the
+            // slot non-null where the unsplit layout happened to be null). Mirror the OFF
+            // shadow-stack root-array memset by null-initializing ref slots in the prologue so
+            // an unassigned slot reads as null. For the common store-before-load local this
+            // null store is overwritten before any load and DCE'd away (zero cost); it only
+            // survives where a load can precede the first store — exactly the unsafe case.
+            if (enableStackmap && type == llvm.kObjHeaderRef) {
+                LLVMBuildStore(builder, llvm.kNullObjHeaderRef, slotAddress)
+            }
             variableLocation?.let {
                 DIInsertDeclaration(
                         builder = generationState.debugInfo.builder,
