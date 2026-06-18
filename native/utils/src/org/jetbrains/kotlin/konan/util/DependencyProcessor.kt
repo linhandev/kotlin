@@ -28,6 +28,14 @@ import java.net.URL
 import java.net.UnknownHostException
 import java.nio.file.Paths
 
+internal fun parseDependenciesUrls(dependenciesUrl: String): List<String> {
+    val urls = dependenciesUrl.split(',').map { it.trim() }.filter { it.isNotEmpty() }
+    if (urls.isEmpty()) {
+        throw IllegalStateException("No dependencies URLs configured in dependenciesUrl")
+    }
+    return urls
+}
+
 private val Properties.dependenciesUrl: String
     get() = getProperty("dependenciesUrl")
         ?: throw IllegalStateException("No such property in konan.properties: dependenciesUrl")
@@ -82,12 +90,14 @@ sealed class DependencySource {
 }
 
 /**
- * Inspects [dependencies] and downloads all the missing ones into [dependenciesDirectory] from [dependenciesUrl].
+ * Inspects [dependencies] and downloads all the missing ones into [dependenciesDirectory].
+ * [dependenciesUrl] may contain multiple comma-separated repository base URLs. For each dependency,
+ * repositories are searched in order; the first repository that contains the archive is used.
  * If [airplaneMode] is true will throw a RuntimeException instead of downloading.
  */
 class DependencyProcessor(
     dependenciesRoot: File,
-    private val dependenciesUrl: String,
+    dependenciesUrl: String,
     dependencyToCandidates: Map<String, List<DependencySource>>,
     homeDependencyCache: File = DependencyDirectories.getDependencyCacheDir(dependenciesRoot.absolutePath),
     private val airplaneMode: Boolean = false,
@@ -98,6 +108,7 @@ class DependencyProcessor(
     private val deleteArchives: Boolean = true,
     private val archiveType: ArchiveType = ArchiveType.systemDefault,
 ) {
+    private val dependenciesUrls = parseDependenciesUrls(dependenciesUrl)
 
     private val dependenciesDirectory by lazy {
         dependenciesRoot.apply { mkdirs() }
@@ -177,13 +188,12 @@ class DependencyProcessor(
         }
     }
 
-    private fun downloadDependency(dependency: String, baseUrl: String, archiveExtractor: ArchiveExtractor) {
+    private fun downloadDependency(dependency: String, baseUrls: List<String>, archiveExtractor: ArchiveExtractor) {
         val depDir = File(dependenciesDirectory, dependency)
         val depName = depDir.name
 
         val fileName = "$depName.${archiveType.fileExtension}"
         val archive = cacheDirectory.resolve(fileName)
-        val url = URL("$baseUrl/$fileName")
 
         val extractedDependencies = DependencyFile(dependenciesDirectory, ".extracted")
         if (extractedDependencies.contains(depName) &&
@@ -213,7 +223,7 @@ class DependencyProcessor(
                     Set `airplaneMode = false` in konan.properties to download it.
                 """.trimIndent())
             }
-            downloader.download(url, archive)
+            downloader.download(findDependencyArchiveUrl(baseUrls, fileName), archive)
         }
         println("Extracting dependency: $archive into $dependenciesDirectory")
         archiveExtractor.extract(archive, dependenciesDirectory, archiveType)
@@ -221,6 +231,19 @@ class DependencyProcessor(
             archive.delete()
         }
         extractedDependencies.addAndSave(depName)
+    }
+
+    private fun findDependencyArchiveUrl(baseUrls: List<String>, fileName: String): URL {
+        for (baseUrl in baseUrls) {
+            val url = URL("$baseUrl/$fileName")
+            if (downloader.resourceExists(url)) {
+                return url
+            }
+        }
+        throw FileNotFoundException(
+                "Dependency archive $fileName is not found in any of the configured repositories:\n" +
+                        baseUrls.joinToString("\n") { "  $it" }
+        )
     }
 
     companion object {
@@ -300,16 +323,18 @@ class DependencyProcessor(
             RandomAccessFile(lockFile, "rw").use {
                 it.channel.lock().use {
                     remoteDependencies.forEach { (dependency, candidate) ->
-                        val baseUrl = when (candidate) {
-                            is DependencySource.Remote.Public -> if (candidate.subDirectory != null) {
-                                "$dependenciesUrl/${candidate.subDirectory}"
-                            } else {
-                                dependenciesUrl
+                        val baseUrls = when (candidate) {
+                            is DependencySource.Remote.Public -> dependenciesUrls.map { url ->
+                                if (candidate.subDirectory != null) {
+                                    "$url/${candidate.subDirectory}"
+                                } else {
+                                    url
+                                }
                             }
-                            DependencySource.Remote.Internal -> InternalServer.url
+                            DependencySource.Remote.Internal -> listOf(InternalServer.url)
                         }
                         // TODO: consider using different caches for different remotes.
-                        downloadDependency(dependency, baseUrl, archiveExtractor)
+                        downloadDependency(dependency, baseUrls, archiveExtractor)
                     }
                 }
             }

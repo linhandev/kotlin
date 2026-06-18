@@ -12,7 +12,7 @@ plugins {
 }
 
 nativeDependenciesDownloader {
-    repositoryURL.set("https://maven.eazytec-cloud.com/nexus/repository/file-storage")
+    repositoryURL.set("https://cache-redirector.jetbrains.com/download.jetbrains.com/kotlin/native,https://maven.eazytec-cloud.com/nexus/repository/file-storage")
     dependenciesDirectory.set(DependencyDirectories.getDependenciesRoot(kotlinBuildProperties.konanDataDir))
 
     hostTarget {}

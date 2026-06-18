@@ -152,6 +152,46 @@ class DependencyDownloader(
         }
     }
 
+    /**
+     * Checks whether a remote resource is available at [url].
+     * Returns false when the server reports that the resource is missing (HTTP 404).
+     */
+    fun resourceExists(url: URL): Boolean {
+        val connection = url.openConnection() as? HttpURLConnection
+                ?: error("Only HTTP(S) dependency repositories are supported: $url")
+        connection.instanceFollowRedirects = true
+        connection.requestMethod = "HEAD"
+        connection.connect()
+        try {
+            return when (connection.responseCode) {
+                HttpURLConnection.HTTP_OK -> true
+                HttpURLConnection.HTTP_NOT_FOUND -> false
+                HttpURLConnection.HTTP_BAD_METHOD, HttpURLConnection.HTTP_NOT_IMPLEMENTED ->
+                    resourceExistsWithRangeGet(url)
+                else -> throw HTTPResponseException(url, connection.responseCode)
+            }
+        } finally {
+            connection.disconnect()
+        }
+    }
+
+    private fun resourceExistsWithRangeGet(url: URL): Boolean {
+        val connection = url.openConnection() as HttpURLConnection
+        connection.instanceFollowRedirects = true
+        connection.requestMethod = "GET"
+        connection.setRequestProperty("Range", "bytes=0-0")
+        connection.connect()
+        try {
+            return when (connection.responseCode) {
+                HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_PARTIAL -> true
+                HttpURLConnection.HTTP_NOT_FOUND -> false
+                else -> throw HTTPResponseException(url, connection.responseCode)
+            }
+        } finally {
+            connection.disconnect()
+        }
+    }
+
     /** Downloads a file from [source] url to [destination]. Returns [destination]. */
     fun download(source: URL,
                  destination: File,
