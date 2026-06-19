@@ -137,82 +137,53 @@ class DependencyDownloader(
         }
     }
 
-    /** Performs an attempt to download a specified file into the specified location */
-    private fun tryDownload(url: URL, tmpFile: File) {
+    private enum class TryDownloadResult {
+        SUCCESS,
+        NOT_FOUND,
+    }
+
+    /** Performs a single download attempt into [tmpFile]. */
+    private fun tryDownload(url: URL, tmpFile: File): TryDownloadResult {
         val connection = url.openConnection()
-
-        (connection as? HttpURLConnection)?.checkHTTPResponse(HttpURLConnection.HTTP_OK, url)
-
-        if (connection is HttpURLConnection && tmpFile.exists()) {
-            resumeDownload(url, connection, tmpFile)
-        } else {
+        if (connection is HttpURLConnection) {
+            connection.instanceFollowRedirects = true
             connection.connect()
-            val totalBytes = connection.contentLengthLong
-            doDownload(url, connection, tmpFile, 0, totalBytes, false)
-        }
-    }
-
-    /**
-     * Checks whether a remote resource is available at [url].
-     * Returns false when the server reports that the resource is missing (HTTP 404).
-     */
-    fun resourceExists(url: URL): Boolean {
-        val connection = url.openConnection() as? HttpURLConnection
-                ?: error("Only HTTP(S) dependency repositories are supported: $url")
-        connection.instanceFollowRedirects = true
-        connection.requestMethod = "HEAD"
-        connection.connect()
-        try {
-            return when (connection.responseCode) {
-                HttpURLConnection.HTTP_OK -> true
-                HttpURLConnection.HTTP_NOT_FOUND -> false
-                HttpURLConnection.HTTP_BAD_METHOD, HttpURLConnection.HTTP_NOT_IMPLEMENTED ->
-                    resourceExistsWithRangeGet(url)
+            when (connection.responseCode) {
+                HttpURLConnection.HTTP_NOT_FOUND -> {
+                    connection.disconnect()
+                    return TryDownloadResult.NOT_FOUND
+                }
+                HttpURLConnection.HTTP_OK -> {
+                    if (tmpFile.exists()) {
+                        resumeDownload(url, connection, tmpFile)
+                    } else {
+                        val totalBytes = connection.contentLengthLong
+                        doDownload(url, connection, tmpFile, 0, totalBytes, false)
+                    }
+                    return TryDownloadResult.SUCCESS
+                }
                 else -> throw HTTPResponseException(url, connection.responseCode)
             }
-        } finally {
-            connection.disconnect()
         }
-    }
 
-    private fun resourceExistsWithRangeGet(url: URL): Boolean {
-        val connection = url.openConnection() as HttpURLConnection
-        connection.instanceFollowRedirects = true
-        connection.requestMethod = "GET"
-        connection.setRequestProperty("Range", "bytes=0-0")
         connection.connect()
-        try {
-            return when (connection.responseCode) {
-                HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_PARTIAL -> true
-                HttpURLConnection.HTTP_NOT_FOUND -> false
-                else -> throw HTTPResponseException(url, connection.responseCode)
-            }
-        } finally {
-            connection.disconnect()
-        }
+        val totalBytes = connection.contentLengthLong
+        doDownload(url, connection, tmpFile, 0, totalBytes, false)
+        return TryDownloadResult.SUCCESS
     }
 
-    /** Downloads a file from [source] url to [destination]. Returns [destination]. */
-    fun download(source: URL,
-                 destination: File,
-                 replace: ReplacingMode = ReplacingMode.RETURN_EXISTING): File {
-
-        if (destination.exists()) {
-            when (replace) {
-                ReplacingMode.RETURN_EXISTING -> return destination
-                ReplacingMode.THROW -> throw FileAlreadyExistsException(destination)
-                ReplacingMode.REPLACE -> Unit // Just continue with downloading.
-            }
-        }
-        val tmpFile = File("${destination.canonicalPath}.$TMP_SUFFIX")
-
-        check(!tmpFile.isDirectory) {
-            "A temporary file is a directory: ${tmpFile.canonicalPath}. Remove it and try again."
-        }
+    private fun prepareDownloadDestination(destination: File): File {
         check(!destination.isDirectory) {
             "The destination file is a directory: ${destination.canonicalPath}. Remove it and try again."
         }
+        val tmpFile = File("${destination.canonicalPath}.$TMP_SUFFIX")
+        check(!tmpFile.isDirectory) {
+            "A temporary file is a directory: ${tmpFile.canonicalPath}. Remove it and try again."
+        }
+        return tmpFile
+    }
 
+    private fun downloadWithRetries(source: URL, destination: File, tmpFile: File): TryDownloadResult {
         println("Downloading dependency $source to $destination")
 
         var attempt = 1
@@ -230,8 +201,10 @@ class DependencyDownloader(
         }
         while (true) {
             try {
-                tryDownload(source, tmpFile)
-                break
+                when (tryDownload(source, tmpFile)) {
+                    TryDownloadResult.SUCCESS -> return TryDownloadResult.SUCCESS
+                    TryDownloadResult.NOT_FOUND -> return TryDownloadResult.NOT_FOUND
+                }
             } catch (e: HTTPResponseException) {
                 if (e.responseCode >= 500) {
                     // Retry server errors.
@@ -244,9 +217,61 @@ class DependencyDownloader(
                 handleException(e)
             }
         }
+    }
 
+    private fun finalizeDownload(tmpFile: File, destination: File) {
         Files.move(tmpFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING)
         println("Done.")
+    }
+
+    /**
+     * Downloads [destination] from the first URL in [sources] that serves the file.
+     * A missing archive (HTTP 404) is treated as a normal outcome and triggers the next URL.
+     */
+    fun downloadFirstAvailable(sources: List<URL>, destination: File): URL {
+        require(sources.isNotEmpty()) { "At least one repository URL is required" }
+
+        if (destination.exists()) {
+            return sources.first()
+        }
+
+        val tmpFile = prepareDownloadDestination(destination)
+
+        for (source in sources) {
+            tmpFile.delete()
+            when (downloadWithRetries(source, destination, tmpFile)) {
+                TryDownloadResult.SUCCESS -> {
+                    finalizeDownload(tmpFile, destination)
+                    return source
+                }
+                TryDownloadResult.NOT_FOUND -> Unit
+            }
+        }
+
+        throw FileNotFoundException(
+                "Dependency archive ${destination.name} is not found in any of the configured repositories:\n" +
+                        sources.joinToString("\n") { "  $it" }
+        )
+    }
+
+    /** Downloads a file from [source] url to [destination]. Returns [destination]. */
+    fun download(source: URL,
+                 destination: File,
+                 replace: ReplacingMode = ReplacingMode.RETURN_EXISTING): File {
+
+        if (destination.exists()) {
+            when (replace) {
+                ReplacingMode.RETURN_EXISTING -> return destination
+                ReplacingMode.THROW -> throw FileAlreadyExistsException(destination)
+                ReplacingMode.REPLACE -> Unit // Just continue with downloading.
+            }
+        }
+
+        val tmpFile = prepareDownloadDestination(destination)
+        when (downloadWithRetries(source, destination, tmpFile)) {
+            TryDownloadResult.SUCCESS -> finalizeDownload(tmpFile, destination)
+            TryDownloadResult.NOT_FOUND -> throw HTTPResponseException(source, HttpURLConnection.HTTP_NOT_FOUND)
+        }
         return destination
     }
 

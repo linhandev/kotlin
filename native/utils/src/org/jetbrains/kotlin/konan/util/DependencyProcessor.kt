@@ -92,7 +92,7 @@ sealed class DependencySource {
 /**
  * Inspects [dependencies] and downloads all the missing ones into [dependenciesDirectory].
  * [dependenciesUrl] may contain multiple comma-separated repository base URLs. For each dependency,
- * repositories are searched in order; the first repository that contains the archive is used.
+ * repositories are tried in order; the first successful download is used.
  * If [airplaneMode] is true will throw a RuntimeException instead of downloading.
  */
 class DependencyProcessor(
@@ -223,7 +223,8 @@ class DependencyProcessor(
                     Set `airplaneMode = false` in konan.properties to download it.
                 """.trimIndent())
             }
-            downloader.download(findDependencyArchiveUrl(baseUrls, fileName), archive)
+            val sources = baseUrls.map { URL("$it/$fileName") }
+            downloader.downloadFirstAvailable(sources, archive)
         }
         println("Extracting dependency: $archive into $dependenciesDirectory")
         archiveExtractor.extract(archive, dependenciesDirectory, archiveType)
@@ -231,19 +232,6 @@ class DependencyProcessor(
             archive.delete()
         }
         extractedDependencies.addAndSave(depName)
-    }
-
-    private fun findDependencyArchiveUrl(baseUrls: List<String>, fileName: String): URL {
-        for (baseUrl in baseUrls) {
-            val url = URL("$baseUrl/$fileName")
-            if (downloader.resourceExists(url)) {
-                return url
-            }
-        }
-        throw FileNotFoundException(
-                "Dependency archive $fileName is not found in any of the configured repositories:\n" +
-                        baseUrls.joinToString("\n") { "  $it" }
-        )
     }
 
     companion object {
