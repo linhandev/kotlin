@@ -189,7 +189,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     }
 
     val splitBCfile: UInt
-        get() = if (target == KonanTarget.OHOS_ARM64) configuration.get(BinaryOptions.splitBCfile) ?: 1u else 1u
+        get() = if (debug || target != KonanTarget.OHOS_ARM64) 1u else configuration.get(BinaryOptions.splitBCfile) ?: 1u
 
     val printToOhosHiLog: Boolean
         get() = configuration.get(BinaryOptions.printToOhosHiLog) ?: (produce != CompilerOutputKind.PROGRAM)
