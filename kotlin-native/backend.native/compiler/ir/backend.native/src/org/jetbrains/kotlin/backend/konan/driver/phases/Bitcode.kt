@@ -152,12 +152,12 @@ internal val RemoveRedundantSafepointsPhase = createSimpleNamedCompilerPhase<Bit
             val expansionMode = if (context.config.enableStackmap)
                 when (context.config.memoryManagerMode) {
                     MemoryManagerMode.CRT ->
-                        if (context.config.enableGcFastpath) SafepointExpansionCrtFastpath
-                        else SafepointExpansionCrtNoFastpath
-                    MemoryManagerMode.NATIVE -> SafepointExpansionNative
-                    else -> SafepointExpansionNone
+                        if (context.config.enableGcFastpath) SAFEPOINT_EXPANSION_CRT_FASTPATH
+                        else SAFEPOINT_EXPANSION_CRT_NO_FASTPATH
+                    MemoryManagerMode.NATIVE -> SAFEPOINT_EXPANSION_NATIVE
+                    else -> SAFEPOINT_EXPANSION_NONE
                 }
-            else SafepointExpansionNone
+            else SAFEPOINT_EXPANSION_NONE
             RemoveRedundantSafepointsPass().runOnModule(
                     module = context.llvm.module,
                     isSafepointInliningAllowed = context.shouldInlineSafepoints(),

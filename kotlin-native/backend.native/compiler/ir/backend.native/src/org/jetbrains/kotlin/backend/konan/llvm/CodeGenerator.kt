@@ -2005,9 +2005,11 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
             }
             // OFF path calls the non-stub safePointFunctionPrologue
             // (lazy-imported); the stub-suffixed symbol is a
-            // precise-stackmap-only patchpoint anchor created via
-            // importRtStubFunction. The ThrowArrayIndexOutOfBoundsException
-            // skip is also stackmap-only (intrinsic optimisation).
+            // precise-stackmap-only patchpoint anchor produced by
+            // importRtFunction's auto-redirect to the *Stub variant (for names
+            // in K2RStubFunctions.names when enableStackmap). The
+            // ThrowArrayIndexOutOfBoundsException skip is also stackmap-only
+            // (intrinsic optimisation).
             if (!forbidRuntime && needSafePoint) {
                 val safepointFn = llvm.Kotlin_mm_safePointFunctionPrologue
                 if (!(enableStackmap && function.name.orEmpty().contains("ThrowArrayIndexOutOfBoundsException"))) {

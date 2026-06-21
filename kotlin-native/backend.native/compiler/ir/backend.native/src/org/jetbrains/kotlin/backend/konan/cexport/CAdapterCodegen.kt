@@ -47,7 +47,8 @@ internal class CAdapterCodegen(
     private fun markKonanFnBridge(funcName: String) {
         if (!context.config.enableStackmap) return
         val fn = LLVMGetNamedFunction(llvm.module, funcName) ?: return
-        val attr = LLVMCreateStringAttribute(llvm.llvmContext, "konan-fn-bridge", 15, "", 0)
+        val attrKey = "konan-fn-bridge"
+        val attr = LLVMCreateStringAttribute(llvm.llvmContext, attrKey, attrKey.length, "", 0)
         LLVMAddAttributeAtIndex(fn, LLVMAttributeFunctionIndex, attr)
     }
 

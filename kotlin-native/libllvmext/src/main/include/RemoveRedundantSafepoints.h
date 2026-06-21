@@ -17,13 +17,13 @@ extern "C" {
 
 // Lowering strategy for the surviving safepoint poll. As a plain (non-typedef) C enum,
 // cinterop exposes it to Kotlin as `typealias SafepointExpansionMode = Int` plus named
-// top-level constants (SafepointExpansionNone, ...) — not a strong enum class — so both
+// top-level constants (SAFEPOINT_EXPANSION_NONE, ...) — not a strong enum class — so both
 // sides share the same names and int values.
 enum SafepointExpansionMode {
-    SafepointExpansionNone          = 0, // RUNTIME_SWITCH / OFF: keep the surviving stub call
-    SafepointExpansionNative        = 1, // global safePointAction; cold edge slowPathStub
-    SafepointExpansionCrtFastpath   = 2, // inline x28 TLS read;   cold edge SafePointSlowPathStub
-    SafepointExpansionCrtNoFastpath = 3, // Kotlin_mm_safePointCheckCRT helper; cold SafePointSlowPathStub
+    SAFEPOINT_EXPANSION_NONE            = 0, // RUNTIME_SWITCH / OFF: keep the surviving stub call
+    SAFEPOINT_EXPANSION_NATIVE          = 1, // global safePointAction; cold edge slowPathStub
+    SAFEPOINT_EXPANSION_CRT_FASTPATH    = 2, // inline x28 TLS read;   cold edge SafePointSlowPathStub
+    SAFEPOINT_EXPANSION_CRT_NO_FASTPATH = 3, // Kotlin_mm_safePointCheckCRT helper; cold SafePointSlowPathStub
 };
 
 // `enableStackmap` (third arg): runtime switch replacing the legacy `#ifndef
@@ -31,7 +31,7 @@ enum SafepointExpansionMode {
 // the surviving safepoint per block into the inline fast/slow poll; pass zero (OFF /
 // shadow-stack) to force-inline the first eligible bare prologue instead.
 // `safepointExpansionMode` (fourth arg): which expanded fast check / cold edge to emit;
-// SafepointExpansionNone keeps the surviving stub call (no expansion).
+// SAFEPOINT_EXPANSION_NONE keeps the surviving stub call (no expansion).
 void LLVMKotlinRemoveRedundantSafepoints(LLVMModuleRef module,
                                          int isSafePointInliningAllowed,
                                          int enableStackmap,

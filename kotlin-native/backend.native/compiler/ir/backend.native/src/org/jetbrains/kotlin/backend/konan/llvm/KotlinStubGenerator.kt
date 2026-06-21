@@ -131,8 +131,9 @@ private fun markN2kCalleesFromCaller(caller: LLVMValueRef, context: LLVMContextR
                     val isBridgeFromKtstub = callerHasKtstub && hasStringFnAttr(callee, "konan-fn-bridge")
                     val isKonanStart = LLVMGetValueName(callee)?.toKString() == "Konan_start"
                     if (isBridgeFromKtstub || isKonanStart) {
+                        val attrKey = "n2k"
                         LLVMAddAttributeAtIndex(callee, LLVMAttributeFunctionIndex,
-                                LLVMCreateStringAttribute(context, "n2k", 3, "", 0))
+                                LLVMCreateStringAttribute(context, attrKey, attrKey.length, "", 0))
                     }
                 }
             }

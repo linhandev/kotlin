@@ -465,12 +465,6 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
             else
                 importFunction(name, runtime.llvmModule, returnsObjectType)
 
-    /** Legacy: explicit Stub-suffixed import. Use [importRtFunction]; it auto-redirects. */
-    @Deprecated("Use importRtFunction; it auto-redirects to Stub variant when applicable",
-            ReplaceWith("importRtFunction(name, returnsObjectType)"))
-    private fun importRtStubFunction(name: String, returnsObjectType: Boolean = false) =
-            importStubFunction(name, runtime.llvmModule, returnsObjectType)
-
     // v3 fp-unwind: KotlinStubGenerator pass emits *Stub variants for K2RStub-annotated entry points.
     //
     // Align with upstream mpcore/crt_dev: codegen must call the `*ForCI` variants (NOT the bare
