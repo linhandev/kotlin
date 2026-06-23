@@ -138,6 +138,25 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
             explicit ?: supportsPreciseStackmapAndCrt
         }
     }
+
+    // Compiler-side mirror of the runtime's `-DENABLE_GC_FASTPATH` (build property
+    // `kotlin.native.gc_fastpath`, applied with `-ffixed-x28` for ohos_arm64 only).
+    // When ON, the CRT prologue-safepoint expansion reads the per-mutator
+    // IsSafePointActive flag through the reserved x28 (fast path); when OFF, the
+    // runtime CRT path goes through CurrentThreadData/LoadCachedCRTTLS instead, so
+    // the expansion must NOT emit the x28 read and defers to the runtime stub.
+    // Defaults per-target to ohos_arm64 (the only target where the runtime is built
+    // with the fastpath). Override with `-Xbinary=enableGcFastpath=true|false` to
+    // match a dist whose runtime was built with a non-default gc_fastpath flavour.
+    val enableGcFastpath: Boolean by lazy {
+        val explicit = configuration.get(BinaryOptions.enableGcFastpath)
+        if (explicit == true && !supportsPreciseStackmapAndCrt) {
+            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=enableGcFastpath=true is only supported on ohos_arm64")
+            false
+        } else {
+            explicit ?: supportsPreciseStackmapAndCrt
+        }
+    }
     private val defaultDisableMmap get() = target.family == Family.MINGW || !pagedAllocator
     val disableMmap: Boolean by lazy {
         when (configuration.get(BinaryOptions.disableMmap)) {
@@ -170,7 +189,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     }
 
     val splitBCfile: UInt
-        get() = if (target == KonanTarget.OHOS_ARM64) configuration.get(BinaryOptions.splitBCfile) ?: 1u else 1u
+        get() = if (debug || target != KonanTarget.OHOS_ARM64) 1u else configuration.get(BinaryOptions.splitBCfile) ?: 1u
 
     val printToOhosHiLog: Boolean
         get() = configuration.get(BinaryOptions.printToOhosHiLog) ?: (produce != CompilerOutputKind.PROGRAM)
@@ -530,6 +549,19 @@ val minidumpLocation by lazy {
                     if (gc != GC.CONCURRENT_MARK_AND_COPY || allocationMode != AllocationMode.CRT) {
                         configuration.report(CompilerMessageSeverity.ERROR,
                                 "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")
+                    }
+                    // CRT/CMC requires the gc fastpath: the safepoint expansion emits the
+                    // x28 fast check + a DIRECT SafePointSlowPathStub cold edge (a single
+                    // K2R boundary the fp-unwind walker can classify). Without fastpath the
+                    // runtime CRT path uses CurrentThreadData/LoadCachedCRTTLS and x28 is
+                    // not reserved, so neither the x28 read nor a keep-call fallback is
+                    // valid (keep-call leaves two K2R boundaries -> walker misclassifies the
+                    // intervening C++ frames). Reject the combination instead of emitting a
+                    // broken binary. The OHOS runtime is always built with gc_fastpath, so
+                    // this only fires on an explicit `-Xbinary=enableGcFastpath=false`.
+                    if (!enableGcFastpath) {
+                        configuration.report(CompilerMessageSeverity.ERROR,
+                                "-Xbinary=gc=cmc / -Xallocator=crt requires the gc fastpath; -Xbinary=enableGcFastpath=false is unsupported with the CRT memory manager")
                     }
                     MemoryManagerMode.CRT
                 } else {

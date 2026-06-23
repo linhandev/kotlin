@@ -38,6 +38,20 @@ internal class CAdapterCodegen(
         this.scopes.forEach { it.generateCAdapters(builder) }
     }
 
+    // Tag a CAdapter bridge function (the LLVM-side `_konan_function_*` target
+    // of the C-side `_impl` wrapper) with the "konan-fn-bridge" fn attr so
+    // KSG step 4 (markStubFunction) can dispatch off the attribute instead of
+    // doing a brittle `calleeName.startsWith("_konan_function_")` name match.
+    // Gated on enableStackmap to keep the OFF dist attribute-set-equivalent
+    // to the pre-stackmap baseline.
+    private fun markKonanFnBridge(funcName: String) {
+        if (!context.config.enableStackmap) return
+        val fn = LLVMGetNamedFunction(llvm.module, funcName) ?: return
+        val attrKey = "konan-fn-bridge"
+        val attr = LLVMCreateStringAttribute(llvm.llvmContext, attrKey, attrKey.length, "", 0)
+        LLVMAddAttributeAtIndex(fn, LLVMAttributeFunctionIndex, attr)
+    }
+
     private fun buildCAdapter(exportedElement: ExportedElement): Unit = with(exportedElement) {
         when {
             isFunction -> {
@@ -62,6 +76,7 @@ internal class CAdapterCodegen(
                     val result = call(callee, args, exceptionHandler = ExceptionHandler.Caller, verbatim = true)
                     ret(result)
                 }
+                markKonanFnBridge(cname)
             }
             isClass -> {
                 val irClass = irSymbol.owner as IrClass
@@ -81,6 +96,13 @@ internal class CAdapterCodegen(
                 LLVMPositionBuilderAtEnd(builder, bb)
                 LLVMBuildRet(builder, irClass.typeInfoPtr.llvm)
                 LLVMDisposeBuilder(builder)
+                // ${cname}_type intentionally NOT tagged with konan-fn-bridge:
+                // it's just `ret @typeinfo` with `clearGcCollector()` applied
+                // above (line 92). No gc.statepoint is emitted, no GC root scan
+                // happens through this frame, and fp-unwind doesn't need to
+                // recognize a Stub boundary here. Adding the attr would route
+                // every type-getter call through `bl Kotlin_N2KStub` for zero
+                // benefit.
                 // Produce instance getter if needed.
                 if (isSingletonObject) {
                     val functionProto = kGetObjectFuncType.toProto(
@@ -99,6 +121,7 @@ internal class CAdapterCodegen(
                         )
                         ret(value)
                     }
+                    markKonanFnBridge("${cname}_instance")
                 }
             }
             isEnumEntry -> {
@@ -114,6 +137,7 @@ internal class CAdapterCodegen(
                     val value = getEnumEntry(irEnumEntry, ExceptionHandler.Caller)
                     ret(value)
                 }
+                markKonanFnBridge(cname)
             }
         }
     }

@@ -181,6 +181,14 @@ _AllocInstanceStub:
 _Kotlin_native_internal_GC_collectStub:
     CalleeSavedRegistersStub Kotlin_native_internal_GC_collect
 
+    .global _Kotlin_mm_safePointFunctionPrologueStub
+_Kotlin_mm_safePointFunctionPrologueStub:
+    CalleeSavedRegistersStub Kotlin_mm_safePointFunctionPrologue
+
+    .global _Kotlin_mm_safePointWhileLoopBodyStub
+_Kotlin_mm_safePointWhileLoopBodyStub:
+    CalleeSavedRegistersStub Kotlin_mm_safePointWhileLoopBody
+
     .global _Kotlin_Worker_consumeFutureStub
 _Kotlin_Worker_consumeFutureStub:
     CalleeSavedRegistersStub Kotlin_Worker_consumeFuture
@@ -772,66 +780,6 @@ _CreateStringFromUtf8OrThrowStub:
 _CreateUninitializedStringStub:
     CalleeSavedRegistersStub CreateUninitializedString
 
-    .global _slowPathStub
-_slowPathStub:
-    .cfi_startproc
-    stp  x29, x30, [sp,  #-StubFrameContextSize]!
-    cfi_adjust_cfa_offset (StubFrameContextSize)
-    cfi_rel_offset (x29, 0)
-    cfi_rel_offset (x30, 8)
-
-    mov  x29, sp
-    cfi_def_cfa_register (sp)
-
-    // save all used callee-saved registers.
-    stp  x19, x20, [sp, #StubCalleeSaveAreaSize]
-    cfi_rel_offset (x19, StubCalleeSaveAreaSize)
-    cfi_rel_offset (x20, StubCalleeSaveAreaSize+8)
-
-    stp  x21, x22, [sp, #StubCalleeSaveAreaSize+0x10]
-    cfi_rel_offset (x21, StubCalleeSaveAreaSize+0x10)
-    cfi_rel_offset (x22, StubCalleeSaveAreaSize+0x18)
-
-    stp  x23, x24, [sp, #StubCalleeSaveAreaSize+0x20]
-    cfi_rel_offset (x23, StubCalleeSaveAreaSize+0x20)
-    cfi_rel_offset (x24, StubCalleeSaveAreaSize+0x28)
-
-    stp  x25, x26, [sp, #StubCalleeSaveAreaSize+0x30]
-    cfi_rel_offset (x25, StubCalleeSaveAreaSize+0x30)
-    cfi_rel_offset (x26, StubCalleeSaveAreaSize+0x38)
-
-    stp  x27, x28, [sp, #StubCalleeSaveAreaSize+0x40]
-    cfi_rel_offset (x27, StubCalleeSaveAreaSize+0x40)
-    cfi_rel_offset (x28, StubCalleeSaveAreaSize+0x48)
-
-    bl   _CslowPath
-    str  x0,  [sp, #StubCalleeSaveAreaSize+0x48]
-
-    // restore all used callee-saved registers.
-    ldp  x19, x20, [sp, #StubCalleeSaveAreaSize]
-    cfi_restore (x19)
-    cfi_restore (x20)
-    ldp  x21, x22, [sp, #StubCalleeSaveAreaSize+0x10]
-    cfi_restore (x21)
-    cfi_restore (x22)
-    ldp  x23, x24, [sp, #StubCalleeSaveAreaSize+0x20]
-    cfi_restore (x23)
-    cfi_restore (x24)
-    ldp  x25, x26, [sp, #StubCalleeSaveAreaSize+0x30]
-    cfi_restore (x25)
-    cfi_restore (x26)
-    ldr  x27, [sp, #StubCalleeSaveAreaSize+0x40]
-    cfi_restore (x27)
-    ldr  x0,  [sp, #StubCalleeSaveAreaSize+0x48]
-    cfi_restore (x0)
-
-    ldp  x29, x30, [sp], #StubFrameContextSize
-    cfi_adjust_cfa_offset (-StubFrameContextSize)
-    cfi_restore (x29)
-    cfi_restore (x30)
-    ret
-    .cfi_endproc
-
 // CRT-mode entry points. Each wraps a runtime function through CalleeSavedRegistersStub
 // so that fp-unwind K2RStub mechanism handles the K→Runtime transition when CRT is active.
 
@@ -907,6 +855,67 @@ _SafePointSlowPathStub:
     cfi_restore (x26)
     ldr  x27, [sp, #StubCalleeSaveAreaSize+0x40]
     cfi_restore (x27)
+
+    ldp  x29, x30, [sp], #StubFrameContextSize
+    cfi_adjust_cfa_offset (-StubFrameContextSize)
+    cfi_restore (x29)
+    cfi_restore (x30)
+    ret
+    .cfi_endproc
+
+
+    .global _slowPathStub
+_slowPathStub:
+    .cfi_startproc
+    stp  x29, x30, [sp,  #-StubFrameContextSize]!
+    cfi_adjust_cfa_offset (StubFrameContextSize)
+    cfi_rel_offset (x29, 0)
+    cfi_rel_offset (x30, 8)
+
+    mov  x29, sp
+    cfi_def_cfa_register (sp)
+
+    // save all used callee-saved registers.
+    stp  x19, x20, [sp, #StubCalleeSaveAreaSize]
+    cfi_rel_offset (x19, StubCalleeSaveAreaSize)
+    cfi_rel_offset (x20, StubCalleeSaveAreaSize+8)
+
+    stp  x21, x22, [sp, #StubCalleeSaveAreaSize+0x10]
+    cfi_rel_offset (x21, StubCalleeSaveAreaSize+0x10)
+    cfi_rel_offset (x22, StubCalleeSaveAreaSize+0x18)
+
+    stp  x23, x24, [sp, #StubCalleeSaveAreaSize+0x20]
+    cfi_rel_offset (x23, StubCalleeSaveAreaSize+0x20)
+    cfi_rel_offset (x24, StubCalleeSaveAreaSize+0x28)
+
+    stp  x25, x26, [sp, #StubCalleeSaveAreaSize+0x30]
+    cfi_rel_offset (x25, StubCalleeSaveAreaSize+0x30)
+    cfi_rel_offset (x26, StubCalleeSaveAreaSize+0x38)
+
+    stp  x27, x28, [sp, #StubCalleeSaveAreaSize+0x40]
+    cfi_rel_offset (x27, StubCalleeSaveAreaSize+0x40)
+    cfi_rel_offset (x28, StubCalleeSaveAreaSize+0x48)
+
+    bl   _CslowPath
+    str  x0,  [sp, #StubCalleeSaveAreaSize+0x48]
+
+    // restore all used callee-saved registers.
+    ldp  x19, x20, [sp, #StubCalleeSaveAreaSize]
+    cfi_restore (x19)
+    cfi_restore (x20)
+    ldp  x21, x22, [sp, #StubCalleeSaveAreaSize+0x10]
+    cfi_restore (x21)
+    cfi_restore (x22)
+    ldp  x23, x24, [sp, #StubCalleeSaveAreaSize+0x20]
+    cfi_restore (x23)
+    cfi_restore (x24)
+    ldp  x25, x26, [sp, #StubCalleeSaveAreaSize+0x30]
+    cfi_restore (x25)
+    cfi_restore (x26)
+    ldr  x27, [sp, #StubCalleeSaveAreaSize+0x40]
+    cfi_restore (x27)
+    ldr  x0,  [sp, #StubCalleeSaveAreaSize+0x48]
+    cfi_restore (x0)
 
     ldp  x29, x30, [sp], #StubFrameContextSize
     cfi_adjust_cfa_offset (-StubFrameContextSize)

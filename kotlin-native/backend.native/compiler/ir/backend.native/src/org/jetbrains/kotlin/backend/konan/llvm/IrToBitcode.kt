@@ -990,7 +990,20 @@ internal class CodeGeneratorVisitor(
     private fun CodeGeneratorVisitor.generateGCUnsafeCallStub(declaration: IrFunction) {
         val calleeName = declaration.externalSymbolOrThrow() ?: error("GCUnsafeCall must have an external symbol")
         val simpleFunction = declaration as? IrSimpleFunction ?: error("GCUnsafeCall stub requires IrSimpleFunction")
-        val proto = LlvmFunctionProto(simpleFunction, calleeName, codegen, LLVMLinkage.LLVMExternalLinkage)
+        // Per-module Stub redirection: if the C++ callee has a Stub trampoline (asm-defined
+        // in K2RStub.s, tracked in K2RStubFunctions.names), emit the call to the Stub variant
+        // directly. This way the module .bc is already in its final form and KSG step 1's
+        // pre-pipeline callsite rewrite becomes redundant for this call. Without this, cached
+        // .bc would contain `bl XXX` and rely on KSG step 1 finding the right helper set —
+        // which fails for cached per-file .bc that carries no @llvm.global.annotations, see
+        // K2RStubFunctions.kt for the full rationale.
+        // Stub redirection is gated on enableStackmap (same as KSG / the @llvm.used pin):
+        // OFF emits the direct call so the helper keeps a bitcode caller (pre-stackmap baseline).
+        val effectiveCalleeName = if (context.config.enableStackmap && calleeName in K2RStubFunctions.names)
+            K2RStubFunctions.stubNameOf(calleeName)
+        else
+            calleeName
+        val proto = LlvmFunctionProto(simpleFunction, effectiveCalleeName, codegen, LLVMLinkage.LLVMExternalLinkage)
         val llvmCallable = codegen.llvm.externalFunction(proto)
 
         val args = declaration.parameters.map { functionGenerationContext.vars.load(functionGenerationContext.vars.indexOf(it), null) }

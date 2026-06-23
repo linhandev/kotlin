@@ -16,18 +16,19 @@ internal class RemoveRedundantSafepointsPass {
     /**
      * @param isSafepointInliningAllowed Whether the `LLVMInlineCall` of the chosen
      *   safepoint is allowed (false for arm32 apple targets).
-     * @param forceInlineFirstEligible Whether to force-inline the first eligible
-     *   safepoint per basic block (baseline shadow-stack OFF mode perf
-     *   optimisation). Replaces the legacy compile-time `#ifndef ENABLE_STACKMAP`
-     *   gate so a single libllvmext binary supports both ON (false) and OFF (true)
-     *   at runtime. Caller passes `!config.enableStackmap` which is per-target.
+     * @param enableStackmap Precise-stackmap dist (true) -> expand the surviving safepoint
+     *   per block into the inline fast/slow poll; OFF / shadow-stack (false) -> force-inline
+     *   the first eligible bare prologue. Replaces the legacy compile-time `#ifndef
+     *   ENABLE_STACKMAP` gate so one libllvmext binary supports both at runtime; the caller
+     *   passes `config.enableStackmap` (per-target).
      */
     fun runOnModule(module: LLVMModuleRef, isSafepointInliningAllowed: Boolean,
-                    forceInlineFirstEligible: Boolean) {
+                    enableStackmap: Boolean, safepointExpansionMode: SafepointExpansionMode) {
         LLVMKotlinRemoveRedundantSafepoints(
                 module,
                 if (isSafepointInliningAllowed) 1 else 0,
-                if (forceInlineFirstEligible) 1 else 0,
+                if (enableStackmap) 1 else 0,
+                safepointExpansionMode,
         )
     }
 }

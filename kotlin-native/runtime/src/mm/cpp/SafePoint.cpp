@@ -160,67 +160,47 @@ void decrementActiveCount() noexcept {
 
 } // namespace
 
-extern "C" NO_INLINE RUNTIME_EXPORT void CslowPath() {
-    slowPath();
-}
+// Exposed so the Kotlin backend's inlined safepoint poll (NATIVE memory manager) can read the
+// safe-point flag without a runtime call. `safePointAction` itself has internal linkage (anonymous
+// namespace), so we publish its address through this stable external symbol: at a safepoint the
+// backend loads `*Kotlin_mm_safePointActionAddr` (== `safePointAction`) and takes the slow path iff
+// it is non-null. Kept in sync with mm::safePoint()'s non-CRT fast path.
+extern "C" RUNTIME_EXPORT std::atomic<void (*)(mm::ThreadData&)>* const Kotlin_mm_safePointActionAddr =
+        &safePointAction;
 
-#ifdef ENABLE_STACKMAP
-// The entire mm::safePointStub plumbing is ON-only:
-//   * slowPathStub() — provided by arm64 asm trampoline K2RStub.s (only built ON)
-//   * SafePointSlowPathStub() — CRT-aware variant from mpcore/crt_fp_unwind 7e581cd
-// On OFF dist, CodeGenerator picks the non-Stub Kotlin_mm_safePointFunctionPrologue
-// branch so user code never references safePointStub.
-// Ported from mpcore/crt_fp_unwind 7e581cd. The asm trampoline in
-// aarch64_*_stubs/K2RStub.s spills all callee-saved registers (x19-x27, x28 is
-// preserved separately by CRT) onto its own frame, then calls
-// `_CSafePointSlowPath`. This is the *critical* mechanism that makes
-// Kotlin object pointers held in callee-saved registers visible to the GC
-// walker during STW. Without it, when `safePoint()` hits the slow path while
-// inlined into a Kotlin function, the live refs in x19-x27 stay only in
-// registers and the walker can't see them — after compaction they become
-// stale and the next access crashes.
 extern "C" void SafePointSlowPathStub(void*);
-extern "C" void slowPathStub();
 
 extern "C" NO_INLINE RUNTIME_EXPORT void CSafePointSlowPath(void* mutatorPtr) {
     SafePointSlowPath(mutatorPtr);
 }
 
-ALWAYS_INLINE void mm::safePointStub(std::memory_order fastPathOrder) noexcept {
-    AssertThreadState(ThreadState::kRunnable);
-    checkUseCRT<CheckMode::Fast>([&] {
-#ifdef ENABLE_GC_FASTPATH
-        uintptr_t tls;
-        FixedRegToLocalVar(tls);
-        auto mutatorPtr = reinterpret_cast<common::MutatorBase**>(tls + common::TLS_MUTATOR_OFF);
-        uint32_t IsSafePointActive = *reinterpret_cast<uint32_t*>(*mutatorPtr);
-        if (UNLIKELY(IsSafePointActive)) {
-            SafePointSlowPathStub(*mutatorPtr);
-        }
-#else
-        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
-        void* tls = common::LoadCachedCRTTLS(threadData->allocator().impl());
-        if (UNLIKELY(common::IsSafePointActive(tls))) {
-            SafePointSlowPathStub(threadData->GetThreadHolder()->GetMutator());
-        }
-#endif
-    }, [&] {
-        auto action = safePointAction.load(fastPathOrder);
-        if (__builtin_expect(action != nullptr, false)) {
-            slowPathStub();
-        }
-    });
+// NATIVE-mode counterpart of CSafePointSlowPath: the asm K2R stub `slowPathStub`
+// (K2RStub.s) spills the callee-saved registers and calls this no-arg C++ slow path.
+extern "C" void slowPathStub();
+
+extern "C" NO_INLINE RUNTIME_EXPORT void CslowPath() {
+    slowPath();
 }
-#else
-// stackmap=off stub. K2RStub.o is linked unconditionally on OHOS_ARM64 / MACOS_ARM64
-// (see Linker.kt:stubObjectsForTarget — the asm-stub objects are kept linked to satisfy
-// pre-compiled platform klibs that bake in references at klib-generation time). The asm
-// trampoline contains `bl CSafePointSlowPath` even though the codegen never reaches it
-// in OFF binaries (CodeGenerator picks Kotlin_mm_safePointFunctionPrologue, not the
-// stub-prologue, so the trampoline is dead code). Provide a no-op definition so the
-// linker can resolve the reference; it is never actually called at runtime.
-extern "C" NO_INLINE RUNTIME_EXPORT void CSafePointSlowPath(void*) {}
-#endif // ENABLE_STACKMAP
+
+#if defined(ENABLE_STACKMAP) && defined(ENABLE_CRT) && !defined(ENABLE_GC_FASTPATH)
+// Lean CRT no-fastpath safepoint check, used by RemoveRedundantSafepoints' CrtNoFastpath
+// expansion. Mirrors mm::safePoint()'s non-fastpath CRT branch but RETURNS the
+// Mutator* iff a safepoint is pending (else nullptr), so the expanded poll can do
+// the fast check here and call `SafePointSlowPathStub(mutator)` DIRECTLY on its cold
+// edge. This keeps the slow chain a SINGLE K2R boundary: this helper is plain C++
+// (not a K2R stub) and has already returned by the time SafePointSlowPathStub is on
+// the stack, so only SafePointSlowPathStub crosses the boundary. Without fastpath x28
+// is not the reserved TLS pointer, so the check must go through CurrentThreadData /
+// LoadCachedCRTTLS rather than an inline `mov $0, x28`.
+extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void* Kotlin_mm_safePointCheckCRT() noexcept {
+    auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    void* tls = common::LoadCachedCRTTLS(threadData->allocator().impl());
+    if (UNLIKELY(common::IsSafePointActive(tls))) {
+        return threadData->GetThreadHolder()->GetMutator();
+    }
+    return nullptr;
+}
+#endif
 
 mm::SafePointActivator::SafePointActivator() noexcept : active_(true) {
     incrementActiveCount();
@@ -258,17 +238,18 @@ PERFORMANCE_INLINE void mm::safePoint(std::memory_order fastPathOrder) noexcept
         auto mutatorPtr = reinterpret_cast<common::MutatorBase**>(tls + common::TLS_MUTATOR_OFF);
         uint32_t IsSafePointActive = *reinterpret_cast<uint32_t*>(*mutatorPtr);
         if (UNLIKELY(IsSafePointActive)) {
-            // Go through the asm stub so callee-saved registers holding
-            // Kotlin refs become visible to the GC walker. See comment on
-            // SafePointSlowPathStub above.
-            SafePointSlowPathStub(*mutatorPtr);
+            // Plain C++ slow path (not the asm SafePointSlowPathStub): mm::safePoint() is
+            // reached via the ...PrologueStub K2R trampoline, already the lone boundary
+            // (it spilled x19-x28); a second asm stub would blur the K2R boundary.
+            SafePointSlowPath(*mutatorPtr);
         }
 #else
         auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
         // avoid using `common::ThreadLocal::GetThreadLocalData` if CRT dynamic link
         void* tls = common::LoadCachedCRTTLS(threadData->allocator().impl());
         if (UNLIKELY(common::IsSafePointActive(tls))) {
-            SafePointSlowPathStub(threadData->GetThreadHolder()->GetMutator());
+            // Same single-K2R-boundary reasoning: plain C++, not the asm stub.
+            SafePointSlowPath(threadData->GetThreadHolder()->GetMutator());
         }
 #endif
 #endif // ENABLE_STACKMAP
