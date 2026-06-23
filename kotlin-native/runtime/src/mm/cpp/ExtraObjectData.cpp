@@ -85,9 +85,17 @@ void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
     // weakReferenceOrBaseObject_ is std::atomic<ObjHeader*> in v3-merge (upstream switched it to a
     // plain ObjHeader* + std_support::atomic_ref everywhere). reinterpret-cast its address to
     // ObjHeader** — same pattern as the existing forEachRefField helper in ExtraObjectData.hpp.
-    auto field = RefFieldAccessor{reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_),
-                                  reinterpret_cast<ObjHeader*>(this)};
-    auto* object = field.exchange(nullptr, std::memory_order_seq_cst);
+    auto* object = checkUseCRT<CheckMode::Slow>([&] {
+        // Use `RefFieldAccessor` to ensure the to-version of the base object is read.
+        auto field = RefFieldAccessor{reinterpret_cast<ObjHeader**>(&weakReferenceOrBaseObject_),
+                                      reinterpret_cast<ObjHeader*>(this)};
+        return field.exchange(nullptr, std::memory_order_seq_cst);
+    }, [&] {
+        // Avoid `RefFieldAccessor` here: CMS may call this method from a GC thread, which is
+        // never in kRunnable state. weakReferenceOrBaseObject_ is std::atomic<ObjHeader*> in
+        // this branch, so exchange directly instead of going through std_support::atomic_ref.
+        return weakReferenceOrBaseObject_.exchange(nullptr, std::memory_order_seq_cst);
+    });
     RuntimeAssert(
             !hasPointerBits(object, WEAK_REF_TAG), "ExtraObjectData %p has uncleared weak reference %p during unlink", this,
             clearPointerBits(object, WEAK_REF_TAG));

@@ -36,6 +36,12 @@ ALWAYS_INLINE auto fastReadBarrier(F readBarrier, G fastPath) {
     return fastPath();
 slow_path:
 #endif
+    // If K/N MM is selected at compile time, the CRT read-barrier path is unreachable;
+    // make that explicit so the optimizer can drop the read-barrier code below (and so a
+    // stray runtime hit aborts loudly instead of silently going down a dead path).
+    if (kotlin::compiler::memoryManagerMode() == kotlin::compiler::MemoryManagerMode::kNative) {
+        std::abort();
+    }
     return readBarrier();
 }
 
