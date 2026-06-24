@@ -52,7 +52,7 @@ namespace alloc { class Allocator; }
 
 namespace common {
 
-enum class GCReason { GC_REASON_USER };
+enum class GCReason { GC_REASON_USER, GC_REASON_FORCE };
 enum class GCType { GC_TYPE_FULL };
 enum class GCPhase { GC_PHASE_IDLE, GC_PHASE_PRECOPY, GC_PHASE_COPY, GC_PHASE_FIX };
 
