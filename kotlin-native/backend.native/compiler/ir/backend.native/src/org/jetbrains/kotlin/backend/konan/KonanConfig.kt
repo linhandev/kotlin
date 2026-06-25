@@ -96,14 +96,14 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         return@takeIf true
     }
 
-    private val supportsPreciseStackmapAndCrt get() = target == KonanTarget.OHOS_ARM64
+    private val supportsPreciseStackmapAndCrt get() = target == KonanTarget.OHOS_ARM64 || target == KonanTarget.MACOS_ARM64
     private val defaultGC get() = GC.CONCURRENT_MARK_AND_SWEEP
     val gc: GC by lazy {
         val selected = configuration.get(BinaryOptions.gc) ?: run {
             if (swiftExport) GC.CONCURRENT_MARK_AND_SWEEP else defaultGC
         }
         if (selected == GC.CONCURRENT_MARK_AND_COPY && !supportsPreciseStackmapAndCrt) {
-            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=gc=cmc is only supported on ohos_arm64")
+            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=gc=cmc is only supported on ohos_arm64 / macos_arm64")
             defaultGC
         } else {
             selected
@@ -112,19 +112,20 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     val runtimeAssertsMode: RuntimeAssertsMode get() = configuration.get(BinaryOptions.runtimeAssertionsMode) ?: RuntimeAssertsMode.IGNORE
     val checkStateAtExternalCalls: Boolean get() = configuration.get(BinaryOptions.checkStateAtExternalCalls) ?: false
 
-    // Per-target default: ohos_arm64 → ON (precise stackmap pipeline), every
-    // other target → OFF (shadow-stack baseline). Rationale:
+    // Per-target default: ohos_arm64 and macos_arm64 → ON (precise stackmap
+    // pipeline), every other target → OFF (shadow-stack baseline). Rationale:
     //   - The precise stackmap pipeline requires the CRT runtime (libcrt.so) plus
     //     arm64-only facilities (fp-based FpUnwind, OHOS arm64 TBI bit 59 trick for
     //     KNStateWord, arm64 asm trampolines, fixed-size arm64 insn stackmap).
-    //   - libcrt.so is built only for ohos_arm64 (ELF aarch64). Other arm64 targets
-    //     (macos_arm64, linux_arm64, ios_arm64, ...) have no platform-matching
-    //     libcrt and would produce broken builds if defaulted ON, so they default
-    //     to the conservative shadow-stack baseline.
+    //   - libcrt.so is built for ohos_arm64 (ELF aarch64) and macos_arm64 (Mach-O
+    //     arm64). Other arm64 targets (linux_arm64, ios_arm64, ...) have no
+    //     platform-matching libcrt and would produce broken builds if defaulted ON,
+    //     so they default to the conservative shadow-stack baseline.
     //   - x86_64 / x86_32 / ARM32 cannot use the pipeline at all (no arm64 asm
     //     stubs, mixed-size insn encoding, etc.).
-    //   - This makes the switch transparent: ohos_arm64 keeps the ON behaviour
-    //     with no flag, every other target gets the OFF baseline automatically.
+    //   - This makes the switch transparent: ohos_arm64 and macos_arm64 keep the ON
+    //     behaviour with no flag, every other target gets the OFF baseline
+    //     automatically.
     //
     // Override with `-Xbinary=enableStackmap=true|false` to force a specific
     // mode (CI A/B matrix testing or expert debugging). Must match the dist's
@@ -132,7 +133,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     val enableStackmap: Boolean by lazy {
         val explicit = configuration.get(BinaryOptions.enableStackmap)
         if (explicit == true && !supportsPreciseStackmapAndCrt) {
-            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=enableStackmap=true is only supported on ohos_arm64")
+            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=enableStackmap=true is only supported on ohos_arm64 / macos_arm64")
             false
         } else {
             explicit ?: supportsPreciseStackmapAndCrt
@@ -140,18 +141,19 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     }
 
     // Compiler-side mirror of the runtime's `-DENABLE_GC_FASTPATH` (build property
-    // `kotlin.native.gc_fastpath`, applied with `-ffixed-x28` for ohos_arm64 only).
+    // `kotlin.native.gc_fastpath`, applied with `-ffixed-x28` for ohos_arm64 and
+    // macos_arm64).
     // When ON, the CRT prologue-safepoint expansion reads the per-mutator
     // IsSafePointActive flag through the reserved x28 (fast path); when OFF, the
     // runtime CRT path goes through CurrentThreadData/LoadCachedCRTTLS instead, so
     // the expansion must NOT emit the x28 read and defers to the runtime stub.
-    // Defaults per-target to ohos_arm64 (the only target where the runtime is built
-    // with the fastpath). Override with `-Xbinary=enableGcFastpath=true|false` to
-    // match a dist whose runtime was built with a non-default gc_fastpath flavour.
+    // Defaults per-target to ohos_arm64 / macos_arm64 (the targets where the runtime
+    // is built with the fastpath). Override with `-Xbinary=enableGcFastpath=true|false`
+    // to match a dist whose runtime was built with a non-default gc_fastpath flavour.
     val enableGcFastpath: Boolean by lazy {
         val explicit = configuration.get(BinaryOptions.enableGcFastpath)
         if (explicit == true && !supportsPreciseStackmapAndCrt) {
-            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=enableGcFastpath=true is only supported on ohos_arm64")
+            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=enableGcFastpath=true is only supported on ohos_arm64 / macos_arm64")
             false
         } else {
             explicit ?: supportsPreciseStackmapAndCrt
@@ -501,11 +503,12 @@ val allocationMode by lazy {
                         "Run-time switching of memory manager requires custom allocator (remove -Xallocator=* to use default)")
                 AllocationMode.CUSTOM
             }
-            explicitMode == null -> defaultAllocationMode
+            // let allocator follows the GC if CMC is ON
+            explicitMode == null -> if (gc == GC.CONCURRENT_MARK_AND_COPY) AllocationMode.CRT else defaultAllocationMode
             explicitMode == AllocationMode.STD -> AllocationMode.STD
             explicitMode == AllocationMode.CRT -> {
                 if (!supportsPreciseStackmapAndCrt) {
-                    configuration.report(CompilerMessageSeverity.ERROR, "-Xallocator=crt is only supported on ohos_arm64")
+                    configuration.report(CompilerMessageSeverity.ERROR, "-Xallocator=crt is only supported on ohos_arm64 / macos_arm64")
                     defaultAllocationMode
                 } else {
                     AllocationMode.CRT
@@ -530,7 +533,7 @@ val minidumpLocation by lazy {
             true -> {
                 if (!supportsPreciseStackmapAndCrt) {
                     configuration.report(CompilerMessageSeverity.ERROR,
-                            "-Xbinary=runtimeSwitchMemoryManager=true is only supported on ohos_arm64")
+                            "-Xbinary=runtimeSwitchMemoryManager=true is only supported on ohos_arm64 / macos_arm64")
                     return@lazy MemoryManagerMode.NATIVE
                 }
                 if (gc == GC.CONCURRENT_MARK_AND_COPY) {
@@ -543,7 +546,7 @@ val minidumpLocation by lazy {
                 if (gc == GC.CONCURRENT_MARK_AND_COPY || allocationMode == AllocationMode.CRT) {
                     if (!supportsPreciseStackmapAndCrt) {
                         configuration.report(CompilerMessageSeverity.ERROR,
-                                "-Xallocator=crt and -Xbinary=gc=cmc are only supported on ohos_arm64")
+                                "-Xallocator=crt and -Xbinary=gc=cmc are only supported on ohos_arm64 / macos_arm64")
                         return@lazy MemoryManagerMode.NATIVE
                     }
                     if (gc != GC.CONCURRENT_MARK_AND_COPY || allocationMode != AllocationMode.CRT) {
@@ -557,8 +560,9 @@ val minidumpLocation by lazy {
                     // not reserved, so neither the x28 read nor a keep-call fallback is
                     // valid (keep-call leaves two K2R boundaries -> walker misclassifies the
                     // intervening C++ frames). Reject the combination instead of emitting a
-                    // broken binary. The OHOS runtime is always built with gc_fastpath, so
-                    // this only fires on an explicit `-Xbinary=enableGcFastpath=false`.
+                    // broken binary. The ohos_arm64 / macos_arm64 runtime is always built
+                    // with gc_fastpath, so this only fires on an explicit
+                    // `-Xbinary=enableGcFastpath=false`.
                     if (!enableGcFastpath) {
                         configuration.report(CompilerMessageSeverity.ERROR,
                                 "-Xbinary=gc=cmc / -Xallocator=crt requires the gc fastpath; -Xbinary=enableGcFastpath=false is unsupported with the CRT memory manager")

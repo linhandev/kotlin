@@ -229,6 +229,11 @@ internal class Linker(
                         "CRT (-Xallocator=crt / -Xbinary=runtimeSwitchMemoryManager=true)."
             }
             libraries += listOf(libcrtFile.absolutePath)
+            // Add an rpath to the dist native dir so an in-place run resolves it. (ELF/ohos
+            // doesn't need this: libcrt.so is found via the app's native-lib search path.)
+            if (target.family.isAppleFamily) {
+                linkerArgs += listOf("-rpath", libcrtFile.parentFile.absolutePath)
+            }
         }
 
         // Stub .o files (N2KStub / K2NStub / K2RStub / KonanStartStub) live under the runtime-resolved

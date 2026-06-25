@@ -159,6 +159,7 @@ open class CompileToBitcodeExtension @Inject constructor(val project: Project) :
         return if (isGcFastPathEnabled) {
             when (target) {
                 KonanTarget.OHOS_ARM64 -> listOf("-ffixed-x28", "-DENABLE_GC_FASTPATH")
+                KonanTarget.MACOS_ARM64 -> listOf("-ffixed-x28", "-DENABLE_GC_FASTPATH")
                 else -> emptyList()
             }
         } else {
