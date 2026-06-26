@@ -33,6 +33,7 @@
 #ifdef KONAN_OHOS
 #include "memory_trace.h"
 #include <deviceinfo.h>
+// The minimum version with support for the KMP restrace tag.
 #define OHOS_RESTRACE_MIN_API 21
 #endif
 
