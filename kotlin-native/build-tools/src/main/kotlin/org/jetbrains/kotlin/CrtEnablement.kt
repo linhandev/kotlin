@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.konan.target.KonanTarget
  * Property override priority (highest to lowest):
  *   1. `-Pkotlin.native.<flag>.<target_name>=true|false`  (per-target)
  *   2. `-Pkotlin.native.<flag>=true|false`                (global)
- *   3. Default: only `ohos_arm64`
+ *   3. Default: `ohos_arm64` and `macos_arm64`
  *
  * Invariant: CRT requires STACKMAP. STACKMAP can stand alone.
  * `kotlin.native.crt=true` + `kotlin.native.precise.stackmap=false` errors out.
@@ -35,7 +35,7 @@ fun resolveEnableStackmap(project: Project, target: KonanTarget): Boolean {
     if (perTarget != null) return perTarget.toBoolean()
     val global = project.findProperty("kotlin.native.precise.stackmap") as? String
     if (global != null) return global.toBoolean()
-    return target == KonanTarget.OHOS_ARM64
+    return target == KonanTarget.OHOS_ARM64 || target == KonanTarget.MACOS_ARM64
 }
 
 /**

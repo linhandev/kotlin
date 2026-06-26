@@ -379,9 +379,8 @@ targetList.each { target ->
     }
 }
 
-// CRT/CMC only applies to ohos_arm64 (see KonanConfig.supportsPreciseStackmapAndCrt).
-// Build libcrt.so from third-party/common-rt via its GN/Ninja build.sh, stage into
-// dist/konan/targets/ohos_arm64/native/ next to the .bc files.
+// ohos_arm64: cross-build libcrt.so from third-party/common-rt via its GN/Ninja build.sh
+// (--ohos=<sdk>), stage into dist/konan/targets/ohos_arm64/native/ next to the .bc files.
 def crtEnabledForOhosArm64 = CrtEnablementKt.resolveEnableCrt(project, KonanTarget.OHOS_ARM64.INSTANCE)
 if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
     def commonRtDir = rootProject.file("third-party/common-rt")
@@ -444,6 +443,74 @@ if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
         input.from(tasks.named("ohos_arm64CrossDistLibCrtCopy"))
     }
     tasks.named("ohos_arm64CrossDistBitcodeCopy").configure {
+        preserve { include "libcrt.so" }
+    }
+}
+
+// macos_arm64 libcrt: the common-rt build.sh "Host" mode (no --ohos) produces a
+// native Mach-O arm64 libcrt.so under out/ (solink uses -install_name @rpath/libcrt.so).
+// Build it and stage into dist/konan/targets/macos_arm64/native/ next to the .bc files.
+def crtEnabledForMacosArm64 = CrtEnablementKt.resolveEnableCrt(project, KonanTarget.MACOS_ARM64.INSTANCE)
+if ("macos_arm64" in targetList && crtEnabledForMacosArm64) {
+    def commonRtDir = rootProject.file("third-party/common-rt")
+    def repoRoot    = rootProject.projectDir
+    // common-rt always writes to a shared out/libcrt.so and `rm -rf out/` on each
+    // run, so stage the host result into a target-specific file immediately. This
+    // avoids both an overlapping-outputs error with buildLibCrt and clobbering the
+    // ohos cross-build's artifact when both targets are built in one invocation.
+    def stagedLibCrt = layout.buildDirectory.file("libcrt/macos_arm64/libcrt.so").get().asFile
+
+    tasks.register("buildLibCrtMacos", Exec) {
+        group = "build"
+        description = "Build native (Mach-O) libcrt.so from third-party/common-rt for macos_arm64."
+        workingDir = commonRtDir
+        commandLine "./build.sh"
+        inputs.files(fileTree(commonRtDir) {
+            include "build.sh", "common_components/**", "common_interfaces/**",
+                    "libpandabase/**", "standalone_support/**",
+                    "third_party_bounds_checking_function/**"
+        }).withPropertyName("commonRtSources")
+        outputs.file(stagedLibCrt)
+        outputs.cacheIf { false }  // host build dir is shared/non-hermetic
+        // Both libcrt builds drive the same out/ dir; serialize to prevent a race.
+        if (tasks.findByName("buildLibCrt") != null) mustRunAfter("buildLibCrt")
+        doFirst {
+            def buildSh = new File(commonRtDir, "build.sh")
+            if (!buildSh.isFile()) {
+                logger.lifecycle("syncing submodule third-party/common-rt...")
+                def exit = new ProcessBuilder("git", "submodule", "update", "--init", "--recursive", "third-party/common-rt")
+                        .directory(repoRoot).inheritIO().start().waitFor()
+                if (exit != 0 || !buildSh.isFile()) throw new GradleException(
+                        "third-party/common-rt is not synced (git exit=${exit}). " +
+                        "Run 'git submodule update --init --recursive' or use -Pkotlin.native.crt=false.")
+            }
+        }
+        doLast {
+            def built = new File(commonRtDir, "out/libcrt.so")
+            if (!built.isFile()) throw new GradleException(
+                    "common-rt host build did not produce ${built.absolutePath}")
+            stagedLibCrt.parentFile.mkdirs()
+            java.nio.file.Files.copy(built.toPath(), stagedLibCrt.toPath(),
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+
+    tasks.register("macos_arm64CrossDistLibCrtCopy", Copy) {
+        group = "build"
+        description = "Stage libcrt.so into dist/konan/targets/macos_arm64/native/."
+        dependsOn("buildLibCrtMacos")
+        from(stagedLibCrt)
+        into(nativeDistribution.map { it.runtime("macos_arm64") })
+    }
+
+    tasks.named("macos_arm64CrossDistRuntime").configure {
+        dependsOn("macos_arm64CrossDistLibCrtCopy")
+    }
+    tasks.named("macos_arm64CrossDistRuntimeFingerprint").configure {
+        // Fingerprint also covers libcrt.so so cache invalidation triggers when the .so changes.
+        input.from(tasks.named("macos_arm64CrossDistLibCrtCopy"))
+    }
+    tasks.named("macos_arm64CrossDistBitcodeCopy").configure {
         preserve { include "libcrt.so" }
     }
 }
