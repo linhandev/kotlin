@@ -26,6 +26,8 @@
     .align 2
     .global _EnterKotlinFromCppStub
 _EnterKotlinFromCppStub:
+    // x28 = CRT fastpath TLS reg: fastpath off -> never touch it (keep callee-saved invariant);
+    // fastpath on -> pass the live value through unchanged, never snapshot+restore.
     .cfi_startproc
 
     stp  x29, x30, [sp, #-80]!

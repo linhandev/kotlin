@@ -58,7 +58,7 @@
 //                 | arg9         |
 //                 | arg8         |
 // caller sp  -->  | arg7         |
-// callee saved    | r28          | <== _K2NForwardStub frame starts from here
+// padding         | padding      | <== _K2NForwardStub frame top; was x28 slot, x28 no longer saved (kept for 16B align)
 //                 | r27          |
 //                 | r26          |
 //                 | r25          |
@@ -84,6 +84,8 @@
     .align 2
     .global Kotlin_N2KStub
 Kotlin_N2KStub:
+        // x28 = CRT fastpath TLS reg: fastpath off -> never touch it (keep callee-saved invariant);
+        // fastpath on -> pass the live value through unchanged, never snapshot+restore.
         // x10 = cpStackSize, x9 = calleeAddr
         ldp  x9, x10, [sp]
         add  sp, sp, #16
@@ -111,9 +113,8 @@ Kotlin_N2KStub:
         .cfi_rel_offset x25, 48+0x30
         .cfi_rel_offset x26, 48+0x38
 
-        stp  x27, x28, [sp, #48+0x40]
+        str  x27, [sp, #48+0x40]
         .cfi_rel_offset x27, 48+0x40
-        .cfi_rel_offset x28, 48+0x48
 
         stp  q0, q1, [sp, #48+0x50]
         .cfi_rel_offset q0, 48+0x50
@@ -254,9 +255,8 @@ unwindPCForN2KStub:
         ldp  x25, x26, [sp, #48+0x30]
         .cfi_restore x25
         .cfi_restore x26
-        ldp  x27, x28, [sp, #48+0x40]
+        ldr  x27, [sp, #48+0x40]
         .cfi_restore x27
-        .cfi_restore x28
 
         ldp    x29, x30, [sp], #288
         .cfi_adjust_cfa_offset -288
