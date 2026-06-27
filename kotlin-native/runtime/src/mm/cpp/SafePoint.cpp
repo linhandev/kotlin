@@ -226,6 +226,14 @@ PERFORMANCE_INLINE void mm::safePoint(std::memory_order fastPathOrder) noexcept
     mm::DisallowSafepointScope::AssertAllowSafepoint(GetMemoryState());
 #endif
     AssertThreadState(ThreadState::kRunnable);
+    // SYNC: RemoveRedundantSafepoints.cpp (libllvmext) hand-replicates the three fast-path
+    // checks below as inline IR when it expands a surviving safepoint:
+    //   - CRT fastpath    -> x28 TLS read + IsSafePointActive flag
+    //   - CRT no-fastpath -> common::IsSafePointActive(tls)
+    //   - NATIVE          -> *Kotlin_mm_safePointActionAddr (== safePointAction) != nullptr
+    // routing the slow path to SafePointSlowPathStub / slowPathStub. Changing the SHAPE of any
+    // poll here — flag type, comparison, memory order, or adding a condition — REQUIRES updating
+    // that inline-poll expansion, or the inlined fast path will silently diverge from this body.
     checkUseCRT<CheckMode::Fast>([&] {
         // CRT branch references SafePointSlowPathStub which only exists when ENABLE_STACKMAP=1.
         // stackmap=off implies CRT/CMC unused; checkUseCRT routes elsewhere at runtime, but the
@@ -275,6 +283,8 @@ ALWAYS_INLINE void mm::safePoint(mm::ThreadData& threadData, std::memory_order f
 #endif
 
     AssertThreadState(&threadData, ThreadState::kRunnable);
+    // SYNC: same NATIVE poll as mm::safePoint(memory_order); see the SYNC note there and
+    // RemoveRedundantSafepoints.cpp's inline-poll expansion before changing its shape.
     auto action = safePointAction.load(fastPathOrder);
     if (__builtin_expect(action != nullptr, false)) {
         slowPath(threadData);
