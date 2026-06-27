@@ -379,27 +379,29 @@ targetList.each { target ->
     }
 }
 
-// ohos_arm64: cross-build libcrt.so from third-party/common-rt via its GN/Ninja build.sh
-// (--ohos=<sdk>), stage into dist/konan/targets/ohos_arm64/native/ next to the .bc files.
+// ohos_arm64 libcrt: build with the dist's pinned LLVM + ohos sysroot (not a DevEco SDK)
+// so libcrt and the dist share one toolchain, then stage into the target's native dir.
 def crtEnabledForOhosArm64 = CrtEnablementKt.resolveEnableCrt(project, KonanTarget.OHOS_ARM64.INSTANCE)
 if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
     def commonRtDir = rootProject.file("third-party/common-rt")
     def libCrtSo    = file("${commonRtDir}/out/libcrt.so")
     def repoRoot    = rootProject.projectDir
-    // DEVECO_SDK_HOME conventionally ends in /sdk; CRT's BUILD.gn adds it itself.
-    def sdkHome     = (project.findProperty("kotlin.native.deveco.sdk.home") as String) ?: System.getenv("DEVECO_SDK_HOME")
-    def sdkPath     = sdkHome?.replaceAll(/[\\\/]sdk[\\\/]?$/, '')
+    // absoluteTargetToolchain = pinned LLVM, absoluteTargetSysRoot = konan ohos sysroot.
+    def ohosPlatform = platformManager.platform(KonanTarget.OHOS_ARM64.INSTANCE)
+    def ohosLlvm     = ohosPlatform.absoluteTargetToolchain
+    def ohosSysroot  = ohosPlatform.absoluteTargetSysRoot
 
     tasks.register("buildLibCrt", Exec) {
         group = "build"
-        description = "Build libcrt.so from third-party/common-rt for ohos_arm64."
+        description = "Build libcrt.so from third-party/common-rt for ohos_arm64 (pinned LLVM toolchain)."
         workingDir = commonRtDir
+        def buildArgs = ["--ohos-llvm=${ohosLlvm}", "--ohos-sysroot=${ohosSysroot}"]
         if (PlatformInfo.isWindows()) {
             // Gradle's Exec spawns a native process; on Windows it can't launch a .sh directly.
             // Drive build.sh through Git Bash's bash. Git/bin should be in environment PATH.
-            commandLine "sh", "build.sh", "--ohos=${sdkPath ?: ''}"
+            commandLine(["sh", "build.sh"] + buildArgs)
         } else {
-            commandLine "./build.sh", "--ohos=${sdkPath ?: ''}"
+            commandLine(["./build.sh"] + buildArgs)
         }
         // fileTree (not inputs.dir): tolerates a missing submodule at snapshot time;
         // the doFirst check below produces an actionable message.
@@ -409,7 +411,7 @@ if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
                     "third_party_bounds_checking_function/**"
         }).withPropertyName("commonRtSources")
         outputs.file(libCrtSo)
-        outputs.cacheIf { false }  // SDK path is host-specific
+        outputs.cacheIf { false }  // embeds host-absolute toolchain paths
         doFirst {
             def buildSh = new File(commonRtDir, "build.sh")
             if (!buildSh.isFile()) {
@@ -420,10 +422,6 @@ if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
                         "third-party/common-rt is not synced (git exit=${exit}). " +
                         "Run 'git submodule update --init --recursive' or use -Pkotlin.native.crt=false.")
             }
-            if (!sdkPath) throw new GradleException(
-                    "OHOS SDK required: set -Pkotlin.native.deveco.sdk.home=<path> or the DEVECO_SDK_HOME env var.")
-            if (!new File(sdkPath).isDirectory()) throw new GradleException(
-                    "OHOS SDK path does not exist: ${sdkPath}")
         }
     }
 
