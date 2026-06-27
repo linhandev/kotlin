@@ -17,14 +17,14 @@
 #ifndef RUNTIME_MM_FPUNWIND_H
 #define RUNTIME_MM_FPUNWIND_H
 // FpUnwind impl bodies are intentionally NOT #ifdef-gated out of the OFF
-// build: pre-compiled cinterop klib cstubs.bc files (cstubs/
-// platform.darwin/posix/zlib/etc.) bake in `_Kotlin_KonanStartStub` and
-// `_SaveCurrentFrameInfoAndSetReliable` / `_RestoreSavedFrameInfo`
-// references at klib-generation time, so gating the bodies out would break
-// the OFF link. The Linker stubObjectsForTarget gate still drops the asm
-// stubs on OFF, and the KotlinCallScope side effects on the OFF path are
-// accepted as no-op overhead. A full gate would require regenerating all
-// platform klibs in OFF mode (out of scope here).
+// build: the runtime is shipped compiled with ENABLE_STACKMAP (it is a
+// per-target build macro, ON for ohos_arm64/macos_arm64), so the same runtime
+// bitcode is linked into both ON and OFF apps. Rather than ship two runtime
+// variants, the unwindPC* marker references below are declared *weak* (see the
+// ENABLE_STACKMAP block): in OFF the Linker drops the asm stub .o (OHOS), the
+// weak refs resolve to 0, and the Is*Stub predicates never match — identical
+// runtime behaviour to ON-linked-but-never-executed stub code, with no asm
+// stub objects pulled into the link.
 
 #include "Common.h"
 #include "ThreadData.hpp"
@@ -46,11 +46,17 @@
 // pointers in __DATA,__const (to avoid non-private labels inside CFI regions
 // which cause compact-unwind encoding=0). Their *value* is the PC address.
 // On OHOS/Linux, they are code labels whose *address* is the PC.
-extern uintptr_t unwindPCForN2KStub;
-extern uintptr_t unwindPCForKonanStartStub;
-extern uintptr_t unwindPCForK2RStubStart;
-extern uintptr_t unwindPCForK2RStubEnd;
-extern uintptr_t unwindPCForEnterKotlinFromCppStub;
+//
+// Declared weak so the OFF link (which drops the asm stub .o on OHOS, see
+// Linker.stubObjectsForTarget) resolves them to 0 instead of failing on
+// undefined symbols. OHOS reads them address-form (&marker) so 0 is safe — the
+// Is*Stub predicates just never match. macOS reads them value-form, so the
+// Linker keeps the stub .o there and these stay strongly defined.
+extern uintptr_t unwindPCForN2KStub __attribute__((weak));
+extern uintptr_t unwindPCForKonanStartStub __attribute__((weak));
+extern uintptr_t unwindPCForK2RStubStart __attribute__((weak));
+extern uintptr_t unwindPCForK2RStubEnd __attribute__((weak));
+extern uintptr_t unwindPCForEnterKotlinFromCppStub __attribute__((weak));
 #endif // ENABLE_STACKMAP
 
 namespace kotlin {
