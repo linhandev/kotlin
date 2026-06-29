@@ -157,9 +157,10 @@ internal abstract class CInteropMetadataDependencyTransformationTask @Inject con
         into this field
          */
         val transformation = GranularMetadataTransformation(parameters, ParentSourceSetVisibilityProvider.Empty)
+        val compilingKonanTargetNames = parameters.dependingPlatformCompilations.map { it.targetName }.toSet()
         val chooseVisibleSourceSets = transformation.metadataDependencyResolutions.resolutionsToTransform()
         val transformedLibraries = chooseVisibleSourceSets.flatMap { resolution ->
-            materializeMetadata(resolution).map { (sourceSetName, cinteropFile) ->
+            materializeMetadata(resolution, compilingKonanTargetNames).map { (sourceSetName, cinteropFile) ->
                 TransformedMetadataLibraryRecord(
                     moduleId = resolution.dependency.id.toString(),
                     file = cinteropFile.toString(),
@@ -172,6 +173,7 @@ internal abstract class CInteropMetadataDependencyTransformationTask @Inject con
 
     private fun materializeMetadata(
         chooseVisibleSourceSets: ChooseVisibleSourceSets,
+        compilingKonanTargetNames: Set<String>,
     ): Iterable<Pair<String /* sourceSetName */, File>> {
         return when (val metadataProvider = chooseVisibleSourceSets.metadataProvider) {
             /* Project to Project commonized cinterops are shared using configurations */
@@ -179,7 +181,9 @@ internal abstract class CInteropMetadataDependencyTransformationTask @Inject con
 
             /* Extract/Materialize all cinterop files from composite jar file */
             is ArtifactMetadataProvider -> metadataProvider.read { artifactContent ->
-                val visibleSourceSetName = chooseVisibleSourceSets.visibleSourceSetProvidingCInterops ?: return emptyList()
+                val visibleSourceSetName = chooseVisibleSourceSets.visibleSourceSetProvidingCInterops(
+                    compilingKonanTargetNames,
+                ) ?: return emptyList()
                 val sourceSetContent = artifactContent.findSourceSet(visibleSourceSetName) ?: return emptyList()
                 sourceSetContent.cinteropMetadataBinaries
                     .onEach { cInteropMetadataBinary -> cInteropMetadataBinary.copyIntoDirectory(outputDirectory) }

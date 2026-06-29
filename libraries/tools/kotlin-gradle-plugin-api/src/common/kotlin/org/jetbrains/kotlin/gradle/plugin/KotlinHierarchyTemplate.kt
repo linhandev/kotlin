@@ -168,6 +168,10 @@ private val defaultKotlinHierarchyTemplate = KotlinHierarchyTemplate {
             group("androidNative") {
                 withAndroidNative()
             }
+
+            group("ohos") {
+                withOhos()
+            }
         }
 
         group("web") {
