@@ -384,12 +384,16 @@ targetList.each { target ->
 def crtEnabledForOhosArm64 = CrtEnablementKt.resolveEnableCrt(project, KonanTarget.OHOS_ARM64.INSTANCE)
 if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
     def commonRtDir = rootProject.file("third-party/common-rt")
-    def libCrtSo    = file("${commonRtDir}/out/libcrt.so")
     def repoRoot    = rootProject.projectDir
     // absoluteTargetToolchain = pinned LLVM, absoluteTargetSysRoot = konan ohos sysroot.
     def ohosPlatform = platformManager.platform(KonanTarget.OHOS_ARM64.INSTANCE)
     def ohosLlvm     = ohosPlatform.absoluteTargetToolchain
     def ohosSysroot  = ohosPlatform.absoluteTargetSysRoot
+    // common-rt always writes to a shared out/libcrt.so and `rm -rf out/` on each
+    // run, so stage the ohos result into a target-specific file immediately. This
+    // avoids clobbering the host build's artifact when both targets are built in
+    // one invocation.
+    def stagedLibCrtOhos = layout.buildDirectory.file("libcrt/ohos_arm64/libcrt.so").get().asFile
 
     tasks.register("buildLibCrt", Exec) {
         group = "build"
@@ -410,7 +414,7 @@ if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
                     "libpandabase/**", "standalone_support/**",
                     "third_party_bounds_checking_function/**"
         }).withPropertyName("commonRtSources")
-        outputs.file(libCrtSo)
+        outputs.file(stagedLibCrtOhos)
         outputs.cacheIf { false }  // embeds host-absolute toolchain paths
         doFirst {
             def buildSh = new File(commonRtDir, "build.sh")
@@ -423,13 +427,21 @@ if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
                         "Run 'git submodule update --init --recursive' or use -Pkotlin.native.crt=false.")
             }
         }
+        doLast {
+            def built = new File(commonRtDir, "out/libcrt.so")
+            if (!built.isFile()) throw new GradleException(
+                    "common-rt ohos build did not produce ${built.absolutePath}")
+            stagedLibCrtOhos.parentFile.mkdirs()
+            java.nio.file.Files.copy(built.toPath(), stagedLibCrtOhos.toPath(),
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        }
     }
 
     tasks.register("ohos_arm64CrossDistLibCrtCopy", Copy) {
         group = "build"
         description = "Stage libcrt.so into dist/konan/targets/ohos_arm64/native/."
         dependsOn("buildLibCrt")
-        from(libCrtSo)
+        from(stagedLibCrtOhos)
         into(nativeDistribution.map { it.runtime("ohos_arm64") })
     }
 
