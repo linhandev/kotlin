@@ -102,11 +102,25 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         val selected = configuration.get(BinaryOptions.gc) ?: run {
             if (swiftExport) GC.CONCURRENT_MARK_AND_SWEEP else defaultGC
         }
-        if (selected == GC.CONCURRENT_MARK_AND_COPY && !supportsPreciseStackmapAndCrt) {
-            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=gc=cmc is only supported on ohos_arm64 / macos_arm64")
-            defaultGC
-        } else {
-            selected
+        when {
+            selected == GC.CONCURRENT_MARK_AND_COPY && !supportsPreciseStackmapAndCrt -> {
+                configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=gc=cmc is only supported on ohos_arm64 / macos_arm64")
+                defaultGC
+            }
+            // Precise-stackmap root scanning is implemented only for CMS/CMC. PMCS and STWMS
+            // scan the shadow stack, which an enableStackmap=true build does not fully populate
+            // (CodeGenerator skips EnterFrame), so selecting them on a stackmap-ON build links
+            // but leaks roots at runtime. Reject it at compile time. Escape hatch: build an
+            // enableStackmap=false distribution (-Pkotlin.native.precise.stackmap=false), where
+            // all GCs share the shadow-stack baseline.
+            enableStackmap && (selected == GC.PARALLEL_MARK_CONCURRENT_SWEEP || selected == GC.STOP_THE_WORLD_MARK_AND_SWEEP) -> {
+                configuration.report(CompilerMessageSeverity.ERROR,
+                        "-Xbinary=gc=${selected.shortcut} is incompatible with precise stackmap (enableStackmap=true): " +
+                        "precise root scanning is implemented only for cms/cmc. Use -Xbinary=gc=cms (or cmc), " +
+                        "or build an enableStackmap=false distribution.")
+                defaultGC
+            }
+            else -> selected
         }
     }
     val runtimeAssertsMode: RuntimeAssertsMode get() = configuration.get(BinaryOptions.runtimeAssertionsMode) ?: RuntimeAssertsMode.IGNORE
