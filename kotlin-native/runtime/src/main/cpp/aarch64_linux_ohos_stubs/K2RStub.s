@@ -29,7 +29,7 @@
 
 // caller sp  -->  | arg7         |
 // callee saved    | avalid null  |
-//                 | x28          |
+//                 | ret-val      | <== was x28 slot; now spills the C-call return value (x28 not saved)
 //                 | x27          |
 //                 | x26          |
 //                 | x25          |
@@ -47,6 +47,8 @@
 //                 | arg8         |
 //   stub sp  -->  | arg7         | <== MCC_C2NStub frame ends at here
 
+// x28 = CRT fastpath TLS reg: the stubs below never touch it. fastpath off -> keep callee-saved
+// invariant; fastpath on -> pass the live value through (the +0x48 slot is reused for the C return).
 .macro CalleeSavedRegistersStub, funcName
     .cfi_startproc
     stp  x29, x30, [sp,  #-112]!
@@ -74,9 +76,8 @@
     .cfi_rel_offset x25, 32+0x30
     .cfi_rel_offset x26, 32+0x38
 
-    stp  x27, x28, [sp, #32+0x40]
+    str  x27, [sp, #32+0x40]
     .cfi_rel_offset x27, 32+0x40
-    .cfi_rel_offset x28, 32+0x48
 
     bl   \funcName
     str  x0,  [sp, #32+0x48]
@@ -135,9 +136,8 @@
     .cfi_rel_offset x25, 32+0x30
     .cfi_rel_offset x26, 32+0x38
 
-    stp  x27, x28, [sp, #32+0x40]
+    str  x27, [sp, #32+0x40]
     .cfi_rel_offset x27, 32+0x40
-    .cfi_rel_offset x28, 32+0x48
 
     bl   \funcName
     str  x0,  [sp, #32+0x48]
@@ -893,9 +893,8 @@ slowPathStub:
     .cfi_rel_offset x25, 32+0x30
     .cfi_rel_offset x26, 32+0x38
 
-    stp  x27, x28, [sp, #32+0x40]
+    str  x27, [sp, #32+0x40]
     .cfi_rel_offset x27, 32+0x40
-    .cfi_rel_offset x28, 32+0x48
 
     bl   CslowPath
     str  x0,  [sp, #32+0x48]
