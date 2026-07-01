@@ -398,6 +398,10 @@ if ("ohos_arm64" in targetList && crtEnabledForOhosArm64) {
     tasks.register("buildLibCrt", Exec) {
         group = "build"
         description = "Build libcrt.so from third-party/common-rt for ohos_arm64 (pinned LLVM toolchain)."
+        def hostTargetName = HostManager.host.name
+        def hostTaskName = hostTargetName.substring(0, 1).toUpperCase(Locale.ROOT) + hostTargetName.substring(1)
+        dependsOn(":kotlin-native:dependencies:nativeDependencies${hostTaskName}")
+        dependsOn(":kotlin-native:dependencies:nativeDependenciesOhos_arm64")
         workingDir = commonRtDir
         def buildArgs = ["--ohos-llvm=${ohosLlvm}", "--ohos-sysroot=${ohosSysroot}"]
         if (PlatformInfo.isWindows()) {
