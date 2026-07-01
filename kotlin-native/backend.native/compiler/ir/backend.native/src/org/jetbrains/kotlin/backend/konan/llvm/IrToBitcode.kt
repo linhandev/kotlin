@@ -112,7 +112,7 @@ internal class RTTIGeneratorVisitor(generationState: NativeGenerationState, refe
         val moduleIncludeOnly = generator.context.config.moduleIncludeOnly
 
         if (moduleIncludeOnly.isNotEmpty()) {
-            if (libraryName == null || libraryName !in moduleIncludeOnly) return
+            if (!generator.context.config.isIncludedLibrary(libraryName)) return
         }
 
         if (declaration.requiresRtti()) {
@@ -688,7 +688,7 @@ internal class CodeGeneratorVisitor(
         val moduleIncludeOnly = context.config.moduleIncludeOnly
 
         if (moduleIncludeOnly.isNotEmpty()) {
-            if (libraryName == null || libraryName !in moduleIncludeOnly) {
+            if (!context.config.isIncludedLibrary(libraryName)) {
                 return
             }
         }
@@ -946,6 +946,14 @@ internal class CodeGeneratorVisitor(
         val body = declaration.body
         if (body == null && !declaration.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
             return
+        // if (body == null && !context.config.enableStackmap &&
+        //         declaration.annotations.hasAnnotation(RuntimeNames.exportForCppRuntime)) {
+        //     require(declaration.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
+        //     // Keep ExportForCppRuntime GCUnsafeCall functions as external declarations
+        //     // on the baseline path. Ordinary GCUnsafeCall declarations still need a
+        //     // Kotlin stub so Kotlin ABI call sites don't end up with an undefined kfun.
+        //     return
+        // }
 
         usingFileScope(declaration.sourceFileWhenInlined) {
             generateFunction(codegen, declaration,

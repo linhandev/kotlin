@@ -279,7 +279,15 @@ private fun inferFunctionAttributes(contextUtils: ContextUtils, irFunction: IrSi
                 }
                 add(LlvmFunctionAttribute.KFunc)
                 val classId = NativeRuntimeNames.Annotations.exportForCppRuntimeClassId
-                if (irFunction.hasAnnotation(classId)) {
+                // A @GCUnsafeCall function is a Kotlin->C import (declaration only), not a
+                // real C->Kotlin boundary. Tagging it stubtype=export_for_cpp_runtime_k makes
+                // the LLVM KotlinStubGenerator pass insert a C->K boundary global that hard-
+                // references the callee; for ObjC-export-only helpers (e.g.
+                // Kotlin_ObjCExport_trapOnUndeclaredException, defined in an Apple-only
+                // #if KONAN_OBJC_INTEROP .mm) that leaves an undefined symbol on OHOS.
+                // Only defined C->K exports should carry the attribute.
+                if (irFunction.hasAnnotation(classId) &&
+                        !irFunction.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
                     add(LlvmFunctionAttribute.ExportForCppRuntimeKFunc)
                 }
             }

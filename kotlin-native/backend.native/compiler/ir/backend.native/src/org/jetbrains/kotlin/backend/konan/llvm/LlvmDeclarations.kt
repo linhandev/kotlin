@@ -138,6 +138,7 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
     : IrVisitorVoid(), ContextUtils {
 
     val uniques = mutableMapOf<UniqueKind, UniqueLlvmDeclarations>()
+    private val nonExportedTypeInfoSymbolOwners = mutableMapOf<String, IrClass>()
 
     /**
      * Declaration should be excluded from code generation based on
@@ -149,7 +150,7 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         val moduleIncludeOnly = context.config.moduleIncludeOnly
 
         if (moduleIncludeOnly.isNotEmpty()) {
-            return libraryName !in moduleIncludeOnly
+            return !context.config.isIncludedLibrary(libraryName)
         }
 
         return false
@@ -164,6 +165,10 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
             return false
         }
 
+        if (declaration is IrFunction && declaration.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
+            return false
+        }
+
         // In split compilation mode, force external linkage for all public API declarations
         if (declaration is IrDeclarationWithVisibility && !declaration.visibility.isPublicAPI) {
             return false
@@ -172,7 +177,7 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         // Library code: check if body will be generated in this compilation unit
         val libraryName = library?.uniqueName ?: return false
         val willGenerateBody = when {
-            moduleIncludeOnly.isNotEmpty() -> libraryName in moduleIncludeOnly
+            moduleIncludeOnly.isNotEmpty() -> context.config.isIncludedLibrary(libraryName)
             else -> true
         }
 
@@ -295,8 +300,6 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         val internalName = qualifyInternalName(declaration)
         val excludedFromCodegen = shouldExcludeFromCodegen(declaration)
         val isSplitSoMode = context.config.moduleIncludeOnly.isNotEmpty()
-        val useGetOrCreateExternal = isSplitSoMode && !declaration.isExported()
-
         val fields =
             if (context.config.packFields)
                 packFields(declaration)
@@ -330,6 +333,17 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
                 declaration.computePrivateTypeInfoSymbolName(containerName)
             }
         }
+
+        val hasNonExportedTypeInfoNameCollision =
+            isSplitSoMode &&
+            !declaration.isExported() &&
+            !excludedFromCodegen &&
+            nonExportedTypeInfoSymbolOwners
+                .putIfAbsent(typeInfoSymbolName, declaration)
+                ?.let { it !== declaration } == true
+
+        val useGetOrCreateExternal =
+            isSplitSoMode && !declaration.isExported() && !hasNonExportedTypeInfoNameCollision
 
         if (declaration.typeInfoHasVtableAttached) {
             // Create the special global consisting of TypeInfo and vtable.

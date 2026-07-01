@@ -58,7 +58,7 @@ internal val NativeGenerationState.shouldDefineFunctionClasses: Boolean
         if (moduleIncludeOnly.isNotEmpty()) {
             val stdlibName = context.stdlibModule.konanLibrary?.uniqueName
             if (stdlibName != null) {
-                if (moduleIncludeOnly.isNotEmpty() && stdlibName !in moduleIncludeOnly) return false
+                if (!context.config.isIncludedLibrary(stdlibName)) return false
             }
         }
         return producedLlvmModuleContainsStdlib && cacheDeserializationStrategy.containsKFunctionImpl
@@ -70,7 +70,7 @@ internal val NativeGenerationState.shouldDefineCachedBoxes: Boolean
         if (moduleIncludeOnly.isNotEmpty()) {
             val stdlibName = context.stdlibModule.konanLibrary?.uniqueName
             if (stdlibName != null) {
-                if (moduleIncludeOnly.isNotEmpty() && stdlibName !in moduleIncludeOnly) return false
+                if (!context.config.isIncludedLibrary(stdlibName)) return false
             }
         }
         return producedLlvmModuleContainsStdlib &&
