@@ -140,7 +140,7 @@ class OhosExecutor(
         }
         val executionRequest = ExecuteRequest(
             executableAbsolutePath = "hdc",
-            args = mutableListOf(*deviceArgs.toTypedArray(), "shell", executionScript),
+            args = (deviceArgs + listOf("shell", executionScript)).toMutableList(),
             workingDirectory = workingDirectory,
             stdin = ByteArrayInputStream(byteArrayOf()),
             stdout = captureOut,
