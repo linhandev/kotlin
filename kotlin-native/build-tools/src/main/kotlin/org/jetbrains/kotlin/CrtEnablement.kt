@@ -38,6 +38,18 @@ fun resolveEnableStackmap(project: Project, target: KonanTarget): Boolean {
     return target == KonanTarget.OHOS_ARM64 || target == KonanTarget.MACOS_ARM64
 }
 
+// Within the precise-stackmap path, selects the stackmap *format* (must stay
+// paired with the LLVM -enable-compressed-bitmap-stackmap codegen flag):
+//   true  (default, production): lazy per-function compressed-bitmap stackmap
+//   false (comparison)         : upstream-standard eager full table
+fun resolveEnableCompressedStackmap(project: Project, target: KonanTarget): Boolean {
+    val perTarget = project.findProperty("kotlin.native.compressed.stackmap.${target.name}") as? String
+    if (perTarget != null) return perTarget.toBoolean()
+    val global = project.findProperty("kotlin.native.compressed.stackmap") as? String
+    if (global != null) return global.toBoolean()
+    return true
+}
+
 /**
  * True if CRT allocator + CMC GC are on for [target]. Default = stackmap value.
  * Explicit `kotlin.native.crt=true` combined with stackmap=false errors out.

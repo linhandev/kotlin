@@ -54,19 +54,17 @@ internal class BitcodeCompiler(
         } else {
             platform.targetTriple
         }
-        // The stackmap-pipeline opt-in flags
-        // (`-mllvm -enable-compressed-bitmap-stackmap=true`,
-        //  `-mllvm -enable-lazy-stackmap=true`) live directly in konan.properties'
-        // `clangFlags.<target>`. In OFF mode these activate the custom LLVM
-        // stackmap passes, which then SIGSEGV inside clang++ because the IR
-        // (built without precise stackmap support) has no compatible metadata.
-        // Filter the flags out instead of editing konan.properties so the ON
-        // path stays byte-identical to the precise-stackmap dist.
+        // The stackmap-pipeline opt-in flag (`-mllvm
+        // -enable-compressed-bitmap-stackmap=true`) lives directly in
+        // konan.properties' `clangFlags.<target>`. On a non-precise-stackmap
+        // target this flag would still activate the custom LLVM stackmap passes,
+        // which then SIGSEGV inside clang++ because the IR (built without precise
+        // stackmap support) has no compatible metadata. Filter it out instead of
+        // editing konan.properties so the precise-stackmap path stays byte-identical.
         fun List<String>.stripStackmapMllvmFlags(): List<String> {
             if (config.enableStackmap) return this
             val drop = setOf(
                 "-enable-compressed-bitmap-stackmap=true",
-                "-enable-lazy-stackmap=true",
                 "-enable-kotlin-stub-generator=true",
             )
             val out = mutableListOf<String>()

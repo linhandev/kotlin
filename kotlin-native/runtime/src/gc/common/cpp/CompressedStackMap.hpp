@@ -132,71 +132,16 @@ private:
 class CompressedStackMapHead {
 public:
     CompressedStackMapHead(const BitsManager& prologueManager,
-                           const PrologueVisitor& visitor, uint64_t funcAddress, uint32_t format)
-        : prologue_(prologueManager, visitor), funcAddress_(funcAddress), slotFormat_(format) {}
+                           const PrologueVisitor& visitor, uint32_t format)
+        : prologue_(prologueManager, visitor), slotFormat_(format) {}
     ~CompressedStackMapHead() = default;
 
     static CompressedStackMapHead GetStackMapHead(uint8_t *stackmapStart, const PrologueVisitor& visitor)
     {
-        // funcAddrOffset is now stored as (function_symbol - .Lstackmap_start.<func>),
-        // emitted by StackMaps.cpp::emitCompressedStackMaps as a R_AARCH64_PREL64
-        // relocation against the function symbol. The base of the diff is this entry's
-        // own start label, which equals stackmapStart at runtime, so we just add it back.
-        // This works correctly under multi-blob layouts (debug builds with multiple
-        // cached klibs concatenated): the older scheme used the global __LLVM_StackMaps
-        // symbol as the base, which after link resolves to blob_0's base only and gives
-        // wrong absolute addresses for entries from blob_M (M>0).
-        uint64_t funcAddress = static_cast<uint64_t>(
-            *reinterpret_cast<int64_t*>(stackmapStart) +
-            reinterpret_cast<int64_t>(stackmapStart));
-        stackmapStart += FUNC_ADDRESS_FIELD_SIZE; // skip funcAddress
-        stackmapStart += STACK_MAP_SIZE_FIELD_SIZE; // skip stackMapSize
         StackMapHeaderVarInt stacksizeVarInt(stackmapStart, 0);
         StackMapHeaderVarInt compressedFormatVarInt(stacksizeVarInt.GetNextTable());
         uint32_t format = compressedFormatVarInt.GetStacksize();
-#if DUMP_DEBUG_INFO
-        uint32_t stackSize = stacksizeVarInt.GetStacksize();
-        std::cout << "------- wzl log funcAddress: " << std::hex << funcAddress
-                  << std::dec << ", stackSize: " << stackSize << ", format: " << format << std::endl;
-#endif
-        return CompressedStackMapHead(compressedFormatVarInt.GetNextTable(), visitor, funcAddress, format);
-    }
-
-    void CollectAllStackMapEntry(std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo) const
-    {
-        StackMapTable stackMapTable(prologue_.GetNextTable());
-        std::vector<IdxSet> idxSetVec;
-        stackMapTable.CollectAllIdxSet(idxSetVec);
-
-        RegTable regTable(stackMapTable.GetNextTable());
-        SlotTable slotTable(regTable.GetNextTable(), slotFormat_);
-        DerivedPtrTable derivedTable(slotTable.GetNextTable(), stackMapTable.GetRegBitsLen(),
-                                     stackMapTable.GetSlotBitsLen());
-        for (auto idxSet : idxSetVec) {
-            CompressedStackMapEntry entry(idxSet, regTable, slotTable, derivedTable);
-#if DUMP_DEBUG_INFO
-            std::cout << "----wzl log funcAddress: " << funcAddress_ + idxSet.pc << std::endl;
-#endif
-            std::unordered_map<int32_t, std::vector<int32_t>> base2DerivedOffsets;
-            entry.CollectBase2DerivedSlotOffsets(base2DerivedOffsets);
-            uintptr_t curPC = funcAddress_ + idxSet.pc;
-            CallSiteInfo callSiteInfo {};
-            for (auto &elem : base2DerivedOffsets) {
-                callSiteInfo.emplace_back(std::pair<uint16_t, int32_t>(DWARF_FP_REG, elem.first));
-#if DUMP_DEBUG_INFO
-                if (elem.second.empty()) {
-                    std::cout << "    register: 29, offset: " << elem.first
-                              << ", register: 29, offset: " << elem.first << std::endl;
-                } else {
-                    for (auto derived : elem.second) {
-                        std::cout << "    register: 29, offset: " << elem.first
-                                  << ", register: 29, offset: " << derived << std::endl;
-                    }
-                }
-#endif
-            }
-            pc2CallSiteInfo[curPC] = callSiteInfo;
-        }
+        return CompressedStackMapHead(compressedFormatVarInt.GetNextTable(), visitor, format);
     }
 
     void CollectStackMapEntry(uintptr_t startPC, uintptr_t curPC,
@@ -231,7 +176,6 @@ public:
 
 private:
     PrologueVarInt prologue_;
-    uint64_t funcAddress_;
     uint32_t slotFormat_;
 };
 using StackMapEntry = CompressedStackMapEntry;
@@ -248,33 +192,6 @@ public:
         : startPC(start), framePC(frame), funcStackMapAddr(funcStackMapAddr) {}
     StackMapBuilder(uint8_t *llvmStackMaps) : data_(llvmStackMaps) {}
     ~StackMapBuilder() = default;
-
-    void Build()
-    {
-        PrologueRegisterClosure closure;
-        PrologueVisitor visitor = [&closure](PrologueRegisterClosure::Type type, uint32_t value) {
-            switch (type) {
-                case PrologueRegisterClosure::Type::CALLEE_REGISTER:
-                    closure.calleeSaved.push_back(value);
-                    break;
-                case PrologueRegisterClosure::Type::OFFSET:
-                    closure.offset.push_back(value);
-                    break;
-            }
-        };
-        uint64_t funcCount = *reinterpret_cast<const uint64_t*>(data_);
-#if DUMP_DEBUG_INFO
-        std::cout << "-----wzl log funcCount: " << funcCount << std::endl;
-#endif
-        data_ += FUNC_ADDRESS_FIELD_SIZE; // skip funcCount
-        for (uint64_t i = 0; i < funcCount; ++i) {
-            auto head = CompressedStackMapHead::GetStackMapHead(data_, visitor);
-            head.CollectAllStackMapEntry(pc2CallSiteInfo_);
-
-            uint32_t stackMapSize = *reinterpret_cast<const uint32_t*>(data_ + 8); // 8: skip funcAddress
-            data_ = data_ + stackMapSize;
-        }
-    }
 
     void collectHeapReferenceMap(std::unordered_map<int32_t, std::vector<int32_t>> &base2DerivedOffsets)
     {
@@ -293,24 +210,6 @@ public:
         head.CollectStackMapEntry(startPC, framePC, base2DerivedOffsets);
     }
 
-    void Print()
-    {
-#if DUMP_DEBUG_INFO
-        for (auto &pc2CallSiteInfo : pc2CallSiteInfo_) {
-            std::cout << "function address: 0x" << std::hex << pc2CallSiteInfo.first << "\n";
-            for (auto &callsite : pc2CallSiteInfo.second) {
-                std::cout << std::dec << "  dwarfRegNum_: " << callsite.first << " "
-                          << "offsetOrSmallConstant: " << callsite.second << "\n";
-            }
-        }
-#endif
-    }
-    void CalcCallSite();
-    std::unordered_map<uintptr_t, CallSiteInfo> &pc2CallSiteInfo()
-    {
-        return pc2CallSiteInfo_;
-    }
-
 protected:
     uintptr_t startPC = 0;
     uintptr_t framePC = 0;
@@ -318,7 +217,6 @@ protected:
     uint64_t *funcStackMapAddr = nullptr;
 
     uint8_t *data_ = nullptr;
-    std::unordered_map<uintptr_t, CallSiteInfo> pc2CallSiteInfo_;
 };
 } // namespace kotlin::stackMap
 
