@@ -32,7 +32,14 @@ class OhosClangArgsTest {
 
         assertTrue(args.any { it.contains("usr/include/aarch64-linux-ohos") })
         assertTrue(args.any { it.startsWith("--sysroot=") })
-        assertTrue(args.contains("-DKONAN_LINUX=1"))
+    }
+
+    @Test
+    fun `ohos arm64 konan source defines use KONAN_OHOS`(@TempDir tempDir: Path) {
+        val configurables = StubOhosConfigurables(KonanTarget.OHOS_ARM64, tempDir.toFile())
+        val args = ClangArgs.Native(configurables).clangArgsForKonanCSources
+
+        assertTrue(args.contains("-DKONAN_OHOS=1"))
         assertTrue(args.contains("-DUSE_ELF_SYMBOLS=1"))
         assertTrue(args.contains("-DUSE_GCC_UNWIND=1"))
     }
@@ -67,11 +74,11 @@ class OhosClangArgsTest {
     }
 
     @Test
-    fun `ohos x64 native clang args use same preprocessor flags as arm64`(@TempDir tempDir: Path) {
+    fun `ohos x64 konan source defines use KONAN_OHOS`(@TempDir tempDir: Path) {
         val configurables = StubOhosConfigurables(KonanTarget.OHOS_X64, tempDir.toFile())
-        val args = ClangArgs.Native(configurables).clangArgs.toList()
+        val args = ClangArgs.Native(configurables).clangArgsForKonanCSources
 
-        assertTrue(args.contains("-DKONAN_LINUX=1"))
+        assertTrue(args.contains("-DKONAN_OHOS=1"))
         assertTrue(args.contains("-DUSE_ELF_SYMBOLS=1"))
         assertTrue(args.contains("-DUSE_GCC_UNWIND=1"))
     }
