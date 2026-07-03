@@ -45,11 +45,11 @@ using ExecuteJob = KRef (*)(KRef, ObjHeader**);
 
 extern "C" {
 
-RUNTIME_NORETURN void ThrowWorkerAlreadyTerminated();
-RUNTIME_NORETURN void ThrowWrongWorkerOrAlreadyTerminated();
-RUNTIME_NORETURN void ThrowFutureInvalidState();
+EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowWorkerAlreadyTerminated();
+EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowWrongWorkerOrAlreadyTerminated();
+EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowFutureInvalidState();
 mm::RawExternalRCRef* WorkerExecuteLaunchpad(ExecuteJob job, mm::RawExternalRCRef* jobArgument);
-void WorkerExecuteAfterLaunchpad(mm::RawExternalRCRef* job);
+EXPORT_FOR_CPP_RUNTIME_DECL void WorkerExecuteAfterLaunchpad(mm::RawExternalRCRef* job);
 
 }  // extern "C"
 
@@ -676,7 +676,7 @@ void Future::cancelUnlocked(MemoryState* memoryState) {
 }
 
 // Defined in RuntimeUtils.kt.
-extern "C" void ReportUnhandledException(KRef e);
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL void ReportUnhandledException(KRef e);
 
 HAS_SAFEPOINT
 KInt startWorker(WorkerExceptionHandling exceptionHandling, mm::OwningExternalRCRef name) {
@@ -999,6 +999,9 @@ RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
     case JOB_EXECUTE_AFTER: {
       try {
           objc_support::AutoreleasePool autoreleasePool;
+          // WorkerExecuteAfterLaunchpad is declared EXPORT_FOR_CPP_RUNTIME_DECL (see its decl),
+          // so the C->K boundary (Kotlin_N2KStub) is inserted automatically at this
+          // cross-so call site by the AsmPrinter (via the export_for_cpp_runtime_k attr).
           WorkerExecuteAfterLaunchpad(job.executeAfter.operation);
       } catch(ExceptionObjHolder& e) {
         switch (exceptionHandling()) {

@@ -40,6 +40,21 @@
 #endif
 #define PERFORMANCE_INLINE __attribute__((annotate("performance_inline")))
 
+// Tag a *declaration* of an @ExportForCppRuntime Kotlin function that C++ runtime code
+// calls ACROSS a shared-library boundary. The annotate("export_for_cpp_runtime_k") lowers
+// (KotlinStubGenerator) to the fn attr stubtype=export_for_cpp_runtime_k, so the LLVM KSG
+// emits <F>.KotlinStubGV and the AsmPrinter rewrites the call site into
+// `adrp <F>.KotlinStubGV; bl Kotlin_N2KStub` (real C->K boundary). Without it, a split-so
+// build sees a bare extern decl (no attr) -> isSubTypeN2K() false -> no stub -> GC stack
+// walking misidentifies the C++ caller frames as KOTLIN_FRAME and reads a wild fp-2.
+// Gate on ENABLE_STACKMAP (matches HAS_SAFEPOINT). ONLY tag functions that ARE defined in
+// some so; a truly declaration-only helper makes the .KotlinStubGV initializer undefined.
+#ifdef ENABLE_STACKMAP
+#define EXPORT_FOR_CPP_RUNTIME_DECL __attribute__((annotate("export_for_cpp_runtime_k"), used))
+#else
+#define EXPORT_FOR_CPP_RUNTIME_DECL
+#endif
+
 #define OPTNONE __attribute__((optnone))
 
 #define THREAD_LOCAL_VARIABLE __thread

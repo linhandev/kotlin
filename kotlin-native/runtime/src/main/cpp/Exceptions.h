@@ -24,28 +24,29 @@ RUNTIME_NOTHROW OBJ_GETTER(Kotlin_getExceptionObject, void* holder);
 // The functions below are implemented in Kotlin (at package kotlin.native.internal).
 
 // Throws null pointer exception. Context is evaluated from caller's address.
-void RUNTIME_NORETURN ThrowNullPointerException();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowNullPointerException();
 // Throws array index out of bounds exception.
 // Context is evaluated from caller's address.
-void RUNTIME_NORETURN ThrowArrayIndexOutOfBoundsException();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowArrayIndexOutOfBoundsException();
 // Throws class cast exception.
-void RUNTIME_NORETURN ThrowClassCastException(const ObjHeader* instance, const TypeInfo* type_info);
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowClassCastException(
+    const ObjHeader* instance, const TypeInfo* type_info);
 // Throws arithmetic exception.
-void RUNTIME_NORETURN ThrowArithmeticException();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowArithmeticException();
 // Throws number format exception.
-void RUNTIME_NORETURN ThrowNumberFormatException();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowNumberFormatException();
 // Throws out of memory error.
-void RUNTIME_NORETURN ThrowOutOfMemoryError();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowOutOfMemoryError();
 // Throws not implemented error.
-void RUNTIME_NORETURN ThrowNotImplementedError();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowNotImplementedError();
 // Throws character coding exception (used in UTF8/UTF16 conversions).
-void RUNTIME_NORETURN ThrowCharacterCodingException();
-void RUNTIME_NORETURN ThrowIllegalArgumentException();
-void RUNTIME_NORETURN ThrowIllegalStateException();
-void RUNTIME_NORETURN ThrowIllegalStateExceptionWithMessage(KConstRef message);
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowCharacterCodingException();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowIllegalArgumentException();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowIllegalStateException();
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowIllegalStateExceptionWithMessage(KConstRef message);
 // Throws Kotlin IllegalStateException with message from C string (e.g. from cinterop weak fallback).
 void RUNTIME_NORETURN ThrowIllegalStateExceptionFromCString(const char* message);
-void RUNTIME_NORETURN ThrowFileFailedToInitializeException(KRef reason);
+EXPORT_FOR_CPP_RUNTIME_DECL void RUNTIME_NORETURN ThrowFileFailedToInitializeException(KRef reason);
 void RUNTIME_NORETURN ThrowInvalidMutabilityException(KConstRef where);
 // Prints out message of Throwable.
 void PrintThrowable(KRef);

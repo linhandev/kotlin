@@ -157,6 +157,15 @@ private fun addStringFnAttrIfMissing(fn: LLVMValueRef, context: LLVMContextRef, 
             LLVMCreateStringAttribute(context, name, name.length, "", 0))
 }
 
+// Like addStringFnAttrIfMissing but sets a non-empty attribute value
+// (e.g. stubtype = export_for_cpp_runtime_k). isSubTypeN2K() checks the value,
+// so a value="" attribute would not match.
+private fun addStringFnAttrWithValueIfMissing(fn: LLVMValueRef, context: LLVMContextRef, name: String, value: String) {
+    if (hasStringFnAttr(fn, name)) return
+    LLVMAddAttributeAtIndex(fn, LLVMAttributeFunctionIndex,
+            LLVMCreateStringAttribute(context, name, name.length, value, value.length))
+}
+
 // Step 1. Walks @llvm.global.annotations once: consumes the k2n / ktstub bridge
 // entries into fn attrs and drops them from the array (other tags — has_safepoint,
 // current_thread_tlv, … — are kept; downstream passes read them). Fused because
@@ -174,7 +183,17 @@ internal fun lowerInteropBridgeAnnotationsToAttrs(module: LLVMModuleRef) {
     for (i in 0 until numEntries) {
         val entry = LLVMGetOperand(initializer, i) ?: continue
         val annotation = getAnnotationString(entry)
-        if (annotation != null && annotation in CONSUMED_ANNOTATION_TAGS) {
+        if (annotation == "export_for_cpp_runtime_k") {
+            // C++ runtime tags a cross-so callee's *declaration* via EXPORT_FOR_CPP_RUNTIME_DECL
+            // (Common.h). Lower to the SAME attr the definition side emits
+            // (stubtype=export_for_cpp_runtime_k, LlvmFunctionPrototype.kt) so isSubTypeN2K()
+            // is true in THIS module too; the LLVM KSG then emits <F>.KotlinStubGV and the
+            // AsmPrinter rewrites the call into `bl Kotlin_N2KStub` (C->K boundary).
+            getAnnotatedFunction(entry)?.let {
+                addStringFnAttrWithValueIfMissing(it, context, "stubtype", "export_for_cpp_runtime_k")
+            }
+            consumed++
+        } else if (annotation != null && annotation in CONSUMED_ANNOTATION_TAGS) {
             // Consume into a fn attr (attr name == annotation tag) and drop the entry.
             getAnnotatedFunction(entry)?.let { addStringFnAttrIfMissing(it, context, annotation) }
             consumed++

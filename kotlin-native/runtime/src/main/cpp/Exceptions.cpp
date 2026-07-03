@@ -254,7 +254,7 @@ void ReportBacktraceToOhosLog(KRef exception)
 
 // Defined in RuntimeUtils.kt
 extern "C" void Kotlin_runUnhandledExceptionHook(KRef exception);
-extern "C" void ReportUnhandledException(KRef exception);
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL void ReportUnhandledException(KRef exception);
 
 NO_SAFEPOINT
 void ThrowException(KRef exception) {
