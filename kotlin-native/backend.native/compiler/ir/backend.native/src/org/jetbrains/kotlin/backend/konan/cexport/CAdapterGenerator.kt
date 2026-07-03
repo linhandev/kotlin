@@ -410,7 +410,6 @@ internal class CAdapterGenerator(
     private val scopes = mutableListOf<ExportedElementScope>()
     internal val prefix = typeTranslator.prefix
     private val paramNamesRecorded = mutableMapOf<String, Int>()
-    private val moduleIncludeOnly: Set<String> = context.config.moduleIncludeOnly.toSet()
     internal val enableStackmap: Boolean = context.config.enableStackmap
 
     internal val symbolTable get() = context.symbolTable!!
@@ -602,7 +601,7 @@ internal class CAdapterGenerator(
      */
     private fun shouldIncludeModule(module: ModuleDescriptor): Boolean {
         // If no filtering configured, include all modules
-        if (moduleIncludeOnly.isEmpty()) {
+        if (context.config.moduleIncludeOnly.isEmpty()) {
             println("[CAdapterGenerator] No module filtering configured, including all modules")
             return true
         }
@@ -613,15 +612,15 @@ internal class CAdapterGenerator(
         // For modules without a library (e.g., main module)
         if (libraryName == null) {
             // Exclude main module if moduleIncludeOnly is set (only include specified libraries)
-            val include = moduleIncludeOnly.isEmpty()
-            println("[CAdapterGenerator] Module without library (main module): include=$include, moduleIncludeOnly=$moduleIncludeOnly")
+            val include = context.config.moduleIncludeOnly.isEmpty()
+            println("[CAdapterGenerator] Module without library (main module): include=$include, moduleIncludeOnly=${context.config.moduleIncludeOnly}")
             return include
         }
 
         // only include modules in that list
-        if (moduleIncludeOnly.isNotEmpty()) {
-            val include = moduleIncludeOnly.any { libraryName.contains(it, ignoreCase = true) }
-            println("[CAdapterGenerator] Checking module '$libraryName' against moduleIncludeOnly=$moduleIncludeOnly: include=$include")
+        if (context.config.moduleIncludeOnly.isNotEmpty()) {
+            val include = context.config.isIncludedLibrary(libraryName)
+            println("[CAdapterGenerator] Checking module '$libraryName' against moduleIncludeOnly=${context.config.moduleIncludeOnly}: include=$include")
             return include
         }
 
@@ -634,7 +633,7 @@ internal class CAdapterGenerator(
         moduleDescriptors += moduleDescriptor.getExportedDependencies(context.config)
 
         // Filter modules based on moduleIncludeOnly configuration
-        val filteredModules = if (moduleIncludeOnly.isEmpty()) {
+        val filteredModules = if (context.config.moduleIncludeOnly.isEmpty()) {
             println("[CAdapterGenerator] No module filtering, including all ${moduleDescriptors.size} modules")
             moduleDescriptors
         } else {

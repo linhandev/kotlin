@@ -239,15 +239,24 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
 
     val moduleIncludeOnly: List<String>
         get() {
-            if (emitStdlib) return listOf(
-                "stdlib",
-                "org.jetbrains.kotlin.native.platform.posix",
-                "org.jetbrains.kotlin.native.platform.linux",
-                "org.jetbrains.kotlin.native.platform.ohos",
-            )
+            if (emitStdlib) return listOf("stdlib")
             val outputModule = configuration.get(BinaryOptions.outputModule) ?: return emptyList()
             return moduleIncludes[outputModule] ?: emptyList()
         }
+
+    fun isIncludedLibrary(libraryName: String?): Boolean {
+        val moduleIncludeOnly = moduleIncludeOnly
+        if (moduleIncludeOnly.isEmpty()) return true
+        if (libraryName == null) return false
+
+        if (emitStdlib) {
+            return libraryName == "stdlib" || libraryName.startsWith("org.jetbrains.kotlin.native.platform.")
+        }
+
+        return moduleIncludeOnly.any { include ->
+            libraryName == include
+        }
+    }
 
     val runtimeLogs: Map<LoggingTag, LoggingLevel> by lazy {
         val default = LoggingTag.entries.associateWith { LoggingLevel.None }
