@@ -433,7 +433,7 @@ napi_value ArkTSStringRef::toNapiValue(napi_env env) {
 static void ExternalStringFinalizer(void *data, void* hint) {
     // Dispose stable pointer when ArkTS string is destroyed.
     if (hint != nullptr) {
-        Kotlin_initRuntimeIfNeeded();
+        kotlin::CalledFromNativeGuard guard(true);
         ObjHeader* slot_ = nullptr;
         ObjHeader* obj = DerefStablePointer(hint, &slot_);
         if (obj != nullptr) {
