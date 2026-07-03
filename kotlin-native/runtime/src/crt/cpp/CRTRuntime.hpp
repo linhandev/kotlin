@@ -20,7 +20,8 @@
 
 namespace kotlin {
 bool InitCRTRuntime();
-void DestroyCRTRuntime(MemoryState* currentThread);
+void DestroyCRTRuntime();
+void StopCRTGCWork();
 
 inline uintptr_t g_kexeAddrStart;
 inline uintptr_t g_kexeAddrEnd;

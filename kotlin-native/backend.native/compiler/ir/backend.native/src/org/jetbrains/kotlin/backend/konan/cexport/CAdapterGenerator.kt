@@ -252,10 +252,13 @@ internal class ExportedElement(
         val typeGetter = "extern \"C\" ${owner.prefix}_KType* ${cname}_type(void);"
         val instanceGetter = if (isSingletonObject) {
             val objectClassC = typeTranslator.translateType((declaration as ClassDescriptor).defaultType)
+            // Same native->kotlin boundary as translateBody's _impl: switches to runnable
+            // state and calls the bridge. Must carry "ktstub" so KSG marks the bridge n2k.
+            val ktstubAttr = if (owner.enableStackmap) " __attribute__((annotate(\"ktstub\")))" else ""
             """
             |
             |extern "C" KObjHeader* ${cname}_instance(KObjHeader**);
-            |static $objectClassC ${cname}_instance_impl(void) {
+            |static $objectClassC ${cname}_instance_impl(void)$ktstubAttr {
             |  ScopedFastPathGuard fastPathGuard;
             |  Kotlin_initRuntimeIfNeeded();
             |  ScopedRunnableState stateGuard;
@@ -272,10 +275,13 @@ internal class ExportedElement(
         assert(isEnumEntry)
         val enumClass = declaration.containingDeclaration as ClassDescriptor
         val enumClassC = typeTranslator.translateType(enumClass.defaultType)
+        // Same native->kotlin boundary as translateBody's _impl: must carry "ktstub"
+        // so KSG marks the enum-entry getter bridge n2k.
+        val ktstubAttr = if (owner.enableStackmap) " __attribute__((annotate(\"ktstub\")))" else ""
 
         return """
               |extern "C" KObjHeader* $cname(KObjHeader**);
-              |static $enumClassC ${cname}_impl(void) {
+              |static $enumClassC ${cname}_impl(void)$ktstubAttr {
               |  ScopedFastPathGuard fastPathGuard;
               |  Kotlin_initRuntimeIfNeeded();
               |  ScopedRunnableState stateGuard;

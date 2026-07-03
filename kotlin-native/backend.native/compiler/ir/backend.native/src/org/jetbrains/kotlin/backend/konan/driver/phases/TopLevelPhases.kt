@@ -10,6 +10,7 @@ import org.jetbrains.kotlin.backend.konan.*
 import org.jetbrains.kotlin.backend.konan.driver.PhaseContext
 import org.jetbrains.kotlin.backend.konan.driver.utilities.CExportFiles
 import org.jetbrains.kotlin.backend.konan.driver.utilities.createTempFiles
+import org.jetbrains.kotlin.backend.konan.llvm.runKsgPhase
 import org.jetbrains.kotlin.backend.konan.ir.konanLibrary
 import org.jetbrains.kotlin.backend.konan.serialization.CacheDeserializationStrategy
 import org.jetbrains.kotlin.backend.konan.serialization.PartialCacheInfo
@@ -284,6 +285,7 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBitcodeBackend(context: Bitcod
         val bitcodeFile = tempFiles.create(context.config.shortModuleName ?: "out", ".bc").javaFile()
         val outputPath = context.config.outputPath
         val outputFiles = OutputFiles(outputPath, context.config.target, context.config.produce)
+        runKsgPhase(context.llvm.module, context.config.enableStackmap)
         if (context.config.splitBCfile == 1u) {
             newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
         } else {
@@ -396,13 +398,9 @@ internal fun PhaseEngine<NativeGenerationState>.compileModule(
         runPhase(CheckExternalCallsPhase)
     }
 
+    runKsgPhase(context.llvm.module, context.config.enableStackmap)
+
     if (context.config.splitBCfile == 1u) {
-        // The precise-stackmap path adds disableBoundryFunctionInline + addDelayInline
-        // unconditionally in the splitBC path. OFF restores baseline (no boundary-inline disable).
-        if (context.config.enableStackmap) {
-            disableBoundryFunctionInline(context.llvm.module)
-            addDelayInline(context.llvm.module)
-        }
         newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
         // Run post-optimization phases for serial path
         if (checkExternalCalls) {
@@ -411,7 +409,7 @@ internal fun PhaseEngine<NativeGenerationState>.compileModule(
         if (context.config.produce.isFullCache) {
             runPhase(SaveAdditionalCacheInfoPhase)
         }
-        addAlwaysInline(context.llvm.module)
+        // (k2n/ktstub @llvm.global.annotations already stripped inside runKotlinStubGenerator.)
         runPhase(WriteBitcodeFilePhase, WriteBitcodeFileInput(context.llvm.module, bitcodeFile))
     } else {
         newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessingCoroutines(bitcodeFile) }

@@ -52,7 +52,7 @@ namespace alloc { class Allocator; }
 
 namespace common {
 
-enum class GCReason { GC_REASON_USER };
+enum class GCReason { GC_REASON_USER, GC_REASON_FORCE };
 enum class GCType { GC_TYPE_FULL };
 enum class GCPhase { GC_PHASE_IDLE, GC_PHASE_PRECOPY, GC_PHASE_COPY, GC_PHASE_FIX };
 
@@ -133,7 +133,8 @@ namespace kotlin {
 // Stubs for crt/cpp/CRTRuntime.hpp (declarations there are normally satisfied by
 // crt/cpp/CRTRuntime.cpp, which is not compiled when ENABLE_CRT is off).
 inline bool InitCRTRuntime() noexcept { return false; }
-inline void DestroyCRTRuntime(::MemoryState*) noexcept {}
+inline void DestroyCRTRuntime() noexcept {}
+inline void StopCRTGCWork() noexcept {}
 } // namespace kotlin
 
 namespace kotlin::alloc {

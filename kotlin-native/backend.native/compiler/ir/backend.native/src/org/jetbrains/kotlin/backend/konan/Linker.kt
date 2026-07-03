@@ -101,16 +101,11 @@ internal class Linker(
 
     private fun stubObjectsForTarget(): List<String> {
         if (target != KonanTarget.OHOS_ARM64 && target != KonanTarget.MACOS_ARM64) return emptyList()
-        // The 4 asm stubs can't be dropped from the OFF link: pre-compiled klib
-        // cstubs.bc files (platform.darwin/posix/zlib/iconv/builtin) bake in
-        // `_Kotlin_KonanStartStub` references at klib generation time, so dropping
-        // the stub objects breaks the link.
-        //
-        // For a proper follow-up, all platform klibs would need regeneration in
-        // OFF mode (a large invasive change beyond scope). Asm stubs stay linked
-        // unconditionally — they're small and harmless when not called (the
-        // compiler emits non-stub paths in OFF per the CodeGenerator gate below,
-        // so the asm trampolines are dead code in OFF binaries).
+        // OFF (enableStackmap=false): drop all asm stubs — the runtime takes the non-stub
+        // paths and FpUnwind never reads the unwindPC* markers, so nothing references them.
+        if (!config.enableStackmap) return emptyList()
+        // `moduleIncludeOnly.isNotEmpty()` ≡ "modular/split build AND this binary is not the runtime carrier".
+        if (config.moduleIncludeOnly.isNotEmpty()) return emptyList()
         val stubsDir = "${config.distribution.konanHome}/konan/targets/${target.name}/stubs_objs"
         return listOf(
                 "N2KStub.o",
@@ -229,6 +224,11 @@ internal class Linker(
                         "CRT (-Xallocator=crt / -Xbinary=runtimeSwitchMemoryManager=true)."
             }
             libraries += listOf(libcrtFile.absolutePath)
+            // Add an rpath to the dist native dir so an in-place run resolves it. (ELF/ohos
+            // doesn't need this: libcrt.so is found via the app's native-lib search path.)
+            if (target.family.isAppleFamily) {
+                linkerArgs += listOf("-rpath", libcrtFile.parentFile.absolutePath)
+            }
         }
 
         // Stub .o files (N2KStub / K2NStub / K2RStub / KonanStartStub) live under the runtime-resolved

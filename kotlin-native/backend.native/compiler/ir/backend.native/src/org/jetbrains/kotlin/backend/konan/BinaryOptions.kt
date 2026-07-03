@@ -23,10 +23,19 @@ object BinaryOptions : BinaryOptionRegistry() {
     // pointers, phi cast across AS0/AS1 boundary). Must match the runtime build
     // property `kotlin.native.precise.stackmap` (which controls cpp
     // `-DENABLE_STACKMAP=1`). Default = unset, which the consumer
-    // (KonanConfig.enableStackmap) resolves per-target: ON only for ohos_arm64,
-    // OFF for every other target. Pass `-Xbinary=enableStackmap=true|false` to
+    // (KonanConfig.enableStackmap) resolves per-target: ON for ohos_arm64 and
+    // macos_arm64, OFF for every other target. Pass `-Xbinary=enableStackmap=true|false` to
     // konanc to force a specific mode (must match the dist's per-target flavour).
     val enableStackmap by booleanOption()
+
+    // Compiler-side mirror of the runtime cpp `-DENABLE_GC_FASTPATH` (set by the
+    // build property `kotlin.native.gc_fastpath` for ohos_arm64 and macos_arm64,
+    // together with `-ffixed-x28`). Controls whether the CRT prologue-safepoint
+    // expansion reads the per-mutator IsSafePointActive flag through the reserved
+    // x28 (fast path) or defers to the runtime stub (non-fastpath CurrentThreadData
+    // path). Default = unset, resolved per-target by KonanConfig.enableGcFastpath:
+    // ON for ohos_arm64 and macos_arm64. Must match the dist's runtime bitcode flavour.
+    val enableGcFastpath by booleanOption()
 
     val splitBCfile by uintOption()
 

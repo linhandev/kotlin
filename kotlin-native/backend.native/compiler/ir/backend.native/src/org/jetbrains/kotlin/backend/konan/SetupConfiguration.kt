@@ -235,10 +235,11 @@ fun CompilerConfiguration.setupFromArguments(arguments: K2NativeCompilerArgument
     //   - unspecified gc  -> null here, which then falls through to KonanConfig.gc's
     //     defaultGC = CMS (i.e. unchanged from the pre-switch baseline, which also
     //     defaulted to CMS). Only the explicit-"cms" case is actually remapped.
-    // The default mirrors KonanConfig.enableStackmap (target-aware: ON only for
-    // ohos_arm64) so the GC choice agrees with codegen; a null target means the
-    // host, which is never ohos_arm64.
-    val stackmapEnabled = get(BinaryOptions.enableStackmap) ?: (arguments.target == KonanTarget.OHOS_ARM64.name)
+    // The default mirrors KonanConfig.enableStackmap (target-aware: ON for
+    // ohos_arm64 and macos_arm64) so the GC choice agrees with codegen; a null
+    // target means the host.
+    val stackmapEnabled = get(BinaryOptions.enableStackmap) ?:
+            (arguments.target == KonanTarget.OHOS_ARM64.name || arguments.target == KonanTarget.MACOS_ARM64.name)
     val gcFromArgument = when (arguments.gc) {
         null -> if (stackmapEnabled) GC.CONCURRENT_MARK_AND_SWEEP else null
         "noop" -> GC.NOOP

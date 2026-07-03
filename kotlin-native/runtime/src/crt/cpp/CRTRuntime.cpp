@@ -103,17 +103,13 @@ bool InitCRTRuntime()
     return true;
 }
 
-void DestroyCRTRuntime(MemoryState* currentThread)
+void StopCRTGCWork()
 {
-    if (currentThread) {
-        // Stop all GC threads before stopping the world to avoid a deadlock:
-        // it will wait for all GC threads to terminate, but some might get stuck
-        // waiting on stwMutex if the world is stopped already.
-        common::Heap::GetHeap().StopGCWork();
-        // Avoid still-running threads to access anything we're about to destroy.
-        common::BaseRuntime::GetInstance()->GetThreadHolderManager().SuspendAll(
-            currentThread->GetThreadData()->GetThreadHolder());
-    }
+    common::Heap::GetHeap().StopGCWork();
+}
+
+void DestroyCRTRuntime()
+{
     common::BaseRuntime::GetInstance()->FiniFromDynamic();
     common::BaseRuntime::DestroyInstance();
 }

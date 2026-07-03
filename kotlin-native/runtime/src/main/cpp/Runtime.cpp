@@ -302,7 +302,7 @@ void Kotlin_shutdownRuntime() {
         // Mark the thread native, and don't make the GC thread wait on it.
         kotlin::SwitchThreadState(runtime->memoryState, kotlin::ThreadState::kNative);
         checkUseCRT<CheckMode::Slow>([&] {
-            DestroyCRTRuntime(runtime->memoryState); // CRT must be destroyed before C++ globals are.
+            StopCRTGCWork();
         });
         return;
     }

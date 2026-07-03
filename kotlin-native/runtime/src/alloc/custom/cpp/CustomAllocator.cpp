@@ -44,7 +44,7 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
         object->typeInfoOrMeta_ = clearPointerBits(const_cast<TypeInfo*>(typeInfo), OBJECT_TAG_MASK);
     }
     #ifdef KONAN_OHOS
-    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {
         restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_,
             TAG_RES_KMP_HEAP_MASK, true);
     }
@@ -76,7 +76,7 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
     array->typeInfoOrMeta_ = clearPointerBits(const_cast<TypeInfo*>(typeInfo), OBJECT_TAG_MASK);
     array->count_ = count;
     #ifdef KONAN_OHOS
-    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {
         restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_,
             TAG_RES_KMP_HEAP_MASK, true);
     }
