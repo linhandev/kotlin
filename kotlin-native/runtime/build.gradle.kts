@@ -4,6 +4,7 @@
  */
 import org.jetbrains.kotlin.ExecClang
 import org.jetbrains.kotlin.PlatformInfo
+import org.jetbrains.kotlin.resolveEnableCompressedStackmap
 import org.jetbrains.kotlin.resolveEnableCrt
 import org.jetbrains.kotlin.resolveEnableStackmap
 import org.jetbrains.kotlin.bitcode.CompileToBitcodeExtension
@@ -67,7 +68,12 @@ googletest {
 val targetList = enabledTargets(extensions.getByType<PlatformManager>())
 
 fun CompileToBitcodeExtension.Module.enablePreciseStackmapAndCrt(target: KonanTarget) {
-    if (resolveEnableStackmap(project, target)) compilerArgs.add("-DENABLE_STACKMAP=1")
+    if (resolveEnableStackmap(project, target)) {
+        compilerArgs.add("-DENABLE_STACKMAP=1")
+        // Paired with the LLVM -enable-compressed-bitmap-stackmap codegen flag in
+        // konan.properties: emit (LLVM) and decode (runtime) must agree.
+        compilerArgs.add("-DENABLE_COMPRESSED_BITMAP_STACKMAP=" + if (resolveEnableCompressedStackmap(project, target)) "1" else "0")
+    }
     if (resolveEnableCrt(project, target)) compilerArgs.add("-DENABLE_CRT=1")
 }
 

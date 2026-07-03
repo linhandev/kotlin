@@ -18,7 +18,14 @@
 #include <string_view>
 #include <iostream>
 
-#define ENABLE_LAZY_STACKMAP 1
+// Unified stackmap-format switch (replaces former ENABLE_LAZY_STACKMAP / ENABLE_COMPERSSED_STACKMAP).
+// ON  (1, production) : lazy per-function compressed-bitmap stackmap; local-anchor relative offsets.
+// OFF (0, comparison) : upstream-standard eager full table; absolute addresses.
+// Driven by runtime/build.gradle.kts (-DENABLE_COMPRESSED_BITMAP_STACKMAP); must stay paired with the
+// LLVM -enable-compressed-bitmap-stackmap codegen flag set in konan.properties.
+#ifndef ENABLE_COMPRESSED_BITMAP_STACKMAP
+#define ENABLE_COMPRESSED_BITMAP_STACKMAP 1
+#endif
 #if KONAN_LINUX || KONAN_OHOS
 extern "C" uint8_t __LLVM_StackMaps;
 #else
@@ -28,7 +35,6 @@ extern "C" uint8_t _LLVM_StackMaps;
 #define DUMP_DEBUG_INFO 0
 
 namespace kotlin::gc::internal {
-#define ENABLE_COMPERSSED_STACKMAP 1
 
 template <typename GCTraits>
 class MainGCThread : private MoveOnly {
@@ -39,50 +45,29 @@ public:
         allocator_(allocator),
         gcScheduler_(gcScheduler),
         mark_(mark),
-#if ENABLE_LAZY_STACKMAP
+#if ENABLE_COMPRESSED_BITMAP_STACKMAP
+        // ON: lazy compressed stackmap — nothing is built at startup; the marker
+        // resolves each frame's records on demand during STW.
         thread_(std::string_view("Main GC thread"), [this] { body(); }) {
-#else // ENABLE_LAZY_STACKMAP
+#else // ENABLE_COMPRESSED_BITMAP_STACKMAP
+        // OFF: eager upstream-standard full table built once at startup.
         thread_(std::string_view("Main GC thread"), [this] { body(); }),
 #if KONAN_LINUX || KONAN_OHOS
-
-#if ENABLE_COMPERSSED_STACKMAP
-    compressStackMapBuilder_(&__LLVM_StackMaps) {
-    compressStackMapBuilder_.Build();
+        stackMap_(&__LLVM_StackMaps) {
+#else // KONAN_LINUX || KONAN_OHOS
+        stackMap_(&_LLVM_StackMaps) {
+#endif // KONAN_LINUX || KONAN_OHOS
+        stackMap_.Build();
 #if DUMP_DEBUG_INFO
-    compressStackMapBuilder_.Print();
+        stackMap_.Print();
 #endif
-#else // else of ENABLE_COMPERSSED_STACKMAP
-    stackMap_(&__LLVM_StackMaps) {
-    stackMap_.Build();
-#if DUMP_DEBUG_INFO
-    stackMap_.Print();
-#endif
-#endif // ENABLE_COMPERSSED_STACKMAP end
-
-#else // else of (KONAN_LINUX || KONAN_OHOS)
-#if ENABLE_COMPERSSED_STACKMAP
-    compressStackMapBuilder_(&_LLVM_StackMaps) {
-    compressStackMapBuilder_.Build();
-#if DUMP_DEBUG_INFO
-    compressStackMapBuilder_.Print();
-#endif
-#else // else of ENABLE_COMPERSSED_STACKMAP
-    stackMap_(&_LLVM_StackMaps) {
-    stackMap_.Build();
-#if DUMP_DEBUG_INFO
-    stackMap_.Print();
-#endif
-#endif // ENABLE_COMPERSSED_STACKMAP end
-#endif // KONAN_LINUX || KONAN_OHOS end
-#endif // ~ENABLE_LAZY_STACKMAP
+#endif // ENABLE_COMPRESSED_BITMAP_STACKMAP
             }
-#if ENABLE_LAZY_STACKMAP == 0
-#if ENABLE_COMPERSSED_STACKMAP
-    stackMap::StackMapBuilder &stackMap() noexcept { return compressStackMapBuilder_; }
-#else
+#if !ENABLE_COMPRESSED_BITMAP_STACKMAP
+    // OFF only: expose the eager full table to the marker (ConcurrentMark uses
+    // stackMap().pc2CallSiteInfo()). ON resolves records lazily, without this.
     stackMap::StackMap &stackMap() noexcept { return stackMap_; }
-#endif // ~ENABLE_COMPERSSED_STACKMAP
-#endif // ~ENABLE_LAZY_STACKMAP
+#endif // !ENABLE_COMPRESSED_BITMAP_STACKMAP
 
 private:
     void body() noexcept {
@@ -160,13 +145,9 @@ private:
     gcScheduler::GCScheduler& gcScheduler_;
     typename GCTraits::Mark& mark_;
     UtilityThread thread_;
-#if ENABLE_LAZY_STACKMAP == 0
-#if ENABLE_COMPERSSED_STACKMAP
-    stackMap::StackMapBuilder compressStackMapBuilder_;
-#else
-    stackMap::StackMap stackMap_;
-#endif // ~ENABLE_COMPERSSED_STACKMAP
-#endif // ~ENABLE_LAZY_STACKMAP
+#if !ENABLE_COMPRESSED_BITMAP_STACKMAP
+    stackMap::StackMap stackMap_; // OFF: eager upstream-standard full table
+#endif // !ENABLE_COMPRESSED_BITMAP_STACKMAP
 };
 
 } // namespace kotlin::gc::internal

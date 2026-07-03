@@ -29,7 +29,12 @@ using namespace kotlin;
 // available for upcoming verification hooks; the cost is a single define.
 #define KOTLIN_VERIFY 1
 #endif
-#define ENABLE_LAZY_STACKMAP 1
+// Unified stackmap-format switch — see MainGCThread.hpp for the full contract.
+// ON (1) lazy compressed per-function lookup; OFF (0) eager standard pc2CallSiteInfo().
+// Driven by runtime/build.gradle.kts (-DENABLE_COMPRESSED_BITMAP_STACKMAP).
+#ifndef ENABLE_COMPRESSED_BITMAP_STACKMAP
+#define ENABLE_COMPRESSED_BITMAP_STACKMAP 1
+#endif
 namespace {
 
 class FlushActionActivator final : public mm::ExtraSafePointActionActivator<FlushActionActivator> {};
@@ -176,7 +181,7 @@ static void CollectStackMapBaseRoot(
     mm::ThreadData& thread, uint64_t* fp,
     const uint32_t* pc, std::vector<int32_t> &baseRoots)
 {
-#if ENABLE_LAZY_STACKMAP
+#if ENABLE_COMPRESSED_BITMAP_STACKMAP
     uint32_t *funcStartPC = reinterpret_cast<uint32_t*>(*(fp - 1));
     uint64_t *stackMapAddress = GetStackMapAddress(fp, funcStartPC, thread);
     std::unordered_map<int32_t, std::vector<int32_t>> base2DerivedOffsets;
@@ -186,15 +191,19 @@ static void CollectStackMapBaseRoot(
     for (auto elem : base2DerivedOffsets) {
         baseRoots.push_back(elem.first);
     }
-#else // else of ENABLE_LAZY_STACKMAP
-    auto& pc2CallSiteInfos = thread.gc().impl().gc().gc().stackMap().pc2CallSiteInfo();
+#else // else of ENABLE_COMPRESSED_BITMAP_STACKMAP
+    // OFF (eager standard): the full pc->callsite table lives on the single global
+    // MainGCThread (GC::Impl::gcThread_), not on the per-thread ThreadData. Reach it
+    // via the global GC instance: GlobalData -> GC -> GC::Impl -> MainGCThread -> stackMap().
+    (void)thread;
+    auto& pc2CallSiteInfos = mm::GlobalData::Instance().gc().impl().gc().stackMap().pc2CallSiteInfo();
     auto callsitInfoIt = pc2CallSiteInfos.find((uintptr_t)pc);
     if (callsitInfoIt != pc2CallSiteInfos.end()) {
         for (auto& callsite : callsitInfoIt->second) {
             baseRoots.push_back(callsite.second);
         }
     }
-#endif // end of ENABLE_LAZY_STACKMAP
+#endif // end of ENABLE_COMPRESSED_BITMAP_STACKMAP
 }
 #endif // ENABLE_STACKMAP (CollectStackMapBaseRoot)
 

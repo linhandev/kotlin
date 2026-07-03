@@ -47,11 +47,16 @@
 // which cause compact-unwind encoding=0). Their *value* is the PC address.
 // On OHOS/Linux, they are code labels whose *address* is the PC.
 //
-// Declared weak so the OFF link (which drops the asm stub .o on OHOS, see
-// Linker.stubObjectsForTarget) resolves them to 0 instead of failing on
-// undefined symbols. OHOS reads them address-form (&marker) so 0 is safe — the
-// Is*Stub predicates just never match. macOS reads them value-form, so the
-// Linker keeps the stub .o there and these stay strongly defined.
+// Declared weak so the OFF link — which drops the asm stub .o on BOTH OHOS and
+// macOS (see Linker.stubObjectsForTarget) — resolves them to 0 instead of failing
+// on undefined symbols. Safe in every supported build: the Is*Stub readers below
+// are ENABLE_STACKMAP-gated, so a matched OFF runtime never compiles them and the
+// markers are never read; a matched ON build keeps the stub .o, so they stay
+// strongly defined. The only config that could read a 0 marker is an ON runtime
+// linked by an OFF app (stub .o dropped) — an unsupported runtime-flavour mismatch
+// (see KonanConfig.enableStackmap): there OHOS reads address-form (&marker == 0,
+// never matches a frame PC); macOS would read value-form (a load from 0), but that
+// mismatch is not a supported configuration.
 extern uintptr_t unwindPCForN2KStub __attribute__((weak));
 extern uintptr_t unwindPCForKonanStartStub __attribute__((weak));
 extern uintptr_t unwindPCForK2RStubStart __attribute__((weak));

@@ -46,16 +46,15 @@ struct StackMapHeader {
 };
 
 struct StkMapSizeRecord {
-    /** Byte offset of the function record from the start of the LLVM stack map section. */
-    uint64_t funcAddrOffset;
+    /** OFF (eager standard) mode only: absolute address of the function (R_AARCH64_ABS64),
+     *  as emitted by emitFunctionFrameRecords. Consumed directly, no section base added.
+     *  (The compressed/ON path uses CompressedStackMap's own relative funcAddress field,
+     *  not this struct.) */
+    uint64_t funcAddress;
     uint64_t stackSize;
     uint64_t recordCount;
     void Print() const {
-#if KONAN_LINUX || KONAN_OHOS
-        uintptr_t funcAddr = static_cast<int64_t>(funcAddrOffset) + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
-#else
-        uintptr_t funcAddr = static_cast<int64_t>(funcAddrOffset) + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
-#endif
+        uintptr_t funcAddr = static_cast<uintptr_t>(funcAddress);
         std::cout << "function address: 0x" << std::hex << funcAddr <<
                   "  stackSize: " << stackSize <<
                   "  recordCount: " << recordCount << "\n";
