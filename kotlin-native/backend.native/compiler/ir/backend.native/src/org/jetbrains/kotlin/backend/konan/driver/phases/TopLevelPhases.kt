@@ -10,6 +10,9 @@ import org.jetbrains.kotlin.backend.konan.*
 import org.jetbrains.kotlin.backend.konan.driver.PhaseContext
 import org.jetbrains.kotlin.backend.konan.driver.utilities.CExportFiles
 import org.jetbrains.kotlin.backend.konan.driver.utilities.createTempFiles
+import llvm.*
+import org.jetbrains.kotlin.backend.konan.llvm.parseBitcodeFile
+import org.jetbrains.kotlin.backend.konan.llvm.runKotlinStubGenerator
 import org.jetbrains.kotlin.backend.konan.llvm.runKsgPhase
 import org.jetbrains.kotlin.backend.konan.ir.konanLibrary
 import org.jetbrains.kotlin.backend.konan.serialization.CacheDeserializationStrategy
@@ -216,6 +219,27 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBackend(backendContext: Contex
                     generationStateEngine.compileModule(fragment.irModule, backendContext.irBuiltIns, bitcodeFile, cExportFiles)
                     if (generationState.config.emitRuntimeOpt.value == 1) {
                         java.io.File(generationState.config.runtimeBitcodePath).copyTo(java.io.File(bitcodeFile.path),true)
+                        // Split-module quirk: the dist runtime bitcode we just stamped in carries the
+                        // export_for_cpp_runtime_k markers only as @llvm.global.annotations (it was
+                        // clang-compiled C++ and never saw the Kotlin-side KSG lower). In a monolithic
+                        // build these get lowered when runtime.bc is llvm-linked into the Kotlin module;
+                        // here runtime.bc IS the module, so re-run KSG on it — annotate -> stubtype fn
+                        // attr — else the clang-stage KSG (which reads fn attrs only) leaves cross-so
+                        // C->K calls (e.g. WorkerExecuteAfterLaunchpad) bare and GC stack-walking then
+                        // misreads the C++ caller frames as Kotlin frames. Gated on enableStackmap
+                        // (same gate as runKsgPhase; OFF is a no-op there anyway).
+                        if (generationState.config.enableStackmap) {
+                            val ksgCtx = LLVMContextCreate()
+                                    ?: throw OutOfMemoryError("Failed to create LLVM context for runtime-module KSG lower")
+                            try {
+                                val runtimeModule = parseBitcodeFile(
+                                        generationState, generationState.messageCollector, ksgCtx, bitcodeFile.path)
+                                runKotlinStubGenerator(runtimeModule)
+                                LLVMWriteBitcodeToFile(runtimeModule, bitcodeFile.path)
+                            } finally {
+                                LLVMContextDispose(ksgCtx)
+                            }
+                        }
                     }
                     // Split here
                     val dependenciesTrackingResult = generationState.dependenciesTracker.collectResult()
