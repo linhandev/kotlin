@@ -153,6 +153,7 @@ OBJ_GETTER(CreateStringFromUtf8, const char* utf8, uint32_t length);
 OBJ_GETTER(CreateStringFromUtf8OrThrow, const char* utf8, uint32_t length);
 OBJ_GETTER(CreateStringFromUtf16, const KChar* utf16, uint32_t length);
 OBJ_GETTER(CreateUninitializedString, StringEncoding encoding, uint32_t length);
+OBJ_GETTER0(CreateEmptyUtf16StringForProxy);
 OBJ_GETTER(ConvertStringToUtf16, KRef kstring);
 
 char* CreateCStringFromString(KConstRef kstring);
