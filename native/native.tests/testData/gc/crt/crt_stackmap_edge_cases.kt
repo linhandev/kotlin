@@ -24,7 +24,9 @@ static int64_t c_call(kotlin_cb_t cb, int64_t arg) {
 
 // Deep C-side recursion for FP chain stress (A8)
 static int64_t c_recurse(kotlin_cb_t cb, int64_t depth, int64_t arg) {
-    if (depth <= 0) return cb(arg);
+    if (depth <= 0) {
+        return cb(arg);
+    }
     return c_recurse(cb, depth - 1, arg + 1);
 }
 

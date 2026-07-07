@@ -92,11 +92,11 @@ fun makeTree(depth: Int, value: Int): TreeNode {
 
     // === Test 4: GC timing consistency ===
     // Multiple rapid GC calls should complete without hanging
-    val start = kotlin.system.getTimeMillis()
+    val start = kotlin.time.TimeSource.Monotonic.markNow()
     for (i in 0 until 100) {
         GC.collect()
     }
-    val elapsed = kotlin.system.getTimeMillis() - start
+    val elapsed = start.elapsedNow().inWholeMilliseconds
     // 100 GCs should complete in reasonable time (< 30s)
     assertTrue(elapsed < 30000, "T4: 100 GC cycles took ${elapsed}ms — too slow")
 

@@ -24,9 +24,17 @@ import java.util.regex.Pattern;
 @ClassicPipeline()
 @UseExtTestCaseGroupProvider()
 public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTest {
+  private static final Pattern KOTLIN_FILE_PATTERN = Pattern.compile("^(.+)\\.kt$");
+
   @Test
   public void testAllFilesPresentInCodegen() {
-    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
+    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(
+            this.getClass(),
+            new File("native/native.tests/testData/codegen"),
+            KOTLIN_FILE_PATTERN,
+            null,
+            TargetBackend.NATIVE,
+            true);
   }
 
   @Test
@@ -953,98 +961,13 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     }
   }
 
-    @Test
-    @TestMetadata("assertDisabled.kt")
-    public void testAssertDisabled() {
-        runTest("native/native.tests/testData/codegen/fileCheck/assertDisabled.kt");
-    }
-
-    @Test
-    @TestMetadata("assertDisabledInConditionAndMessage.kt")
-    public void testAssertDisabledInConditionAndMessage() {
-        runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInConditionAndMessage.kt");
-    }
-
-    @Test
-    @TestMetadata("assertDisabledInlined.kt")
-    public void testAssertDisabledInlined() {
-        runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlined.kt");
-    }
-
-    @Test
-    @TestMetadata("assertDisabledInlinedCrossModule.kt")
-    public void testAssertDisabledInlinedCrossModule() {
-        runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlinedCrossModule.kt");
-    }
-
-    @Test
-    @TestMetadata("delegated_references_are_const.kt")
-    public void testDelegated_references_are_const() {
-        runTest("native/native.tests/testData/codegen/fileCheck/delegated_references_are_const.kt");
-    }
-
-    @Test
-    @TestMetadata("enumWithDifferentFileOrder.kt")
-    public void testEnumWithDifferentFileOrder() {
-        runTest("native/native.tests/testData/codegen/fileCheck/enumWithDifferentFileOrder.kt");
-    }
-
-    @Test
-    @TestMetadata("inline.kt")
-    public void testInline() {
-        runTest("native/native.tests/testData/codegen/fileCheck/inline.kt");
-    }
-
-    @Test
-    @TestMetadata("inline_property.kt")
-    public void testInline_property() {
-        runTest("native/native.tests/testData/codegen/fileCheck/inline_property.kt");
-    }
-
-    @Test
-    @TestMetadata("noLocalClassesInInlineFunctionExtraction.kt")
-    public void testNoLocalClassesInInlineFunctionExtraction() {
-        runTest("native/native.tests/testData/codegen/fileCheck/noLocalClassesInInlineFunctionExtraction.kt");
-    }
-
-    @Test
-    @TestMetadata("remove_redundant_type_checks.kt")
-    public void testRemove_redundant_type_checks() {
-        runTest("native/native.tests/testData/codegen/fileCheck/remove_redundant_type_checks.kt");
-    }
-
-    @Test
-    @TestMetadata("runtime_attributes_compatible.kt")
-    public void testRuntime_attributes_compatible() {
-        runTest("native/native.tests/testData/codegen/fileCheck/runtime_attributes_compatible.kt");
-    }
-
-    @Test
-    @TestMetadata("stackProtector_all.kt")
-    public void testStackProtector_all() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_all.kt");
-    }
-
-    @Test
-    @TestMetadata("stackProtector_no.kt")
-    public void testStackProtector_no() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_no.kt");
-    }
-
-    @Test
-    @TestMetadata("stackProtector_strong.kt")
-    public void testStackProtector_strong() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_strong.kt");
-    }
-
-    @Test
-    @TestMetadata("stackProtector_yes.kt")
-    public void testStackProtector_yes() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_yes.kt");
-    }
+  /**
+   * FileCheck 代码生成测试。
+   */
   @Nested
   @TestMetadata("native/native.tests/testData/codegen/fileCheck")
   @TestDataPath("$PROJECT_ROOT")
+  @ClassicPipeline()
   @UseExtTestCaseGroupProvider()
   public class FileCheck {
     @Test
@@ -1055,7 +978,37 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
 
     @Test
     public void testAllFilesPresentInFileCheck() {
-      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/fileCheck"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
+      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(
+              this.getClass(),
+              new File("native/native.tests/testData/codegen/fileCheck"),
+              KOTLIN_FILE_PATTERN,
+              null,
+              TargetBackend.NATIVE,
+              true);
+    }
+
+    @Test
+    @TestMetadata("assertDisabled.kt")
+    public void testAssertDisabled() {
+      runTest("native/native.tests/testData/codegen/fileCheck/assertDisabled.kt");
+    }
+
+    @Test
+    @TestMetadata("assertDisabledInConditionAndMessage.kt")
+    public void testAssertDisabledInConditionAndMessage() {
+      runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInConditionAndMessage.kt");
+    }
+
+    @Test
+    @TestMetadata("assertDisabledInlined.kt")
+    public void testAssertDisabledInlined() {
+      runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlined.kt");
+    }
+
+    @Test
+    @TestMetadata("assertDisabledInlinedCrossModule.kt")
+    public void testAssertDisabledInlinedCrossModule() {
+      runTest("native/native.tests/testData/codegen/fileCheck/assertDisabledInlinedCrossModule.kt");
     }
 
     @Test
@@ -1086,6 +1039,18 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     @TestMetadata("default_parameters_dont_box.kt")
     public void testDefault_parameters_dont_box() {
       runTest("native/native.tests/testData/codegen/fileCheck/default_parameters_dont_box.kt");
+    }
+
+    @Test
+    @TestMetadata("delegated_references_are_const.kt")
+    public void testDelegated_references_are_const() {
+      runTest("native/native.tests/testData/codegen/fileCheck/delegated_references_are_const.kt");
+    }
+
+    @Test
+    @TestMetadata("enumWithDifferentFileOrder.kt")
+    public void testEnumWithDifferentFileOrder() {
+      runTest("native/native.tests/testData/codegen/fileCheck/enumWithDifferentFileOrder.kt");
     }
 
     @Test
@@ -1128,6 +1093,18 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     @TestMetadata("generic_safe_casts.kt")
     public void testGeneric_safe_casts() {
       runTest("native/native.tests/testData/codegen/fileCheck/generic_safe_casts.kt");
+    }
+
+    @Test
+    @TestMetadata("inline.kt")
+    public void testInline() {
+      runTest("native/native.tests/testData/codegen/fileCheck/inline.kt");
+    }
+
+    @Test
+    @TestMetadata("inline_property.kt")
+    public void testInline_property() {
+      runTest("native/native.tests/testData/codegen/fileCheck/inline_property.kt");
     }
 
     @Test
@@ -1197,6 +1174,12 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     }
 
     @Test
+    @TestMetadata("noLocalClassesInInlineFunctionExtraction.kt")
+    public void testNoLocalClassesInInlineFunctionExtraction() {
+      runTest("native/native.tests/testData/codegen/fileCheck/noLocalClassesInInlineFunctionExtraction.kt");
+    }
+
+    @Test
     @TestMetadata("no_frame_on_constant_object_access.kt")
     public void testNo_frame_on_constant_object_access() {
       runTest("native/native.tests/testData/codegen/fileCheck/no_frame_on_constant_object_access.kt");
@@ -1209,9 +1192,21 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     }
 
     @Test
+    @TestMetadata("remove_redundant_type_checks.kt")
+    public void testRemove_redundant_type_checks() {
+      runTest("native/native.tests/testData/codegen/fileCheck/remove_redundant_type_checks.kt");
+    }
+
+    @Test
     @TestMetadata("replace_invoke_with_call.kt")
     public void testReplace_invoke_with_call() {
       runTest("native/native.tests/testData/codegen/fileCheck/replace_invoke_with_call.kt");
+    }
+
+    @Test
+    @TestMetadata("runtime_attributes_compatible.kt")
+    public void testRuntime_attributes_compatible() {
+      runTest("native/native.tests/testData/codegen/fileCheck/runtime_attributes_compatible.kt");
     }
 
     @Test
@@ -1230,6 +1225,30 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     @TestMetadata("smoke0.kt")
     public void testSmoke0() {
       runTest("native/native.tests/testData/codegen/fileCheck/smoke0.kt");
+    }
+
+    @Test
+    @TestMetadata("stackProtector_all.kt")
+    public void testStackProtector_all() {
+      runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_all.kt");
+    }
+
+    @Test
+    @TestMetadata("stackProtector_no.kt")
+    public void testStackProtector_no() {
+      runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_no.kt");
+    }
+
+    @Test
+    @TestMetadata("stackProtector_strong.kt")
+    public void testStackProtector_strong() {
+      runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_strong.kt");
+    }
+
+    @Test
+    @TestMetadata("stackProtector_yes.kt")
+    public void testStackProtector_yes() {
+      runTest("native/native.tests/testData/codegen/fileCheck/stackProtector_yes.kt");
     }
 
     @Test
@@ -1256,14 +1275,24 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
       runTest("native/native.tests/testData/codegen/fileCheck/when.kt");
     }
 
+    /**
+     * Cinterop 测试类，验证文件是否存在。
+     */
     @Nested
     @TestMetadata("native/native.tests/testData/codegen/fileCheck/cinterop")
     @TestDataPath("$PROJECT_ROOT")
+    @ClassicPipeline()
     @UseExtTestCaseGroupProvider()
     public class Cinterop {
       @Test
       public void testAllFilesPresentInCinterop() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/fileCheck/cinterop"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(
+                this.getClass(),
+                new File("native/native.tests/testData/codegen/fileCheck/cinterop"),
+                KOTLIN_FILE_PATTERN,
+                null,
+                TargetBackend.NATIVE,
+                true);
       }
 
       @Test
@@ -1279,14 +1308,24 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
       }
     }
 
+    /**
+     * Kt53261 回归测试。
+     */
     @Nested
     @TestMetadata("native/native.tests/testData/codegen/fileCheck/kt53261")
     @TestDataPath("$PROJECT_ROOT")
+    @ClassicPipeline()
     @UseExtTestCaseGroupProvider()
     public class Kt53261 {
       @Test
       public void testAllFilesPresentInKt53261() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/fileCheck/kt53261"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(
+                this.getClass(),
+                new File("native/native.tests/testData/codegen/fileCheck/kt53261"),
+                KOTLIN_FILE_PATTERN,
+                null,
+                TargetBackend.NATIVE,
+                true);
       }
 
       @Test
@@ -1350,50 +1389,67 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
       }
     }
 
+    /**
+     * StringConcatenationTypeNarrowing 代码生成测试。
+     */
     @Nested
     @TestMetadata("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing")
     @TestDataPath("$PROJECT_ROOT")
+    @ClassicPipeline()
     @UseExtTestCaseGroupProvider()
     public class StringConcatenationTypeNarrowing {
+
       @Test
       public void testAllFilesPresentInStringConcatenationTypeNarrowing() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(
+                this.getClass(),
+                new File("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing"),
+                KOTLIN_FILE_PATTERN,
+                null,
+                TargetBackend.NATIVE,
+                true);
       }
 
       @Test
       @TestMetadata("kt53119_append_generated.kt")
       public void testKt53119_append_generated() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_append_generated.kt");
+        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/"
+                + "kt53119_append_generated.kt");
       }
 
       @Test
       @TestMetadata("kt53119_append_manual.kt")
       public void testKt53119_append_manual() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_append_manual.kt");
+        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/"
+                + "kt53119_append_manual.kt");
       }
 
       @Test
       @TestMetadata("kt53119_plus_extension.kt")
       public void testKt53119_plus_extension() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_plus_extension.kt");
+        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/"
+                + "kt53119_plus_extension.kt");
       }
 
       @Test
       @TestMetadata("kt53119_plus_generated_noescape.kt")
       public void testKt53119_plus_generated_noescape() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_plus_generated_noescape.kt");
+        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/"
+                + "kt53119_plus_generated_noescape.kt");
       }
 
       @Test
       @TestMetadata("kt53119_plus_member.kt")
       public void testKt53119_plus_member() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_plus_member.kt");
+        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/"
+                + "kt53119_plus_member.kt");
       }
 
       @Test
       @TestMetadata("kt53119_side_effect.kt")
       public void testKt53119_side_effect() {
-        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/kt53119_side_effect.kt");
+        runTest("native/native.tests/testData/codegen/fileCheck/stringConcatenationTypeNarrowing/"
+                + "kt53119_side_effect.kt");
       }
     }
   }
@@ -2001,6 +2057,66 @@ public class NativeCodegenLocalTestGenerated extends AbstractNativeCodegenBoxTes
     @TestMetadata("isFrozen.kt")
     public void testIsFrozen() {
       runTest("native/native.tests/testData/codegen/objectDeclaration/isFrozen.kt");
+    }
+  }
+
+  @Nested
+  @TestMetadata("native/native.tests/testData/codegen/platform")
+  @TestDataPath("$PROJECT_ROOT")
+  @ClassicPipeline()
+  @UseExtTestCaseGroupProvider()
+  public class Platform {
+    @Test
+    public void testAllFilesPresentInPlatform() {
+      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/platform"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
+    }
+
+    @Test
+    @TestMetadata("osFamily_android.kt")
+    public void testOsFamily_android() {
+      runTest("native/native.tests/testData/codegen/platform/osFamily_android.kt");
+    }
+
+    @Test
+    @TestMetadata("osFamily_ios.kt")
+    public void testOsFamily_ios() {
+      runTest("native/native.tests/testData/codegen/platform/osFamily_ios.kt");
+    }
+
+    @Test
+    @TestMetadata("osFamily_linux.kt")
+    public void testOsFamily_linux() {
+      runTest("native/native.tests/testData/codegen/platform/osFamily_linux.kt");
+    }
+
+    @Test
+    @TestMetadata("osFamily_macosx.kt")
+    public void testOsFamily_macosx() {
+      runTest("native/native.tests/testData/codegen/platform/osFamily_macosx.kt");
+    }
+
+    @Test
+    @TestMetadata("osFamily_ohos.kt")
+    public void testOsFamily_ohos() {
+      runTest("native/native.tests/testData/codegen/platform/osFamily_ohos.kt");
+    }
+
+    @Test
+    @TestMetadata("osFamily_tvos.kt")
+    public void testOsFamily_tvos() {
+      runTest("native/native.tests/testData/codegen/platform/osFamily_tvos.kt");
+    }
+
+    @Test
+    @TestMetadata("osFamily_watchos.kt")
+    public void testOsFamily_watchos() {
+      runTest("native/native.tests/testData/codegen/platform/osFamily_watchos.kt");
+    }
+
+    @Test
+    @TestMetadata("osFamily_windows.kt")
+    public void testOsFamily_windows() {
+      runTest("native/native.tests/testData/codegen/platform/osFamily_windows.kt");
     }
   }
 

@@ -10,7 +10,6 @@ import kotlin.test.*
 import kotlin.native.ref.createCleaner
 import kotlin.concurrent.AtomicInt
 import kotlin.native.runtime.GC
-import platform.posix.usleep
 
 val cleanedIds = AtomicInt(0)
 
@@ -34,7 +33,6 @@ fun testChainABC() {
     }
 
     repeat(10) { GC.collect() }
-    usleep(500_000u)
 
     val count = cleanedIds.value
     assertTrue(count >= 1, "At least one cleaner should run")
@@ -64,7 +62,6 @@ fun testDiamondDependency() {
     }
 
     repeat(10) { GC.collect() }
-    usleep(500_000u)
 
     val count = cleanedIds.value
     assertTrue(count >= 1, "At least one cleaner should run")
@@ -84,7 +81,6 @@ fun testLongChain() {
     }
 
     repeat(10) { GC.collect() }
-    usleep(500_000u)
 
     val count = cleanedIds.value
     assertTrue(count >= 1, "At least one cleaner should run")
@@ -107,7 +103,6 @@ fun testRapidCreationAndCollection() {
     }
 
     repeat(10) { GC.collect() }
-    usleep(500_000u)
 
     val count = cleanedIds.value
     assertTrue(count >= 1, "At least one cleaner should run in rapid creation")

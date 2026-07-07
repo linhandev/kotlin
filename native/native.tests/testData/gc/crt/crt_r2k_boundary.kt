@@ -46,8 +46,12 @@ static int8_t call_r2k_nested(void) {
 static int call_r2k_repeated(int count) {
     int errors = 0;
     for (int i = 0; i < count; i++) {
-        if (!call_r2k_allocate()) errors++;
-        if (!call_r2k_nested()) errors++;
+        if (!call_r2k_allocate()) {
+            errors++;
+        }
+        if (!call_r2k_nested()) {
+            errors++;
+        }
     }
     return errors;
 }

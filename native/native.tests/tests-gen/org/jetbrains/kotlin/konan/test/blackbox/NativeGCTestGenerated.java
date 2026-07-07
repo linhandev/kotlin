@@ -24,9 +24,16 @@ import java.util.regex.Pattern;
 @UseStandardTestCaseGroupProvider()
 @ClassicPipeline()
 public class NativeGCTestGenerated extends AbstractNativeBlackBoxTest {
+  private static final Pattern KOTLIN_FILE_PATTERN = Pattern.compile("^(.+)\\.kt$");
+
   @Test
   public void testAllFilesPresentInGc() {
-    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/gc"), Pattern.compile("^(.+)\\.kt$"), null, false);
+    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(
+            this.getClass(),
+            new File("native/native.tests/testData/gc"),
+            KOTLIN_FILE_PATTERN,
+            null,
+            false);
   }
 
   @Test
