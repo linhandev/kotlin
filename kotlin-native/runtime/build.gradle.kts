@@ -4,6 +4,9 @@
  */
 import org.jetbrains.kotlin.ExecClang
 import org.jetbrains.kotlin.PlatformInfo
+import org.jetbrains.kotlin.resolveEnableCompressedStackmap
+import org.jetbrains.kotlin.resolveEnableCrt
+import org.jetbrains.kotlin.resolveEnableStackmap
 import org.jetbrains.kotlin.bitcode.CompileToBitcodeExtension
 import org.jetbrains.kotlin.cpp.CppUsage
 import org.jetbrains.kotlin.dependencies.NativeDependenciesExtension
@@ -35,14 +38,10 @@ val breakpadRepo = providers.gradleProperty("breakpadGitRepo")
         .orElse(providers.environmentVariable("BREAKPAD_GIT_REPO"))
         .getOrElse("https://github.com/google/breakpad.git")
 
-val breakpadRevision = providers.gradleProperty("breakpadGitRevision")
-        .orElse(providers.environmentVariable("BREAKPAD_GIT_REVISION"))
-        .getOrElse("v2024.02.16")
-
 val downloadBreakpad = tasks.register<GitDownloadTask>("downloadBreakpad") {
     description = "Retrieves Breakpad sources"
     repository.set(URI.create(breakpadRepo))
-    revision.set(breakpadRevision)
+    revision.set("v2024.02.16")
     outputDirectory.set(layout.buildDirectory.dir("breakpad"))
 }
 
@@ -67,6 +66,22 @@ googletest {
 }
 
 val targetList = enabledTargets(extensions.getByType<PlatformManager>())
+
+fun CompileToBitcodeExtension.Module.enablePreciseStackmapAndCrt(target: KonanTarget) {
+    if (resolveEnableStackmap(project, target)) {
+        compilerArgs.add("-DENABLE_STACKMAP=1")
+        // Paired with the LLVM -enable-compressed-bitmap-stackmap codegen flag in
+        // konan.properties: emit (LLVM) and decode (runtime) must agree.
+        compilerArgs.add("-DENABLE_COMPRESSED_BITMAP_STACKMAP=" + if (resolveEnableCompressedStackmap(project, target)) "1" else "0")
+    }
+    if (resolveEnableCrt(project, target)) compilerArgs.add("-DENABLE_CRT=1")
+}
+
+// stdlib klib is a single artifact whose manifest covers all targets (see
+// stdlibBuildTask in §Stdlib region below). For v1 we honour the GLOBAL property
+// here without per-target override. Default = true preserves the original ON
+// behaviour; user app codegen handles per-target stub vs non-stub dispatch.
+val globalStackmapFlagForStdlib = (project.findProperty("kotlin.native.precise.stackmap") as String?)?.toBoolean() ?: true
 
 // NOTE: the list of modules is duplicated in `RuntimeModule.kt`
 bitcode {
@@ -122,6 +137,8 @@ bitcode {
                     }
                 }
             }
+            // Memory.cpp / Memory.h / Natives.cpp are guarded by #ifdef ENABLE_STACKMAP.
+            enablePreciseStackmapAndCrt(target)
         }
 
         testsGroup("main_test") {
@@ -132,11 +149,13 @@ bitcode {
 
         // Headers from here get reused by Swift Export, so this module should not depend on anything in the runtime
         module("objcExport") {
+            enablePreciseStackmapAndCrt(target)
             // There must not be any implementation files, only headers.
             sourceSets {}
         }
 
         module("breakpad") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(breakpadLocation)
             val sources = listOf(
                     "client/mac/crash_generation/crash_generation_client.cc",
@@ -181,6 +200,7 @@ bitcode {
         }
 
         module("libbacktrace") {
+            enablePreciseStackmapAndCrt(target)
             val elfSize = when (target.architecture) {
                 TargetArchitecture.X64, TargetArchitecture.ARM64 -> 64
                 TargetArchitecture.X86, TargetArchitecture.ARM32 -> 32
@@ -237,10 +257,14 @@ bitcode {
             sourceSets {
                 main {}
             }
-            compilerArgs.add("-DKONAN_COMPILER_INTERFACE=1")
+            // KONAN_COMPILER_INTERFACE is enabled together with ENABLE_STACKMAP so the
+            // compiler-interface module stays consistent with the stackmap build flavour.
+            if (resolveEnableStackmap(project, target)) compilerArgs.add("-DKONAN_COMPILER_INTERFACE=1")
+            enablePreciseStackmapAndCrt(target)
         }
 
         module("launcher") {
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -248,6 +272,9 @@ bitcode {
         }
 
         module("crt") {
+            enablePreciseStackmapAndCrt(target)
+            val crtEnabled = resolveEnableCrt(project, target)
+            onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/crt"))
             headersDirs.from(files(
                     "src/alloc/common/cpp",
@@ -269,6 +296,7 @@ bitcode {
         }
 
         module("debug") {
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -276,6 +304,7 @@ bitcode {
         }
 
         module("common_alloc") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/alloc/common"))
             headersDirs.from(files(
                 "src/gcScheduler/common/cpp",
@@ -303,6 +332,7 @@ bitcode {
         }
 
         module("std_alloc") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/alloc/std"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -326,6 +356,9 @@ bitcode {
         }
 
         module("crt_alloc") {
+            enablePreciseStackmapAndCrt(target)
+            val crtEnabled = resolveEnableCrt(project, target)
+            onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/alloc/crt"))
             headersDirs.from(files(
                 "src",
@@ -352,6 +385,7 @@ bitcode {
         }
 
         module("custom_alloc") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/alloc/custom"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -382,7 +416,8 @@ bitcode {
             testSupportModules.addAll("main", "noop_externalCallsChecker", "mm", "common_alloc", "common_gc", "concurrent_ms_gc", "common_gcScheduler", "manual_gcScheduler", "objc", "noop_crashHandler")
         }
 
-module("legacy_alloc") {
+        module("legacy_alloc") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/alloc/legacy"))
             headersDirs.from(files(
                 "src/alloc/common/cpp",
@@ -412,6 +447,7 @@ module("legacy_alloc") {
         }
 
         module("exceptionsSupport") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/exceptions_support"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -420,6 +456,7 @@ module("legacy_alloc") {
         }
 
         module("source_info_core_symbolication") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/source_info/core_symbolication"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -430,6 +467,7 @@ module("legacy_alloc") {
         }
 
         module("source_info_libbacktrace") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/source_info/libbacktrace"))
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp", "src/libbacktrace/c/include"))
             sourceSets {
@@ -440,6 +478,7 @@ module("legacy_alloc") {
         }
 
         module("objc") {
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
                 main {}
@@ -447,6 +486,7 @@ module("legacy_alloc") {
         }
 
         module("test_support") {
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files(
                     "src/externalCallsChecker/common/cpp",
                     "src/objcExport/cpp",
@@ -471,6 +511,8 @@ module("legacy_alloc") {
                 testFixtures {}
                 test {}
             }
+            // ThreadData.hpp is guarded by #ifdef ENABLE_STACKMAP.
+            enablePreciseStackmapAndCrt(target)
         }
 
         testsGroup("mm_test") {
@@ -498,6 +540,9 @@ module("legacy_alloc") {
                 main {}
                 test {}
             }
+            // MainGCThread.hpp plus the integral stackmap sources (StackMap.cpp/hpp/...)
+            // are all guarded by #ifdef ENABLE_STACKMAP.
+            enablePreciseStackmapAndCrt(target)
         }
 
         testsGroup("common_gc_test") {
@@ -506,6 +551,9 @@ module("legacy_alloc") {
         }
 
         module("cmc_gc") {
+            enablePreciseStackmapAndCrt(target)
+            val crtEnabled = resolveEnableCrt(project, target)
+            onlyIf { crtEnabled }
             srcRoot.set(layout.projectDirectory.dir("src/gc/crt"))
             headersDirs.from(files(
                 "src",
@@ -530,6 +578,7 @@ module("legacy_alloc") {
         }
 
         module("noop_gc") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gc/noop"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -538,6 +587,7 @@ module("legacy_alloc") {
         }
 
         module("same_thread_ms_gc") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gc/stms"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -557,6 +607,7 @@ module("legacy_alloc") {
         }
 
         module("pmcs_gc") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gc/pmcs"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -579,6 +630,8 @@ module("legacy_alloc") {
         module("concurrent_ms_gc") {
             srcRoot.set(layout.projectDirectory.dir("src/gc/cms"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            // ConcurrentMark.cpp is guarded by #ifdef ENABLE_STACKMAP.
+            enablePreciseStackmapAndCrt(target)
             sourceSets {
                 main {}
                 test {}
@@ -596,6 +649,7 @@ module("legacy_alloc") {
         }
 
         module("common_gcScheduler") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/common"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -610,6 +664,7 @@ module("legacy_alloc") {
         }
 
         module("manual_gcScheduler") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/manual"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -618,6 +673,7 @@ module("legacy_alloc") {
         }
 
         module("adaptive_gcScheduler") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/adaptive"))
             headersDirs.from(files("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -632,6 +688,7 @@ module("legacy_alloc") {
         }
 
         module("aggressive_gcScheduler") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/gcScheduler/aggressive"))
             headersDirs.from(files("src/alloc/common/cpp", "src/alloc/crt/cpp", "src/gc/crt/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
             sourceSets {
@@ -646,6 +703,7 @@ module("legacy_alloc") {
         }
 
         module("impl_externalCallsChecker") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/externalCallsChecker/impl"))
             headersDirs.from("src/alloc/common/cpp", "src/gcScheduler/common/cpp", "src/gc/common/cpp", "src/mm/cpp", "src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp")
             sourceSets {
@@ -654,6 +712,7 @@ module("legacy_alloc") {
         }
 
         module("noop_externalCallsChecker") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/externalCallsChecker/noop"))
             headersDirs.from("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp")
             sourceSets {
@@ -662,6 +721,7 @@ module("legacy_alloc") {
         }
 
         module("impl_crashHandler") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/crashHandler/impl"))
             headersDirs.from("src/main/cpp", "src/breakpad/cpp", breakpadLocation.get().dir("src"))
             sourceSets {
@@ -676,6 +736,7 @@ module("legacy_alloc") {
         }
 
         module("noop_crashHandler") {
+            enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/crashHandler/noop"))
             sourceSets {
                 main {}
@@ -683,6 +744,7 @@ module("legacy_alloc") {
         }
 
         module("xctest_launcher") {
+            enablePreciseStackmapAndCrt(target)
             headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
 
             sourceSets {
@@ -930,6 +992,25 @@ val stdlibBuildTask by tasks.registering(KonanCompileTask::class) {
             "-Xstdlib-compilation",
             "-Xfragment-refines=nativeMain:nativeWasm,nativeMain:common,nativeWasm:common,nativeWasm:commonNonJvm,commonNonJvm:common",
             "-Xmanifest-native-targets=${platformManager.targetValues.joinToString(separator = ",") { it.visibleName }}",
+            // stdlibBuildTask is a SINGLE task producing one stdlib klib whose manifest
+            // covers all targets (see -Xmanifest-native-targets above), so the klib
+            // cannot be per-target. We honour the GLOBAL property here as a v1
+            // simplification:
+            //   - default (no property): emit stub-suffix calls (klib is "ON-flavoured").
+            //   - `-Pkotlin.native.precise.stackmap=false`: emit non-stub calls (klib
+            //     is "OFF-flavoured", suitable when ALL targets are OFF).
+            // For target-default mode (arm64 ON + x86 OFF in one dist) the rooting still
+            // works because the user app's CodeGenerator dispatches stub vs non-stub
+            // at app build time based on KonanConfig.enableStackmap (per-target default,
+            // see KonanConfig.kt). The pre-baked klib stub references in stdlib are
+            // re-lowered against the user app's CodeGenerator config.
+            // TODO(per-target-stdlib): refactor stdlibBuildTask to fan out per-target if
+            //   the link-time GlobalDCE failure described below resurfaces in x86 builds.
+            // Without this, OFF user code links against an ON-built stdlib that
+            // pulls in K2RStub.o, which then references `_Kotlin_Any_hashCode`
+            // whose `used` attribute (from HAS_SAFEPOINT) is gated out by ENABLE_STACKMAP,
+            // so GlobalDCE strips the symbol and ld fails.
+            if (!globalStackmapFlagForStdlib) "-Xbinary=enableStackmap=false" else null,
     ))
 
     val common by sourceSets.creating {
@@ -970,6 +1051,11 @@ cacheableTargetNames.forEach { targetName ->
         // Requires Native distribution with stdlib klib and runtime modules for `targetName`.
         this.compilerDistribution.set(dist)
         dependsOn(":kotlin-native:${targetName}CrossDistRuntime")
+        // KonanCacheTask invokes konanc -> Linker which links stub .o files
+        // (N2KStub/K2NStub/K2RStub/KonanStartStub) on OHOS_ARM64 / MACOS_ARM64 targets.
+        // The existing `gradle.projectsEvaluated` hook (~line 685) targets `bundle`/`crossDist`
+        // etc. but misses `runtime:${target}StdlibCache`, so stub.o aren't copied to dist
+        // before libtool runs. Direct dependsOn here is robust against config cache hits.
         dependsOn(copyStubObjsToDist)
         inputs.dir(dist.map { it.runtime(targetName) }) // manually depend on runtime modules (stdlib cache links these modules in)
 

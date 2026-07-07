@@ -43,7 +43,20 @@ private class ConstGetElementPtr(llvm: CodegenLlvmHelpers, pointeeType: LLVMType
 }
 
 internal fun ConstPointer.bitcast(toType: LLVMTypeRef) = constPointer(LLVMConstBitCast(this.llvm, toType)!!)
-internal fun ConstPointer.addrbitcast(toType: LLVMTypeRef) = constPointer(LLVMConstAddrSpaceCast(this.llvm, toType)!!)
+internal fun ConstPointer.addrbitcast(toType: LLVMTypeRef): ConstPointer {
+    // OFF path turns kObjHeaderRef into a plain AS0 pointer, so callers that
+    // previously asked for AS1->AS0 / AS0->AS1 now hit AS0->AS0. LLVM's
+    // `LLVMConstAddrSpaceCast` requires distinct address spaces (Casting.h
+    // cast<> assertion). Fall back to a plain bitcast when source and target
+    // share an address space.
+    val srcType = LLVMTypeOf(this.llvm)!!
+    if (LLVMGetTypeKind(srcType) == LLVMTypeKind.LLVMPointerTypeKind &&
+            LLVMGetTypeKind(toType) == LLVMTypeKind.LLVMPointerTypeKind &&
+            LLVMGetPointerAddressSpace(srcType) == LLVMGetPointerAddressSpace(toType)) {
+        return constPointer(LLVMConstBitCast(this.llvm, toType)!!)
+    }
+    return constPointer(LLVMConstAddrSpaceCast(this.llvm, toType)!!)
+}
 
 internal class ConstArray(elementType: LLVMTypeRef?, val elements: List<ConstValue>) : ConstValue {
     init {
@@ -123,7 +136,9 @@ internal val RuntimeAware.kObjHeaderPtr: LLVMTypeRef
     get() = runtime.objHeaderPtrType
 
 internal val RuntimeAware.kObjHeaderRef: LLVMTypeRef
-    get() = ReferencesType(kObjHeader)
+    // OFF path drops AS1 wrapping so the generated IR matches an OFF-mode
+    // runtime (where the `AS1` macro is empty).
+    get() = if (enableStackmap) ReferencesType(kObjHeader) else pointerType(kObjHeader)
 
 internal val RuntimeAware.kDerivedRef: LLVMTypeRef
     get() = LLVMPointerType(LLVMPointerType(kObjHeader, 1)!!, 1)!!
@@ -146,7 +161,8 @@ internal val RuntimeAware.kArrayHeaderPtr: LLVMTypeRef
     get() = pointerType(kArrayHeader)
 
 internal val RuntimeAware.kArrayHeaderRef: LLVMTypeRef
-    get() = ReferencesType(kArrayHeader)
+    // Same gating as kObjHeaderRef.
+    get() = if (enableStackmap) ReferencesType(kArrayHeader) else pointerType(kArrayHeader)
 
 internal val RuntimeAware.kTypeInfoPtr: LLVMTypeRef
     get() = pointerType(kTypeInfo)

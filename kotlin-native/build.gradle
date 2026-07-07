@@ -17,6 +17,7 @@
 import org.jetbrains.kotlin.NativeFullCrossDistKt
 import org.jetbrains.kotlin.konan.target.*
 import org.jetbrains.kotlin.CopySamples
+import org.jetbrains.kotlin.CrtEnablementKt
 import org.jetbrains.kotlin.PlatformInfo
 import org.jetbrains.kotlin.cpp.CompilationDatabasePlugin
 import org.jetbrains.kotlin.cpp.CppUsage
@@ -341,6 +342,11 @@ targetList.each { target ->
         dependsOn ":kotlin-native:distStdlib"
         dependsOn "${target}CrossDistBitcodeCopy"
         dependsOn "${target}CrossDistRuntimeFingerprint"
+        // Stub .o (N2KStub/K2NStub/K2RStub/KonanStartStub/EnterKotlinFromCppStub) are part of the
+        // per-target runtime dist. Both runtime StdlibCache and platformLibs cache (KonanCacheTask)
+        // transitively depend on this task, so copying the stub objs here guarantees they are in
+        // dist/konan/targets/<target>/stubs_objs/ before any konanc->Linker links them.
+        dependsOn ":kotlin-native:runtime:copyStubObjsToDist"
     }
 
     tasks.register("${target}PlatformLibs") {
@@ -371,6 +377,93 @@ targetList.each { target ->
             dependsOn "${target}StdlibCache"
         }
     }
+}
+
+def commonRtDir = rootProject.file("third-party/common-rt")
+// common-rt sources whose change should force a libcrt rebuild. fileTree (not inputs.dir)
+def commonRtSources = fileTree(commonRtDir) {
+    include "build.sh", "common_components/**", "common_interfaces/**",
+            "libpandabase/**", "standalone_support/**",
+            "third_party_bounds_checking_function/**"
+}
+def ensureCommonRtSynced = {
+    def buildSh = new File(commonRtDir, "build.sh")
+    if (!buildSh.isFile()) {
+        logger.lifecycle("syncing submodule third-party/common-rt...")
+        def exit = new ProcessBuilder("git", "submodule", "update", "--init", "--recursive", "third-party/common-rt")
+                .directory(rootProject.projectDir).inheritIO().start().waitFor()
+        if (exit != 0 || !buildSh.isFile()) throw new GradleException(
+                "third-party/common-rt is not synced (git exit=${exit}). " +
+                "Run 'git submodule update --init --recursive' or use -Pkotlin.native.crt=false.")
+    }
+}
+// Copy the built .so into dist and wire cache/fingerprint for <target> (identical per target).
+def wireLibCrtIntoDist = { String target, String buildTaskName, File stagedLibCrt ->
+    def copyTaskName = "${target}CrossDistLibCrtCopy"
+    tasks.register(copyTaskName, Copy) {
+        group = "build"
+        description = "Stage libcrt.so into dist/konan/targets/${target}/native/."
+        dependsOn(buildTaskName)
+        from(stagedLibCrt)
+        into(nativeDistribution.map { it.runtime(target) })
+    }
+    tasks.named("${target}CrossDistRuntime").configure { dependsOn(copyTaskName) }
+    tasks.named("${target}CrossDistRuntimeFingerprint").configure {
+        // Fingerprint covers libcrt.so so cache invalidation triggers when the .so changes.
+        input.from(tasks.named(copyTaskName))
+    }
+    tasks.named("${target}CrossDistBitcodeCopy").configure { preserve { include "libcrt.so" } }
+}
+
+// ohos_arm64: build with the dist's pinned LLVM + konan ohos sysroot (not a DevEco SDK) so
+// libcrt and the dist share one toolchain.
+if ("ohos_arm64" in targetList && CrtEnablementKt.resolveEnableCrt(project, KonanTarget.OHOS_ARM64.INSTANCE)) {
+    def ohosPlatform = platformManager.platform(KonanTarget.OHOS_ARM64.INSTANCE)
+    def stagedLibCrt = layout.buildDirectory.file("libcrt/ohos_arm64/libcrt.so").get().asFile
+    tasks.register("buildLibCrt", Exec) {
+        group = "build"
+        description = "Build libcrt.so from third-party/common-rt for ohos_arm64 (pinned LLVM toolchain)."
+        def hostTargetName = HostManager.host.name
+        def hostTaskName = hostTargetName.substring(0, 1).toUpperCase(Locale.ROOT) + hostTargetName.substring(1)
+        dependsOn(":kotlin-native:dependencies:nativeDependencies${hostTaskName}")
+        dependsOn(":kotlin-native:dependencies:nativeDependenciesOhos_arm64")
+        workingDir = commonRtDir
+        def buildArgs = ["--ohos-llvm=${ohosPlatform.absoluteTargetToolchain}",
+                         "--ohos-sysroot=${ohosPlatform.absoluteTargetSysRoot}",
+                         "--out=${stagedLibCrt.parentFile}"]
+        // Gradle's Exec can't launch a .sh directly on Windows; drive it through Git Bash's bash.
+        commandLine((PlatformInfo.isWindows() ? ["sh", "build.sh"] : ["./build.sh"]) + buildArgs)
+        inputs.files(commonRtSources).withPropertyName("commonRtSources")
+        outputs.file(stagedLibCrt)
+        outputs.cacheIf { false }  // embeds host-absolute toolchain paths
+        doFirst { ensureCommonRtSynced() }
+        doLast {
+            if (!stagedLibCrt.isFile()) throw new GradleException(
+                    "common-rt ohos build did not produce ${stagedLibCrt.absolutePath}")
+        }
+    }
+    wireLibCrtIntoDist("ohos_arm64", "buildLibCrt", stagedLibCrt)
+}
+
+// macos_arm64: build.sh "Host" mode (no --ohos) produces a native Mach-O arm64 libcrt.so
+// (solink uses -install_name @rpath/libcrt.so).
+if ("macos_arm64" in targetList && CrtEnablementKt.resolveEnableCrt(project, KonanTarget.MACOS_ARM64.INSTANCE)) {
+    def stagedLibCrt = layout.buildDirectory.file("libcrt/macos_arm64/libcrt.so").get().asFile
+    tasks.register("buildLibCrtMacos", Exec) {
+        group = "build"
+        description = "Build native (Mach-O) libcrt.so from third-party/common-rt for macos_arm64."
+        workingDir = commonRtDir
+        commandLine "./build.sh", "--out=${stagedLibCrt.parentFile}"
+        inputs.files(commonRtSources).withPropertyName("commonRtSources")
+        outputs.file(stagedLibCrt)
+        outputs.cacheIf { false }  // host build dir is shared/non-hermetic
+        doFirst { ensureCommonRtSynced() }
+        doLast {
+            if (!stagedLibCrt.isFile()) throw new GradleException(
+                    "common-rt host build did not produce ${stagedLibCrt.absolutePath}")
+        }
+    }
+    wireLibCrtIntoDist("macos_arm64", "buildLibCrtMacos", stagedLibCrt)
 }
 
 tasks.register("distPlatformLibs") {

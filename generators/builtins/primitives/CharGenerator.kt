@@ -725,7 +725,7 @@ class NativeCharGenerator(writer: PrintWriter) : CharGenerator(writer) {
     }
 
     override fun MethodBuilder.modifyGeneratedToString() {
-        annotations += "GCUnsafeCall(\"Kotlin_Char_toString\", true)"
+        annotations += "GCUnsafeCall(\"Kotlin_Char_toString\")"
         annotations += "Escapes.Nothing"
         modifySignature { isExternal = true }
     }

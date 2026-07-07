@@ -33,6 +33,14 @@ val library = lib("llvmext")
 
 native {
     val obj = if (HostManager.hostIsMingw) "obj" else "o"
+    // libllvmext is a single host-only binary used by konanc for all targets.
+    // RemoveRedundantSafepoints.cpp historically used `#ifndef ENABLE_STACKMAP`
+    // to enable the OFF-mode force-inline branch at compile time. To support
+    // per-target default (arm64 ON + x86 OFF in one dist), that branch is now
+    // selected at RUNTIME via a parameter passed from RemoveRedundantSafepointsPass
+    // (which reads KonanConfig.enableStackmap, also target-aware). Therefore
+    // libllvmext no longer accepts `-DENABLE_STACKMAP`; one binary supports both
+    // modes via the runtime parameter.
     val cxxflags = mutableListOf(
         "--std=c++17",
         "-I${llvmDir}/include",

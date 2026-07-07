@@ -9,6 +9,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
 
 class KlibTargetNameTest {
     @Test
@@ -65,6 +66,26 @@ class KlibTargetNameTest {
             KlibTarget.parse("androidNativeArm64.androidNativeArm64"),
             KlibTarget.parse("androidNativeArm64")
         )
+    }
+
+    @Test
+    fun ohosKonanTargetsAreMapped() {
+        assertEquals(KlibTarget.parse("ohosArm64"), KlibTarget.fromKonanTargetName("ohos_arm64"))
+        assertEquals(KlibTarget.parse("ohosX64"), KlibTarget.fromKonanTargetName("ohos_x64"))
+    }
+
+    @Test
+    fun ohosKonanTargetsAreAdvertisedAsSupported() {
+        assertTrue("ohos_arm64" in KlibTarget.supportedKonanNames())
+        assertTrue("ohos_x64" in KlibTarget.supportedKonanNames())
+    }
+
+    @Test
+    fun ohosX64KonanTargetMapsToConfigurableName() {
+        val klib = KlibTarget.fromKonanTargetName("ohos_x64")
+        assertEquals("ohosX64", klib.configurableName)
+        assertEquals("ohos_x64", klib.targetName)
+        assertEquals(KlibTarget.parse("ohosX64"), klib)
     }
 
     @Test

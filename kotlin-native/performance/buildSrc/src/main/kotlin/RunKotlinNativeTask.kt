@@ -62,6 +62,30 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
     val remoteHost = project.findProperty("remoteHost")?.toString()
     @Internal
     val remoteHostFolder = project.findProperty("remoteHostFolder")?.toString()
+    @Internal
+    val useHdc = project.findProperty("crossTarget")?.toString()?.contains("ohos") ?: false
+    @Internal
+    val ohosDeviceId = project.findProperty("ohosDeviceId")?.toString()
+    @Internal
+    val execName = this.executable.split("/").last()
+    // HACK: kexe needs c++_shared to run on ohos. The location service comes bundled with the os, so this .so always exists
+    @Internal
+    val ohosPreload = "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so"
+
+    private fun hdcArgs(vararg command: String): List<String> {
+        val base = if (ohosDeviceId != null) listOf("-t", ohosDeviceId) else emptyList()
+        return base + command.toList()
+    }
+
+    private fun readOhosBenchmarkResult(): String {
+        val jsonOutput = ByteArrayOutputStream()
+        project.exec {
+            executable = "hdc"
+            args(hdcArgs("shell", "cat", "/data/local/tmp/result.json"))
+            standardOutput = jsonOutput
+        }
+        return jsonOutput.toString().trim().removePrefix("[").removeSuffix("]")
+    }
 
     private fun execBenchmarkOnce(benchmark: String, warmupCount: Int, repeatCount: Int) : String {
         val output = ByteArrayOutputStream()
@@ -78,6 +102,10 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
                     val remoteExecutable = this@RunKotlinNativeTask.executable.split("/").last()
                     args (remoteHost, "$remoteHostFolder/$remoteExecutable")
                 }
+                useHdc -> {
+                    executable = "hdc"
+                    args(hdcArgs("shell", ohosPreload, "/data/local/tmp/$execName"))
+                }
                 else -> executable = this@RunKotlinNativeTask.executable
             }
 
@@ -92,7 +120,11 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             args("-r", repeatCount.toString())
             standardOutput = output
         }
-        return output.toString().substringAfter("[").removeSuffix("]")
+        // hdc shell stdout (verbose):
+        //   [DEBUG][19:44:27] Warm up iterations for benchmark Foo
+        //   [{"name":"Foo","status":"PASSED",...}]
+        // substringAfter("[") would cut at the '[' in "[DEBUG]"; use Last to start at the benchmark JSON array '['.
+        return output.toString().substringAfterLast("[").removeSuffix("]")
     }
 
     private fun execBenchmarkRepeatedly(benchmark: String, warmupCount: Int, repeatCount: Int) : List<String> {
@@ -126,11 +158,31 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
                 args(this@RunKotlinNativeTask.executable, "$it:$remoteHostFolder")
             }
         }
+
+        if (useHdc) {
+            // remove existing exe in case there's permission issue etc.
+            project.exec {
+                executable = "hdc"
+                args(hdcArgs("shell", "rm", "/data/local/tmp/$execName"))
+            }
+            project.exec {
+                executable = "hdc"
+                args(hdcArgs("file", "send", this@RunKotlinNativeTask.executable.toString(), "/data/local/tmp/"))
+            }
+            project.exec {
+                executable = "hdc"
+                args(hdcArgs("shell", "chmod", "a+x", "/data/local/tmp/$execName"))
+            }
+        }
+
         project.exec {
             if (remoteHost != null) {
                 executable = "ssh"
                 val remoteExecutable = this@RunKotlinNativeTask.executable.split("/").last()
                 args (remoteHost, "$remoteHostFolder/$remoteExecutable")
+            } else if (useHdc) {
+                executable = "hdc"
+                args(hdcArgs("shell", ohosPreload, "/data/local/tmp/$execName"))
             } else {
                 executable = this@RunKotlinNativeTask.executable
             }
@@ -141,10 +193,10 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             }
             standardOutput = output
         }
-        val benchmarks = output.toString().lines()
         val filterArgs = filter.splitCommaSeparatedOption("-f")
         val filterRegexArgs = filterRegex.splitCommaSeparatedOption("-fr")
         val regexes = filterRegexArgs.map { it.toRegex() }
+        val benchmarks = output.toString().lines().filter { it.isNotEmpty() }.filter { !it.contains("[logging]")}
         val benchmarksToRun = if (filterArgs.isNotEmpty() || regexes.isNotEmpty()) {
             benchmarks.filter { benchmark -> benchmark in filterArgs || regexes.any { it.matches(benchmark) } }.filter { it.isNotEmpty() }
         } else benchmarks.filter { !it.isEmpty() }

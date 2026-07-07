@@ -6,7 +6,7 @@
 #include "Types.h"
 #include "DisallowSafepointScope.h"
 #include "Exceptions.h"
-#include "KotlinCallScope.h"
+#include "EnterKotlinFromCpp.h"
 
 extern "C" {
 // Note: keeping it for compatibility with external tools only, will be deprecated and removed in the future.
@@ -80,31 +80,16 @@ NO_INLINE OBJ_GETTER(Kotlin_TypeInfo_findAssociatedObject, KNativePtr typeInfo, 
 
   for (int index = 0; associatedObjects[index].key != nullptr; ++index) {
     if (associatedObjects[index].key == key) {
-      ObjHeader* obj;
-      {
-        KotlinCallScope scope;
-#if KONAN_MACOSX
-        asm volatile(
-          ".alt_entry _unwindPCStartForFindAssociatedObject\n"
-          ".global _unwindPCStartForFindAssociatedObject\n"
-          "_unwindPCStartForFindAssociatedObject:");
+#ifdef ENABLE_STACKMAP
+      // Plan-B: real N2K trampoline frame; walker recognises this via
+      // unwindPCForEnterKotlinFromCppStub (see EnterKotlinFromCpp.h).
+      ObjHeader* obj = reinterpret_cast<ObjHeader*>(EnterKotlinFromCppStub(
+          reinterpret_cast<void*>(associatedObjects[index].getAssociatedObjectInstance),
+          reinterpret_cast<void*>(__result__),
+          nullptr));
 #else
-        asm("  .p2align 3\n"
-            "  .global unwindPCStartForFindAssociatedObject\n"
-            "unwindPCStartForFindAssociatedObject:");
+      ObjHeader* obj = associatedObjects[index].getAssociatedObjectInstance(__result__);
 #endif
-        obj = associatedObjects[index].getAssociatedObjectInstance(__result__);
-#if KONAN_MACOSX
-        asm volatile(
-            ".alt_entry _unwindPCEndForFindAssociatedObject\n"
-            ".global _unwindPCEndForFindAssociatedObject\n"
-            "_unwindPCEndForFindAssociatedObject:");
-#else
-        asm("  .p2align 3\n"
-            "  .global unwindPCEndForFindAssociatedObject\n"
-            "unwindPCEndForFindAssociatedObject:");
-#endif
-      }
       return obj;
     }
   }

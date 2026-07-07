@@ -430,7 +430,7 @@ public actual class Byte private constructor() : Number(), Comparable<Byte> {
     public actual external override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Byte_toString", true)
+    @GCUnsafeCall("Kotlin_Byte_toString")
     @Escapes.Nothing
     public actual external override fun toString(): String
 
@@ -862,7 +862,7 @@ public actual class Short private constructor() : Number(), Comparable<Short> {
     public actual external override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Short_toString", true)
+    @GCUnsafeCall("Kotlin_Short_toString")
     @Escapes.Nothing
     public actual external override fun toString(): String
 
@@ -1347,7 +1347,7 @@ public actual class Int private constructor() : Number(), Comparable<Int> {
     public actual external override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Int_toString", true)
+    @GCUnsafeCall("Kotlin_Int_toString")
     @Escapes.Nothing
     public actual external override fun toString(): String
 
@@ -1835,7 +1835,7 @@ public actual class Long private constructor() : Number(), Comparable<Long> {
     public actual external override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Long_toString", true)
+    @GCUnsafeCall("Kotlin_Long_toString")
     @Escapes.Nothing
     public actual external override fun toString(): String
 
@@ -2206,7 +2206,7 @@ public actual class Float private constructor() : Number(), Comparable<Float> {
      * [Int.MAX_VALUE] if it's bigger than `Int.MAX_VALUE`.
      */
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Float_toInt", false)
+    @GCUnsafeCall("Kotlin_Float_toInt")
     public actual external override fun toInt(): Int
 
     /**
@@ -2217,7 +2217,7 @@ public actual class Float private constructor() : Number(), Comparable<Float> {
      * [Long.MAX_VALUE] if it's bigger than `Long.MAX_VALUE`.
      */
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Float_toLong", false)
+    @GCUnsafeCall("Kotlin_Float_toLong")
     public actual external override fun toLong(): Long
 
     /** Returns this value. */
@@ -2617,7 +2617,7 @@ public actual class Double private constructor() : Number(), Comparable<Double> 
      * [Int.MAX_VALUE] if it's bigger than `Int.MAX_VALUE`.
      */
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Double_toInt", false)
+    @GCUnsafeCall("Kotlin_Double_toInt")
     public actual external override fun toInt(): Int
 
     /**
@@ -2628,7 +2628,7 @@ public actual class Double private constructor() : Number(), Comparable<Double> 
      * [Long.MAX_VALUE] if it's bigger than `Long.MAX_VALUE`.
      */
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Double_toLong", false)
+    @GCUnsafeCall("Kotlin_Double_toLong")
     public actual external override fun toLong(): Long
 
     /**

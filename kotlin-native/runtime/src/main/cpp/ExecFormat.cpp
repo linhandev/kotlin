@@ -76,7 +76,7 @@ Elf_Ehdr* findElfHeader() {
   }
   int fd = open(info.dli_fname, O_RDONLY);
 #else
-// TODO: elf kexe should also use this
+// elf kexe should also use this
   int fd = open("/proc/self/exe", O_RDONLY);
 #endif
 // endregion

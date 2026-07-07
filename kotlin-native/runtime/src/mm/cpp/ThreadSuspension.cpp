@@ -18,7 +18,10 @@
 #include <iostream>
 #include <cstring>
 #include "MemoryManagerSwitch.hpp"
+#ifdef ENABLE_CRT
+#include "common_interfaces/thread/thread_holder.h"
 #include "common_interfaces/thread/thread_holder-inl.h"
+#endif
 
 using namespace kotlin;
 

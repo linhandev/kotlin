@@ -11,6 +11,7 @@
 #include "Runtime.h"
 #include "Exceptions.h"
 #include "Natives.h"
+#include "EnterKotlinFromCpp.h"
 #include "KString.h"
 
 #define touchType(type) RUNTIME_EXPORT type touch##type;
@@ -83,6 +84,7 @@ touchFunction(LookupTLS)
 
 touchFunction(Kotlin_initRuntimeIfNeeded)
 touchFunction(SetLastFrameReliable)
+touchFunction(EnterKotlinFromCppStub)
 
 touchFunction(Kotlin_mm_switchThreadStateNative)
 touchFunction(Kotlin_mm_switchThreadStateNative_debug)

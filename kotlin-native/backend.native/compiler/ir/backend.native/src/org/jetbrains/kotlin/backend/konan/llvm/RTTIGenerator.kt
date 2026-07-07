@@ -390,7 +390,12 @@ internal class RTTIGenerator(
         }
 
 
-        return primitiveRuntimeTypeMap[type] ?: RT_OBJECT
+        // The precise-stackmap path silences the unknown-primitive case with a
+        // fallback to RT_OBJECT. OFF restores the baseline `throw Error("Unmapped
+        // type: ...")` for loud failure.
+        return primitiveRuntimeTypeMap[type]
+                ?: if (generationState.context.config.enableStackmap) RT_OBJECT
+                else throw Error("Unmapped type: ${llvmtype2string(type)}")
     }
 
     private val debugRuntimeOrNull: LLVMModuleRef? by lazy {

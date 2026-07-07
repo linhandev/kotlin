@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+// Precise-stackmap-only implementation; gated by ENABLE_STACKMAP. See KNRootVisitor.hpp.
+#ifdef ENABLE_STACKMAP
+
 #include <fstream>
 #include "KNRootVisitor.hpp"
 #include "RootSet.hpp"
@@ -406,3 +409,5 @@ void KNRootsVisitor::VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHol
 }
 
 } // namespace common
+
+#endif // ENABLE_STACKMAP

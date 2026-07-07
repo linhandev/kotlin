@@ -17,6 +17,6 @@ namespace kotlin::mm {
  * external tool.
  *
  */
-bool DumpMemory(int fd) noexcept;
+bool DumpMemory(int fd, bool isStrip) noexcept;
 
 } // namespace kotlin::mm

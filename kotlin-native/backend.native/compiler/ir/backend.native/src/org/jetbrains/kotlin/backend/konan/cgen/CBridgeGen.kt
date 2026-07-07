@@ -50,6 +50,15 @@ internal interface KotlinStubs {
 
     val isSwiftExportEnabled: Boolean
 
+    /**
+     * Stackmap pipeline ON/OFF toggle. When false (OFF / pre-stackmap baseline),
+     * `addFilterExceptionsAnnotation` must be forced to true at every K->C bridge
+     * generation so cross-language exception propagation matches the baseline.
+     * The ON path defaults to false because precise-stackmap drives the decision
+     * per-callsite via `foreignExceptionMode`.
+     */
+    val enableStackmap: Boolean
+
     fun addKotlin(declaration: IrDeclaration)
     fun addC(lines: List<String>)
     fun getUniqueCName(prefix: String): String
@@ -123,6 +132,12 @@ private fun KotlinToCCallBuilder.buildKotlinBridgeCall(transformCall: (IrMemberA
 internal fun KotlinStubs.generateCCall(expression: IrCall, builder: IrBuilderWithScope, isInvoke: Boolean,
                                        foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default,
                                        addFilterExceptionsAnnotation: Boolean = false): IrExpression {
+    // OFF path forces the filterExceptions annotation back on (the baseline
+    // always added it). The ON path makes it opt-in via this parameter; OFF must
+    // restore the always-on behaviour or cross-language exception propagation
+    // breaks (cinterop tests SIGABRT in baseline-equivalent scenarios).
+    @Suppress("NAME_SHADOWING")
+    val addFilterExceptionsAnnotation = if (enableStackmap) addFilterExceptionsAnnotation else true
     val callBuilder = KotlinToCCallBuilder(
             builder,
             this,
@@ -288,7 +303,11 @@ private fun <R> KotlinToCCallBuilder.handleArgumentForVarargParameter(
 
 private fun KotlinToCCallBuilder.emitCBridge() {
     val cLines = mutableListOf<String>()
-    cLines += "${bridgeBuilder.buildCSignature(cBridgeName)} __attribute__((annotate(\"k2n\"))) {"
+    // The `annotate("k2n")` marker belongs to the precise-stackmap pipeline for
+    // K->N bridges; the pre-stackmap baseline had no such annotation. Gate it
+    // to avoid leaking the marker into OFF C bridges.
+    val signatureSuffix = if (stubs.enableStackmap) " __attribute__((annotate(\"k2n\")))" else ""
+    cLines += "${bridgeBuilder.buildCSignature(cBridgeName)}$signatureSuffix {"
     cLines += cBridgeBodyLines
     cLines += "}"
 
@@ -1302,7 +1321,8 @@ private class ObjCBlockPointerValuePassing(
                 stubs,
                 isObjCMethod = false,
                 foreignExceptionMode = ForeignExceptionMode.default,
-                addFilterExceptionsAnnotation = false
+                // ObjC block bridge: OFF restores the baseline always-on filterExceptions.
+                addFilterExceptionsAnnotation = if (stubs.enableStackmap) false else true
         )
 
         val rawBlockPointerParameter =  callBuilder.passThroughBridge(blockPtr, blockPtr.type, CTypes.id)

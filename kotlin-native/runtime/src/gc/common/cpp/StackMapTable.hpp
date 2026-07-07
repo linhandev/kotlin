@@ -16,6 +16,11 @@
 
 #pragma once
 
+#ifdef ENABLE_STACKMAP
+// Integral stackmap implementation header. The ON path exposes the full API;
+// the OFF path defines no symbols (all callers must be gated under the same
+// macro).
+
 #include <cstdint>
 #include <vector>
 #include <iostream>
@@ -341,3 +346,5 @@ private:
     uint32_t slotBitsLen = 0;
 };
 } // namespace kotlin::stackMap
+
+#endif // ENABLE_STACKMAP

@@ -21,7 +21,7 @@
 #ifdef KONAN_OHOS
 #include "ArkTSInit.h"
 #endif
-#include "KotlinCallScope.h"
+#include "EnterKotlinFromCpp.h"
 #include <algorithm>
 #include <atomic>
 #include <cstdlib>
@@ -36,8 +36,10 @@
 extern "C" __attribute__((weak)) HiDebug_ErrorCode OH_HiDebug_RegisterMemDumpListener(
     const char*, OH_HiDebug_MemDumpListener);
 #endif
+#ifdef ENABLE_CRT
 #include "base/common.h"
 #include "crt/cpp/CRTRuntime.hpp"
+#endif
 #include "MemoryManagerSwitch.hpp"
 
 using namespace kotlin;
@@ -72,34 +74,30 @@ enum {
   DEINIT_GLOBALS = 3
 };
 
+#ifdef ENABLE_STACKMAP
+// NO_INLINE + asm labels + EnterKotlinFromCppStub are precise-stackmap-only
+// (FpUnwind.cpp consumes the unwindPCForEnterKotlinFromCppStub global). OFF reduces to the
+// baseline simple while loop.
 NO_INLINE void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
   InitNode* currentNode = initHeadNode;
-#if KONAN_MACOSX
-  asm volatile(".alt_entry _unwindPCStartForInitOrDeinitGlobalVariables\n"
-      ".global _unwindPCStartForInitOrDeinitGlobalVariables\n"
-      "_unwindPCStartForInitOrDeinitGlobalVariables:");
-#else
-  asm("  .p2align 3\n"
-      "  .global unwindPCStartForInitOrDeinitGlobalVariables\n"
-      "unwindPCStartForInitOrDeinitGlobalVariables:");
-#endif
   while (currentNode != nullptr) {
-    {
-      KotlinCallScope scope;
-      currentNode->init(initialize, memory);
-    }
+    // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+    (void)EnterKotlinFromCppStub(
+        reinterpret_cast<void*>(currentNode->init),
+        reinterpret_cast<void*>(static_cast<intptr_t>(initialize)),
+        reinterpret_cast<void*>(memory));
     currentNode = currentNode->next;
   }
-#if KONAN_MACOSX
-  asm volatile(".alt_entry _unwindPCEndForInitOrDeinitGlobalVariables\n"
-      ".global _unwindPCEndForInitOrDeinitGlobalVariables\n"
-      "_unwindPCEndForInitOrDeinitGlobalVariables:");
-#else
-  asm("  .p2align 3\n"
-      "  .global unwindPCEndForInitOrDeinitGlobalVariables\n"
-      "unwindPCEndForInitOrDeinitGlobalVariables:");
-#endif
 }
+#else
+void InitOrDeinitGlobalVariables(int initialize, MemoryState* memory) {
+  InitNode* currentNode = initHeadNode;
+  while (currentNode != nullptr) {
+    currentNode->init(initialize, memory);
+    currentNode = currentNode->next;
+  }
+}
+#endif
 
 KBoolean g_checkLeaks = false;
 KBoolean g_checkLeakedCleaners = false;
@@ -141,11 +139,11 @@ void RegistDumpListenerIfNeeded()
       case OH_HiDebug_MemListenerType::OH_HIDEBUG_DO_NOTHING:
         return true;
       case OH_HiDebug_MemListenerType::OH_HIDEBUG_RUNNING_GC:
+        Kotlin_native_internal_GC_collect(nullptr);
         return true;
       case OH_HiDebug_MemListenerType::OH_HIDEBUG_DUMP_SNAPSHOT:
-        if (!mayReportToOEM) {
-          return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd);
-        }
+        Kotlin_native_internal_GC_collect(nullptr);
+        return Kotlin_native_runtime_Debugging_dumpMemory(nullptr, fd, mayReportToOEM);
       default:
         return true;
     }
@@ -304,7 +302,7 @@ void Kotlin_shutdownRuntime() {
         // Mark the thread native, and don't make the GC thread wait on it.
         kotlin::SwitchThreadState(runtime->memoryState, kotlin::ThreadState::kNative);
         checkUseCRT<CheckMode::Slow>([&] {
-            DestroyCRTRuntime(runtime->memoryState); // CRT must be destroyed before C++ globals are.
+            StopCRTGCWork();
         });
         return;
     }
@@ -381,7 +379,7 @@ KInt Konan_Platform_getOsFamily() {
 #elif KONAN_WATCHOS
   return 8;
 #elif KONAN_OHOS
-  return 9; // 9 is the OHOS platform ID
+  return 9;
 #else
 #warning "Unknown platform"
   return 0;
@@ -522,30 +520,14 @@ NO_INLINE void CallInitGlobalPossiblyLock(uintptr_t* state, void (*init)()) {
         // actual initialization
         try {
             CurrentFrameGuard guard;
-            {
-                KotlinCallScope scope;
-                // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
-                // Global symbols are exported as .quad pointers in __DATA,__const (see bottom of file).
-#if KONAN_MACOSX
-            asm volatile(".alt_entry _unwindPCStartForCallInitGlobalPossiblyLock\n"
-                ".global _unwindPCStartForCallInitGlobalPossiblyLock\n"
-                "_unwindPCStartForCallInitGlobalPossiblyLock:");
+#ifdef ENABLE_STACKMAP
+            // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+            (void)EnterKotlinFromCppStub(
+                reinterpret_cast<void*>(init),
+                nullptr, nullptr);
 #else
-            asm("  .p2align 3\n"
-                "  .global unwindPCStartForCallInitGlobalPossiblyLock\n"
-                "unwindPCStartForCallInitGlobalPossiblyLock:");
+            init();
 #endif
-                init();
-#if KONAN_MACOSX
-            asm volatile(".alt_entry _unwindPCEndForCallInitGlobalPossiblyLock\n"
-                ".global _unwindPCEndForCallInitGlobalPossiblyLock\n"
-                "_unwindPCEndForCallInitGlobalPossiblyLock:");
-#else
-            asm("  .p2align 3\n"
-                "  .global unwindPCEndForCallInitGlobalPossiblyLock\n"
-                "unwindPCEndForCallInitGlobalPossiblyLock:");
-#endif
-            }
         } catch (ExceptionObjHolder& e) {
             ObjHolder holder;
             auto *exception = Kotlin_getExceptionObject(&e, holder.slot());
@@ -565,28 +547,14 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
     *localState = FILE_INITIALIZED;
     try {
         CurrentFrameGuard guard;
-        {
-            KotlinCallScope scope;
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCStartForCallInitThreadLocal\n"
-            ".global _unwindPCStartForCallInitThreadLocal\n"
-            "_unwindPCStartForCallInitThreadLocal:");
+#ifdef ENABLE_STACKMAP
+        // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+        (void)EnterKotlinFromCppStub(
+            reinterpret_cast<void*>(init),
+            nullptr, nullptr);
 #else
-        asm("  .p2align 3\n"
-            "  .global unwindPCStartForCallInitThreadLocal\n"
-            "unwindPCStartForCallInitThreadLocal:");
+        init();
 #endif
-            init();
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCEndForCallInitThreadLocal\n"
-            ".global _unwindPCEndForCallInitThreadLocal\n"
-            "_unwindPCEndForCallInitThreadLocal:");
-#else
-        asm("  .p2align 3\n"
-            "  .global unwindPCEndForCallInitThreadLocal\n"
-            "unwindPCEndForCallInitThreadLocal:");
-#endif
-        }
     } catch(ExceptionObjHolder& e) {
         ObjHolder holder;
         auto *exception = Kotlin_getExceptionObject(&e, holder.slot());
@@ -596,4 +564,3 @@ void CallInitThreadLocal(uintptr_t volatile* globalState, uintptr_t* localState,
 }
 
 }  // extern "C"
-

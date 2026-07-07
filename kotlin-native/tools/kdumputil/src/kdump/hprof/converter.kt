@@ -585,8 +585,32 @@ class Converter(
     fun hprofDumpRecord(objectItem: ObjectItem): HProfHeapDump.Record {
         val objectId = hprofObjectId(objectItem.id)
         val type = type(objectItem.typeId)
-        val byteArray = objectItem.byteArray
+        val objectBody = type.body as Type.Body.Object
+        val byteArray = if (objectItem.byteArray.size < objectBody.instanceSize) {
+            // Stripped object: byteArray only contains pointer values in objOffsets order.
+            // Reconstruct full zero-filled byteArray with pointers at correct offsets.
+            reconstructObjectByteArray(objectItem.byteArray, objectBody)
+        } else {
+            objectItem.byteArray
+        }
         return hprofInstanceDump(objectId, type, byteArray)
+    }
+
+    private fun reconstructObjectByteArray(
+            strippedData: ByteArray,
+            objectBody: Type.Body.Object,
+    ): ByteArray {
+        val fullSize = objectBody.instanceSize
+        val result = ByteArray(fullSize) // zero-filled
+        val ptrSize = idSize.byteCount
+        for (i in objectBody.objectOffsets.indices) {
+            val srcOffset = i * ptrSize
+            val dstOffset = objectBody.objectOffsets[i]
+            if (srcOffset + ptrSize <= strippedData.size && dstOffset + ptrSize <= fullSize) {
+                System.arraycopy(strippedData, srcOffset, result, dstOffset, ptrSize)
+            }
+        }
+        return result
     }
 
     fun hprofDumpRecord(arrayItem: ArrayItem): HProfHeapDump.Record {
@@ -606,14 +630,26 @@ class Converter(
             else -> {
                 val (runtimeElementType, hprofElementType) =
                         type.relativeName.primitiveArrayClassNameToElementTypePair()
-                hprofPrimitiveArrayDump(
-                        objectId,
-                        hprofElementType,
-                        byteArray,
-                        offset,
-                        count,
-                        runtimeElementType
-                )
+                if (byteArray.isEmpty() && count > 0) {
+                    // Primitive array content was stripped in dump.
+                    // Generate zero-filled data so MAT can compute correct shallowSize.
+                    val hprofElementSize = hprofElementType.size
+                    HProfPrimitiveArrayDump(
+                            arrayObjectId = objectId,
+                            numberOfElements = count,
+                            arrayElementType = hprofElementType,
+                            byteArray = ByteArray(count * hprofElementSize)
+                    )
+                } else {
+                    hprofPrimitiveArrayDump(
+                            objectId,
+                            hprofElementType,
+                            byteArray,
+                            offset,
+                            count,
+                            runtimeElementType
+                    )
+                }
             }
         }
     }

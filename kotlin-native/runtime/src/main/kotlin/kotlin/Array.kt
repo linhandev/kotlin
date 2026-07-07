@@ -52,7 +52,7 @@ public actual class Array<T> {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_Array_get", false)
+    @GCUnsafeCall("Kotlin_Array_get")
     @PointsTo(0x000, 0x000, 0x002) // ret -> this.intestines
     public actual external operator fun get(index: Int): T
 
@@ -66,7 +66,7 @@ public actual class Array<T> {
      *
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
-    @GCUnsafeCall("Kotlin_Array_set", false)
+    @GCUnsafeCall("Kotlin_Array_set")
     @PointsTo(0x0300, 0x0000, 0x0000, 0x0000) // this.intestines -> value
     public actual external operator fun set(index: Int, value: T): Unit
 
@@ -80,7 +80,7 @@ public actual class Array<T> {
     public actual operator fun iterator(): Iterator<T> =
         ArrayIterator(this)
 
-    @GCUnsafeCall("Kotlin_Array_getArrayLength", false)
+    @GCUnsafeCall("Kotlin_Array_getArrayLength")
     @Escapes.Nothing
     private external fun getArrayLength(): Int
 }

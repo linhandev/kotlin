@@ -47,9 +47,6 @@ sealed class ClangArgs(
                     target.family.name.takeIf { target.family != Family.MINGW },
                     "WINDOWS".takeIf { target.family == Family.MINGW },
                     "MACOSX".takeIf { target.family == Family.OSX },
-                    // region Tencent Code
-                    "LINUX".takeIf { target.family == Family.OHOS },  // OHOS is also a variant of Linux.
-                    // endregion
                     "APPLE".takeIf { target.family.isAppleFamily },
 
                     "NO_64BIT_ATOMIC".takeUnless { target.supports64BitAtomics() },

@@ -101,3 +101,8 @@ void alloc::Allocator::startFinalizerThreadIfNeeded() noexcept {}
 void alloc::Allocator::stopFinalizerThreadIfRunning() noexcept {}
 
 bool alloc::Allocator::finalizersThreadIsRunning() noexcept { return false; }
+
+void alloc::Allocator::configureMainThreadFinalizerProcessor(
+    std::function<void(alloc::RunLoopFinalizerProcessorConfig&)>) noexcept { NOT_SUPPORTED_BY_CRT(); }
+
+bool alloc::Allocator::mainThreadFinalizerProcessorAvailable() noexcept { return false; }

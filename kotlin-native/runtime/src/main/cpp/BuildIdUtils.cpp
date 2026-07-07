@@ -73,7 +73,8 @@ std::vector<MapsEntry> BuildIdUtils::parseMapsFile(pid_t target_pid) {
         std::string start_str = addr_range.substr(0, dash_pos);
         std::string end_str = addr_range.substr(dash_pos + 1);
 
-        uintptr_t start_addr, end_addr;
+        uintptr_t start_addr;
+        uintptr_t end_addr;
         try {
             start_addr = std::stoull(start_str, nullptr, 16);
             end_addr = std::stoull(end_str, nullptr, 16);
@@ -84,7 +85,6 @@ std::vector<MapsEntry> BuildIdUtils::parseMapsFile(pid_t target_pid) {
         size_t last_space_pos = line.find_last_of(" \t");
         if (last_space_pos == std::string::npos) continue;
         std::string so_path = line.substr(last_space_pos + 1);
-
         if (so_path.empty() || so_path[0] != '/') continue;
 
         maps_entries.push_back({start_addr, end_addr, so_path});
@@ -96,8 +96,8 @@ std::vector<MapsEntry> BuildIdUtils::parseMapsFile(pid_t target_pid) {
 
 std::string BuildIdUtils::findSoPathFromMaps(uintptr_t address, const std::vector<MapsEntry>& maps_entries) {
     for (const auto& entry : maps_entries) {
-        if (address >= entry.start_addr && address < entry.end_addr) {
-            return entry.so_path;
+        if (address >= entry.startAddr && address < entry.endAddr) {
+            return entry.soPath;
         }
     }
     return "";

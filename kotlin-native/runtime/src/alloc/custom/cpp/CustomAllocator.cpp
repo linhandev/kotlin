@@ -44,15 +44,24 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
         object->typeInfoOrMeta_ = clearPointerBits(const_cast<TypeInfo*>(typeInfo), OBJECT_TAG_MASK);
     }
     #ifdef KONAN_OHOS
-    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {
         restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_,
             TAG_RES_KMP_HEAP_MASK, true);
     }
     #endif
 
-    // Try setting the tag here
+    // SetValid writes bit 59 (KNStateWord::valid) into typeInfoOrMeta_. Only the
+    // precise-stackmap (ON) path reads it via ConcurrentMark.cpp:IsValid(), and only
+    // the ON path's AsMetaObject in Memory.h strips the high 16 bits. Without this
+    // gate, OFF builds poison every heap object's typeInfoOrMeta_ with bit 59,
+    // AsMetaObject misreads it as a meta-object pointer (typeInfoOrMeta != ->typeInfo_),
+    // and sweep's setFlag(FLAGS_IN_FINALIZER_QUEUE) does an atomic OR on
+    // (TypeInfo + 8) which lands in __DATA_CONST after TBI strips the tag,
+    // producing a SIGBUS in OFF builds under heavy allocation.
+#ifdef ENABLE_STACKMAP
     KNStateWord *word = reinterpret_cast<KNStateWord*>(object);
     word->SetValid();
+#endif
 
      return object;
 }
@@ -67,14 +76,16 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
     array->typeInfoOrMeta_ = clearPointerBits(const_cast<TypeInfo*>(typeInfo), OBJECT_TAG_MASK);
     array->count_ = count;
     #ifdef KONAN_OHOS
-    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {
+    if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {
         restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_,
             TAG_RES_KMP_HEAP_MASK, true);
     }
     #endif
-    // Try setting the tag here
+    // Same gating rationale as CreateObject above.
+#ifdef ENABLE_STACKMAP
     KNStateWord *word = reinterpret_cast<KNStateWord*>(array);
     word->SetValid();
+#endif
 
     return array;
 }

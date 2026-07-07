@@ -111,6 +111,7 @@ sealed class LlvmFunctionAttribute(private val llvmAttributeName: String,
     object SspStrong : LlvmFunctionAttribute("sspstrong")
     object SspReq : LlvmFunctionAttribute("sspreq")
     object SanitizeAddress : LlvmFunctionAttribute("sanitize_address")
+    object SanitizeHWAddress : LlvmFunctionAttribute("sanitize_hwaddress")
     // String attibutes
     object ExportForCppRuntimeKFunc: LlvmFunctionAttribute("export_for_cpp_runtime_k", "StringAttr", "stubtype")
     object KFunc: LlvmFunctionAttribute("kfunc", "StringAttr", "functype")

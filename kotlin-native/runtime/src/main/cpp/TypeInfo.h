@@ -81,6 +81,12 @@ struct InterfaceTableRecord {
     VTableElement const* vtable;
 };
 
+#ifdef ENABLE_STACKMAP
+// Precise-stackmap object valid-state word. Bit 59 of typeInfoOrMeta_ is
+// set on object construction (CustomAllocator::CreateObject/CreateArray)
+// and read by GC sweep (ConcurrentMark) to skip half-constructed objects.
+// All callsites (CustomAllocator + ConcurrentMark) are #ifdef ENABLE_STACKMAP
+// gated; the class itself is dead in OFF.
 class KNStateWord {
 public:
     struct GCStateWord {
@@ -101,6 +107,7 @@ public:
 private:
     GCStateWord state_;
 };
+#endif // ENABLE_STACKMAP
 
 // This struct represents runtime type information and by itself is the compile time
 // constant.

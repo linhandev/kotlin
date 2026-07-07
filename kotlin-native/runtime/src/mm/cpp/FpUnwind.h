@@ -16,28 +16,59 @@
 
 #ifndef RUNTIME_MM_FPUNWIND_H
 #define RUNTIME_MM_FPUNWIND_H
+// FpUnwind impl bodies are intentionally NOT #ifdef-gated out of the OFF
+// build: the runtime is shipped compiled with ENABLE_STACKMAP (it is a
+// per-target build macro, ON for ohos_arm64/macos_arm64), so the same runtime
+// bitcode is linked into both ON and OFF apps. Rather than ship two runtime
+// variants, the unwindPC* marker references below are declared *weak* (see the
+// ENABLE_STACKMAP block): in OFF the Linker drops the asm stub .o (OHOS), the
+// weak refs resolve to 0, and the Is*Stub predicates never match — identical
+// runtime behaviour to ON-linked-but-never-executed stub code, with no asm
+// stub objects pulled into the link.
+
 #include "Common.h"
 #include "ThreadData.hpp"
 #include <cstdint>
 #include <sstream>
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
-// region Tencent Code
-#include <hitrace/trace.h>
-// endregion
 #endif
+
+#ifdef ENABLE_STACKMAP
+// unwindPC* are provided by the arm64 asm trampolines (K2RStub.s / N2KStub.s
+// / KonanStartStub.s / EnterKotlinFromCppStub.s) and by inline-asm labels in
+// Worker.cpp / Runtime.cpp / Types.cpp. On non-arm64 OFF targets none of these
+// asm-stub PC anchors exist, so the FpUnwind-based precise stack walk is
+// unreachable. The Is*Stub / IsAt* helpers below that read these globals are
+// likewise gated.
+//
+// On macOS, unwindPCForN2KStub and unwindPCForKonanStartStub are .quad
+// pointers in __DATA,__const (to avoid non-private labels inside CFI regions
+// which cause compact-unwind encoding=0). Their *value* is the PC address.
+// On OHOS/Linux, they are code labels whose *address* is the PC.
+//
+// Declared weak so the OFF link — which drops the asm stub .o on BOTH OHOS and
+// macOS (see Linker.stubObjectsForTarget) — resolves them to 0 instead of failing
+// on undefined symbols. Safe in every supported build: the Is*Stub readers below
+// are ENABLE_STACKMAP-gated, so a matched OFF runtime never compiles them and the
+// markers are never read; a matched ON build keeps the stub .o, so they stay
+// strongly defined. The only config that could read a 0 marker is an ON runtime
+// linked by an OFF app (stub .o dropped) — an unsupported runtime-flavour mismatch
+// (see KonanConfig.enableStackmap): there OHOS reads address-form (&marker == 0,
+// never matches a frame PC); macOS would read value-form (a load from 0), but that
+// mismatch is not a supported configuration.
+extern uintptr_t unwindPCForN2KStub __attribute__((weak));
+extern uintptr_t unwindPCForKonanStartStub __attribute__((weak));
+extern uintptr_t unwindPCForK2RStubStart __attribute__((weak));
+extern uintptr_t unwindPCForK2RStubEnd __attribute__((weak));
+extern uintptr_t unwindPCForEnterKotlinFromCppStub __attribute__((weak));
+#endif // ENABLE_STACKMAP
 
 namespace kotlin {
 
 enum class FrameType : uint8_t {
     R2K_STUB,
     KONAN_RUN_START_FRAME,
-    WORKER_STUB,
-    CALL_INIT_GLOBAL_POSSIIBLY_LOCK,
-    INIT_OR_DEINIT_GLOBAL_VARIABLES,
-    FIND_ASSOCIATED_OBJECT,
-    INIT_THREAD_LOCAL,
-    INVOKE_C_FUNCTION,
     K2N_STUB,
     K2R_STUB,
     RUNTIME_FRAME,
@@ -72,4 +103,5 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndSta
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::FrameAddress *fp);
 std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData);
 } // namespace kotlin
+
 #endif // RUNTIME_MM_FPUNWIND_H

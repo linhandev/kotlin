@@ -90,7 +90,11 @@ public:
         // TODO: if a better-distributed hashcode is required, it should be stored in the ExtraObject,
         //       e.g. in union with flags_, to avoid increasing the size of every object.
         auto addr = reinterpret_cast<uintptr_t>(this);
-        return static_cast<int>(addr + (addr >> 32));
+        if constexpr (sizeof(uintptr_t) > sizeof(uint32_t)) {
+            return static_cast<int>(addr + (addr >> 32));
+        } else {
+            return static_cast<int>(addr);
+        }
     }
 
     ExtraObjectData() = default;

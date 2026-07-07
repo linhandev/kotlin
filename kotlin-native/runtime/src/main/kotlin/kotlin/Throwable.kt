@@ -176,7 +176,7 @@ public actual constructor(
     internal var suppressedExceptionsList: MutableList<Throwable>? = null
 }
 
-@GCUnsafeCall("Kotlin_getCurrentStackTrace", true)
+@GCUnsafeCall("Kotlin_getCurrentStackTrace")
 @Escapes.Nothing
 private external fun getCurrentStackTrace(): NativePtrArray
 
@@ -186,7 +186,7 @@ private external fun getEmptyStackTrace(): NativePtrArray
 
 private val emptyNativePtrArray: NativePtrArray = getEmptyStackTrace()
 
-@GCUnsafeCall("Kotlin_getStackTraceStrings", true)
+@GCUnsafeCall("Kotlin_getStackTraceStrings")
 @Escapes.Nothing
 private external fun getStackTraceStrings(stackTrace: NativePtrArray): Array<String>
 

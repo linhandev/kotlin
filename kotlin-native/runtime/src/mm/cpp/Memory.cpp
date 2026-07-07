@@ -9,6 +9,7 @@
 
 #include <stack>
 
+
 #include "Allocator.hpp"
 #include "CallsChecker.hpp"
 #include "Exceptions.h"
@@ -29,12 +30,15 @@
 
 #include "MemoryManagerSwitch.hpp"
 #include "CRTFastpathUtils.hpp"
+#ifdef ENABLE_CRT
 #include "common_interfaces/base_runtime.h"
 #include "common_interfaces/thread/mutator_base.h"
+#include "crt/cpp/CRTRuntime.hpp"
+#include "crt/cpp/HeapInterface.hpp"
+#endif
 
 #include "MemoryDump.hpp"
 #include "StackTrace.hpp"
-#include "crt/cpp/CRTRuntime.hpp"
 
 using namespace kotlin;
 
@@ -118,9 +122,8 @@ extern "C" void DeinitMemory(MemoryState* state, bool destroyRuntime) {
         node->Get()->ClearThreadHolder();
         if (destroyRuntime) {
             // CRT will properly stop its own GC and Finalizer threads upon destruction.
-            // No other running threads are expected to exist by this point,
-            // so we pass `nullptr` instead of the `state` to avoid stopping the world before destruction.
-            DestroyCRTRuntime(nullptr);
+            // No other running threads are expected to exist by this point.
+            DestroyCRTRuntime();
         }
     }, [&] {
         if (destroyRuntime) {
@@ -381,12 +384,17 @@ extern "C" RUNTIME_NOTHROW ObjHeader** LookupTLS(void** key, int index) {
 HAS_SAFEPOINT
 extern "C" void Kotlin_native_internal_GC_collect(ObjHeader*) {
     checkUseCRT<CheckMode::Slow>([] {
-        RuntimeSetLastFrame1();
-        common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_USER, false, common::GCType::GC_TYPE_FULL);
+        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+        threadData->RuntimeSetLastFrame();
+        // sync GC, be consistent with `scheduleAndWaitFinalized`
+        common::BaseRuntime::RequestGC(common::GCReason::GC_REASON_FORCE, false, common::GCType::GC_TYPE_FULL);
         common::UpdateThreadLocalDataReg();
     }, [] {
+#ifdef ENABLE_STACKMAP
+        // ON keeps the AssertThreadState check; OFF drops it to match baseline.
         auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
         AssertThreadState(threadData, ThreadState::kRunnable);
+#endif
         mm::GlobalData::Instance().gcScheduler().scheduleAndWaitFinalized();
     });
 }
@@ -396,7 +404,7 @@ extern "C" void Kotlin_native_internal_GC_schedule(ObjHeader*) {
     mm::GlobalData::Instance().gcScheduler().schedule();
 }
 
-extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHeader*, int fd) {
+extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHeader*, int fd, bool isStrip) {
     auto mainGCLock = mm::GlobalData::Instance().gc().gcLock();
 
     auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
@@ -405,7 +413,7 @@ extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHe
     // We're in the runnable state, but everything else (including the GC thread) will be suspended.
     // It's fine to wait for that suspension and execute long-running operations (I/O) here.
     mm::WaitForThreadsSuspension();
-    bool success = mm::DumpMemory(fd);
+    bool success = mm::DumpMemory(fd, isStrip);
     mm::ResumeThreads();
     return success;
 }
@@ -583,17 +591,9 @@ extern "C" RUNTIME_NOTHROW NO_INLINE RUNTIME_EXPORT void Kotlin_mm_safePointFunc
     mm::safePoint();
 }
 
-extern "C" RUNTIME_NOTHROW ALWAYS_INLINE RUNTIME_EXPORT void Kotlin_mm_safePointFunctionPrologueStub() {
-    mm::safePointStub();
-}
-
 HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW CODEGEN_INLINE_POLICY RUNTIME_EXPORT void Kotlin_mm_safePointWhileLoopBody() {
     mm::safePoint();
-}
-
-extern "C" RUNTIME_NOTHROW CODEGEN_INLINE_POLICY RUNTIME_EXPORT void Kotlin_mm_safePointWhileLoopBodyStub() {
-    mm::safePointStub();
 }
 
 HAS_SAFEPOINT
@@ -618,19 +618,6 @@ extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable() 
 HAS_SAFEPOINT
 extern "C" NO_INLINE RUNTIME_NOTHROW void Kotlin_mm_switchThreadStateRunnable_debug() {
     SwitchThreadState(mm::ThreadRegistry::Instance().CurrentThreadData(), ThreadState::kRunnable);
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame(MemoryState* thread, ThreadState state) noexcept {
-    if (state == thread->GetThreadData()->state()) {
-        RuntimeAssert(0, "Can't save frame in the same state.");
-        return;
-    }
-    thread->GetThreadData()->RuntimeSetLastFrame();
-}
-
-extern "C" NO_INLINE RUNTIME_NOTHROW void RuntimeSetLastFrame1() {
-    auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
-    threadData->RuntimeSetLastFrame();
 }
 
 // CRT-specific x28 register save/restore. x28 holds the CRT TLS pointer (fastpath).
@@ -721,6 +708,7 @@ void kotlin::compactObjectPoolInCurrentThread() noexcept {
 
 RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj)
 {
+    (void)thiz;
     checkUseCRT<CheckMode::Slow>([&] {
         CRT_Pin(obj);
     });
@@ -728,6 +716,7 @@ RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCPin(KRef thiz, KRef obj)
 
 RUNTIME_NOTHROW extern "C" void Kotlin_Pinned_GCUnpin(KRef thiz, KRef obj)
 {
+    (void)thiz;
     checkUseCRT<CheckMode::Slow>([&] {
         CRT_UnPin(obj);
     });

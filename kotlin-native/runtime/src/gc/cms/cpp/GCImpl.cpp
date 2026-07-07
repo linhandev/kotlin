@@ -14,7 +14,9 @@
 #include "ObjectOps.hpp"
 
 #include "MemoryManagerSwitch.hpp"
+#ifdef ENABLE_CRT
 #include "crt/cpp/KNFinalizer.hpp"
+#endif
 
 using namespace kotlin;
 

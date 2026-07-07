@@ -151,10 +151,10 @@ public fun CPointer<ShortVar>.toKString(): String = this.toKStringFromUtf16()
 @ExperimentalForeignApi
 public fun CPointer<UShortVar>.toKString(): String = this.toKStringFromUtf16()
 
-@GCUnsafeCall("Kotlin_interop_malloc", false)
+@GCUnsafeCall("Kotlin_interop_malloc")
 private external fun malloc(size: Long, align: Int): NativePtr
 
-@GCUnsafeCall("Kotlin_interop_free", false)
+@GCUnsafeCall("Kotlin_interop_free")
 private external fun cfree(ptr: NativePtr)
 
 @ExperimentalForeignApi

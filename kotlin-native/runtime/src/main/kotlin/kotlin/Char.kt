@@ -121,7 +121,7 @@ public actual class Char private constructor() : Comparable<Char> {
     public actual external fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    @GCUnsafeCall("Kotlin_Char_toString", true)
+    @GCUnsafeCall("Kotlin_Char_toString")
     @Escapes.Nothing
     public actual external override fun toString(): String
 

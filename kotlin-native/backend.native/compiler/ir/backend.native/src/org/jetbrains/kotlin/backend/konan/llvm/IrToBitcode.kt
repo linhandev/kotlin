@@ -112,7 +112,7 @@ internal class RTTIGeneratorVisitor(generationState: NativeGenerationState, refe
         val moduleIncludeOnly = generator.context.config.moduleIncludeOnly
 
         if (moduleIncludeOnly.isNotEmpty()) {
-            if (libraryName == null || libraryName !in moduleIncludeOnly) return
+            if (!generator.context.config.isIncludedLibrary(libraryName)) return
         }
 
         if (declaration.requiresRtti()) {
@@ -688,7 +688,7 @@ internal class CodeGeneratorVisitor(
         val moduleIncludeOnly = context.config.moduleIncludeOnly
 
         if (moduleIncludeOnly.isNotEmpty()) {
-            if (libraryName == null || libraryName !in moduleIncludeOnly) {
+            if (!context.config.isIncludedLibrary(libraryName)) {
                 return
             }
         }
@@ -946,6 +946,14 @@ internal class CodeGeneratorVisitor(
         val body = declaration.body
         if (body == null && !declaration.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
             return
+        // if (body == null && !context.config.enableStackmap &&
+        //         declaration.annotations.hasAnnotation(RuntimeNames.exportForCppRuntime)) {
+        //     require(declaration.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
+        //     // Keep ExportForCppRuntime GCUnsafeCall functions as external declarations
+        //     // on the baseline path. Ordinary GCUnsafeCall declarations still need a
+        //     // Kotlin stub so Kotlin ABI call sites don't end up with an undefined kfun.
+        //     return
+        // }
 
         usingFileScope(declaration.sourceFileWhenInlined) {
             generateFunction(codegen, declaration,
@@ -990,7 +998,20 @@ internal class CodeGeneratorVisitor(
     private fun CodeGeneratorVisitor.generateGCUnsafeCallStub(declaration: IrFunction) {
         val calleeName = declaration.externalSymbolOrThrow() ?: error("GCUnsafeCall must have an external symbol")
         val simpleFunction = declaration as? IrSimpleFunction ?: error("GCUnsafeCall stub requires IrSimpleFunction")
-        val proto = LlvmFunctionProto(simpleFunction, calleeName, codegen, LLVMLinkage.LLVMExternalLinkage)
+        // Per-module Stub redirection: if the C++ callee has a Stub trampoline (asm-defined
+        // in K2RStub.s, tracked in K2RStubFunctions.names), emit the call to the Stub variant
+        // directly. This way the module .bc is already in its final form and KSG step 1's
+        // pre-pipeline callsite rewrite becomes redundant for this call. Without this, cached
+        // .bc would contain `bl XXX` and rely on KSG step 1 finding the right helper set —
+        // which fails for cached per-file .bc that carries no @llvm.global.annotations, see
+        // K2RStubFunctions.kt for the full rationale.
+        // Stub redirection is gated on enableStackmap (same as KSG / the @llvm.used pin):
+        // OFF emits the direct call so the helper keeps a bitcode caller (pre-stackmap baseline).
+        val effectiveCalleeName = if (context.config.enableStackmap && calleeName in K2RStubFunctions.names)
+            K2RStubFunctions.stubNameOf(calleeName)
+        else
+            calleeName
+        val proto = LlvmFunctionProto(simpleFunction, effectiveCalleeName, codegen, LLVMLinkage.LLVMExternalLinkage)
         val llvmCallable = codegen.llvm.externalFunction(proto)
 
         val args = declaration.parameters.map { functionGenerationContext.vars.load(functionGenerationContext.vars.indexOf(it), null) }
@@ -1081,7 +1102,7 @@ internal class CodeGeneratorVisitor(
                 // (Cannot do this before the global is initialized).
                 if (moduleIncludeOnly.isNotEmpty()) {
                     LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMExternalLinkage)
-                } else LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMExternalLinkage)
+                } else LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMInternalLinkage)
             }
             llvm.initializersGenerationState.scopeState.topLevelFields.add(declaration)
         }
@@ -1781,7 +1802,7 @@ internal class CodeGeneratorVisitor(
             genInstanceOfObjC(obj, dstClass)
         } else with(VirtualTablesLookup) {
             checkIsSubtype(
-                    objTypeInfo = loadTypeInfo(bitcast(codegen.kObjHeaderPtr, obj)),
+                    objTypeInfo = loadTypeInfo(bitcast(codegen.kObjHeaderRef, obj)),
                     dstClass
             )
         }
@@ -2774,15 +2795,28 @@ internal class CodeGeneratorVisitor(
 
     private val IrSimpleFunction.needsNativeThreadState: Boolean
         get() {
-            // Every K→C bridge enters NATIVE in K2NStub and needs an IR cleanup
-            // landing pad to restore the thread on the throw path (the stub has
-            // no exception personality). GCUnsafeCall stubs never switch — skip.
-            val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
-                    !annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)
-            if (result) {
-                check(isExternal)
+            if (context.config.enableStackmap) {
+                // ON path: every K->C bridge enters NATIVE in K2NStub and needs
+                // an IR cleanup landing pad to restore the thread on the throw
+                // path (the stub has no exception personality). GCUnsafeCall
+                // stubs never switch, so skip them.
+                val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
+                        !annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)
+                if (result) {
+                    check(isExternal)
+                }
+                return result
+            } else {
+                // OFF path baseline: all KOTLIN_TO_C_BRIDGE require a
+                // thread-state switch.
+                val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE
+                if (result) {
+                    check(isExternal)
+                    check(!annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
+                    check(annotations.hasAnnotation(RuntimeNames.filterExceptions))
+                }
+                return result
             }
-            return result
         }
 
     private val IrFunction.gcSafeCall: Boolean
@@ -2860,37 +2894,90 @@ internal class CodeGeneratorVisitor(
                      resultLifetime: Lifetime, resultSlot: LLVMValueRef?): LLVMValueRef {
         check(!function.isTypedIntrinsic)
 
-        val needsNativeThreadState = function.needsNativeThreadState
-        var exceptionHandler = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
-            val foreignExceptionMode = ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
-            functionGenerationContext.filteringExceptionHandler(
-                    currentCodeContext.exceptionHandler,
-                    foreignExceptionMode,
-                    needsNativeThreadState
-            )
-        } ?: currentCodeContext.exceptionHandler
+        if (context.config.enableStackmap) {
+            // ON path: gcSafeCall + tryHandleK2XIntrinsic + IR cleanup landing
+            // pad with needsThreadStateRestore=true.
+            val needsNativeThreadState = function.needsNativeThreadState
+            var exceptionHandler = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
+                val foreignExceptionMode = ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
+                functionGenerationContext.filteringExceptionHandler(
+                        currentCodeContext.exceptionHandler,
+                        foreignExceptionMode,
+                        needsNativeThreadState
+                )
+            } ?: currentCodeContext.exceptionHandler
 
-        if (function.gcSafeCall) {
-            val intrinsicResult = tryHandleK2XIntrinsic(function, llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)!!
-            return intrinsicResult
+            if (function.gcSafeCall) {
+                val intrinsicResult = tryHandleK2XIntrinsic(function, llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)!!
+                return intrinsicResult
+            }
+
+            if (needsNativeThreadState) {
+                exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
+                        exceptionHandler, needsThreadStateRestore = true) {}
+            }
+
+            val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
+
+            when  {
+                function.returnType.isNothing() -> functionGenerationContext.unreachable()
+            }
+
+            if (llvmCallable.returnType == llvm.voidType) {
+                return codegen.theUnitInstanceRef.llvm
+            }
+
+            return result
+        } else {
+            // OFF path baseline: explicit switchThreadState(Native/Runnable),
+            // forceNativeThreadStateForFunctions consumption (KT-75895/KT-79384
+            // escape hatch), and a defensive check(!needsNativeThreadState).
+            val foreignExceptionModeFromAnnotation = function.annotations.findAnnotation(RuntimeNames.filterExceptions)?.let {
+                ForeignExceptionMode.byValue(it.getAnnotationValueOrNull<String>("mode"))
+            }
+
+            val needsNativeThreadState: Boolean
+            val filterExceptionWith: ForeignExceptionMode.Mode?
+
+            if (llvmCallable.name in context.config.forceNativeThreadStateForFunctions) {
+                // Quick hack for SymbolName functions that are blocking and need native state.
+                needsNativeThreadState = true
+                filterExceptionWith = foreignExceptionModeFromAnnotation ?: ForeignExceptionMode.Mode.TERMINATE
+            } else {
+                needsNativeThreadState = function.needsNativeThreadState
+                filterExceptionWith = foreignExceptionModeFromAnnotation
+            }
+
+            val exceptionHandler = if (filterExceptionWith != null) {
+                functionGenerationContext.filteringExceptionHandler(
+                        currentCodeContext.exceptionHandler,
+                        filterExceptionWith,
+                        needsNativeThreadState
+                )
+            } else {
+                check(!needsNativeThreadState) {
+                    "${llvmCallable.name} needs native thread state, but doesn't have a filtering exception handler"
+                }
+                currentCodeContext.exceptionHandler
+            }
+
+            if (needsNativeThreadState) {
+                functionGenerationContext.switchThreadState(ThreadState.Native)
+            }
+
+            val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
+
+            when {
+                function.returnType.isNothing() -> functionGenerationContext.unreachable()
+                needsNativeThreadState -> functionGenerationContext.switchThreadState(ThreadState.Runnable)
+            }
+
+            if (llvmCallable.returnType == llvm.voidType) {
+                return codegen.theUnitInstanceRef.llvm
+            }
+
+            return result
         }
-
-        if (needsNativeThreadState) {
-            exceptionHandler = functionGenerationContext.createExceptionHandlerWithConditionalExtraAction(
-                    exceptionHandler, needsThreadStateRestore = true) {}
-        }
-
-        val result = call(llvmCallable, args, resultLifetime, exceptionHandler, resultSlot)
-
-        when  {
-            function.returnType.isNothing() -> functionGenerationContext.unreachable()
-        }
-
-        if (llvmCallable.returnType == llvm.voidType) {
-            return codegen.theUnitInstanceRef.llvm
-        }
-
-        return result
     }
 
     private fun call(

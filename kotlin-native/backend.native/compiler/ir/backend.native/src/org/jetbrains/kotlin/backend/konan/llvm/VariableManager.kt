@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.backend.konan.llvm
 
 import llvm.*
 import org.jetbrains.kotlin.backend.konan.Context
+import org.jetbrains.kotlin.backend.konan.binaryTypeIsReference
 import org.jetbrains.kotlin.backend.konan.binaryTypeIsReferenceFalse
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.declarations.IrValueDeclaration
@@ -77,7 +78,15 @@ internal class VariableManager(val functionGenerationContext: FunctionGeneration
         }
         val index = variables.size
         val type = valueDeclaration.type.toLLVMType(functionGenerationContext.llvm)
-        val isObjectType = valueDeclaration.type.binaryTypeIsReferenceFalse()
+        // ON path uses the "always-false" form so the precise stackmap (which
+        // already tracks these references via gc.statepoint) does not
+        // double-track the slot. OFF path needs the real reference check so
+        // EnterFrame counts the slot and the runtime walks it via the shadow
+        // stack.
+        val isObjectType = if (functionGenerationContext.context.config.enableStackmap)
+            valueDeclaration.type.binaryTypeIsReferenceFalse()
+        else
+            valueDeclaration.type.binaryTypeIsReference()
         val slot = functionGenerationContext.alloca(type, isObjectType, valueDeclaration.name.asString(), variableLocation)
         if (value != null)
             functionGenerationContext.storeAny(value, slot, isObjectType, true)
@@ -91,10 +100,17 @@ internal class VariableManager(val functionGenerationContext: FunctionGeneration
         assert(!contextVariablesToIndex.contains(valueDeclaration))
         val index = variables.size
         val type = valueDeclaration.type.toLLVMType(functionGenerationContext.llvm)
-        val isObjectType = valueDeclaration.type.binaryTypeIsReferenceFalse()
+        // See createMutable above for rationale.
+        val isObjectType = if (functionGenerationContext.context.config.enableStackmap)
+            valueDeclaration.type.binaryTypeIsReferenceFalse()
+        else
+            valueDeclaration.type.binaryTypeIsReference()
         val slot = functionGenerationContext.alloca(
                 type, isObjectType, "p-${valueDeclaration.name.asString()}", variableLocation)
-        val isObject = valueDeclaration.type.binaryTypeIsReferenceFalse()
+        val isObject = if (functionGenerationContext.context.config.enableStackmap)
+            valueDeclaration.type.binaryTypeIsReferenceFalse()
+        else
+            valueDeclaration.type.binaryTypeIsReference()
         variables.add(ParameterRecord(slot, type, isObjectType))
         contextVariablesToIndex[valueDeclaration] = index
         if (isObject)

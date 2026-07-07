@@ -85,7 +85,6 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
 
     val sanitizer = configuration.get(BinaryOptions.sanitizer)?.takeIf {
         when {
-            it != SanitizerKind.THREAD -> "${it.name} sanitizer is not supported yet"
             produce == CompilerOutputKind.STATIC -> "${it.name} sanitizer is unsupported for static library"
             produce == CompilerOutputKind.FRAMEWORK && produceStaticFramework -> "${it.name} sanitizer is unsupported for static framework"
             it !in target.supportedSanitizers() -> "${it.name} sanitizer is unsupported on ${target.name}"
@@ -97,12 +96,83 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         return@takeIf true
     }
 
+    private val supportsPreciseStackmapAndCrt get() = target == KonanTarget.OHOS_ARM64 || target == KonanTarget.MACOS_ARM64
     private val defaultGC get() = GC.CONCURRENT_MARK_AND_SWEEP
-    val gc: GC get() = configuration.get(BinaryOptions.gc) ?: run {
-        if (swiftExport) GC.CONCURRENT_MARK_AND_SWEEP else defaultGC
+    val gc: GC by lazy {
+        val selected = configuration.get(BinaryOptions.gc) ?: run {
+            if (swiftExport) GC.CONCURRENT_MARK_AND_SWEEP else defaultGC
+        }
+        when {
+            selected == GC.CONCURRENT_MARK_AND_COPY && !supportsPreciseStackmapAndCrt -> {
+                configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=gc=cmc is only supported on ohos_arm64 / macos_arm64")
+                defaultGC
+            }
+            // Precise-stackmap root scanning is implemented only for CMS/CMC. PMCS and STWMS
+            // scan the shadow stack, which an enableStackmap=true build does not fully populate
+            // (CodeGenerator skips EnterFrame), so selecting them on a stackmap-ON build links
+            // but leaks roots at runtime. Reject it at compile time. Escape hatch: build an
+            // enableStackmap=false distribution (-Pkotlin.native.precise.stackmap=false), where
+            // all GCs share the shadow-stack baseline.
+            enableStackmap && (selected == GC.PARALLEL_MARK_CONCURRENT_SWEEP || selected == GC.STOP_THE_WORLD_MARK_AND_SWEEP) -> {
+                configuration.report(CompilerMessageSeverity.ERROR,
+                        "-Xbinary=gc=${selected.shortcut} is incompatible with precise stackmap (enableStackmap=true): " +
+                        "precise root scanning is implemented only for cms/cmc. Use -Xbinary=gc=cms (or cmc), " +
+                        "or build an enableStackmap=false distribution.")
+                defaultGC
+            }
+            else -> selected
+        }
     }
     val runtimeAssertsMode: RuntimeAssertsMode get() = configuration.get(BinaryOptions.runtimeAssertionsMode) ?: RuntimeAssertsMode.IGNORE
     val checkStateAtExternalCalls: Boolean get() = configuration.get(BinaryOptions.checkStateAtExternalCalls) ?: false
+
+    // Per-target default: ohos_arm64 and macos_arm64 → ON (precise stackmap
+    // pipeline), every other target → OFF (shadow-stack baseline). Rationale:
+    //   - The precise stackmap pipeline requires the CRT runtime (libcrt.so) plus
+    //     arm64-only facilities (fp-based FpUnwind, OHOS arm64 TBI bit 59 trick for
+    //     KNStateWord, arm64 asm trampolines, fixed-size arm64 insn stackmap).
+    //   - libcrt.so is built for ohos_arm64 (ELF aarch64) and macos_arm64 (Mach-O
+    //     arm64). Other arm64 targets (linux_arm64, ios_arm64, ...) have no
+    //     platform-matching libcrt and would produce broken builds if defaulted ON,
+    //     so they default to the conservative shadow-stack baseline.
+    //   - x86_64 / x86_32 / ARM32 cannot use the pipeline at all (no arm64 asm
+    //     stubs, mixed-size insn encoding, etc.).
+    //   - This makes the switch transparent: ohos_arm64 and macos_arm64 keep the ON
+    //     behaviour with no flag, every other target gets the OFF baseline
+    //     automatically.
+    //
+    // Override with `-Xbinary=enableStackmap=true|false` to force a specific
+    // mode (CI A/B matrix testing or expert debugging). Must match the dist's
+    // per-target runtime bitcode build flavour; mismatch triggers link errors.
+    val enableStackmap: Boolean by lazy {
+        val explicit = configuration.get(BinaryOptions.enableStackmap)
+        if (explicit == true && !supportsPreciseStackmapAndCrt) {
+            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=enableStackmap=true is only supported on ohos_arm64 / macos_arm64")
+            false
+        } else {
+            explicit ?: supportsPreciseStackmapAndCrt
+        }
+    }
+
+    // Compiler-side mirror of the runtime's `-DENABLE_GC_FASTPATH` (build property
+    // `kotlin.native.gc_fastpath`, applied with `-ffixed-x28` for ohos_arm64 and
+    // macos_arm64).
+    // When ON, the CRT prologue-safepoint expansion reads the per-mutator
+    // IsSafePointActive flag through the reserved x28 (fast path); when OFF, the
+    // runtime CRT path goes through CurrentThreadData/LoadCachedCRTTLS instead, so
+    // the expansion must NOT emit the x28 read and defers to the runtime stub.
+    // Defaults per-target to ohos_arm64 / macos_arm64 (the targets where the runtime
+    // is built with the fastpath). Override with `-Xbinary=enableGcFastpath=true|false`
+    // to match a dist whose runtime was built with a non-default gc_fastpath flavour.
+    val enableGcFastpath: Boolean by lazy {
+        val explicit = configuration.get(BinaryOptions.enableGcFastpath)
+        if (explicit == true && !supportsPreciseStackmapAndCrt) {
+            configuration.report(CompilerMessageSeverity.ERROR, "-Xbinary=enableGcFastpath=true is only supported on ohos_arm64 / macos_arm64")
+            false
+        } else {
+            explicit ?: supportsPreciseStackmapAndCrt
+        }
+    }
     private val defaultDisableMmap get() = target.family == Family.MINGW || !pagedAllocator
     val disableMmap: Boolean by lazy {
         when (configuration.get(BinaryOptions.disableMmap)) {
@@ -135,7 +205,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     }
 
     val splitBCfile: UInt
-        get() = if (target == KonanTarget.OHOS_ARM64) configuration.get(BinaryOptions.splitBCfile) ?: 1u else 1u
+        get() = if (debug || target != KonanTarget.OHOS_ARM64) 1u else configuration.get(BinaryOptions.splitBCfile) ?: 1u
 
     val printToOhosHiLog: Boolean
         get() = configuration.get(BinaryOptions.printToOhosHiLog) ?: (produce != CompilerOutputKind.PROGRAM)
@@ -169,15 +239,24 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
 
     val moduleIncludeOnly: List<String>
         get() {
-            if (emitStdlib) return listOf(
-                "stdlib",
-                "org.jetbrains.kotlin.native.platform.posix",
-                "org.jetbrains.kotlin.native.platform.linux",
-                "org.jetbrains.kotlin.native.platform.ohos",
-            )
+            if (emitStdlib) return listOf("stdlib")
             val outputModule = configuration.get(BinaryOptions.outputModule) ?: return emptyList()
             return moduleIncludes[outputModule] ?: emptyList()
         }
+
+    fun isIncludedLibrary(libraryName: String?): Boolean {
+        val moduleIncludeOnly = moduleIncludeOnly
+        if (moduleIncludeOnly.isEmpty()) return true
+        if (libraryName == null) return false
+
+        if (emitStdlib) {
+            return libraryName == "stdlib" || libraryName.startsWith("org.jetbrains.kotlin.native.platform.")
+        }
+
+        return moduleIncludeOnly.any { include ->
+            libraryName == include
+        }
+    }
 
     val runtimeLogs: Map<LoggingTag, LoggingLevel> by lazy {
         val default = LoggingTag.entries.associateWith { LoggingLevel.None }
@@ -447,9 +526,17 @@ val allocationMode by lazy {
                         "Run-time switching of memory manager requires custom allocator (remove -Xallocator=* to use default)")
                 AllocationMode.CUSTOM
             }
-            explicitMode == null -> defaultAllocationMode
+            // let allocator follows the GC if CMC is ON
+            explicitMode == null -> if (gc == GC.CONCURRENT_MARK_AND_COPY) AllocationMode.CRT else defaultAllocationMode
             explicitMode == AllocationMode.STD -> AllocationMode.STD
-            explicitMode == AllocationMode.CRT -> AllocationMode.CRT
+            explicitMode == AllocationMode.CRT -> {
+                if (!supportsPreciseStackmapAndCrt) {
+                    configuration.report(CompilerMessageSeverity.ERROR, "-Xallocator=crt is only supported on ohos_arm64 / macos_arm64")
+                    defaultAllocationMode
+                } else {
+                    AllocationMode.CRT
+                }
+            }
             explicitMode == AllocationMode.CUSTOM -> {
                 if (sanitizer != null) {
                     configuration.report(CompilerMessageSeverity.STRONG_WARNING, "Sanitizers are useful only with the std allocator")
@@ -467,6 +554,11 @@ val minidumpLocation by lazy {
     val memoryManagerMode: MemoryManagerMode by lazy {
         when (configuration.get(BinaryOptions.runtimeSwitchMemoryManager)) {
             true -> {
+                if (!supportsPreciseStackmapAndCrt) {
+                    configuration.report(CompilerMessageSeverity.ERROR,
+                            "-Xbinary=runtimeSwitchMemoryManager=true is only supported on ohos_arm64 / macos_arm64")
+                    return@lazy MemoryManagerMode.NATIVE
+                }
                 if (gc == GC.CONCURRENT_MARK_AND_COPY) {
                     configuration.report(CompilerMessageSeverity.ERROR,
                             "Run-time switching of memory manager requires -Xbinary=gc={noop|stwms|pmcs|cms} to set a non-CMC backup GC")
@@ -475,9 +567,28 @@ val minidumpLocation by lazy {
             }
             else -> {
                 if (gc == GC.CONCURRENT_MARK_AND_COPY || allocationMode == AllocationMode.CRT) {
+                    if (!supportsPreciseStackmapAndCrt) {
+                        configuration.report(CompilerMessageSeverity.ERROR,
+                                "-Xallocator=crt and -Xbinary=gc=cmc are only supported on ohos_arm64 / macos_arm64")
+                        return@lazy MemoryManagerMode.NATIVE
+                    }
                     if (gc != GC.CONCURRENT_MARK_AND_COPY || allocationMode != AllocationMode.CRT) {
                         configuration.report(CompilerMessageSeverity.ERROR,
                                 "-Xallocator=crt must be enabled together with -Xbinary=gc=cmc")
+                    }
+                    // CRT/CMC requires the gc fastpath: the safepoint expansion emits the
+                    // x28 fast check + a DIRECT SafePointSlowPathStub cold edge (a single
+                    // K2R boundary the fp-unwind walker can classify). Without fastpath the
+                    // runtime CRT path uses CurrentThreadData/LoadCachedCRTTLS and x28 is
+                    // not reserved, so neither the x28 read nor a keep-call fallback is
+                    // valid (keep-call leaves two K2R boundaries -> walker misclassifies the
+                    // intervening C++ frames). Reject the combination instead of emitting a
+                    // broken binary. The ohos_arm64 / macos_arm64 runtime is always built
+                    // with gc_fastpath, so this only fires on an explicit
+                    // `-Xbinary=enableGcFastpath=false`.
+                    if (!enableGcFastpath) {
+                        configuration.report(CompilerMessageSeverity.ERROR,
+                                "-Xbinary=gc=cmc / -Xallocator=crt requires the gc fastpath; -Xbinary=enableGcFastpath=false is unsupported with the CRT memory manager")
                     }
                     MemoryManagerMode.CRT
                 } else {

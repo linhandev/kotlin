@@ -40,6 +40,12 @@ fun IrClass.inlinedClassIsNullable(): Boolean = this.defaultType.makeNullable().
 
 fun IrClass.isUsedAsBoxClass(): Boolean = IrTypeInlineClassesSupport.isUsedAsBoxClass(this)
 
+// ON path uses this constant-false form so VariableManager treats
+// every local/parameter as a primitive slot (no shadow-stack push). The precise
+// stackmap pass owns root discovery and reads slot contents directly via
+// LLVM gc.statepoint; calling it from a normal `binaryTypeIsReference` path
+// would double-track those values. OFF path swaps in `binaryTypeIsReference()`
+// (see VariableManager.kt) so EnterFrame populates the shadow stack.
 fun IrType.binaryTypeIsReferenceFalse(): Boolean = false
 
 fun IrType.binaryTypeIsReference(): Boolean = this.computePrimitiveBinaryTypeOrNull() == null

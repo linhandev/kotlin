@@ -14,6 +14,12 @@
  */
 #pragma once
 
+// KNRootVisitor implements the precise CRT root visitor path and
+// unconditionally references stackmap types. CRT is only used when
+// stackmap=on (cmc + crt allocator); stackmap=off does not link this TU.
+// Wrapping the file with ENABLE_STACKMAP keeps the OFF build healthy.
+#ifdef ENABLE_STACKMAP
+
 #include <cstddef>
 #include <map>
 #include "RootSet.hpp"
@@ -125,3 +131,5 @@ private:
     void* currentPC;
 };
 } // namespace kotlin
+
+#endif // ENABLE_STACKMAP

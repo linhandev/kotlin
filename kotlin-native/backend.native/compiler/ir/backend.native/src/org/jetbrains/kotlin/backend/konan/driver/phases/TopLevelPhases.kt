@@ -10,6 +10,10 @@ import org.jetbrains.kotlin.backend.konan.*
 import org.jetbrains.kotlin.backend.konan.driver.PhaseContext
 import org.jetbrains.kotlin.backend.konan.driver.utilities.CExportFiles
 import org.jetbrains.kotlin.backend.konan.driver.utilities.createTempFiles
+import llvm.*
+import org.jetbrains.kotlin.backend.konan.llvm.parseBitcodeFile
+import org.jetbrains.kotlin.backend.konan.llvm.runKotlinStubGenerator
+import org.jetbrains.kotlin.backend.konan.llvm.runKsgPhase
 import org.jetbrains.kotlin.backend.konan.ir.konanLibrary
 import org.jetbrains.kotlin.backend.konan.serialization.CacheDeserializationStrategy
 import org.jetbrains.kotlin.backend.konan.serialization.PartialCacheInfo
@@ -215,6 +219,27 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBackend(backendContext: Contex
                     generationStateEngine.compileModule(fragment.irModule, backendContext.irBuiltIns, bitcodeFile, cExportFiles)
                     if (generationState.config.emitRuntimeOpt.value == 1) {
                         java.io.File(generationState.config.runtimeBitcodePath).copyTo(java.io.File(bitcodeFile.path),true)
+                        // Split-module quirk: the dist runtime bitcode we just stamped in carries the
+                        // export_for_cpp_runtime_k markers only as @llvm.global.annotations (it was
+                        // clang-compiled C++ and never saw the Kotlin-side KSG lower). In a monolithic
+                        // build these get lowered when runtime.bc is llvm-linked into the Kotlin module;
+                        // here runtime.bc IS the module, so re-run KSG on it — annotate -> stubtype fn
+                        // attr — else the clang-stage KSG (which reads fn attrs only) leaves cross-so
+                        // C->K calls (e.g. WorkerExecuteAfterLaunchpad) bare and GC stack-walking then
+                        // misreads the C++ caller frames as Kotlin frames. Gated on enableStackmap
+                        // (same gate as runKsgPhase; OFF is a no-op there anyway).
+                        if (generationState.config.enableStackmap) {
+                            val ksgCtx = LLVMContextCreate()
+                                    ?: throw OutOfMemoryError("Failed to create LLVM context for runtime-module KSG lower")
+                            try {
+                                val runtimeModule = parseBitcodeFile(
+                                        generationState, generationState.messageCollector, ksgCtx, bitcodeFile.path)
+                                runKotlinStubGenerator(runtimeModule)
+                                LLVMWriteBitcodeToFile(runtimeModule, bitcodeFile.path)
+                            } finally {
+                                LLVMContextDispose(ksgCtx)
+                            }
+                        }
                     }
                     // Split here
                     val dependenciesTrackingResult = generationState.dependenciesTracker.collectResult()
@@ -284,6 +309,7 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBitcodeBackend(context: Bitcod
         val bitcodeFile = tempFiles.create(context.config.shortModuleName ?: "out", ".bc").javaFile()
         val outputPath = context.config.outputPath
         val outputFiles = OutputFiles(outputPath, context.config.target, context.config.produce)
+        runKsgPhase(context.llvm.module, context.config.enableStackmap)
         if (context.config.splitBCfile == 1u) {
             newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
         } else {
@@ -396,9 +422,9 @@ internal fun PhaseEngine<NativeGenerationState>.compileModule(
         runPhase(CheckExternalCallsPhase)
     }
 
+    runKsgPhase(context.llvm.module, context.config.enableStackmap)
+
     if (context.config.splitBCfile == 1u) {
-        disableBoundryFunctionInline(context.llvm.module)
-        addDelayInline(context.llvm.module)
         newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessing() }
         // Run post-optimization phases for serial path
         if (checkExternalCalls) {
@@ -407,7 +433,7 @@ internal fun PhaseEngine<NativeGenerationState>.compileModule(
         if (context.config.produce.isFullCache) {
             runPhase(SaveAdditionalCacheInfoPhase)
         }
-        addAlwaysInline(context.llvm.module)
+        // (k2n/ktstub @llvm.global.annotations already stripped inside runKotlinStubGenerator.)
         runPhase(WriteBitcodeFilePhase, WriteBitcodeFileInput(context.llvm.module, bitcodeFile))
     } else {
         newEngine(context as BitcodePostProcessingContext) { it.runBitcodePostProcessingCoroutines(bitcodeFile) }
@@ -556,7 +582,13 @@ private fun PhaseEngine<NativeGenerationState>.runCodegen(module: IrModuleFragme
     runPhase(CreateLLVMDeclarationsPhase, module)
     runPhase(GHAPhase, module, disable = !optimize)
     runPhase(RTTIPhase, RTTIInput(module, dceResult))
-    val lifetimes = runPhase(EscapeAnalysisPhase, EscapeAnalysisInput(module, moduleDFG), disable = true)
+    // The precise-stackmap path forces disable=true. OFF restores the baseline
+    // `disable = !optimize` (escape analysis enabled in -opt builds).
+    val lifetimes = runPhase(
+            EscapeAnalysisPhase,
+            EscapeAnalysisInput(module, moduleDFG),
+            disable = if (context.config.enableStackmap) true else !optimize
+    )
     runPhase(CodegenPhase, CodegenInput(module, irBuiltIns, lifetimes))
 }
 

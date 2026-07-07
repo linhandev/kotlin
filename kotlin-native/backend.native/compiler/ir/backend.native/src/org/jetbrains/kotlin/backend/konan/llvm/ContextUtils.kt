@@ -140,6 +140,12 @@ internal interface ContextUtils : RuntimeAware {
     override val runtime: Runtime
         get() = generationState.llvm.runtime
 
+    // Pull the toggle from KonanConfig so ReferencesType-based properties
+    // (kObjHeaderRef etc.) emit AS0 on the OFF path and stay AS1 on the ON path
+    // (default).
+    override val enableStackmap: Boolean
+        get() = context.config.enableStackmap
+
     val argumentAbiInfo: TargetAbiInfo
         get() = context.targetAbiInfo
 
@@ -338,6 +344,11 @@ internal open class BasicLlvmHelpers(bitcodeContext: BitcodePostProcessingContex
 internal class CodegenLlvmHelpers(private val generationState: NativeGenerationState, module: LLVMModuleRef) : BasicLlvmHelpers(generationState, module), RuntimeAware {
     private val context = generationState.context
 
+    // Same source as ContextUtils.enableStackmap, but cached as a backing field
+    // (vs the getter chain) and read once at construction. Hot codegen loops do
+    // thousands of `if (enableStackmap)` checks per binary.
+    override val enableStackmap: Boolean = context.config.enableStackmap
+
     private fun importFunction(name: String, otherModule: LLVMModuleRef, returnsObjectType: Boolean): LlvmCallable {
         if (LLVMGetNamedFunction(module, name) != null) {
             throw IllegalArgumentException("function $name already exists")
@@ -436,8 +447,23 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
         LLVMSetTarget(module, runtime.target)
     }
 
-    private fun importRtFunction(name: String, returnsObjectType: Boolean) = importFunction(name, runtime.llvmModule, returnsObjectType)
-    private fun importRtStubFunction(name: String, returnsObjectType: Boolean = false) = importStubFunction(name, runtime.llvmModule, returnsObjectType)
+    /**
+     * Imports a runtime function. If [name] is in [K2RStubFunctions.names] (i.e. has an asm
+     * `<name>Stub` trampoline in `K2RStub.s`), automatically redirects to the Stub variant so
+     * the IR codegen emits `bl <name>Stub` directly — making the per-file .bc cache-coherent
+     * under `kotlin.incremental.native=true`. See K2RStubFunctions.kt for details.
+     *
+     * The KSG step 1 callsite-rewrite path remains as a safety net for any call site that
+     * this redirect misses (e.g. directly imported via `importFunction`).
+     */
+    private fun importRtFunction(name: String, returnsObjectType: Boolean) =
+            // Stub redirection is part of the precise-stackmap pipeline (same gate as KSG
+            // and the @llvm.used pin). OFF emits the direct `bl <name>` so the helper keeps
+            // a bitcode caller and matches the pre-stackmap baseline.
+            if (enableStackmap && name in K2RStubFunctions.names)
+                importStubFunction(name, runtime.llvmModule, returnsObjectType)
+            else
+                importFunction(name, runtime.llvmModule, returnsObjectType)
 
     // v3 fp-unwind: KotlinStubGenerator pass emits *Stub variants for K2RStub-annotated entry points.
     //
@@ -452,10 +478,10 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     // compaction → SIGSEGV. The `*ForCI` variants are marked `NO_INLINE` in Memory.cpp so they
     // survive optimization, and they carry `HAS_SAFEPOINT`/`K2RStub` annotations so the
     // KotlinStubGenerator pass auto-emits `*ForCIStub` wrappers that the walker recognizes.
+    // `importRtFunction` now auto-redirects to the Stub variant for names in
+    // K2RStubFunctions.names, so the previously-separate `*Stub` properties are
+    // redundant. `allocInstanceFunction` already imports `AllocInstanceForCIStub`.
     val allocInstanceFunction = importRtFunction("AllocInstanceForCI", true)
-    val allocInstanceFunctionStub = importRtStubFunction("AllocInstanceForCI", true)
-    val Kotlin_mm_safePointFunctionPrologueStub = importRtStubFunction("Kotlin_mm_safePointFunctionPrologue", false)
-    val Kotlin_mm_safePointWhileLoopBodyStub = importRtStubFunction("Kotlin_mm_safePointWhileLoopBody", false)
     val allocArrayFunction = importRtFunction("AllocArrayInstanceForCI", true)
     // CRT-only entry points (used when MemoryManagerSwitch::useCRT is true at runtime).
     val readHeapRefFunction = importRtFunction("ReadHeapRef", false)

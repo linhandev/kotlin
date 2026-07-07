@@ -13,7 +13,22 @@ import llvm.*
  * Also, calls, which are not removed are inlined (except arm32 apple targets)
  */
 internal class RemoveRedundantSafepointsPass {
-    fun runOnModule(module: LLVMModuleRef, isSafepointInliningAllowed: Boolean) {
-        LLVMKotlinRemoveRedundantSafepoints(module, if (isSafepointInliningAllowed) 1 else 0)
+    /**
+     * @param isSafepointInliningAllowed Whether the `LLVMInlineCall` of the chosen
+     *   safepoint is allowed (false for arm32 apple targets).
+     * @param enableStackmap Precise-stackmap dist (true) -> expand the surviving safepoint
+     *   per block into the inline fast/slow poll; OFF / shadow-stack (false) -> force-inline
+     *   the first eligible bare prologue. Replaces the legacy compile-time `#ifndef
+     *   ENABLE_STACKMAP` gate so one libllvmext binary supports both at runtime; the caller
+     *   passes `config.enableStackmap` (per-target).
+     */
+    fun runOnModule(module: LLVMModuleRef, isSafepointInliningAllowed: Boolean,
+                    enableStackmap: Boolean, safepointExpansionMode: SafepointExpansionMode) {
+        LLVMKotlinRemoveRedundantSafepoints(
+                module,
+                if (isSafepointInliningAllowed) 1 else 0,
+                if (enableStackmap) 1 else 0,
+                safepointExpansionMode,
+        )
     }
 }

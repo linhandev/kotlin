@@ -30,7 +30,7 @@
 #include "Exceptions.h"
 #include "ExternalRCRef.hpp"
 #include "KAssert.h"
-#include "KotlinCallScope.h"
+#include "EnterKotlinFromCpp.h"
 #include "Memory.h"
 #include "Natives.h"
 #include "Runtime.h"
@@ -45,11 +45,11 @@ using ExecuteJob = KRef (*)(KRef, ObjHeader**);
 
 extern "C" {
 
-RUNTIME_NORETURN void ThrowWorkerAlreadyTerminated();
-RUNTIME_NORETURN void ThrowWrongWorkerOrAlreadyTerminated();
-RUNTIME_NORETURN void ThrowFutureInvalidState();
+EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowWorkerAlreadyTerminated();
+EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowWrongWorkerOrAlreadyTerminated();
+EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowFutureInvalidState();
 mm::RawExternalRCRef* WorkerExecuteLaunchpad(ExecuteJob job, mm::RawExternalRCRef* jobArgument);
-void WorkerExecuteAfterLaunchpad(mm::RawExternalRCRef* job);
+EXPORT_FOR_CPP_RUNTIME_DECL void WorkerExecuteAfterLaunchpad(mm::RawExternalRCRef* job);
 
 }  // extern "C"
 
@@ -676,7 +676,7 @@ void Future::cancelUnlocked(MemoryState* memoryState) {
 }
 
 // Defined in RuntimeUtils.kt.
-extern "C" void ReportUnhandledException(KRef e);
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL void ReportUnhandledException(KRef e);
 
 HAS_SAFEPOINT
 KInt startWorker(WorkerExceptionHandling exceptionHandling, mm::OwningExternalRCRef name) {
@@ -999,6 +999,9 @@ RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
     case JOB_EXECUTE_AFTER: {
       try {
           objc_support::AutoreleasePool autoreleasePool;
+          // WorkerExecuteAfterLaunchpad is declared EXPORT_FOR_CPP_RUNTIME_DECL (see its decl),
+          // so the C->K boundary (Kotlin_N2KStub) is inserted automatically at this
+          // cross-so call site by the AsmPrinter (via the export_for_cpp_runtime_k attr).
           WorkerExecuteAfterLaunchpad(job.executeAfter.operation);
       } catch(ExceptionObjHolder& e) {
         switch (exceptionHandling()) {
@@ -1016,36 +1019,13 @@ RUNTIME_EXPORT JobKind Worker::processQueueElement(bool blocking) {
       bool ok = true;
       try {
           objc_support::AutoreleasePool autoreleasePool;
-          {
-              KotlinCallScope scope;
-              // On macOS, use local labels to avoid breaking compact-unwind / EH tables.
-              // Global symbols are exported as .quad pointers in __DATA,__const (see bottom of file).
-              #if KONAN_MACOSX
-                asm volatile(".alt_entry _unwindPCStartForWorkerStub\n"
-                    ".global _unwindPCStartForWorkerStub\n"
-                    "_unwindPCStartForWorkerStub:");
-              #else
-                asm("  .p2align 3\n"
-                    "  .global unwindPCStartForWorkerStub\n"
-                    "unwindPCStartForWorkerStub:");
-              #endif
-              result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
-              #if KONAN_MACOSX
-                asm volatile(".alt_entry _unwindPCEndForWorkerStub\n"
-                    ".global _unwindPCEndForWorkerStub\n"
-                    "_unwindPCEndForWorkerStub:");
-              #else
-                asm("  .p2align 3\n"
-                    "  .global unwindPCEndForWorkerStub\n"
-                    "unwindPCEndForWorkerStub:");
-              #endif
-          }
+          result.reset(WorkerExecuteLaunchpad(job.regularJob.function, job.regularJob.argument));
       } catch (ExceptionObjHolder& e) {
         ok = false;
         switch (exceptionHandling()) {
             case WorkerExceptionHandling::kIgnore:
                 break;
-            case WorkerExceptionHandling::kDefault: // TODO: Pass exception object into the future and do nothing in the default case.
+            case WorkerExceptionHandling::kDefault:
                 ReportUnhandledException(e.GetExceptionObject());
                 break;
         }
@@ -1139,31 +1119,15 @@ OBJ_GETTER0(Kotlin_Worker_getActiveWorkersInternal) {
 
 HAS_SAFEPOINT
 NO_INLINE OBJ_GETTER(Kotlin_Worker_invokeCFunction, ExecuteJob job, KRef jobArgument) {
-    CurrentFrameGuard guard;
-    HeapObjPtr result;
-    {
-        KotlinCallScope scope;
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCStartForInvokeCFunction\n"
-            ".global _unwindPCStartForInvokeCFunction\n"
-            "_unwindPCStartForInvokeCFunction:");
+#ifdef ENABLE_STACKMAP
+    // Plan-B: real N2K trampoline frame (see EnterKotlinFromCpp.h).
+    return reinterpret_cast<ObjHeader*>(EnterKotlinFromCppStub(
+        reinterpret_cast<void*>(job),
+        reinterpret_cast<void*>(jobArgument),
+        reinterpret_cast<void*>(__result__)));
 #else
-        asm("  .p2align 3\n"
-            "  .global unwindPCStartForInvokeCFunction\n"
-            "unwindPCStartForInvokeCFunction:");
+    RETURN_RESULT_OF(job, jobArgument);
 #endif
-        result = job(jobArgument, __result__);
-#if KONAN_MACOSX
-        asm volatile(".alt_entry _unwindPCEndForInvokeCFunction\n"
-            ".global _unwindPCEndForInvokeCFunction\n"
-            "_unwindPCEndForInvokeCFunction:");
-#else
-        asm("  .p2align 3\n"
-            "  .global unwindPCEndForInvokeCFunction\n"
-            "unwindPCEndForInvokeCFunction:");
-#endif
-    }
-    return result;
 }
 
 }  // extern "C"

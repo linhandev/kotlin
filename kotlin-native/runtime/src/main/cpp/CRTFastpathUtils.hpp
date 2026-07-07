@@ -42,7 +42,7 @@ class ThreadHolder;
 /// An instance of this type must be created at the earliest point reachable from code
 /// which is NOT compiled with -ffixed-x28.
 struct CallToFFixedX28 {
-    static constexpr uintptr_t MAGIC_MARKER = 0x28EE01505E70DEAD; // "x28 EE is set dead"
+    static constexpr uintptr_t MAGIC_MARKER = static_cast<uintptr_t>(0x28EE01505E70DEADULL); // "x28 EE is set dead"
 
     CallToFFixedX28(CallToFFixedX28&&) = delete;
     CallToFFixedX28(const CallToFFixedX28&) = delete;

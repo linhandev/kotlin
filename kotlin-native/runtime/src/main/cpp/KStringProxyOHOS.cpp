@@ -47,39 +47,6 @@ ALWAYS_INLINE ArkTSStringRef* KStringProxyGetArkTSStringRef(KConstRef proxy) {
     return static_cast<ArkTSStringRef*>(proxy->GetAssociatedObject());
 }
 
-OBJ_GETTER(Kotlin_ArkTS_CreateStringByCopy, napi_env env, napi_value value) {
-    size_t length = 0;
-    {
-        kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
-        auto status = napi_get_value_string_utf16(env, value, nullptr, 0, &length);
-        if (status != napi_ok) {
-            RuntimeLogError({ kotlin::logging::Tag::kRT },
-                            "Kotlin_ArkTS_CreateStringByCopy get string length failed, status = %d",
-                            status);
-        }
-    }
-    if (length == 0) {
-        // return an empty string
-        RETURN_RESULT_OF0(TheEmptyString);
-    }
-
-    KRef result = CreateUninitializedString(StringEncoding::kUTF16, length, OBJ_RESULT);
-    kotlin::EnterPinScope<void*> scope((void*)result);
-    {
-        kotlin::ThreadStateGuard guard(kotlin::ThreadState::kNative, true);
-        auto status = napi_get_value_string_utf16(
-            env, value,
-            reinterpret_cast<char16_t*>(StringHeader::of(result)->data()),
-            length + 1, nullptr);
-        if (status != napi_ok) {
-            RuntimeLogError({ kotlin::logging::Tag::kRT },
-                            "Kotlin_ArkTS_CreateStringByCopy get string value failed, status = %d",
-                            status);
-            }
-    }
-    RETURN_OBJ(result);
-}
-
 OBJ_GETTER(Kotlin_ArkTS_CreateStringByProxy, ArkTSStringRef* ref) {
     // Create a minimal Kotlin String instance (UTF-16 encoding, length from proxy).
     auto proxyLength = static_cast<uint32_t>(ref->getLength());

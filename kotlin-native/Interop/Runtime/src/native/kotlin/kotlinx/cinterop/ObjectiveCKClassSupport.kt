@@ -37,9 +37,9 @@ public fun getOriginalKotlinClass(objCProtocol: ObjCProtocol): KClass<*>? {
     return KClassImpl<Any>(typeInfo)
 }
 
-@GCUnsafeCall("Kotlin_ObjCInterop_getTypeInfoForClass", true)
+@GCUnsafeCall("Kotlin_ObjCInterop_getTypeInfoForClass")
 private external fun getTypeInfoForClass(ptr: NativePtr): NativePtr
 
-@GCUnsafeCall("Kotlin_ObjCInterop_getTypeInfoForProtocol", true)
+@GCUnsafeCall("Kotlin_ObjCInterop_getTypeInfoForProtocol")
 private external fun getTypeInfoForProtocol(ptr: NativePtr): NativePtr
 

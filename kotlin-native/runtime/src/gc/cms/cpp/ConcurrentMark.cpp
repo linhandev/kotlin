@@ -19,16 +19,22 @@
 #include <sstream>
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
-// region Tencent Code
-#include <hitrace/trace.h>
-// endregion
 #endif
 
 using namespace kotlin;
 
 #define DUMP_DEBUG_INFO 0
+#ifdef ENABLE_STACKMAP
+// KOTLIN_VERIFY currently has no consumer, but the gate keeps the toggle
+// available for upcoming verification hooks; the cost is a single define.
 #define KOTLIN_VERIFY 1
-#define ENABLE_LAZY_STACKMAP 1
+#endif
+// Unified stackmap-format switch — see MainGCThread.hpp for the full contract.
+// ON (1) lazy compressed per-function lookup; OFF (0) eager standard pc2CallSiteInfo().
+// Driven by runtime/build.gradle.kts (-DENABLE_COMPRESSED_BITMAP_STACKMAP).
+#ifndef ENABLE_COMPRESSED_BITMAP_STACKMAP
+#define ENABLE_COMPRESSED_BITMAP_STACKMAP 1
+#endif
 namespace {
 
 class FlushActionActivator final : public mm::ExtraSafePointActionActivator<FlushActionActivator> {};
@@ -168,11 +174,14 @@ void gc::mark::ConcurrentMark::completeMutatorsRootSet(MarkTraits::MarkQueue& ma
     return reinterpret_cast<uint64_t*>(addr & payloadMask);
 }
 
+#ifdef ENABLE_STACKMAP
+// Helper used only by the precise-stackmap frame walking in
+// `tryCollectRootSet` above. OFF path doesn't compile this function.
 static void CollectStackMapBaseRoot(
     mm::ThreadData& thread, uint64_t* fp,
     const uint32_t* pc, std::vector<int32_t> &baseRoots)
 {
-#if ENABLE_LAZY_STACKMAP
+#if ENABLE_COMPRESSED_BITMAP_STACKMAP
     uint32_t *funcStartPC = reinterpret_cast<uint32_t*>(*(fp - 1));
     uint64_t *stackMapAddress = GetStackMapAddress(fp, funcStartPC, thread);
     std::unordered_map<int32_t, std::vector<int32_t>> base2DerivedOffsets;
@@ -182,19 +191,26 @@ static void CollectStackMapBaseRoot(
     for (auto elem : base2DerivedOffsets) {
         baseRoots.push_back(elem.first);
     }
-#else // else of ENABLE_LAZY_STACKMAP
-    auto& pc2CallSiteInfos = thread.gc().impl().gc().gc().stackMap().pc2CallSiteInfo();
+#else // else of ENABLE_COMPRESSED_BITMAP_STACKMAP
+    // OFF (eager standard): the full pc->callsite table lives on the single global
+    // MainGCThread (GC::Impl::gcThread_), not on the per-thread ThreadData. Reach it
+    // via the global GC instance: GlobalData -> GC -> GC::Impl -> MainGCThread -> stackMap().
+    (void)thread;
+    auto& pc2CallSiteInfos = mm::GlobalData::Instance().gc().impl().gc().stackMap().pc2CallSiteInfo();
     auto callsitInfoIt = pc2CallSiteInfos.find((uintptr_t)pc);
     if (callsitInfoIt != pc2CallSiteInfos.end()) {
         for (auto& callsite : callsitInfoIt->second) {
             baseRoots.push_back(callsite.second);
         }
     }
-#endif // end of ENABLE_LAZY_STACKMAP
+#endif // end of ENABLE_COMPRESSED_BITMAP_STACKMAP
 }
+#endif // ENABLE_STACKMAP (CollectStackMapBaseRoot)
 
 #define DUMP_UNWIND_FRAME_INFO 0
 
+#ifdef ENABLE_STACKMAP
+// Only called from precise-stackmap frame walking in tryCollectRootSet.
 static void UnwindLog(uint64_t* fp, const uint32_t* pc)
 {
 #if DUMP_UNWIND_FRAME_INFO
@@ -209,6 +225,7 @@ static void UnwindLog(uint64_t* fp, const uint32_t* pc)
 #endif // ~KONAN_OHOS
 #endif // ~DUMP_UNWIND_FRAME_INFO
 }
+#endif // ENABLE_STACKMAP (UnwindLog)
 
 void gc::mark::ConcurrentMark::tryCollectRootSet(mm::ThreadData& thread, MarkTraits::MarkQueue& markQueue) {
     auto& gcData = thread.gc().impl().mark_;
@@ -217,6 +234,14 @@ void gc::mark::ConcurrentMark::tryCollectRootSet(mm::ThreadData& thread, MarkTra
     GCLogDebug(gcHandle().getEpoch(), "Root set collection on thread %" PRIuPTR " for thread %" PRIuPTR, konan::currentThreadId(), thread.threadId());
     gcData.publish();
     collectRootSetForThread<MarkTraits>(gcHandle(), markQueue, thread);
+#ifdef ENABLE_STACKMAP
+    // Precise-stackmap frame walking + StackMapBuilder collection.
+    // OFF path skips this whole block — `collectRootSetForThread` above
+    // already performs the baseline root collection (shadow-stack / TLS /
+    // GC roots), which is the only mechanism the baseline relies on. The
+    // frame-walking + stackmap base-root extraction here requires
+    // `stackMap::StackMapBuilder`, `FpUnwind`, and `KNStateWord` types
+    // that exist only on the ON path.
     std::vector<FrameInfo> frameInfos = GetStackFrame(thread);
     if (frameInfos.empty()) {
         return;
@@ -254,6 +279,7 @@ void gc::mark::ConcurrentMark::tryCollectRootSet(mm::ThreadData& thread, MarkTra
             [[maybe_unused]] bool result = internal::collectRoot<MarkTraits>(markQueue, object);
         }
     }
+#endif // ENABLE_STACKMAP
 }
 
 /** Terminates the mark loop if possible, otherwise returns `false`. */

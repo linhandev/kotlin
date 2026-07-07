@@ -77,6 +77,7 @@ val crtGcTest = nativeTest("crtGcTest", "crt-gc") {
         }
     }
 }
+val dfxTest = nativeTest("dfxTest", "dfx")
 
 val testTags = findProperty("kotlin.native.tests.tags")?.toString()
 // Note: arbitrary JUnit tag expressions can be used in this property.

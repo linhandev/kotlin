@@ -214,6 +214,7 @@ open class CompileToExecutable @Inject constructor(
         val sanitizerFlags = when (sanitizer.orNull) {
             null -> listOf()
             SanitizerKind.ADDRESS -> listOf("-fsanitize=address")
+            SanitizerKind.HWADDRESS -> listOf("-fsanitize=hwaddress")
             SanitizerKind.THREAD -> listOf("-fsanitize=thread")
         }
 

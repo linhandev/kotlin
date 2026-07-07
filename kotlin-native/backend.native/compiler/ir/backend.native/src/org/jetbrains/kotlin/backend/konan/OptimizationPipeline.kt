@@ -220,6 +220,11 @@ abstract class LlvmOptimizationPipeline(
                 }
             }
             LLVMPassBuilderOptionsSetMaxDevirtIterations(options, 0)
+            // Kotlin/Native: skip the fork's RewriteStatepointsForGC tail in the konanc
+            // in-process pipeline so safepoints stay plain calls (the per-module dedup +
+            // inline-poll lowering in RemoveRedundantSafepoints acts on the simple form).
+            // The clang -cc1 stage keeps the default (on) and wraps them into gc.statepoint.
+            LLVMPassBuilderOptionsSetRunRewriteStatepointsForGC(options, 0)
             if (config.timePasses) {
                 LLVMSetTimePasses(1)
             }
@@ -344,6 +349,17 @@ class AddressSanitizerPipeline(config: LlvmPipelineConfig, logger: LoggingContex
         getFunctions(module)
                 .filter { LLVMIsDeclaration(it) == 0 }
                 .forEach { addLlvmFunctionEnumAttribute(it, LlvmFunctionAttribute.SanitizeAddress) }
+    }
+}
+
+class HWASanSanitizerPipeline(config: LlvmPipelineConfig, logger: LoggingContext? = null) :
+    LlvmOptimizationPipeline(config, logger) {
+    override val pipelineName = "New PM hwasan sanitizer"
+    override val passes = listOf("hwasan")
+
+    override fun executeCustomPreprocessing(config: LlvmPipelineConfig, module: LLVMModuleRef) {
+        getFunctions(module).filter { LLVMIsDeclaration(it) == 0 }
+            .forEach { addLlvmFunctionEnumAttribute(it, LlvmFunctionAttribute.SanitizeHWAddress) }
     }
 }
 

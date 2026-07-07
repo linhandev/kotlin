@@ -6,9 +6,9 @@
 #include <cstdint>
 
 struct MapsEntry {
-    uintptr_t start_addr;
-    uintptr_t end_addr;
-    std::string so_path;
+    uintptr_t startAddr;
+    uintptr_t endAddr;
+    std::string soPath;
 };
 
 class BuildIdUtils {
@@ -17,9 +17,9 @@ public:
 
     static std::string findSoPathFromMaps(uintptr_t address, const std::vector<MapsEntry>& maps_entries);
 
-    static std::string getSoBuildId(const std::string& so_path, std::vector<uint8_t>& build_id);
+    static std::string getSoBuildId(const std::string& soPath, std::vector<uint8_t>& buildId);
 
-    static std::string buildIdToString(const std::vector<uint8_t>& build_id);
+    static std::string buildIdToString(const std::vector<uint8_t>& buildId);
 
 private:
     static std::string getMapsFilePath(pid_t target_pid);

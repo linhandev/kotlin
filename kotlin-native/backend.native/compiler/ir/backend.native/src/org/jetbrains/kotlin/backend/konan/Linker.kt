@@ -101,8 +101,19 @@ internal class Linker(
 
     private fun stubObjectsForTarget(): List<String> {
         if (target != KonanTarget.OHOS_ARM64 && target != KonanTarget.MACOS_ARM64) return emptyList()
+        // OFF (enableStackmap=false): drop all asm stubs — the runtime takes the non-stub
+        // paths and FpUnwind never reads the unwindPC* markers, so nothing references them.
+        if (!config.enableStackmap) return emptyList()
+        // `moduleIncludeOnly.isNotEmpty()` ≡ "modular/split build AND this binary is not the runtime carrier".
+        if (config.moduleIncludeOnly.isNotEmpty()) return emptyList()
         val stubsDir = "${config.distribution.konanHome}/konan/targets/${target.name}/stubs_objs"
-        return listOf("N2KStub.o", "K2NStub.o", "K2RStub.o", "KonanStartStub.o").map { "$stubsDir/$it" }
+        return listOf(
+                "N2KStub.o",
+                "K2NStub.o",
+                "K2RStub.o",
+                "KonanStartStub.o",
+                "EnterKotlinFromCppStub.o", // Plan-B: independent N2K trampoline for C++-side fn-ptr calls
+        ).map { "$stubsDir/$it" }
     }
 
     private fun asLinkerArgs(args: List<String>): List<String> {
@@ -178,7 +189,11 @@ internal class Linker(
                     when (config.produce) {
                         CompilerOutputKind.DYNAMIC_CACHE ->
                             listOf("-install_name", outputFiles.dynamicCacheInstallName)
-                        else -> listOf("")
+                        // The precise-stackmap path replaces "-dead_strip" with "" on the
+                        // Apple non-DYNAMIC_CACHE path to protect the __LLVM_STACKMAPS section
+                        // from dead-strip. OFF restores baseline `-dead_strip` for smaller binaries.
+                        // Note: OHOS uses lld (not Apple ld), this branch is Apple-only.
+                        else -> if (config.enableStackmap) listOf("") else listOf("-dead_strip")
                     }
                 } else {
                     emptyList()
@@ -198,17 +213,21 @@ internal class Linker(
         
         var libraries = linker.linkStaticLibraries(includedBinaries) + caches.static
         
-        if (config.allocationMode == AllocationMode.CRT || config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) { // TODO: refact this
-            val libcrtPath = System.getenv("LIBCRT_PATH")
-            if (libcrtPath != null) {
-                libraries += listOf("${libcrtPath}/libcrt.so")
-                linkerArgs += if (target.family.isAppleFamily) {
-                    listOf("-rpath", libcrtPath)
-                } else {
-                    listOf("-rpath=$libcrtPath")
-                }
-            } else {
-                throw IllegalStateException("LIBCRT_PATH environment variable must be set for CRT allocation mode")
+        if (config.allocationMode == AllocationMode.CRT || config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) {
+            // libcrt.so is shipped inside the kotlin-native dist:
+            //   <konanHome>/konan/targets/<target>/native/libcrt.so
+            val libcrtFile = File(config.distribution.defaultNatives(target)).child("libcrt.so")
+            check(libcrtFile.exists) {
+                "libcrt.so not found at ${libcrtFile.absolutePath}. " +
+                        "The Kotlin/Native distribution is incomplete or was built without CRT support " +
+                        "(-Pkotlin.native.crt=false). Rebuild the dist with CRT enabled, or compile without " +
+                        "CRT (-Xallocator=crt / -Xbinary=runtimeSwitchMemoryManager=true)."
+            }
+            libraries += listOf(libcrtFile.absolutePath)
+            // Add an rpath to the dist native dir so an in-place run resolves it. (ELF/ohos
+            // doesn't need this: libcrt.so is found via the app's native-lib search path.)
+            if (target.family.isAppleFamily) {
+                linkerArgs += listOf("-rpath", libcrtFile.parentFile.absolutePath)
             }
         }
 

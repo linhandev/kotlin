@@ -32,7 +32,6 @@ typedef KChar* utf8to16(const char*, const char*, KChar*);
 typedef KStdStringInserter utf16to8(const KChar*, const KChar*, KStdStringInserter);
 
 namespace hmm {
-OBJ_GETTER(Kotlin_ArkTS_CreateStringByCopy, napi_env env, napi_value value);
 OBJ_GETTER(Kotlin_ArkTS_CreateStringByProxy, ArkTSStringRef* ref);
 
 ALWAYS_INLINE bool IsKStringProxy(KConstRef string);

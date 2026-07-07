@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     id("jps-compatible")
+    `java-test-fixtures`
 }
 
 description = "Kotlin/Native utils"
@@ -18,6 +19,8 @@ dependencies {
     testApi(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
+
+    testFixturesImplementation(kotlinStdlib())
 }
 
 sourceSets {
@@ -30,6 +33,10 @@ configureKotlinCompileTasksGradleCompatibility()
 tasks {
     withType<Test>().configureEach {
         useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
+            showExceptions = true
+        }
     }
 }
 

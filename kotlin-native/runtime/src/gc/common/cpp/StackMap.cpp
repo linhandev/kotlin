@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+#ifdef ENABLE_STACKMAP
+// Integral stackmap implementation file. The ON path includes the full
+// implementation; the OFF path defines no symbols (all callers must be
+// gated under the same macro).
+
+
 #include "StackMap.hpp"
 
 #include <cstring>
@@ -146,11 +152,11 @@ void stackMap::StackMap::CalcCallSite()
         }
     };
     for (auto &stkSizeRecord : stkSizeRecords_) {
-    #if KONAN_LINUX || KONAN_OHOS
-        uintptr_t funcAddr = (int64_t)stkSizeRecord.funcAddrOffset + reinterpret_cast<uint64_t>(&__LLVM_StackMaps);
-    #else
-        uintptr_t funcAddr = (int64_t)stkSizeRecord.funcAddrOffset + reinterpret_cast<uint64_t>(&_LLVM_StackMaps);
-    #endif
+        // OFF (eager standard) decode: emitFunctionFrameRecords emits each function's
+        // absolute address (R_AARCH64_ABS64), so consume it directly without adding the
+        // __LLVM_StackMaps section base. ON uses the lazy compressed relative decoder
+        // (CompressedStackMap), not this path.
+        uintptr_t funcAddr = static_cast<uintptr_t>(stkSizeRecord.funcAddress);
         uint64_t recordCount = stkSizeRecord.recordCount;
         for (uint64_t k = 0; k < recordCount; ++k) {
             calc(funcAddr, k);
@@ -177,3 +183,5 @@ std::string kotlin::stackMap::Location::KindToString() const
             return "unknown location";
     }
 }
+
+#endif // ENABLE_STACKMAP

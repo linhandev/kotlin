@@ -15,6 +15,10 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.annotations.AnnotationDescriptor
 import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
+import org.jetbrains.kotlin.ir.declarations.IrDeclaration
+import org.jetbrains.kotlin.ir.declarations.IrExternalPackageFragment
+import org.jetbrains.kotlin.ir.declarations.moduleDescriptor
+import org.jetbrains.kotlin.ir.util.getPackageFragment
 import org.jetbrains.kotlin.ir.util.referenceFunction
 import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.name.FqName
@@ -76,6 +80,13 @@ private fun isExportedClass(descriptor: ClassDescriptor): Boolean {
 
     return true
 }
+
+/**
+ * Same notion as [org.jetbrains.kotlin.backend.konan.LlvmModuleSpecificationBase.containsDeclaration]:
+ * declarations in [IrExternalPackageFragment] come from dependency klibs (Fir2Ir external IR).
+ */
+private fun IrDeclaration.isUnderExternalPackageFragment(): Boolean =
+        getPackageFragment() is IrExternalPackageFragment
 
 internal fun AnnotationDescriptor.properValue(key: String) =
         this.argumentValue(key)?.toString()?.removeSurrounding("\"")
@@ -241,10 +252,13 @@ internal class ExportedElement(
         val typeGetter = "extern \"C\" ${owner.prefix}_KType* ${cname}_type(void);"
         val instanceGetter = if (isSingletonObject) {
             val objectClassC = typeTranslator.translateType((declaration as ClassDescriptor).defaultType)
+            // Same native->kotlin boundary as translateBody's _impl: switches to runnable
+            // state and calls the bridge. Must carry "ktstub" so KSG marks the bridge n2k.
+            val ktstubAttr = if (owner.enableStackmap) " __attribute__((annotate(\"ktstub\")))" else ""
             """
             |
             |extern "C" KObjHeader* ${cname}_instance(KObjHeader**);
-            |static $objectClassC ${cname}_instance_impl(void) {
+            |static $objectClassC ${cname}_instance_impl(void)$ktstubAttr {
             |  ScopedFastPathGuard fastPathGuard;
             |  Kotlin_initRuntimeIfNeeded();
             |  ScopedRunnableState stateGuard;
@@ -261,10 +275,13 @@ internal class ExportedElement(
         assert(isEnumEntry)
         val enumClass = declaration.containingDeclaration as ClassDescriptor
         val enumClassC = typeTranslator.translateType(enumClass.defaultType)
+        // Same native->kotlin boundary as translateBody's _impl: must carry "ktstub"
+        // so KSG marks the enum-entry getter bridge n2k.
+        val ktstubAttr = if (owner.enableStackmap) " __attribute__((annotate(\"ktstub\")))" else ""
 
         return """
               |extern "C" KObjHeader* $cname(KObjHeader**);
-              |static $enumClassC ${cname}_impl(void) {
+              |static $enumClassC ${cname}_impl(void)$ktstubAttr {
               |  ScopedFastPathGuard fastPathGuard;
               |  Kotlin_initRuntimeIfNeeded();
               |  ScopedRunnableState stateGuard;
@@ -310,8 +327,9 @@ internal class ExportedElement(
     private fun translateBody(cfunction: List<SignatureElement>): String {
         val visibility = if (isTopLevelFunction) "RUNTIME_EXPORT extern \"C\"" else "static"
         val builder = StringBuilder()
+        val ktstubAttr = if (owner.enableStackmap) " __attribute__((annotate(\"ktstub\")))" else ""
         builder.append("$visibility ${typeTranslator.translateType(cfunction[0])} ${cnameImpl}(${cfunction.drop(1).
-                mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")}) __attribute__((annotate(\"ktstub\"))) {\n")
+                mapIndexed { index, it -> "${typeTranslator.translateType(it)} arg${index}" }.joinToString(", ")})$ktstubAttr {\n")
         // TODO: do we really need that in every function?
         builder.append("  ScopedFastPathGuard fastPathGuard;\n")
         builder.append("  Kotlin_initRuntimeIfNeeded();\n")
@@ -392,7 +410,7 @@ internal class CAdapterGenerator(
     private val scopes = mutableListOf<ExportedElementScope>()
     internal val prefix = typeTranslator.prefix
     private val paramNamesRecorded = mutableMapOf<String, Int>()
-    private val moduleIncludeOnly: Set<String> = context.config.moduleIncludeOnly.toSet()
+    internal val enableStackmap: Boolean = context.config.enableStackmap
 
     internal val symbolTable get() = context.symbolTable!!
 
@@ -420,8 +438,31 @@ internal class CAdapterGenerator(
         descriptor.accept(this, null)
     }
 
+    /**
+     * Skip C export only when IR parent chain reaches [IrExternalPackageFragment]
+     */
+    @OptIn(ObsoleteDescriptorBasedAPI::class)
+    private fun shouldExportInCAdapter(descriptor: FunctionDescriptor): Boolean {
+        val irFunction = runCatching {
+            symbolTable.referenceFunction(descriptor).owner
+        }.getOrNull()
+        if (irFunction != null) {
+            return !irFunction.isUnderExternalPackageFragment()
+        }
+        if (descriptor.extensionReceiverParameter == null) {
+            return true
+        }
+        val receiverClass = descriptor.extensionReceiverParameter?.type?.constructor?.declarationDescriptor as? ClassDescriptor
+                ?: return false
+        val irClass = runCatching {
+            symbolTable.descriptorExtension.referenceClass(receiverClass).owner
+        }.getOrNull() ?: return false
+        return !irClass.isUnderExternalPackageFragment()
+    }
+
     override fun visitConstructorDescriptor(descriptor: ConstructorDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
@@ -429,6 +470,7 @@ internal class CAdapterGenerator(
     override fun visitFunctionDescriptor(descriptor: FunctionDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
         if (!shouldIncludeModule(descriptor.module)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
@@ -460,12 +502,16 @@ internal class CAdapterGenerator(
 
     override fun visitPropertyGetterDescriptor(descriptor: PropertyGetterDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldIncludeModule(descriptor.module)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
 
     override fun visitPropertySetterDescriptor(descriptor: PropertySetterDescriptor, ignored: Void?): Boolean {
         if (!isExportedFunction(descriptor)) return true
+        if (!shouldIncludeModule(descriptor.module)) return true
+        if (!shouldExportInCAdapter(descriptor)) return true
         ExportedElement(ElementKind.FUNCTION, scopes.last(), descriptor, this, typeTranslator)
         return true
     }
@@ -555,7 +601,7 @@ internal class CAdapterGenerator(
      */
     private fun shouldIncludeModule(module: ModuleDescriptor): Boolean {
         // If no filtering configured, include all modules
-        if (moduleIncludeOnly.isEmpty()) {
+        if (context.config.moduleIncludeOnly.isEmpty()) {
             println("[CAdapterGenerator] No module filtering configured, including all modules")
             return true
         }
@@ -566,15 +612,15 @@ internal class CAdapterGenerator(
         // For modules without a library (e.g., main module)
         if (libraryName == null) {
             // Exclude main module if moduleIncludeOnly is set (only include specified libraries)
-            val include = moduleIncludeOnly.isEmpty()
-            println("[CAdapterGenerator] Module without library (main module): include=$include, moduleIncludeOnly=$moduleIncludeOnly")
+            val include = context.config.moduleIncludeOnly.isEmpty()
+            println("[CAdapterGenerator] Module without library (main module): include=$include, moduleIncludeOnly=${context.config.moduleIncludeOnly}")
             return include
         }
 
         // only include modules in that list
-        if (moduleIncludeOnly.isNotEmpty()) {
-            val include = moduleIncludeOnly.any { libraryName.contains(it, ignoreCase = true) }
-            println("[CAdapterGenerator] Checking module '$libraryName' against moduleIncludeOnly=$moduleIncludeOnly: include=$include")
+        if (context.config.moduleIncludeOnly.isNotEmpty()) {
+            val include = context.config.isIncludedLibrary(libraryName)
+            println("[CAdapterGenerator] Checking module '$libraryName' against moduleIncludeOnly=${context.config.moduleIncludeOnly}: include=$include")
             return include
         }
 
@@ -587,7 +633,7 @@ internal class CAdapterGenerator(
         moduleDescriptors += moduleDescriptor.getExportedDependencies(context.config)
 
         // Filter modules based on moduleIncludeOnly configuration
-        val filteredModules = if (moduleIncludeOnly.isEmpty()) {
+        val filteredModules = if (context.config.moduleIncludeOnly.isEmpty()) {
             println("[CAdapterGenerator] No module filtering, including all ${moduleDescriptors.size} modules")
             moduleDescriptors
         } else {

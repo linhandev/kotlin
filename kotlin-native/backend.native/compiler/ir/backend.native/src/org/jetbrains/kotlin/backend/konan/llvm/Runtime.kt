@@ -13,6 +13,14 @@ import org.jetbrains.kotlin.ir.declarations.IrFunction
 
 internal interface RuntimeAware {
     val runtime: Runtime
+
+    // Toggles compiler-side `addrspace(1)` emission (heap pointers in AS1,
+    // recognised by the stackmap pass). Abstract on purpose: every implementer
+    // must resolve it from `KonanConfig.enableStackmap` (ContextUtils /
+    // CodegenLlvmHelpers do). Match this with the runtime build property
+    // `kotlin.native.precise.stackmap` and with `-Xbinary=enableStackmap=true|false`
+    // on the konanc command line.
+    val enableStackmap: Boolean
 }
 
 internal class Runtime(

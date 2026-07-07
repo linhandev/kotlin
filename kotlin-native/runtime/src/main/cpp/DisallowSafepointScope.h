@@ -25,11 +25,26 @@ struct MemoryState;
 // The annotated function is guaranteed to NOT cross safepoint
 #define NO_SAFEPOINT __attribute__((annotate("no_safepoint")))
 
-// The annotated function can potentially cross a safepoint
-#define HAS_SAFEPOINT __attribute__((annotate("has_safepoint"), annotate("K2RStub"), used))
-
-// Function can potentially cross a safepoint, but only by throwing an exception
-#define HAS_SAFEPOINT_THROW __attribute__((annotate("has_safepoint_throw"), annotate("K2RStub"), used))
+// The annotated function can potentially cross a safepoint.
+// The `used` attribute MUST be unconditional. K2RStub.s asm objects reference
+// these functions (via `_unwindPCForK2RStub*` data slots) regardless of build
+// mode; without `used`, GlobalDCE in OFF builds (ENABLE_STACKMAP undefined)
+// strips them and ld fails on undefined symbols. The `has_safepoint*`
+// annotation is stackmap-pipeline metadata and remains conditional on
+// ENABLE_STACKMAP.
+//
+// NOTE: the historical `annotate("K2RStub")` was removed in followups doc
+// task [6]. The Kotlin side now discovers K2RStub helpers via the canonical
+// `K2RStubFunctions.names` list (see KotlinStubGenerator.kt
+// `discoverK2RStubHelpersByName` + Bitcode.kt `pinK2RStubCalleesInLlvmUsed`),
+// which is build-time-verified against K2RStub.s by `verifyK2RStubFunctions`.
+#ifdef ENABLE_STACKMAP
+#define HAS_SAFEPOINT __attribute__((annotate("has_safepoint"), used))
+#define HAS_SAFEPOINT_THROW __attribute__((annotate("has_safepoint_throw"), used))
+#else
+#define HAS_SAFEPOINT __attribute__((used))
+#define HAS_SAFEPOINT_THROW __attribute__((used))
+#endif
 
 namespace kotlin::mm {
 class ThreadData;
