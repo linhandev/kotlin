@@ -32,6 +32,7 @@
 #include "KNBaseObject.hpp"
 #include "MemoryManagerSwitch.hpp"
 #include "macros.h"
+#include "memory_trace_macros.h"
 
 namespace kotlin::alloc {
 
@@ -110,6 +111,7 @@ ALWAYS_INLINE ObjHeader* CRTAllocator::CreateObject(const TypeInfo* typeInfo) no
     if (typeInfo->flags_ & TF_HAS_FINALIZER) {
         common::BaseFinalizerProcessor::RegisterFinalizableObject(kobj);
     }
+    MEMORY_TRACE_ALLOCATE(object, typeInfo->instanceSize_);
     return object;
 }
 
@@ -123,6 +125,7 @@ ALWAYS_INLINE ArrayHeader* CRTAllocator::CreateArray(const TypeInfo* typeInfo, u
     array->typeInfoOrMeta_ = reinterpret_cast<TypeInfo*>(
         reinterpret_cast<uintptr_t>(typeInfo) | kKotlinLangBits);
     array->count_ = count;
+    MEMORY_TRACE_ALLOCATE(array, descriptor.size());
     return array;
 }
 
@@ -154,7 +157,9 @@ mm::ExtraObjectData* CRTAllocator::CreateExtraObjectDataForObject(ObjHeader* obj
         common::HeapAllocator::AllocateExtra(size, common::LanguageType::KOTLIN));
     common::UpdateThreadLocalDataReg(); // CRT code might step on a safe-point, ensure x28 is updated
     object = holder.obj();
-    return new (extraObjectMemory) mm::ExtraObjectData(object, info);
+    auto* extra = new (extraObjectMemory) mm::ExtraObjectData(object, info);
+    MEMORY_TRACE_ALLOCATE(extra, size);
+    return extra;
 }
 
 // static
