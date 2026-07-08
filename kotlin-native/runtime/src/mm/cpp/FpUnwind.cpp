@@ -19,6 +19,7 @@
 // references) until platform klibs are regenerated in OFF mode.
 #include "FpUnwind.h"
 #include "Common.h"
+#include "Memory.h"
 #include "ThreadData.hpp"
 #include <cstdint>
 #include <sstream>
@@ -92,6 +93,14 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliabl
 // reads lastFrameInfo_ concurrently with our write.
 extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndStatus(mm::FrameAddress *fp) noexcept
 {
+#ifdef ENABLE_GC_FASTPATH
+    // Foreign (kNative/unregistered) callers own x28 per AAPCS: snapshot it before setState()
+    // re-derives it. kRunnable callers' x28 is live GC state - no snapshot, keep it flowing.
+    if (!mm::IsCurrentThreadRegistered() ||
+        mm::ThreadRegistry::Instance().CurrentThreadData()->state() == ThreadState::kNative) {
+        SaveX28();
+    }
+#endif
     K2CSlotData *data = reinterpret_cast<K2CSlotData*>(fp + OFFSET_K2C_SLOT_DATA);
     // Default to kNative for unregistered threads: they are not in a Kotlin-managed
     // Runnable state, so the conceptually correct "state to restore to" is Native.
@@ -110,6 +119,10 @@ extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndStatus(mm::FrameA
 extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::FrameAddress *fp) noexcept
 {
     if (!mm::IsCurrentThreadRegistered()) {
+#ifdef ENABLE_GC_FASTPATH
+        // Unregistered = foreign caller; pop the snapshot SaveLastFrameAndStatus pushed.
+        RestoreX28();
+#endif
         return;
     }
     K2CSlotData *data = reinterpret_cast<K2CSlotData*>(fp + OFFSET_K2C_SLOT_DATA);
@@ -119,6 +132,11 @@ extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::Fra
     auto prevState = static_cast<ThreadState>(data->prevThreadState);
     if (prevState == ThreadState::kNative) {
         threadData->suspensionData().setStateNoSafePoint(prevState);
+#ifdef ENABLE_GC_FASTPATH
+        // Pop the foreign caller's snapshot; must follow setStateNoSafePoint. kRunnable
+        // callers pushed nothing - never roll their live x28 back (!274).
+        RestoreX28();
+#endif
     }
 }
 
