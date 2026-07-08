@@ -196,10 +196,21 @@ class Converter(
                 newHProfObjectId(64)
             }
 
-    fun hprofObjectReferenceId(id: Id): HProfId =
-            hprofObjectId(id).let { hprofId ->
-                kotlinToJavaHprofIdMutableMap.getOrDefault(hprofId, hprofId)
-            }
+    /**
+     * Converts a Kotlin Native object ID to an HProf object reference ID.
+     */
+    fun hprofObjectReferenceId(id: Id): HProfId {
+        if (id.long == 0L) return HProfId.NULL
+        
+        // Check if ID maps to a valid object. 
+        if (itemOrNull(id) == null) {
+            return HProfId.NULL
+        }
+        
+        return hprofObjectId(id).let { hprofId ->
+            kotlinToJavaHprofIdMutableMap.getOrDefault(hprofId, hprofId)
+        }
+    }
 
     fun newHProfObjectId(size: Int): HProfId =
             nextFreeHProfObjectAddress
@@ -256,6 +267,8 @@ class Converter(
             hprofIdToStringMutableMap.map { (id, string) -> HProfStringConstant(id, string) }
 
     fun type(id: Id): Type = item(id) as Type
+
+    fun itemOrNull(id: Id): Item? = idToItemMap[id]
 
     fun item(id: Id): Item =
             idToItemMap[id] ?: throw IllegalArgumentException("No item for id: $id")
