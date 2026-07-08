@@ -48,13 +48,17 @@ ALWAYS_INLINE ArkTSStringRef* KStringProxyGetArkTSStringRef(KConstRef proxy) {
 }
 
 OBJ_GETTER(Kotlin_ArkTS_CreateStringByProxy, ArkTSStringRef* ref) {
-    // Create a minimal Kotlin String instance (UTF-16 encoding, length from proxy).
-    auto proxyLength = static_cast<uint32_t>(ref->getLength());
-    KRef result = CreateUninitializedString(StringEncoding::kUTF16, proxyLength, OBJ_RESULT);
-    // Mark this Kotlin String as a proxy.
+    RuntimeCheck(ref != nullptr, "ArkTS string proxy reference must not be null");
+    auto proxyLength = ref->getLength();
+    RuntimeCheck(proxyLength > 0, "ArkTS string proxy length must be positive");
+    RuntimeCheck(proxyLength <= static_cast<size_t>(std::numeric_limits<int32_t>::max()),
+                 "ArkTS string proxy length is too large");
+
+    KRef result = CreateEmptyUtf16StringForProxy(OBJ_RESULT);
+    // Keep StringHeader::count_ as the physical empty storage size; logical length lives in ArkTSStringRef.
     StringHeader::of(result)->flags_ |= StringHeader::KSTRING_IS_PROXY;
     // Associate the ArkTS String proxy.
-    result->SetAssociatedObject((void *)ref);
+    result->SetAssociatedObject(reinterpret_cast<void*>(ref));
     RETURN_OBJ(result);
 }
 

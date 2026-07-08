@@ -208,6 +208,13 @@ extern "C" OBJ_GETTER(CreateUninitializedString, StringEncoding encoding, uint32
     });
 }
 
+HAS_SAFEPOINT
+extern "C" OBJ_GETTER0(CreateEmptyUtf16StringForProxy) {
+    return allocateString(StringEncoding::kUTF16, 0, [=](size_t sizeInChars) {
+        RETURN_RESULT_OF(AllocArrayInstance, theStringTypeInfo, sizeInChars);
+    });
+}
+
 NO_SAFEPOINT
 extern "C" OBJ_GETTER(ConvertStringToUtf16, KRef kstringPtr) {
 #ifdef KONAN_OHOS
