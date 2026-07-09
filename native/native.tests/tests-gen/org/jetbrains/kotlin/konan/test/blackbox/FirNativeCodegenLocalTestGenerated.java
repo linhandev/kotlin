@@ -1971,65 +1971,6 @@ public class FirNativeCodegenLocalTestGenerated extends AbstractNativeCodegenBox
   }
 
   @Nested
-  @TestMetadata("native/native.tests/testData/codegen/platform")
-  @TestDataPath("$PROJECT_ROOT")
-  @UseExtTestCaseGroupProvider()
-  public class Platform {
-    @Test
-    public void testAllFilesPresentInPlatform() {
-      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/codegen/platform"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.NATIVE, true);
-    }
-
-    @Test
-    @TestMetadata("osFamily_android.kt")
-    public void testOsFamily_android() {
-      runTest("native/native.tests/testData/codegen/platform/osFamily_android.kt");
-    }
-
-    @Test
-    @TestMetadata("osFamily_ios.kt")
-    public void testOsFamily_ios() {
-      runTest("native/native.tests/testData/codegen/platform/osFamily_ios.kt");
-    }
-
-    @Test
-    @TestMetadata("osFamily_linux.kt")
-    public void testOsFamily_linux() {
-      runTest("native/native.tests/testData/codegen/platform/osFamily_linux.kt");
-    }
-
-    @Test
-    @TestMetadata("osFamily_macosx.kt")
-    public void testOsFamily_macosx() {
-      runTest("native/native.tests/testData/codegen/platform/osFamily_macosx.kt");
-    }
-
-    @Test
-    @TestMetadata("osFamily_ohos.kt")
-    public void testOsFamily_ohos() {
-      runTest("native/native.tests/testData/codegen/platform/osFamily_ohos.kt");
-    }
-
-    @Test
-    @TestMetadata("osFamily_tvos.kt")
-    public void testOsFamily_tvos() {
-      runTest("native/native.tests/testData/codegen/platform/osFamily_tvos.kt");
-    }
-
-    @Test
-    @TestMetadata("osFamily_watchos.kt")
-    public void testOsFamily_watchos() {
-      runTest("native/native.tests/testData/codegen/platform/osFamily_watchos.kt");
-    }
-
-    @Test
-    @TestMetadata("osFamily_windows.kt")
-    public void testOsFamily_windows() {
-      runTest("native/native.tests/testData/codegen/platform/osFamily_windows.kt");
-    }
-  }
-
-  @Nested
   @TestMetadata("native/native.tests/testData/codegen/reflection")
   @TestDataPath("$PROJECT_ROOT")
   @UseExtTestCaseGroupProvider()

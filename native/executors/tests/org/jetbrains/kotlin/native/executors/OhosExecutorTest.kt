@@ -35,7 +35,7 @@ class OhosExecutorTest {
         OhosExecutor(recording).execute(
             ExecuteRequest(
                 executableAbsolutePath = localExe.absolutePath,
-                args = mutableListOf("arg1"),
+                args = listOf("arg1"),
             )
         )
 
@@ -54,28 +54,6 @@ class OhosExecutorTest {
         val deviceCmd = runRequest.args[3]
         assertTrue(deviceCmd.contains("LD_PRELOAD=/data/local/tmp/libc++_shared.so"))
         assertTrue(deviceCmd.contains("/data/local/tmp/test.kexe arg1"))
-    }
-
-
-    @Test
-    fun `execute prepends -t deviceId to all hdc commands when deviceId is set`(@TempDir tempDir: Path) {
-        val recording = RecordingExecutor()
-        val localExe = tempDir.resolve("test.kexe").toFile().apply { writeText("bin") }
-
-        OhosExecutor(recording, deviceId = "3DK0124730000497").execute(
-            ExecuteRequest(
-                executableAbsolutePath = localExe.absolutePath,
-                args = mutableListOf("arg1"),
-            )
-        )
-
-        // Every hdc invocation should start with -t <deviceId>
-        assertTrue(recording.requests.isNotEmpty())
-        recording.requests.forEach { request ->
-            assertEquals("hdc", request.executableAbsolutePath)
-            assertEquals("-t", request.args[0])
-            assertEquals("3DK0124730000497", request.args[1])
-        }
     }
 
     @Test
@@ -100,7 +78,7 @@ class OhosExecutorTest {
         OhosExecutor(recording).execute(
             ExecuteRequest(
                 executableAbsolutePath = localExe.absolutePath,
-                args = mutableListOf("it's"),
+                args = listOf("it's"),
             )
         )
 
