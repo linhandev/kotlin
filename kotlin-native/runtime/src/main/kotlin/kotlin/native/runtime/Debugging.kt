@@ -43,7 +43,15 @@ public object Debugging {
      */
     @GCUnsafeCall("Kotlin_native_runtime_Debugging_dumpMemory")
     @Escapes.Nothing
-    public external fun dumpMemory(fd: Long, isStrip: Boolean): Boolean
+    public external fun dumpMemory(fd: Long): Boolean
+
+    /**
+     * Dump memory in binary format with async optimization (fork + parallel
+     * compression on OHOS), and returns success flag.
+     */
+    @GCUnsafeCall("Kotlin_native_runtime_Debugging_dumpMemoryAsync")
+    @Escapes.Nothing
+    public external fun dumpMemoryAsync(fd: Long, isStrip: Boolean): Boolean
 
 }
 
