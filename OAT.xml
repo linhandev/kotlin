@@ -13,7 +13,6 @@
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files not to check">
                 <filteritem type="filepath" name="kotlin-native/llvmInterop/src/main/cpp/*" desc="wrong codecheck"/>
-                <filteritem type="filepath" name="native/native.tests/tests-gen/*" desc="native.test generated test code is hardcoded to use JB license header, no key IP in this folder just plumbing"/>
             </filefilter>
         </filefilterlist>
     </oatconfig>

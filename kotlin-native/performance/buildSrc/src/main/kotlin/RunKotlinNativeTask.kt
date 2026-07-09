@@ -65,27 +65,10 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
     @Internal
     val useHdc = project.findProperty("crossTarget")?.toString()?.contains("ohos") ?: false
     @Internal
-    val ohosDeviceId = project.findProperty("ohosDeviceId")?.toString()
-    @Internal
     val execName = this.executable.split("/").last()
     // HACK: kexe needs c++_shared to run on ohos. The location service comes bundled with the os, so this .so always exists
     @Internal
     val ohosPreload = "LD_PRELOAD=/data/app/el1/bundle/public/com.huawei.hmos.location/libs/arm64/libc++_shared.so"
-
-    private fun hdcArgs(vararg command: String): List<String> {
-        val base = if (ohosDeviceId != null) listOf("-t", ohosDeviceId) else emptyList()
-        return base + command.toList()
-    }
-
-    private fun readOhosBenchmarkResult(): String {
-        val jsonOutput = ByteArrayOutputStream()
-        project.exec {
-            executable = "hdc"
-            args(hdcArgs("shell", "cat", "/data/local/tmp/result.json"))
-            standardOutput = jsonOutput
-        }
-        return jsonOutput.toString().trim().removePrefix("[").removeSuffix("]")
-    }
 
     private fun execBenchmarkOnce(benchmark: String, warmupCount: Int, repeatCount: Int) : String {
         val output = ByteArrayOutputStream()
@@ -104,7 +87,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
                 }
                 useHdc -> {
                     executable = "hdc"
-                    args(hdcArgs("shell", ohosPreload, "/data/local/tmp/$execName"))
+                    args("shell", ohosPreload, "/data/local/tmp/$execName")
                 }
                 else -> executable = this@RunKotlinNativeTask.executable
             }
@@ -163,15 +146,15 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             // remove existing exe in case there's permission issue etc.
             project.exec {
                 executable = "hdc"
-                args(hdcArgs("shell", "rm", "/data/local/tmp/$execName"))
+                args("shell", "rm", "/data/local/tmp/$execName")
             }
             project.exec {
                 executable = "hdc"
-                args(hdcArgs("file", "send", this@RunKotlinNativeTask.executable.toString(), "/data/local/tmp/"))
+                args("file", "send", this@RunKotlinNativeTask.executable.toString(), "/data/local/tmp/")
             }
             project.exec {
                 executable = "hdc"
-                args(hdcArgs("shell", "chmod", "a+x", "/data/local/tmp/$execName"))
+                args("shell", "chmod", "a+x", "/data/local/tmp/$execName")
             }
         }
 
@@ -182,7 +165,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
                 args (remoteHost, "$remoteHostFolder/$remoteExecutable")
             } else if (useHdc) {
                 executable = "hdc"
-                args(hdcArgs("shell", ohosPreload, "/data/local/tmp/$execName"))
+                args("shell", ohosPreload, "/data/local/tmp/$execName")
             } else {
                 executable = this@RunKotlinNativeTask.executable
             }

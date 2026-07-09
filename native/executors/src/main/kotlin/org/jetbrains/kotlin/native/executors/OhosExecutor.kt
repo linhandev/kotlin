@@ -41,14 +41,9 @@ import kotlin.time.Duration.Companion.seconds
 
 class OhosExecutor(
     private val hostExecutor: Executor = HostExecutor(),
-    private val deviceId: String? = null,
 ) : Executor {
     private val logger = Logger.getLogger(OhosExecutor::class.java.name)
     private val deviceExeDir = "/data/local/tmp/native.tests"
-
-    /** Returns hdc args for target device selection: ["-t", deviceId] or empty list. */
-    private val deviceArgs: List<String>
-        get() = if (deviceId != null) listOf("-t", deviceId) else emptyList()
 
     companion object {
         private const val HDC_CONNECT_KEY_FAILURE = "[Fail]ExecuteCommand need connect-key? please confirm a device by help info"
@@ -140,7 +135,7 @@ class OhosExecutor(
         }
         val executionRequest = ExecuteRequest(
             executableAbsolutePath = "hdc",
-            args = (deviceArgs + listOf("shell", executionScript)).toMutableList(),
+            args = mutableListOf("shell", executionScript),
             workingDirectory = workingDirectory,
             stdin = ByteArrayInputStream(byteArrayOf()),
             stdout = captureOut,
@@ -225,7 +220,7 @@ class OhosExecutor(
             val stderr = ByteArrayOutputStream()
             val req = ExecuteRequest(
                 executableAbsolutePath = "hdc",
-                args = (deviceArgs + commandArgs).toMutableList(),
+                args = commandArgs.toMutableList(),
                 workingDirectory = Paths.get("").toAbsolutePath().toFile(),
                 stdout = stdout,
                 stderr = stderr,
