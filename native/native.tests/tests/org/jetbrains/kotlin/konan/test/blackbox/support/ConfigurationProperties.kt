@@ -77,7 +77,6 @@ enum class ClassLevelProperty(val shortName: String) {
     BINARY_LIBRARY_KIND("binaryLibraryKind"),
     C_INTERFACE_MODE("cInterfaceMode"),
     XCTEST_FRAMEWORK("xctest"),
-    OHOS_DEVICE_ID("ohosDeviceId"),
     ;
 
     internal val propertyName = fullPropertyName(shortName)

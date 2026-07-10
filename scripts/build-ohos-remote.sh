@@ -132,6 +132,7 @@ function GRADLE_NATIVE() {
   # Build Gradle command arguments
   local GRADLE_ARGS=(
     -PdeployVersion="$DEPLOY_VERSION"
+    -Pbuild.number="$DEPLOY_VERSION"
     -Pversions.kotlin-native="$DEPLOY_VERSION"
     -PkonanVersion="$DEPLOY_VERSION"
     -Pkotlin.native.enabled=true
@@ -179,6 +180,7 @@ stepBegin "Build part of kotlin and publish it to the local maven repository and
 PUBLISH_ARGS=(
   -Pkotlin.native.enabled=false
   -PdeployVersion="$DEPLOY_VERSION"
+  -Pbuild.number="$DEPLOY_VERSION"
   -Pversions.kotlin-native="$DEPLOY_VERSION"
   -PkonanVersion="$DEPLOY_VERSION"
   -Pbootstrap.local=false

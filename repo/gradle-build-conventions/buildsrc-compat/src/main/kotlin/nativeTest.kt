@@ -50,7 +50,6 @@ private enum class TestProperty(shortName: String) {
     XCTEST_FRAMEWORK("xctest"),
     TEAMCITY("teamcity"),
     MINIDUMP_ANALYZER("minidumpAnalyzer"),
-    OHOS_DEVICE_ID("ohosDeviceId"),
     ;
 
     val fullName = "kotlin.internal.native.test.$shortName"
@@ -153,10 +152,6 @@ private open class NativeArgsProvider @Inject constructor(
 
     @get:Input
     val testTargetWithDefault = testTarget.orElse(HostManager.hostName)
-
-    @get:Input
-    @get:Optional
-    protected val ohosDeviceId = providers.testProperty(OHOS_DEVICE_ID)
 
     @get:Internal
     protected val internalNativeHomeDir: Provider<File> = customNativeHome.map { File(it) }
@@ -264,7 +259,6 @@ private open class NativeArgsProvider @Inject constructor(
             sharedTestExecution.orNull?.let { "-D${SHARED_TEST_EXECUTION.fullName}=$it" },
             eagerGroupCreation.orNull?.let { "-D${EAGER_GROUP_CREATION.fullName}=$it" },
             xctestFramework.orNull?.let { "-D${XCTEST_FRAMEWORK.fullName}=$it" },
-            ohosDeviceId.orNull?.let { "-D${OHOS_DEVICE_ID.fullName}=$it" },
             "-D${CUSTOM_KLIBS.fullName}=${customKlibs.joinToString(File.pathSeparator) { it.absolutePath }}".takeIf { customKlibs.isNotEmpty() },
             if (minidumpAnalyzer.isEmpty) null else "-D${MINIDUMP_ANALYZER.fullName}=${minidumpAnalyzer.singleFile.absolutePath}",
         )

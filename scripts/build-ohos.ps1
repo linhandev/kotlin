@@ -116,6 +116,7 @@ try {
         $gradleArgs = @(
             "--console=plain",
             "-PdeployVersion=$DEPLOY_VERSION",
+            "-Pbuild.number=$DEPLOY_VERSION",
             "-Pversions.kotlin-native=$DEPLOY_VERSION",
             "-PkonanVersion=$DEPLOY_VERSION",
             "-Pkotlin.native.enabled=true",
@@ -161,6 +162,7 @@ try {
     & .\gradlew.bat --console=plain `
         "-Pkotlin.native.enabled=false" `
         "-PdeployVersion=$DEPLOY_VERSION" `
+        "-Pbuild.number=$DEPLOY_VERSION" `
         "-Pversions.kotlin-native=$DEPLOY_VERSION" `
         "-PkonanVersion=$DEPLOY_VERSION" `
         "-Pbootstrap.local=false" `
