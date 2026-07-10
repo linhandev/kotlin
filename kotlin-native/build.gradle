@@ -429,9 +429,8 @@ if ("ohos_arm64" in targetList && CrtEnablementKt.resolveEnableCrt(project, Kona
         dependsOn(":kotlin-native:dependencies:nativeDependenciesOhos_arm64")
         workingDir = commonRtDir
         // Pass HOOK_ENABLE through to common-rt so both sides (KMP alloc gate
-        // and common-rt move/freeRegion gate) stay in sync. Without this the
-        // common-rt side defaults to hook_enable=true regardless of the
-        // -Pkotlin.native.hook flag, producing mixed-gate binaries.
+        // and common-rt move/freeRegion gate) stay in sync with the
+        // -Pkotlin.native.hook flag.
         def hookOn = CrtEnablementKt.resolveEnableHook(project, KonanTarget.OHOS_ARM64.INSTANCE)
         def buildArgs = ["--ohos-llvm=${ohosPlatform.absoluteTargetToolchain}",
                          "--ohos-sysroot=${ohosPlatform.absoluteTargetSysRoot}",
