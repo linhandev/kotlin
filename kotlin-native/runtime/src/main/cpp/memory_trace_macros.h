@@ -49,10 +49,16 @@
 #define OHOS_RESTRACE_MIN_API 21
 #endif
 
+inline bool KmpTraceSupported()
+{
+    static const bool supported = OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API;
+    return supported;
+}
+
 // ALLOCATE:restrace 是 weak 声明,加 NULL 检查保持一致性
 #define MEMORY_TRACE_ALLOCATE(obj, size)                                        \
     do {                                                                        \
-        if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {       \
+        if (KmpTraceSupported() && restrace) {                                  \
             restrace(RES_KMP_HEAP_MASK, (void*)(obj), (size_t)(size),           \
                      TAG_RES_KMP_HEAP_MASK, true);                              \
         }                                                                       \
@@ -61,7 +67,7 @@
 // MOVE:resTraceMove 是 weak 声明,API 21 上可能为 NULL,加 NULL 检查
 #define MEMORY_TRACE_MOVE(from, to, size)                                       \
     do {                                                                        \
-        if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && resTraceMove) {   \
+        if (KmpTraceSupported() && resTraceMove) {                              \
             resTraceMove(RES_KMP_HEAP_MASK, (void*)(from), (void*)(to),         \
                          (size_t)(size));                                       \
         }                                                                       \
@@ -70,8 +76,7 @@
 // FREEREGION:resTraceFreeRegion 是 weak 声明,加 NULL 检查
 #define MEMORY_TRACE_FREEREGION(start, size)                                    \
     do {                                                                        \
-        if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API &&                   \
-            resTraceFreeRegion) {                                               \
+        if (KmpTraceSupported() && resTraceFreeRegion) {                        \
             resTraceFreeRegion(RES_KMP_HEAP_MASK, (void*)(start),               \
                                (size_t)(size));                                 \
         }                                                                       \
