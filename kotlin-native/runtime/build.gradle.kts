@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.ExecClang
 import org.jetbrains.kotlin.PlatformInfo
 import org.jetbrains.kotlin.resolveEnableCompressedStackmap
 import org.jetbrains.kotlin.resolveEnableCrt
+import org.jetbrains.kotlin.resolveEnableHook
 import org.jetbrains.kotlin.resolveEnableStackmap
 import org.jetbrains.kotlin.bitcode.CompileToBitcodeExtension
 import org.jetbrains.kotlin.cpp.CppUsage
@@ -75,6 +76,7 @@ fun CompileToBitcodeExtension.Module.enablePreciseStackmapAndCrt(target: KonanTa
         compilerArgs.add("-DENABLE_COMPRESSED_BITMAP_STACKMAP=" + if (resolveEnableCompressedStackmap(project, target)) "1" else "0")
     }
     if (resolveEnableCrt(project, target)) compilerArgs.add("-DENABLE_CRT=1")
+    if (resolveEnableHook(project, target)) compilerArgs.add("-DHOOK_ENABLE=1")
 }
 
 // stdlib klib is a single artifact whose manifest covers all targets (see

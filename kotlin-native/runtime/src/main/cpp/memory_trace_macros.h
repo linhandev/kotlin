@@ -34,7 +34,9 @@
 
 #include "memory_trace.h"
 
-#if defined(KONAN_OHOS) || defined(PANDA_TARGET_OHOS)
+// 编译期总开关 HOOK_ENABLE(对齐 ArkTS CommonGC pattern)
+// 平台 gate (KONAN_OHOS/PANDA_TARGET_OHOS) 必须同时 + HOOK_ENABLE 才展开插桩;否则宏为空
+#if (defined(KONAN_OHOS) || defined(PANDA_TARGET_OHOS)) && defined(HOOK_ENABLE)
 #define KMP_TRACE_ENABLED 1
 #endif
 
@@ -47,10 +49,10 @@
 #define OHOS_RESTRACE_MIN_API 21
 #endif
 
-// ALLOCATE:restrace API 21+ 都有,无需 NULL 检查
+// ALLOCATE:restrace 是 weak 声明,加 NULL 检查保持一致性
 #define MEMORY_TRACE_ALLOCATE(obj, size)                                        \
     do {                                                                        \
-        if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API) {                   \
+        if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {       \
             restrace(RES_KMP_HEAP_MASK, (void*)(obj), (size_t)(size),           \
                      TAG_RES_KMP_HEAP_MASK, true);                              \
         }                                                                       \
@@ -77,9 +79,9 @@
 
 #else // 非 OHOS 平台(mac / linux / ios / 独立单元测试):展开为空,零副作用
 
-#define MEMORY_TRACE_ALLOCATE(obj, size)     ((void)0)
-#define MEMORY_TRACE_MOVE(from, to, size)    ((void)0)
-#define MEMORY_TRACE_FREEREGION(start, size) ((void)0)
+#define MEMORY_TRACE_ALLOCATE(obj, size)     ((void)(obj), (void)(size))
+#define MEMORY_TRACE_MOVE(from, to, size)    ((void)(from), (void)(to), (void)(size))
+#define MEMORY_TRACE_FREEREGION(start, size) ((void)(start), (void)(size))
 
 #endif // KMP_TRACE_ENABLED
 

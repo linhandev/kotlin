@@ -15,11 +15,29 @@
 SCRIPT_DIR=$(cd $(dirname $0) && pwd -P)
 ROOT_DIR=$SCRIPT_DIR/../
 
+# --- Parse options ---
+HOOK_ENABLE=false
+for arg in "$@"; do
+    case "$arg" in
+        --hook_enable=*)  HOOK_ENABLE="${arg#*=}" ;;
+        --help|-h)
+            echo "Usage: $0 [--hook_enable=true|false]"
+            echo "  --hook_enable=true|false   NativeHook restrace instrumentation (default: false)"
+            exit 0
+            ;;
+        *) echo "Unknown option: $arg"; exit 1 ;;
+    esac
+done
+
 set -ex
 
 cd $ROOT_DIR
 # package ohos runtime
-./gradlew :kotlin-native:runtime:ohos_arm64Runtime -Pbootstrap.local=true -Pkotlin.native.enabled --dependency-verification=off
+./gradlew :kotlin-native:runtime:ohos_arm64Runtime \
+    -Pbootstrap.local=true \
+    -Pkotlin.native.enabled \
+    -Pkotlin.native.hook=${HOOK_ENABLE} \
+    --dependency-verification=off
 # remove old runtime in dist folder
 rm -rf $ROOT_DIR/kotlin-native/dist/konan/targets/ohos_arm64/native/*
 # copy bc from build output to dist

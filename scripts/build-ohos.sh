@@ -34,6 +34,19 @@ fi
 
 set -e # Exit immediately on error
 
+# --- Parse options ---
+HOOK_ENABLE=false
+for arg in "$@"; do
+    case "$arg" in
+        --hook_enable=*)  HOOK_ENABLE="${arg#*=}" ;;
+        --help|-h)
+            echo "Usage: $0 [--hook_enable=true|false]"
+            echo "  --hook_enable=true|false   NativeHook restrace instrumentation (default: false)"
+            exit 0
+            ;;
+    esac
+done
+
 START_TIME=$(date +%s)
 
 # --- Configuration ---
@@ -69,6 +82,7 @@ echo "========================================"
 echo "🚀 Build Config"
 echo "ROOT_DIR       = $ROOT_DIR"
 echo "DEPLOY_VERSION = $DEPLOY_VERSION"
+echo "HOOK_ENABLE    = $HOOK_ENABLE"
 echo "USE_CN_MIRROR  = $USE_CN_MIRROR"
 echo "MIRROR_PROVIDER= $CN_MIRROR_PROVIDER"
 if [[ -n "$BREAKPAD_GIT_REPO" ]]; then
@@ -354,6 +368,7 @@ function GRADLE_NATIVE() {
     -Pbootstrap.kotlin.version="$DEPLOY_VERSION"
     -Pbootstrap.local=true
     -Pbootstrap.local.version="$DEPLOY_VERSION"
+    -Pkotlin.native.hook="$HOOK_ENABLE"
     --dependency-verification=off
   )
 

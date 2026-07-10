@@ -428,8 +428,14 @@ if ("ohos_arm64" in targetList && CrtEnablementKt.resolveEnableCrt(project, Kona
         dependsOn(":kotlin-native:dependencies:nativeDependencies${hostTaskName}")
         dependsOn(":kotlin-native:dependencies:nativeDependenciesOhos_arm64")
         workingDir = commonRtDir
+        // Pass HOOK_ENABLE through to common-rt so both sides (KMP alloc gate
+        // and common-rt move/freeRegion gate) stay in sync. Without this the
+        // common-rt side defaults to hook_enable=true regardless of the
+        // -Pkotlin.native.hook flag, producing mixed-gate binaries.
+        def hookOn = CrtEnablementKt.resolveEnableHook(project, KonanTarget.OHOS_ARM64.INSTANCE)
         def buildArgs = ["--ohos-llvm=${ohosPlatform.absoluteTargetToolchain}",
                          "--ohos-sysroot=${ohosPlatform.absoluteTargetSysRoot}",
+                         "--hook_enable=${hookOn}",
                          "--out=${stagedLibCrt.parentFile}"]
         // Gradle's Exec can't launch a .sh directly on Windows; drive it through Git Bash's bash.
         commandLine((PlatformInfo.isWindows() ? ["sh", "build.sh"] : ["./build.sh"]) + buildArgs)
