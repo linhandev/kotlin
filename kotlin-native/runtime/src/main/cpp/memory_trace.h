@@ -31,11 +31,9 @@ __attribute__((weak)) void restrace(unsigned long long mask,
 
 // resTraceMove / resTraceFreeRegion: API 21 未导出,API 23+ 才有
 // __attribute__((weak)):找不到时函数指针 = NULL,不 abort libkn.so 加载;调用点需配合 NULL 检查
-__attribute__((weak))
-void resTraceMove(unsigned long long mask, void* from, void* to, size_t size);
+__attribute__((weak)) void resTraceMove(unsigned long long mask, void* from, void* to, size_t size);
 
-__attribute__((weak))
-void resTraceFreeRegion(unsigned long long mask, void* start, size_t size);
+__attribute__((weak)) void resTraceFreeRegion(unsigned long long mask, void* start, size_t size);
 #ifdef __cplusplus
 }
 #endif

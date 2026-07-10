@@ -111,7 +111,7 @@ ALWAYS_INLINE ObjHeader* CRTAllocator::CreateObject(const TypeInfo* typeInfo) no
     if (typeInfo->flags_ & TF_HAS_FINALIZER) {
         common::BaseFinalizerProcessor::RegisterFinalizableObject(kobj);
     }
-    MEMORY_TRACE_ALLOCATE(object, typeInfo->instanceSize_);
+    MEMORY_TRACE_ALLOCATE(object, descriptor.size());
     return object;
 }
 
