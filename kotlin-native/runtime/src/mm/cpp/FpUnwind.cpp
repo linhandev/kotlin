@@ -21,6 +21,7 @@
 #include "Common.h"
 #include "Memory.h"
 #include "ThreadData.hpp"
+#include "ThreadState.hpp"
 #include <cstdint>
 #include <sstream>
 #include <iostream>
@@ -94,22 +95,20 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliabl
 extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndStatus(mm::FrameAddress *fp) noexcept
 {
 #ifdef ENABLE_GC_FASTPATH
-    // Foreign (kNative/unregistered) callers own x28 per AAPCS: snapshot it before setState()
-    // re-derives it. kRunnable callers' x28 is live GC state - no snapshot, keep it flowing.
+    // Sample x28 before the attach below
     if (!mm::IsCurrentThreadRegistered() ||
         mm::ThreadRegistry::Instance().CurrentThreadData()->state() == ThreadState::kNative) {
         SaveX28();
     }
 #endif
+    // The stub owns the whole boundary (the bridge emits no brackets; see CodeGenerator.kt):
+    // attach here so the transition is unconditional. initRuntime leaves the thread kNative.
+    Kotlin_initRuntimeIfNeeded();
+    auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    auto prevState = threadData->suspensionData().setState(ThreadState::kRunnable);
+
     K2CSlotData *data = reinterpret_cast<K2CSlotData*>(fp + OFFSET_K2C_SLOT_DATA);
-    // Default to kNative for unregistered threads: they are not in a Kotlin-managed
-    // Runnable state, so the conceptually correct "state to restore to" is Native.
-    data->prevThreadState = static_cast<uint8_t>(ThreadState::kNative);
-    if (mm::IsCurrentThreadRegistered()) {
-        auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
-        auto prev = threadData->suspensionData().setState(ThreadState::kRunnable);
-        data->prevThreadState = static_cast<uint8_t>(prev);
-    }
+    data->prevThreadState = static_cast<uint8_t>(prevState);
     data->fa = GetLastFrame();
     data->status = GetFrameStatus();
     SetLastFrameReliable();
@@ -118,22 +117,16 @@ extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndStatus(mm::FrameA
 // invoke after leave kotlin (called from N2K stub exit, KonanStart stub)
 extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::FrameAddress *fp) noexcept
 {
-    if (!mm::IsCurrentThreadRegistered()) {
-#ifdef ENABLE_GC_FASTPATH
-        // Unregistered = foreign caller; pop the snapshot SaveLastFrameAndStatus pushed.
-        RestoreX28();
-#endif
-        return;
-    }
+    // Save attaches unconditionally, so the thread cannot be unregistered here.
+    RuntimeAssert(mm::IsCurrentThreadRegistered(), "RestoreLastFrameAndStatus on a detached thread");
+
     K2CSlotData *data = reinterpret_cast<K2CSlotData*>(fp + OFFSET_K2C_SLOT_DATA);
     auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     threadData->SetLastFrameInfo({ data->fa, data->status, nullptr });
-    // Roll back with a full transition (not the mirror-only setStateNoSafePoint) to keep
-    // mirror==kNative <=> in-saferegion. setState, not SwitchThreadState, so the just-restored
-    // anchor is not re-pointed.
+    // Full transition, needSetLastFrame=false so the just-restored anchor is not re-pointed.
     auto prevState = static_cast<ThreadState>(data->prevThreadState);
     if (prevState == ThreadState::kNative) {
-        threadData->suspensionData().setState(prevState);
+        SwitchThreadState(threadData, ThreadState::kNative, false, false);
 #ifdef ENABLE_GC_FASTPATH
         RestoreX28();
 #endif

@@ -119,16 +119,18 @@ internal inline fun generateFunction(
             // TODO: Alternative approach: lowering that changes origin of such functions to C_TO_KOTLIN_BRIDGE?
             || function.hasAnnotation(RuntimeNames.exportedBridge)
 
+    // Under precise-stackmap the N2K/KonanStart stub owns the whole foreign boundary for a
+    // C-to-Kotlin bridge; leaving switchToRunnable/needsRuntimeInit unset emits no brackets for it.
     val functionGenerationContext = DefaultFunctionGenerationContext(
             llvmFunction,
             codegen,
             startLocation,
             endLocation,
-            switchToRunnable = isCToKotlinBridge,
+            switchToRunnable = isCToKotlinBridge && !codegen.enableStackmap,
             needSafePoint = true,
             function)
-    functionGenerationContext.needsRuntimeInit = isCToKotlinBridge
-    functionGenerationContext.needsSetReliableStatus = isCToKotlinBridge
+    functionGenerationContext.needsRuntimeInit = isCToKotlinBridge && !codegen.enableStackmap
+    functionGenerationContext.isCToKotlinBridge = isCToKotlinBridge
 
     try {
         generateFunctionBody(functionGenerationContext, code)
@@ -642,6 +644,9 @@ internal abstract class FunctionGenerationContext(
             return baseline ||
                    irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForIntrinsic) == true ||
                    irFunction?.annotations?.hasAnnotation(KonanFqNames.gcUnsafeCall) == true ||
+                   // Stub-owned bridges don't switchToRunnable but still need the cleanup pad
+                   // for the unwind-path Restore.
+                   isCToKotlinBridge ||
                    isCleanupLandingpadUsed
         }
 
@@ -662,7 +667,9 @@ internal abstract class FunctionGenerationContext(
     // for example.
     var needsRuntimeInit = false
 
-    var needsSetReliableStatus = false
+    // The stub-wrapped C-to-Kotlin bridge entries only; objc2kotlin thunks also switch to
+    // Runnable but are not stub-wrapped, so they must keep their own brackets.
+    var isCToKotlinBridge = false
 
     // Marks that function is not allowed to call into Kotlin runtime. For this function no safepoints, no enter/leave
     // frames are generated.
@@ -1958,7 +1965,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                 LLVMSetCleanup(landingpad, 1)
 
                 releaseVars()
-                handleEpilogueExperimentalMM()
+                handleEpilogueExperimentalMM(isExceptionPath = true)
                 LLVMBuildResume(builder, landingpad)
             }
         }
@@ -1974,11 +1981,6 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                 check(!forbidRuntime) { "Attempt to init runtime where runtime usage is forbidden" }
                 call(llvm.saveX28, emptyList())
                 call(llvm.initRuntimeIfNeeded, emptyList())
-            }
-            // SetLastFrameReliable is a precise-stackmap-only runtime symbol;
-            // skip the emit on the OFF path.
-            if (needsSetReliableStatus && enableStackmap) {
-                call(llvm.setLastFrameReliable, emptyList())
             }
             if (switchToRunnable) {
                 switchThreadState(Runnable)
@@ -2068,7 +2070,17 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         handleEpilogueExperimentalMM()
     }
 
-    private fun handleEpilogueExperimentalMM() {
+    private fun handleEpilogueExperimentalMM(isExceptionPath: Boolean = false) {
+        if (enableStackmap && isCToKotlinBridge) {
+            // A C++ unwind skips the stub's own Restore (its asm frame has no cleanup); run it
+            // here with the stub's frame — our caller.
+            if (isExceptionPath) {
+                val stubFrame = call(llvm.llvmFrameAddress, listOf(llvm.int32(1)))
+                call(llvm.restoreLastFrameAndStatus, listOf(stubFrame))
+            }
+            return
+        }
+
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)

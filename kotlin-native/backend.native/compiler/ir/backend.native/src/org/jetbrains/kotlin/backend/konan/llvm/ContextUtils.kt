@@ -657,6 +657,22 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
 
     val memsetFunction = importMemset()
 
+    // Caller-frame address; a bridge's cleanup landing pad uses it to reach the wrapping stub's frame.
+    val llvmFrameAddress = llvmIntrinsic(
+            if (context.config.useLlvmOpaquePointers) "llvm.frameaddress.p0"
+            else "llvm.frameaddress.p0i8",
+            functionType(int8PtrType, false, int32Type),
+            "nounwind"
+    )
+
+    // Declared directly, not via importRtFunction: only asm stubs call it, so it is absent
+    // from the runtime bitcode module.
+    val restoreLastFrameAndStatus = llvmIntrinsic(
+            "RestoreLastFrameAndStatus",
+            functionType(voidType, false, int8PtrType),
+            "nounwind"
+    )
+
     val llvmTrap = llvmIntrinsic(
             "llvm.trap",
             functionType(voidType, false),
