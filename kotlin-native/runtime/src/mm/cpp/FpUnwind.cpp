@@ -128,13 +128,13 @@ extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::Fra
     K2CSlotData *data = reinterpret_cast<K2CSlotData*>(fp + OFFSET_K2C_SLOT_DATA);
     auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     threadData->SetLastFrameInfo({ data->fa, data->status, nullptr });
-    // Roll ThreadState back to what it was before this stub entered Kotlin.
+    // Roll back with a full transition (not the mirror-only setStateNoSafePoint) to keep
+    // mirror==kNative <=> in-saferegion. setState, not SwitchThreadState, so the just-restored
+    // anchor is not re-pointed.
     auto prevState = static_cast<ThreadState>(data->prevThreadState);
     if (prevState == ThreadState::kNative) {
-        threadData->suspensionData().setStateNoSafePoint(prevState);
+        threadData->suspensionData().setState(prevState);
 #ifdef ENABLE_GC_FASTPATH
-        // Pop the foreign caller's snapshot; must follow setStateNoSafePoint. kRunnable
-        // callers pushed nothing - never roll their live x28 back (!274).
         RestoreX28();
 #endif
     }
