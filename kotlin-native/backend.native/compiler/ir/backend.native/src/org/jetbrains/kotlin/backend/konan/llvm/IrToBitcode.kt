@@ -532,7 +532,7 @@ internal class CodeGeneratorVisitor(
 
             overrideRuntimeGlobals()
             if (context.config.emitRuntime || context.config.emitStdlib){ protectedSymbols()}
-            appendLlvmUsed("llvm.used", llvm.usedFunctions.map { it.toConstPointer().llvm } + llvm.usedGlobals)
+            appendLlvmUsed("llvm.used", llvm.usedFunctions.map { it.toConstPointer().llvm } + llvm.usedGlobals + llvm.splitSoTypeInfoUsedGlobals)
             appendLlvmUsed("llvm.compiler.used", llvm.compilerUsedGlobals)
             if (context.config.produceCInterface) {
                 context.cAdapterExportedElements?.let { appendCAdapters(it) }
@@ -986,6 +986,12 @@ internal class CodeGeneratorVisitor(
             }
         }
 
+        if (context.config.moduleIncludeOnly.isNotEmpty() && generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                        declaration.symbol, declaration.konanLibrary?.uniqueName)) {
+            val llvmFn = codegen.llvmFunction(declaration)
+            LLVMSetLinkage(llvmFn.asCallback(), LLVMLinkage.LLVMExternalLinkage)
+            llvm.usedFunctions.add(llvmFn)
+        }
 
         if (declaration.retainAnnotation(context.config.target)) {
             llvm.usedFunctions.add(codegen.llvmFunction(declaration))
@@ -1099,10 +1105,11 @@ internal class CodeGeneratorVisitor(
                 }
 
                 LLVMSetInitializer(globalProperty, initValue)
-                // (Cannot do this before the global is initialized).
-                if (moduleIncludeOnly.isNotEmpty()) {
-                    LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMExternalLinkage)
-                } else LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMInternalLinkage)
+                // Set linkage: external if referenced from other modules, internal otherwise.
+                // Cannot do this before the global is initialized.
+                val isCrossModule = moduleIncludeOnly.isNotEmpty() && generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                        declaration.symbol, declaration.konanLibrary?.uniqueName)
+                LLVMSetLinkage(globalProperty, if (isCrossModule) LLVMLinkage.LLVMExternalLinkage else LLVMLinkage.LLVMInternalLinkage)
             }
             llvm.initializersGenerationState.scopeState.topLevelFields.add(declaration)
         }

@@ -13,6 +13,7 @@ import org.jetbrains.kotlin.backend.konan.llvm.objcexport.WritableTypeInfoPointe
 import org.jetbrains.kotlin.backend.konan.llvm.objcexport.generateWritableTypeInfoForClass
 import org.jetbrains.kotlin.backend.konan.serialization.CacheDeserializationStrategy
 import org.jetbrains.kotlin.backend.konan.serialization.isFromCInteropLibrary
+import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.objcinterop.*
@@ -140,49 +141,10 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
     val uniques = mutableMapOf<UniqueKind, UniqueLlvmDeclarations>()
     private val nonExportedTypeInfoSymbolOwners = mutableMapOf<String, IrClass>()
 
-    /**
-     * Declaration should be excluded from code generation based on
-     * moduleIncludeOnly configuration options.
-     */
     private fun shouldExcludeFromCodegen(declaration: IrDeclaration): Boolean {
-        val library = declaration.konanLibrary ?: return false
-        val libraryName = library.uniqueName
+        val libraryName = declaration.konanLibrary?.uniqueName ?: return false
         val moduleIncludeOnly = context.config.moduleIncludeOnly
-
-        if (moduleIncludeOnly.isNotEmpty()) {
-            return !context.config.isIncludedLibrary(libraryName)
-        }
-
-        return false
-    }
-
-    // Declaration should use external linkage only when this compilation unit doesn't generate its definition.
-    private fun shouldForceExternalLinkage(declaration: IrDeclaration): Boolean {
-        val moduleIncludeOnly = context.config.moduleIncludeOnly
-        val library = declaration.konanLibrary
-
-        if (moduleIncludeOnly.isEmpty()) {
-            return false
-        }
-
-        if (declaration is IrFunction && declaration.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
-            return false
-        }
-
-        // In split compilation mode, force external linkage for all public API declarations
-        if (declaration is IrDeclarationWithVisibility && !declaration.visibility.isPublicAPI) {
-            return false
-        }
-
-        // Library code: check if body will be generated in this compilation unit
-        val libraryName = library?.uniqueName ?: return false
-        val willGenerateBody = when {
-            moduleIncludeOnly.isNotEmpty() -> context.config.isIncludedLibrary(libraryName)
-            else -> true
-        }
-
-        // If we're generating the body, use external linkage so other .so files can call it
-        return true
+        return moduleIncludeOnly.isNotEmpty() && libraryName !in moduleIncludeOnly
     }
 
     class Namer(val prefix: String) {
@@ -300,6 +262,7 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         val internalName = qualifyInternalName(declaration)
         val excludedFromCodegen = shouldExcludeFromCodegen(declaration)
         val isSplitSoMode = context.config.moduleIncludeOnly.isNotEmpty()
+
         val fields =
             if (context.config.packFields)
                 packFields(declaration)
@@ -335,15 +298,14 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         }
 
         val hasNonExportedTypeInfoNameCollision =
-            isSplitSoMode &&
-            !declaration.isExported() &&
-            !excludedFromCodegen &&
-            nonExportedTypeInfoSymbolOwners
-                .putIfAbsent(typeInfoSymbolName, declaration)
-                ?.let { it !== declaration } == true
+                isSplitSoMode &&
+                        !declaration.isExported() &&
+                        !excludedFromCodegen &&
+                        nonExportedTypeInfoSymbolOwners
+                                .putIfAbsent(typeInfoSymbolName, declaration)
+                                ?.let { it !== declaration } == true
 
-        val useGetOrCreateExternal =
-            isSplitSoMode && !declaration.isExported() && !hasNonExportedTypeInfoNameCollision
+        val useGetOrCreateExternal = isSplitSoMode && !declaration.isExported() && !hasNonExportedTypeInfoNameCollision
 
         if (declaration.typeInfoHasVtableAttached) {
             // Create the special global consisting of TypeInfo and vtable.
@@ -403,13 +365,13 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
 
         val writableTypeInfoGlobal = generateWritableTypeInfoForClass(declaration)
 
-        if (isSplitSoMode) {
+        if (isSplitSoMode && (context.config.emitStdlib || context.config.emitRuntime || generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                        declaration.symbol, declaration.konanLibrary?.uniqueName))) {
             typeInfoGlobal.setLinkage(LLVMLinkage.LLVMExternalLinkage)
             if (!excludedFromCodegen) {
-                // Add to llvm.used so LLVMAddInternalizePass preserves ExternalLinkage.
-                llvm.usedGlobals += typeInfoGlobal.pointer.llvm
+                llvm.splitSoTypeInfoUsedGlobals += typeInfoGlobal.pointer.llvm
                 if (writableTypeInfoGlobal != null) {
-                    llvm.usedGlobals += writableTypeInfoGlobal.llvm
+                    llvm.splitSoTypeInfoUsedGlobals += writableTypeInfoGlobal.llvm
                 }
             }
         }
@@ -515,8 +477,20 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         super.visitSimpleFunction(declaration)
 
         if (!declaration.isReal) return
-
         var generatedSymbolName: String? = null
+
+        val isCrossModuleReferenced = context.config.moduleIncludeOnly.isNotEmpty() &&
+            generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                declaration.symbol, declaration.konanLibrary?.uniqueName)
+
+        val isNonPrivateSimpleFunction = context.config.moduleIncludeOnly.isNotEmpty() &&
+            !shouldExcludeFromCodegen(declaration) &&
+            !declaration.isFakeOverride &&
+            declaration.visibility != DescriptorVisibilities.PRIVATE &&
+            declaration.visibility != DescriptorVisibilities.LOCAL
+
+        val needsExport = isCrossModuleReferenced || isNonPrivateSimpleFunction
+
         val llvmFunction = if (declaration.isExternal) {
             if (declaration.isTypedIntrinsic || declaration.isObjCBridgeBased()
                     // All call-sites to external accessors to interop properties
@@ -550,8 +524,9 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
                     declaration.computePrivateSymbolName(containerName)
                 }
             }
+
             generatedSymbolName = symbolName
-            val linkage = if (shouldForceExternalLinkage(declaration) || shouldExcludeFromCodegen(declaration)) {
+            val linkage = if (shouldExcludeFromCodegen(declaration) || needsExport) {
                 LLVMLinkage.LLVMExternalLinkage
             } else {
                 linkageOf(declaration)
@@ -563,7 +538,8 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
             proto.createLlvmFunction(context, llvm.module)
         }
 
-        val shouldPreserveInLlvmUsedForSplit = context.config.moduleIncludeOnly.isNotEmpty() && !(generatedSymbolName?.contains('@') ?: false)
+        val shouldPreserveInLlvmUsedForSplit = (needsExport || (context.config.emitStdlib && declaration.annotations.hasAnnotation(RuntimeNames.exportForCppRuntime))) &&
+                !(generatedSymbolName?.contains('@') ?: true)
         if (shouldPreserveInLlvmUsedForSplit) {
             llvm.usedFunctions.add(llvmFunction)
         }

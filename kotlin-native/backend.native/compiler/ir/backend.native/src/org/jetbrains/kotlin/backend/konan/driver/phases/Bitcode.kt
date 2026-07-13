@@ -236,6 +236,9 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
     if (context.config.optimizationsEnabled) {
         runPhase(OptimizeTLSDataLoadsPhase)
     }
+    // Strip TypeInfo entries that were temporarily added to llvm.used for split SO mode.
+    // After optimization, LLVMAddInternalizePass has already run, so we no longer need them.
+    (context as? NativeGenerationState)?.llvm?.stripSplitSoTypeInfoFromLlvmUsed()
 }
 
 private data class SavedLlvmUsed(
@@ -563,6 +566,10 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
             if (context.config.optimizationsEnabled) {
                 tmpPhaseEngine.runPhase(OptimizeTLSDataLoadsPhase)
             }
+
+            // Strip TypeInfo entries that were temporarily added to llvm.used for split SO mode.
+            // After optimization, LLVMAddInternalizePass has already run, so we no longer need them.
+            (context as? NativeGenerationState)?.llvm?.stripSplitSoTypeInfoFromLlvmUsed()
 
             // Use the new phase that accepts module as explicit parameter
             val originalNativeState = this@runBitcodePostProcessingCoroutines.context as NativeGenerationState

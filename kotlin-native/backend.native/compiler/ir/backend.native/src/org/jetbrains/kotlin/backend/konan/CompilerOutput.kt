@@ -24,6 +24,7 @@ import org.jetbrains.kotlin.konan.target.supportsLibBacktrace
 import org.jetbrains.kotlin.library.isNativeStdlib
 import org.jetbrains.kotlin.utils.addToStdlib.ifNotEmpty
 import java.io.File
+import org.jetbrains.kotlin.library.impl.javaFile
 
 /**
  * Supposed to be true for a single LLVM module within final binary.

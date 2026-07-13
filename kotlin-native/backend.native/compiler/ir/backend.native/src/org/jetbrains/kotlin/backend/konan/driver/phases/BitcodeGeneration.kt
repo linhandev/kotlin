@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.backend.konan.NativeGenerationState
 import org.jetbrains.kotlin.backend.konan.driver.utilities.getDefaultIrActions
 import org.jetbrains.kotlin.backend.konan.driver.utilities.getDefaultLlvmModuleActions
 import org.jetbrains.kotlin.backend.konan.llvm.CodeGeneratorVisitor
+import org.jetbrains.kotlin.backend.konan.llvm.KlibCrossReferenceCollectorVisitor
 import org.jetbrains.kotlin.backend.konan.llvm.Lifetime
 import org.jetbrains.kotlin.backend.konan.llvm.RTTIGeneratorVisitor
 import org.jetbrains.kotlin.backend.konan.llvm.createLlvmDeclarations
@@ -22,6 +23,16 @@ import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.util.dump
 import org.jetbrains.kotlin.ir.visitors.acceptVoid
+
+internal val CollectKlibSymbolsPhase = createSimpleNamedCompilerPhase<NativeGenerationState, IrModuleFragment>(
+        name = "CollectKlibSymbols",
+        preactions = getDefaultIrActions(),
+        postactions = getDefaultIrActions(),
+        op = { generationState, module ->
+            val visitor = KlibCrossReferenceCollectorVisitor(generationState)
+            module.acceptVoid(visitor)
+        }
+)
 
 internal val CreateLLVMDeclarationsPhase = createSimpleNamedCompilerPhase<NativeGenerationState, IrModuleFragment>(
         name = "CreateLLVMDeclarations",
