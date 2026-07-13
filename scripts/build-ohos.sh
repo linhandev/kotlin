@@ -44,6 +44,11 @@ for arg in "$@"; do
             echo "  --hook_enable=true|false   NativeHook restrace instrumentation (default: false)"
             exit 0
             ;;
+        *)
+            echo "Error: unknown option: $arg" >&2
+            echo "Use --help to see valid options." >&2
+            exit 1
+            ;;
     esac
 done
 
