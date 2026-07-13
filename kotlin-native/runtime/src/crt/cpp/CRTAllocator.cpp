@@ -108,10 +108,13 @@ ALWAYS_INLINE ObjHeader* CRTAllocator::CreateObject(const TypeInfo* typeInfo) no
     object->typeInfoOrMeta_ = reinterpret_cast<TypeInfo*>(
         reinterpret_cast<uintptr_t>(typeInfo) | kKotlinLangBits);
     auto* kobj = reinterpret_cast<common::KNBaseObject*>(object);
+    // Fire the alloc event as soon as the object is fully typed but before
+    // RegisterFinalizableObject, so profilers observe a strict
+    // "allocated -> registered" order for finalizable objects.
+    MEMORY_TRACE_ALLOCATE(object, descriptor.size());
     if (typeInfo->flags_ & TF_HAS_FINALIZER) {
         common::BaseFinalizerProcessor::RegisterFinalizableObject(kobj);
     }
-    MEMORY_TRACE_ALLOCATE(object, descriptor.size());
     return object;
 }
 
