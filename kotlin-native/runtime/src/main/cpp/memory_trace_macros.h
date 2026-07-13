@@ -44,7 +44,9 @@
 
 #include <deviceinfo.h>
 
-// Memory.h 里定义 OHOS_RESTRACE_MIN_API=21;这里 fallback 定义避免依赖 Memory.h
+// OHOS_RESTRACE_MIN_API is also defined in Memory.h (guarded); this fallback
+// exists so this header can be used standalone (e.g. from common-rt) without
+// requiring Memory.h to be included first. Both sites use the same value.
 #ifndef OHOS_RESTRACE_MIN_API
 #define OHOS_RESTRACE_MIN_API 21
 #endif
