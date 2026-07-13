@@ -428,12 +428,21 @@ if ("ohos_arm64" in targetList && CrtEnablementKt.resolveEnableCrt(project, Kona
         dependsOn(":kotlin-native:dependencies:nativeDependencies${hostTaskName}")
         dependsOn(":kotlin-native:dependencies:nativeDependenciesOhos_arm64")
         workingDir = commonRtDir
+        // Pass HOOK_ENABLE through to common-rt so both sides (KMP alloc gate
+        // and common-rt move/freeRegion gate) stay in sync with the
+        // -Pkotlin.native.hook flag.
+        def hookOn = CrtEnablementKt.resolveEnableHook(project, KonanTarget.OHOS_ARM64.INSTANCE)
         def buildArgs = ["--ohos-llvm=${ohosPlatform.absoluteTargetToolchain}",
                          "--ohos-sysroot=${ohosPlatform.absoluteTargetSysRoot}",
+                         "--hook_enable=${hookOn}",
                          "--out=${stagedLibCrt.parentFile}"]
         // Gradle's Exec can't launch a .sh directly on Windows; drive it through Git Bash's bash.
         commandLine((PlatformInfo.isWindows() ? ["sh", "build.sh"] : ["./build.sh"]) + buildArgs)
         inputs.files(commonRtSources).withPropertyName("commonRtSources")
+        // hookEnable must be a task input so gradle rebuilds libcrt.so when
+        // the flag flips; otherwise switching -Pkotlin.native.hook silently
+        // reuses the stale artifact from the previous build.
+        inputs.property("hookEnable", hookOn)
         outputs.file(stagedLibCrt)
         outputs.cacheIf { false }  // embeds host-absolute toolchain paths
         doFirst { ensureCommonRtSynced() }

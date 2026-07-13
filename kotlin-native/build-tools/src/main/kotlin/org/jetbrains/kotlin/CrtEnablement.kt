@@ -51,6 +51,20 @@ fun resolveEnableCompressedStackmap(project: Project, target: KonanTarget): Bool
 }
 
 /**
+ * True if NativeHook restrace instrumentation (HOOK_ENABLE) is on for [target].
+ * Default: OFF (opt-in). Enable via `-Pkotlin.native.hook=true`.
+ * Passes `-DHOOK_ENABLE=1` to runtime bitcode compile; memory_trace_macros.h then
+ * expands MEMORY_TRACE_ALLOCATE/MOVE/FREEREGION into real restrace calls.
+ */
+fun resolveEnableHook(project: Project, target: KonanTarget): Boolean {
+    val perTarget = project.findProperty("kotlin.native.hook.${target.name}") as? String
+    if (perTarget != null) return perTarget.toBoolean()
+    val global = project.findProperty("kotlin.native.hook") as? String
+    if (global != null) return global.toBoolean()
+    return false
+}
+
+/**
  * True if CRT allocator + CMC GC are on for [target]. Default = stackmap value.
  * Explicit `kotlin.native.crt=true` combined with stackmap=false errors out.
  */

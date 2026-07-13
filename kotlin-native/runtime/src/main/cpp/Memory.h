@@ -34,7 +34,11 @@
 #include "memory_trace.h"
 #include <deviceinfo.h>
 // The minimum version with support for the KMP restrace tag.
+// Kept in sync with the fallback in memory_trace_macros.h; guarded so
+// include order doesn't cause a redefinition warning.
+#ifndef OHOS_RESTRACE_MIN_API
 #define OHOS_RESTRACE_MIN_API 21
+#endif
 #endif
 
 #if KONAN_NEED_SMALL_BINARY
