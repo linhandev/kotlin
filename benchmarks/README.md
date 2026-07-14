@@ -48,7 +48,7 @@ Gradle plugin sources: `repo/gradle-build-conventions/benchmark-report/` (regist
 For day-to-day scoring and baseline comparison, run the **full main** suite:
 
 ```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache
+./gradlew :benchmarks:benchmark
 ```
 
 Produces the `main summary:` table on the console and `benchmarks/build/reports/benchmarks/main/<timestamp>/main.json` (12 benchmark classes, 27 parameter rows).
@@ -56,7 +56,7 @@ Produces the `main summary:` table on the console and `benchmarks/build/reports/
 Compare against baseline:
 
 ```bash
-./gradlew :benchmarks:compareBenchmarkResults --no-configuration-cache
+./gradlew :benchmarks:compareBenchmarkResults
 ```
 
 While developing FIR / control-flow or inference changes, use the [optional quick tasks](#optional-quick-tasks-local-only-not-for-baseline-comparison) below for faster feedback.
@@ -89,8 +89,8 @@ This is the **only** benchmark task integrated with the baseline, comparison too
 **How to run**:
 
 ```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache
-./gradlew :benchmarks:compareBenchmarkResults --no-configuration-cache   # compare against baseline
+./gradlew :benchmarks:benchmark
+./gradlew :benchmarks:compareBenchmarkResults   # compare against baseline
 ```
 
 **Tooling**: `:benchmarks:compareBenchmarkResults` reads the latest `main.json` and compares it to `benchmark-baseline.json`.
@@ -127,8 +127,8 @@ The repo also exposes two Gradle tasks **only** for shorter dev runs and rough c
 | `:benchmarks:mainNiBenchmark` | Changed K1 New Inference; quick look while developing | 5 inference classes (one row each, `isIR=false`, `useNI=true`) |
 
 ```bash
-./gradlew :benchmarks:mainFirBenchmark --no-configuration-cache
-./gradlew :benchmarks:mainNiBenchmark --no-configuration-cache
+./gradlew :benchmarks:mainFirBenchmark
+./gradlew :benchmarks:mainNiBenchmark
 ```
 
 **Limitations**:
@@ -148,7 +148,7 @@ The repo also exposes two Gradle tasks **only** for shorter dev runs and rough c
 ### Running benchmark directly
 
 ```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache
+./gradlew :benchmarks:benchmark
 ```
 
 Produces:
@@ -169,14 +169,14 @@ The baseline contains **12 classes and 27 parameter rows**, aligned with a succe
 Run benchmark first (if not done yet):
 
 ```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache
+./gradlew :benchmarks:benchmark
 ```
 
 
 ### Gradle task
 
 ```bash
-./gradlew :benchmarks:compareBenchmarkResults --no-configuration-cache
+./gradlew :benchmarks:compareBenchmarkResults
 ```
 
 Reports (under `benchmarks/baseline/reports/`):
@@ -204,15 +204,6 @@ Example:
   -PbenchmarkReportLocale=en
 ```
 
-### Save terminal log
-
-```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache 2>&1 \
-  | tee benchmarks/baseline/last-benchmark-console.log
-```
-
-`last-benchmark-console.log` is listed in `.gitignore`.
-
 ---
 
 
@@ -224,7 +215,7 @@ Aggregates report durations from `tests-common-new`, `tests-spec`, and `benchmar
 ### Gradle task
 
 ```bash
-./gradlew compareTestDuration --no-configuration-cache
+./gradlew compareTestDuration
 ```
 
 
@@ -270,7 +261,7 @@ Accepted aliases: `english` → `en`, `zh-cn` / `chinese` → `zh`.
 | Issue | Solution |
 |-------|----------|
 | `Plugin ... org.jetbrains.kotlin.benchmarks.report was not found` | Ensure code includes `repo/gradle-build-conventions/benchmark-report/` and run from repo root |
-| No current benchmark data / `main.json` not found | Run `./gradlew :benchmarks:benchmark --no-configuration-cache`, or pass `-PbenchmarkCurrent=.../main.json` |
+| No current benchmark data / `main.json` not found | Run `./gradlew :benchmarks:benchmark`, or pass `-PbenchmarkCurrent=.../main.json` |
 | Compare check failed (BUILD FAILED) | Reports are still written to `benchmarks/baseline/reports/`; the task fails when performance actually regresses. To view reports only: `-PbenchmarkFailIfRegressionExceedsPercent=101` |
 | Many “baseline only / current only” rows | Current JSON and baseline are not the same `main` configuration (e.g. `runBenchmark` with a different `size`, or comparing fir/ni output); use `main.json` from `:benchmarks:benchmark` |
 | Task UP-TO-DATE with no output | Fixed; use `--rerun-tasks` to force re-run |

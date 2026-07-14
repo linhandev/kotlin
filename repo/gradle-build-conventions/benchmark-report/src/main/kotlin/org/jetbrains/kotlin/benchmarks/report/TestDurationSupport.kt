@@ -26,8 +26,8 @@ data class TestDurationResult(
 object TestDurationSupport {
     const val TESTS_COMMON_NEW_CMD =
         "./gradlew :compiler:tests-common-new:test --tests \"org.jetbrains.kotlin.test.runners.DiagnosticTestGenerated\" --tests \"org.jetbrains.kotlin.test.runners.codegen.IrBlackBoxCodegenTestGenerated\" --rerun-tasks --no-build-cache"
-    const val TESTS_SPEC_CMD = "./gradlew :compiler:tests-spec:test --no-configuration-cache"
-    const val BENCHMARKS_CMD = "./gradlew :benchmarks:benchmark --no-configuration-cache"
+    const val TESTS_SPEC_CMD = "./gradlew :compiler:tests-spec:test"
+    const val BENCHMARKS_CMD = "./gradlew :benchmarks:benchmark"
 
     fun testsCommonNewReportPath(repoRoot: File): File =
         File(repoRoot, "compiler/tests-common-new/build/reports/tests/test/index.html")

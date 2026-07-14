@@ -44,10 +44,10 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 
 ## 快速开始
 
-日常跑分与基线对比，跑 **main 全量**即可：
+日常基准测试与基线对比，运行 **main 全量**即可：
 
 ```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache
+./gradlew :benchmarks:benchmark
 ```
 
 产出：终端末尾 `main summary:` 表格，以及 `benchmarks/build/reports/benchmarks/main/<时间戳>/main.json`（12 个基准类、27 条参数组合）。
@@ -55,7 +55,7 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 与基线对比：
 
 ```bash
-./gradlew :benchmarks:compareBenchmarkResults --no-configuration-cache
+./gradlew :benchmarks:compareBenchmarkResults
 ```
 
 开发过程中若改了 FIR / 控制流或类型推断，可用下方 [可选快速任务](#可选快速任务本地验证不支持基线对比) 缩短反馈时间
@@ -64,13 +64,13 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 
 ## 编译器参数
 
-下面三个参数由 Gradle 任务传给编译器前端（正式跑分与可选快速任务共用）。理解它们后，再看各任务的区别会更直观。
+下面三个参数由 Gradle 任务传给编译器前端（正式基准测试与可选快速任务共用）。理解它们后，再看各任务的区别会更直观。
 
 | 参数 | 含义 | 备注 |
 |------|------|------|
 | `isIR` | 前端分析路径 | `true` = FIR；`false` = 传统 K1 前端 |
 | `useNI` | 是否启用新推断（New Inference） | 仅在 `isIR=false` 时生效 |
-| `size` | 生成测试代码中的重复次数 | 各基准类在源码中声明了允许的取值；正式跑分与快速任务均固定为 `1000` |
+| `size` | 生成测试代码中的重复次数 | 各基准类在源码中声明了允许的取值；正式基准测试与快速任务均固定为 `1000` |
 
 前端有两个**彼此独立**的维度：
 
@@ -79,7 +79,7 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 
 ---
 
-## 正式跑分：`:benchmarks:benchmark`
+## 正式基准测试：`:benchmarks:benchmark`
 
 这是仓库里**唯一**纳入基线、对比脚本与总耗时检查的 benchmark 任务。
 
@@ -88,8 +88,8 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 **怎么用**：
 
 ```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache
-./gradlew :benchmarks:compareBenchmarkResults --no-configuration-cache   # 与基线对比
+./gradlew :benchmarks:benchmark
+./gradlew :benchmarks:compareBenchmarkResults   # 与基线对比
 ```
 
 **工具链**：`:benchmarks:compareBenchmarkResults` 读取最新 `main.json`，与 `benchmark-baseline.json` 对比。
@@ -104,21 +104,21 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 | 推断类 × `isIR` / `useNI` 组合 | `InferenceExplicitArguments`、`InferenceForInApplicableCandidate`、`InferenceFromArgument`、`InferenceFromReturnType` | 4 × 3 = 12 |
 | 仅 FIR（K1 路径会报错） | `IntArrayPlus` | 1 |
 
-源码共 **15** 个具体 benchmark 类，正式跑分实际写入 **12** 个。以下 3 个不在 `main.json` 中（非基线遗漏，而是配置原因）：
+源码共 **15** 个具体 benchmark 类，正式基准测试实际写入 **12** 个。以下 3 个不在 `main.json` 中（非基线遗漏，而是配置原因）：
 
 | 类 | 原因 | 替代方式 |
 |----|------|---------|
-| `ManyImplicitReceiversBenchmark` | 全局 `size=1000` 不在源码允许的值（1、10、50）内，跑分时会跳过 | `runBenchmark` 并传合法 `size`（如 50） |
+| `ManyImplicitReceiversBenchmark` | 全局 `size=1000` 不在源码允许的值（1、10、50）内，运行时会跳过 | `runBenchmark` 并传合法 `size`（如 50） |
 | `PlusAssignOperatorDesugaringBenchmark` | 同上，`size=1000` 不在源码允许的值（9…14）内 | `runBenchmark` 并传合法 `size`（如 12） |
-| `ControlFlowAnalysisBenchmark` | `size=1000` 合法，但嵌套过深，正式跑分易失败 | 见下方可选 FIR 快速任务（仅本地看终端输出） |
+| `ControlFlowAnalysisBenchmark` | `size=1000` 合法，但嵌套过深，正式基准测试易失败 | 见下方可选 FIR 快速任务（仅本地看终端输出） |
 
-若要让前两个类纳入正式跑分，需调整 `build.gradle.kts` 的 `size` 配置并更新基线。
+若要让前两个类纳入正式基准测试，需调整 `build.gradle.kts` 的 `size` 配置并更新基线。
 
 ---
 
 ## 可选快速任务（本地验证，不支持基线对比）
 
-仓库另提供两个 Gradle 任务，**仅**用于开发时缩短跑分、在终端查看大致耗时：
+仓库另提供两个 Gradle 任务，**仅**用于开发时缩短基准测试耗时、在终端查看大致耗时：
 
 | 任务 | 适用场景 | 覆盖 |
 |------|---------|------|
@@ -126,14 +126,14 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 | `:benchmarks:mainNiBenchmark` | 改了 K1 新推断，开发中快速看一眼 | 5 个推断类（各 1 条，`isIR=false`, `useNI=true`） |
 
 ```bash
-./gradlew :benchmarks:mainFirBenchmark --no-configuration-cache
-./gradlew :benchmarks:mainNiBenchmark --no-configuration-cache
+./gradlew :benchmarks:mainFirBenchmark
+./gradlew :benchmarks:mainNiBenchmark
 ```
 
 **限制**：
 
 - **没有**对应基线；`:benchmarks:compareBenchmarkResults` **只**读取 `:benchmarks:benchmark` 产出的 `main.json`
-- 两个任务测的是不同维度（FIR vs K1+新推断），**不能**拼起来代替正式跑分
+- 两个任务测的是不同维度（FIR vs K1+新推断），**不能**拼起来代替正式基准测试
 - 改了 FIR、控制流或推断后，可以先用它们做 sanity check，**提交前仍须跑** `:benchmarks:benchmark` 再做基线对比
 
 `mainNiBenchmark` 覆盖：`InferenceBaselineCallsBenchmark`、`InferenceExplicitArgumentsCallsBenchmark`、`InferenceForInApplicableCandidate`、`InferenceFromArgumentCallsBenchmark`、`InferenceFromReturnTypeCallsBenchmark`。
@@ -147,7 +147,7 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 ### 直接运行 benchmark
 
 ```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache
+./gradlew :benchmarks:benchmark
 ```
 
 产出：
@@ -168,14 +168,14 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 先跑 benchmark（若尚未跑过）：
 
 ```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache
+./gradlew :benchmarks:benchmark
 ```
 
 
 ### Gradle 任务
 
 ```bash
-./gradlew :benchmarks:compareBenchmarkResults --no-configuration-cache
+./gradlew :benchmarks:compareBenchmarkResults
 ```
 
 产出（位于 `benchmarks/baseline/reports/`）：
@@ -203,15 +203,6 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
   -PbenchmarkReportLocale=en
 ```
 
-### 保存终端日志
-
-```bash
-./gradlew :benchmarks:benchmark --no-configuration-cache 2>&1 \
-  | tee benchmarks/baseline/last-benchmark-console.log
-```
-
-`last-benchmark-console.log` 已在 `.gitignore` 中忽略。
-
 ---
 
 
@@ -223,7 +214,7 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 ### Gradle 任务
 
 ```bash
-./gradlew compareTestDuration --no-configuration-cache
+./gradlew compareTestDuration
 ```
 
 
@@ -269,7 +260,7 @@ Gradle 插件源码：`repo/gradle-build-conventions/benchmark-report/`（注册
 | 问题                                                                | 解决方案                                                                                                               |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `Plugin ... org.jetbrains.kotlin.benchmarks.report was not found` | 确认已拉取含 `repo/gradle-build-conventions/benchmark-report/` 的代码，并在仓库根目录执行                                             |
-| `没有可用的「当前跑分」数据` / 找不到 main.json                                   | 先跑 `./gradlew :benchmarks:benchmark --no-configuration-cache`，或 `-PbenchmarkCurrent=.../main.json`                 |
+| `没有可用的「当前基准结果」数据` / 找不到 main.json                                   | 先运行 `./gradlew :benchmarks:benchmark`，或 `-PbenchmarkCurrent=.../main.json`                 |
 | `对比结果未通过`（BUILD FAILED）                                           | 报告仍会生成在 `benchmarks/baseline/reports/`；性能确实变差时会失败。仅查看报告可加 `-PbenchmarkFailIfRegressionExceedsPercent=101`          |
 | 大量「仅在基线中 / 仅在当前结果中」                                               | 当前 JSON 与基线不是同一套 main 配置（例如用了 `runBenchmark` 改了 `size`，或对比了 fir/ni 的结果）；请用 `:benchmarks:benchmark` 产出的 `main.json` |
 | 任务显示 UP-TO-DATE 无输出                                               | 已修复；仍可用 `--rerun-tasks` 强制重跑                                                                                       |
