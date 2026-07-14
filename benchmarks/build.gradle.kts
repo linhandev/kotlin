@@ -4,6 +4,7 @@ plugins {
     java
     kotlin("jvm")
     id("org.jetbrains.kotlinx.benchmark") version "0.4.6-1"
+    id("org.jetbrains.kotlin.benchmarks.report")
 }
 
 val benchmarks_version = "0.4.6-1"
