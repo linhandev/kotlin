@@ -204,7 +204,7 @@ HAS_SAFEPOINT
 extern "C" OBJ_GETTER(CreateUninitializedString, StringEncoding encoding, uint32_t length) {
     if (length == 0) RETURN_RESULT_OF0(TheEmptyString);
     return allocateString(encoding, length, [=](size_t sizeInChars) {
-        RETURN_RESULT_OF(AllocArrayInstance, theStringTypeInfo, sizeInChars);
+        RETURN_RESULT_OF(AllocStringInstance, static_cast<int32_t>(sizeInChars));
     });
 }
 

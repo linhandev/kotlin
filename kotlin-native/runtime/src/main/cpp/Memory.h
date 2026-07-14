@@ -244,6 +244,8 @@ OBJ_GETTER(AllocInstance, const TypeInfo* type_info) RUNTIME_NOTHROW;
 
 OBJ_GETTER(AllocArrayInstance, const TypeInfo* type_info, int32_t elements);
 
+OBJ_GETTER(AllocStringInstance, int32_t elements);
+
 // Followings are the APIs used by the compiler, differences from the runtime
 // counterpart, they have the enterFrame operations
 OBJ_GETTER(AllocInstanceForCI, const TypeInfo* type_info) RUNTIME_NOTHROW;

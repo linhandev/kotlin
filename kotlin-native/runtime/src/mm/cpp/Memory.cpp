@@ -168,6 +168,15 @@ extern "C" OBJ_GETTER(AllocArrayInstance, const TypeInfo* typeInfo, int32_t elem
 }
 
 HAS_SAFEPOINT
+extern "C" ALWAYS_INLINE OBJ_GETTER(AllocStringInstance, int32_t elements) {
+    ArrayHeader* array = AllocArrayInstance(theStringTypeInfo, elements + 1, OBJ_RESULT)->array();
+    KChar* c = CharArrayAddressOfElementAt(array, elements);
+    *c = static_cast<KChar>(0);
+    array->count_ -= 1;
+    RETURN_OBJ(array->obj());
+}
+
+HAS_SAFEPOINT
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(AllocInstanceForCI, const TypeInfo* typeInfo) {
     // Trampoline to AllocInstance. CRT codegen emits calls to *ForCI; fp-unwind K2RStub
     // mechanism handles the K2N transition via the HAS_SAFEPOINT annotation, so no FrameGuard needed.
