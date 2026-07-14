@@ -94,36 +94,35 @@ val verifyK2RStubFunctions by tasks.registering {
 
         val ohosNames = parseStubsFile(ohosStubs, stripUnderscore = false)
         val macosNames = parseStubsFile(macosStubs, stripUnderscore = true)
-        if (ohosNames != macosNames) {
-            val onlyOhos = ohosNames - macosNames
-            val onlyMacos = macosNames - ohosNames
-            throw GradleException(
-                    "verifyK2RStubFunctions: linux_ohos and macos K2RStub.s disagree on macro names.\n" +
-                            "  Only in linux_ohos: $onlyOhos\n" +
-                            "  Only in macos: $onlyMacos")
-        }
 
-        // Extract names from K2RStubFunctions.kt's `val names: Set<String> = setOf(...)` block.
+        // Parse a `val <field>: Set<String> = setOf(...)` block (up to first ')', so keep it paren-free).
         val ktText = k2rStubFunctionsKt.readText()
-        val namesStart = ktText.indexOf("val names: Set<String> = setOf(")
-        if (namesStart < 0) throw GradleException(
-                "verifyK2RStubFunctions: could not locate `val names: Set<String> = setOf(` in K2RStubFunctions.kt")
-        val namesEnd = ktText.indexOf(')', startIndex = namesStart)
-        val namesBlock = ktText.substring(namesStart, namesEnd)
-        val ktNames = Regex(""""([A-Za-z_][A-Za-z0-9_]*)"""").findAll(namesBlock)
-                .map { it.groupValues[1] }
-                .toSortedSet()
+        fun parseSetOfBlock(marker: String): Set<String> {
+            val start = ktText.indexOf(marker)
+            if (start < 0) throw GradleException(
+                    "verifyK2RStubFunctions: could not locate `$marker` in K2RStubFunctions.kt")
+            val end = ktText.indexOf(')', startIndex = start)
+            return Regex(""""([A-Za-z_][A-Za-z0-9_]*)"""").findAll(ktText.substring(start, end))
+                    .map { it.groupValues[1] }
+                    .toSortedSet()
+        }
+        val ktNames = parseSetOfBlock("val names: Set<String> = setOf(")
+        val ktOhosOnly = parseSetOfBlock("val ohosOnlyNames: Set<String> = setOf(")
 
-        val missingInKt = ohosNames - ktNames
-        val extraInKt = ktNames - ohosNames
-        if (missingInKt.isNotEmpty() || extraInKt.isNotEmpty()) {
+        // OHOS-only helpers have no macOS symbol: macos.s == names ; ohos.s == names + ohosOnlyNames.
+        if (macosNames != ktNames) {
             throw GradleException(
-                    "verifyK2RStubFunctions: K2RStubFunctions.names drift detected.\n" +
-                            "  Expected (from K2RStub.s macro invocations): ${ohosNames.size} entries\n" +
-                            "  Actual   (in K2RStubFunctions.kt):           ${ktNames.size} entries\n" +
-                            "  Missing in .kt (add): $missingInKt\n" +
-                            "  Extra in .kt (remove): $extraInKt\n" +
-                            "Edit K2RStubFunctions.kt to match K2RStub.s, or vice versa.")
+                    "verifyK2RStubFunctions: macos K2RStub.s vs K2RStubFunctions.names drift.\n" +
+                            "  Missing in macos.s (add): ${ktNames - macosNames}\n" +
+                            "  Extra in macos.s (remove): ${macosNames - ktNames}\n" +
+                            "Note: OHOS-only helpers must NOT appear in macos.s (see ohosOnlyNames).")
+        }
+        val expectedOhos = ktNames + ktOhosOnly
+        if (ohosNames != expectedOhos) {
+            throw GradleException(
+                    "verifyK2RStubFunctions: ohos K2RStub.s vs K2RStubFunctions.names+ohosOnlyNames drift.\n" +
+                            "  Missing in ohos.s (add): ${expectedOhos - ohosNames}\n" +
+                            "  Extra in ohos.s (remove): ${ohosNames - expectedOhos}")
         }
 
         // linkRootSet special-case: CSafePointSlowPath / CslowPath come from the

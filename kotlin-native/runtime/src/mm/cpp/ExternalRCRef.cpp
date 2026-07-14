@@ -9,6 +9,7 @@
 #include <optional>
 
 #include "CompilerConstants.hpp"
+#include "DisallowSafepointScope.h"
 #include "ExternalRCRefRegistry.hpp"
 #include "GC.hpp"
 #include "KAssert.h"
@@ -52,6 +53,7 @@ RUNTIME_NOTHROW extern "C" void Kotlin_native_internal_ref_releaseExternalRCRef(
     mm::releaseExternalRCRef(ref);
 }
 
+HAS_SAFEPOINT
 RUNTIME_NOTHROW extern "C" OBJ_GETTER(Kotlin_native_internal_ref_dereferenceExternalRCRefOrNull, mm::RawExternalRCRef* ref) {
     RETURN_RESULT_OF(mm::tryRefExternalRCRef, ref);
 }

@@ -393,6 +393,27 @@ AllocArrayInstanceStub:
 Kotlin_native_internal_GC_scheduleStub:
     CalleeSavedRegistersStub Kotlin_native_internal_GC_schedule
 
+    .global Kotlin_native_internal_ref_dereferenceExternalRCRefOrNullStub
+Kotlin_native_internal_ref_dereferenceExternalRCRefOrNullStub:
+    CalleeSavedRegistersStub Kotlin_native_internal_ref_dereferenceExternalRCRefOrNull
+
+    .global Konan_Platform_getAvailableProcessorsEnvStub
+Konan_Platform_getAvailableProcessorsEnvStub:
+    CalleeSavedRegistersStub Konan_Platform_getAvailableProcessorsEnv
+
+    .global Konan_Platform_getProgramNameStub
+Konan_Platform_getProgramNameStub:
+    CalleeSavedRegistersStub Konan_Platform_getProgramName
+
+    // OHOS-only (ohosOnlyNames): symbols live under #if KONAN_OHOS, so these stubs exist only here.
+    .global Kotlin_napi_get_kotlin_string_utf16Stub
+Kotlin_napi_get_kotlin_string_utf16Stub:
+    CalleeSavedRegistersStub Kotlin_napi_get_kotlin_string_utf16
+
+    .global Kotlin_String_toNapiValueStub
+Kotlin_String_toNapiValueStub:
+    CalleeSavedRegistersStub Kotlin_String_toNapiValue
+
     .global PerformFullGCStub
 PerformFullGCStub:
     CalleeSavedRegistersStub PerformFullGC

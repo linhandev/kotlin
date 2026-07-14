@@ -210,7 +210,7 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
     // in runBitcodePostProcessingCoroutines). OFF keeps direct helper callers, so no
     // pin is needed and pinning would only bloat the binary.
     if (context.config.enableStackmap) {
-        pinK2RStubCalleesInLlvmUsed(this@runBitcodePostProcessing.context.llvmModule, K2RStubFunctions.linkRootSet)
+        pinK2RStubCalleesInLlvmUsed(this@runBitcodePostProcessing.context.llvmModule, K2RStubFunctions.linkRootSetFor(context.config.target))
     }
     useContext(OptimizationState(context.config, optimizationConfig)) {
         val module = this@runBitcodePostProcessing.context.llvmModule
@@ -472,7 +472,7 @@ internal fun <T : BitcodePostProcessingContext> PhaseEngine<T>.runBitcodePostPro
     // In OFF mode KSG does not rewrite, the helpers keep their direct callers, and
     // pinning would only bloat the binary by defeating dead-strip.
     if (context.config.enableStackmap) {
-        pinK2RStubCalleesInLlvmUsed(originalModule, K2RStubFunctions.linkRootSet)
+        pinK2RStubCalleesInLlvmUsed(originalModule, K2RStubFunctions.linkRootSetFor(context.config.target))
     }
     savedUsed = saveLlvmUsedComplete(originalModule)
     LLVMWriteBitcodeToFile(originalModule, bitcodeFile!!.absolutePath)
