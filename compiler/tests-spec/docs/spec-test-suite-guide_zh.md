@@ -291,7 +291,7 @@ fun box(): String {
 
 ### 2.3 检查清单
 
-- [ ] 文件路径符合 `testData/[TestArea]/linked/[chapter]/[section]/p-[N]/[pos|neg]/[N.M].kt` 格式
+- [ ] 文件路径符合 `testData/[TestArea]/linked/[chapter]/[section]/[sub-section]/p-[N]/[pos|neg]/[N.M].kt` 格式
 - [ ] 文件头包含完整的 `MAIN LINK`、`SPEC VERSION`、`NUMBER`、`DESCRIPTION`
 - [ ] `MAIN LINK` 中的段落/句子编号与目录结构一致
 - [ ] 正向用例 `box()` 返回 `"OK"`，负向用例包含预期错误标记或 `.exceptions.compiletime.txt`
@@ -336,7 +336,7 @@ fun box(): String {
 
 | 枚举 | 含义 |
 |------|------|
-| `TestArea` | `DIAGNOSTICS` / `CODEGEN_BOX` |
+| `TestArea` | `PSI` / `DIAGNOSTICS` / `CODEGEN_BOX` |
 | `TestType` | `pos`（正向）/ `neg`（负向） |
 | `SpecTestLinkedType` | `linked`（绑定规范）/ `notLinked`（灵活性测试） |
 
@@ -364,6 +364,7 @@ fun box(): String {
 
 | TestArea | 生成测试类 |
 |----------|-----------|
+| psi | `ParsingTestSpecGenerated` |
 | codegen/box | `BlackBoxCodegenTestSpecGenerated` / `FirBlackBoxCodegenTestSpecGenerated` |
 | diagnostics | `DiagnosticsTestSpecGenerated` / `FirLightTreeDiagnosticTestSpecGenerated` / `FirPsiDiagnosticTestSpecGenerated` |
 

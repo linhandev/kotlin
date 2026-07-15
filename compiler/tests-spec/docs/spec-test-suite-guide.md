@@ -286,7 +286,7 @@ This updates:
 
 ### 2.3 Checklist
 
-- [ ] Path matches `testData/[TestArea]/linked/[chapter]/[section]/p-[N]/[pos|neg]/[N.M].kt`
+- [ ] Path matches `testData/[TestArea]/linked/[chapter]/[section]/[sub-section]/p-[N]/[pos|neg]/[N.M].kt`
 - [ ] Header includes `MAIN LINK`, `SPEC VERSION`, `NUMBER`, `DESCRIPTION`
 - [ ] Paragraph/sentence numbers in `MAIN LINK` match the directory layout
 - [ ] Positive: `box()` returns `"OK"`; negative: expected error markers or `.exceptions.compiletime.txt`
@@ -331,7 +331,7 @@ Expand each `*TestSpecGenerated` class to see subtree results.
 
 | Enum | Values |
 |------|--------|
-| `TestArea` | `DIAGNOSTICS` / `CODEGEN_BOX` |
+| `TestArea` | `PSI` / `DIAGNOSTICS` / `CODEGEN_BOX` |
 | `TestType` | `pos` / `neg` |
 | `SpecTestLinkedType` | `linked` / `notLinked` |
 
@@ -359,6 +359,7 @@ Expand each `*TestSpecGenerated` class to see subtree results.
 
 | TestArea | Generated classes |
 |----------|-------------------|
+| psi | `ParsingTestSpecGenerated` |
 | codegen/box | `BlackBoxCodegenTestSpecGenerated` / `FirBlackBoxCodegenTestSpecGenerated` |
 | diagnostics | `DiagnosticsTestSpecGenerated` / `FirLightTreeDiagnosticTestSpecGenerated` / `FirPsiDiagnosticTestSpecGenerated` |
 
