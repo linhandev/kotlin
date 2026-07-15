@@ -1,0 +1,452 @@
+{
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "IntegerLiteral DecDigitNoZero leading digit 987654321",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FloatLiteral DoubleLiteral with exponent and f suffix 1.5e2f",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FloatLiteral with uppercase F suffix 0.5F",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos/7.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FloatLiteral with omitted whole part and f suffix .25f",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos/7.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FloatLiteral as DoubleLiteral with f suffix 1.5f",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "RealLiteral as DoubleLiteral with omitted whole part .5",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos/6.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "RealLiteral as DoubleLiteral with exponent form 1e10",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "RealLiteral as FloatLiteral 2.5f",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "RealLiteral as FloatLiteral from DecDigits 42F",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos/6.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitNoZero digits 1 through 9 in single-digit integer literals",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitNoZero as leading digit in double literal 1.5",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitNoZero as leading digit in long literal 42L",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitNoZero as leading digit in float literal 9f",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitNoZero as leading digit in decimal integer literal 42",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleLiteral with DecDigits dot DecDigits and DoubleExponent 1.5e10",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleLiteral with underscores in DecDigits 1_0.5_0",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8/pos/8.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleLiteral DecDigits DoubleExponent form without dot 5e10",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8/pos/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "HexDigit lowercase a-f in hex literal 0xf",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "HexDigit uppercase A-F in hex literal 0xA",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "HexDigit DecDigit zero in hex literal 0x0",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "HexDigit full range 0-9A-Fa-f in hex literal 0x1234567890abcdefL (with Long suffix L)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "HexDigit mixed case and DecDigit in hex literal 0xAbCd",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Kotlin accepts consecutive HexDigitOrSeparator underscores in 0x1__2 (parsed as 0x12)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "BinLiteral with BinDigitOrSeparator 0b1_0_1",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "BooleanLiteral true and false tokens",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "NullLiteral null token",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CharacterLiteral and UnsignedLiteral 42u with HexLiteral 0XFFu",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "HexDigitOrSeparator underscore in HexLiteral 0x1_A_F",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigits single DecDigit alternative in integer literal 7",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigits ending with DecDigit in long literal 999L",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos/4.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigits as fraction part in double literal 0.456",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigits multi-digit sequence in integer literal 12345",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitOrSeparator underscore in long literal 1_000L",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitOrSeparator underscore in float literal 1_000f",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitOrSeparator underscore in integer literal 1_000",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Kotlin accepts consecutive DecDigitOrSeparator underscores in 1__2 (parsed as 12)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitOrSeparator multiple underscores in integer literal 1_234_567",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigitOrSeparator underscore in double literal 1_0.5_1",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigit zero as single-digit integer literal 0",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigit trailing zero in integer literal 10",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigit zero in long literal 0L",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigit zero in double literal 0.5",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigit digits 0 through 9 in decimal integer literal 1023456789",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleExponent without optional sign in 5E5",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleExponent with lowercase e and DecDigits in 1.0e10",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleExponent DecDigits with underscores in 1e1_0",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleExponent with uppercase E and plus sign in 2.5E+20",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleExponent with minus sign in 3.14e-2",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

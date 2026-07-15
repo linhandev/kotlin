@@ -1,0 +1,59 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Rigid types are not subtypes of unrelated flexible bounds",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-flexible-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "Nullable flexible type cannot substitute for non-null rigid type without check",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-flexible-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ],
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "built-in floating point types are not subtypes of each other or kotlin.Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-floating-point-arithmetic-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Flexible types may substitute for rigid types within (L..U) bounds",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-flexible-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Flexible platform types are subtypes of their lower and upper rigid bounds",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-flexible-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

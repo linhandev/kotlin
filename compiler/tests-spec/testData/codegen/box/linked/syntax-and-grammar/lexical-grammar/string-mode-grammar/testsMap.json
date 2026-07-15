@@ -1,0 +1,560 @@
+{
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrExprStart conditional expression in multiline",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrExprStart nested template inside multiline expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrExprStart ${1 + 2} in multiline string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrExprStart ${a + b} across multiline lines",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrExprStart ${\"OK\"} string literal in multiline",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrText Unicode and punctuation characters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrText blank lines and whitespace preserved",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos/12.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrText escaped dollar sign $$",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos/12.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrText standalone dollar not starting template",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos/12.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_CLOSE returned from function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos/9.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_CLOSE empty multiline string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_CLOSE multiline string with newline content",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos/9.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_CLOSE with MultilineStringQuote prefix \"\"\"\"",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos/9.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrEscapedChar tab escape \\t",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrEscapedChar UniCharacterLiteral \\u0041",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos/7.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrEscapedChar backslash and dollar escapes",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos/7.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrEscapedChar newline escape \\n",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrText standalone dollar sign not starting template",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrText digits and punctuation characters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrText mixed text and trailing dollar",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrText plain alphabetic text abc def",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrText escaped dollar sign as text",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_OPEN empty line string literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_OPEN line string with digits and symbols",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_OPEN concatenated line string literals",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_OPEN line string assigned to variable",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_OPEN line string literal hello",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrExprStart ${1 + 2} expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrExprStart ${if (true) 1 else 0} conditional expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrExprStart nested template in expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrExprStart ${\"OK\"} string literal expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrExprStart ${a + b} with variables",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultilineStringQuote six-quote close for content ending with quote",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/pos/10.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultilineStringQuote four-quote value embedded in multiline body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/pos/10.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultilineStringQuote content is single double-quote \"\"\"\"\"\"",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrRef soft keyword field in multiline string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrRef multiple references across lines",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrRef escaped hard keyword `if` in multiline string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrRef receiver soft keyword at multiline start",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrRef $name in multiline string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_CLOSE string with escaped internal quote",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_CLOSE properly closed line string text",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_CLOSE adjacent closed strings in expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_CLOSE string returned from function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QUOTE_CLOSE empty closed line string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Multiple FieldIdentifier references in one string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FieldIdentifier escaped hard keyword `if`",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FieldIdentifier $name in line string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FieldIdentifier soft keyword field as IdentifierOrSoftKey",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FieldIdentifier with underscore identifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_OPEN multiline string with newline",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_OPEN multiline string concatenation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_OPEN multiline string with leading newline trimmed",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_OPEN single-line multiline string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_OPEN empty multiline string - verifies that triple-quoted empty string is correctly parsed",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrRef at end of line string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrRef $x in line string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrRef $count with longer identifier name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrRef soft keyword receiver in line string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrRef at start of line string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

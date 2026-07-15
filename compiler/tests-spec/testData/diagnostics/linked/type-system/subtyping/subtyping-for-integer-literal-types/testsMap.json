@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Out-of-range integer literals fail assignment to narrower types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-integer-literal-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Integer literal cannot substitute for incompatible non-integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-integer-literal-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Built-in integer types are supertypes of compatible integer literals",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-integer-literal-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Integer literal types are subtypes of built-in integer types in their allowed set",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-integer-literal-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

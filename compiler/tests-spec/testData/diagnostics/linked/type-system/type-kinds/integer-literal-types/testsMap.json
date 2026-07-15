@@ -1,0 +1,59 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Integer literal types cannot be assigned to incompatible non-integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/integer-literal-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Integer literals that do not fit the expected type produce type mismatch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/integer-literal-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ],
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "kotlin.Char is not a subtype of kotlin.Int or kotlin.String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.char/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Integer literals are usable where Int and narrower integer types are expected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/integer-literal-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Integer literal types are inferred for decimal, hexadecimal, and long literal forms",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/integer-literal-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

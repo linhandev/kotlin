@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Values below lower bound cannot substitute for bounded type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type arguments must satisfy declared upper bounds",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Multiple bounds define upper bounds intersection for type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type parameter upper bounds constrain substitutability",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

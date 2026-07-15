@@ -1,0 +1,57 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type capturing is not recursive and rejects nested projection mismatches",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-capturing/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type capturing fails when captured types cannot satisfy subtyping constraints",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-capturing/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Invariant type arguments produce captured types equivalent to the argument type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-capturing/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type capturing creates captured types when instantiating type constructors with variance",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-capturing/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type containment A ⪯ out B when A \u003c: B and A ⪯ in B when A :\u003e B",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-containment/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

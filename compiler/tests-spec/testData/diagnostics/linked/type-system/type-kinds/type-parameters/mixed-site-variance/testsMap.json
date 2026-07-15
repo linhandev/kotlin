@@ -1,0 +1,48 @@
+{
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Mixed-site variance prohibits contradictory declaration- and use-site variance combinations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/mixed-site-variance/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Mixed-site variance subtyping violations for declaration-site variant type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/mixed-site-variance/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Mixed-site variance combines declaration-site and use-site variance for subtyping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/mixed-site-variance/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Mixed-site variance subtyping with invariant type constructors and projections",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/mixed-site-variance/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

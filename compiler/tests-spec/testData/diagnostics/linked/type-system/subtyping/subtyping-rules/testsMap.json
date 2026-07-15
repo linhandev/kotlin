@@ -1,6 +1,54 @@
 {
   "2": {
     "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Sealed, enum, object, and multi-supertype classifier types are well-formed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/simple-classifier-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Well-formed simple classifier types with type name T and optional supertypes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/simple-classifier-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "0.1-152",
+          "casesNumber": 0,
+          "description": "Kt10811",
+          "path": "compiler/testData/diagnostics/tests/when/kt10811.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ],
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Well-formed classifier type constructors and parameterized types T[A1, ..., An]",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/parameterized-classifier-types/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nested and aliased parameterized classifier types are well-formed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/parameterized-classifier-types/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ],
       "1": [
         {
           "specVersion": "0.1-464",
@@ -19,6 +67,33 @@
           "unexpectedBehaviour": false,
           "linkType": "secondary",
           "helpers": "checkType, functions"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Nothing is a subtype of Any, Int, String, Boolean, and Double",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/kotlin.nothing/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Nothing is a subtype via assignment, nullable types, and function types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/kotlin.nothing/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Nothing is a subtype of Byte, Short, Long, and custom classifier types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/kotlin.nothing/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
         },
         {
           "specVersion": "0.1-464",
@@ -40,16 +115,6 @@
           "linkType": "primary",
           "helpers": "checkType"
         }
-      ],
-      "3": [
-        {
-          "specVersion": "0.1-152",
-          "casesNumber": 0,
-          "description": "Kt10811",
-          "path": "compiler/testData/diagnostics/tests/when/kt10811.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "primary"
-        }
       ]
     },
     "neg": {
@@ -61,6 +126,52 @@
           "path": "compiler/testData/diagnostics/tests/when/whenAndLambdaWithExpectedType.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Invariant type parameters reject unsafe parameterized subtyping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-rules/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Int and other types are not subtypes of Nothing",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-rules/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Simple classifier and parameterized type subtyping rules",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-rules/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nothing is a subtype of all well-formed Kotlin types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-rules/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
         }
       ]
     }

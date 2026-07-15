@@ -1,0 +1,48 @@
+{
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Function type parameters do not support mixed-site variance",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/function-type-parameters/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Function type parameters with out variance modifier are ill-formed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/function-type-parameters/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Function type parameters are well-formed concrete types in their declaring function context",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/function-type-parameters/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Function type parameters with class and interface bounds are well-formed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/function-type-parameters/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

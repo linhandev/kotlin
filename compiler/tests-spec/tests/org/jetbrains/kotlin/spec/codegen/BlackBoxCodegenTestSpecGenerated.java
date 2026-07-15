@@ -41,6 +41,63 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
       KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked"), Pattern.compile("^(.+)\\.kt$"), null, true, "exceptions", "operator-call", "overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "overloadable-operators");
     }
 
+    @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics")
+    @TestDataPath("$PROJECT_ROOT")
+    @RunWith(JUnit3RunnerWithInners.class)
+    public static class Built_in_types_and_their_semantics extends AbstractBlackBoxCodegenTestSpec {
+      private void runTest(String testDataFilePath) {
+        KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+      }
+
+      public void testAllFilesPresentInBuilt_in_types_and_their_semantics() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics"), Pattern.compile("^(.+)\\.kt$"), null, true);
+      }
+
+      @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics/integer-type-widening")
+      @TestDataPath("$PROJECT_ROOT")
+      @RunWith(JUnit3RunnerWithInners.class)
+      public static class Integer_type_widening extends AbstractBlackBoxCodegenTestSpec {
+        private void runTest(String testDataFilePath) {
+          KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInInteger_type_widening() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics/integer-type-widening"), Pattern.compile("^(.+)\\.kt$"), null, true);
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics/integer-type-widening/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_1 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics/integer-type-widening/p-1"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics/integer-type-widening/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics/integer-type-widening/p-1/pos/1.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics/integer-type-widening/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+      }
+    }
+
     @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/expressions")
     @TestDataPath("$PROJECT_ROOT")
     @RunWith(JUnit3RunnerWithInners.class)
@@ -4196,6 +4253,9945 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
       }
     }
 
+    @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar")
+    @TestDataPath("$PROJECT_ROOT")
+    @RunWith(JUnit3RunnerWithInners.class)
+    public static class Syntax_and_grammar extends AbstractBlackBoxCodegenTestSpec {
+      private void runTest(String testDataFilePath) {
+        KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+      }
+
+      public void testAllFilesPresentInSyntax_and_grammar() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar"), Pattern.compile("^(.+)\\.kt$"), null, true);
+      }
+
+      @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar")
+      @TestDataPath("$PROJECT_ROOT")
+      @RunWith(JUnit3RunnerWithInners.class)
+      public static class Lexical_grammar extends AbstractBlackBoxCodegenTestSpec {
+        private void runTest(String testDataFilePath) {
+          KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInLexical_grammar() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar"), Pattern.compile("^(.+)\\.kt$"), null, true);
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Identifiers extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInIdentifiers() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.1.kt");
+              }
+
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.2.kt");
+              }
+
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.3.kt");
+              }
+
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.4.kt");
+              }
+
+              @TestMetadata("1.5.kt")
+              public void test1_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.1.kt");
+              }
+
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.2.kt");
+              }
+
+              @TestMetadata("2.3.kt")
+              public void test2_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.3.kt");
+              }
+
+              @TestMetadata("2.4.kt")
+              public void test2_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.4.kt");
+              }
+
+              @TestMetadata("2.5.kt")
+              public void test2_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.1.kt");
+              }
+
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.2.kt");
+              }
+
+              @TestMetadata("3.3.kt")
+              public void test3_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.3.kt");
+              }
+
+              @TestMetadata("3.4.kt")
+              public void test3_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.4.kt");
+              }
+
+              @TestMetadata("3.5.kt")
+              public void test3_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.1.kt");
+              }
+
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.2.kt");
+              }
+
+              @TestMetadata("4.3.kt")
+              public void test4_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.3.kt");
+              }
+
+              @TestMetadata("4.4.kt")
+              public void test4_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.4.kt");
+              }
+
+              @TestMetadata("4.5.kt")
+              public void test4_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.1.kt");
+              }
+
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.2.kt");
+              }
+
+              @TestMetadata("5.3.kt")
+              public void test5_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.3.kt");
+              }
+
+              @TestMetadata("5.4.kt")
+              public void test5_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.4.kt");
+              }
+
+              @TestMetadata("5.5.kt")
+              public void test5_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.1.kt");
+              }
+
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.2.kt");
+              }
+
+              @TestMetadata("6.3.kt")
+              public void test6_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.3.kt");
+              }
+
+              @TestMetadata("6.4.kt")
+              public void test6_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.4.kt");
+              }
+
+              @TestMetadata("6.5.kt")
+              public void test6_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Keywords_and_operators extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInKeywords_and_operators() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-10"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-10/pos/10.1.kt");
+              }
+
+              @TestMetadata("10.2.kt")
+              public void test10_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-10/pos/10.2.kt");
+              }
+
+              @TestMetadata("10.3.kt")
+              public void test10_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-10/pos/10.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_100 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_100() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("100.1.kt")
+              public void test100_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/pos/100.1.kt");
+              }
+
+              @TestMetadata("100.2.kt")
+              public void test100_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/pos/100.2.kt");
+              }
+
+              @TestMetadata("100.3.kt")
+              public void test100_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/pos/100.3.kt");
+              }
+
+              @TestMetadata("100.4.kt")
+              public void test100_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/pos/100.4.kt");
+              }
+
+              @TestMetadata("100.5.kt")
+              public void test100_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/pos/100.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_101 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_101() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("101.1.kt")
+              public void test101_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/pos/101.1.kt");
+              }
+
+              @TestMetadata("101.2.kt")
+              public void test101_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/pos/101.2.kt");
+              }
+
+              @TestMetadata("101.3.kt")
+              public void test101_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/pos/101.3.kt");
+              }
+
+              @TestMetadata("101.4.kt")
+              public void test101_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/pos/101.4.kt");
+              }
+
+              @TestMetadata("101.5.kt")
+              public void test101_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/pos/101.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_102 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_102() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("102.1.kt")
+              public void test102_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/pos/102.1.kt");
+              }
+
+              @TestMetadata("102.2.kt")
+              public void test102_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/pos/102.2.kt");
+              }
+
+              @TestMetadata("102.3.kt")
+              public void test102_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/pos/102.3.kt");
+              }
+
+              @TestMetadata("102.4.kt")
+              public void test102_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/pos/102.4.kt");
+              }
+
+              @TestMetadata("102.5.kt")
+              public void test102_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/pos/102.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_103 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_103() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("103.1.kt")
+              public void test103_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/pos/103.1.kt");
+              }
+
+              @TestMetadata("103.2.kt")
+              public void test103_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/pos/103.2.kt");
+              }
+
+              @TestMetadata("103.3.kt")
+              public void test103_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/pos/103.3.kt");
+              }
+
+              @TestMetadata("103.4.kt")
+              public void test103_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/pos/103.4.kt");
+              }
+
+              @TestMetadata("103.5.kt")
+              public void test103_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/pos/103.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_104 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_104() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("104.1.kt")
+              public void test104_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/pos/104.1.kt");
+              }
+
+              @TestMetadata("104.2.kt")
+              public void test104_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/pos/104.2.kt");
+              }
+
+              @TestMetadata("104.3.kt")
+              public void test104_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/pos/104.3.kt");
+              }
+
+              @TestMetadata("104.4.kt")
+              public void test104_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/pos/104.4.kt");
+              }
+
+              @TestMetadata("104.5.kt")
+              public void test104_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/pos/104.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_105 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_105() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("105.1.kt")
+              public void test105_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/pos/105.1.kt");
+              }
+
+              @TestMetadata("105.2.kt")
+              public void test105_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/pos/105.2.kt");
+              }
+
+              @TestMetadata("105.3.kt")
+              public void test105_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/pos/105.3.kt");
+              }
+
+              @TestMetadata("105.4.kt")
+              public void test105_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/pos/105.4.kt");
+              }
+
+              @TestMetadata("105.5.kt")
+              public void test105_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/pos/105.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_106 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_106() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("106.1.kt")
+              public void test106_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/pos/106.1.kt");
+              }
+
+              @TestMetadata("106.2.kt")
+              public void test106_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/pos/106.2.kt");
+              }
+
+              @TestMetadata("106.3.kt")
+              public void test106_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/pos/106.3.kt");
+              }
+
+              @TestMetadata("106.4.kt")
+              public void test106_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/pos/106.4.kt");
+              }
+
+              @TestMetadata("106.5.kt")
+              public void test106_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/pos/106.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_107 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_107() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("107.1.kt")
+              public void test107_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/pos/107.1.kt");
+              }
+
+              @TestMetadata("107.2.kt")
+              public void test107_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/pos/107.2.kt");
+              }
+
+              @TestMetadata("107.3.kt")
+              public void test107_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/pos/107.3.kt");
+              }
+
+              @TestMetadata("107.4.kt")
+              public void test107_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/pos/107.4.kt");
+              }
+
+              @TestMetadata("107.5.kt")
+              public void test107_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/pos/107.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_108 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_108() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("108.1.kt")
+              public void test108_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/pos/108.1.kt");
+              }
+
+              @TestMetadata("108.2.kt")
+              public void test108_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/pos/108.2.kt");
+              }
+
+              @TestMetadata("108.3.kt")
+              public void test108_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/pos/108.3.kt");
+              }
+
+              @TestMetadata("108.4.kt")
+              public void test108_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/pos/108.4.kt");
+              }
+
+              @TestMetadata("108.5.kt")
+              public void test108_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/pos/108.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_109 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_109() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("109.1.kt")
+              public void test109_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/pos/109.1.kt");
+              }
+
+              @TestMetadata("109.2.kt")
+              public void test109_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/pos/109.2.kt");
+              }
+
+              @TestMetadata("109.3.kt")
+              public void test109_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/pos/109.3.kt");
+              }
+
+              @TestMetadata("109.4.kt")
+              public void test109_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/pos/109.4.kt");
+              }
+
+              @TestMetadata("109.5.kt")
+              public void test109_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/pos/109.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-11"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-11/pos/11.1.kt");
+              }
+
+              @TestMetadata("11.2.kt")
+              public void test11_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-11/pos/11.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_110 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_110() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("110.1.kt")
+              public void test110_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/pos/110.1.kt");
+              }
+
+              @TestMetadata("110.2.kt")
+              public void test110_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/pos/110.2.kt");
+              }
+
+              @TestMetadata("110.3.kt")
+              public void test110_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/pos/110.3.kt");
+              }
+
+              @TestMetadata("110.4.kt")
+              public void test110_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/pos/110.4.kt");
+              }
+
+              @TestMetadata("110.5.kt")
+              public void test110_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/pos/110.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_111 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_111() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("111.1.kt")
+              public void test111_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/pos/111.1.kt");
+              }
+
+              @TestMetadata("111.2.kt")
+              public void test111_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/pos/111.2.kt");
+              }
+
+              @TestMetadata("111.3.kt")
+              public void test111_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/pos/111.3.kt");
+              }
+
+              @TestMetadata("111.4.kt")
+              public void test111_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/pos/111.4.kt");
+              }
+
+              @TestMetadata("111.5.kt")
+              public void test111_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/pos/111.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_112 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_112() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("112.1.kt")
+              public void test112_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/pos/112.1.kt");
+              }
+
+              @TestMetadata("112.2.kt")
+              public void test112_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/pos/112.2.kt");
+              }
+
+              @TestMetadata("112.3.kt")
+              public void test112_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/pos/112.3.kt");
+              }
+
+              @TestMetadata("112.4.kt")
+              public void test112_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/pos/112.4.kt");
+              }
+
+              @TestMetadata("112.5.kt")
+              public void test112_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/pos/112.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_113 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_113() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("113.1.kt")
+              public void test113_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/pos/113.1.kt");
+              }
+
+              @TestMetadata("113.2.kt")
+              public void test113_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/pos/113.2.kt");
+              }
+
+              @TestMetadata("113.3.kt")
+              public void test113_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/pos/113.3.kt");
+              }
+
+              @TestMetadata("113.4.kt")
+              public void test113_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/pos/113.4.kt");
+              }
+
+              @TestMetadata("113.5.kt")
+              public void test113_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/pos/113.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_114 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_114() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("114.1.kt")
+              public void test114_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/pos/114.1.kt");
+              }
+
+              @TestMetadata("114.2.kt")
+              public void test114_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/pos/114.2.kt");
+              }
+
+              @TestMetadata("114.3.kt")
+              public void test114_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/pos/114.3.kt");
+              }
+
+              @TestMetadata("114.4.kt")
+              public void test114_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/pos/114.4.kt");
+              }
+
+              @TestMetadata("114.5.kt")
+              public void test114_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/pos/114.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_115 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_115() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("115.1.kt")
+              public void test115_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/pos/115.1.kt");
+              }
+
+              @TestMetadata("115.2.kt")
+              public void test115_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/pos/115.2.kt");
+              }
+
+              @TestMetadata("115.3.kt")
+              public void test115_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/pos/115.3.kt");
+              }
+
+              @TestMetadata("115.4.kt")
+              public void test115_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/pos/115.4.kt");
+              }
+
+              @TestMetadata("115.5.kt")
+              public void test115_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/pos/115.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_116 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_116() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("116.1.kt")
+              public void test116_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/pos/116.1.kt");
+              }
+
+              @TestMetadata("116.2.kt")
+              public void test116_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/pos/116.2.kt");
+              }
+
+              @TestMetadata("116.3.kt")
+              public void test116_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/pos/116.3.kt");
+              }
+
+              @TestMetadata("116.4.kt")
+              public void test116_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/pos/116.4.kt");
+              }
+
+              @TestMetadata("116.5.kt")
+              public void test116_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/pos/116.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_117 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_117() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("117.1.kt")
+              public void test117_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/pos/117.1.kt");
+              }
+
+              @TestMetadata("117.2.kt")
+              public void test117_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/pos/117.2.kt");
+              }
+
+              @TestMetadata("117.3.kt")
+              public void test117_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/pos/117.3.kt");
+              }
+
+              @TestMetadata("117.4.kt")
+              public void test117_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/pos/117.4.kt");
+              }
+
+              @TestMetadata("117.5.kt")
+              public void test117_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/pos/117.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_118 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_118() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("118.1.kt")
+              public void test118_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/pos/118.1.kt");
+              }
+
+              @TestMetadata("118.2.kt")
+              public void test118_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/pos/118.2.kt");
+              }
+
+              @TestMetadata("118.3.kt")
+              public void test118_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/pos/118.3.kt");
+              }
+
+              @TestMetadata("118.4.kt")
+              public void test118_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/pos/118.4.kt");
+              }
+
+              @TestMetadata("118.5.kt")
+              public void test118_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/pos/118.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_119 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_119() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("119.1.kt")
+              public void test119_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/pos/119.1.kt");
+              }
+
+              @TestMetadata("119.2.kt")
+              public void test119_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/pos/119.2.kt");
+              }
+
+              @TestMetadata("119.3.kt")
+              public void test119_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/pos/119.3.kt");
+              }
+
+              @TestMetadata("119.4.kt")
+              public void test119_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/pos/119.4.kt");
+              }
+
+              @TestMetadata("119.5.kt")
+              public void test119_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/pos/119.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_12 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-12"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-12/pos/12.1.kt");
+              }
+
+              @TestMetadata("12.2.kt")
+              public void test12_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-12/pos/12.2.kt");
+              }
+
+              @TestMetadata("12.3.kt")
+              public void test12_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-12/pos/12.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_120 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_120() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("120.1.kt")
+              public void test120_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/pos/120.1.kt");
+              }
+
+              @TestMetadata("120.2.kt")
+              public void test120_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/pos/120.2.kt");
+              }
+
+              @TestMetadata("120.3.kt")
+              public void test120_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/pos/120.3.kt");
+              }
+
+              @TestMetadata("120.4.kt")
+              public void test120_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/pos/120.4.kt");
+              }
+
+              @TestMetadata("120.5.kt")
+              public void test120_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/pos/120.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_121 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_121() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("121.1.kt")
+              public void test121_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/pos/121.1.kt");
+              }
+
+              @TestMetadata("121.2.kt")
+              public void test121_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/pos/121.2.kt");
+              }
+
+              @TestMetadata("121.3.kt")
+              public void test121_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/pos/121.3.kt");
+              }
+
+              @TestMetadata("121.4.kt")
+              public void test121_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/pos/121.4.kt");
+              }
+
+              @TestMetadata("121.5.kt")
+              public void test121_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/pos/121.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_122 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_122() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("122.1.kt")
+              public void test122_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/pos/122.1.kt");
+              }
+
+              @TestMetadata("122.2.kt")
+              public void test122_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/pos/122.2.kt");
+              }
+
+              @TestMetadata("122.3.kt")
+              public void test122_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/pos/122.3.kt");
+              }
+
+              @TestMetadata("122.4.kt")
+              public void test122_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/pos/122.4.kt");
+              }
+
+              @TestMetadata("122.5.kt")
+              public void test122_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/pos/122.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_123 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_123() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("123.1.kt")
+              public void test123_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/pos/123.1.kt");
+              }
+
+              @TestMetadata("123.2.kt")
+              public void test123_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/pos/123.2.kt");
+              }
+
+              @TestMetadata("123.3.kt")
+              public void test123_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/pos/123.3.kt");
+              }
+
+              @TestMetadata("123.4.kt")
+              public void test123_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/pos/123.4.kt");
+              }
+
+              @TestMetadata("123.5.kt")
+              public void test123_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/pos/123.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_124 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_124() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("124.1.kt")
+              public void test124_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/pos/124.1.kt");
+              }
+
+              @TestMetadata("124.2.kt")
+              public void test124_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/pos/124.2.kt");
+              }
+
+              @TestMetadata("124.3.kt")
+              public void test124_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/pos/124.3.kt");
+              }
+
+              @TestMetadata("124.4.kt")
+              public void test124_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/pos/124.4.kt");
+              }
+
+              @TestMetadata("124.5.kt")
+              public void test124_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/pos/124.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_125 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_125() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("125.1.kt")
+              public void test125_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/pos/125.1.kt");
+              }
+
+              @TestMetadata("125.2.kt")
+              public void test125_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/pos/125.2.kt");
+              }
+
+              @TestMetadata("125.3.kt")
+              public void test125_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/pos/125.3.kt");
+              }
+
+              @TestMetadata("125.4.kt")
+              public void test125_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/pos/125.4.kt");
+              }
+
+              @TestMetadata("125.5.kt")
+              public void test125_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/pos/125.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_126 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_126() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("126.1.kt")
+              public void test126_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/pos/126.1.kt");
+              }
+
+              @TestMetadata("126.2.kt")
+              public void test126_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/pos/126.2.kt");
+              }
+
+              @TestMetadata("126.3.kt")
+              public void test126_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/pos/126.3.kt");
+              }
+
+              @TestMetadata("126.4.kt")
+              public void test126_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/pos/126.4.kt");
+              }
+
+              @TestMetadata("126.5.kt")
+              public void test126_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/pos/126.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_127 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_127() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("127.1.kt")
+              public void test127_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/pos/127.1.kt");
+              }
+
+              @TestMetadata("127.2.kt")
+              public void test127_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/pos/127.2.kt");
+              }
+
+              @TestMetadata("127.3.kt")
+              public void test127_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/pos/127.3.kt");
+              }
+
+              @TestMetadata("127.4.kt")
+              public void test127_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/pos/127.4.kt");
+              }
+
+              @TestMetadata("127.5.kt")
+              public void test127_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/pos/127.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_128 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_128() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("128.1.kt")
+              public void test128_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/pos/128.1.kt");
+              }
+
+              @TestMetadata("128.2.kt")
+              public void test128_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/pos/128.2.kt");
+              }
+
+              @TestMetadata("128.3.kt")
+              public void test128_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/pos/128.3.kt");
+              }
+
+              @TestMetadata("128.4.kt")
+              public void test128_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/pos/128.4.kt");
+              }
+
+              @TestMetadata("128.5.kt")
+              public void test128_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/pos/128.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_13 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-13"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-13/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-13/pos/13.1.kt");
+              }
+
+              @TestMetadata("13.2.kt")
+              public void test13_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-13/pos/13.2.kt");
+              }
+
+              @TestMetadata("13.3.kt")
+              public void test13_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-13/pos/13.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_14 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-14"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-14/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-14/pos/14.1.kt");
+              }
+
+              @TestMetadata("14.2.kt")
+              public void test14_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-14/pos/14.2.kt");
+              }
+
+              @TestMetadata("14.3.kt")
+              public void test14_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-14/pos/14.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_15 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-15"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-15/pos/15.1.kt");
+              }
+
+              @TestMetadata("15.2.kt")
+              public void test15_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-15/pos/15.2.kt");
+              }
+
+              @TestMetadata("15.3.kt")
+              public void test15_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-15/pos/15.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_16 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-16"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-16/pos/16.1.kt");
+              }
+
+              @TestMetadata("16.2.kt")
+              public void test16_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-16/pos/16.2.kt");
+              }
+
+              @TestMetadata("16.3.kt")
+              public void test16_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-16/pos/16.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_17 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-17"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-17/pos/17.1.kt");
+              }
+
+              @TestMetadata("17.2.kt")
+              public void test17_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-17/pos/17.2.kt");
+              }
+
+              @TestMetadata("17.3.kt")
+              public void test17_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-17/pos/17.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_18 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-18"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-18/pos/18.1.kt");
+              }
+
+              @TestMetadata("18.2.kt")
+              public void test18_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-18/pos/18.2.kt");
+              }
+
+              @TestMetadata("18.3.kt")
+              public void test18_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-18/pos/18.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_19 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-19"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-19/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-19/pos/19.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/pos/2.1.kt");
+              }
+
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/pos/2.2.kt");
+              }
+
+              @TestMetadata("2.3.kt")
+              public void test2_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/pos/2.3.kt");
+              }
+
+              @TestMetadata("2.4.kt")
+              public void test2_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/pos/2.4.kt");
+              }
+
+              @TestMetadata("2.5.kt")
+              public void test2_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/pos/2.5.kt");
+              }
+
+              @TestMetadata("2.6.kt")
+              public void test2_6() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/pos/2.6.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_20 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-20"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-20/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-20/pos/20.1.kt");
+              }
+
+              @TestMetadata("20.2.kt")
+              public void test20_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-20/pos/20.2.kt");
+              }
+
+              @TestMetadata("20.3.kt")
+              public void test20_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-20/pos/20.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-20/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_21 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21/pos/21.1.kt");
+              }
+
+              @TestMetadata("21.2.kt")
+              public void test21_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21/pos/21.2.kt");
+              }
+
+              @TestMetadata("21.3.kt")
+              public void test21_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21/pos/21.3.kt");
+              }
+
+              @TestMetadata("21.4.kt")
+              public void test21_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21/pos/21.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_22 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-22"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-22/pos/22.1.kt");
+              }
+
+              @TestMetadata("22.2.kt")
+              public void test22_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-22/pos/22.2.kt");
+              }
+
+              @TestMetadata("22.3.kt")
+              public void test22_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-22/pos/22.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_23 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-23"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-23/pos/23.1.kt");
+              }
+
+              @TestMetadata("23.2.kt")
+              public void test23_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-23/pos/23.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_24 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/pos/24.1.kt");
+              }
+
+              @TestMetadata("24.2.kt")
+              public void test24_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/pos/24.2.kt");
+              }
+
+              @TestMetadata("24.3.kt")
+              public void test24_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/pos/24.3.kt");
+              }
+
+              @TestMetadata("24.4.kt")
+              public void test24_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/pos/24.4.kt");
+              }
+
+              @TestMetadata("24.5.kt")
+              public void test24_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/pos/24.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_25 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/pos/25.1.kt");
+              }
+
+              @TestMetadata("25.2.kt")
+              public void test25_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/pos/25.2.kt");
+              }
+
+              @TestMetadata("25.3.kt")
+              public void test25_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/pos/25.3.kt");
+              }
+
+              @TestMetadata("25.4.kt")
+              public void test25_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/pos/25.4.kt");
+              }
+
+              @TestMetadata("25.5.kt")
+              public void test25_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/pos/25.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_26 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/pos/26.1.kt");
+              }
+
+              @TestMetadata("26.2.kt")
+              public void test26_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/pos/26.2.kt");
+              }
+
+              @TestMetadata("26.3.kt")
+              public void test26_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/pos/26.3.kt");
+              }
+
+              @TestMetadata("26.4.kt")
+              public void test26_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/pos/26.4.kt");
+              }
+
+              @TestMetadata("26.5.kt")
+              public void test26_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/pos/26.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_27 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/pos/27.1.kt");
+              }
+
+              @TestMetadata("27.2.kt")
+              public void test27_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/pos/27.2.kt");
+              }
+
+              @TestMetadata("27.3.kt")
+              public void test27_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/pos/27.3.kt");
+              }
+
+              @TestMetadata("27.4.kt")
+              public void test27_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/pos/27.4.kt");
+              }
+
+              @TestMetadata("27.5.kt")
+              public void test27_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/pos/27.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_28 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/pos/28.1.kt");
+              }
+
+              @TestMetadata("28.2.kt")
+              public void test28_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/pos/28.2.kt");
+              }
+
+              @TestMetadata("28.3.kt")
+              public void test28_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/pos/28.3.kt");
+              }
+
+              @TestMetadata("28.4.kt")
+              public void test28_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/pos/28.4.kt");
+              }
+
+              @TestMetadata("28.5.kt")
+              public void test28_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/pos/28.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_29 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/pos/29.1.kt");
+              }
+
+              @TestMetadata("29.2.kt")
+              public void test29_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/pos/29.2.kt");
+              }
+
+              @TestMetadata("29.3.kt")
+              public void test29_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/pos/29.3.kt");
+              }
+
+              @TestMetadata("29.4.kt")
+              public void test29_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/pos/29.4.kt");
+              }
+
+              @TestMetadata("29.5.kt")
+              public void test29_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/pos/29.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3/pos/3.1.kt");
+              }
+
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3/pos/3.2.kt");
+              }
+
+              @TestMetadata("3.3.kt")
+              public void test3_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3/pos/3.3.kt");
+              }
+
+              @TestMetadata("3.4.kt")
+              public void test3_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3/pos/3.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-30")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_30 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_30() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-30"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-30/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("30.1.kt")
+              public void test30_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-30/pos/30.1.kt");
+              }
+
+              @TestMetadata("30.2.kt")
+              public void test30_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-30/pos/30.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-30/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_31 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_31() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("31.1.kt")
+              public void test31_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31/pos/31.1.kt");
+              }
+
+              @TestMetadata("31.2.kt")
+              public void test31_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31/pos/31.2.kt");
+              }
+
+              @TestMetadata("31.3.kt")
+              public void test31_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31/pos/31.3.kt");
+              }
+
+              @TestMetadata("31.4.kt")
+              public void test31_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31/pos/31.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_32 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_32() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("32.1.kt")
+              public void test32_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/pos/32.1.kt");
+              }
+
+              @TestMetadata("32.2.kt")
+              public void test32_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/pos/32.2.kt");
+              }
+
+              @TestMetadata("32.3.kt")
+              public void test32_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/pos/32.3.kt");
+              }
+
+              @TestMetadata("32.4.kt")
+              public void test32_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/pos/32.4.kt");
+              }
+
+              @TestMetadata("32.5.kt")
+              public void test32_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/pos/32.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-33")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_33 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_33() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-33"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-33/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("33.1.kt")
+              public void test33_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-33/pos/33.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-33/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-34")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_34 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_34() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-34"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-34/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("34.1.kt")
+              public void test34_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-34/pos/34.1.kt");
+              }
+
+              @TestMetadata("34.2.kt")
+              public void test34_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-34/pos/34.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-34/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_35 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_35() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("35.1.kt")
+              public void test35_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/pos/35.1.kt");
+              }
+
+              @TestMetadata("35.2.kt")
+              public void test35_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/pos/35.2.kt");
+              }
+
+              @TestMetadata("35.3.kt")
+              public void test35_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/pos/35.3.kt");
+              }
+
+              @TestMetadata("35.4.kt")
+              public void test35_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/pos/35.4.kt");
+              }
+
+              @TestMetadata("35.5.kt")
+              public void test35_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/pos/35.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_36 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_36() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("36.1.kt")
+              public void test36_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/pos/36.1.kt");
+              }
+
+              @TestMetadata("36.2.kt")
+              public void test36_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/pos/36.2.kt");
+              }
+
+              @TestMetadata("36.3.kt")
+              public void test36_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/pos/36.3.kt");
+              }
+
+              @TestMetadata("36.4.kt")
+              public void test36_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/pos/36.4.kt");
+              }
+
+              @TestMetadata("36.5.kt")
+              public void test36_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/pos/36.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-37")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_37 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_37() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-37"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-37/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("37.1.kt")
+              public void test37_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-37/pos/37.1.kt");
+              }
+
+              @TestMetadata("37.2.kt")
+              public void test37_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-37/pos/37.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-37/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-38")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_38 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_38() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-38"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-38/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("38.1.kt")
+              public void test38_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-38/pos/38.1.kt");
+              }
+
+              @TestMetadata("38.2.kt")
+              public void test38_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-38/pos/38.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-38/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_39 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_39() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("39.1.kt")
+              public void test39_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/pos/39.1.kt");
+              }
+
+              @TestMetadata("39.2.kt")
+              public void test39_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/pos/39.2.kt");
+              }
+
+              @TestMetadata("39.3.kt")
+              public void test39_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/pos/39.3.kt");
+              }
+
+              @TestMetadata("39.4.kt")
+              public void test39_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/pos/39.4.kt");
+              }
+
+              @TestMetadata("39.5.kt")
+              public void test39_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/pos/39.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4/pos/4.1.kt");
+              }
+
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4/pos/4.2.kt");
+              }
+
+              @TestMetadata("4.3.kt")
+              public void test4_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4/pos/4.3.kt");
+              }
+
+              @TestMetadata("4.4.kt")
+              public void test4_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4/pos/4.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_40 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_40() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("40.1.kt")
+              public void test40_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40/pos/40.1.kt");
+              }
+
+              @TestMetadata("40.2.kt")
+              public void test40_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40/pos/40.2.kt");
+              }
+
+              @TestMetadata("40.3.kt")
+              public void test40_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40/pos/40.3.kt");
+              }
+
+              @TestMetadata("40.4.kt")
+              public void test40_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40/pos/40.4.kt");
+              }
+
+              @TestMetadata("40.5.kt")
+              public void test40_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40/pos/40.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_41 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_41() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("41.1.kt")
+              public void test41_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/pos/41.1.kt");
+              }
+
+              @TestMetadata("41.2.kt")
+              public void test41_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/pos/41.2.kt");
+              }
+
+              @TestMetadata("41.3.kt")
+              public void test41_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/pos/41.3.kt");
+              }
+
+              @TestMetadata("41.4.kt")
+              public void test41_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/pos/41.4.kt");
+              }
+
+              @TestMetadata("41.5.kt")
+              public void test41_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/pos/41.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_42 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_42() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("42.1.kt")
+              public void test42_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/pos/42.1.kt");
+              }
+
+              @TestMetadata("42.2.kt")
+              public void test42_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/pos/42.2.kt");
+              }
+
+              @TestMetadata("42.3.kt")
+              public void test42_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/pos/42.3.kt");
+              }
+
+              @TestMetadata("42.4.kt")
+              public void test42_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/pos/42.4.kt");
+              }
+
+              @TestMetadata("42.5.kt")
+              public void test42_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/pos/42.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_43 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_43() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("43.1.kt")
+              public void test43_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/pos/43.1.kt");
+              }
+
+              @TestMetadata("43.2.kt")
+              public void test43_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/pos/43.2.kt");
+              }
+
+              @TestMetadata("43.3.kt")
+              public void test43_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/pos/43.3.kt");
+              }
+
+              @TestMetadata("43.4.kt")
+              public void test43_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/pos/43.4.kt");
+              }
+
+              @TestMetadata("43.5.kt")
+              public void test43_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/pos/43.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_44 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_44() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("44.1.kt")
+              public void test44_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/pos/44.1.kt");
+              }
+
+              @TestMetadata("44.2.kt")
+              public void test44_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/pos/44.2.kt");
+              }
+
+              @TestMetadata("44.3.kt")
+              public void test44_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/pos/44.3.kt");
+              }
+
+              @TestMetadata("44.4.kt")
+              public void test44_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/pos/44.4.kt");
+              }
+
+              @TestMetadata("44.5.kt")
+              public void test44_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/pos/44.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_45 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_45() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("45.1.kt")
+              public void test45_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/pos/45.1.kt");
+              }
+
+              @TestMetadata("45.2.kt")
+              public void test45_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/pos/45.2.kt");
+              }
+
+              @TestMetadata("45.3.kt")
+              public void test45_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/pos/45.3.kt");
+              }
+
+              @TestMetadata("45.4.kt")
+              public void test45_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/pos/45.4.kt");
+              }
+
+              @TestMetadata("45.5.kt")
+              public void test45_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/pos/45.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_46 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_46() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("46.1.kt")
+              public void test46_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/pos/46.1.kt");
+              }
+
+              @TestMetadata("46.2.kt")
+              public void test46_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/pos/46.2.kt");
+              }
+
+              @TestMetadata("46.3.kt")
+              public void test46_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/pos/46.3.kt");
+              }
+
+              @TestMetadata("46.4.kt")
+              public void test46_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/pos/46.4.kt");
+              }
+
+              @TestMetadata("46.5.kt")
+              public void test46_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/pos/46.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_47 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_47() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("47.1.kt")
+              public void test47_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/pos/47.1.kt");
+              }
+
+              @TestMetadata("47.2.kt")
+              public void test47_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/pos/47.2.kt");
+              }
+
+              @TestMetadata("47.3.kt")
+              public void test47_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/pos/47.3.kt");
+              }
+
+              @TestMetadata("47.4.kt")
+              public void test47_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/pos/47.4.kt");
+              }
+
+              @TestMetadata("47.5.kt")
+              public void test47_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/pos/47.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_48 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_48() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("48.1.kt")
+              public void test48_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/pos/48.1.kt");
+              }
+
+              @TestMetadata("48.2.kt")
+              public void test48_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/pos/48.2.kt");
+              }
+
+              @TestMetadata("48.3.kt")
+              public void test48_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/pos/48.3.kt");
+              }
+
+              @TestMetadata("48.4.kt")
+              public void test48_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/pos/48.4.kt");
+              }
+
+              @TestMetadata("48.5.kt")
+              public void test48_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/pos/48.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_49 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_49() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("49.1.kt")
+              public void test49_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/pos/49.1.kt");
+              }
+
+              @TestMetadata("49.2.kt")
+              public void test49_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/pos/49.2.kt");
+              }
+
+              @TestMetadata("49.3.kt")
+              public void test49_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/pos/49.3.kt");
+              }
+
+              @TestMetadata("49.4.kt")
+              public void test49_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/pos/49.4.kt");
+              }
+
+              @TestMetadata("49.5.kt")
+              public void test49_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/pos/49.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5/pos/5.1.kt");
+              }
+
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5/pos/5.2.kt");
+              }
+
+              @TestMetadata("5.3.kt")
+              public void test5_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5/pos/5.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_50 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_50() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("50.1.kt")
+              public void test50_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50/pos/50.1.kt");
+              }
+
+              @TestMetadata("50.2.kt")
+              public void test50_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50/pos/50.2.kt");
+              }
+
+              @TestMetadata("50.3.kt")
+              public void test50_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50/pos/50.3.kt");
+              }
+
+              @TestMetadata("50.4.kt")
+              public void test50_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50/pos/50.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_51 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_51() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("51.1.kt")
+              public void test51_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51/pos/51.1.kt");
+              }
+
+              @TestMetadata("51.2.kt")
+              public void test51_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51/pos/51.2.kt");
+              }
+
+              @TestMetadata("51.3.kt")
+              public void test51_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51/pos/51.3.kt");
+              }
+
+              @TestMetadata("51.4.kt")
+              public void test51_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51/pos/51.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_52 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_52() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("52.1.kt")
+              public void test52_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52/pos/52.1.kt");
+              }
+
+              @TestMetadata("52.2.kt")
+              public void test52_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52/pos/52.2.kt");
+              }
+
+              @TestMetadata("52.3.kt")
+              public void test52_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52/pos/52.3.kt");
+              }
+
+              @TestMetadata("52.4.kt")
+              public void test52_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52/pos/52.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_53 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_53() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("53.1.kt")
+              public void test53_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53/pos/53.1.kt");
+              }
+
+              @TestMetadata("53.2.kt")
+              public void test53_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53/pos/53.2.kt");
+              }
+
+              @TestMetadata("53.3.kt")
+              public void test53_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53/pos/53.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_54 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_54() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("54.1.kt")
+              public void test54_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/pos/54.1.kt");
+              }
+
+              @TestMetadata("54.2.kt")
+              public void test54_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/pos/54.2.kt");
+              }
+
+              @TestMetadata("54.3.kt")
+              public void test54_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/pos/54.3.kt");
+              }
+
+              @TestMetadata("54.4.kt")
+              public void test54_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/pos/54.4.kt");
+              }
+
+              @TestMetadata("54.5.kt")
+              public void test54_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/pos/54.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_55 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_55() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("55.1.kt")
+              public void test55_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/pos/55.1.kt");
+              }
+
+              @TestMetadata("55.2.kt")
+              public void test55_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/pos/55.2.kt");
+              }
+
+              @TestMetadata("55.3.kt")
+              public void test55_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/pos/55.3.kt");
+              }
+
+              @TestMetadata("55.4.kt")
+              public void test55_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/pos/55.4.kt");
+              }
+
+              @TestMetadata("55.5.kt")
+              public void test55_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/pos/55.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_56 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_56() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("56.1.kt")
+              public void test56_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/pos/56.1.kt");
+              }
+
+              @TestMetadata("56.2.kt")
+              public void test56_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/pos/56.2.kt");
+              }
+
+              @TestMetadata("56.3.kt")
+              public void test56_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/pos/56.3.kt");
+              }
+
+              @TestMetadata("56.4.kt")
+              public void test56_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/pos/56.4.kt");
+              }
+
+              @TestMetadata("56.5.kt")
+              public void test56_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/pos/56.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_57 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_57() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("57.1.kt")
+              public void test57_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/pos/57.1.kt");
+              }
+
+              @TestMetadata("57.2.kt")
+              public void test57_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/pos/57.2.kt");
+              }
+
+              @TestMetadata("57.3.kt")
+              public void test57_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/pos/57.3.kt");
+              }
+
+              @TestMetadata("57.4.kt")
+              public void test57_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/pos/57.4.kt");
+              }
+
+              @TestMetadata("57.5.kt")
+              public void test57_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/pos/57.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_58 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_58() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("58.1.kt")
+              public void test58_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/pos/58.1.kt");
+              }
+
+              @TestMetadata("58.2.kt")
+              public void test58_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/pos/58.2.kt");
+              }
+
+              @TestMetadata("58.3.kt")
+              public void test58_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/pos/58.3.kt");
+              }
+
+              @TestMetadata("58.4.kt")
+              public void test58_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/pos/58.4.kt");
+              }
+
+              @TestMetadata("58.5.kt")
+              public void test58_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/pos/58.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_59 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_59() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("59.1.kt")
+              public void test59_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/pos/59.1.kt");
+              }
+
+              @TestMetadata("59.2.kt")
+              public void test59_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/pos/59.2.kt");
+              }
+
+              @TestMetadata("59.3.kt")
+              public void test59_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/pos/59.3.kt");
+              }
+
+              @TestMetadata("59.4.kt")
+              public void test59_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/pos/59.4.kt");
+              }
+
+              @TestMetadata("59.5.kt")
+              public void test59_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/pos/59.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-6"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-6/pos/6.1.kt");
+              }
+
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-6/pos/6.2.kt");
+              }
+
+              @TestMetadata("6.3.kt")
+              public void test6_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-6/pos/6.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_60 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_60() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("60.1.kt")
+              public void test60_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/pos/60.1.kt");
+              }
+
+              @TestMetadata("60.2.kt")
+              public void test60_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/pos/60.2.kt");
+              }
+
+              @TestMetadata("60.3.kt")
+              public void test60_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/pos/60.3.kt");
+              }
+
+              @TestMetadata("60.4.kt")
+              public void test60_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/pos/60.4.kt");
+              }
+
+              @TestMetadata("60.5.kt")
+              public void test60_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/pos/60.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_61 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_61() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("61.1.kt")
+              public void test61_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/pos/61.1.kt");
+              }
+
+              @TestMetadata("61.2.kt")
+              public void test61_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/pos/61.2.kt");
+              }
+
+              @TestMetadata("61.3.kt")
+              public void test61_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/pos/61.3.kt");
+              }
+
+              @TestMetadata("61.4.kt")
+              public void test61_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/pos/61.4.kt");
+              }
+
+              @TestMetadata("61.5.kt")
+              public void test61_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/pos/61.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_62 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_62() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("62.1.kt")
+              public void test62_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/pos/62.1.kt");
+              }
+
+              @TestMetadata("62.2.kt")
+              public void test62_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/pos/62.2.kt");
+              }
+
+              @TestMetadata("62.3.kt")
+              public void test62_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/pos/62.3.kt");
+              }
+
+              @TestMetadata("62.4.kt")
+              public void test62_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/pos/62.4.kt");
+              }
+
+              @TestMetadata("62.5.kt")
+              public void test62_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/pos/62.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_63 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_63() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("63.1.kt")
+              public void test63_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/pos/63.1.kt");
+              }
+
+              @TestMetadata("63.2.kt")
+              public void test63_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/pos/63.2.kt");
+              }
+
+              @TestMetadata("63.3.kt")
+              public void test63_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/pos/63.3.kt");
+              }
+
+              @TestMetadata("63.4.kt")
+              public void test63_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/pos/63.4.kt");
+              }
+
+              @TestMetadata("63.5.kt")
+              public void test63_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/pos/63.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_64 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_64() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("64.1.kt")
+              public void test64_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/pos/64.1.kt");
+              }
+
+              @TestMetadata("64.2.kt")
+              public void test64_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/pos/64.2.kt");
+              }
+
+              @TestMetadata("64.3.kt")
+              public void test64_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/pos/64.3.kt");
+              }
+
+              @TestMetadata("64.4.kt")
+              public void test64_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/pos/64.4.kt");
+              }
+
+              @TestMetadata("64.5.kt")
+              public void test64_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/pos/64.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_65 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_65() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("65.1.kt")
+              public void test65_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/pos/65.1.kt");
+              }
+
+              @TestMetadata("65.2.kt")
+              public void test65_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/pos/65.2.kt");
+              }
+
+              @TestMetadata("65.3.kt")
+              public void test65_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/pos/65.3.kt");
+              }
+
+              @TestMetadata("65.4.kt")
+              public void test65_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/pos/65.4.kt");
+              }
+
+              @TestMetadata("65.5.kt")
+              public void test65_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/pos/65.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_66 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_66() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("66.1.kt")
+              public void test66_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/pos/66.1.kt");
+              }
+
+              @TestMetadata("66.2.kt")
+              public void test66_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/pos/66.2.kt");
+              }
+
+              @TestMetadata("66.3.kt")
+              public void test66_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/pos/66.3.kt");
+              }
+
+              @TestMetadata("66.4.kt")
+              public void test66_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/pos/66.4.kt");
+              }
+
+              @TestMetadata("66.5.kt")
+              public void test66_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/pos/66.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_67 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_67() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("67.1.kt")
+              public void test67_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/pos/67.1.kt");
+              }
+
+              @TestMetadata("67.2.kt")
+              public void test67_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/pos/67.2.kt");
+              }
+
+              @TestMetadata("67.3.kt")
+              public void test67_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/pos/67.3.kt");
+              }
+
+              @TestMetadata("67.4.kt")
+              public void test67_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/pos/67.4.kt");
+              }
+
+              @TestMetadata("67.5.kt")
+              public void test67_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/pos/67.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_68 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_68() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("68.1.kt")
+              public void test68_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/pos/68.1.kt");
+              }
+
+              @TestMetadata("68.2.kt")
+              public void test68_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/pos/68.2.kt");
+              }
+
+              @TestMetadata("68.3.kt")
+              public void test68_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/pos/68.3.kt");
+              }
+
+              @TestMetadata("68.4.kt")
+              public void test68_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/pos/68.4.kt");
+              }
+
+              @TestMetadata("68.5.kt")
+              public void test68_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/pos/68.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_69 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_69() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("69.1.kt")
+              public void test69_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/pos/69.1.kt");
+              }
+
+              @TestMetadata("69.2.kt")
+              public void test69_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/pos/69.2.kt");
+              }
+
+              @TestMetadata("69.3.kt")
+              public void test69_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/pos/69.3.kt");
+              }
+
+              @TestMetadata("69.4.kt")
+              public void test69_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/pos/69.4.kt");
+              }
+
+              @TestMetadata("69.5.kt")
+              public void test69_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/pos/69.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-7"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-7/pos/7.1.kt");
+              }
+
+              @TestMetadata("7.2.kt")
+              public void test7_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-7/pos/7.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_70 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_70() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("70.1.kt")
+              public void test70_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/pos/70.1.kt");
+              }
+
+              @TestMetadata("70.2.kt")
+              public void test70_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/pos/70.2.kt");
+              }
+
+              @TestMetadata("70.3.kt")
+              public void test70_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/pos/70.3.kt");
+              }
+
+              @TestMetadata("70.4.kt")
+              public void test70_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/pos/70.4.kt");
+              }
+
+              @TestMetadata("70.5.kt")
+              public void test70_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/pos/70.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_71 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_71() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("71.1.kt")
+              public void test71_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/pos/71.1.kt");
+              }
+
+              @TestMetadata("71.2.kt")
+              public void test71_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/pos/71.2.kt");
+              }
+
+              @TestMetadata("71.3.kt")
+              public void test71_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/pos/71.3.kt");
+              }
+
+              @TestMetadata("71.4.kt")
+              public void test71_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/pos/71.4.kt");
+              }
+
+              @TestMetadata("71.5.kt")
+              public void test71_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/pos/71.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_72 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_72() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("72.1.kt")
+              public void test72_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/pos/72.1.kt");
+              }
+
+              @TestMetadata("72.2.kt")
+              public void test72_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/pos/72.2.kt");
+              }
+
+              @TestMetadata("72.3.kt")
+              public void test72_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/pos/72.3.kt");
+              }
+
+              @TestMetadata("72.4.kt")
+              public void test72_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/pos/72.4.kt");
+              }
+
+              @TestMetadata("72.5.kt")
+              public void test72_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/pos/72.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_73 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_73() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("73.1.kt")
+              public void test73_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/pos/73.1.kt");
+              }
+
+              @TestMetadata("73.2.kt")
+              public void test73_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/pos/73.2.kt");
+              }
+
+              @TestMetadata("73.3.kt")
+              public void test73_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/pos/73.3.kt");
+              }
+
+              @TestMetadata("73.4.kt")
+              public void test73_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/pos/73.4.kt");
+              }
+
+              @TestMetadata("73.5.kt")
+              public void test73_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/pos/73.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_74 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_74() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("74.1.kt")
+              public void test74_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/pos/74.1.kt");
+              }
+
+              @TestMetadata("74.2.kt")
+              public void test74_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/pos/74.2.kt");
+              }
+
+              @TestMetadata("74.3.kt")
+              public void test74_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/pos/74.3.kt");
+              }
+
+              @TestMetadata("74.4.kt")
+              public void test74_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/pos/74.4.kt");
+              }
+
+              @TestMetadata("74.5.kt")
+              public void test74_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/pos/74.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_75 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_75() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("75.1.kt")
+              public void test75_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/pos/75.1.kt");
+              }
+
+              @TestMetadata("75.2.kt")
+              public void test75_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/pos/75.2.kt");
+              }
+
+              @TestMetadata("75.3.kt")
+              public void test75_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/pos/75.3.kt");
+              }
+
+              @TestMetadata("75.4.kt")
+              public void test75_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/pos/75.4.kt");
+              }
+
+              @TestMetadata("75.5.kt")
+              public void test75_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/pos/75.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_76 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_76() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("76.1.kt")
+              public void test76_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/pos/76.1.kt");
+              }
+
+              @TestMetadata("76.2.kt")
+              public void test76_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/pos/76.2.kt");
+              }
+
+              @TestMetadata("76.3.kt")
+              public void test76_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/pos/76.3.kt");
+              }
+
+              @TestMetadata("76.4.kt")
+              public void test76_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/pos/76.4.kt");
+              }
+
+              @TestMetadata("76.5.kt")
+              public void test76_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/pos/76.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_77 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_77() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("77.1.kt")
+              public void test77_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/pos/77.1.kt");
+              }
+
+              @TestMetadata("77.2.kt")
+              public void test77_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/pos/77.2.kt");
+              }
+
+              @TestMetadata("77.3.kt")
+              public void test77_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/pos/77.3.kt");
+              }
+
+              @TestMetadata("77.4.kt")
+              public void test77_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/pos/77.4.kt");
+              }
+
+              @TestMetadata("77.5.kt")
+              public void test77_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/pos/77.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_78 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_78() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("78.1.kt")
+              public void test78_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/pos/78.1.kt");
+              }
+
+              @TestMetadata("78.2.kt")
+              public void test78_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/pos/78.2.kt");
+              }
+
+              @TestMetadata("78.3.kt")
+              public void test78_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/pos/78.3.kt");
+              }
+
+              @TestMetadata("78.4.kt")
+              public void test78_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/pos/78.4.kt");
+              }
+
+              @TestMetadata("78.5.kt")
+              public void test78_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/pos/78.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_79 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_79() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("79.1.kt")
+              public void test79_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/pos/79.1.kt");
+              }
+
+              @TestMetadata("79.2.kt")
+              public void test79_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/pos/79.2.kt");
+              }
+
+              @TestMetadata("79.3.kt")
+              public void test79_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/pos/79.3.kt");
+              }
+
+              @TestMetadata("79.4.kt")
+              public void test79_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/pos/79.4.kt");
+              }
+
+              @TestMetadata("79.5.kt")
+              public void test79_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/pos/79.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-8"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-8/pos/8.1.kt");
+              }
+
+              @TestMetadata("8.2.kt")
+              public void test8_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-8/pos/8.2.kt");
+              }
+
+              @TestMetadata("8.3.kt")
+              public void test8_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-8/pos/8.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_80 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_80() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("80.1.kt")
+              public void test80_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/pos/80.1.kt");
+              }
+
+              @TestMetadata("80.2.kt")
+              public void test80_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/pos/80.2.kt");
+              }
+
+              @TestMetadata("80.3.kt")
+              public void test80_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/pos/80.3.kt");
+              }
+
+              @TestMetadata("80.4.kt")
+              public void test80_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/pos/80.4.kt");
+              }
+
+              @TestMetadata("80.5.kt")
+              public void test80_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/pos/80.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_81 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_81() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("81.1.kt")
+              public void test81_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/pos/81.1.kt");
+              }
+
+              @TestMetadata("81.2.kt")
+              public void test81_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/pos/81.2.kt");
+              }
+
+              @TestMetadata("81.3.kt")
+              public void test81_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/pos/81.3.kt");
+              }
+
+              @TestMetadata("81.4.kt")
+              public void test81_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/pos/81.4.kt");
+              }
+
+              @TestMetadata("81.5.kt")
+              public void test81_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/pos/81.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_82 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_82() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("82.1.kt")
+              public void test82_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/pos/82.1.kt");
+              }
+
+              @TestMetadata("82.2.kt")
+              public void test82_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/pos/82.2.kt");
+              }
+
+              @TestMetadata("82.3.kt")
+              public void test82_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/pos/82.3.kt");
+              }
+
+              @TestMetadata("82.4.kt")
+              public void test82_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/pos/82.4.kt");
+              }
+
+              @TestMetadata("82.5.kt")
+              public void test82_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/pos/82.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_83 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_83() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("83.1.kt")
+              public void test83_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/pos/83.1.kt");
+              }
+
+              @TestMetadata("83.2.kt")
+              public void test83_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/pos/83.2.kt");
+              }
+
+              @TestMetadata("83.3.kt")
+              public void test83_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/pos/83.3.kt");
+              }
+
+              @TestMetadata("83.4.kt")
+              public void test83_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/pos/83.4.kt");
+              }
+
+              @TestMetadata("83.5.kt")
+              public void test83_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/pos/83.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_84 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_84() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("84.1.kt")
+              public void test84_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/pos/84.1.kt");
+              }
+
+              @TestMetadata("84.2.kt")
+              public void test84_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/pos/84.2.kt");
+              }
+
+              @TestMetadata("84.3.kt")
+              public void test84_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/pos/84.3.kt");
+              }
+
+              @TestMetadata("84.4.kt")
+              public void test84_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/pos/84.4.kt");
+              }
+
+              @TestMetadata("84.5.kt")
+              public void test84_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/pos/84.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_85 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_85() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("85.1.kt")
+              public void test85_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/pos/85.1.kt");
+              }
+
+              @TestMetadata("85.2.kt")
+              public void test85_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/pos/85.2.kt");
+              }
+
+              @TestMetadata("85.3.kt")
+              public void test85_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/pos/85.3.kt");
+              }
+
+              @TestMetadata("85.4.kt")
+              public void test85_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/pos/85.4.kt");
+              }
+
+              @TestMetadata("85.5.kt")
+              public void test85_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/pos/85.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_86 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_86() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("86.1.kt")
+              public void test86_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/pos/86.1.kt");
+              }
+
+              @TestMetadata("86.2.kt")
+              public void test86_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/pos/86.2.kt");
+              }
+
+              @TestMetadata("86.3.kt")
+              public void test86_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/pos/86.3.kt");
+              }
+
+              @TestMetadata("86.4.kt")
+              public void test86_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/pos/86.4.kt");
+              }
+
+              @TestMetadata("86.5.kt")
+              public void test86_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/pos/86.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_87 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_87() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("87.1.kt")
+              public void test87_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/pos/87.1.kt");
+              }
+
+              @TestMetadata("87.2.kt")
+              public void test87_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/pos/87.2.kt");
+              }
+
+              @TestMetadata("87.3.kt")
+              public void test87_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/pos/87.3.kt");
+              }
+
+              @TestMetadata("87.4.kt")
+              public void test87_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/pos/87.4.kt");
+              }
+
+              @TestMetadata("87.5.kt")
+              public void test87_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/pos/87.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_88 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_88() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("88.1.kt")
+              public void test88_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/pos/88.1.kt");
+              }
+
+              @TestMetadata("88.2.kt")
+              public void test88_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/pos/88.2.kt");
+              }
+
+              @TestMetadata("88.3.kt")
+              public void test88_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/pos/88.3.kt");
+              }
+
+              @TestMetadata("88.4.kt")
+              public void test88_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/pos/88.4.kt");
+              }
+
+              @TestMetadata("88.5.kt")
+              public void test88_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/pos/88.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_89 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_89() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("89.1.kt")
+              public void test89_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/pos/89.1.kt");
+              }
+
+              @TestMetadata("89.2.kt")
+              public void test89_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/pos/89.2.kt");
+              }
+
+              @TestMetadata("89.3.kt")
+              public void test89_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/pos/89.3.kt");
+              }
+
+              @TestMetadata("89.4.kt")
+              public void test89_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/pos/89.4.kt");
+              }
+
+              @TestMetadata("89.5.kt")
+              public void test89_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/pos/89.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-9"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-9/pos/9.1.kt");
+              }
+
+              @TestMetadata("9.2.kt")
+              public void test9_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-9/pos/9.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_90 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_90() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("90.1.kt")
+              public void test90_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/pos/90.1.kt");
+              }
+
+              @TestMetadata("90.2.kt")
+              public void test90_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/pos/90.2.kt");
+              }
+
+              @TestMetadata("90.3.kt")
+              public void test90_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/pos/90.3.kt");
+              }
+
+              @TestMetadata("90.4.kt")
+              public void test90_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/pos/90.4.kt");
+              }
+
+              @TestMetadata("90.5.kt")
+              public void test90_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/pos/90.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_91 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_91() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("91.1.kt")
+              public void test91_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/pos/91.1.kt");
+              }
+
+              @TestMetadata("91.2.kt")
+              public void test91_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/pos/91.2.kt");
+              }
+
+              @TestMetadata("91.3.kt")
+              public void test91_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/pos/91.3.kt");
+              }
+
+              @TestMetadata("91.4.kt")
+              public void test91_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/pos/91.4.kt");
+              }
+
+              @TestMetadata("91.5.kt")
+              public void test91_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/pos/91.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_92 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_92() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("92.1.kt")
+              public void test92_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/pos/92.1.kt");
+              }
+
+              @TestMetadata("92.2.kt")
+              public void test92_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/pos/92.2.kt");
+              }
+
+              @TestMetadata("92.3.kt")
+              public void test92_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/pos/92.3.kt");
+              }
+
+              @TestMetadata("92.4.kt")
+              public void test92_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/pos/92.4.kt");
+              }
+
+              @TestMetadata("92.5.kt")
+              public void test92_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/pos/92.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_93 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_93() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("93.1.kt")
+              public void test93_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/pos/93.1.kt");
+              }
+
+              @TestMetadata("93.2.kt")
+              public void test93_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/pos/93.2.kt");
+              }
+
+              @TestMetadata("93.3.kt")
+              public void test93_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/pos/93.3.kt");
+              }
+
+              @TestMetadata("93.4.kt")
+              public void test93_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/pos/93.4.kt");
+              }
+
+              @TestMetadata("93.5.kt")
+              public void test93_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/pos/93.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_94 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_94() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("94.1.kt")
+              public void test94_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/pos/94.1.kt");
+              }
+
+              @TestMetadata("94.2.kt")
+              public void test94_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/pos/94.2.kt");
+              }
+
+              @TestMetadata("94.3.kt")
+              public void test94_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/pos/94.3.kt");
+              }
+
+              @TestMetadata("94.4.kt")
+              public void test94_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/pos/94.4.kt");
+              }
+
+              @TestMetadata("94.5.kt")
+              public void test94_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/pos/94.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_95 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_95() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("95.1.kt")
+              public void test95_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/pos/95.1.kt");
+              }
+
+              @TestMetadata("95.2.kt")
+              public void test95_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/pos/95.2.kt");
+              }
+
+              @TestMetadata("95.3.kt")
+              public void test95_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/pos/95.3.kt");
+              }
+
+              @TestMetadata("95.4.kt")
+              public void test95_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/pos/95.4.kt");
+              }
+
+              @TestMetadata("95.5.kt")
+              public void test95_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/pos/95.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_96 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_96() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("96.1.kt")
+              public void test96_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/pos/96.1.kt");
+              }
+
+              @TestMetadata("96.2.kt")
+              public void test96_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/pos/96.2.kt");
+              }
+
+              @TestMetadata("96.3.kt")
+              public void test96_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/pos/96.3.kt");
+              }
+
+              @TestMetadata("96.4.kt")
+              public void test96_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/pos/96.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_97 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_97() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("97.1.kt")
+              public void test97_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/pos/97.1.kt");
+              }
+
+              @TestMetadata("97.2.kt")
+              public void test97_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/pos/97.2.kt");
+              }
+
+              @TestMetadata("97.3.kt")
+              public void test97_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/pos/97.3.kt");
+              }
+
+              @TestMetadata("97.4.kt")
+              public void test97_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/pos/97.4.kt");
+              }
+
+              @TestMetadata("97.5.kt")
+              public void test97_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/pos/97.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_98 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_98() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("98.1.kt")
+              public void test98_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/pos/98.1.kt");
+              }
+
+              @TestMetadata("98.2.kt")
+              public void test98_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/pos/98.2.kt");
+              }
+
+              @TestMetadata("98.3.kt")
+              public void test98_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/pos/98.3.kt");
+              }
+
+              @TestMetadata("98.4.kt")
+              public void test98_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/pos/98.4.kt");
+              }
+
+              @TestMetadata("98.5.kt")
+              public void test98_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/pos/98.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_99 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_99() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("99.1.kt")
+              public void test99_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/pos/99.1.kt");
+              }
+
+              @TestMetadata("99.2.kt")
+              public void test99_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/pos/99.2.kt");
+              }
+
+              @TestMetadata("99.3.kt")
+              public void test99_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/pos/99.3.kt");
+              }
+
+              @TestMetadata("99.4.kt")
+              public void test99_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/pos/99.4.kt");
+              }
+
+              @TestMetadata("99.5.kt")
+              public void test99_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/pos/99.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Literals extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInLiterals() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.1.kt");
+              }
+
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.2.kt");
+              }
+
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.3.kt");
+              }
+
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.4.kt");
+              }
+
+              @TestMetadata("1.5.kt")
+              public void test1_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos/1.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.1.kt");
+              }
+
+              @TestMetadata("10.2.kt")
+              public void test10_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.2.kt");
+              }
+
+              @TestMetadata("10.3.kt")
+              public void test10_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.3.kt");
+              }
+
+              @TestMetadata("10.4.kt")
+              public void test10_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.4.kt");
+              }
+
+              @TestMetadata("10.5.kt")
+              public void test10_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos/10.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.1.kt");
+              }
+
+              @TestMetadata("11.2.kt")
+              public void test11_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.2.kt");
+              }
+
+              @TestMetadata("11.3.kt")
+              public void test11_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.3.kt");
+              }
+
+              @TestMetadata("11.4.kt")
+              public void test11_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.4.kt");
+              }
+
+              @TestMetadata("11.5.kt")
+              public void test11_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.5.kt");
+              }
+
+              @TestMetadata("11.6.kt")
+              public void test11_6() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos/11.6.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.1.kt");
+              }
+
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.2.kt");
+              }
+
+              @TestMetadata("2.3.kt")
+              public void test2_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.3.kt");
+              }
+
+              @TestMetadata("2.4.kt")
+              public void test2_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.4.kt");
+              }
+
+              @TestMetadata("2.5.kt")
+              public void test2_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos/2.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.1.kt");
+              }
+
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.2.kt");
+              }
+
+              @TestMetadata("3.3.kt")
+              public void test3_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.3.kt");
+              }
+
+              @TestMetadata("3.4.kt")
+              public void test3_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.4.kt");
+              }
+
+              @TestMetadata("3.5.kt")
+              public void test3_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.5.kt");
+              }
+
+              @TestMetadata("3.6.kt")
+              public void test3_6() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos/3.6.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos/4.1.kt");
+              }
+
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos/4.2.kt");
+              }
+
+              @TestMetadata("4.3.kt")
+              public void test4_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos/4.3.kt");
+              }
+
+              @TestMetadata("4.4.kt")
+              public void test4_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos/4.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.1.kt");
+              }
+
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.2.kt");
+              }
+
+              @TestMetadata("5.3.kt")
+              public void test5_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.3.kt");
+              }
+
+              @TestMetadata("5.4.kt")
+              public void test5_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.4.kt");
+              }
+
+              @TestMetadata("5.5.kt")
+              public void test5_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos/5.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos/6.1.kt");
+              }
+
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos/6.2.kt");
+              }
+
+              @TestMetadata("6.3.kt")
+              public void test6_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos/6.3.kt");
+              }
+
+              @TestMetadata("6.4.kt")
+              public void test6_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos/6.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos/7.1.kt");
+              }
+
+              @TestMetadata("7.2.kt")
+              public void test7_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos/7.2.kt");
+              }
+
+              @TestMetadata("7.3.kt")
+              public void test7_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos/7.3.kt");
+              }
+
+              @TestMetadata("7.4.kt")
+              public void test7_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos/7.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8/pos/8.1.kt");
+              }
+
+              @TestMetadata("8.2.kt")
+              public void test8_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8/pos/8.2.kt");
+              }
+
+              @TestMetadata("8.3.kt")
+              public void test8_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8/pos/8.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-9"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-9/pos/9.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/literals/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class String_mode_grammar extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInString_mode_grammar() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.1.kt");
+              }
+
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.2.kt");
+              }
+
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.3.kt");
+              }
+
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.4.kt");
+              }
+
+              @TestMetadata("1.5.kt")
+              public void test1_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos/1.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/pos/10.1.kt");
+              }
+
+              @TestMetadata("10.2.kt")
+              public void test10_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/pos/10.2.kt");
+              }
+
+              @TestMetadata("10.3.kt")
+              public void test10_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/pos/10.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.1.kt");
+              }
+
+              @TestMetadata("11.2.kt")
+              public void test11_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.2.kt");
+              }
+
+              @TestMetadata("11.3.kt")
+              public void test11_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.3.kt");
+              }
+
+              @TestMetadata("11.4.kt")
+              public void test11_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.4.kt");
+              }
+
+              @TestMetadata("11.5.kt")
+              public void test11_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos/11.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_12 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos/12.1.kt");
+              }
+
+              @TestMetadata("12.2.kt")
+              public void test12_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos/12.2.kt");
+              }
+
+              @TestMetadata("12.3.kt")
+              public void test12_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos/12.3.kt");
+              }
+
+              @TestMetadata("12.4.kt")
+              public void test12_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos/12.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_13 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.1.kt");
+              }
+
+              @TestMetadata("13.2.kt")
+              public void test13_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.2.kt");
+              }
+
+              @TestMetadata("13.3.kt")
+              public void test13_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.3.kt");
+              }
+
+              @TestMetadata("13.4.kt")
+              public void test13_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.4.kt");
+              }
+
+              @TestMetadata("13.5.kt")
+              public void test13_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos/13.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.1.kt");
+              }
+
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.2.kt");
+              }
+
+              @TestMetadata("2.3.kt")
+              public void test2_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.3.kt");
+              }
+
+              @TestMetadata("2.4.kt")
+              public void test2_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.4.kt");
+              }
+
+              @TestMetadata("2.5.kt")
+              public void test2_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos/2.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.1.kt");
+              }
+
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.2.kt");
+              }
+
+              @TestMetadata("3.3.kt")
+              public void test3_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.3.kt");
+              }
+
+              @TestMetadata("3.4.kt")
+              public void test3_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.4.kt");
+              }
+
+              @TestMetadata("3.5.kt")
+              public void test3_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos/3.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.1.kt");
+              }
+
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.2.kt");
+              }
+
+              @TestMetadata("4.3.kt")
+              public void test4_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.3.kt");
+              }
+
+              @TestMetadata("4.4.kt")
+              public void test4_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.4.kt");
+              }
+
+              @TestMetadata("4.5.kt")
+              public void test4_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos/4.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.1.kt");
+              }
+
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.2.kt");
+              }
+
+              @TestMetadata("5.3.kt")
+              public void test5_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.3.kt");
+              }
+
+              @TestMetadata("5.4.kt")
+              public void test5_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.4.kt");
+              }
+
+              @TestMetadata("5.5.kt")
+              public void test5_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos/5.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.1.kt");
+              }
+
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.2.kt");
+              }
+
+              @TestMetadata("6.3.kt")
+              public void test6_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.3.kt");
+              }
+
+              @TestMetadata("6.4.kt")
+              public void test6_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.4.kt");
+              }
+
+              @TestMetadata("6.5.kt")
+              public void test6_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos/6.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos/7.1.kt");
+              }
+
+              @TestMetadata("7.2.kt")
+              public void test7_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos/7.2.kt");
+              }
+
+              @TestMetadata("7.3.kt")
+              public void test7_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos/7.3.kt");
+              }
+
+              @TestMetadata("7.4.kt")
+              public void test7_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos/7.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.1.kt");
+              }
+
+              @TestMetadata("8.2.kt")
+              public void test8_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.2.kt");
+              }
+
+              @TestMetadata("8.3.kt")
+              public void test8_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.3.kt");
+              }
+
+              @TestMetadata("8.4.kt")
+              public void test8_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.4.kt");
+              }
+
+              @TestMetadata("8.5.kt")
+              public void test8_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos/8.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos/9.1.kt");
+              }
+
+              @TestMetadata("9.2.kt")
+              public void test9_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos/9.2.kt");
+              }
+
+              @TestMetadata("9.3.kt")
+              public void test9_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos/9.3.kt");
+              }
+
+              @TestMetadata("9.4.kt")
+              public void test9_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos/9.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Whitespace_and_comments extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInWhitespace_and_comments() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.1.kt");
+              }
+
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.2.kt");
+              }
+
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.3.kt");
+              }
+
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.4.kt");
+              }
+
+              @TestMetadata("1.5.kt")
+              public void test1_5() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.5.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2/pos/2.1.kt");
+              }
+
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2/pos/2.2.kt");
+              }
+
+              @TestMetadata("2.3.kt")
+              public void test2_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2/pos/2.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos/1.1.kt");
+              }
+
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos/1.2.kt");
+              }
+
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos/1.3.kt");
+              }
+
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos/1.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4/pos/4.1.kt");
+              }
+
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4/pos/4.2.kt");
+              }
+
+              @TestMetadata("4.3.kt")
+              public void test4_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4/pos/4.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-5"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-5/pos/5.1.kt");
+              }
+
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-5/pos/5.2.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos/6.1.kt");
+              }
+
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos/6.2.kt");
+              }
+
+              @TestMetadata("6.3.kt")
+              public void test6_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos/6.3.kt");
+              }
+
+              @TestMetadata("6.4.kt")
+              public void test6_4() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos/6.4.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7/pos/7.1.kt");
+              }
+
+              @TestMetadata("7.2.kt")
+              public void test7_2() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7/pos/7.2.kt");
+              }
+
+              @TestMetadata("7.3.kt")
+              public void test7_3() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7/pos/7.3.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-8"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-8/pos/8.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+              }
+            }
+          }
+        }
+      }
+
+      @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar")
+      @TestDataPath("$PROJECT_ROOT")
+      @RunWith(JUnit3RunnerWithInners.class)
+      public static class Syntax_grammar extends AbstractBlackBoxCodegenTestSpec {
+        private void runTest(String testDataFilePath) {
+          KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInSyntax_grammar() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar"), Pattern.compile("^(.+)\\.kt$"), null, true);
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_1 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.1.kt");
+            }
+
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.2.kt");
+            }
+
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.3.kt");
+            }
+
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.4.kt");
+            }
+
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.5.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-101")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_101 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_101() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-101"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-101/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("101.1.kt")
+            public void test101_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-101/pos/101.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-101/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_102 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_102() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("102.1.kt")
+            public void test102_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.1.kt");
+            }
+
+            @TestMetadata("102.2.kt")
+            public void test102_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.2.kt");
+            }
+
+            @TestMetadata("102.3.kt")
+            public void test102_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.3.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_103 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_103() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("103.1.kt")
+            public void test103_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.1.kt");
+            }
+
+            @TestMetadata("103.2.kt")
+            public void test103_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.2.kt");
+            }
+
+            @TestMetadata("103.3.kt")
+            public void test103_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.3.kt");
+            }
+
+            @TestMetadata("103.4.kt")
+            public void test103_4() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.4.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_105 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_105() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("105.1.kt")
+            public void test105_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105/pos/105.1.kt");
+            }
+
+            @TestMetadata("105.2.kt")
+            public void test105_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105/pos/105.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_106 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_106() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("106.1.kt")
+            public void test106_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106/pos/106.1.kt");
+            }
+
+            @TestMetadata("106.2.kt")
+            public void test106_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106/pos/106.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_107 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_107() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("107.1.kt")
+            public void test107_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos/107.1.kt");
+            }
+
+            @TestMetadata("107.2.kt")
+            public void test107_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos/107.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-109")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_109 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_109() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-109"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-109/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("109.1.kt")
+            public void test109_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-109/pos/109.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-109/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_110 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_110() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("110.1.kt")
+            public void test110_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110/pos/110.1.kt");
+            }
+
+            @TestMetadata("110.2.kt")
+            public void test110_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110/pos/110.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_111 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_111() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("111.1.kt")
+            public void test111_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.1.kt");
+            }
+
+            @TestMetadata("111.2.kt")
+            public void test111_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.2.kt");
+            }
+
+            @TestMetadata("111.3.kt")
+            public void test111_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.3.kt");
+            }
+
+            @TestMetadata("111.4.kt")
+            public void test111_4() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.4.kt");
+            }
+
+            @TestMetadata("111.5.kt")
+            public void test111_5() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.5.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_112 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_112() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("112.1.kt")
+            public void test112_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112/pos/112.1.kt");
+            }
+
+            @TestMetadata("112.2.kt")
+            public void test112_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112/pos/112.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_113 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_113() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("113.1.kt")
+            public void test113_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113/pos/113.1.kt");
+            }
+
+            @TestMetadata("113.2.kt")
+            public void test113_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113/pos/113.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-114")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_114 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_114() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-114"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-114/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("114.1.kt")
+            public void test114_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-114/pos/114.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-114/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_119 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_119() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("119.1.kt")
+            public void test119_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119/pos/119.1.kt");
+            }
+
+            @TestMetadata("119.2.kt")
+            public void test119_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119/pos/119.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_120 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_120() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("120.1.kt")
+            public void test120_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.1.kt");
+            }
+
+            @TestMetadata("120.2.kt")
+            public void test120_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.2.kt");
+            }
+
+            @TestMetadata("120.3.kt")
+            public void test120_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.3.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_122 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_122() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("122.1.kt")
+            public void test122_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.1.kt");
+            }
+
+            @TestMetadata("122.2.kt")
+            public void test122_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.2.kt");
+            }
+
+            @TestMetadata("122.3.kt")
+            public void test122_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.3.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_123 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_123() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("123.1.kt")
+            public void test123_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123/pos/123.1.kt");
+            }
+
+            @TestMetadata("123.2.kt")
+            public void test123_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123/pos/123.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_124 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_124() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("124.1.kt")
+            public void test124_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.1.kt");
+            }
+
+            @TestMetadata("124.2.kt")
+            public void test124_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.2.kt");
+            }
+
+            @TestMetadata("124.3.kt")
+            public void test124_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.3.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_125 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_125() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("125.1.kt")
+            public void test125_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125/pos/125.1.kt");
+            }
+
+            @TestMetadata("125.2.kt")
+            public void test125_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125/pos/125.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_126 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_126() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("126.1.kt")
+            public void test126_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos/126.1.kt");
+            }
+
+            @TestMetadata("126.2.kt")
+            public void test126_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos/126.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-127")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_127 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_127() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-127"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-127/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("127.1.kt")
+            public void test127_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-127/pos/127.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-127/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_129 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_129() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("129.1.kt")
+            public void test129_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos/129.1.kt");
+            }
+
+            @TestMetadata("129.2.kt")
+            public void test129_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos/129.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_130 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_130() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("130.1.kt")
+            public void test130_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos/130.1.kt");
+            }
+
+            @TestMetadata("130.2.kt")
+            public void test130_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos/130.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_134 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_134() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("134.1.kt")
+            public void test134_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.1.kt");
+            }
+
+            @TestMetadata("134.2.kt")
+            public void test134_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.2.kt");
+            }
+
+            @TestMetadata("134.3.kt")
+            public void test134_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.3.kt");
+            }
+
+            @TestMetadata("134.4.kt")
+            public void test134_4() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.4.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_135 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_135() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("135.1.kt")
+            public void test135_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.1.kt");
+            }
+
+            @TestMetadata("135.2.kt")
+            public void test135_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.2.kt");
+            }
+
+            @TestMetadata("135.3.kt")
+            public void test135_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.3.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-136")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_136 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_136() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-136"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-136/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("136.1.kt")
+            public void test136_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-136/pos/136.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-136/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_137 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_137() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("137.1.kt")
+            public void test137_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.1.kt");
+            }
+
+            @TestMetadata("137.2.kt")
+            public void test137_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.2.kt");
+            }
+
+            @TestMetadata("137.3.kt")
+            public void test137_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.3.kt");
+            }
+
+            @TestMetadata("137.4.kt")
+            public void test137_4() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.4.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_138 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_138() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("138.1.kt")
+            public void test138_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.1.kt");
+            }
+
+            @TestMetadata("138.2.kt")
+            public void test138_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.2.kt");
+            }
+
+            @TestMetadata("138.3.kt")
+            public void test138_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.3.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-168")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_168 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_168() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-168"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-168/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("168.1.kt")
+            public void test168_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-168/pos/168.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-168/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_174 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_174() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("174.1.kt")
+            public void test174_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.1.kt");
+            }
+
+            @TestMetadata("174.2.kt")
+            public void test174_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.2.kt");
+            }
+
+            @TestMetadata("174.3.kt")
+            public void test174_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.3.kt");
+            }
+
+            @TestMetadata("174.4.kt")
+            public void test174_4() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.4.kt");
+            }
+
+            @TestMetadata("174.5.kt")
+            public void test174_5() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.5.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_175 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_175() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("175.1.kt")
+            public void test175_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos/175.1.kt");
+            }
+
+            @TestMetadata("175.2.kt")
+            public void test175_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos/175.2.kt");
+            }
+
+            @TestMetadata("175.3.kt")
+            public void test175_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos/175.3.kt");
+            }
+
+            @TestMetadata("175.4.kt")
+            public void test175_4() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos/175.4.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_77 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_77() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("77.1.kt")
+            public void test77_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.1.kt");
+            }
+
+            @TestMetadata("77.2.kt")
+            public void test77_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.2.kt");
+            }
+
+            @TestMetadata("77.3.kt")
+            public void test77_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.3.kt");
+            }
+
+            @TestMetadata("77.4.kt")
+            public void test77_4() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.4.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_78 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_78() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("78.1.kt")
+            public void test78_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.1.kt");
+            }
+
+            @TestMetadata("78.2.kt")
+            public void test78_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.2.kt");
+            }
+
+            @TestMetadata("78.3.kt")
+            public void test78_3() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.3.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_79 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_79() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("79.1.kt")
+            public void test79_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79/pos/79.1.kt");
+            }
+
+            @TestMetadata("79.2.kt")
+            public void test79_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79/pos/79.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_80 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_80() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("80.1.kt")
+            public void test80_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80/pos/80.1.kt");
+            }
+
+            @TestMetadata("80.2.kt")
+            public void test80_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80/pos/80.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_81 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_81() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("81.1.kt")
+            public void test81_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos/81.1.kt");
+            }
+
+            @TestMetadata("81.2.kt")
+            public void test81_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos/81.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_82 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_82() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("82.1.kt")
+            public void test82_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos/82.1.kt");
+            }
+
+            @TestMetadata("82.2.kt")
+            public void test82_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos/82.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_83 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_83() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("83.1.kt")
+            public void test83_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos/83.1.kt");
+            }
+
+            @TestMetadata("83.2.kt")
+            public void test83_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos/83.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_84 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_84() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("84.1.kt")
+            public void test84_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos/84.1.kt");
+            }
+
+            @TestMetadata("84.2.kt")
+            public void test84_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos/84.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_85 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_85() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("85.1.kt")
+            public void test85_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos/85.1.kt");
+            }
+
+            @TestMetadata("85.2.kt")
+            public void test85_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos/85.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-86")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_86 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_86() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-86"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-86/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("86.1.kt")
+            public void test86_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-86/pos/86.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-86/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_87 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_87() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("87.1.kt")
+            public void test87_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos/87.1.kt");
+            }
+
+            @TestMetadata("87.2.kt")
+            public void test87_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos/87.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_88 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_88() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("88.1.kt")
+            public void test88_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88/pos/88.1.kt");
+            }
+
+            @TestMetadata("88.2.kt")
+            public void test88_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88/pos/88.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_89 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_89() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("89.1.kt")
+            public void test89_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos/89.1.kt");
+            }
+
+            @TestMetadata("89.2.kt")
+            public void test89_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos/89.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_90 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_90() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("90.1.kt")
+            public void test90_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos/90.1.kt");
+            }
+
+            @TestMetadata("90.2.kt")
+            public void test90_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos/90.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_91 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_91() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("91.1.kt")
+            public void test91_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.1.kt");
+            }
+
+            @TestMetadata("91.2.kt")
+            public void test91_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_92 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_92() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("92.1.kt")
+            public void test92_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos/92.1.kt");
+            }
+
+            @TestMetadata("92.2.kt")
+            public void test92_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos/92.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_94 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_94() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("94.1.kt")
+            public void test94_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.1.kt");
+            }
+
+            @TestMetadata("94.2.kt")
+            public void test94_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_96 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_96() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("96.1.kt")
+            public void test96_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos/96.1.kt");
+            }
+
+            @TestMetadata("96.2.kt")
+            public void test96_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos/96.2.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-98")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class P_98 extends AbstractBlackBoxCodegenTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInP_98() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-98"), Pattern.compile("^(.+)\\.kt$"), null, true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-98/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class Pos extends AbstractBlackBoxCodegenTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            @TestMetadata("98.1.kt")
+            public void test98_1() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-98/pos/98.1.kt");
+            }
+
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-98/pos"), Pattern.compile("^(.+)\\.kt$"), null, true);
+            }
+          }
+        }
+      }
+    }
+
     @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/type-system")
     @TestDataPath("$PROJECT_ROOT")
     @RunWith(JUnit3RunnerWithInners.class)
@@ -4243,6 +14239,11 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
             @TestMetadata("2.1.kt")
             public void test2_1() {
               runTest("compiler/tests-spec/testData/codegen/box/linked/type-system/introduction-1/p-5/pos/2.1.kt");
+            }
+
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/codegen/box/linked/type-system/introduction-1/p-5/pos/2.2.kt");
             }
 
             public void testAllFilesPresentInPos() {

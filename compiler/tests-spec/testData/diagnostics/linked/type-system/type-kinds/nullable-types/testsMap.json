@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Nullable to non-null misuse produces type mismatch errors",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "Non-nullable types cannot hold null values",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nullable assignment and safe operations preserve null safety",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nullable types T? hold values of type T or null",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

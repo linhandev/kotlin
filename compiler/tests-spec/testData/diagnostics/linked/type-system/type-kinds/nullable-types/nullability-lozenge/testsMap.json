@@ -1,0 +1,48 @@
+{
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "Nullable types cannot be assigned to non-nullable types without smart cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/nullability-lozenge/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "Nullability lozenge does not allow nullable to non-null assignment across type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/nullability-lozenge/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nullability lozenge subtyping allows non-null types to be assigned to nullable supertypes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/nullability-lozenge/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nullable subtyping chains and generic nullability lozenge relations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/nullability-lozenge/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

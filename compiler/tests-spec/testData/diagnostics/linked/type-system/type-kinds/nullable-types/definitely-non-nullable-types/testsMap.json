@@ -1,0 +1,48 @@
+{
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Invalid intersection components in definitely non-nullable types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/definitely-non-nullable-types/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "DNN type constraints reject nested and malformed intersections",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/definitely-non-nullable-types/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Definitely non-nullable types T \u0026 Any represent non-null values of type parameter T",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/definitely-non-nullable-types/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "DNN types are subtypes of their nullable counterparts and usable as non-null T",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/nullable-types/definitely-non-nullable-types/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

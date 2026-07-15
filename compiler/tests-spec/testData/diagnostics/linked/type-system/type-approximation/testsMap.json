@@ -1,0 +1,47 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "Approximated type does not expose non-denotable intersection directly",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-approximation/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Approximated LUB cannot be used as unrelated branch type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-approximation/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "Intersection types from smart casts approximate to common supertype in expected context",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-approximation/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "Expression types decay to expected type in assignment, return, and elvis contexts",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-decaying/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

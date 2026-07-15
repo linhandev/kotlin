@@ -1,0 +1,65 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Union types are not denotable and cannot be used as explicit type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/union-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Union type LUB cannot be narrowed to incompatible specific types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/union-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "Union types in when and if expressions resolve to common supertype LUB",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/union-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "Union types decay to least upper bounds in conditional expressions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/union-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "When branches resolve to common supertype LUB for enums and open classes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/least-upper-bound/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Conditional expressions infer least upper bound of branch types for class hierarchies",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/least-upper-bound/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Soft keyword set used as function name without escaping",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Soft keyword property used as Identifier val property \u003d 1",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Soft keyword file used as Identifier in property declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Note example val field \u003d 2 with field as soft keyword Identifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Soft keyword param used as local variable name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-6/pos/6.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Letter Latin uppercase in identifier HelloWorld",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Letter Unicode Lo category in identifier 名字",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Letter in function name Übung",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Letter underscore as Identifier start with following Letter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Letter Latin lowercase in identifier hello",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Escaped Identifier `a-b-c` with non-alphanumeric QuotedSymbol",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Ordinary Identifier foo_bar2 with Letter underscore and UnicodeDigit",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Escaped Identifier `a b` with space in QuotedSymbol sequence",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Escaped and non-escaped Identifier foo and `foo` refer to same entity",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Escaped Identifier hard keyword `when` as function name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "UnicodeDigit in function name test२",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "UnicodeDigit in backtick identifier `num१`",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "UnicodeDigit Devanagari १ in identifier a१",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "UnicodeDigit Arabic-Indic digit in identifier count٤",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "UnicodeDigit after Letter and underscore in foo_१_bar",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QuotedSymbol special characters and space in `#@$ a b`",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QuotedSymbol mixed alphanumeric `a b c 123`",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QuotedSymbol operator-like sequence in `(special)`",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QuotedSymbol hard keyword if as backtick identifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "QuotedSymbol digits in backtick identifier `123`",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Soft keyword get used as function name without escaping",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Soft keyword receiver used as Identifier without escaping",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Hard keyword if escaped as Identifier `if`",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Soft keyword delegate used as Identifier without escaping",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Soft keyword field used as Identifier without escaping",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/identifiers/p-5/pos/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

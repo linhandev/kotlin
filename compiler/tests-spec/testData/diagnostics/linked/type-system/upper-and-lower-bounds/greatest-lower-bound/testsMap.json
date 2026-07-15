@@ -1,0 +1,48 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "Denotable intersection types from classes implementing multiple interfaces",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/intersection-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "GLB enables access to members of all intersected types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/greatest-lower-bound/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Unrelated function and collection types do not share a common GLB for assignment",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/greatest-lower-bound/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Without GLB smart cast, members of other type are unavailable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/greatest-lower-bound/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

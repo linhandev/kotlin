@@ -25,39 +25,47 @@
     "determining-function-applicability-for-a-specific-call/rationale"
   ],
   "type-system": [
+    "type-kinds/type-capturing",
+    "type-kinds/type-containment",
+    "type-kinds/classifier-types/simple-classifier-types",
+    "subtyping/subtyping-rules",
+    "type-kinds/classifier-types/parameterized-classifier-types",
+    "type-kinds/flexible-types/dynamic-type",
+    "type-kinds/flexible-types/platform-types",
+    "type-kinds/type-parameters/use-site-variance",
+    "type-kinds/type-parameters/function-type-parameters",
+    "type-kinds/type-parameters/declaration-site-variance",
+    "type-kinds/type-parameters",
+    "type-kinds/type-parameters/mixed-site-variance",
+    "type-kinds/nullable-types",
+    "type-kinds/nullable-types/definitely-non-nullable-types",
+    "type-kinds/nullable-types/nullability-lozenge",
+    "type-kinds/function-types",
+    "type-kinds/built-in-types/kotlin.function",
+    "type-kinds/suspending-function-types",
+    "type-kinds/union-types",
+    "type-kinds/intersection-types",
+    "upper-and-lower-bounds/greatest-lower-bound",
     "type-kinds/built-in-types/kotlin.any",
     "introduction-1",
+    "type-kinds/built-in-types/built-in-integer-types",
+    "type-kinds/built-in-types/array-types",
     "type-kinds/built-in-types/kotlin.nothing",
-    "subtyping/subtyping-rules",
+    "type-kinds/integer-literal-types",
+    "subtyping/subtyping-for-nullable-types",
     "subtyping",
     "subtyping/subtyping-for-intersection-types",
+    "subtyping/subtyping-for-flexible-types",
+    "subtyping/subtyping-for-integer-literal-types",
+    "type-approximation",
+    "type-contexts-and-scopes",
     "type-contexts-and-scopes/inner-and-nested-type-contexts",
-    "subtyping/subtyping-for-nullable-types",
-    "type-kinds/type-parameters"
-  ],
-  "declarations": [
-    "classifier-declaration/class-declaration/abstract-classes",
-    "classifier-declaration/class-declaration/constructor-declaration",
-    "classifier-declaration/class-declaration",
-    "classifier-declaration/data-class-declaration",
-    "classifier-declaration/class-declaration/nested-and-inner-classifiers",
-    "property-declaration/local-property-declaration",
-    "property-declaration/property-initialization",
-    "type-alias",
-    "classifier-declaration/classifier-initialization",
-    "function-declaration"
-  ],
-  "inheritance": [
-    "overriding"
-  ],
-  "statements": [
-    "assignments/operator-assignments",
-    "assignments",
-    "assignments/simple-assignments",
-    "loop-statements/while-loop-statement",
-    "loop-statements/do-while-loop-statement"
+    "type-decaying",
+    "upper-and-lower-bounds/least-upper-bound",
+    "upper-and-lower-bounds"
   ],
   "expressions": [
+    "constant-literals/the-types-for-integer-literals",
     "not-null-assertion-expression",
     "comparison-expressions",
     "when-expression",
@@ -68,7 +76,6 @@
     "constant-literals/integer-literals/hexadecimal-integer-literals",
     "constant-literals/boolean-literals",
     "constant-literals/character-literals",
-    "constant-literals/the-types-for-integer-literals",
     "logical-disjunction-expression",
     "logical-conjunction-expression",
     "additive-expression",
@@ -95,17 +102,80 @@
     "call-and-property-access-expressions/navigation-operators",
     "function-literals/lambda-literals"
   ],
+  "declarations": [
+    "classifier-declaration/class-declaration/abstract-classes",
+    "classifier-declaration/class-declaration/constructor-declaration",
+    "classifier-declaration/class-declaration",
+    "classifier-declaration/data-class-declaration",
+    "classifier-declaration/class-declaration/nested-and-inner-classifiers",
+    "property-declaration/local-property-declaration",
+    "property-declaration/property-initialization",
+    "type-alias",
+    "classifier-declaration/classifier-initialization",
+    "function-declaration"
+  ],
+  "inheritance": [
+    "overriding"
+  ],
+  "statements": [
+    "assignments/operator-assignments",
+    "assignments",
+    "assignments/simple-assignments",
+    "loop-statements/while-loop-statement",
+    "loop-statements/do-while-loop-statement"
+  ],
   "overloadable-operators": [
     ""
   ],
+  "syntax-and-grammar": [
+    "lexical-grammar/string-mode-grammar",
+    "lexical-grammar/keywords-and-operators",
+    "lexical-grammar/identifiers",
+    "lexical-grammar/whitespace-and-comments",
+    "lexical-grammar/literals",
+    "documentation-comments",
+    "syntax-grammar"
+  ],
   "built-in-types-and-their-semantics": [
-    "built-in-integer-types-1/integer-type-widening"
+    "built-in-integer-types-1/integer-type-widening",
+    "kotlin.throwable",
+    "kotlin.any",
+    "specialized-iterator-types",
+    "specialized-array-types",
+    "kotlin.enum",
+    "built-in-integer-types",
+    "built-in-array-types",
+    "kotlin.reflect.kcallable",
+    "kotlin.char",
+    "built-in-floating-point-arithmetic-types",
+    "kotlin.unit",
+    "kotlin.reflect.kclass",
+    "kotlin.function",
+    "iterator-types",
+    "kotlin.nothing",
+    "kotlin.boolean",
+    "integer-type-widening",
+    "kotlin.reflect.kfunction",
+    "kotlin.string",
+    "kotlin.comparable",
+    "built-in-annotation-types",
+    "kotlin.reflect.kproperty"
+  ],
+  "constant-literals": [
+    "character-literals",
+    "real-literals"
+  ],
+  "call-and-property-access-class-literals": [
+    ""
+  ],
+  "annotations": [
+    "built-in-annotations/kotlin.annotation.Target",
+    "annotation-values",
+    "built-in-annotations",
+    "annotation-targets"
   ],
   "control--and-data-flow-analysis": [
     "control-flow-graph/expressions-1/conditional-expressions",
     "performing-analysis-on-the-control-flow-graph/variable-initialization-analysis"
-  ],
-  "annotations": [
-    "annotation-targets"
   ]
 }
