@@ -64,6 +64,7 @@ plugins {
     `jvm-toolchains`
     alias(libs.plugins.gradle.node) apply false
     id("nodejs-cache-redirector-configuration")
+    id("org.jetbrains.kotlin.benchmarks.report")
 }
 
 val isTeamcityBuild = project.kotlinBuildProperties.isTeamcityBuild

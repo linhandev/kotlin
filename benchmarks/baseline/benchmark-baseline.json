@@ -1,0 +1,365 @@
+[
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.CommonCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 1.935,
+      "scoreError": 0.046,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.CommonCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 8.837,
+      "scoreError": 0.636,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.ComplexDataFlowBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 221.252,
+      "scoreError": 2.12,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.ComplexDataFlowBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 263.285,
+      "scoreError": 3.055,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.ControlFlowOperators.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 1003.016,
+      "scoreError": 36.583,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.ControlFlowOperators.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 2924.975,
+      "scoreError": 46.652,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceBaselineCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 6.93,
+      "scoreError": 0.26,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceBaselineCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 31.675,
+      "scoreError": 0.369,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceExplicitArgumentsCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000",
+      "useNI": "true"
+    },
+    "primaryMetric": {
+      "score": 10.321,
+      "scoreError": 0.22,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceExplicitArgumentsCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000",
+      "useNI": "true"
+    },
+    "primaryMetric": {
+      "score": 54.794,
+      "scoreError": 0.368,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceExplicitArgumentsCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000",
+      "useNI": "false"
+    },
+    "primaryMetric": {
+      "score": 37.871,
+      "scoreError": 0.706,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceForInApplicableCandidate.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000",
+      "useNI": "true"
+    },
+    "primaryMetric": {
+      "score": 15.89,
+      "scoreError": 0.381,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceForInApplicableCandidate.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000",
+      "useNI": "true"
+    },
+    "primaryMetric": {
+      "score": 67.596,
+      "scoreError": 0.68,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceForInApplicableCandidate.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000",
+      "useNI": "false"
+    },
+    "primaryMetric": {
+      "score": 73.235,
+      "scoreError": 7.767,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceFromArgumentCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000",
+      "useNI": "true"
+    },
+    "primaryMetric": {
+      "score": 9.341,
+      "scoreError": 0.22,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceFromArgumentCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000",
+      "useNI": "true"
+    },
+    "primaryMetric": {
+      "score": 40.427,
+      "scoreError": 0.445,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceFromArgumentCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000",
+      "useNI": "false"
+    },
+    "primaryMetric": {
+      "score": 37.973,
+      "scoreError": 0.62,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceFromReturnTypeCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000",
+      "useNI": "true"
+    },
+    "primaryMetric": {
+      "score": 10.394,
+      "scoreError": 0.228,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceFromReturnTypeCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000",
+      "useNI": "true"
+    },
+    "primaryMetric": {
+      "score": 43.112,
+      "scoreError": 0.574,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.InferenceFromReturnTypeCallsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000",
+      "useNI": "false"
+    },
+    "primaryMetric": {
+      "score": 40.103,
+      "scoreError": 0.519,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.IntArrayPlusBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 9.253,
+      "scoreError": 0.205,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.ManyValsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 2.246,
+      "scoreError": 0.021,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.ManyValsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 11.399,
+      "scoreError": 0.169,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.ManyVarsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 2.229,
+      "scoreError": 0.03,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.ManyVarsBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 40.034,
+      "scoreError": 0.278,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.SimpleDataFlowBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "true",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 5.426,
+      "scoreError": 0.191,
+      "scoreUnit": "ms/op"
+    }
+  },
+  {
+    "benchmark": "org.jetbrains.kotlin.benchmarks.SimpleDataFlowBenchmark.benchmark",
+    "mode": "avgt",
+    "params": {
+      "isIR": "false",
+      "size": "1000"
+    },
+    "primaryMetric": {
+      "score": 33.619,
+      "scoreError": 0.535,
+      "scoreUnit": "ms/op"
+    }
+  }
+]
