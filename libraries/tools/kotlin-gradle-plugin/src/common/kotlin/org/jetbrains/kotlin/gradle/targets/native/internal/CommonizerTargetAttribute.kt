@@ -40,7 +40,7 @@ internal object CommonizerTargetAttribute {
      * Given the above [CommonizerTargetCompatibilityRule] we see that it is expected that every 'more common' cinterops
      * will be marked as compatible. However, in the commonizer output model we always just want to use a single
      * artifact to compile/analyze against. In the case of cinterops we always want the most specific cinterop
-     * See [MetadataDependencyResolution.ChooseVisibleSourceSets.visibleSourceSetProvidingCInterops]
+     * See [selectVisibleSourceSetProvidingCInterops]
      *
      * e.g.
      * - given the consumer requests 'ios + linux'

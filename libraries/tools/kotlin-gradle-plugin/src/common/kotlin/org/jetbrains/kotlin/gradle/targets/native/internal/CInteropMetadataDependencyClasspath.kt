@@ -7,7 +7,9 @@ package org.jetbrains.kotlin.gradle.targets.native.internal
 
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinProjectStructureMetadata
 import org.jetbrains.kotlin.gradle.plugin.mpp.MetadataDependencyResolution.ChooseVisibleSourceSets
+import org.jetbrains.kotlin.gradle.plugin.mpp.kotlinVariantNameFromPublishedVariantName
 import org.jetbrains.kotlin.gradle.plugin.sources.DefaultKotlinSourceSet
 import org.jetbrains.kotlin.gradle.utils.filesProvider
 import org.jetbrains.kotlin.gradle.utils.future
@@ -73,21 +75,59 @@ private fun Project.createCInteropMetadataDependencyClasspathFromAssociatedCompi
 
 /**
  * Names of all source sets that may potentially provide necessary cinterops for this resolution.
- * This will select 'the most bottom' source sets in [ChooseVisibleSourceSets.allVisibleSourceSetNames]
+ * This will select 'the most bottom' source sets in [ChooseVisibleSourceSets.allVisibleSourceSetNames].
+ *
+ * When [compilingKonanTargetNames] is non-empty, only bottom source sets whose published Gradle variants
+ * cover **all** of those targets are considered.
  */
-internal val ChooseVisibleSourceSets.visibleSourceSetProvidingCInterops: String?
-    get() {
-        // PSM will be null in case of a uklib dependency and uklibs don't support cinterops for now
-        if (projectStructureMetadata == null) return null
+internal fun ChooseVisibleSourceSets.visibleSourceSetProvidingCInterops(
+    compilingKonanTargetNames: Set<String> = emptySet(),
+): String? {
+    val projectStructureMetadata = projectStructureMetadata ?: return null
+    return projectStructureMetadata.selectVisibleSourceSetProvidingCInterops(
+        allVisibleSourceSetNames = allVisibleSourceSetNames,
+        compilingKonanTargetNames = compilingKonanTargetNames,
+    )
+}
 
-        val dependsOnSourceSets = allVisibleSourceSetNames
-            .flatMap { projectStructureMetadata.sourceSetsDependsOnRelation[it].orEmpty() }
-            .toSet()
+internal fun KotlinProjectStructureMetadata.selectVisibleSourceSetProvidingCInterops(
+    allVisibleSourceSetNames: Set<String>,
+    compilingKonanTargetNames: Set<String>,
+): String? {
+    val dependsOnSourceSets = allVisibleSourceSetNames
+        .flatMap { sourceSetsDependsOnRelation[it].orEmpty() }
+        .toSet()
 
-        val bottomSourceSets = allVisibleSourceSetNames.filter { it !in dependsOnSourceSets }.toSet()
+    val bottomSourceSets = allVisibleSourceSetNames.filter { it !in dependsOnSourceSets }.toSet()
 
-        /* Select the source set participating in the least amount of variants (the most special one) */
-        return bottomSourceSets.minByOrNull { sourceSetName ->
-            projectStructureMetadata.sourceSetNamesByVariantName.count { (_, sourceSetNames) -> sourceSetName in sourceSetNames }
-        }
+    val candidates = if (compilingKonanTargetNames.isNotEmpty()) {
+        bottomSourceSets.filter { sourceSetName ->
+            compilingKonanTargetNames.all { targetName ->
+                targetName in variantsForSourceSet(sourceSetName)
+            }
+        }.toSet().takeIf { it.isNotEmpty() } ?: return null
+    } else {
+        bottomSourceSets
     }
+
+    /* Select the source set participating in the least amount of variants (the most special one) */
+    return candidates.minByOrNull { sourceSetName ->
+        sourceSetNamesByVariantName.count { (_, sourceSetNames) -> sourceSetName in sourceSetNames }
+    }
+}
+
+internal fun kotlinTargetNameFromPsmVariantName(variantName: String): String {
+    val normalized = kotlinVariantNameFromPublishedVariantName(variantName)
+    return when {
+        normalized.endsWith("ApiElements") -> normalized.removeSuffix("ApiElements")
+        normalized.endsWith("RuntimeElements") -> normalized.removeSuffix("RuntimeElements")
+        else -> normalized
+    }
+}
+
+private fun KotlinProjectStructureMetadata.variantsForSourceSet(sourceSetName: String): Set<String> =
+    sourceSetNamesByVariantName
+        .filterValues { sourceSetName in it }
+        .keys
+        .map(::kotlinTargetNameFromPsmVariantName)
+        .toSet()
