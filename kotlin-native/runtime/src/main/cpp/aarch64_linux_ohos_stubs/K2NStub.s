@@ -91,6 +91,13 @@ Kotlin_K2NStub:
         add  sp, sp, #16
 
         .cfi_startproc
+        // A Kotlin exception unwinding back through this stub must run the epilogue's
+        // switchThreadStateRunnable + SetLastFrameReliable while the stub frame (= the
+        // published RISKY anchor) is still intact; otherwise the thread stays kNative
+        // with the anchor on a popped frame that the call-site landing pad's own call
+        // chain then clobbers -> GC walker reads a torn pair. The personality's
+        // phase-2 cleanup performs exactly that epilogue.
+        .cfi_personality 0x9b, DW.ref.Kotlin_K2NStubUnwindPersonality
         stp  x29, x30, [sp,  #-288]!
         .cfi_adjust_cfa_offset 288
         .cfi_rel_offset x29, 0
@@ -265,3 +272,14 @@ Kotlin_K2NStub:
         .cfi_restore x30
         ret
         .cfi_endproc
+
+// Indirection cell for the .cfi_personality 0x9b (indirect|pcrel|sdata4) reference
+// above — same pattern GCC/clang emit for C++ personalities (PIC-safe).
+    .hidden DW.ref.Kotlin_K2NStubUnwindPersonality
+    .weak   DW.ref.Kotlin_K2NStubUnwindPersonality
+    .section .data.DW.ref.Kotlin_K2NStubUnwindPersonality,"awG",@progbits,DW.ref.Kotlin_K2NStubUnwindPersonality,comdat
+    .p2align 3
+    .type DW.ref.Kotlin_K2NStubUnwindPersonality, @object
+    .size DW.ref.Kotlin_K2NStubUnwindPersonality, 8
+DW.ref.Kotlin_K2NStubUnwindPersonality:
+    .xword Kotlin_K2NStubUnwindPersonality

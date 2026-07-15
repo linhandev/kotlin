@@ -25,11 +25,14 @@
 #include <cstdint>
 #include <sstream>
 #include <iostream>
+#include <unwind.h>
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
 #endif
 
+
 namespace kotlin {
+
 
 ALWAYS_INLINE RUNTIME_NOTHROW mm::FrameAddress *GetLastFrameWithThreadData(mm::ThreadData& threadData) noexcept
 {
@@ -84,6 +87,29 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliabl
     }
     auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     threadData->SetLastFrameInfo({ nullptr, mm::FrameStatus::RELIABLE, nullptr });
+}
+
+// Unwind personality for Kotlin_K2NStub (referenced by .cfi_personality in both
+// aarch64_*_stubs/K2NStub.s). A Kotlin exception unwinding back through the stub
+// skips its epilogue: the thread stays kNative (scannable) with lastFrameInfo pinned
+// on the just-popped stub frame, and the call-site landing pad's first call chain
+// (switchThreadStateRunnable -> TransferToRunning -> SuspendForStw) clobbers that
+// frame while parked -> the GC walker reads a torn {caller_fp, ret} pair
+// (VisitMutatorRoots SIGSEGV, or an fp-cycle livelock). Phase-2 cleanup runs the
+// epilogue HERE, while the stub frame is still intact: a park inside the state
+// switch keeps a valid walkable anchor; afterwards the anchor is disarmed and the
+// landing-pad mirror's own switch+heal become idempotent no-ops.
+extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT _Unwind_Reason_Code Kotlin_K2NStubUnwindPersonality(
+        int version, _Unwind_Action actions, uint64_t exceptionClass,
+        struct _Unwind_Exception* unwindException, struct _Unwind_Context* context) noexcept {
+    if (!(actions & _UA_SEARCH_PHASE) && mm::IsCurrentThreadRegistered()) {
+        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+        if (threadData->state() == ThreadState::kNative) {
+            Kotlin_mm_switchThreadStateRunnable();
+        }
+        SetLastFrameReliable();
+    }
+    return _URC_CONTINUE_UNWIND;
 }
 
 // invoke before enter kotlin (called from N2K stub entry, KonanStart stub)

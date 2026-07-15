@@ -91,6 +91,13 @@ _Kotlin_K2NStub:
         add  sp, sp, #FuncAddrAndCpStacksizeOffset
 
         .cfi_startproc
+        // A Kotlin exception unwinding back through this stub must run the epilogue's
+        // switchThreadStateRunnable + SetLastFrameReliable while the stub frame (= the
+        // published RISKY anchor) is still intact; otherwise the thread stays kNative
+        // with the anchor on a popped frame that the call-site landing pad's own call
+        // chain then clobbers -> GC walker reads a torn pair. The personality's
+        // phase-2 cleanup performs exactly that epilogue.
+        .cfi_personality 155, _Kotlin_K2NStubUnwindPersonality
         stp  x29, x30, [sp,  #-ForwardStubFrameSize]!
         cfi_adjust_cfa_offset (ForwardStubFrameSize)
         cfi_rel_offset (x29, 0)
