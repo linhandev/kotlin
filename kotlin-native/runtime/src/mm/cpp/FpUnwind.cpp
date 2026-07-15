@@ -112,6 +112,30 @@ extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT _Unwind_Reason_Code Kotlin_K2NStubUnwi
     return _URC_CONTINUE_UNWIND;
 }
 
+// Unwind personality for the C-to-Kotlin entry stubs (Kotlin_N2KStub and
+// EnterKotlinFromCppStub; referenced by .cfi_personality in aarch64_*_stubs). A
+// Kotlin exception escaping the invoked Kotlin code (e.g. worker jobs — caught in
+// processQueueElement ABOVE these stubs) unwinds through the stub and skips its
+// RestoreLastFrameAndStatus epilogue: the C caller then resumes with the thread
+// still kRunnable and the job-side anchor left in TLS (pointing at frames the
+// unwind popped) — a GC-stalling state leak plus a dead-anchor walk hazard.
+// Phase-2 cleanup runs the epilogue here, while the stub frame and its K2CSlotData
+// snapshot are still intact; both stubs keep x29 == stub fp across the callee.
+// If an inner bridge-style landing pad already ran the restore (thread already
+// back to kNative), skip — a second restore would re-enter kNative.
+extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT _Unwind_Reason_Code Kotlin_N2KStubUnwindPersonality(
+        int version, _Unwind_Action actions, uint64_t exceptionClass,
+        struct _Unwind_Exception* unwindException, struct _Unwind_Context* context) noexcept {
+    if (!(actions & _UA_SEARCH_PHASE) && mm::IsCurrentThreadRegistered()) {
+        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+        if (threadData->state() != ThreadState::kNative) {
+            auto* stubFp = reinterpret_cast<mm::FrameAddress*>(_Unwind_GetGR(context, 29));
+            RestoreLastFrameAndStatus(stubFp);
+        }
+    }
+    return _URC_CONTINUE_UNWIND;
+}
+
 // invoke before enter kotlin (called from N2K stub entry, KonanStart stub)
 //
 // Fix for GC scan race: transition to Runnable BEFORE writing lastFrameInfo_.
