@@ -1,0 +1,48 @@
+{
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Invalid assignments between invariant and projected types and contradictory variance combinations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/use-site-variance/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Use-site variance cannot be used in supertype top-level type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/use-site-variance/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Use-site variance allows co-, contra- and invariant type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/use-site-variance/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Use-site variance subtyping for invariant type constructors",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/use-site-variance/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

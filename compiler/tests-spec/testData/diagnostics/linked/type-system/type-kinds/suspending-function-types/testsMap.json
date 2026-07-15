@@ -1,0 +1,48 @@
+{
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Suspending and non-suspending function types are unrelated by subtyping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/suspending-function-types/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Non-suspending function values cannot be used where suspending function types are required",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/suspending-function-types/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Suspending and non-suspending function types are assignable within their own kind",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/suspending-function-types/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Suspending function types support parameters, receivers, and higher-order usage",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/suspending-function-types/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

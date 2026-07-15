@@ -1,0 +1,63 @@
+{
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Array(T) get/set operations require element type T",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/array-types/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Array(T) element assignment rejects unrelated element types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/array-types/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Array(T) is a parameterized type supporting get/set operations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/array-types/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Array(T) of custom and nullable element types supports get/set",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/array-types/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 7,
+          "description": "specialized array factory functions produce kotlin.IntArray, kotlin.DoubleArray and related types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/specialized-array-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

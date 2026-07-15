@@ -1,0 +1,48 @@
+{
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nullable platform types cannot be used as non-nullable Kotlin types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/flexible-types/platform-types/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Platform type nullability violations produce TYPE_MISMATCH for rigid types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/flexible-types/platform-types/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Platform types from Java interop flexibilize to kotlin-compatible flexible types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/flexible-types/platform-types/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Platform types for numeric and String Java types support flexible nullability",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/flexible-types/platform-types/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

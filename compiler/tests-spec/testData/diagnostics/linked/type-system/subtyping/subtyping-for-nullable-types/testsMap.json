@@ -1,4 +1,50 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Bar rejects assigning nullable B? to non-null A",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-nullable-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Foo rejects assigning B or B? to non-null A when only B \u003c: A? holds",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-nullable-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Subtyping by nullability holds for compatible nullable types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-nullable-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nullable subtyping allows B and B? to substitute for A? when B \u003c: A?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/subtyping/subtyping-for-nullable-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
   "4": {
     "pos": {
       "1": [

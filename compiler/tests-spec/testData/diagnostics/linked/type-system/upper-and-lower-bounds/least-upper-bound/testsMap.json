@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "LUB result cannot be assigned to unrelated narrower type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/least-upper-bound/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "Incompatible branch types without common supertype fail inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/least-upper-bound/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "When branches resolve to common supertype LUB for enums and open classes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/least-upper-bound/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Conditional expressions infer least upper bound of branch types for class hierarchies",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/upper-and-lower-bounds/least-upper-bound/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.String compareTo rejects non-matching operands",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.string/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.String is not a subtype of kotlin.Char or kotlin.Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.string/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.String plus operator and length property preserve kotlin.String typing",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.string/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "kotlin.String literals, nullable variants and kotlin.Comparable subtyping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.string/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

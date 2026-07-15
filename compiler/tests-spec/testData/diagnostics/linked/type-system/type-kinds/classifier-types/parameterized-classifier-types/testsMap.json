@@ -1,0 +1,48 @@
+{
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Ill-formed type constructors and parameterized types violate well-formedness conditions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/parameterized-classifier-types/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Parameterized types with wrong arity violate well-formedness conditions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/parameterized-classifier-types/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Well-formed classifier type constructors and parameterized types T[A1, ..., An]",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/parameterized-classifier-types/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nested and aliased parameterized classifier types are well-formed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/parameterized-classifier-types/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

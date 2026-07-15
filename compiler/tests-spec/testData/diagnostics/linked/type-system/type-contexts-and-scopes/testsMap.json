@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Local and qualified type names are not visible outside their defining scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-contexts-and-scopes/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type visibility and scope rules reject inaccessible or unresolved types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-contexts-and-scopes/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type context follows scope for inner, companion, local, enum, and object types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-contexts-and-scopes/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Types interoperate with scopes like values: qualified names, aliases, and declaring scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-contexts-and-scopes/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

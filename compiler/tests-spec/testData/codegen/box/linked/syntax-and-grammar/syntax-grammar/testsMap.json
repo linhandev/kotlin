@@ -1,0 +1,2716 @@
+{
+  "120": {
+    "pos": {
+      "120": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters single explicit parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters multiple explicit parameters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters trailing comma in parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaLiteral with explicit lambda parameters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119/pos/119.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "121": {
+    "pos": {
+      "121": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters single explicit parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters multiple explicit parameters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters trailing comma in parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "119": {
+    "pos": {
+      "119": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters single explicit parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters multiple explicit parameters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaParameters trailing comma in parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-120/pos/120.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaLiteral with explicit lambda parameters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119/pos/119.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaLiteral anonymous function value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119/pos/119.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix annotatedLambda trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "functionLiteral lambda literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123/pos/123.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "127": {
+    "pos": {
+      "127": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ifExpression conditional expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-127/pos/127.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "78": {
+    "pos": {
+      "78": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ifExpression conditional expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-127/pos/127.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression additive arithmetic via disjunction; disjunction selects additive branch at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression function call via disjunction",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression boolean disjunction",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "jumpExpression return expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "jumpExpression throw expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "69": {
+    "pos": {
+      "69": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ifExpression conditional expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-127/pos/127.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenEntry when branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos/130.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenEntry multiple whenConditions comma separated",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos/130.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "111": {
+    "pos": {
+      "111": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literalConstant real binary and unsigned literals",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literalConstant integer literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literalConstant hex character and long literals",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literalConstant null literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literalConstant boolean literal - verifies that \u0027true\u0027 and \u0027false\u0027 are correctly parsed as boolean literals",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-111/pos/111.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "129": {
+    "pos": {
+      "129": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenExpression no subject when",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos/129.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenExpression subject when",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos/129.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "128": {
+    "pos": {
+      "128": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenExpression no subject when",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos/129.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenExpression subject when",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos/129.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "130": {
+    "pos": {
+      "130": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenExpression no subject when",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos/129.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenExpression subject when",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-129/pos/129.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenEntry when branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos/130.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenEntry multiple whenConditions comma separated",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos/130.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "174": {
+    "pos": {
+      "174": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simpleIdentifier soft keyword by as import alias",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simpleIdentifier soft keyword data as class name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simpleIdentifier soft keyword operator as variable name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simpleIdentifier regular Identifier in variable declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simpleIdentifier soft keyword get in property getter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-174/pos/174.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixFunctionCall shl operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos/87.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixFunctionCall until infix call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos/87.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "110": {
+    "pos": {
+      "110": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "collectionLiteral bracket expression list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110/pos/110.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "collectionLiteral empty bracket list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110/pos/110.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "79": {
+    "pos": {
+      "79": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "collectionLiteral bracket expression list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110/pos/110.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "collectionLiteral empty bracket list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-110/pos/110.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression additive arithmetic via disjunction; disjunction selects additive branch at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression function call via disjunction",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression boolean disjunction",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-78/pos/78.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "disjunction two conjunctions with or operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79/pos/79.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "disjunction newline around or operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79/pos/79.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArgument named argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos/107.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArgument spread star operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos/107.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "parenthesizedExpression grouped expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-109/pos/109.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "indexingSuffix array access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-101/pos/101.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "126": {
+    "pos": {
+      "126": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "superExpression open class override",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos/126.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "superExpression labeled super",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos/126.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "51": {
+    "pos": {
+      "51": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "superExpression open class override",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos/126.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "superExpression labeled super",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos/126.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asExpression safe cast operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asExpression cast operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock trailing comma in catch parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock annotated catch parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock typed catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "173": {
+    "pos": {
+      "173": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "superExpression open class override",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos/126.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "directlyAssignableExpression simple identifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos/96.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock trailing comma in catch parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock annotated catch parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock typed catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "navigationSuffix dot member access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callableReference receiver type member reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callableReference function reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArgument named argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos/107.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "68": {
+    "pos": {
+      "68": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "superExpression labeled super",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-126/pos/126.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "thisExpression labeled this",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125/pos/125.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "66": {
+    "pos": {
+      "66": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambdaLiteral anonymous function value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-119/pos/119.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "175": {
+    "pos": {
+      "175": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "identifier three-part qualified chain in type reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos/175.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "identifier NL between dot-separated simpleIdentifier parts",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos/175.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "identifier qualified chain with four simpleIdentifier segments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos/175.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "identifier two-part qualified simpleIdentifier dot simpleIdentifier in import",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-175/pos/175.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "90": {
+    "pos": {
+      "90": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiplicativeExpression multiply operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos/90.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiplicativeExpression divide and remainder operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos/90.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "additiveExpression minus operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos/89.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "additiveExpression plus operator; binary plus evaluates to sum at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos/89.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "91": {
+    "pos": {
+      "91": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiplicativeExpression multiply operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos/90.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiplicativeExpression divide and remainder operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos/90.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asExpression safe cast operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asExpression cast operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "145": {
+    "pos": {
+      "145": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiplicativeExpression multiply operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos/90.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiplicativeExpression divide and remainder operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-90/pos/90.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "98": {
+    "pos": {
+      "98": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "assignableExpression postfix assignable suffix",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-98/pos/98.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "92": {
+    "pos": {
+      "92": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "assignableExpression postfix assignable suffix",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-98/pos/98.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asExpression safe cast operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asExpression cast operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "prefixUnaryExpression prefix increment and not operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos/92.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "prefixUnaryExpression unary minus and plus operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos/92.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "100": {
+    "pos": {
+      "100": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "assignableExpression postfix assignable suffix",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-98/pos/98.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "directlyAssignableExpression array index assign",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos/96.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "146": {
+    "pos": {
+      "146": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asExpression safe cast operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asExpression cast operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-91/pos/91.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "96": {
+    "pos": {
+      "96": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "directlyAssignableExpression simple identifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos/96.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "directlyAssignableExpression array index assign",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos/96.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "94": {
+    "pos": {
+      "94": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "directlyAssignableExpression array index assign",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos/96.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "postfixUnaryExpression postfix increment and indexing suffix",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "postfixUnaryExpression postfix decrement operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "prefixUnaryExpression prefix increment and not operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos/92.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "prefixUnaryExpression unary minus and plus operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos/92.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "101": {
+    "pos": {
+      "101": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "directlyAssignableExpression array index assign",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-96/pos/96.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "postfixUnaryExpression postfix increment and indexing suffix",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "indexingSuffix array access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-101/pos/101.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "85": {
+    "pos": {
+      "85": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvisExpression chained elvis operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos/85.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvisExpression single elvis operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos/85.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixOperation plain elvisExpression without in or is",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos/84.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixOperation in range check",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos/84.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvis question colon operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-86/pos/86.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "87": {
+    "pos": {
+      "87": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvisExpression chained elvis operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos/85.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvisExpression single elvis operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos/85.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixFunctionCall shl operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos/87.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixFunctionCall until infix call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos/87.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "86": {
+    "pos": {
+      "86": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvisExpression chained elvis operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos/85.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvisExpression single elvis operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-85/pos/85.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvis question colon operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-86/pos/86.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "82": {
+    "pos": {
+      "82": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "comparison greater than and less or equal operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos/82.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "comparison less than operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos/82.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "equality double equals comparison",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos/81.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "equality not equals comparison",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos/81.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "83": {
+    "pos": {
+      "83": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "comparison greater than and less or equal operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos/82.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "comparison less than operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos/82.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "genericCallLikeComparison infixOperation without callSuffix; infix call evaluates correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos/83.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "genericCallLikeComparison call with type arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos/83.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "141": {
+    "pos": {
+      "141": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "comparison greater than and less or equal operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos/82.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "comparison less than operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-82/pos/82.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "84": {
+    "pos": {
+      "84": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "genericCallLikeComparison infixOperation without callSuffix; infix call evaluates correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos/83.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "genericCallLikeComparison call with type arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos/83.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixOperation plain elvisExpression without in or is",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos/84.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixOperation in range check",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos/84.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "103": {
+    "pos": {
+      "103": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "genericCallLikeComparison call with type arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos/83.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix typeArguments with valueArguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix annotatedLambda trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix function invocation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix valueArguments with annotatedLambda trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "105": {
+    "pos": {
+      "105": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "genericCallLikeComparison call with type arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-83/pos/83.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix typeArguments with valueArguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix function invocation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "typeArguments multiple type projections",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105/pos/105.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "typeArguments explicit type args",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105/pos/105.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "77": {
+    "pos": {
+      "77": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "semis trailing semicolon after statement in block; trailing semicolon does not change statement sum",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "semis newline NL separates two statements; newline-separated val bindings sum correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "semis semicolon separates two statements; semicolon-separated val bindings sum correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "semis mixed semicolon and newline separators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "76": {
+    "pos": {
+      "76": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "semis trailing semicolon after statement in block; trailing semicolon does not change statement sum",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "semis semicolon separates two statements; semicolon-separated val bindings sum correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "semis mixed semicolon and newline separators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-77/pos/77.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "142": {
+    "pos": {
+      "142": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixOperation in range check",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-84/pos/84.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "80": {
+    "pos": {
+      "80": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "disjunction two conjunctions with or operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79/pos/79.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "disjunction newline around or operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-79/pos/79.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conjunction two equalities with and operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80/pos/80.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conjunction newline around and operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80/pos/80.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "168": {
+    "pos": {
+      "168": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "platformModifier actual function declaration keyword",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-168/pos/168.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "106": {
+    "pos": {
+      "106": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix typeArguments with valueArguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix function invocation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix valueArguments with annotatedLambda trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArguments multiple arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106/pos/106.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArguments empty argument list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106/pos/106.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "104": {
+    "pos": {
+      "104": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix annotatedLambda trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix function invocation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callSuffix valueArguments with annotatedLambda trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-103/pos/103.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "135": {
+    "pos": {
+      "135": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock trailing comma in catch parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock annotated catch parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock typed catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression multiple catch blocks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression catch and finally blocks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression try catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "70": {
+    "pos": {
+      "70": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock trailing comma in catch parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock annotated catch parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock typed catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression try finally without catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression multiple catch blocks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression catch and finally blocks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression try catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finallyBlock try finally",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-136/pos/136.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "169": {
+    "pos": {
+      "169": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock annotated catch parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catchBlock typed catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "kotlinFile runtime: fileAnnotation before packageHeader and stdlib call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "kotlinFile runtime: NL blank lines between package import and topLevelObject",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "kotlinFile runtime: multiple topLevelObject class and function interact",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "kotlinFile runtime: importList with multiple imports evaluates combined expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "kotlinFile runtime: packageHeader importList and topLevelObject function execute correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "134": {
+    "pos": {
+      "134": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression try finally without catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression multiple catch blocks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression catch and finally blocks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression try catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "136": {
+    "pos": {
+      "136": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression try finally without catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression catch and finally blocks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tryExpression try catch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-134/pos/134.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finallyBlock try finally",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-136/pos/136.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "57": {
+    "pos": {
+      "57": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "typeArguments multiple type projections",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105/pos/105.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "typeArguments explicit type args",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-105/pos/105.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "102": {
+    "pos": {
+      "102": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "navigationSuffix class keyword member access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "navigationSuffix safe call operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "navigationSuffix dot member access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "150": {
+    "pos": {
+      "150": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "navigationSuffix class keyword member access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "navigationSuffix safe call operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "navigationSuffix dot member access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "151": {
+    "pos": {
+      "151": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "navigationSuffix safe call operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-102/pos/102.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "124": {
+    "pos": {
+      "124": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "objectLiteral delegation specifiers",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "objectLiteral data object modifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "objectLiteral anonymous object",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "objectLiteral delegation specifiers",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "objectLiteral data object modifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "objectLiteral anonymous object",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "objectLiteral delegation specifiers",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-124/pos/124.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "123": {
+    "pos": {
+      "123": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "functionLiteral anonymous function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123/pos/123.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "functionLiteral lambda literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123/pos/123.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "122": {
+    "pos": {
+      "122": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "functionLiteral anonymous function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-123/pos/123.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction block function body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction suspend modifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction fun expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "112": {
+    "pos": {
+      "112": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stringLiteral line string with escaped newline; line string content splits on LF",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112/pos/112.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stringLiteral line string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112/pos/112.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "114": {
+    "pos": {
+      "114": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stringLiteral line string with escaped newline; line string content splits on LF",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112/pos/112.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiLineStringLiteral triple quoted",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-114/pos/114.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "113": {
+    "pos": {
+      "113": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stringLiteral line string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-112/pos/112.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lineStringLiteral line string template expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113/pos/113.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lineStringLiteral escaped quotes",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113/pos/113.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "116": {
+    "pos": {
+      "116": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lineStringLiteral line string template expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113/pos/113.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "115": {
+    "pos": {
+      "115": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lineStringLiteral escaped quotes",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-113/pos/113.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "117": {
+    "pos": {
+      "117": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiLineStringLiteral triple quoted",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-114/pos/114.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "41": {
+    "pos": {
+      "41": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction block function body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction suspend modifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction fun expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "34": {
+    "pos": {
+      "34": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction block function body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction suspend modifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymousFunction fun expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-122/pos/122.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "125": {
+    "pos": {
+      "125": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "thisExpression labeled this",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125/pos/125.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "thisExpression member access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-125/pos/125.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "108": {
+    "pos": {
+      "108": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "postfixUnaryExpression postfix increment and indexing suffix",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "postfixUnaryExpression postfix decrement operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "95": {
+    "pos": {
+      "95": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "postfixUnaryExpression postfix increment and indexing suffix",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "postfixUnaryExpression postfix decrement operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-94/pos/94.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "93": {
+    "pos": {
+      "93": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "prefixUnaryExpression prefix increment and not operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos/92.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "prefixUnaryExpression unary minus and plus operators",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-92/pos/92.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "88": {
+    "pos": {
+      "88": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "rangeExpression half-open range with dot dot less",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88/pos/88.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "rangeExpression closed range with dot dot",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88/pos/88.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixFunctionCall shl operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos/87.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "infixFunctionCall until infix call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-87/pos/87.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "89": {
+    "pos": {
+      "89": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "rangeExpression half-open range with dot dot less",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88/pos/88.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "rangeExpression closed range with dot dot",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-88/pos/88.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "additiveExpression minus operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos/89.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "additiveExpression plus operator; binary plus evaluates to sum at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos/89.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "81": {
+    "pos": {
+      "81": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "equality double equals comparison",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos/81.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "equality not equals comparison",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos/81.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conjunction two equalities with and operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80/pos/80.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conjunction newline around and operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-80/pos/80.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "140": {
+    "pos": {
+      "140": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "equality double equals comparison",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos/81.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "equality not equals comparison",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-81/pos/81.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "144": {
+    "pos": {
+      "144": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "additiveExpression minus operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos/89.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "additiveExpression plus operator; binary plus evaluates to sum at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-89/pos/89.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "138": {
+    "pos": {
+      "138": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callableReference receiver type member reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callableReference class literal reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callableReference function reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "63": {
+    "pos": {
+      "63": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callableReference receiver type member reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callableReference class literal reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callableReference function reference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-138/pos/138.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "107": {
+    "pos": {
+      "107": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArgument named argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos/107.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArgument spread star operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-107/pos/107.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArguments multiple arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106/pos/106.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "valueArguments empty argument list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-106/pos/106.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "109": {
+    "pos": {
+      "109": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "parenthesizedExpression grouped expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-109/pos/109.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "131": {
+    "pos": {
+      "131": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenEntry when branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos/130.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "whenEntry multiple whenConditions comma separated",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-130/pos/130.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "137": {
+    "pos": {
+      "137": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "jumpExpression return expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "jumpExpression labeled return and break",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "jumpExpression break and continue",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "jumpExpression throw expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-137/pos/137.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

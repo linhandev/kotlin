@@ -1,0 +1,17 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.Float and kotlin.Double literals, nullable variants and kotlin.Comparable subtyping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-floating-point-arithmetic-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

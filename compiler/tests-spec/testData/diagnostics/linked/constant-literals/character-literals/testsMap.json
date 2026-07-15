@@ -1,0 +1,17 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "kotlin.Char literals, nullable variants and kotlin.Comparable subtyping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.char/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

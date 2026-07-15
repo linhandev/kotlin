@@ -1,0 +1,75 @@
+{
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Non-integer types cannot be used as built-in signed integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/built-in-integer-types/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Floating-point and boolean types cannot be used as built-in signed integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/built-in-integer-types/p-4/neg/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "built-in integer types are not subtypes of each other",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-integer-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Int, kotlin.Short, kotlin.Byte, and kotlin.Long are supported non-null signed integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/built-in-integer-types/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nullable signed integer types, primitive arrays, and mixed arithmetic use built-in integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/built-in-integer-types/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "built-in integer arithmetic preserves signed integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-integer-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "built-in integer types are subtypes of kotlin.Comparable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-integer-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

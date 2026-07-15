@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "dynamic type triggers JVM-specific diagnostics in aliases, bounds, and declarations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/flexible-types/dynamic-type/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "dynamic type is not supported as a type declaration on JVM",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/flexible-types/dynamic-type/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "dynamic type can be used in parameters, returns, and nullable Any? contexts",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/flexible-types/dynamic-type/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "dynamic type represents flexible type kotlin.Nothing..kotlin.Any? and accepts any value",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/flexible-types/dynamic-type/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

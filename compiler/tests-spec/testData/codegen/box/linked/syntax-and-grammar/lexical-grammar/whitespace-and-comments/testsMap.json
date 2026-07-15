@@ -1,0 +1,250 @@
+{
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Multiple consecutive LF (\\n) in string literal, split by lines()",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7/pos/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "NL as CR followed by LF in string via \\r\\n",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7/pos/7.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "NL as LF line terminator between statements",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Form Feed (U+000C) in string literal with unicode escape",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos/6.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TAB (U+0009) as whitespace between tokens; TAB-separated declaration binds correct value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "SPACE (U+0020) as whitespace between tokens",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Form Feed (U+000C) as whitespace between tokens in source; FF-separated declaration binds correct value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-6/pos/6.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LF character (U+000A) as Char literal with unicode escape",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LF character in string literal with \\n escape; escape produces line break",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LF character at beginning and end of string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Multiple LF characters in string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LF character (U+000A) in string literal with unicode escape \\u000A; escape produces line break",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Hidden tokens between tokens on the same line; block and line comments as Hidden preserve binding",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Simple block comment",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Block comment with code before and after",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4/pos/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Nested block comments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Shebang line with arguments; code after shebang with arguments compiles and runs",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Minimal shebang line (only #!); code after minimal shebang compiles and runs",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Shebang with package and function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standard shebang line at the beginning of file; code after shebang compiles and runs",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-3/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CR character (U+000D) in string literal with unicode escape",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CR character at beginning and end of string",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CR character (U+000D) as Char literal with unicode escape",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Line comment with code on next line",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Multiple line comments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/lexical-grammar/whitespace-and-comments/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

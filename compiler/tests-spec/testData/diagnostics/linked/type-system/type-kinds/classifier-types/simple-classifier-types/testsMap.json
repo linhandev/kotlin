@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Classifier types with invalid supertype references violate well-formedness",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/simple-classifier-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Ill-formed simple classifier types violate well-formedness conditions on supertypes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/simple-classifier-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Sealed, enum, object, and multi-supertype classifier types are well-formed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/simple-classifier-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Well-formed simple classifier types with type name T and optional supertypes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/classifier-types/simple-classifier-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

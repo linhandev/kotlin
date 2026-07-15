@@ -1,4 +1,50 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Bounded type parameters reject multiple class upper bounds and invalid bound combinations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nested type declarations cannot capture parent type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Bounded type parameters specify upper bounds for type parameters of type constructors",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Type parameters are well-formed concrete types in their declaring type constructor context",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/type-parameters/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
   "4": {
     "pos": {
       "1": [

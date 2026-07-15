@@ -1,0 +1,57 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Functions returning kotlin.Nothing must not return normally",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Only kotlin.Nothing values can be assigned to kotlin.Nothing",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "Throw expressions and non-terminating control flow have kotlin.Nothing type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.Nothing typing for TODO and elvis-throw expressions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Jump expressions have kotlin.Nothing type and never complete normally",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

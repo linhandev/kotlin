@@ -1,5 +1,72 @@
 {
   "1": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "kotlin.Int, kotlin.Short, kotlin.Byte, and kotlin.Long are supported non-null signed integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/built-in-integer-types/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Nullable signed integer types, primitive arrays, and mixed arithmetic use built-in integer types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-system/type-kinds/built-in-types/built-in-integer-types/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "0.1-100",
+          "casesNumber": 2,
+          "description": "Type checking of various integer literals with long literal mark.",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "0.1-100",
+          "casesNumber": 4,
+          "description": "Check of integer type selection depends on the context.",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "0.1-100",
+          "casesNumber": 5,
+          "description": "Type checking of binary integer literals.",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "0.1-100",
+          "casesNumber": 5,
+          "description": "Type checking of hexadecimal integer literals.",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "0.1-100",
+          "casesNumber": 5,
+          "description": "Type checking of decimal integer literals.",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
     "neg": {
       "2": [
         {
@@ -72,55 +139,6 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/neg/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
-        }
-      ]
-    },
-    "pos": {
-      "2": [
-        {
-          "specVersion": "0.1-100",
-          "casesNumber": 2,
-          "description": "Type checking of various integer literals with long literal mark.",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.1.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "main",
-          "helpers": "checkType"
-        },
-        {
-          "specVersion": "0.1-100",
-          "casesNumber": 4,
-          "description": "Check of integer type selection depends on the context.",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.5.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "main",
-          "helpers": "checkType"
-        },
-        {
-          "specVersion": "0.1-100",
-          "casesNumber": 5,
-          "description": "Type checking of binary integer literals.",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.4.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "main",
-          "helpers": "checkType"
-        },
-        {
-          "specVersion": "0.1-100",
-          "casesNumber": 5,
-          "description": "Type checking of hexadecimal integer literals.",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.3.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "main",
-          "helpers": "checkType"
-        },
-        {
-          "specVersion": "0.1-100",
-          "casesNumber": 5,
-          "description": "Type checking of decimal integer literals.",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/constant-literals/the-types-for-integer-literals/p-1/pos/2.2.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "main",
-          "helpers": "checkType"
         }
       ]
     }
