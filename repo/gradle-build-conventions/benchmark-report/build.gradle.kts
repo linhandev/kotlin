@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
 }
 
-description = "JMH benchmark comparison and test duration checks"
+description = "Benchmark comparison and test duration checks"
 
 repositories {
     mavenCentral()
