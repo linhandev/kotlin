@@ -1,0 +1,57 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "arrayOf rejects incompatible element types in one array literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-array-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.Array element type parameter is invariant across assignments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-array-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "specialized array types are distinct from kotlin.Array of the corresponding element type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/specialized-array-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.Array size constructor, set operator and indexed get produce expected element types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-array-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "arrayOf and typed array literals produce kotlin.Array with the expected element type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-array-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

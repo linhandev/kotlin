@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "built-in floating point compareTo rejects non-matching operands",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-floating-point-arithmetic-types/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "built-in floating point types are not subtypes of each other or kotlin.Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-floating-point-arithmetic-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "built-in floating point arithmetic preserves kotlin.Float and kotlin.Double types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-floating-point-arithmetic-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.Float and kotlin.Double literals, nullable variants and kotlin.Comparable subtyping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-floating-point-arithmetic-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

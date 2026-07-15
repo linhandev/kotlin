@@ -1,0 +1,20 @@
+// FIR_IDENTICAL
+// DIAGNOSTICS: -UNUSED_VARIABLE -ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE -UNUSED_VALUE -UNUSED_PARAMETER -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: syntax-and-grammar, lexical-grammar, keywords-and-operators -> paragraph 45 -> sentence 45
+ * NUMBER: 2
+ * DESCRIPTION: Space in EXCL_EQ token as ! = breaks EXCL_EQ lexeme
+ */
+
+// TESTCASE NUMBER: 1
+fun case1(): String {
+    if (<!CONSTANT_EXPECTED_TYPE_MISMATCH, CONSTANT_EXPECTED_TYPE_MISMATCH!>1<!><!SYNTAX!><!> <!DEBUG_INFO_MISSING_UNRESOLVED!>!<!> <!SYNTAX!>=<!> <!SYNTAX!>2)<!> <!UNUSED_LAMBDA_EXPRESSION!>{
+        <!RETURN_NOT_ALLOWED!>return<!> "OK"
+    }<!>
+    return "NOK"
+}

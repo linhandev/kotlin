@@ -1,0 +1,16 @@
+// DIAGNOSTICS: -UNUSED_VARIABLE -ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE -UNUSED_VALUE -UNUSED_PARAMETER -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: syntax-and-grammar, syntax-grammar -> paragraph 5 -> sentence 1
+ * NUMBER: 3
+ * DESCRIPTION: fileAnnotation with invalid token after annotation
+ */
+
+// TESTCASE NUMBER: 1
+@file:JvmName("FileAnnotationNeg3")
+
+<!SYNTAX!>extra<!>
