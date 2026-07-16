@@ -644,8 +644,9 @@ internal abstract class FunctionGenerationContext(
             return baseline ||
                    irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForIntrinsic) == true ||
                    irFunction?.annotations?.hasAnnotation(KonanFqNames.gcUnsafeCall) == true ||
-                   // Stub-owned bridges don't switchToRunnable but still need the cleanup pad
-                   // for the unwind-path Restore.
+                   // Stub-owned bridges don't switchToRunnable, but keep the cleanup pad so a
+                   // Kotlin exception escaping into C unwinds cleanly (LeaveFrame + resume);
+                   // the state/anchor/x28 restore is owned by the stub's unwind personality.
                    isCToKotlinBridge ||
                    isCleanupLandingpadUsed
         }
@@ -1965,7 +1966,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                 LLVMSetCleanup(landingpad, 1)
 
                 releaseVars()
-                handleEpilogueExperimentalMM(isExceptionPath = true)
+                handleEpilogueExperimentalMM()
                 LLVMBuildResume(builder, landingpad)
             }
         }
@@ -2070,17 +2071,12 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         handleEpilogueExperimentalMM()
     }
 
-    private fun handleEpilogueExperimentalMM(isExceptionPath: Boolean = false) {
-        if (enableStackmap && isCToKotlinBridge) {
-            // A C++ unwind skips the stub's own Restore (its asm frame has no cleanup); run it
-            // here with the stub's frame — our caller.
-            if (isExceptionPath) {
-                val stubFrame = call(llvm.llvmFrameAddress, listOf(llvm.int32(1)))
-                call(llvm.restoreLastFrameAndStatus, listOf(stubFrame))
-            }
-            return
-        }
-
+    private fun handleEpilogueExperimentalMM() {
+        // A stub-owned C-to-Kotlin bridge (enableStackmap && isCToKotlinBridge) is constructed
+        // with switchToRunnable = needsRuntimeInit = false (see generateFunction), so both
+        // branches below are no-ops for it: the N2K / EnterKotlinFromCpp stub owns state, anchor
+        // and x28 — its asm epilogue on the normal path, its unwind personality
+        // (Kotlin_N2KStubUnwindPersonality) on the C++ exception path.
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)
