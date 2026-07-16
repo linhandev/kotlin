@@ -47,12 +47,17 @@ class OhosExecutor(
      * Supplied by the test harness from KotlinNativeHome + test target; not read from system properties here.
      */
     private val libCrtSo: File? = null,
+    private val deviceId: String? = null,
 ) : Executor {
     private val logger = Logger.getLogger(OhosExecutor::class.java.name)
     private val deviceExeDir = "/data/local/tmp/native.tests"
 
     /** Shared .so files (CRT runtime, future runtimes) pushed once under this directory. */
     private val deviceSharedLibDir = "$deviceExeDir/lib"
+
+    /** Returns hdc args for target device selection: ["-t", deviceId] or empty list. */
+    private val deviceArgs: List<String>
+        get() = if (deviceId != null) listOf("-t", deviceId) else emptyList()
 
     companion object {
         private const val HDC_CONNECT_KEY_FAILURE = "[Fail]ExecuteCommand need connect-key? please confirm a device by help info"
@@ -169,7 +174,7 @@ class OhosExecutor(
         }
         val executionRequest = ExecuteRequest(
             executableAbsolutePath = hdcAbsolutePath,
-            args = mutableListOf("shell", executionScript),
+            args = (deviceArgs + listOf("shell", executionScript)).toMutableList(),
             workingDirectory = workingDirectory,
             stdin = ByteArrayInputStream(byteArrayOf()),
             stdout = captureOut,
@@ -276,7 +281,7 @@ class OhosExecutor(
             val stderr = ByteArrayOutputStream()
             val req = ExecuteRequest(
                 executableAbsolutePath = hdcAbsolutePath,
-                args = commandArgs.toMutableList(),
+                args = (deviceArgs + commandArgs).toMutableList(),
                 workingDirectory = Paths.get("").toAbsolutePath().toFile(),
                 stdout = stdout,
                 stderr = stderr,

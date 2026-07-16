@@ -379,7 +379,7 @@ KInt Konan_Platform_getOsFamily() {
 #elif KONAN_WATCHOS
   return 8;
 #elif KONAN_OHOS
-  return 9; // 9 is the OHOS platform ID
+  return 9;
 #else
 #warning "Unknown platform"
   return 0;
