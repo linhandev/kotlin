@@ -1,0 +1,17 @@
+// DIAGNOSTICS: -UNUSED_VARIABLE -ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE -UNUSED_VALUE -UNUSED_PARAMETER -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: syntax-and-grammar, syntax-grammar -> paragraph 171 -> sentence 171
+ * PRIMARY LINKS: syntax-and-grammar, syntax-grammar -> paragraph 172 -> sentence 172
+ * NUMBER: 1
+ * DESCRIPTION: multiAnnotation unclosed bracket annotation
+ */
+
+// TESTCASE NUMBER: 1
+package syntax.grammar.p171.neg1
+
+fun case1() { @[Suppress("UNUSED")<!SYNTAX!><!> fun f() {} }
