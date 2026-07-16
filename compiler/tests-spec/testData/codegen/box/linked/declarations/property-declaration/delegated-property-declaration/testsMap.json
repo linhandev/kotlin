@@ -1,0 +1,46 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "delegated read-only property getValue is invoked at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/property-declaration/delegated-property-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Map getValue and setValue operators delegate property access at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/property-declaration/delegated-property-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member delegated property keeps delegate per instance",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/property-declaration/delegated-property-declaration/p-4/pos/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "provideDelegate checks keys before getValue and setValue are used",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/property-declaration/delegated-property-declaration/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

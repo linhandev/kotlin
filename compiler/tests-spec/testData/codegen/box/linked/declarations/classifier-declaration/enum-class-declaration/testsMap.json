@@ -1,0 +1,140 @@
+{
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry opposite override at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum State example from specification at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry name, ordinal, and compareTo work correctly at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entries property returns all constants with correct size and order at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum valueOf with illegal name throws at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum valueOf resolves constant by name at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry name, ordinal, toString, and compareTo work correctly at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry overridden toString returns custom string at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class body member function compares entry properties at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum values returns a fresh array on each call at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enumValues returns all enum constants in declaration order at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "mutating values() array does not change enum constants",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

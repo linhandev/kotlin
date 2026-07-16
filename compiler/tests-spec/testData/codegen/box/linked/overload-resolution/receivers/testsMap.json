@@ -58,5 +58,139 @@
         }
       ]
     }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension this parameter is available inside extension declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda with extension function type exposes this receiver inside lambda body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "declared classifier is available as implicit this in member function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member extension uses dispatch receiver and extension receiver together",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local extension callable has extension receiver only without dispatch receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "labeled this-expression accesses non-default implicit receiver in nested scope",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "default implicit receiver is available as this for implicit callable invocation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "implicit this receiver has higher priority than companion object receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "superclass companion object receivers are prioritized by inheritance order",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-2/pos/2.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "current class companion object receiver beats superclass companion object receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-2/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "phantom static implicit this has higher priority than companion object receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member function on implicit this beats companion object callable with same name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "same implicit receiver serves as dispatch and extension receiver; with provides dispatch for external extension call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/receivers/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
   }
 }

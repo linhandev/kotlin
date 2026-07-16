@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overload resolution uses known argument types before type inference on lambdas",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/type-inference-and-overload-resolution/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

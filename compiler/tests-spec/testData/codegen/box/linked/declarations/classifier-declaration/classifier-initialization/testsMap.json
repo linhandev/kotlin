@@ -1,0 +1,58 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "initialization order super then properties then init blocks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/classifier-initialization/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "using primary constructor does not invoke secondary constructor body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/classifier-initialization/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init block runs between surrounding property initializers",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/classifier-initialization/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "secondary constructor body runs after primary initialization chain",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/classifier-initialization/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

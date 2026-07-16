@@ -123,6 +123,74 @@
           "linkType": "primary"
         }
       ]
+    },
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member extension on Y declared in X requires implicit dispatch receiver of type X",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "implicit this is not available in top-level function scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local extension callable has no dispatch receiver for qualified this@Type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "labeled this-expression cannot refer to unavailable receiver label",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DslMarker restricts implicit receiver to highest priority receiver only",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
     }
   }
 }

@@ -1,0 +1,30 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation class can be instantiated at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "runtime-retained annotation applied to class is readable via Java reflection",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -10,25 +10,37 @@
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
-      ]
-    }
-  },
-  "2": {
-    "neg": {
+      ],
       "1": [
         {
-          "specVersion": "0.1-222",
-          "casesNumber": 3,
-          "description": "Check the expression is not assignable if a navigation expression referring to an unmutable property",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/1.2.kt",
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "(1 + 2) \u003d 3 on non-assignable expression reports VARIABLE_EXPECTED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/1.2.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         },
         {
-          "specVersion": "0.1-222",
-          "casesNumber": 2,
-          "description": "Check the expression is not assignable if an identifier referring to an unmutable property",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/1.1.kt",
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "val y \u003d x \u003d 2 reports ASSIGNMENT_IN_EXPRESSION_CONTEXT",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Simple assignment with incompatible right-hand side type reports TYPE_MISMATCH",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Reassignment of val array reference reports VAL_REASSIGNMENT",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -37,6 +49,32 @@
   },
   "3": {
     "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Safe assignment cannot be used as expression reports ASSIGNMENT_IN_EXPRESSION_CONTEXT",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "c?.p \u003d 10 on val property reports VAL_REASSIGNMENT",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Safe assignment with incompatible right-hand side type reports CONSTANT_EXPECTED_TYPE_MISMATCH",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3/neg/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ],
       "2": [
         {
           "specVersion": "0.1-222",
@@ -71,6 +109,62 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "val x \u003d b +\u003d 1 reports ASSIGNMENT_IN_EXPRESSION_CONTEXT",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "x +\u003d 1L on Int var reports TYPE_MISMATCH",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "c1.c +\u003d 1 with both plus and plusAssign reports ASSIGN_OPERATOR_AMBIGUITY",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Operator assignment to read-only property h.n reports VAL_REASSIGNMENT",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ],
+      "1": [
+        {
+          "specVersion": "0.1-222",
+          "casesNumber": 3,
+          "description": "Check the expression is not assignable if a navigation expression referring to an unmutable property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "0.1-222",
+          "casesNumber": 2,
+          "description": "Check the expression is not assignable if an identifier referring to an unmutable property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
         }
       ]
     }

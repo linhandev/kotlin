@@ -1,6 +1,126 @@
 {
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "m[0, 1] \u003d 99 invokes multi-index set operator at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "h.value \u003d 10 invokes custom setter and stored \u003d\u003d 10 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "list[1] \u003d 42 invokes custom set operator at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "c.n \u003d 7 assigns Container property at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "o.x \u003d 5 via delegated property yields x \u003d\u003d 5 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "var x \u003d 1; x \u003d 2 yields x \u003d\u003d 2 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "3": {
     "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "x?.linked[0] \u003d null with null x completes without side effects",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-3/pos/3.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Safe assignment with null receiver does not invoke property setter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Safe assignment with non-null receiver invokes property setter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "x?.linked[0] \u003d null invokes set on non-null receiver branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "0.1-213",
+          "casesNumber": 0,
+          "description": "check for a  increment expression A++ expression A must be an assignable expression (an indexing expression)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/postfix-operator-expressions/postfix-increment-expression/p-4/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "0.1-213",
+          "casesNumber": 0,
+          "description": "check for a  decrement expression A-- expression A must be an assignable expression (an indexing expression)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/postfix-operator-expressions/postfix-decrement-expression/p-4/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "0.1-213",
+          "casesNumber": 0,
+          "description": "check for a prefix increment expression ++A expression A must be an assignable expression (an indexing expression)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/prefix-expressions/prefix-increment-expression/p-4/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "0.1-213",
+          "casesNumber": 0,
+          "description": "check for a prefix increment expression --A expression A must be an assignable expression (an indexing expression)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/prefix-expressions/prefix-decrement-expression/p-4/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ],
       "1": [
         {
           "specVersion": "0.1-313",
@@ -132,39 +252,75 @@
           "unexpectedBehaviour": false,
           "linkType": "primary"
         }
-      ],
-      "3": [
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
         {
-          "specVersion": "0.1-213",
-          "casesNumber": 0,
-          "description": "check for a  increment expression A++ expression A must be an assignable expression (an indexing expression)",
-          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/postfix-operator-expressions/postfix-increment-expression/p-4/pos/1.1.kt",
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Counter +\u003d 2 invokes plusAssign and yields v \u003d\u003d 3 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-2/pos/2.1.kt",
           "unexpectedBehaviour": false,
-          "linkType": "primary"
+          "linkType": "main"
         },
         {
-          "specVersion": "0.1-213",
-          "casesNumber": 0,
-          "description": "check for a  decrement expression A-- expression A must be an assignable expression (an indexing expression)",
-          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/postfix-operator-expressions/postfix-decrement-expression/p-4/pos/1.1.kt",
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Counter /\u003d 4 invokes divAssign and yields v \u003d\u003d 5 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-2/pos/2.5.kt",
           "unexpectedBehaviour": false,
-          "linkType": "primary"
+          "linkType": "main"
         },
         {
-          "specVersion": "0.1-213",
-          "casesNumber": 0,
-          "description": "check for a prefix increment expression ++A expression A must be an assignable expression (an indexing expression)",
-          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/prefix-expressions/prefix-increment-expression/p-4/pos/1.1.kt",
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Counter *\u003d 4 invokes timesAssign and yields v \u003d\u003d 12 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-2/pos/2.4.kt",
           "unexpectedBehaviour": false,
-          "linkType": "primary"
+          "linkType": "main"
         },
         {
-          "specVersion": "0.1-213",
-          "casesNumber": 0,
-          "description": "check for a prefix increment expression --A expression A must be an assignable expression (an indexing expression)",
-          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/prefix-expressions/prefix-decrement-expression/p-4/pos/1.1.kt",
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "h[0] +\u003d 10 invokes plusAssign on indexed element at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-2/pos/2.8.kt",
           "unexpectedBehaviour": false,
-          "linkType": "primary"
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Box -\u003d 2 uses minus fallback when minusAssign unavailable and yields v \u003d\u003d 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-2/pos/2.7.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Counter -\u003d 2 invokes minusAssign and yields v \u003d\u003d 3 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Box +\u003d 2 uses plus fallback when plusAssign unavailable and yields v \u003d\u003d 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Counter %\u003d 3 invokes remAssign and yields v \u003d\u003d 1 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/assignments/p-2/pos/2.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
         }
       ]
     }

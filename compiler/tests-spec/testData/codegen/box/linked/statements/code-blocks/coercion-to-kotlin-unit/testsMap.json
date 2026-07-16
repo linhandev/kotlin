@@ -1,0 +1,48 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "{ if (true) 42 else -42 } as () -\u003e Unit coerces Int to Unit at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "{ when { true -\u003e 42 } } as () -\u003e Unit coerces Int to Unit at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "{ if (true) work() } as () -\u003e Unit with Unit last expression at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "consume() with if (true) 42 body coerces Int to Unit in function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "{ if (true) 42 } as () -\u003e Unit coerces Int to Unit at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

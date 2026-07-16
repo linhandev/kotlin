@@ -4,6 +4,38 @@
       "1": [
         {
           "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "indirect cyclic annotation type references are forbidden",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation class cannot declare Class parameter type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "direct self-referential annotation type is forbidden",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "annotation classes cannot declare supertypes member functions or mutable properties",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
           "casesNumber": 3,
           "description": "annotation classes cannot declare supertypes functions or mutable properties",
           "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/built-in-annotation-types/p-1/neg/1.1.kt",
@@ -15,6 +47,14 @@
     },
     "pos": {
       "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation class may declare Int String enum nested annotation and Array\u003cString\u003e properties",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 2,

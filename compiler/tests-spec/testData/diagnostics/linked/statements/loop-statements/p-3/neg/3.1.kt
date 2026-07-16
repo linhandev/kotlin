@@ -1,0 +1,17 @@
+// FIR_IDENTICAL
+// DIAGNOSTICS: -UNUSED_VARIABLE -ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE -UNUSED_VALUE -UNUSED_PARAMETER -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: statements, loop-statements -> paragraph 3 -> sentence 3
+ * NUMBER: 1
+ * DESCRIPTION: for (i in 42) with non-iterable Int reports ITERATOR_MISSING
+ */
+
+// TESTCASE NUMBER: 1
+fun case1() {
+    for (i in <!ITERATOR_MISSING!>42<!>) {}
+}

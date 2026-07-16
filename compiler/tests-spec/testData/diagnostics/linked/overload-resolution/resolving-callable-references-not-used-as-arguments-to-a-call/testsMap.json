@@ -1,0 +1,68 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "no applicable candidate for expected (String) -\u003e T callable reference type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "invoke operator convention does not apply to callable reference candidates",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function and property with same name in OCS produce overload ambiguity for ::foo",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property reference resolved via expected type () -\u003e Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "value receiver callable reference prefers instance member over companion member",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "companion member callable reference resolves via explicit Companion receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expected type (Int) -\u003e Int selects Int overload for standalone callable reference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
