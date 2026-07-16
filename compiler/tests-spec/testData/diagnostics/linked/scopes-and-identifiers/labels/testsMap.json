@@ -1,0 +1,60 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break@target643 on enclosing function name reports NOT_A_LOOP_LABEL",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break@missing with undeclared label reports NOT_A_LOOP_LABEL and UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "continue@scan skips even i in scan@ for loop",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return@label from labeled lambda in inline runLabeled",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break@inner exits inner@ loop when j \u003d\u003d 2 in nested outer@ loop",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break@outer exits outer@ for loop when i \u003d\u003d 3",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

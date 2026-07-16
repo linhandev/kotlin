@@ -1,0 +1,17 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function signature type inference deduces anonymous function parameter and return types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

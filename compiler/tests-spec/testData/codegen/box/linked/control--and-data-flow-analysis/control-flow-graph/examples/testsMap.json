@@ -1,0 +1,30 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained map and filter with lambda bodies included in CFG",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/examples/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "spec example labeled while with property init and break@loop",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/examples/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

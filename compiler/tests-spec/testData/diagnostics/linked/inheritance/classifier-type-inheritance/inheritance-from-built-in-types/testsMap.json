@@ -1,0 +1,37 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "InheritInt513 : Int and InheritBoolean513 : Boolean report FINAL_SUPERTYPE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Mapper513 implements Function1\u003cString, Int\u003e; SuspendLength513 implements suspend (String) -\u003e Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "IntToInt513 implements (Int) -\u003e Int and invoke adds one",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

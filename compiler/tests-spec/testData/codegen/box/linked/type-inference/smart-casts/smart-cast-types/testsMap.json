@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "id(a) uses smart cast in inference and returns non-null Any at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/smart-casts/smart-cast-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

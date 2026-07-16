@@ -1,0 +1,24 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CFG may include nested lambda function bodies declared inside outer function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "intraprocedural CFG branches follow feasible if-else paths at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

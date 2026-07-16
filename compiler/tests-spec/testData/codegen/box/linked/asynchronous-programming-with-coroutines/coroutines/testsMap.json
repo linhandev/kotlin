@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder bootstraps nested suspend calls that suspend and resume with a chained result",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/asynchronous-programming-with-coroutines/coroutines/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,4 +1,38 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "spec VIA counterexample reports use of properties not definitely assigned on all paths",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "spec VIA counterexample reports val reassignment inside while loop",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "spec VIA example with if branches assigns properties before use",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "2": {
     "neg": {
       "1": [

@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast after type check uses CFG assume information",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "a + b expands to member operator fun plus call and evaluates correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/overview/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "C[0][0]++ expands to nested get/set/inc and evaluates outer C.get(0) only once",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/overview/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "a[i]++ expands to get/set/inc operator calls and updates the stored element",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/overview/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member operator fun plus with heterogeneous operand types resolves in a + b",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/overview/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator defined in context type resolves in a + b via implicit receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/overview/p-2/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit operator function call produces the same result as operator syntax",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/overview/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator fun A.plus resolves in a + b and produces correct result",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/overview/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

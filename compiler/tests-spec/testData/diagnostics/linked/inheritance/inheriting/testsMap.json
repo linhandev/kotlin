@@ -1,0 +1,112 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "PrivateDerived531 call to base private hidden() and SecretUser531 call to interface private hidden() report INVISIBLE_MEMBER",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "InternalDerived531 uses inherited internal helper() and tag",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OpenDerived531 calls inherited public pub() and protected prot()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "InterfaceConflict533 reports MANY_INTERFACES_MEMBER_NOT_IMPLEMENTED; ConcreteMissing533 reports ABSTRACT_CLASS_MEMBER_NOT_IMPLEMENTED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TwoClasses533 : First533, Second533 reports MANY_CLASSES_IN_SUPERTYPE_LIST and SUPERTYPE_NOT_INITIALIZED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Resolved533 override foo() resolves Super533 and abstract Interface533",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Satisfied533 inherits concrete foo() from ConcreteBase533 satisfying Interface533",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "PropConflict532 with value from PropA532 and PropB532 reports MANY_INTERFACES_MEMBER_NOT_IMPLEMENTED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "InheritRuleDerived532.foo() uses inherited open base implementation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LabelDerived532.label reads inherited open base property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

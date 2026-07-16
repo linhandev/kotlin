@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "override val on base fun; foo with String param; bar with extra Int param report NOTHING_TO_OVERRIDE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fun \u003cT\u003e foo() conflicts with base foo reports CONFLICTING_OVERLOADS",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Dog520 speak() returns String over Any; IntBox520 content returns Int over Any",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MatchDerived520 overrides foo(x: Int) and bar with same signatures as base",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast does not apply outside the branch where type was narrowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast after null check avoids explicit cast on nullable receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "flow-sensitive typing narrows compile-time type after is check",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

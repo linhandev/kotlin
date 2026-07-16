@@ -1,0 +1,30 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "pull-up constraint picks LUB of lower bounds for free inference variable",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "push-down constraint on LUB result infers Number for if (flag) a else b branches",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "constraint List\u003cT\u003e \u003c: List\u003cU\u003e satisfied when T is inferred as Int",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/kotlin-type-constraints/type-constraint-definition/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type constraint T \u003c: U holds for generic upper bound with satisfying argument type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/kotlin-type-constraints/type-constraint-definition/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

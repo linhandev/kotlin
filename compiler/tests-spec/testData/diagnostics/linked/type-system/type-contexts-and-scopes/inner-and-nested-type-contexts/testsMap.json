@@ -61,6 +61,38 @@
           "unexpectedBehaviour": false,
           "linkType": "main",
           "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested class var constructor property cannot reference enclosing generic class type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "nested nested-class, data class, and enum in generic outer cannot reference outer type parameter in constructor parameter types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "data class primary constructor parameters must be val or var; plain parameters with Any, function, enum, Nothing, and generic types are rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested class val constructor property cannot reference enclosing generic class type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     },

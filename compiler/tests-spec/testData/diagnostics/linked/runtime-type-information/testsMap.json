@@ -1,0 +1,17 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type-checking against nullable type accepts kotlin.Nothing? runtime type of null",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

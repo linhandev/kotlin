@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression body — declared return type constrains generic foo call at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

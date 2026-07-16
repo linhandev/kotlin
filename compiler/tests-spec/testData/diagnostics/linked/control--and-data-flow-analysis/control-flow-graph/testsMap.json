@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unreachable CFG node after break in do-while loop is marked UNREACHABLE_CODE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

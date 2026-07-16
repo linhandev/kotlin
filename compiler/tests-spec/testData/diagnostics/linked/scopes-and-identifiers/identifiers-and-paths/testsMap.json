@@ -1,0 +1,76 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "h.missing on Holder642 reports UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this in top-level function reports NO_THIS",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "undeclared identifier missing reports UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "p.x + p.y reads Point642 member properties",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this.value in Counter642.increment reads instance field",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this@labeledFirst[0] in String extension reads extension receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "super\u003cBase642\u003e.value() in Derived642 calls base implementation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return answer reads local val answer \u003d 42",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

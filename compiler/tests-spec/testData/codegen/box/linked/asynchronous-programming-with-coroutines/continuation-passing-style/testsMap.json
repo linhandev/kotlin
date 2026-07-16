@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspending function returns actual result at runtime after CPS transformation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/asynchronous-programming-with-coroutines/continuation-passing-style/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

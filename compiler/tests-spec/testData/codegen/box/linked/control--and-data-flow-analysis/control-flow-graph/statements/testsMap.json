@@ -1,0 +1,46 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break@loop at i \u003d\u003d 2 yields sum \u003d\u003d 1 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/statements/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "loop@ while (count \u003c 2) increments count to 2 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/statements/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "loop@ do { count++ } while (false) runs body once at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/statements/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "loop@ do-while sums 0+1+2 to 3 while i \u003c 3 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/statements/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

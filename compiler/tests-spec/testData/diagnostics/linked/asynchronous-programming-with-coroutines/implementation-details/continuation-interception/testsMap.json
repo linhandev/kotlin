@@ -1,0 +1,68 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interceptContinuation return type must match continuation type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ContinuationInterceptor interceptContinuation wraps continuation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "continuation interception via context ContinuationInterceptor or original continuation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ContinuationInterceptor interceptContinuation return type must match",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "full ContinuationInterceptor with releaseInterceptedContinuation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

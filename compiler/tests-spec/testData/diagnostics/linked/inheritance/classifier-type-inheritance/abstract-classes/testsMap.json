@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Partial511 missing bar and Partial511b missing foo report ABSTRACT_CLASS_MEMBER_NOT_IMPLEMENTED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Base511() reports CREATING_AN_INSTANCE_OF_ABSTRACT_CLASS",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Triangle511 implements abstract name sides and area() from Shape511",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ConcreteImpl overrides abstract foo() and bar from AbstractBase",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

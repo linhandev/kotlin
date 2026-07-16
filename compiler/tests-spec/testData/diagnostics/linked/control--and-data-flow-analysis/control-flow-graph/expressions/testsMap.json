@@ -1,0 +1,66 @@
+{
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "if used as expression must have both branches, including else-if chain without final else",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "if/when expression with both branches present is valid CFG conditional expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch parameter type cannot be an unconstrained type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg/5.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch clause parameter type must be Throwable or its subtype",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "catch parameter cannot be declared with val or var",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch parameter cannot have a default value",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

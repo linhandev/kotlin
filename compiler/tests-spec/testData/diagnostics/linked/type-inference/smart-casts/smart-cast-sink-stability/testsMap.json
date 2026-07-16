@@ -1,4 +1,70 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nestedSinkBad02 blocks smart cast at nested sink after nested redefinition",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "0.1-268",
+          "casesNumber": 1,
+          "description": "smart case for property `plus` available through the operator invoke",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": true,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "directSinkBad blocks smart cast after nested redefinition on path to direct sink",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "directSinkOk allows smart cast at direct sink without nested redefinition on path",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nestedSinkOk allows smart cast at nested sink when direct redefinitions precede sink",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "0.1-268",
+          "casesNumber": 1,
+          "description": "smart cast for the property available through the operator invoke",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": true,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "immutable local property is a stable smart cast sink",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "5": {
     "neg": {
       "1": [
@@ -21,6 +87,16 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-5/pos/1.1.kt",
           "unexpectedBehaviour": true,
           "linkType": "main"
+        }
+      ],
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast after type check uses CFG assume information",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }

@@ -1,6 +1,32 @@
 {
   "7": {
     "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "concrete class, inner class, anonymous object, and sealed subclass fail to implement inherited abstract members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.10.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Java subclass of Kotlin abstract class with internal abstract member (unexpected behaviour)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.9.kt",
+          "unexpectedBehaviour": true,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "subtype fails to implement private abstract members and reports visibility errors on access",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.8.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ],
       "1": [
         {
           "specVersion": "0.1-213",
@@ -25,6 +51,56 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/1.9.kt",
           "unexpectedBehaviour": true,
           "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "override fun fixed and override val fixed on non-open members report OVERRIDING_FINAL_MEMBER",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "override var with String over Int base and Int over Any base report VAR_TYPE_MISMATCH_ON_OVERRIDE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "five invalid overrides: foo without override; String bar return; val over var; protected override of public g; private open h",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "English540 implements Greeter540.greet; ProtectedOverride540 overrides protected secret()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OverrideDerived540 f() returns String over Any with implicit protected visibility; PublicOverride540 public override of protected g() is weaker visibility",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
         }
       ]
     }

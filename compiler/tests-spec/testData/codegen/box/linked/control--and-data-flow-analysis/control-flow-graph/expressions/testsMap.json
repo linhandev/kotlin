@@ -1,0 +1,98 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literals and references do not introduce CFG branches and evaluate normally",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "boolean operators !, ||, \u0026\u0026 introduce CFG assume branches and evaluate correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "top-level function call CFG evaluates arguments in order",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member function call x.f(args) CFG evaluates receiver and arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "not-null assertion !! returns value when receiver is non-null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/pos/5.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis expression evaluates right side only when left side is null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call and Elvis combined: null receiver skips member and evaluates default",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/pos/5.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call evaluates member only when receiver is non-null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try-catch-finally runs catch on exception and always runs finally block",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/pos/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

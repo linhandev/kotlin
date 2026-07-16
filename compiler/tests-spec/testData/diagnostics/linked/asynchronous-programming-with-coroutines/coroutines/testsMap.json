@@ -1,0 +1,36 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspending function cannot be called from non-suspending context without builder",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested suspend calls through coroutine builder compile",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "coroutine builder accepts suspending lambda to bootstrap coroutine",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

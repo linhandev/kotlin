@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "x \u003d y assignment transfer propagates rhs smart cast type to lhs without explicit cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

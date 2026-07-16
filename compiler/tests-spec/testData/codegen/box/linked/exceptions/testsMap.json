@@ -1,0 +1,32 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally block executes after a matching catch clause handles the thrown exception",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/exceptions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "user-defined Exception subtype is caught by its specific catch clause before a general Exception handler",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/exceptions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "thrown exception is handled by matching catch clause in try-expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/exceptions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

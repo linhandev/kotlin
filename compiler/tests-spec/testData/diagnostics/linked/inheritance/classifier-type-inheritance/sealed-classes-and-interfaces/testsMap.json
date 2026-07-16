@@ -1,0 +1,60 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CrossPackageInheritor512 outside sealedpack512 reports SEALED_INHERITOR_IN_DIFFERENT_PACKAGE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when (c: Color512) with Red and Green missing Blue512 reports NO_ELSE_IN_WHEN",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Token512() constructor call on sealed class reports SEALED_CLASS_CONSTRUCTOR_CALL",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "abstract sealed RedundantAbstract512; sealed fun interface; object and local Base512 subclass report REDUNDANT_MODIFIER, UNSUPPORTED_SEALED_FUN_INTERFACE and SEALED_SUPERTYPE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "case1 recurses on Expr512.Const512 and Expr512.Add512 branches",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on Result512.Ok and Result512.Err exhausts sealed Result512",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

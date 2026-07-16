@@ -1,0 +1,51 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unsound constraint system has no satisfying substitution for inference variable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reduction reports inference error when nullable S is not subtype of non-nullable T",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reduction reports inference error when resolved S is not subtype of parameterized T",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reduction eliminates resolved constraint Int \u003c: Number",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

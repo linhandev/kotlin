@@ -1,0 +1,59 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "GLB converted as intersection type allows members from all intersected bounds",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "imprecise LUB upper bound is not assignable to unrelated narrower type Number",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "constraint-system LUB is sound upper bound for unconstrained branch type variables",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "LUB(A, B) produces A \u003c: T, B \u003c: T constraints and infers Number for Int and Double branches",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

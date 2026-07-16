@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CFG keeps feasible path when kotlin.Nothing call is on a conditional branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 3 Important phantom it does not override zero-parameter choice",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 2 overload resolution before lambda body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 5 external expected type constrains nested run",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 3 zero-parameter lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 3 one-parameter lambda with phantom it",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 4 top-down recursive analysis",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 5 bottom-up inference nested run example",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 1 empty constraint system Q",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda parameter destructuring { (x, z) -\u003e ... } calls component1 and component2",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/destructuring-declarations/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for ((x, _, z) in ...) iteration variable destructuring calls component1 and component3, skips component2",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/destructuring-declarations/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "val (x, _, z) calls component1 and component3, skips component2 for ignoring placeholder",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/operator-overloading/destructuring-declarations/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

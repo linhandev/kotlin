@@ -1,0 +1,84 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type argument inference — constraint system has no solution for repeated type-parameter alias",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type argument inference — bare inner type without subject type context cannot infer type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type argument inference — nested type parameter List\u003cT\u003e inferred from Foo\u003cList\u003cString\u003e\u003e subject",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type argument inference — simple non-nullable T infers List\u003cInt\u003e from List subject type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type argument inference — nullable U? subject uses non-nullable U for inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type argument inference — intersection subject T merges inferred arguments from member types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type argument inference — checked cast as? infers type arguments from subject type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type argument inference — simple non-nullable T, TC[A0…An] \u003c: T with swapped type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

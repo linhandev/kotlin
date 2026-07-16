@@ -1,0 +1,24 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast participates in local type inference at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/local-type-inference/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local property type inferred from initializer drives overload resolution at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/local-type-inference/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

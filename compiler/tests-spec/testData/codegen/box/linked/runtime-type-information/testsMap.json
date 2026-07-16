@@ -1,0 +1,32 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous object literal has classifier runtime type at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/runtime-type-information/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function values have function types as runtime types and execute correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/runtime-type-information/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null reference at runtime satisfies is check for nullable classifier types including star projection",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/runtime-type-information/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
