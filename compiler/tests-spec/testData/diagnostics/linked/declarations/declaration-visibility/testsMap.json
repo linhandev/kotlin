@@ -1,0 +1,256 @@
+{
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "public inline cannot access private member without PublishedApi",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/neg/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "public inline functions cannot access less visible entities without PublishedApi",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal inline function may call internal helper",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/pos/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "public inline functions may access internal entities marked with PublishedApi",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "override visibility must be compatible with all inherited declarations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/neg/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "overriding declarations cannot use a more visible modifier than required",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "overriding declarations may use an equally or less visible modifier",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "visibility modifiers restrict access from incompatible scopes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "visibility modifiers may be declared explicitly and compose with inheritance",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "declarations are public by default and overriding declarations inherit visibility",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal declarations cannot be accessed from other modules",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "internal declarations are accessible within the same module",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "internal declarations are accessible from other files in the same module",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private-to-this members are not visible on other instances of the same class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private-to-this constructor parameter is not visible on other instances of the same class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "private visibility lifts variance conflicts and nested scopes access outer private members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private member accessible via this in same class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private top-level declarations cannot be accessed from other files",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private class members cannot be accessed from outside the declaring class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "private declarations are accessible from the same scope they are declared in",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "protected members cannot be accessed from unrelated scopes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "protected member function and protected property are accessible in direct subclass",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "protected members remain accessible in indirect subclass through inheritance chain",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

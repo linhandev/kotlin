@@ -1,0 +1,147 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "annotation class cannot use invalid supertype, declare member function, var parameter, companion object, or nested class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation class with property constructor parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation missing required parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation on wrong target",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/neg/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation used on class function and parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation class direct instantiation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation constructor parameter cannot use type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation array parameter cannot use type parameter element type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation class may declare type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation class may declare multiple type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "annotation constructor parameters cannot use custom class or Array element types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "cyclic annotation type references are forbidden",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "allowed annotation constructor parameter types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

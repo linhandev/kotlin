@@ -1,0 +1,15 @@
+// FIR_IDENTICAL
+// DIAGNOSTICS: -UNUSED_VARIABLE -ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE -UNUSED_VALUE -UNUSED_PARAMETER -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: declarations, function-declaration -> paragraph 10 -> sentence 10
+ * NUMBER: 1
+ * DESCRIPTION: only one vararg parameter is allowed
+ */
+
+// TESTCASE NUMBER: 1
+fun twoVarargs(<!MULTIPLE_VARARG_PARAMETERS!>vararg<!> a: Int, <!MULTIPLE_VARARG_PARAMETERS!>vararg<!> b: Int) {}

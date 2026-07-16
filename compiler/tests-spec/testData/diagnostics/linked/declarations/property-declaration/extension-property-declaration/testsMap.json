@@ -1,0 +1,28 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "extension property without accessors, with backing field initializer, and mutable without setter are rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "extension properties require explicit accessors and use receiver parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "val without initializer cannot be read before assignment",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "read-only val cannot be reassigned",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "read-only property with backing field and custom getter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "inferred val, explicit val, custom getter, and getter-only computed val compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -3,12 +3,56 @@
     "neg": {
       "1": [
         {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reading uninitialized local variable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "reading uninitialized properties is reported before first use",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "uninitialized local properties used after catch block with control-flow exception (unexpected behaviour)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": true,
+          "linkType": "primary"
+        },
+        {
           "specVersion": "0.1-218",
           "casesNumber": 2,
           "description": "All non-abstract properties must be definitely initialized before their first use.",
           "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-1/neg/1.1.kt",
           "unexpectedBehaviour": true,
           "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member property initialized in init block",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "member property initialized from constructor, lateinit assigned before read, and local val assigned before use are valid",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
         }
       ]
     }

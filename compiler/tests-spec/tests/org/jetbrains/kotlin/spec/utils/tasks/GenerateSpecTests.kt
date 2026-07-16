@@ -25,12 +25,18 @@ import java.nio.file.Files
 // `baseDir` is used in Kotlin plugin from IJ infra
 fun detectDirsWithTestsMapFileOnly(dirName: String, baseDir: String = "."): List<String> {
     val excludedDirs = mutableListOf<String>()
+    val root = File("${baseDir}/$SPEC_TESTDATA_PATH/$dirName")
 
-    File("${baseDir}/$SPEC_TESTDATA_PATH/$dirName").walkTopDown().forEach { file ->
-        val listFiles = Files.walk(file.toPath()).filter(Files::isRegularFile)
+    root.walkTopDown().forEach { file ->
+        if (!file.isDirectory) return@forEach
 
-        if (file.isDirectory && listFiles?.allMatch { it.endsWith(TESTS_MAP_FILENAME) } == true) {
-            val relativePath = file.relativeTo(File("${baseDir}/$SPEC_TESTDATA_PATH/$dirName")).path
+        // Files.walk must be closed; otherwise directory streams leak and can hit "Too many open files".
+        val onlyTestsMap = Files.walk(file.toPath()).use { stream ->
+            stream.filter(Files::isRegularFile).allMatch { it.endsWith(TESTS_MAP_FILENAME) }
+        }
+
+        if (onlyTestsMap) {
+            val relativePath = file.relativeTo(root).path
 
             if (!excludedDirs.any { relativePath.startsWith(it) }) {
                 excludedDirs.add(relativePath)
@@ -42,12 +48,17 @@ fun detectDirsWithTestsMapFileOnly(dirName: String, baseDir: String = "."): List
 }
 
 fun generateTests() {
+    // Cache once: the tree walk is expensive and used to be repeated for each test class.
+    val diagnosticsExcludeDirs = listOf("helpers") + detectDirsWithTestsMapFileOnly("diagnostics")
+    val psiExcludeDirs = listOf("helpers", "templates") + detectDirsWithTestsMapFileOnly("psi")
+    val codegenBoxExcludeDirs = listOf("helpers", "templates") + detectDirsWithTestsMapFileOnly("codegen/box")
+
     generateTestGroupSuite {
         testGroup(SPEC_TEST_PATH, SPEC_TESTDATA_PATH) {
             testClass<AbstractDiagnosticsTestSpec> {
                 model(
                     "diagnostics",
-                    excludeDirs = listOf("helpers") + detectDirsWithTestsMapFileOnly("diagnostics"),
+                    excludeDirs = diagnosticsExcludeDirs,
                     excludedPattern = CUSTOM_TEST_DATA_EXTENSION_PATTERN,
                 )
             }
@@ -56,13 +67,13 @@ fun generateTests() {
                 model(
                     relativeRootPath = "psi",
                     testMethod = "doParsingTest",
-                    excludeDirs = listOf("helpers", "templates") + detectDirsWithTestsMapFileOnly("psi")
+                    excludeDirs = psiExcludeDirs
                 )
             }
             testClass<AbstractBlackBoxCodegenTestSpec> {
                 model(
                     relativeRootPath = "codegen/box",
-                    excludeDirs = listOf("helpers", "templates") + detectDirsWithTestsMapFileOnly("codegen/box"),
+                    excludeDirs = codegenBoxExcludeDirs,
                 )
             }
         }
@@ -73,14 +84,14 @@ fun generateTests() {
             testClass<AbstractFirPsiDiagnosticTestSpec> {
                 model(
                     "diagnostics",
-                    excludeDirs = listOf("helpers") + detectDirsWithTestsMapFileOnly("diagnostics"),
+                    excludeDirs = diagnosticsExcludeDirs,
                     excludedPattern = CUSTOM_TEST_DATA_EXTENSION_PATTERN
                 )
             }
             testClass<AbstractFirLightTreeDiagnosticTestSpec> {
                 model(
                     "diagnostics",
-                    excludeDirs = listOf("helpers") + detectDirsWithTestsMapFileOnly("diagnostics"),
+                    excludeDirs = diagnosticsExcludeDirs,
                     excludedPattern = CUSTOM_TEST_DATA_EXTENSION_PATTERN
                 )
             }
@@ -90,7 +101,7 @@ fun generateTests() {
             testClass<AbstractFirBlackBoxCodegenTestSpec> {
                 model(
                     relativeRootPath = "codegen/box",
-                    excludeDirs = listOf("helpers", "templates") + detectDirsWithTestsMapFileOnly("codegen/box"),
+                    excludeDirs = codegenBoxExcludeDirs,
                 )
             }
         }

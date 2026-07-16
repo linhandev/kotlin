@@ -1,0 +1,52 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "companion object, generic Throwable subclass, and call site violating upper bound are rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "top-level and member non-extension properties and local variable cannot declare type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "object and enum cannot declare type parameters; mutually exclusive where bounds on one parameter are rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "interfaces, extension properties and type aliases may use type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "generic class, generic function, and where-bounded class compile and are usable in expressions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

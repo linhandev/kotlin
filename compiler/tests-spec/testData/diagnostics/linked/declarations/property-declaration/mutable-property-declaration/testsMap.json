@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom setter without parameter name is forbidden",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom setter parameter type must match property type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "mutable property with custom setter using field",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "mutable var assignment and custom setter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

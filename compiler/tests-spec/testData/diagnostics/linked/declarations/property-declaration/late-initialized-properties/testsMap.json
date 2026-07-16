@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lateinit on primitive type is forbidden",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "lateinit is only applicable to mutable non-primitive member or top-level properties",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lateinit top-level property assignment before use",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "lateinit mutable member properties defer initialization checks",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

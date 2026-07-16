@@ -1,0 +1,214 @@
+{
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "forbidden identity equality on different value class types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/neg/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reference equality operators are forbidden on value classes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "structural equality works on value classes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/pos/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class structural equality with \u003d\u003d operator",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "value class cannot be combined with data modifier or declared as enum class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "value class must have exactly one final val constructor parameter; multiple parameters or var parameter are rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class with single public val property parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "structural equality not applicable between different value class types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class implicit equals hashCode based on underlying property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class generic underlying type requires Kotlin 1.8+",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class cannot wrap Unit as underlying property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "value class with Int and String underlying types compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "value class may use Boolean and Char as underlying types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline and value modifiers cannot be used together",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "legacy inline class declaration compiles",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "value class with non-runtime-available underlying types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class cannot use Nothing as underlying type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class with runtime-available underlying type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class with Long underlying type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

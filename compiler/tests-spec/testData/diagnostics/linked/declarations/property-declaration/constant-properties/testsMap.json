@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "const val with enum type is forbidden",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "const properties must be compile-time constants at allowed scopes and types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "const val in companion object",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "const properties with compile-time initializer at top level or in object",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTreeDiagnosticTestSpec {
   @Test
   public void testAllFilesPresentInDiagnostics() {
-    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "helpers", "linked/annotations", "linked/built-in-types-and-their-semantics/built-in-integer-types-1", "linked/call-and-property-access-class-literals", "linked/constant-literals", "linked/control--and-data-flow-analysis.control-flow-graph.expressions-1.conditional-expressions", "linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph", "linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers", "linked/declarations/classifier-declaration/classifier-initialization", "linked/declarations/classifier-declaration/data-class-declaration", "linked/declarations/function-declaration", "linked/declarations/property-declaration/property-initialization", "linked/declarations/type-alias", "linked/expressions/call-and-property-access-expressions", "linked/expressions/function-literals", "linked/inheritance", "linked/overload-resolution/c-level-partition", "linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale", "linked/overloadable-operators", "linked/statements/assignments/simple-assignments", "linked/type-inference/local-type-inference", "linked/type-inference/smart-casts/smart-cast-types");
+    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "helpers", "linked/annotations/built-in-annotations/kotlin.annotation.Target", "linked/built-in-types-and-their-semantics/built-in-integer-types-1", "linked/call-and-property-access-class-literals", "linked/constant-literals", "linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1/neg", "linked/declarations/classifier-declaration/enum-class-declaration/p-5/neg", "linked/expressions/call-and-property-access-expressions/navigation-operators", "linked/overload-resolution/c-level-partition", "linked/overloadable-operators", "linked/statements/assignments/simple-assignments");
   }
 
   @Nested
@@ -30,7 +30,2227 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
   public class Linked {
     @Test
     public void testAllFilesPresentInLinked() {
-      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "annotations", "built-in-types-and-their-semantics/built-in-integer-types-1", "call-and-property-access-class-literals", "constant-literals", "control--and-data-flow-analysis.control-flow-graph.expressions-1.conditional-expressions", "control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph", "declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers", "declarations/classifier-declaration/classifier-initialization", "declarations/classifier-declaration/data-class-declaration", "declarations/function-declaration", "declarations/property-declaration/property-initialization", "declarations/type-alias", "expressions/call-and-property-access-expressions", "expressions/function-literals", "inheritance", "overload-resolution/c-level-partition", "overload-resolution/determining-function-applicability-for-a-specific-call/rationale", "overloadable-operators", "statements/assignments/simple-assignments", "type-inference/local-type-inference", "type-inference/smart-casts/smart-cast-types");
+      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "annotations/built-in-annotations/kotlin.annotation.Target", "built-in-types-and-their-semantics/built-in-integer-types-1", "call-and-property-access-class-literals", "constant-literals", "declarations/classifier-declaration/class-declaration/constructor-declaration/p-1/neg", "declarations/classifier-declaration/enum-class-declaration/p-5/neg", "expressions/call-and-property-access-expressions/navigation-operators", "overload-resolution/c-level-partition", "overloadable-operators", "statements/assignments/simple-assignments");
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Annotations {
+      @Test
+      public void testAllFilesPresentInAnnotations() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "built-in-annotations/kotlin.annotation.Target");
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Annotation_declarations {
+        @Test
+        public void testAllFilesPresentInAnnotation_declarations() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-declarations/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Annotation_retention {
+        @Test
+        public void testAllFilesPresentInAnnotation_retention() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Annotation_targets {
+        @Test
+        public void testAllFilesPresentInAnnotation_targets() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.5.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Annotation_values {
+        @Test
+        public void testAllFilesPresentInAnnotation_values() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg/1.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-values/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Built_in_annotations {
+        @Test
+        public void testAllFilesPresentInBuilt_in_annotations() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "kotlin.annotation.Target");
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_annotation_repeatable {
+          @Test
+          public void testAllFilesPresentInKotlin_annotation_repeatable() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_annotation_retention {
+          @Test
+          public void testAllFilesPresentInKotlin_annotation_retention() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_annotation_target {
+          @Test
+          public void testAllFilesPresentInKotlin_annotation_target() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-target/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_builder_inference {
+          @Test
+          public void testAllFilesPresentInKotlin_builder_inference() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos/1.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_deprecated {
+          @Test
+          public void testAllFilesPresentInKotlin_deprecated() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-deprecated/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_dsl_marker {
+          @Test
+          public void testAllFilesPresentInKotlin_dsl_marker() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-dsl-marker/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_opt_in {
+          @Test
+          public void testAllFilesPresentInKotlin_opt_in() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_overload_resolution_by_lambda_return_type {
+          @Test
+          public void testAllFilesPresentInKotlin_overload_resolution_by_lambda_return_type() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_published_api {
+          @Test
+          public void testAllFilesPresentInKotlin_published_api() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-published-api/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_requires_opt_in {
+          @Test
+          public void testAllFilesPresentInKotlin_requires_opt_in() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-requires-opt-in/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_restrict_suspension {
+          @Test
+          public void testAllFilesPresentInKotlin_restrict_suspension() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1/neg/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-restrict-suspension/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_since_kotlin {
+          @Test
+          public void testAllFilesPresentInKotlin_since_kotlin() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-since-kotlin/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_suppress {
+          @Test
+          public void testAllFilesPresentInKotlin_suppress() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-suppress/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_unsafe_variance {
+          @Test
+          public void testAllFilesPresentInKotlin_unsafe_variance() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-unsafe-variance/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/overview")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Overview {
+        @Test
+        public void testAllFilesPresentInOverview() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/overview"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.5.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Asynchronous_programming_with_coroutines {
+      @Test
+      public void testAllFilesPresentInAsynchronous_programming_with_coroutines() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Coroutines {
+        @Test
+        public void testAllFilesPresentInCoroutines() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/coroutines/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Implementation_details {
+        @Test
+        public void testAllFilesPresentInImplementation_details() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Continuation_interception {
+          @Test
+          public void testAllFilesPresentInContinuation_interception() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-interception/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Continuation_passing_style {
+          @Test
+          public void testAllFilesPresentInContinuation_passing_style() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2/pos/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/continuation-passing-style/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Coroutine_intrinsics {
+          @Test
+          public void testAllFilesPresentInCoroutine_intrinsics() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg/1.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos/1.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Coroutine_state_machine {
+          @Test
+          public void testAllFilesPresentInCoroutine_state_machine() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-state-machine/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_coroutines_continuation {
+          @Test
+          public void testAllFilesPresentInKotlin_coroutines_continuation() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/pos/2.2.kt");
+              }
+
+              @Test
+              @TestMetadata("2.3.kt")
+              public void test2_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/pos/2.3.kt");
+              }
+
+              @Test
+              @TestMetadata("2.4.kt")
+              public void test2_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/pos/2.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/neg/3.2.kt");
+              }
+
+              @Test
+              @TestMetadata("3.3.kt")
+              public void test3_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/neg/3.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              @TestMetadata("3.3.kt")
+              public void test3_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/pos/3.3.kt");
+              }
+
+              @Test
+              @TestMetadata("3.4.kt")
+              public void test3_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/pos/3.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/kotlin-coroutines-continuation/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Suspending_functions {
+        @Test
+        public void testAllFilesPresentInSuspending_functions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/neg/1.4.kt");
+            }
+
+            @Test
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/neg/1.5.kt");
+            }
+
+            @Test
+            @TestMetadata("1.6.kt")
+            public void test1_6() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/neg/1.6.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.5.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/pos/2.2.kt");
+            }
+
+            @Test
+            @TestMetadata("2.3.kt")
+            public void test2_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/pos/2.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
     }
 
     @Nested
@@ -1393,7 +3613,7 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
     public class Control__and_data_flow_analysis {
       @Test
       public void testAllFilesPresentInControl__and_data_flow_analysis() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "performing-analysis-on-the-control-flow-graph");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
       }
 
       @Nested
@@ -1403,6 +3623,102 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
         @Test
         public void testAllFilesPresentInControl_flow_graph() {
           KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Expressions {
+          @Test
+          public void testAllFilesPresentInExpressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg/5.1.kt");
+              }
+
+              @Test
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg/5.2.kt");
+              }
+
+              @Test
+              @TestMetadata("5.3.kt")
+              public void test5_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg/5.3.kt");
+              }
+
+              @Test
+              @TestMetadata("5.4.kt")
+              public void test5_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg/5.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/expressions/p-5/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
         }
 
         @Nested
@@ -1502,6 +3818,314 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             }
           }
         }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Kotlin_nothing {
+          @Test
+          public void testAllFilesPresentInKotlin_nothing() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/kotlin-nothing/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/control-flow-graph/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Performing_analysis_on_the_control_flow_graph {
+        @Test
+        public void testAllFilesPresentInPerforming_analysis_on_the_control_flow_graph() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Function_contracts {
+          @Test
+          public void testAllFilesPresentInFunction_contracts() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-2/pos/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/function-contracts/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Smart_casting_analysis {
+          @Test
+          public void testAllFilesPresentInSmart_casting_analysis() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/smart-casting-analysis/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Types_of_lattices {
+          @Test
+          public void testAllFilesPresentInTypes_of_lattices() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/types-of-lattices/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Variable_initialization_analysis {
+          @Test
+          public void testAllFilesPresentInVariable_initialization_analysis() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/variable-initialization-analysis/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
       }
     }
 
@@ -1511,7 +4135,7 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
     public class Declarations {
       @Test
       public void testAllFilesPresentInDeclarations() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "classifier-declaration/class-declaration/nested-and-inner-classifiers", "classifier-declaration/classifier-initialization", "classifier-declaration/data-class-declaration", "function-declaration", "property-declaration/property-initialization", "type-alias");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "classifier-declaration/class-declaration/constructor-declaration/p-1/neg", "classifier-declaration/enum-class-declaration/p-5/neg");
       }
 
       @Nested
@@ -1520,7 +4144,215 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       public class Classifier_declaration {
         @Test
         public void testAllFilesPresentInClassifier_declaration() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "class-declaration/nested-and-inner-classifiers", "classifier-initialization", "data-class-declaration");
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "class-declaration/constructor-declaration/p-1/neg", "enum-class-declaration/p-5/neg");
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Annotation_class_declaration {
+          @Test
+          public void testAllFilesPresentInAnnotation_class_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/neg/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/neg/4.1.kt");
+              }
+
+              @Test
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/neg/4.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/pos/4.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/annotation-class-declaration/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
         }
 
         @Nested
@@ -1529,7 +4361,7 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
         public class Class_declaration {
           @Test
           public void testAllFilesPresentInClass_declaration() {
-            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "nested-and-inner-classifiers");
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "constructor-declaration/p-1/neg");
           }
 
           @Nested
@@ -1561,6 +4393,18 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
                 }
 
                 @Test
+                @TestMetadata("1.2.kt")
+                public void test1_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-1/neg/1.2.kt");
+                }
+
+                @Test
+                @TestMetadata("1.3.kt")
+                public void test1_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-1/neg/1.3.kt");
+                }
+
+                @Test
                 @TestMetadata("2.1.kt")
                 public void test2_1() {
                   runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-1/neg/2.1.kt");
@@ -1576,6 +4420,12 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-1/pos")
               @TestDataPath("$PROJECT_ROOT")
               public class Pos {
+                @Test
+                @TestMetadata("1.1.kt")
+                public void test1_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-1/pos/1.1.kt");
+                }
+
                 @Test
                 @TestMetadata("2.1.kt")
                 public void test2_1() {
@@ -1663,6 +4513,66 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
                 }
 
                 @Test
+                @TestMetadata("2.1.kt")
+                public void test2_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.1.kt");
+                }
+
+                @Test
+                @TestMetadata("2.10.kt")
+                public void test2_10() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.10.kt");
+                }
+
+                @Test
+                @TestMetadata("2.2.kt")
+                public void test2_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.2.kt");
+                }
+
+                @Test
+                @TestMetadata("2.3.kt")
+                public void test2_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.3.kt");
+                }
+
+                @Test
+                @TestMetadata("2.4.kt")
+                public void test2_4() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.4.kt");
+                }
+
+                @Test
+                @TestMetadata("2.5.kt")
+                public void test2_5() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.5.kt");
+                }
+
+                @Test
+                @TestMetadata("2.6.kt")
+                public void test2_6() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.6.kt");
+                }
+
+                @Test
+                @TestMetadata("2.7.kt")
+                public void test2_7() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.7.kt");
+                }
+
+                @Test
+                @TestMetadata("2.8.kt")
+                public void test2_8() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.8.kt");
+                }
+
+                @Test
+                @TestMetadata("2.9.kt")
+                public void test2_9() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg/2.9.kt");
+                }
+
+                @Test
                 public void testAllFilesPresentInNeg() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
@@ -1697,6 +4607,30 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
                 }
 
                 @Test
+                @TestMetadata("2.1.kt")
+                public void test2_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/pos/2.1.kt");
+                }
+
+                @Test
+                @TestMetadata("2.2.kt")
+                public void test2_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/pos/2.2.kt");
+                }
+
+                @Test
+                @TestMetadata("2.3.kt")
+                public void test2_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/pos/2.3.kt");
+                }
+
+                @Test
+                @TestMetadata("2.4.kt")
+                public void test2_4() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/pos/2.4.kt");
+                }
+
+                @Test
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/abstract-classes/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
@@ -1710,7 +4644,143 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           public class Constructor_declaration {
             @Test
             public void testAllFilesPresentInConstructor_declaration() {
-              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "p-1/neg");
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_1 {
+              @Test
+              public void testAllFilesPresentInP_1() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "neg");
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("1.1.kt")
+                public void test1_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1/pos/1.1.kt");
+                }
+
+                @Test
+                @TestMetadata("1.2.kt")
+                public void test1_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1/pos/1.2.kt");
+                }
+
+                @Test
+                @TestMetadata("1.3.kt")
+                public void test1_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1/pos/1.3.kt");
+                }
+
+                @Test
+                @TestMetadata("1.4.kt")
+                public void test1_4() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1/pos/1.4.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_2 {
+              @Test
+              public void testAllFilesPresentInP_2() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Neg {
+                @Test
+                @TestMetadata("2.1.kt")
+                public void test2_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2/neg/2.1.kt");
+                }
+
+                @Test
+                @TestMetadata("2.2.kt")
+                public void test2_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2/neg/2.2.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("2.1.kt")
+                public void test2_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2/pos/2.1.kt");
+                }
+
+                @Test
+                @TestMetadata("2.2.kt")
+                public void test2_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2/pos/2.2.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-3")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_3 {
+              @Test
+              public void testAllFilesPresentInP_3() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-3/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Neg {
+                @Test
+                @TestMetadata("3.1.kt")
+                public void test3_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-3/neg/3.1.kt");
+                }
+
+                @Test
+                @TestMetadata("3.2.kt")
+                public void test3_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-3/neg/3.2.kt");
+                }
+
+                @Test
+                @TestMetadata("3.3.kt")
+                public void test3_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-3/neg/3.3.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
             }
 
             @Nested
@@ -1730,6 +4800,12 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
                 @TestMetadata("1.1.kt")
                 public void test1_1() {
                   runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-4/pos/1.1.kt");
+                }
+
+                @Test
+                @TestMetadata("4.1.kt")
+                public void test4_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-4/pos/4.1.kt");
                 }
 
                 @Test
@@ -1774,6 +4850,30 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
                 @TestMetadata("3.1.kt")
                 public void test3_1() {
                   runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/3.1.kt");
+                }
+
+                @Test
+                @TestMetadata("5.1.kt")
+                public void test5_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.1.kt");
+                }
+
+                @Test
+                @TestMetadata("5.2.kt")
+                public void test5_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.2.kt");
+                }
+
+                @Test
+                @TestMetadata("5.3.kt")
+                public void test5_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.3.kt");
+                }
+
+                @Test
+                @TestMetadata("5.4.kt")
+                public void test5_4() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.4.kt");
                 }
 
                 @Test
@@ -1865,10 +4965,4084 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
                 }
 
                 @Test
+                @TestMetadata("5.1.kt")
+                public void test5_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.1.kt");
+                }
+
+                @Test
+                @TestMetadata("5.10.kt")
+                public void test5_10() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.10.kt");
+                }
+
+                @Test
+                @TestMetadata("5.11.kt")
+                public void test5_11() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.11.kt");
+                }
+
+                @Test
+                @TestMetadata("5.12.kt")
+                public void test5_12() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.12.kt");
+                }
+
+                @Test
+                @TestMetadata("5.13.kt")
+                public void test5_13() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.13.kt");
+                }
+
+                @Test
+                @TestMetadata("5.2.kt")
+                public void test5_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.2.kt");
+                }
+
+                @Test
+                @TestMetadata("5.3.kt")
+                public void test5_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.3.kt");
+                }
+
+                @Test
+                @TestMetadata("5.4.kt")
+                public void test5_4() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.4.kt");
+                }
+
+                @Test
+                @TestMetadata("5.5.kt")
+                public void test5_5() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.5.kt");
+                }
+
+                @Test
+                @TestMetadata("5.6.kt")
+                public void test5_6() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.6.kt");
+                }
+
+                @Test
+                @TestMetadata("5.7.kt")
+                public void test5_7() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.7.kt");
+                }
+
+                @Test
+                @TestMetadata("5.8.kt")
+                public void test5_8() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.8.kt");
+                }
+
+                @Test
+                @TestMetadata("5.9.kt")
+                public void test5_9() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos/5.9.kt");
+                }
+
+                @Test
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
               }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Inheritance_delegation {
+            @Test
+            public void testAllFilesPresentInInheritance_delegation() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_1 {
+              @Test
+              public void testAllFilesPresentInP_1() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Neg {
+                @Test
+                @TestMetadata("1.1.kt")
+                public void test1_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/neg/1.1.kt");
+                }
+
+                @Test
+                @TestMetadata("1.2.kt")
+                public void test1_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/neg/1.2.kt");
+                }
+
+                @Test
+                @TestMetadata("1.3.kt")
+                public void test1_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/neg/1.3.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("1.1.kt")
+                public void test1_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/pos/1.1.kt");
+                }
+
+                @Test
+                @TestMetadata("1.2.kt")
+                public void test1_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/pos/1.2.kt");
+                }
+
+                @Test
+                @TestMetadata("1.3.kt")
+                public void test1_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/pos/1.3.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/inheritance-delegation/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Nested_and_inner_classifiers {
+            @Test
+            public void testAllFilesPresentInNested_and_inner_classifiers() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_1 {
+              @Test
+              public void testAllFilesPresentInP_1() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Neg {
+                @Test
+                @TestMetadata("1.1.kt")
+                public void test1_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/neg/1.1.kt");
+                }
+
+                @Test
+                @TestMetadata("1.2.kt")
+                public void test1_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/neg/1.2.kt");
+                }
+
+                @Test
+                @TestMetadata("1.3.kt")
+                public void test1_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/neg/1.3.kt");
+                }
+
+                @Test
+                @TestMetadata("1.4.kt")
+                public void test1_4() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/neg/1.4.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("1.1.kt")
+                public void test1_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/pos/1.1.kt");
+                }
+
+                @Test
+                @TestMetadata("1.2.kt")
+                public void test1_2() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/pos/1.2.kt");
+                }
+
+                @Test
+                @TestMetadata("1.3.kt")
+                public void test1_3() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/pos/1.3.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/nested-and-inner-classifiers/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/pos/1.4.kt");
+              }
+
+              @Test
+              @TestMetadata("1.5.kt")
+              public void test1_5() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/pos/1.5.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Classifier_declaration_scopes {
+          @Test
+          public void testAllFilesPresentInClassifier_declaration_scopes() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Classifier_initialization {
+          @Test
+          public void testAllFilesPresentInClassifier_initialization() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_10 {
+            @Test
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/neg/10.1.kt");
+              }
+
+              @Test
+              @TestMetadata("10.2.kt")
+              public void test10_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/neg/10.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/pos/10.1.kt");
+              }
+
+              @Test
+              @TestMetadata("10.2.kt")
+              public void test10_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/pos/10.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4/neg/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-5/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-5/neg/5.1.kt");
+              }
+
+              @Test
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-5/neg/5.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-5/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_6 {
+            @Test
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-6/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-6/neg/6.1.kt");
+              }
+
+              @Test
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-6/neg/6.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-6/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_7 {
+            @Test
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-7/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-7/neg/7.1.kt");
+              }
+
+              @Test
+              @TestMetadata("7.2.kt")
+              public void test7_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-7/neg/7.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-7/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_8 {
+            @Test
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/neg/8.1.kt");
+              }
+
+              @Test
+              @TestMetadata("8.2.kt")
+              public void test8_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/neg/8.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/pos/8.1.kt");
+              }
+
+              @Test
+              @TestMetadata("8.2.kt")
+              public void test8_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/pos/8.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_9 {
+            @Test
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/neg/9.1.kt");
+              }
+
+              @Test
+              @TestMetadata("9.2.kt")
+              public void test9_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/neg/9.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/pos/9.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Data_class_declaration {
+          @Test
+          public void testAllFilesPresentInData_class_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/neg/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Enum_class_declaration {
+          @Test
+          public void testAllFilesPresentInEnum_class_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "p-5/neg");
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/pos/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/neg/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              @TestMetadata("3.3.kt")
+              public void test3_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos/4.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "neg");
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos/5.1.kt");
+              }
+
+              @Test
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos/5.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_6 {
+            @Test
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-6/pos/6.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_7 {
+            @Test
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7/neg/7.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7/pos/7.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Interface_declaration {
+          @Test
+          public void testAllFilesPresentInInterface_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1/neg/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/interface-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Local_class_declaration {
+          @Test
+          public void testAllFilesPresentInLocal_class_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1/neg/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/local-class-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Object_declaration {
+          @Test
+          public void testAllFilesPresentInObject_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/pos/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/neg/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/neg/4.1.kt");
+              }
+
+              @Test
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/neg/4.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/pos/4.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.4.kt");
+            }
+
+            @Test
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.5.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.5.kt");
+            }
+
+            @Test
+            @TestMetadata("1.6.kt")
+            public void test1_6() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.6.kt");
+            }
+
+            @Test
+            @TestMetadata("1.7.kt")
+            public void test1_7() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.7.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            @TestMetadata("2.3.kt")
+            public void test2_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg/2.3.kt");
+            }
+
+            @Test
+            @TestMetadata("2.4.kt")
+            public void test2_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg/2.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.2.kt");
+            }
+
+            @Test
+            @TestMetadata("2.3.kt")
+            public void test2_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.3.kt");
+            }
+
+            @Test
+            @TestMetadata("2.4.kt")
+            public void test2_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.4.kt");
+            }
+
+            @Test
+            @TestMetadata("2.5.kt")
+            public void test2_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.5.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Value_class_declaration {
+          @Test
+          public void testAllFilesPresentInValue_class_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/neg/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4/neg/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/neg/5.1.kt");
+              }
+
+              @Test
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/neg/5.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/pos/5.1.kt");
+              }
+
+              @Test
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/pos/5.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_6 {
+            @Test
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/neg/6.1.kt");
+              }
+
+              @Test
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/neg/6.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/pos/6.1.kt");
+              }
+
+              @Test
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/pos/6.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/value-class-declaration/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Declaration_visibility {
+        @Test
+        public void testAllFilesPresentInDeclaration_visibility() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/neg/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/pos/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/pos/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_4 {
+          @Test
+          public void testAllFilesPresentInP_4() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/neg/4.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/pos/4.1.kt");
+            }
+
+            @Test
+            @TestMetadata("4.2.kt")
+            public void test4_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/pos/4.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_5 {
+          @Test
+          public void testAllFilesPresentInP_5() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("5.1.kt")
+            public void test5_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/neg/5.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("5.1.kt")
+            public void test5_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/pos/5.1.kt");
+            }
+
+            @Test
+            @TestMetadata("5.2.kt")
+            public void test5_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/pos/5.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_6 {
+          @Test
+          public void testAllFilesPresentInP_6() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("6.1.kt")
+            public void test6_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/neg/6.1.kt");
+            }
+
+            @Test
+            @TestMetadata("6.2.kt")
+            public void test6_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/neg/6.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("6.1.kt")
+            public void test6_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/pos/6.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_7 {
+          @Test
+          public void testAllFilesPresentInP_7() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("7.1.kt")
+            public void test7_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/neg/7.1.kt");
+            }
+
+            @Test
+            @TestMetadata("7.2.kt")
+            public void test7_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/neg/7.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("7.1.kt")
+            public void test7_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/pos/7.1.kt");
+            }
+
+            @Test
+            @TestMetadata("7.2.kt")
+            public void test7_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/pos/7.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declaration-visibility/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Declarations_with_type_parameters {
+        @Test
+        public void testAllFilesPresentInDeclarations_with_type_parameters() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Reified_type_parameters {
+          @Test
+          public void testAllFilesPresentInReified_type_parameters() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Type_parameter_variance {
+          @Test
+          public void testAllFilesPresentInType_parameter_variance() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Underscore_type_arguments {
+          @Test
+          public void testAllFilesPresentInUnderscore_type_arguments() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/underscore-type-arguments/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Function_declaration {
+        @Test
+        public void testAllFilesPresentInFunction_declaration() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_10 {
+          @Test
+          public void testAllFilesPresentInP_10() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("10.1.kt")
+            public void test10_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10/neg/10.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("10.1.kt")
+            public void test10_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10/pos/10.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_11 {
+          @Test
+          public void testAllFilesPresentInP_11() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("11.1.kt")
+            public void test11_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/neg/11.1.kt");
+            }
+
+            @Test
+            @TestMetadata("11.2.kt")
+            public void test11_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/neg/11.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("11.1.kt")
+            public void test11_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/pos/11.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_12 {
+          @Test
+          public void testAllFilesPresentInP_12() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("12.1.kt")
+            public void test12_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12/neg/12.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("12.1.kt")
+            public void test12_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12/pos/12.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_13 {
+          @Test
+          public void testAllFilesPresentInP_13() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("13.1.kt")
+            public void test13_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13/neg/13.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("13.1.kt")
+            public void test13_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13/pos/13.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_14 {
+          @Test
+          public void testAllFilesPresentInP_14() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("14.1.kt")
+            public void test14_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/neg/14.1.kt");
+            }
+
+            @Test
+            @TestMetadata("14.2.kt")
+            public void test14_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/neg/14.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("14.1.kt")
+            public void test14_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/pos/14.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_15 {
+          @Test
+          public void testAllFilesPresentInP_15() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("15.1.kt")
+            public void test15_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/neg/15.1.kt");
+            }
+
+            @Test
+            @TestMetadata("15.2.kt")
+            public void test15_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/neg/15.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("15.1.kt")
+            public void test15_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/pos/15.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_16 {
+          @Test
+          public void testAllFilesPresentInP_16() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("16.1.kt")
+            public void test16_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16/neg/16.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("16.1.kt")
+            public void test16_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16/pos/16.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_17 {
+          @Test
+          public void testAllFilesPresentInP_17() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("17.1.kt")
+            public void test17_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17/neg/17.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("17.1.kt")
+            public void test17_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17/pos/17.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_18 {
+          @Test
+          public void testAllFilesPresentInP_18() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("18.1.kt")
+            public void test18_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18/neg/18.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("18.1.kt")
+            public void test18_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18/pos/18.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_19 {
+          @Test
+          public void testAllFilesPresentInP_19() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("19.1.kt")
+            public void test19_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19/neg/19.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("19.1.kt")
+            public void test19_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19/pos/19.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_20 {
+          @Test
+          public void testAllFilesPresentInP_20() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("20.1.kt")
+            public void test20_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/neg/20.1.kt");
+            }
+
+            @Test
+            @TestMetadata("20.2.kt")
+            public void test20_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/neg/20.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("20.1.kt")
+            public void test20_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/pos/20.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_21 {
+          @Test
+          public void testAllFilesPresentInP_21() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("21.1.kt")
+            public void test21_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21/neg/21.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("21.1.kt")
+            public void test21_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21/pos/21.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_22 {
+          @Test
+          public void testAllFilesPresentInP_22() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("22.1.kt")
+            public void test22_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/neg/22.1.kt");
+            }
+
+            @Test
+            @TestMetadata("22.2.kt")
+            public void test22_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/neg/22.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("22.1.kt")
+            public void test22_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/pos/22.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_23 {
+          @Test
+          public void testAllFilesPresentInP_23() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("23.1.kt")
+            public void test23_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/neg/23.1.kt");
+            }
+
+            @Test
+            @TestMetadata("23.2.kt")
+            public void test23_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/neg/23.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("23.1.kt")
+            public void test23_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/pos/23.1.kt");
+            }
+
+            @Test
+            @TestMetadata("23.2.kt")
+            public void test23_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/pos/23.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_24 {
+          @Test
+          public void testAllFilesPresentInP_24() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("24.1.kt")
+            public void test24_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24/neg/24.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("24.1.kt")
+            public void test24_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24/pos/24.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-25")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_25 {
+          @Test
+          public void testAllFilesPresentInP_25() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-25/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("25.1.kt")
+            public void test25_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-25/neg/25.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-25/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_26 {
+          @Test
+          public void testAllFilesPresentInP_26() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("26.1.kt")
+            public void test26_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26/neg/26.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("26.1.kt")
+            public void test26_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26/pos/26.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_27 {
+          @Test
+          public void testAllFilesPresentInP_27() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("27.1.kt")
+            public void test27_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27/neg/27.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("27.1.kt")
+            public void test27_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27/pos/27.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_28 {
+          @Test
+          public void testAllFilesPresentInP_28() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("28.1.kt")
+            public void test28_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28/neg/28.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("28.1.kt")
+            public void test28_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28/pos/28.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_29 {
+          @Test
+          public void testAllFilesPresentInP_29() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("29.1.kt")
+            public void test29_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29/neg/29.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("29.1.kt")
+            public void test29_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29/pos/29.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/neg/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/pos/3.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_30 {
+          @Test
+          public void testAllFilesPresentInP_30() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("30.1.kt")
+            public void test30_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30/neg/30.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("30.1.kt")
+            public void test30_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30/pos/30.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_4 {
+          @Test
+          public void testAllFilesPresentInP_4() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4/neg/4.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4/pos/4.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_5 {
+          @Test
+          public void testAllFilesPresentInP_5() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("5.1.kt")
+            public void test5_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5/neg/5.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("5.1.kt")
+            public void test5_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5/pos/5.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_6 {
+          @Test
+          public void testAllFilesPresentInP_6() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("6.1.kt")
+            public void test6_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6/neg/6.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("6.1.kt")
+            public void test6_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6/pos/6.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_7 {
+          @Test
+          public void testAllFilesPresentInP_7() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("7.1.kt")
+            public void test7_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/neg/7.1.kt");
+            }
+
+            @Test
+            @TestMetadata("7.2.kt")
+            public void test7_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/neg/7.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("7.1.kt")
+            public void test7_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/pos/7.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_8 {
+          @Test
+          public void testAllFilesPresentInP_8() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("8.1.kt")
+            public void test8_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/neg/8.1.kt");
+            }
+
+            @Test
+            @TestMetadata("8.2.kt")
+            public void test8_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/neg/8.2.kt");
+            }
+
+            @Test
+            @TestMetadata("8.3.kt")
+            public void test8_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/neg/8.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("8.1.kt")
+            public void test8_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/pos/8.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_9 {
+          @Test
+          public void testAllFilesPresentInP_9() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("9.1.kt")
+            public void test9_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9/neg/9.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("9.1.kt")
+            public void test9_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9/pos/9.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -1880,7 +9054,631 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       public class Property_declaration {
         @Test
         public void testAllFilesPresentInProperty_declaration() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "property-initialization");
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Constant_properties {
+          @Test
+          public void testAllFilesPresentInConstant_properties() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/constant-properties/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Delegated_property_declaration {
+          @Test
+          public void testAllFilesPresentInDelegated_property_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/pos/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/neg/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Extension_property_declaration {
+          @Test
+          public void testAllFilesPresentInExtension_property_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/extension-property-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Getters_and_setters {
+          @Test
+          public void testAllFilesPresentInGetters_and_setters() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2/pos/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              @TestMetadata("3.2.kt")
+              public void test3_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-3/pos/3.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4/neg/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              @TestMetadata("4.2.kt")
+              public void test4_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4/pos/4.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-5/pos/5.1.kt");
+              }
+
+              @Test
+              @TestMetadata("5.2.kt")
+              public void test5_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-5/pos/5.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_6 {
+            @Test
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6/neg/6.1.kt");
+              }
+
+              @Test
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6/neg/6.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6/pos/6.1.kt");
+              }
+
+              @Test
+              @TestMetadata("6.2.kt")
+              public void test6_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6/pos/6.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/getters-and-setters/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Late_initialized_properties {
+          @Test
+          public void testAllFilesPresentInLate_initialized_properties() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/late-initialized-properties/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
         }
 
         @Nested
@@ -1912,9 +9710,525 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               }
 
               @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
               public void testAllFilesPresentInNeg() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/neg/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              @TestMetadata("2.2.kt")
+              public void test2_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/pos/2.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Mutable_property_declaration {
+          @Test
+          public void testAllFilesPresentInMutable_property_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/mutable-property-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Property_declaration_scopes {
+          @Test
+          public void testAllFilesPresentInProperty_declaration_scopes() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Property_initialization {
+          @Test
+          public void testAllFilesPresentInProperty_initialization() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-initialization/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Read_only_property_declaration {
+          @Test
+          public void testAllFilesPresentInRead_only_property_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/read-only-property-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Type_alias {
+        @Test
+        public void testAllFilesPresentInType_alias() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/declarations/type-alias/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/exceptions")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Exceptions {
+      @Test
+      public void testAllFilesPresentInExceptions() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/exceptions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/exceptions/catching-exceptions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Catching_exceptions {
+        @Test
+        public void testAllFilesPresentInCatching_exceptions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/exceptions/catching-exceptions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/exceptions/catching-exceptions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/exceptions/catching-exceptions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/exceptions/catching-exceptions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/exceptions/catching-exceptions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/exceptions/catching-exceptions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/exceptions/catching-exceptions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/exceptions/throwing-exceptions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Throwing_exceptions {
+        @Test
+        public void testAllFilesPresentInThrowing_exceptions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/exceptions/throwing-exceptions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/exceptions/throwing-exceptions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/exceptions/throwing-exceptions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/exceptions/throwing-exceptions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/exceptions/throwing-exceptions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/exceptions/throwing-exceptions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -1927,7 +10241,7 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
     public class Expressions {
       @Test
       public void testAllFilesPresentInExpressions() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "call-and-property-access-expressions", "function-literals");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "call-and-property-access-expressions/navigation-operators");
       }
 
       @Nested
@@ -1961,6 +10275,78 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             @Test
             public void testAllFilesPresentInPos() {
               KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/additive-expression/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/additive-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Additive_expressions {
+        @Test
+        public void testAllFilesPresentInAdditive_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/additive-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/additive-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/additive-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/additive-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/additive-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/additive-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/boolean-literals")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Boolean_literals {
+        @Test
+        public void testAllFilesPresentInBoolean_literals() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/boolean-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/boolean-literals/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/boolean-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/boolean-literals/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/boolean-literals/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/boolean-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -2049,6 +10435,304 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       }
 
       @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Call_and_property_access_expressions {
+        @Test
+        public void testAllFilesPresentInCall_and_property_access_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "navigation-operators");
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Callable_references {
+          @Test
+          public void testAllFilesPresentInCallable_references() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/class-literals")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Class_literals {
+          @Test
+          public void testAllFilesPresentInClass_literals() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/class-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/class-literals/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/class-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/class-literals/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/class-literals/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/class-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Spread_operator_expressions {
+          @Test
+          public void testAllFilesPresentInSpread_operator_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/cast-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Cast_expressions {
+        @Test
+        public void testAllFilesPresentInCast_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/cast-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/cast-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/cast-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/cast-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/cast-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/cast-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Character_literals {
+        @Test
+        public void testAllFilesPresentInCharacter_literals() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_4 {
+          @Test
+          public void testAllFilesPresentInP_4() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4/neg/4.1.kt");
+            }
+
+            @Test
+            @TestMetadata("4.2.kt")
+            public void test4_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4/neg/4.2.kt");
+            }
+
+            @Test
+            @TestMetadata("4.3.kt")
+            public void test4_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4/neg/4.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/comparison-expressions")
       @TestDataPath("$PROJECT_ROOT")
       public class Comparison_expressions {
@@ -2070,6 +10754,12 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/comparison-expressions/p-1/neg")
           @TestDataPath("$PROJECT_ROOT")
           public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/comparison-expressions/p-1/neg/1.1.kt");
+            }
+
             @Test
             @TestMetadata("2.1.kt")
             public void test2_1() {
@@ -2183,6 +10873,96 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             @Test
             public void testAllFilesPresentInPos() {
               KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expression/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Conditional_expressions {
+        @Test
+        public void testAllFilesPresentInConditional_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/conditional-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/constant-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Constant_expressions {
+        @Test
+        public void testAllFilesPresentInConstant_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/constant-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/constant-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/constant-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/constant-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/constant-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/constant-expressions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/constant-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -3073,6 +11853,42 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       }
 
       @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/elvis-operator-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Elvis_operator_expressions {
+        @Test
+        public void testAllFilesPresentInElvis_operator_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/elvis-operator-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/elvis-operator-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/elvis-operator-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/elvis-operator-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/elvis-operator-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/elvis-operator-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions")
       @TestDataPath("$PROJECT_ROOT")
       public class Equality_expressions {
@@ -3082,12 +11898,110 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
         }
 
         @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/reference-equality-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Reference_equality_expressions {
+          @Test
+          public void testAllFilesPresentInReference_equality_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/reference-equality-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/reference-equality-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/reference-equality-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/reference-equality-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/reference-equality-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/reference-equality-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions")
         @TestDataPath("$PROJECT_ROOT")
         public class Value_equality_expressions {
           @Test
           public void testAllFilesPresentInValue_equality_expressions() {
             KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
           }
 
           @Nested
@@ -3113,6 +12027,384 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               public void testAllFilesPresentInPos() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Function_literals {
+        @Test
+        public void testAllFilesPresentInFunction_literals() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/anonymous-function-declarations")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Anonymous_function_declarations {
+          @Test
+          public void testAllFilesPresentInAnonymous_function_declarations() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/anonymous-function-declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/anonymous-function-declarations/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/anonymous-function-declarations/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/anonymous-function-declarations/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/anonymous-function-declarations/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/anonymous-function-declarations/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Lambda_literals {
+          @Test
+          public void testAllFilesPresentInLambda_literals() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/indexing-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Indexing_expressions {
+        @Test
+        public void testAllFilesPresentInIndexing_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/indexing-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/indexing-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/indexing-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/indexing-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/indexing-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/indexing-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Integer_literals {
+        @Test
+        public void testAllFilesPresentInInteger_literals() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-3/neg/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-4")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_4 {
+          @Test
+          public void testAllFilesPresentInP_4() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-4/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-4/neg/4.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-5")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_5 {
+          @Test
+          public void testAllFilesPresentInP_5() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-5/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("5.1.kt")
+            public void test5_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-5/neg/5.1.kt");
+            }
+
+            @Test
+            @TestMetadata("5.2.kt")
+            public void test5_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-5/neg/5.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-5/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-6")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_6 {
+          @Test
+          public void testAllFilesPresentInP_6() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-6/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("6.1.kt")
+            public void test6_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-6/neg/6.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-6/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-7")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_7 {
+          @Test
+          public void testAllFilesPresentInP_7() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-7/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("7.1.kt")
+            public void test7_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-7/neg/7.1.kt");
+            }
+
+            @Test
+            @TestMetadata("7.2.kt")
+            public void test7_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-7/neg/7.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-7/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-8")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_8 {
+          @Test
+          public void testAllFilesPresentInP_8() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-8/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("8.1.kt")
+            public void test8_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-8/neg/8.1.kt");
+            }
+
+            @Test
+            @TestMetadata("8.2.kt")
+            public void test8_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-8/neg/8.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-8/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -3164,6 +12456,48 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
         }
 
         @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Break_expressions {
+          @Test
+          public void testAllFilesPresentInBreak_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expression")
         @TestDataPath("$PROJECT_ROOT")
         public class Continue_expression {
@@ -3195,6 +12529,92 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               public void testAllFilesPresentInNeg() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expression/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Continue_expressions {
+          @Test
+          public void testAllFilesPresentInContinue_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expressions/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/continue-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/p-1/neg/1.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -3244,6 +12664,28 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             }
 
             @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/return-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/return-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/return-expressions/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/return-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
             @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/return-expressions/p-1/pos")
             @TestDataPath("$PROJECT_ROOT")
             public class Pos {
@@ -3282,6 +12724,48 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               @Test
               public void testAllFilesPresentInNeg() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/return-expressions/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/throw-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Throw_expressions {
+          @Test
+          public void testAllFilesPresentInThrow_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/throw-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/throw-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/throw-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/throw-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/throw-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/throw-expressions/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/throw-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
             }
           }
@@ -3341,6 +12825,48 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       }
 
       @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-conjunction-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Logical_conjunction_expressions {
+        @Test
+        public void testAllFilesPresentInLogical_conjunction_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-conjunction-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-conjunction-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-conjunction-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-conjunction-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-conjunction-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-conjunction-expressions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-conjunction-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expression")
       @TestDataPath("$PROJECT_ROOT")
       public class Logical_disjunction_expression {
@@ -3393,6 +12919,48 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       }
 
       @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Logical_disjunction_expressions {
+        @Test
+        public void testAllFilesPresentInLogical_disjunction_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expressions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/logical-disjunction-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expression")
       @TestDataPath("$PROJECT_ROOT")
       public class Multiplicative_expression {
@@ -3423,6 +12991,42 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             @Test
             public void testAllFilesPresentInPos() {
               KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expression/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Multiplicative_expressions {
+        @Test
+        public void testAllFilesPresentInMultiplicative_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/multiplicative-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -3491,6 +13095,228 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       }
 
       @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/null-literals")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Null_literals {
+        @Test
+        public void testAllFilesPresentInNull_literals() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/null-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/null-literals/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/null-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/null-literals/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/null-literals/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/null-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Object_literals {
+        @Test
+        public void testAllFilesPresentInObject_literals() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Functional_interface_lambda_literals {
+          @Test
+          public void testAllFilesPresentInFunctional_interface_lambda_literals() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Postfix_operator_expressions {
+        @Test
+        public void testAllFilesPresentInPostfix_operator_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-decrement-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Postfix_decrement_expressions {
+          @Test
+          public void testAllFilesPresentInPostfix_decrement_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-decrement-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-decrement-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-decrement-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-decrement-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-decrement-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-decrement-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-increment-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Postfix_increment_expressions {
+          @Test
+          public void testAllFilesPresentInPostfix_increment_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-increment-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-increment-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-increment-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-increment-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-increment-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/postfix-operator-expressions/postfix-increment-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions")
       @TestDataPath("$PROJECT_ROOT")
       public class Prefix_expressions {
@@ -3531,6 +13357,32 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               public void testAllFilesPresentInPos() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/logical-not-expression/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -3598,6 +13450,42 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
         }
 
         @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-decrement-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Prefix_decrement_expressions {
+          @Test
+          public void testAllFilesPresentInPrefix_decrement_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-decrement-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-decrement-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-decrement-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-decrement-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-decrement-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-decrement-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expression")
         @TestDataPath("$PROJECT_ROOT")
         public class Prefix_increment_expression {
@@ -3654,6 +13542,42 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               @Test
               public void testAllFilesPresentInNeg() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expression/p-5/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Prefix_increment_expressions {
+          @Test
+          public void testAllFilesPresentInPrefix_increment_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/prefix-expressions/prefix-increment-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
             }
           }
@@ -3763,6 +13687,258 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             @Test
             public void testAllFilesPresentInPos() {
               KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/range-expression/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/range-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Range_expressions {
+        @Test
+        public void testAllFilesPresentInRange_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/range-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/range-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/range-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/range-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/range-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/range-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/real-literals")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Real_literals {
+        @Test
+        public void testAllFilesPresentInReal_literals() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/real-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/real-literals/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/real-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/real-literals/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/real-literals/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/real-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/string-interpolation-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class String_interpolation_expressions {
+        @Test
+        public void testAllFilesPresentInString_interpolation_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/string-interpolation-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/string-interpolation-expressions/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/string-interpolation-expressions/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/string-interpolation-expressions/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/string-interpolation-expressions/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/string-interpolation-expressions/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/string-interpolation-expressions/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Super_forms {
+        @Test
+        public void testAllFilesPresentInSuper_forms() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg/1.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/the-types-for-integer-literals")
+      @TestDataPath("$PROJECT_ROOT")
+      public class The_types_for_integer_literals {
+        @Test
+        public void testAllFilesPresentInThe_types_for_integer_literals() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/the-types-for-integer-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/the-types-for-integer-literals/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/the-types-for-integer-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/the-types-for-integer-literals/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/the-types-for-integer-literals/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/the-types-for-integer-literals/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/the-types-for-integer-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class This_expressions {
+        @Test
+        public void testAllFilesPresentInThis_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -3963,6 +14139,68 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       }
 
       @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Try_expressions {
+        @Test
+        public void testAllFilesPresentInTry_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions")
       @TestDataPath("$PROJECT_ROOT")
       public class Type_checking_and_containment_checking_expressions {
@@ -4008,6 +14246,38 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
         }
 
         @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expression")
         @TestDataPath("$PROJECT_ROOT")
         public class Type_checking_expression {
@@ -4038,6 +14308,48 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               @Test
               public void testAllFilesPresentInPos() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expression/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Type_checking_expressions {
+          @Test
+          public void testAllFilesPresentInType_checking_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
             }
           }
@@ -4553,6 +14865,1144 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           }
         }
       }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions")
+      @TestDataPath("$PROJECT_ROOT")
+      public class When_expressions {
+        @Test
+        public void testAllFilesPresentInWhen_expressions() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Exhaustive_when_expressions {
+          @Test
+          public void testAllFilesPresentInExhaustive_when_expressions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg/1.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Inheritance {
+      @Test
+      public void testAllFilesPresentInInheritance() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Classifier_type_inheritance {
+        @Test
+        public void testAllFilesPresentInClassifier_type_inheritance() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Abstract_classes {
+          @Test
+          public void testAllFilesPresentInAbstract_classes() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/abstract-classes/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Inheritance_from_built_in_types {
+          @Test
+          public void testAllFilesPresentInInheritance_from_built_in_types() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/inheritance-from-built-in-types/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Sealed_classes_and_interfaces {
+          @Test
+          public void testAllFilesPresentInSealed_classes_and_interfaces() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg/1.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Inheriting {
+        @Test
+        public void testAllFilesPresentInInheriting() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/pos/2.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/neg/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/pos/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/pos/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/inheriting/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Matching_and_subsumption_of_declarations {
+        @Test
+        public void testAllFilesPresentInMatching_and_subsumption_of_declarations() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/matching-and-subsumption-of-declarations/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Overriding {
+        @Test
+        public void testAllFilesPresentInOverriding() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/inheritance/overriding/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Kotlin_type_constraints {
+      @Test
+      public void testAllFilesPresentInKotlin_type_constraints() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Checking_constraint_system_soundness {
+        @Test
+        public void testAllFilesPresentInChecking_constraint_system_soundness() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/checking-constraint-system-soundness/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Finding_optimal_constraint_system_solution {
+        @Test
+        public void testAllFilesPresentInFinding_optimal_constraint_system_solution() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-3/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-3/pos/3.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/finding-optimal-constraint-system-solution/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints")
+      @TestDataPath("$PROJECT_ROOT")
+      public class The_relations_on_types_as_constraints {
+        @Test
+        public void testAllFilesPresentInThe_relations_on_types_as_constraints() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3/pos/3.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/the-relations-on-types-as-constraints/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Type_constraint_definition {
+        @Test
+        public void testAllFilesPresentInType_constraint_definition() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-3/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-3/pos/3.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/kotlin-type-constraints/type-constraint-definition/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Operator_overloading {
+      @Test
+      public void testAllFilesPresentInOperator_overloading() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Destructuring_declarations {
+        @Test
+        public void testAllFilesPresentInDestructuring_declarations() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Overview {
+        @Test
+        public void testAllFilesPresentInOverview() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
     }
 
     @Nested
@@ -4561,7 +16011,373 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
     public class Overload_resolution {
       @Test
       public void testAllFilesPresentInOverload_resolution() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "c-level-partition", "determining-function-applicability-for-a-specific-call/rationale");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "c-level-partition");
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Bidirectional_resolution_for_callable_calls {
+        @Test
+        public void testAllFilesPresentInBidirectional_resolution_for_callable_calls() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Building_the_overload_candidate_set {
+        @Test
+        public void testAllFilesPresentInBuilding_the_overload_candidate_set() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Call_with_an_explicit_receiver {
+          @Test
+          public void testAllFilesPresentInCall_with_an_explicit_receiver() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-2/neg/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-3/neg/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-an-explicit-receiver/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-named-parameters")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Call_with_named_parameters {
+          @Test
+          public void testAllFilesPresentInCall_with_named_parameters() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-named-parameters"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-named-parameters/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-named-parameters/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-named-parameters/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-named-parameters/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-named-parameters/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-specified-type-parameters")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Call_with_specified_type_parameters {
+          @Test
+          public void testAllFilesPresentInCall_with_specified_type_parameters() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-specified-type-parameters"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-specified-type-parameters/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-specified-type-parameters/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-specified-type-parameters/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-specified-type-parameters/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-with-specified-type-parameters/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Call_without_an_explicit_receiver {
+          @Test
+          public void testAllFilesPresentInCall_without_an_explicit_receiver() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/fully-qualified-call")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Fully_qualified_call {
+          @Test
+          public void testAllFilesPresentInFully_qualified_call() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/fully-qualified-call"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/fully-qualified-call/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/fully-qualified-call/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/fully-qualified-call/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/fully-qualified-call/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/fully-qualified-call/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/infix-function-call")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Infix_function_call {
+          @Test
+          public void testAllFilesPresentInInfix_function_call() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/infix-function-call"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/infix-function-call/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/infix-function-call/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/infix-function-call/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/infix-function-call/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/infix-function-call/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/operator-call")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Operator_call {
+          @Test
+          public void testAllFilesPresentInOperator_call() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/operator-call"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/operator-call/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/operator-call/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/operator-call/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/operator-call/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/building-the-overload-candidate-set/operator-call/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
       }
 
       @Nested
@@ -5566,6 +17382,66 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
         }
 
         @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg/1.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-2")
         @TestDataPath("$PROJECT_ROOT")
         public class P_2 {
@@ -5620,6 +17496,32 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           @Test
           public void testAllFilesPresentInAlgorithm_of_msc_selection() {
             KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
           }
 
           @Nested
@@ -5955,6 +17857,32 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           }
 
           @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @Nested
           @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1/p-2")
           @TestDataPath("$PROJECT_ROOT")
           public class P_2 {
@@ -6006,6 +17934,94 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             }
           }
         }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Using_lambda_return_type_to_refine_function_applicability {
+          @Test
+          public void testAllFilesPresentInUsing_lambda_return_type_to_refine_function_applicability() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/using-lambda-return-type-to-refine-function-applicability/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/conflicting-overloads")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Conflicting_overloads {
+        @Test
+        public void testAllFilesPresentInConflicting_overloads() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/conflicting-overloads"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/conflicting-overloads/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/conflicting-overloads/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/conflicting-overloads/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/conflicting-overloads/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/conflicting-overloads/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
       }
 
       @Nested
@@ -6014,7 +18030,7 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       public class Determining_function_applicability_for_a_specific_call {
         @Test
         public void testAllFilesPresentInDetermining_function_applicability_for_a_specific_call() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "rationale");
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
         }
 
         @Nested
@@ -6024,6 +18040,38 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           @Test
           public void testAllFilesPresentInDescription() {
             KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
           }
 
           @Nested
@@ -6052,6 +18100,42 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             }
           }
         }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Rationale {
+          @Test
+          public void testAllFilesPresentInRationale() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
       }
 
       @Nested
@@ -6064,12 +18148,132 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
         }
 
         @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-4")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_4 {
+          @Test
+          public void testAllFilesPresentInP_4() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-4/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-4/neg/4.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-5")
         @TestDataPath("$PROJECT_ROOT")
         public class P_5 {
           @Test
           public void testAllFilesPresentInP_5() {
             KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-5/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("5.1.kt")
+            public void test5_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-5/neg/5.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/receivers/p-5/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
           }
 
           @Nested
@@ -6321,6 +18525,886 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           }
         }
       }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Resolving_callable_references_not_used_as_arguments_to_a_call {
+        @Test
+        public void testAllFilesPresentInResolving_callable_references_not_used_as_arguments_to_a_call() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-callable-references-not-used-as-arguments-to-a-call/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-property-access")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Resolving_property_access {
+        @Test
+        public void testAllFilesPresentInResolving_property_access() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-property-access"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-property-access/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-property-access/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-property-access/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-property-access/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/resolving-property-access/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/type-inference-and-overload-resolution")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Type_inference_and_overload_resolution {
+        @Test
+        public void testAllFilesPresentInType_inference_and_overload_resolution() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/type-inference-and-overload-resolution"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/type-inference-and-overload-resolution/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/type-inference-and-overload-resolution/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/type-inference-and-overload-resolution/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/type-inference-and-overload-resolution/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/overload-resolution/type-inference-and-overload-resolution/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Packages_and_imports {
+      @Test
+      public void testAllFilesPresentInPackages_and_imports() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Importing {
+        @Test
+        public void testAllFilesPresentInImporting() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            @TestMetadata("2.3.kt")
+            public void test2_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.3.kt");
+            }
+
+            @Test
+            @TestMetadata("2.4.kt")
+            public void test2_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.4.kt");
+            }
+
+            @Test
+            @TestMetadata("2.5.kt")
+            public void test2_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.5.kt");
+            }
+
+            @Test
+            @TestMetadata("2.6.kt")
+            public void test2_6() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.6.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-3/neg/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Modules {
+        @Test
+        public void testAllFilesPresentInModules() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/package-header")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Package_header {
+        @Test
+        public void testAllFilesPresentInPackage_header() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/package-header"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/package-header/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/package-header/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/package-header/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/package-header/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/package-header/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Runtime_type_information {
+      @Test
+      public void testAllFilesPresentInRuntime_type_information() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/p-1")
+      @TestDataPath("$PROJECT_ROOT")
+      public class P_1 {
+        @Test
+        public void testAllFilesPresentInP_1() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/p-1/pos")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Pos {
+          @Test
+          @TestMetadata("1.1.kt")
+          public void test1_1() {
+            runTest("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/p-1/pos/1.1.kt");
+          }
+
+          @Test
+          public void testAllFilesPresentInPos() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Runtime_available_types {
+        @Test
+        public void testAllFilesPresentInRuntime_available_types() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/runtime-type-information/runtime-available-types/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers")
+    @TestDataPath("$PROJECT_ROOT")
+    public class Scopes_and_identifiers {
+      @Test
+      public void testAllFilesPresentInScopes_and_identifiers() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Identifiers_and_paths {
+        @Test
+        public void testAllFilesPresentInIdentifiers_and_paths() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos/1.5.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/identifiers-and-paths/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Labels {
+        @Test
+        public void testAllFilesPresentInLabels() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/labels/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Linked_scopes {
+        @Test
+        public void testAllFilesPresentInLinked_scopes() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2/pos/2.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/neg/3.2.kt");
+            }
+
+            @Test
+            @TestMetadata("3.3.kt")
+            public void test3_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/neg/3.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.2.kt");
+            }
+
+            @Test
+            @TestMetadata("3.3.kt")
+            public void test3_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.3.kt");
+            }
+
+            @Test
+            @TestMetadata("3.4.kt")
+            public void test3_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.4.kt");
+            }
+
+            @Test
+            @TestMetadata("3.5.kt")
+            public void test3_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.5.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_4 {
+          @Test
+          public void testAllFilesPresentInP_4() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4/neg/4.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("4.1.kt")
+            public void test4_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4/pos/4.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
     }
 
     @Nested
@@ -6407,6 +19491,30 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           @TestDataPath("$PROJECT_ROOT")
           public class Neg {
             @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/1.4.kt");
+            }
+
+            @Test
             @TestMetadata("2.1.kt")
             public void test2_1() {
               runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-1/neg/2.1.kt");
@@ -6445,8 +19553,148 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
             }
 
             @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            @TestMetadata("2.3.kt")
+            public void test2_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/2.3.kt");
+            }
+
+            @Test
+            @TestMetadata("2.4.kt")
+            public void test2_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg/2.4.kt");
+            }
+
+            @Test
             public void testAllFilesPresentInNeg() {
               KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3/neg/3.2.kt");
+            }
+
+            @Test
+            @TestMetadata("3.3.kt")
+            public void test3_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3/neg/3.3.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/assignments/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Code_blocks {
+        @Test
+        public void testAllFilesPresentInCode_blocks() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Coercion_to_kotlin_unit {
+          @Test
+          public void testAllFilesPresentInCoercion_to_kotlin_unit() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -6519,6 +19767,102 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               public void testAllFilesPresentInNeg() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/do-while-loop-statement/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-2")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_2 {
+          @Test
+          public void testAllFilesPresentInP_2() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-2/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("2.1.kt")
+            public void test2_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-2/neg/2.1.kt");
+            }
+
+            @Test
+            @TestMetadata("2.2.kt")
+            public void test2_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-2/neg/2.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-3")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_3 {
+          @Test
+          public void testAllFilesPresentInP_3() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-3/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("3.1.kt")
+            public void test3_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-3/neg/3.1.kt");
+            }
+
+            @Test
+            @TestMetadata("3.2.kt")
+            public void test3_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-3/neg/3.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/statements/loop-statements/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
           }
         }
@@ -21457,7 +34801,429 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
     public class Type_inference {
       @Test
       public void testAllFilesPresentInType_inference() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "local-type-inference", "smart-casts/smart-cast-types");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Bare_type_argument_inference {
+        @Test
+        public void testAllFilesPresentInBare_type_argument_inference() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            @TestMetadata("1.5.kt")
+            public void test1_5() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.5.kt");
+            }
+
+            @Test
+            @TestMetadata("1.6.kt")
+            public void test1_6() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos/1.6.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/bare-type-argument-inference/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Builder_style_type_inference {
+        @Test
+        public void testAllFilesPresentInBuilder_style_type_inference() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/neg/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Function_signature_type_inference {
+        @Test
+        public void testAllFilesPresentInFunction_signature_type_inference() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Named_and_anonymous_function_declarations {
+          @Test
+          public void testAllFilesPresentInNamed_and_anonymous_function_declarations() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Statements_with_lambda_literals {
+          @Test
+          public void testAllFilesPresentInStatements_with_lambda_literals() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.4.kt");
+              }
+
+              @Test
+              @TestMetadata("1.5.kt")
+              public void test1_5() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.5.kt");
+              }
+
+              @Test
+              @TestMetadata("1.6.kt")
+              public void test1_6() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.6.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Local_type_inference {
+        @Test
+        public void testAllFilesPresentInLocal_type_inference() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            @TestMetadata("1.3.kt")
+            public void test1_3() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos/1.3.kt");
+            }
+
+            @Test
+            @TestMetadata("1.4.kt")
+            public void test1_4() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos/1.4.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+        }
       }
 
       @Nested
@@ -21466,7 +35232,265 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
       public class Smart_casts {
         @Test
         public void testAllFilesPresentInSmart_casts() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "smart-cast-types");
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Bound_smart_casts {
+          @Test
+          public void testAllFilesPresentInBound_smart_casts() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Data_flow_framework {
+          @Test
+          public void testAllFilesPresentInData_flow_framework() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Loop_handling {
+          @Test
+          public void testAllFilesPresentInLoop_handling() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/loop-handling/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class P_1 {
+          @Test
+          public void testAllFilesPresentInP_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/neg")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Neg {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/neg/1.1.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInNeg() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/pos")
+          @TestDataPath("$PROJECT_ROOT")
+          public class Pos {
+            @Test
+            @TestMetadata("1.1.kt")
+            public void test1_1() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/pos/1.1.kt");
+            }
+
+            @Test
+            @TestMetadata("1.2.kt")
+            public void test1_2() {
+              runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/pos/1.2.kt");
+            }
+
+            @Test
+            public void testAllFilesPresentInPos() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+          }
         }
 
         @Nested
@@ -21476,6 +35500,78 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
           @Test
           public void testAllFilesPresentInSmart_cast_sink_stability() {
             KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/neg/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/neg/1.3.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos/1.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
           }
 
           @Nested
@@ -21516,6 +35612,76 @@ public class FirLightTreeDiagnosticTestSpecGenerated extends AbstractFirLightTre
               @Test
               public void testAllFilesPresentInPos() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-sink-stability/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Smart_cast_types {
+          @Test
+          public void testAllFilesPresentInSmart_cast_types() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Neg {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/neg/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              @TestMetadata("1.2.kt")
+              public void test1_2() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/pos/1.2.kt");
+              }
+
+              @Test
+              @TestMetadata("1.3.kt")
+              public void test1_3() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/pos/1.3.kt");
+              }
+
+              @Test
+              @TestMetadata("1.4.kt")
+              public void test1_4() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/pos/1.4.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/smart-cast-types/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
             }
           }

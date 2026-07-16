@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "out type parameter used in invariant parameter position, as mutable property type, and in return of in-box are rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "variance modifiers on functions and conflicting variance usages are forbidden",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "invariant usages, UnsafeVariance and extensions are allowed where specified",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "classifier type parameters may be declared covariant, contravariant, or invariant",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/type-parameter-variance/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
