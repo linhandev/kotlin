@@ -1,0 +1,17 @@
+// FIR_IDENTICAL
+// DIAGNOSTICS: -UNUSED_VARIABLE -ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE -UNUSED_VALUE -UNUSED_PARAMETER -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: expressions, null-literals -> paragraph 1 -> sentence 1
+ * NUMBER: 1
+ * DESCRIPTION: null assigned to non-nullable String reports NULL_FOR_NONNULL_TYPE
+ */
+
+// TESTCASE NUMBER: 1
+fun case1() {
+    val x: String = <!NULL_FOR_NONNULL_TYPE!>null<!>
+}

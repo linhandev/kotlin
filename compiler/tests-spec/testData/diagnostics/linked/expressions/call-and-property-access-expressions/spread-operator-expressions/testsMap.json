@@ -1,0 +1,24 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bar(*arrayOf(\"a\")) spread on non-vararg Array parameter reports NON_VARARG_SPREAD_ERROR",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "standalone *arrayOf(\"a\") outside function call reports SYNTAX",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/spread-operator-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

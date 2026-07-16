@@ -1,0 +1,228 @@
+{
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string template allows whitespace around code inside interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-7/pos/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string template embeds computed value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string template can embed double quote character",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-6/pos/6.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string template with $id embeds simple identifier value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-6/pos/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string template preserves raw multiline text content",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "string template concatenates literal parts and interpolated values",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string literal without interpolation preserves line breaks",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "string template result type is kotlin.String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String interpolation result is concatenation of all fragments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Multiple interpolated fragments concatenate in order",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-line string literal without interpolation evaluates to given text",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\"value\u003d$x\" with x\u003d42 interpolates to \"value\u003d42\"",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "$id only captures simple path; qualified path needs ${} form",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-4/pos/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-line string template plain text fragment is preserved",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string literal allows raw newline in content",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string does not treat backslash as escape",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string embeds literal dollar via escaped interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-line string with escape sequence \\t produces tab character",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Interpolated null reference converts to string null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-5/pos/5.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-line string template embeds computed arithmetic value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Interpolated value uses kotlin.Any.toString conversion",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-5/pos/5.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-line string template supports qualified path inside interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-line string template allows whitespace around code inside interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/string-interpolation-expressions/p-5/pos/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try returning 1 or catch 2L assigns Number type with value 1",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try-finally executes try body and always runs finally block",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try with two catch clauses returns try value when no exception is thrown",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try { \"try-body\" } finally {} returns try value with empty finally",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-1/pos/1.7.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try-catch-finally runs catch on exception and always runs finally",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try with caught exception yields last value from matching catch block",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try returns \"try-body\" when no exception is thrown and catch is skipped",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally block runs after try body completes",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally block is evaluated after try body when no exception is thrown",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally block runs but does not replace try-produced value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch clause with typed exception parameter handles thrown exception",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "first matching catch block is picked when several catch blocks match",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch block matches when exception parameter type is supertype of thrown exception",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/try-expressions/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

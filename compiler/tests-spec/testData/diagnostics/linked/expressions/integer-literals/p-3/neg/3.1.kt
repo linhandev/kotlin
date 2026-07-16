@@ -1,0 +1,17 @@
+// FIR_IDENTICAL
+// DIAGNOSTICS: -UNUSED_VARIABLE -ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE -UNUSED_VALUE -UNUSED_PARAMETER -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: expressions, integer-literals -> paragraph 3 -> sentence 3
+ * NUMBER: 1
+ * DESCRIPTION: binary literal 0b2 with digit 2 reports INT_LITERAL_OUT_OF_RANGE
+ */
+
+// TESTCASE NUMBER: 1
+fun case1() {
+    val x = <!INT_LITERAL_OUT_OF_RANGE!>0b2<!>
+}

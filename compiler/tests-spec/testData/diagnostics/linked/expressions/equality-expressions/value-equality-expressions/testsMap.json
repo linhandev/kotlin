@@ -1,4 +1,31 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "A() \u003d\u003d B() on unrelated classes reports EQUALITY_NOT_APPLICABLE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "0.1-218",
+          "casesNumber": 3,
+          "description": "Value equality expressions always have type kotlin.Boolean as does the equals method in kotlin.Any",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-3/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
   "3": {
     "pos": {
       "1": [
@@ -9,21 +36,6 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-3/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
-          "helpers": "checkType"
-        }
-      ]
-    }
-  },
-  "1": {
-    "pos": {
-      "1": [
-        {
-          "specVersion": "0.1-218",
-          "casesNumber": 3,
-          "description": "Value equality expressions always have type kotlin.Boolean as does the equals method in kotlin.Any",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/value-equality-expressions/p-3/pos/1.1.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "primary",
           "helpers": "checkType"
         }
       ]

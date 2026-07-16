@@ -1,4 +1,26 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member reference O::a on object singleton O reports NONE_APPLICABLE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "A::a is ambiguous between property a and function a()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/call-and-property-access-expressions/callable-references/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "11": {
     "pos": {
       "3": [

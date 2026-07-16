@@ -1,0 +1,162 @@
+{
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary literal 0b1_0_1_ with trailing underscore reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-7/neg/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary literal 0b1_ with trailing underscore reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hexadecimal literal 0x1_A_B_ with trailing underscore reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 1234_ with trailing underscore reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 08 with leading zero is a syntax error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 999_ with trailing underscore reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 12_34_ with trailing underscore reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-8/neg/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 09 with leading zero is a syntax error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary literal 0b2 with digit 2 reports INT_LITERAL_OUT_OF_RANGE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary literal 0b1010_ with underscore after last digit reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hexadecimal literal 0xG with invalid digit G reports INT_LITERAL_OUT_OF_RANGE and SYNTAX",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hexadecimal literal 0xFF_ with underscore after last digit reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 1_ with trailing underscore reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 1_2_3_ with trailing underscore reports ILLEGAL_UNDERSCORE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/integer-literals/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

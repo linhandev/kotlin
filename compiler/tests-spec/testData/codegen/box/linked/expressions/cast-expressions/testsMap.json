@@ -1,0 +1,38 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "checked cast returns null on mismatch and result type is nullable variant of T",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/cast-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unchecked cast performs runtime subtype check throws on failure and result type is T",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/cast-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as and as? casts evaluate and return cast target type when cast succeeds",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/cast-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

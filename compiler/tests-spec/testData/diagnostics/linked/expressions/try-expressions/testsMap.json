@@ -1,0 +1,30 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try block without catch or finally clause is a syntax error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch clause without exception parameter type is a syntax error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/try-expressions/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

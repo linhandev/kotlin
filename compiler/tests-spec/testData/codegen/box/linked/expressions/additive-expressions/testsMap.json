@@ -1,0 +1,38 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Wrapper(1) + 2 yields Sum via custom operator plus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/additive-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plus operator resolves to overloadable operator fun plus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/additive-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "minus operator resolves to overloadable operator fun minus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/additive-expressions/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

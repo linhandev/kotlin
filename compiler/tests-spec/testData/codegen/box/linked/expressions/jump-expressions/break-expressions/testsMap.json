@@ -1,0 +1,32 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break@Loop exits labeled loop",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/break-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break in while loop exits loop",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/break-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unlabeled break exits innermost enclosing loop",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/break-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

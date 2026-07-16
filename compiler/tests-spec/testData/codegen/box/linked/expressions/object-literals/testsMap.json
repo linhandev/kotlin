@@ -1,0 +1,40 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object literal with multiple supertypes implicitly downcast to declared return type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/object-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous object { val n \u003d 42 } without supertypes exposes property n",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/object-literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private function may return anonymous object with multiple supertypes",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/object-literals/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object literal with supertype and class body override",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/object-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

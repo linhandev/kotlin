@@ -1,0 +1,56 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bound references b::n and b::double read property and invoke function on receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/navigation-operators/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe navigation returns null for null receiver and delegates otherwise",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/navigation-operators/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "api.greet(\"x\") invokes greet via dot member call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/navigation-operators/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullApi?.size() yields null for null receiver; api?.size() invokes size on non-null Api?",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/navigation-operators/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int.MAX_VALUE and kotlin.math.abs(-3) resolve via qualified dot access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/navigation-operators/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "h.value reads Holder property via dot member access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/navigation-operators/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

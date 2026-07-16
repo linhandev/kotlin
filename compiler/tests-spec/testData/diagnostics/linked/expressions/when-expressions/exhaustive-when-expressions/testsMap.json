@@ -1,0 +1,40 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when with true and false branches but no subject used as value reports NO_ELSE_IN_WHEN",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on sealed A value D with only A.B and A.B.C branches reports NO_ELSE_IN_WHEN",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when (Derived1()) with only is Derived1 branch missing Derived2 reports NO_ELSE_IN_WHEN",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when (true) { true -\u003e 1 } missing false branch used as value reports NO_ELSE_IN_WHEN",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/exhaustive-when-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

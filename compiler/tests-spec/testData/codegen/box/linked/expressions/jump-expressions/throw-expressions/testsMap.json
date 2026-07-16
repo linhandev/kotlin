@@ -1,0 +1,32 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "throw on elvis RHS throws the supplied exception value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/throw-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "throw custom Exception subclass as exception type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/throw-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "throw exception object is caught by matching catch block",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/throw-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

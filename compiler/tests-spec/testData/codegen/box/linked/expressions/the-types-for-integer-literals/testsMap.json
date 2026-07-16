@@ -1,0 +1,48 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literal 42L assigned to Long has type Long",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/the-types-for-integer-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literal 2147483648 greater than Int.MAX_VALUE has type Long",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/the-types-for-integer-literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hex literal 0x01 is assignable to Byte Short Int and Long",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/the-types-for-integer-literals/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "integer literal 70000 is assignable to Int and Long but not smaller types",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/the-types-for-integer-literals/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "literals 42L, 0xFFL and 0b1010L with L suffix have type Long",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/the-types-for-integer-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

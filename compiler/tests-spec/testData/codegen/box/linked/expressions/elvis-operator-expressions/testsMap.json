@@ -1,0 +1,56 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "a ?: 1 and b ?: 1 assign Any type with Int or String values",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/elvis-operator-expressions/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained elvis operators evaluate left-to-right for nullability",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/elvis-operator-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvis returns right-hand side when left-hand side is null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/elvis-operator-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvis returns left-hand side when it is not reference equal to null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/elvis-operator-expressions/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "x ?: sideEffect() skips sideEffect() when x is non-null \"N\"",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/elvis-operator-expressions/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null ?: 1 evaluates to 1 when left side is null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/elvis-operator-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

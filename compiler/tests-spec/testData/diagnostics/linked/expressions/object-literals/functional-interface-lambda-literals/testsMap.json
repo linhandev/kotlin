@@ -1,0 +1,24 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "NotFI { 1 } SAM syntax on non-functional interface reports RESOLUTION_TO_CLASSIFIER",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FI { s: String -\u003e s } lambda with String param cannot implement bar(Int) reports TYPE_MISMATCH",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/object-literals/functional-interface-lambda-literals/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

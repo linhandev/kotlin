@@ -1,0 +1,24 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this@run inside lambda labeled label@ reports UNRESOLVED_REFERENCE when label does not match",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this@B inside C.run lambda in B.foo extension reports UNRESOLVED_REFERENCE when B is not enclosing classifier",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/this-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

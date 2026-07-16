@@ -1,0 +1,24 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "not-null assertion !! on already non-nullable value has no effect",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/not-null-assertion-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "not-null assertion on nullable non-null value returns evaluation result",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/not-null-assertion-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

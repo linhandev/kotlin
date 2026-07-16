@@ -1,0 +1,16 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "A() \u003d\u003d\u003d B() on unrelated classes reports EQUALITY_NOT_APPLICABLE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/equality-expressions/reference-equality-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

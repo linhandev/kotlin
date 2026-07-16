@@ -1,0 +1,40 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Derived instance x::class is Derived::class not Base::class",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/class-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List::class and Map::class without type arguments name raw types",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/class-literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class literal on string and integer literals yields KClass of compile-time types",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/class-literals/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String::class.simpleName is \"String\"",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/call-and-property-access-expressions/class-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

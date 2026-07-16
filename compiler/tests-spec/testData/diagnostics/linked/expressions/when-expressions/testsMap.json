@@ -1,0 +1,38 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when with missing else branch used as value reports NO_ELSE_IN_WHEN",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when without body braces is a syntax error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "else branch before another when entry reports ELSE_MISPLACED_IN_WHEN and makes later branch unreachable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

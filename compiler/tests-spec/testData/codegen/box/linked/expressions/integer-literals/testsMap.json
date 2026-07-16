@@ -1,0 +1,218 @@
+{
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary integer 0b1_0_1 with multiple underscores evaluates to 5",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hexadecimal integer 0x1_2_3 with multiple underscores evaluates to 0x123",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-6/pos/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hexadecimal integer 0x1_A_F with underscore evaluates to 0x1AF",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-digit decimal integer 0 evaluates to zero",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 1234567890 evaluates to itself",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 1234_5678 with internal underscores evaluates to 12345678",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal integer 4_2 with internal underscore evaluates to 42",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 12345 evaluates to 12345",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-digit decimal integer 7 evaluates to 7",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-8/pos/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal literal 42 evaluates to 42",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single non-zero decimal digit 9 evaluates to 9",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary literal 0b1_0_1_0 with internal underscores evaluates to 10",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-3/pos/3.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary integer 0b1010 evaluates to 10",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary integer 0b1 evaluates to 1",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary literal 0b10101010 evaluates to 170",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hexadecimal integer 0xFF evaluates to 255",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hex literal 0x1_A_B_C with internal underscores evaluates to 0x1ABC",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-2/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hex literal 0xDEADBEEF evaluates to 0xDEADBEEF",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hexadecimal integer 0xA evaluates to 10",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal integer 1_000 with underscore separator evaluates to 1000",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal integer 1_234_567 with multiple underscores evaluates to 1234567",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/integer-literals/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
