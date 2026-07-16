@@ -1,0 +1,48 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 8,
+          "description": "specialized array iterators inherit kotlin.Iterator and expose typed next methods",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/specialized-iterator-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "specialized array types support size constructor and indexed access",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/specialized-array-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 7,
+          "description": "specialized array factory functions produce kotlin.IntArray, kotlin.DoubleArray and related types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/specialized-array-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "specialized array types are distinct from kotlin.Array of the corresponding element type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/specialized-array-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

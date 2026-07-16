@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "function types with different parameter or return types are not interchangeable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.function/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "non-function values cannot be assigned to kotlin.Function types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.function/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.Function invoke and nullable function references",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.function/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "function types are subtypes of kotlin.Function with matching arity",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.function/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

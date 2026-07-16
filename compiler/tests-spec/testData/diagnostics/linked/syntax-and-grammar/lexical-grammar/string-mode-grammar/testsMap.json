@@ -1,0 +1,332 @@
+{
+  "13": {
+    "neg": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrExprStart unclosed ${ in multiline string",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/neg/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrExprStart ${ with missing closing multiline quote",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/neg/13.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrExprStart ${+} invalid expression in multiline",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-13/neg/13.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "neg": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Missing TRIPLE_QUOTE_CLOSE at EOF",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/neg/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_CLOSE with only two closing quotes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/neg/9.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Unclosed multiline string in return block",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-9/neg/9.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrEscapedChar invalid UniCharacterLiteral \\u00G",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/neg/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrEscapedChar incomplete UniCharacterLiteral \\u00",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/neg/7.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrEscapedChar invalid escape \\x",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Unclosed QUOTE_OPEN line string with embedded newline",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Missing closing QUOTE_CLOSE in return expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Unclosed QUOTE_OPEN line string at end of file",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrExprStart unclosed ${ without closing brace",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrExprStart ${ with invalid expression syntax",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/neg/8.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrExprStart ${ with missing closing quote",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-8/neg/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultilineStringQuote unclosed in return block",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/neg/10.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultilineStringQuote insufficient closing quotes after embedded quotes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/neg/10.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultilineStringQuote unclosed multiline at EOF",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrRef $return hard keyword without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/neg/11.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrRef $class hard keyword without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/neg/11.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MultiLineStrRef $if hard keyword without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Premature QUOTE_CLOSE splits string abc def",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Extra QUOTE_CLOSE after closed string",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/neg/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Unescaped internal double quote without QUOTE_CLOSE pairing",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-4/neg/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FieldIdentifier $return hard keyword without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FieldIdentifier hard keyword if without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FieldIdentifier $val hard keyword without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-3/neg/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Unclosed TRIPLE_QUOTE_OPEN multiline string",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Missing TRIPLE_QUOTE_CLOSE at end of file",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/neg/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TRIPLE_QUOTE_OPEN closed with only two quotes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrRef $package hard keyword without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrRef $when hard keyword without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LineStrRef $fun hard keyword without escaping",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/string-mode-grammar/p-5/neg/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

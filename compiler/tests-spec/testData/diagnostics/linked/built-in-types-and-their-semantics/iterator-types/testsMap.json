@@ -1,0 +1,39 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.Iterator type parameter is invariant across assignments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/iterator-types/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "kotlin.Array iterator operator produces kotlin.Iterator for element type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/iterator-types/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "kotlin.Iterator provides hasNext and next with expected result types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/iterator-types/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

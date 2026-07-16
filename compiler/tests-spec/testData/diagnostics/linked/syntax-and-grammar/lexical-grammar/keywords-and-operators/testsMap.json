@@ -1,0 +1,3228 @@
+{
+  "120": {
+    "neg": {
+      "120": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone OPEN token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/neg/120.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside OPEN token as op en breaks open modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/neg/120.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete OPEN class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-120/neg/120.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "127": {
+    "neg": {
+      "127": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone EXPECT token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/neg/127.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete EXPECT function declaration without name causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/neg/127.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside EXPECT token as ex pect breaks expect modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-127/neg/127.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "118": {
+    "neg": {
+      "118": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside ABSTRACT token as abs tract breaks abstract modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/neg/118.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete ABSTRACT class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/neg/118.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone ABSTRACT token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-118/neg/118.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "111": {
+    "neg": {
+      "111": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone TAILREC token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/neg/111.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete TAILREC function declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/neg/111.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside TAILREC token as tai lrec breaks tailrec modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-111/neg/111.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "116": {
+    "neg": {
+      "116": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone SUSPEND token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/neg/116.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside SUSPEND token as sus pend breaks suspend modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/neg/116.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete SUSPEND function declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-116/neg/116.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "117": {
+    "neg": {
+      "117": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone OVERRIDE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/neg/117.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OVERRIDE token on top-level function causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/neg/117.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside OVERRIDE token as over ride breaks override modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-117/neg/117.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "128": {
+    "neg": {
+      "128": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside ACTUAL token as ac tual breaks actual modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/neg/128.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete ACTUAL function declaration without name causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/neg/128.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone ACTUAL token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-128/neg/128.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "110": {
+    "neg": {
+      "110": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone INNER token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/neg/110.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside INNER token as in ner breaks inner declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/neg/110.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "INNER token on top-level class causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-110/neg/110.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "126": {
+    "neg": {
+      "126": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone REIFIED token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/neg/126.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside REIFIED token as rei fied breaks reified modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/neg/126.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "REIFIED token without inline function causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-126/neg/126.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "119": {
+    "neg": {
+      "119": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete FINAL class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/neg/119.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside FINAL token as fi nal breaks final modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/neg/119.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone FINAL token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-119/neg/119.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "121": {
+    "neg": {
+      "121": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone CONST token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/neg/121.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete CONST val declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/neg/121.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside CONST token as co nst breaks const modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-121/neg/121.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "39": {
+    "neg": {
+      "39": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone QUEST token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/neg/39.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space before colon in elvis null ? : 1 breaks QUEST_NO_WS elvis rule",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-39/neg/39.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "30": {
+    "neg": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DOUBLE_ARROW token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-30/neg/30.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone DOUBLE_ARROW token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-30/neg/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "37": {
+    "neg": {
+      "37": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space after @ in file annotation @ file: breaks file annotation syntax",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-37/neg/37.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone AT token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-37/neg/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "97": {
+    "neg": {
+      "97": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone IN token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/neg/97.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside IN token as i n breaks containment lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/neg/97.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete containment IN without right operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-97/neg/97.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "63": {
+    "neg": {
+      "63": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone SETPARAM token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/neg/63.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete setparam annotation @setparam: missing annotation name on property causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/neg/63.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete setparam annotation @setparam without colon on property causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-63/neg/63.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "64": {
+    "neg": {
+      "64": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone DELEGATE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/neg/64.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete delegate annotation @delegate without colon causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/neg/64.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete delegate annotation @delegate: missing annotation name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-64/neg/64.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "90": {
+    "neg": {
+      "90": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone WHILE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/neg/90.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete while loop WHILE without body causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/neg/90.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside WHILE token as wh ile breaks while loop lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-90/neg/90.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "99": {
+    "neg": {
+      "99": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside NOT_IN token as ! in breaks !in lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/neg/99.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete NOT_IN check without range operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/neg/99.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone NOT_IN token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-99/neg/99.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "52": {
+    "neg": {
+      "52": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CONTINUE_AT token without label continue@ causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52/neg/52.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in CONTINUE_AT token as continue @loop breaks CONTINUE_AT lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-52/neg/52.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "55": {
+    "neg": {
+      "55": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "SUPER_AT token without label super@ causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/neg/55.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in SUPER_AT token as super @Derived breaks SUPER_AT lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-55/neg/55.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "36": {
+    "neg": {
+      "36": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space before @ in break@target break @loop breaks label reference syntax",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/neg/36.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space before @ in label definition loop @ breaks label syntax",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-36/neg/36.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "31": {
+    "neg": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "RANGE token without end operand in for-loop 1.. causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31/neg/31.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone RANGE token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-31/neg/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "38": {
+    "neg": {
+      "38": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Double AT @@file:JvmName glued without Hidden breaks AT_BOTH_WS file annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-38/neg/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "AT glued to file annotation @ @file:Suppress breaks AT_BOTH_WS parsing",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-38/neg/38.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "54": {
+    "neg": {
+      "54": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "THIS_AT token without label this@ causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/neg/54.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in THIS_AT token as this @Outer breaks THIS_AT lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-54/neg/54.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "98": {
+    "neg": {
+      "98": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete NOT_IS check without target type causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/neg/98.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside NOT_IS token as ! is breaks !is lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/neg/98.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone NOT_IS token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-98/neg/98.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "53": {
+    "neg": {
+      "53": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "BREAK_AT token without label break@ causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53/neg/53.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in BREAK_AT token as break @loop breaks BREAK_AT lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-53/neg/53.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "91": {
+    "neg": {
+      "91": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone THROW token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/neg/91.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside THROW token as thr ow breaks throw expression lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/neg/91.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete throw expression THROW without exception causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-91/neg/91.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "65": {
+    "neg": {
+      "65": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone PACKAGE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/neg/65.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete package declaration PACKAGE without qualified name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/neg/65.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside PACKAGE token as pack age breaks package declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-65/neg/65.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "62": {
+    "neg": {
+      "62": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone PARAM token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/neg/62.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete param annotation @param without colon on constructor parameter causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/neg/62.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete param annotation @param: missing annotation name on constructor parameter causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-62/neg/62.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "96": {
+    "neg": {
+      "96": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone IS token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/neg/96.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete type check IS without target type causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/neg/96.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside IS token as i s breaks type check lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-96/neg/96.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "40": {
+    "neg": {
+      "40": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space between ? and . in safe call x ? .length breaks QUEST_NO_WS safeNav",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-40/neg/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "47": {
+    "neg": {
+      "47": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in AS_SAFE token as ? breaks AS_SAFE lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/neg/47.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone AS_SAFE token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-47/neg/47.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "78": {
+    "neg": {
+      "78": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "THIS token at top level without receiver causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/neg/78.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside THIS token as th is breaks this expression lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/neg/78.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete qualified this THIS@ without label causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-78/neg/78.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "85": {
+    "neg": {
+      "85": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside TRY token as tr y breaks try statement lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/neg/85.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete try statement TRY without block causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/neg/85.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone TRY token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-85/neg/85.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "71": {
+    "neg": {
+      "71": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete val declaration VAL without identifier causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/neg/71.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside VAL token as va l breaks val property declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/neg/71.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone VAL token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-71/neg/71.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "76": {
+    "neg": {
+      "76": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside COMPANION token as comp anion breaks companion object lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/neg/76.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete companion declaration COMPANION without object keyword causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/neg/76.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone COMPANION token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-76/neg/76.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "82": {
+    "neg": {
+      "82": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete if expression IF without condition causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/neg/82.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside IF token as i f breaks if expression lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/neg/82.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone IF token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-82/neg/82.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "49": {
+    "neg": {
+      "49": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone EQEQEQ token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/neg/49.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in EQEQEQ token as \u003d \u003d\u003d breaks EQEQEQ lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-49/neg/49.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "22": {
+    "neg": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "SEMICOLON token in incomplete variable declaration causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-22/neg/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "25": {
+    "neg": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "SUB_ASSIGNMENT token used with val (immutable) variable causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/neg/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "SUB_ASSIGNMENT token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-25/neg/25.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "13": {
+    "neg": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ADD token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-13/neg/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "neg": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "SUB token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-14/neg/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "83": {
+    "neg": {
+      "83": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside ELSE token as el se breaks else branch lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/neg/83.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Dangling ELSE without matching IF causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/neg/83.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone ELSE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-83/neg/83.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "77": {
+    "neg": {
+      "77": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete init block INIT without body causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/neg/77.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside INIT token as in it breaks initializer block lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/neg/77.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone INIT token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-77/neg/77.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "48": {
+    "neg": {
+      "48": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone EQEQ token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/neg/48.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in EQEQ token as \u003d \u003d breaks EQEQ lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-48/neg/48.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "70": {
+    "neg": {
+      "70": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside OBJECT token as ob ject breaks object declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/neg/70.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete object declaration OBJECT without body or name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/neg/70.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone OBJECT token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-70/neg/70.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "84": {
+    "neg": {
+      "84": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete when expression WHEN without branches causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/neg/84.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside WHEN token as wh en breaks when expression lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/neg/84.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone WHEN token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-84/neg/84.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "46": {
+    "neg": {
+      "46": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in EXCL_EQEQ token as ! \u003d\u003d breaks EXCL_EQEQ lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/neg/46.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone EXCL_EQEQ token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-46/neg/46.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "79": {
+    "neg": {
+      "79": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone SUPER token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/neg/79.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete super expression SUPER dot without selector causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/neg/79.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside SUPER token as su per breaks super expression lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-79/neg/79.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "41": {
+    "neg": {
+      "41": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LANGLE token in incomplete generic List\u003c causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/neg/41.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone LANGLE token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-41/neg/41.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "neg": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "INCR token used with val (immutable) variable causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-15/neg/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "neg": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DIV token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-12/neg/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "neg": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ADD_ASSIGNMENT token used with val (immutable) variable causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/neg/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ADD_ASSIGNMENT token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-24/neg/24.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "23": {
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone ASSIGNMENT token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "neg": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone RCURL as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-9/neg/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone RSQUARE as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "103": {
+    "neg": {
+      "103": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete PRIVATE class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/neg/103.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside PRIVATE token as pri vate breaks modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/neg/103.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone PRIVATE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-103/neg/103.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "104": {
+    "neg": {
+      "104": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside PROTECTED token as pro tected breaks modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/neg/104.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "PROTECTED token on top-level property causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/neg/104.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone PROTECTED token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-104/neg/104.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone LSQUARE as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Unclosed LCURL in function body causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "105": {
+    "neg": {
+      "105": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete INTERNAL class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/neg/105.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside INTERNAL token as inter nal breaks modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/neg/105.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone INTERNAL token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-105/neg/105.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "102": {
+    "neg": {
+      "102": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside PUBLIC token as pub lic breaks modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/neg/102.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete PUBLIC class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/neg/102.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone PUBLIC token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-102/neg/102.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "124": {
+    "neg": {
+      "124": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside NOINLINE token as no inline breaks noinline modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/neg/124.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "NOINLINE token without inline function causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/neg/124.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone NOINLINE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-124/neg/124.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "123": {
+    "neg": {
+      "123": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete VARARG parameter without type causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/neg/123.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside VARARG token as var arg breaks vararg modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/neg/123.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone VARARG token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-123/neg/123.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "115": {
+    "neg": {
+      "115": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete EXTERNAL function declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/neg/115.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside EXTERNAL token as exter nal breaks external modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/neg/115.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone EXTERNAL token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-115/neg/115.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "112": {
+    "neg": {
+      "112": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside OPERATOR token as oper ator breaks operator modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/neg/112.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete OPERATOR function declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/neg/112.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone OPERATOR token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-112/neg/112.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "113": {
+    "neg": {
+      "113": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete INLINE function declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/neg/113.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside INLINE token as in line breaks inline modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/neg/113.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone INLINE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-113/neg/113.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "114": {
+    "neg": {
+      "114": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside INFIX token as inf ix breaks infix modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/neg/114.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete INFIX function declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/neg/114.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone INFIX token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-114/neg/114.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "122": {
+    "neg": {
+      "122": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside LATEINIT token as late init breaks lateinit modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/neg/122.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "LATEINIT token on val property causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/neg/122.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone LATEINIT token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-122/neg/122.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "125": {
+    "neg": {
+      "125": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CROSSINLINE token without inline function causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/neg/125.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside CROSSINLINE token as cross inline breaks crossinline modifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/neg/125.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone CROSSINLINE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-125/neg/125.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "58": {
+    "neg": {
+      "58": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone PROPERTY token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/neg/58.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete property annotation @property without colon causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/neg/58.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete property annotation @property: missing annotation name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-58/neg/58.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "67": {
+    "neg": {
+      "67": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete class declaration CLASS without identifier causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/neg/67.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside CLASS token as cla ss breaks class declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/neg/67.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone CLASS token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-67/neg/67.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "93": {
+    "neg": {
+      "93": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside CONTINUE token as con tinue breaks continue statement lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/neg/93.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CONTINUE token outside loop causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/neg/93.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone CONTINUE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-93/neg/93.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "94": {
+    "neg": {
+      "94": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "BREAK token outside loop causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/neg/94.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside BREAK token as br eak breaks break statement lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/neg/94.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone BREAK token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-94/neg/94.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "60": {
+    "neg": {
+      "60": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside SET token as se t() breaks property setter lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/neg/60.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete property setter SET without parameter list causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/neg/60.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone SET token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-60/neg/60.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "69": {
+    "neg": {
+      "69": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone FUN token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/neg/69.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete function declaration FUN without identifier causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/neg/69.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside FUN token as fu n breaks function declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-69/neg/69.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "56": {
+    "neg": {
+      "56": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete file annotation @file without colon causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/neg/56.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete file annotation @file: missing annotation name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/neg/56.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone FILE token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-56/neg/56.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "51": {
+    "neg": {
+      "51": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in RETURN_AT token as return @loop breaks RETURN_AT lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51/neg/51.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone RETURN_AT token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-51/neg/51.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "34": {
+    "neg": {
+      "34": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone HASH token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-34/neg/34.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "HASH token in incomplete expression val x \u003d # causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-34/neg/34.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "33": {
+    "neg": {
+      "33": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone DOUBLE_SEMICOLON token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-33/neg/33.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DOUBLE_SEMICOLON token in incomplete declaration val x \u003d ;; causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-33/neg/33.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "50": {
+    "neg": {
+      "50": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside character literal breaks SINGLE_QUOTE lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50/neg/50.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone SINGLE_QUOTE token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-50/neg/50.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "68": {
+    "neg": {
+      "68": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone INTERFACE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/neg/68.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside INTERFACE token as inte rface breaks interface declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/neg/68.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete interface declaration INTERFACE without identifier causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-68/neg/68.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "57": {
+    "neg": {
+      "57": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete field annotation @field: missing annotation name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/neg/57.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete field annotation @field without colon causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/neg/57.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone FIELD token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-57/neg/57.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "61": {
+    "neg": {
+      "61": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete receiver annotation @receiver: missing annotation name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/neg/61.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete receiver annotation @receiver without colon causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/neg/61.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone RECEIVER token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-61/neg/61.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "95": {
+    "neg": {
+      "95": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside AS token as a s breaks cast lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/neg/95.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete cast AS without target type causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/neg/95.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone AS token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-95/neg/95.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "59": {
+    "neg": {
+      "59": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone GET token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/neg/59.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete property getter GET without parentheses causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/neg/59.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside GET token as ge t() breaks property getter lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-59/neg/59.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "92": {
+    "neg": {
+      "92": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete return RETURN without expression in String function causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/neg/92.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside RETURN token as re turn breaks return statement lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/neg/92.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "RETURN token without value in String function causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-92/neg/92.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "66": {
+    "neg": {
+      "66": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside IMPORT token as im port breaks import directive lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/neg/66.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete import directive IMPORT without qualified name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/neg/66.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone IMPORT token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-66/neg/66.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "32": {
+    "neg": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone COLONCOLON token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/neg/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "COLONCOLON token without member name String:: causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-32/neg/32.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "35": {
+    "neg": {
+      "35": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space after @ breaks AT_NO_WS before annotation name @ Suppress",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/neg/35.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Block comment between @ and annotation name breaks AT_NO_WS @/*c",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-35/neg/35.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "neg": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone EXCL token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-19/neg/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "neg": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MULT_ASSIGNMENT token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/neg/26.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MULT_ASSIGNMENT token used with val (immutable) variable causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-26/neg/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "neg": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "COLON token in function parameter without parameter name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-21/neg/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "neg": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MOD_ASSIGNMENT token used with val (immutable) variable causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/neg/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MOD_ASSIGNMENT token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-28/neg/28.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "neg": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "CONJ token with non-boolean operand causes type mismatch error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MULT token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "44": {
+    "neg": {
+      "44": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone GE token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/neg/44.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in GE token as \u003e \u003d breaks GTEQ lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-44/neg/44.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "43": {
+    "neg": {
+      "43": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone LE token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/neg/43.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in LE token as \u003c \u003d breaks LTEQ lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-43/neg/43.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "88": {
+    "neg": {
+      "88": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete for loop FOR without body causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/neg/88.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside FOR token as fo r breaks for loop lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/neg/88.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone FOR token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-88/neg/88.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "75": {
+    "neg": {
+      "75": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone BY token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/neg/75.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete delegated property BY without delegate expression causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/neg/75.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside BY token as b y breaks delegated property lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-75/neg/75.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "81": {
+    "neg": {
+      "81": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone WHERE token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/neg/81.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside WHERE token as wh ere breaks where clause lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/neg/81.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete where clause WHERE without constraint causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-81/neg/81.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "86": {
+    "neg": {
+      "86": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone CATCH token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/neg/86.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete catch clause CATCH without parameter causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/neg/86.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside CATCH token as cat ch breaks catch clause lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-86/neg/86.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "72": {
+    "neg": {
+      "72": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone VAR token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/neg/72.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside VAR token as va r breaks var property declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/neg/72.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete var declaration VAR without identifier causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-72/neg/72.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "MOD token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "29": {
+    "neg": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ARROW token in incomplete function type (Int) -\u003e without return type causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/neg/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone ARROW token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-29/neg/29.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "neg": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DECR token used with val (immutable) variable causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-16/neg/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "20": {
+    "neg": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "EXCL_NO_WS token with non-boolean operand causes type mismatch error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-20/neg/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "neg": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DISJ token with non-boolean operand causes type mismatch error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-18/neg/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "neg": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DIV_ASSIGNMENT token without right-hand operand causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/neg/27.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DIV_ASSIGNMENT token used with val (immutable) variable causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-27/neg/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "73": {
+    "neg": {
+      "73": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone TYPE_ALIAS token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/neg/73.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete typealias declaration TYPE_ALIAS without alias name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/neg/73.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside TYPE_ALIAS token as type alias breaks typealias declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-73/neg/73.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "87": {
+    "neg": {
+      "87": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone FINALLY token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/neg/87.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside FINALLY token as fin ally breaks finally clause lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/neg/87.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete finally clause FINALLY without block causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-87/neg/87.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "80": {
+    "neg": {
+      "80": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone TYPEOF token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/neg/80.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside TYPEOF token as ty peof breaks identifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/neg/80.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "TYPEOF token used as unescaped function name causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-80/neg/80.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "74": {
+    "neg": {
+      "74": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone CONSTRUCTOR token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/neg/74.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside CONSTRUCTOR token as constr uctor breaks constructor declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/neg/74.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete constructor declaration CONSTRUCTOR without parameter list causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-74/neg/74.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "42": {
+    "neg": {
+      "42": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone RANGLE token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/neg/42.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "RANGLE token in incomplete generic List\u003cInt\u003e without closing causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-42/neg/42.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "89": {
+    "neg": {
+      "89": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside DO token as d o breaks do-while lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/neg/89.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete do-while DO without while causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/neg/89.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone DO token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-89/neg/89.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "45": {
+    "neg": {
+      "45": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone EXCL_EQ token as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/neg/45.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space in EXCL_EQ token as ! \u003d breaks EXCL_EQ lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-45/neg/45.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "107": {
+    "neg": {
+      "107": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone SEALED token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/neg/107.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete SEALED class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/neg/107.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside SEALED token as sea led breaks sealed declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-107/neg/107.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "100": {
+    "neg": {
+      "100": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone OUT token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/neg/100.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside OUT token as ou t breaks variance lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/neg/100.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete OUT variance List\u003cout\u003e without type argument causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-100/neg/100.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "109": {
+    "neg": {
+      "109": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete DATA class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/neg/109.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside DATA token as da ta breaks data declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/neg/109.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone DATA token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-109/neg/109.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone LPAREN as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Unclosed LPAREN in expression causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-4/neg/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "COMMA token as standalone statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "COMMA token used to separate values in val declaration context causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "108": {
+    "neg": {
+      "108": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside ANNOTATION token as anno tation breaks annotation declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/neg/108.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete ANNOTATION class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/neg/108.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone ANNOTATION token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-108/neg/108.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "101": {
+    "neg": {
+      "101": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone DYNAMIC token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/neg/101.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DYNAMIC token as modifier without declaration causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/neg/101.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside DYNAMIC token as dyn amic breaks identifier lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-101/neg/101.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "106": {
+    "neg": {
+      "106": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone ENUM token as statement causes compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/neg/106.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Space inside ENUM token as en um breaks enum declaration lexeme",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/neg/106.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete ENUM class declaration without name causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-106/neg/106.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DOT token without preceding receiver expression causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Trailing DOT without member name causes incomplete member access syntax error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Standalone RPAREN as statement causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Extra RPAREN after complete expression causes parser error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/keywords-and-operators/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

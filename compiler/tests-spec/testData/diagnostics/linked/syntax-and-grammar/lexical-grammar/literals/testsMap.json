@@ -1,0 +1,262 @@
+{
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Invalid FloatLiteral 1.f with missing fraction DecDigits before suffix",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-7/neg/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Invalid FloatLiteral .f with missing DecDigits before suffix",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-7/neg/7.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Invalid FloatLiteral 1.5ff with duplicate float suffix",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Invalid RealLiteral 1.5.6 with extra dot in DecDigits",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-6/neg/6.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Invalid RealLiteral .e5 with missing DecDigits before exponent",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-6/neg/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete RealLiteral 1. with missing fraction DecDigits",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Real literal \u00271e\u0027 violates DoubleLiteral BNF rule.",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Integer literals with leading zero (e.g., 08, 09) violate IntegerLiteral BNF rule.",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Invalid DoubleLiteral .e10 with missing DecDigits before exponent",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Incomplete DoubleLiteral 1.5e with missing DoubleExponent DecDigits",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-8/neg/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Hex literal with invalid non-HexDigit characters (e.g., 0xG, 0xGH, 0xZ) violates HexLiteral BNF rule.",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "BinLiteral 0b2 with invalid non-BinDigit 2. BinLiteral requires BinDigits (0 or 1).",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-11/neg/11.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Invalid BooleanLiteral tru token",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-11/neg/11.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "HexLiteral 0x__1 with consecutive HexDigitOrSeparator underscores violates BNF",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigits 999_ trailing separator instead of ending DecDigit",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DecDigits 007 with leading zero in multi-digit integer literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-4/neg/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Integer literal 1__ with consecutive DecDigitOrSeparator underscores ending in underscore violates BNF",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Leading underscore _1 is not a valid DecDigitOrSeparator sequence start",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Trailing underscore 1_ is not a valid DecDigitOrSeparator sequence end",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-3/neg/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Hexadecimal literal 0xGG with invalid non-DecDigit character G",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Real literal 0e with missing exponent digits after DecDigit zero",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-2/neg/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Decimal literal 2a with invalid non-DecDigit letter a",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleExponent 1.0e with missing DecDigits after exponent mark",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleExponent 2.0e+ with missing DecDigits after plus sign",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "DoubleExponent 3.0e- with missing DecDigits after minus sign",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/lexical-grammar/literals/p-5/neg/5.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
