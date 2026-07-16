@@ -1571,9 +1571,7 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
         if (switchThreadState) {
             switchThreadState(Runnable)
         }
-        // OFF path skips the setCurrentFrame call — `Kotlin_mm_setCurrentFrame`
-        // is a precise-stackmap-only runtime symbol.
-        if (setCurrentFrame && enableStackmap) {
+        if (setCurrentFrame) {
             call(llvm.setCurrentFrameFunction, listOf(slotsPhi!!))
             setCurrentFrameIsCalled = true
         }

@@ -5,6 +5,9 @@
 
 package org.jetbrains.kotlin.backend.konan.llvm
 
+import org.jetbrains.kotlin.konan.target.Family
+import org.jetbrains.kotlin.konan.target.KonanTarget
+
 /**
  * Whitelist of runtime helpers that have a corresponding hand-written `<name>Stub`
  * trampoline defined in `kotlin-native/runtime/src/main/cpp/<target>_stubs/K2RStub.s`.
@@ -63,6 +66,8 @@ internal object K2RStubFunctions {
         "CreateStringFromUtf8",
         "CreateStringFromUtf8OrThrow",
         "CreateUninitializedString",
+        "Konan_Platform_getAvailableProcessorsEnv",
+        "Konan_Platform_getProgramName",
         "Konan_getWeakReferenceImpl",
         "Kotlin_Any_hashCode",
         "Kotlin_Array_copyImpl",
@@ -167,6 +172,7 @@ internal object K2RStubFunctions {
         "Kotlin_native_FloatingPointParser_parseFloatImpl",
         "Kotlin_native_internal_GC_collect",
         "Kotlin_native_internal_GC_schedule",
+        "Kotlin_native_internal_ref_dereferenceExternalRCRefOrNull",
         "Kotlin_NativePtrArray_get",
         "Kotlin_NativePtrArray_get_without_BoundCheck",
         "Kotlin_NativePtrArray_set",
@@ -230,4 +236,18 @@ internal object K2RStubFunctions {
      * Consumer: `pinK2RStubCalleesInLlvmUsed` in Bitcode.kt.
      */
     val linkRootSet: Set<String> = names + setOf("CSafePointSlowPath", "CslowPath", "Kotlin_mm_safePointCheckCRT")
+
+    // OHOS-only helpers (symbols live under NapiInterface.cpp #if KONAN_OHOS): stub only in the ohos
+    // K2RStub.s; the compiler redirects only on OHOS targets. Keep this setOf free of the close-paren
+    // char -- verifyK2RStubFunctions parses it up to the first one.
+    val ohosOnlyNames: Set<String> = setOf(
+        "Kotlin_napi_get_kotlin_string_utf16",
+        "Kotlin_String_toNapiValue",
+    )
+
+    fun namesFor(target: KonanTarget): Set<String> =
+            if (target.family == Family.OHOS) names + ohosOnlyNames else names
+
+    fun linkRootSetFor(target: KonanTarget): Set<String> =
+            if (target.family == Family.OHOS) linkRootSet + ohosOnlyNames else linkRootSet
 }

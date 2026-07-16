@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <limits>
 
+#include "DisallowSafepointScope.h"
 #include "Exceptions.h"
 #include "KAssert.h"
 #include "KString.h"
@@ -230,6 +231,7 @@ extern "C" {
      * @param env Current running virtual machine context.
      * @return A napi_value representing an ArkTS string.
      */
+    HAS_SAFEPOINT
     KNativePtr Kotlin_String_toNapiValue(KConstRef thiz, KNativePtr env) {
         napi_value result = nullptr;
 
@@ -290,6 +292,7 @@ extern "C" {
      * @param value The ArkTS string to convert.
      * @return A Kotlin string object.
      */
+    HAS_SAFEPOINT
     OBJ_GETTER(Kotlin_napi_get_kotlin_string_utf16, KNativePtr env, KNativePtr value) {
         napi_env napiEnv = reinterpret_cast<napi_env>(env);
         napi_value napiValue = reinterpret_cast<napi_value>(value);

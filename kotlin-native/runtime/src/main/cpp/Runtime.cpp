@@ -405,6 +405,7 @@ KBoolean Konan_Platform_isDebugBinary() {
   return kotlin::compiler::shouldContainDebugInfo();
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER0(Konan_Platform_getProgramName) {
     if (kotlin::programName == nullptr) {
         // null in case Platform.getProgramName is called from within a library and the main function of the binary is not built with Kotlin
@@ -437,6 +438,7 @@ KInt Konan_Platform_getAvailableProcessors() {
     return static_cast<KInt>(res);
 }
 
+HAS_SAFEPOINT
 OBJ_GETTER0(Konan_Platform_getAvailableProcessorsEnv) {
     char* env = getenv("KOTLIN_NATIVE_AVAILABLE_PROCESSORS");
     if (env == nullptr) {

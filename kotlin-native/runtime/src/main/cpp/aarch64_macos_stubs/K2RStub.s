@@ -393,6 +393,18 @@ _AllocArrayInstanceStub:
 _Kotlin_native_internal_GC_scheduleStub:
     CalleeSavedRegistersStub Kotlin_native_internal_GC_schedule
 
+    .global _Kotlin_native_internal_ref_dereferenceExternalRCRefOrNullStub
+_Kotlin_native_internal_ref_dereferenceExternalRCRefOrNullStub:
+    CalleeSavedRegistersStub Kotlin_native_internal_ref_dereferenceExternalRCRefOrNull
+
+    .global _Konan_Platform_getAvailableProcessorsEnvStub
+_Konan_Platform_getAvailableProcessorsEnvStub:
+    CalleeSavedRegistersStub Konan_Platform_getAvailableProcessorsEnv
+
+    .global _Konan_Platform_getProgramNameStub
+_Konan_Platform_getProgramNameStub:
+    CalleeSavedRegistersStub Konan_Platform_getProgramName
+
     .global _PerformFullGCStub
 _PerformFullGCStub:
     CalleeSavedRegistersStub PerformFullGC
