@@ -402,7 +402,7 @@ fun main() {
                     *frontendClassic(),
                 )
             ) {
-                model()
+                model(recursive = false)
             }
             testClass<AbstractNativeBlackBoxTest>(
                 suiteTestClassName = "FirNativeGCTestGenerated",
@@ -420,6 +420,27 @@ fun main() {
                 suiteTestClassName = "OhosCAPITestGenerated",
                 annotations = listOf(
                     *capi(),
+                    provider<UseStandardTestCaseGroupProvider>(),
+                )
+            ) {
+                model(recursive = false)
+            }
+        }
+        // CRT GC tests
+        testGroup("native/native.tests/tests-gen", "native/native.tests/testData/gc/crt") {
+            testClass<AbstractNativeBlackBoxTest>(
+                suiteTestClassName = "NativeCrtGCTestGenerated",
+                annotations = listOf(
+                    *crtGc(),
+                    provider<UseStandardTestCaseGroupProvider>(),
+                )
+            ) {
+                model()
+            }
+            testClass<AbstractNativeBlackBoxTest>(
+                suiteTestClassName = "FirNativeCrtGCTestGenerated",
+                annotations = listOf(
+                    *crtGc(),
                     provider<UseStandardTestCaseGroupProvider>(),
                 )
             ) {
@@ -589,6 +610,9 @@ private fun cinterfaceMode(mode: String = "V1") = annotation(
 )
 private fun gc() = arrayOf(
     annotation(Tag::class.java, "gc"),
+)
+private fun crtGc() = arrayOf(
+    annotation(Tag::class.java, "crt-gc"),
 )
 private fun stress() = arrayOf(
     annotation(Tag::class.java, "stress"),

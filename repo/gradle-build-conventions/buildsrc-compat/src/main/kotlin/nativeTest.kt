@@ -386,5 +386,8 @@ fun Project.nativeTest(
     //    but it is still nice to have it as a failsafe.
     environment("LIBCLANG_DISABLE_CRASH_RECOVERY" to "1")
 
+    // Pass through LIBCRT_PATH if available (linker needs it to find libcrt.so at compile time for -Xallocator=crt tests).
+    System.getenv("LIBCRT_PATH")?.let { environment("LIBCRT_PATH" to it) }
+
     body()
 }
