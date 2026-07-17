@@ -43,6 +43,19 @@
 
 constexpr auto kTagMemDump = kotlin::logging::Tag::kMemoryDump;
 
+// Bytes-to-MB conversion constant for log messages.
+constexpr size_t kBytesPerMB = 1024 * 1024;
+// Bytes-to-MB conversion constant (double), for floating-point contexts.
+constexpr double kBytesPerMBDouble = 1024.0 * 1024.0;
+// Bytes-to-KB conversion constant (double).
+constexpr double kBytesPerKBDouble = 1024.0;
+// Maximum number of parallel compression/dump threads.
+constexpr size_t kMaxConcurrency = 16;
+// Minimum number of parallel compression/dump threads.
+constexpr size_t kMinThreads = 2;
+// Percentage multiplier for compression ratio calculation.
+constexpr double kPercentMultiplier = 100.0;
+
 namespace kotlin::mm {
 
 // using PointerSet replace std::unordered_set,
@@ -217,36 +230,49 @@ public:
     // as a gzip member, then concatenated to the output fd. Gzip decompressors
     // natively handle concatenated gzip members (equivalent to "cat *.gz").
     void CompressToFile(int fd) const {
-        if (data_.empty()) return;
+        if (data_.empty()) { return; }
 
-        using Clock = std::chrono::high_resolution_clock;
         size_t totalSize = data_.size();
+        if (totalSize == 0) { return; }
 
         // Use single-threaded path for small dumps to avoid thread overhead.
         constexpr size_t kMinParallelSize = 2 * 1024 * 1024;  // 2 MB
         if (totalSize < kMinParallelSize) {
-            auto t0 = Clock::now();
-            std::vector<char> out;
-            CompressChunkToGzip(data_.data(), totalSize, out);
-            auto t1 = Clock::now();
-            WriteAll(fd, out.data(), out.size());
-            auto t2 = Clock::now();
-            RuntimeLogInfo({kTagMemDump},
-                "  compress/single: deflate=%.2f ms, write=%.2f ms",
-                std::chrono::duration<double, std::milli>(t1 - t0).count(),
-                std::chrono::duration<double, std::milli>(t2 - t1).count());
+            CompressSingleThreaded(fd, totalSize);
             return;
         }
+        CompressParallel(fd, totalSize);
+    }
 
-        // Determine thread count: prefer hardware_concurrency, clamped to [2, 16].
-        size_t numChunks = std::max(2u, std::thread::hardware_concurrency());
-        if (numChunks > 16) numChunks = 16;
+    // Single-threaded compression path for small dumps.
+    void CompressSingleThreaded(int fd, size_t totalSize) const {
+        using Clock = std::chrono::high_resolution_clock;
+        auto t0 = Clock::now();
+        std::vector<char> out;
+        CompressChunkToGzip(data_.data(), totalSize, out);
+        auto t1 = Clock::now();
+        WriteAll(fd, out.data(), out.size());
+        auto t2 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  compress/single: deflate=%.2f ms, write=%.2f ms",
+            std::chrono::duration<double, std::milli>(t1 - t0).count(),
+            std::chrono::duration<double, std::milli>(t2 - t1).count());
+    }
+
+    // Multi-threaded compression path: splits data into chunks, compresses
+    // each chunk in a separate thread, then writes results to fd in order.
+    void CompressParallel(int fd, size_t totalSize) const {
+        using Clock = std::chrono::high_resolution_clock;
+
+        // Determine thread count: clamped to [kMinThreads, kMaxConcurrency].
+        size_t numChunks = std::max(kMinThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
+        if (numChunks > kMaxConcurrency) { numChunks = kMaxConcurrency; }
 
         // Ensure each chunk is at least 8 MB to amortize thread-creation cost.
         constexpr size_t kMinChunkSize = 8 * 1024 * 1024;
         size_t maxChunks = totalSize / kMinChunkSize;
-        if (maxChunks < 1) maxChunks = 1;
-        if (numChunks > maxChunks) numChunks = maxChunks;
+        if (maxChunks < 1) { maxChunks = 1; }
+        if (numChunks > maxChunks) { numChunks = maxChunks; }
 
         size_t chunkSize = (totalSize + numChunks - 1) / numChunks;
 
@@ -255,25 +281,25 @@ public:
         std::vector<std::thread> threads;
         threads.reserve(numChunks);
 
-        // --- Sub-stage: dispatch threads ---
+        // Dispatch compression threads.
         auto t0 = Clock::now();
         for (size_t i = 0; i < numChunks; ++i) {
             size_t offset = i * chunkSize;
             size_t size = std::min(chunkSize, totalSize - offset);
-            if (size == 0) continue;
+            if (size == 0) { continue; }
             threads.emplace_back([this, offset, size, &compressedChunks, i]() {
                 CompressChunkToGzip(data_.data() + offset, size, compressedChunks[i]);
             });
         }
         auto t1 = Clock::now();
 
-        // --- Sub-stage: parallel deflate (wait for all threads) ---
+        // Wait for all threads to finish.
         for (auto& t : threads) {
             t.join();
         }
         auto t2 = Clock::now();
 
-        // --- Sub-stage: write compressed chunks to fd in order ---
+        // Write compressed chunks to fd in order.
         size_t totalCompressed = 0;
         for (const auto& chunk : compressedChunks) {
             if (!chunk.empty()) {
@@ -287,12 +313,12 @@ public:
             "  compress/parallel: threads=%zu, chunk=%.1f MB, "
             "dispatch=%.2f ms, deflate=%.2f ms, write=%.2f ms, "
             "raw=%zu MB, compressed=%zu MB, ratio=%.1f%%",
-            numChunks, chunkSize / (1024.0 * 1024.0),
+            numChunks, chunkSize / kBytesPerMBDouble,
             std::chrono::duration<double, std::milli>(t1 - t0).count(),
             std::chrono::duration<double, std::milli>(t2 - t1).count(),
             std::chrono::duration<double, std::milli>(t3 - t2).count(),
-            totalSize / (1024 * 1024), totalCompressed / (1024 * 1024),
-            100.0 * totalCompressed / totalSize);
+            totalSize / kBytesPerMB, totalCompressed / kBytesPerMB,
+            kPercentMultiplier * totalCompressed / totalSize);
     }
 
 private:
@@ -300,8 +326,7 @@ private:
     // Uses Z_BEST_SPEED to match the existing gzdopen("w1") behaviour.
     static void CompressChunkToGzip(const char* data, size_t size,
                                     std::vector<char>& output) {
-        z_stream strm;
-        memset(&strm, 0, sizeof(strm));
+        z_stream strm{};
 
         // MAX_WBITS + 16 = gzip format (header + trailer generated automatically).
         // Level 6: zlib default, good balance of speed and compression.
@@ -325,7 +350,6 @@ private:
         strm.avail_out = static_cast<uInt>(output.size());
 
         ret = deflate(&strm, Z_FINISH);
-
         if (ret == Z_STREAM_END) {
             // Trim to actual compressed size.
             output.resize(strm.total_out);
@@ -343,7 +367,7 @@ private:
         while (size > 0) {
             ssize_t written = write(fd, ptr, size);
             if (written < 0) {
-                if (errno == EINTR) continue;
+                if (errno == EINTR) { continue; }
                 throw std::system_error(errno, std::generic_category());
             }
             ptr += written;
@@ -364,31 +388,22 @@ public:
         dumpedTypes_.Reserve(kInitialTypeSetCapacity);
     }
 
-    // Dumps the memory into the internal buffer (no compression yet).
-    void Dump() {
+    using TimePoint = std::chrono::high_resolution_clock::time_point;
+
+    // Stages 1-2: global roots and thread roots. Returns end timestamp.
+    TimePoint DumpRootsAndThreads(TimePoint startTime) {
         using Clock = std::chrono::high_resolution_clock;
-        auto totalStart = Clock::now();
-        auto t0 = totalStart;
-
-        DumpStr("Kotlin/Native dump 1.0.10");
-        DumpBool(konan::isLittleEndian());
-        DumpU8(sizeof(void*));
-        auto t1 = Clock::now();
-        RuntimeLogInfo({kTagMemDump},
-            "  dump/header: %.2f ms",
-            std::chrono::duration<double, std::milli>(t1 - t0).count());
-
         // Stage 1: global roots.
         int globalRootCount = 0;
         for (auto value : mm::GlobalRootSet()) {
             DumpTransitively(value);
             ++globalRootCount;
         }
-        auto t2 = Clock::now();
+        auto t1 = Clock::now();
         RuntimeLogInfo({kTagMemDump},
             "  dump/global_roots: %.2f ms, roots=%d, buffer=%zu MB",
-            std::chrono::duration<double, std::milli>(t2 - t1).count(),
-            globalRootCount, memoryBuffer_.Size() / (1024 * 1024));
+            std::chrono::duration<double, std::milli>(t1 - startTime).count(),
+            globalRootCount, memoryBuffer_.Size() / kBytesPerMB);
 
         // Stage 2: threads and thread roots.
         int threadCount = 0;
@@ -401,36 +416,37 @@ public:
                 ++threadRootCount;
             }
         }
-        auto t3 = Clock::now();
+        auto t2 = Clock::now();
         RuntimeLogInfo({kTagMemDump},
             "  dump/thread_roots: %.2f ms, threads=%d, roots=%d, buffer=%zu MB",
-            std::chrono::duration<double, std::milli>(t3 - t2).count(),
-            threadCount, threadRootCount, memoryBuffer_.Size() / (1024 * 1024));
+            std::chrono::duration<double, std::milli>(t2 - t1).count(),
+            threadCount, threadRootCount, memoryBuffer_.Size() / kBytesPerMB);
+        return t2;
+    }
 
+    // Stages 3-4: heap objects and extra objects. Returns end timestamp.
+    TimePoint DumpHeapAndExtraObjects(TimePoint t3) {
+        using Clock = std::chrono::high_resolution_clock;
 #ifdef ENABLE_CRT
-        auto t4 = t3; // CRT: ForEachObject covers all objects in one pass
         auto t5 = t3;
         checkUseCRT<CheckMode::Slow>([&] {
-            // CRT path: ForEachObject covers all objects + extras in one pass
-            // (parallel dump not supported for CRT).
+            // CRT path: ForEachObject covers all objects + extras in one pass.
             // safe=false: caller already holds ScopedStopTheWorld.
             common::Heap::GetHeap().ForEachObject([&](common::BaseObject* baseObj) {
                 DumpTransitively(reinterpret_cast<ObjHeader*>(baseObj));
-            }, false);
+                }, false);
         }, [&] {
             // CMS path: parallel dump + extra objects.
-            // Stage 3: heap objects (parallel dump).
             auto timing = DumpHeapObjectsParallel();
-            t4 = Clock::now();
+            auto t4 = Clock::now();
             RuntimeLogInfo({kTagMemDump},
                 "  dump/heap_objects: %.2f ms, objects=%zu, "
                 "scan=%.2f ms, parallel=%.2f ms, merge=%.2f ms, buffer=%zu MB",
                 std::chrono::duration<double, std::milli>(t4 - t3).count(),
                 timing.objectCount,
                 timing.scanMs, timing.parallelMs, timing.mergeMs,
-                memoryBuffer_.Size() / (1024 * 1024));
+                memoryBuffer_.Size() / kBytesPerMB);
 
-            // Stage 4: extra objects.
             int extraObjCount = 0;
             GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) {
                 DumpTransitively(extraObj);
@@ -440,10 +456,10 @@ public:
             RuntimeLogInfo({kTagMemDump},
                 "  dump/extra_objects: %.2f ms, count=%d, buffer=%zu MB",
                 std::chrono::duration<double, std::milli>(t5 - t4).count(),
-                extraObjCount, memoryBuffer_.Size() / (1024 * 1024));
+                extraObjCount, memoryBuffer_.Size() / kBytesPerMB);
         });
+        return t5;
 #else
-        // Stage 3: heap objects (parallel dump).
         auto timing = DumpHeapObjectsParallel();
         auto t4 = Clock::now();
         RuntimeLogInfo({kTagMemDump},
@@ -452,9 +468,8 @@ public:
             std::chrono::duration<double, std::milli>(t4 - t3).count(),
             timing.objectCount,
             timing.scanMs, timing.parallelMs, timing.mergeMs,
-            memoryBuffer_.Size() / (1024 * 1024));
+            memoryBuffer_.Size() / kBytesPerMB);
 
-        // Stage 4: extra objects.
         int extraObjCount = 0;
         GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) {
             DumpTransitively(extraObj);
@@ -464,18 +479,21 @@ public:
         RuntimeLogInfo({kTagMemDump},
             "  dump/extra_objects: %.2f ms, count=%d, buffer=%zu MB",
             std::chrono::duration<double, std::milli>(t5 - t4).count(),
-            extraObjCount, memoryBuffer_.Size() / (1024 * 1024));
+            extraObjCount, memoryBuffer_.Size() / kBytesPerMB);
+        return t5;
 #endif
+    }
 
-        // Stage 5: stable references.
+    // Stages 5-6: stable references and enqueued objects. Returns end timestamp.
+    TimePoint DumpFinalStages(TimePoint t5) {
+        using Clock = std::chrono::high_resolution_clock;
         DumpStableRefs();
         auto t6 = Clock::now();
         RuntimeLogInfo({kTagMemDump},
             "  dump/stable_refs: %.2f ms, buffer=%zu MB",
             std::chrono::duration<double, std::milli>(t6 - t5).count(),
-            memoryBuffer_.Size() / (1024 * 1024));
+            memoryBuffer_.Size() / kBytesPerMB);
 
-        // Stage 6: enqueued objects (deferred from traversals above).
         int queuedCount = static_cast<int>(objQueue_.size());
         DumpEnqueuedObjects();
         auto t7 = Clock::now();
@@ -483,7 +501,26 @@ public:
             "  dump/enqueued: %.2f ms, queued=%d, dumped_objs=%zu, dumped_types=%zu, buffer=%zu MB",
             std::chrono::duration<double, std::milli>(t7 - t6).count(),
             queuedCount, dumpedObjs_.Size(), dumpedTypes_.Size(),
-            memoryBuffer_.Size() / (1024 * 1024));
+            memoryBuffer_.Size() / kBytesPerMB);
+        return t7;
+    }
+
+    // Dumps the memory into the internal buffer (no compression yet).
+    void Dump() {
+        using Clock = std::chrono::high_resolution_clock;
+        auto totalStart = Clock::now();
+
+        DumpStr("Kotlin/Native dump 1.0.10");
+        DumpBool(konan::isLittleEndian());
+        DumpU8(sizeof(void*));
+        auto t1 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/header: %.2f ms",
+            std::chrono::duration<double, std::milli>(t1 - totalStart).count());
+
+        auto t3 = DumpRootsAndThreads(t1);
+        auto t5 = DumpHeapAndExtraObjects(t3);
+        auto t7 = DumpFinalStages(t5);
 
         double totalMs = std::chrono::duration<double, std::milli>(t7 - totalStart).count();
         RuntimeLogInfo({kTagMemDump}, "  dump/total: %.2f ms", totalMs);
@@ -503,7 +540,7 @@ public:
         while (size > 0) {
             ssize_t written = write(fd, ptr, size);
             if (written < 0) {
-                if (errno == EINTR) continue;
+                if (errno == EINTR) { continue; }
                 throw std::system_error(errno, std::generic_category());
             }
             ptr += written;
@@ -646,7 +683,7 @@ private:
         int32_t elementSize = -type->instanceSize_;
         size_t dataOffset = alignUp(sizeof(ArrayHeader), elementSize);
 
-        if ( isStrip_ && (type != theArrayTypeInfo && type != theNativePtrArrayTypeInfo) ) {
+        if (isStrip_ && (type != theArrayTypeInfo && type != theNativePtrArrayTypeInfo)) {
             DumpU32(0, buf);
         } else {
             // theArrayTypeInfo / theNativePtrArrayTypeInfo array: write raw data.
@@ -876,10 +913,6 @@ private:
     }
 
     // ---- Parallel heap-object dump ----
-    // Single-pass sequential scan: collects object pointers, pre-dumps types,
-    // and populates the global object set.  Workers then serialize object
-    // data in parallel, skipping cross-chunk enqueues via Contains().
-    // Returns {objectCount, scanMs, parallelMs, mergeMs}.
     struct HeapDumpTiming {
         size_t objectCount;
         double scanMs;     // combined collect + type-dump + prefill
@@ -887,61 +920,104 @@ private:
         double mergeMs;
     };
 
-    HeapDumpTiming DumpHeapObjectsParallel() {
-        using Clock = std::chrono::high_resolution_clock;
+    // Per-thread local state for parallel dump.
+    struct WorkerState {
+        MemoryBuffer buffer;
+        std::queue<ObjHeader*> queue;  // safety net, expect empty
+    };
 
-        // --- Sub-stage 3a: combined scan ---
-        // One pass over the allocator: collect pointers, dump types, insert
-        // into the global dedup set.  Keeps heap pages hot in cache.
+    // Single-pass scan: collects object pointers, pre-dumps types,
+    // and populates the global object set. Returns scan duration in ms.
+    double ScanHeapObjects(std::vector<ObjHeader*>& allObjects) {
+        using Clock = std::chrono::high_resolution_clock;
         auto t0 = Clock::now();
-        std::vector<ObjHeader*> allObjects;
         allObjects.reserve(kInitialObjectSetCapacity);
-        // dumpedObjs_ was pre-reserved to 8M in the constructor; enough for
-        // most heaps.  If > 8M one resize occurs mid-traversal (acceptable).
         GlobalData::Instance().allocator().TraverseAllocatedObjects([&](auto obj) {
             allObjects.push_back(obj);
             DumpTransitively(obj->type_info());
             dumpedObjs_.Insert(obj);
         });
-        size_t totalObjects = allObjects.size();
         auto t1 = Clock::now();
+        return std::chrono::duration<double, std::milli>(t1 - t0).count();
+    }
+
+    // Single-threaded fallback for tiny heaps. Returns dump duration in ms.
+    double DumpHeapSingleThreaded(const std::vector<ObjHeader*>& allObjects) {
+        using Clock = std::chrono::high_resolution_clock;
+        auto t0 = Clock::now();
+        for (auto obj : allObjects) {
+            DumpObjectOrArray(obj);
+            traverseReferredObjects(obj, [this](auto refObj) {
+                if (!dumpedObjs_.Contains(refObj)) { Enqueue(refObj); }
+            });
+        }
+        auto t1 = Clock::now();
+        return std::chrono::duration<double, std::milli>(t1 - t0).count();
+    }
+
+    // Worker body: dumps objects [start, end) from allObjects into ws.buffer.
+    void ProcessObjectChunk(const std::vector<ObjHeader*>& allObjects,
+                            size_t start, size_t end, WorkerState& ws) {
+        for (size_t j = start; j < end; ++j) {
+            ObjHeader* obj = allObjects[j];
+            DumpObjectOrArray(obj, &ws.buffer);
+            traverseReferredObjects(obj, [this, &ws](auto refObj) {
+                // Filter sentinel values: traverseReferredObjects
+                // may expose null (0) or marker (1) pointers on
+                // some platforms.  Skip them to avoid false enqueues.
+                if (isNullOrMarker(refObj) || !dumpedObjs_.Contains(refObj)) {
+                    ws.queue.push(refObj);
+                }
+            });
+        }
+    }
+
+    // Merges per-thread buffers into the global buffer and transfers
+    // leftover queue entries. Returns {mergedBytes, mergedQueued}.
+    std::pair<size_t, size_t> MergeWorkerBuffers(std::vector<WorkerState>& workers) {
+        size_t mergedBytes = 0;
+        size_t mergedQueued = 0;
+        for (auto& ws : workers) {
+            mergedBytes += ws.buffer.Size();
+        }
+        memoryBuffer_.Reserve(memoryBuffer_.Size() + mergedBytes);
+        for (auto& ws : workers) {
+            memoryBuffer_.Append(ws.buffer);
+            while (!ws.queue.empty()) {
+                objQueue_.push(ws.queue.front());
+                ws.queue.pop();
+                ++mergedQueued;
+            }
+        }
+        return {mergedBytes, mergedQueued};
+    }
+
+    HeapDumpTiming DumpHeapObjectsParallel() {
+        using Clock = std::chrono::high_resolution_clock;
+
+        // --- Sub-stage 3a: combined scan ---
+        std::vector<ObjHeader*> allObjects;
+        double scanMs = ScanHeapObjects(allObjects);
+        size_t totalObjects = allObjects.size();
 
         // Determine thread count.
-        size_t numThreads = std::max(2u, std::thread::hardware_concurrency());
-        if (numThreads > 16) numThreads = 16;
+        size_t numThreads = std::max(kMinThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
+        if (numThreads > kMaxConcurrency) { numThreads = kMaxConcurrency; }
 
         // Fallback to single-threaded for tiny heaps.
         constexpr size_t kMinParallelObjects = 10000;
-        if (totalObjects < kMinParallelObjects || numThreads < 2) {
-            auto tSingle0 = Clock::now();
-            for (auto obj : allObjects) {
-                DumpObjectOrArray(obj);
-                traverseReferredObjects(obj, [this](auto refObj) {
-                    if (!dumpedObjs_.Contains(refObj)) Enqueue(refObj);
-                });
-            }
-            auto tSingle1 = Clock::now();
-            return {totalObjects,
-                    std::chrono::duration<double, std::milli>(t1 - t0).count(),
-                    std::chrono::duration<double, std::milli>(tSingle1 - tSingle0).count(),
-                    0.0};
+        if (totalObjects < kMinParallelObjects || numThreads < kMinThreads) {
+            double parallelMs = DumpHeapSingleThreaded(allObjects);
+            return {totalObjects, scanMs, parallelMs, 0.0};
         }
 
         // --- Sub-stage 3b: dispatch parallel workers ---
         size_t chunkSize = (totalObjects + numThreads - 1) / numThreads;
-
-        // Per-thread local state (no PointerSet needed – global set owns dedup).
-        struct WorkerState {
-            MemoryBuffer buffer;
-            std::queue<ObjHeader*> queue;  // safety net, expect empty
-        };
         std::vector<WorkerState> workers(numThreads);
-        // Estimate: typical object dump ~50-60 bytes.  Reserve enough
-        // per-worker to avoid repeated reallocs during serialization.
-        // Add 1 MB slack for large arrays / strings.
+        // Estimate: typical object dump ~60 bytes; reserve per-worker + 1 MB slack.
         constexpr size_t kEstimatedBytesPerObject = 60;
         size_t estimatedPerWorker =
-                (totalObjects * kEstimatedBytesPerObject) / numThreads + 1024 * 1024;
+                (totalObjects * kEstimatedBytesPerObject) / numThreads + kBytesPerMB;
         for (auto& w : workers) {
             w.buffer.Reserve(estimatedPerWorker);
         }
@@ -949,28 +1025,12 @@ private:
         std::vector<std::thread> threads;
         threads.reserve(numThreads);
         auto t2 = Clock::now();
-
         for (size_t i = 0; i < numThreads; ++i) {
             size_t start = i * chunkSize;
             size_t end = std::min(start + chunkSize, totalObjects);
-            if (start >= end) break;
-
+            if (start >= end) { break; }
             threads.emplace_back([this, start, end, &allObjects, &workers, i]() {
-                auto& ws = workers[i];
-                for (size_t j = start; j < end; ++j) {
-                    ObjHeader* obj = allObjects[j];
-                    DumpObjectOrArray(obj, &ws.buffer);
-                    traverseReferredObjects(obj, [this, &ws](auto refObj) {
-                        // Filter sentinel values: traverseReferredObjects
-                        // may expose null (0) or marker (1) pointers on
-                        // some platforms.  Skip them to avoid false
-                        // enqueues and potential crashes.
-                        if (isNullOrMarker(refObj) ||
-                            !dumpedObjs_.Contains(refObj)) {
-                            ws.queue.push(refObj);
-                        }
-                    });
-                }
+                ProcessObjectChunk(allObjects, start, end, workers[i]);
             });
         }
         auto t3 = Clock::now();
@@ -982,33 +1042,16 @@ private:
         auto t4 = Clock::now();
 
         // --- Sub-stage 3c: merge results ---
-        // Reserve total capacity upfront: without this each Append triggers
-        // exponential realloc+copy, copying the same data ~6x on average.
-        size_t mergedBytes = 0;
-        size_t mergedQueued = 0;
-        for (auto& ws : workers) {
-            mergedBytes += ws.buffer.Size();
-        }
-        memoryBuffer_.Reserve(memoryBuffer_.Size() + mergedBytes);
-        for (auto& ws : workers) {
-            memoryBuffer_.Append(ws.buffer);
-
-            while (!ws.queue.empty()) {
-                objQueue_.push(ws.queue.front());
-                ws.queue.pop();
-                ++mergedQueued;
-            }
-        }
+        auto [mergedBytes, mergedQueued] = MergeWorkerBuffers(workers);
         auto t5 = Clock::now();
 
         RuntimeLogInfo({kTagMemDump},
             "  dump/heap_parallel: threads=%zu, objects=%zu, chunksize=%.1f K, "
             "merged_queued=%zu, buffer=%zu MB",
-            numThreads, totalObjects, chunkSize / 1024.0,
-            mergedQueued, mergedBytes / (1024 * 1024));
+            numThreads, totalObjects, chunkSize / kBytesPerKBDouble,
+            mergedQueued, mergedBytes / kBytesPerMB);
 
-        return {totalObjects,
-                std::chrono::duration<double, std::milli>(t1 - t0).count(),
+        return {totalObjects, scanMs,
                 std::chrono::duration<double, std::milli>(t4 - t3).count(),
                 std::chrono::duration<double, std::milli>(t5 - t4).count()};
     }
@@ -1096,8 +1139,8 @@ void DumpMemoryOrThrow(int fd, bool isStrip) {
     auto dumpEnd = Clock::now();
 
     // Phase 2: Compress collected data into fd using parallel threads.
-    size_t numChunks = std::max(2u, std::thread::hardware_concurrency());
-    if (numChunks > 16) numChunks = 16;
+    size_t numChunks = std::max(kMinThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
+    if (numChunks > kMaxConcurrency) numChunks = kMaxConcurrency;
     RuntimeLogInfo({kTagMemDump},
         "Starting parallel compression (%zu threads) of %zu bytes",
         numChunks, dumper.GetDumpSize());
@@ -1163,7 +1206,8 @@ bool DumpMemory(int fd) noexcept {
     bool success = true;
     try {
         auto dumpStart = std::chrono::high_resolution_clock::now();
-        MemoryDumper dumper(/* isStrip= */ false);
+        // isStrip=false: DumpMemory always writes full array data.
+        MemoryDumper dumper(false);
         dumper.Dump();
         dumper.WriteRawToFd(fd);
         auto dumpEnd = std::chrono::high_resolution_clock::now();
