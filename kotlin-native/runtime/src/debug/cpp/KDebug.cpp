@@ -27,7 +27,8 @@
 
 #ifndef KONAN_NO_DEBUG_API
 
-extern "C" OBJ_GETTER(KonanObjectToUtf8Array, KRef object);
+// Defined in RuntimeUtils.kt (@ExportForCppRuntime).
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL OBJ_GETTER(KonanObjectToUtf8Array, KRef object);
 
 namespace {
 

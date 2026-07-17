@@ -49,8 +49,10 @@
 #include "hidebug/hidebug.h"
 #include "hidebug/hidebug_type.h"
 
-extern "C" OBJ_GETTER(Kotlin_Throwable_getStackTrace, KRef throwable);
-extern "C" OBJ_GETTER(Kotlin_Throwable_getMessage, KRef throwable);
+// Defined in Throwable.kt (@ExportForCppRuntime).
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL OBJ_GETTER(Kotlin_Throwable_getStackTrace, KRef throwable);
+// Defined in ObjCExportUtils.kt (@ExportForCppRuntime).
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL OBJ_GETTER(Kotlin_Throwable_getMessage, KRef throwable);
 extern "C" __attribute__((weak)) void set_fatal_message(const char* msg);
 
 constexpr int OHOS_HIDEBUG_MIN_API = 23;
@@ -253,7 +255,7 @@ void ReportBacktraceToOhosLog(KRef exception)
 // endregion
 
 // Defined in RuntimeUtils.kt
-extern "C" void Kotlin_runUnhandledExceptionHook(KRef exception);
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL void Kotlin_runUnhandledExceptionHook(KRef exception);
 extern "C" EXPORT_FOR_CPP_RUNTIME_DECL void ReportUnhandledException(KRef exception);
 
 NO_SAFEPOINT

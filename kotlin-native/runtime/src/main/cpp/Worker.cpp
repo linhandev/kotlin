@@ -43,12 +43,14 @@ using namespace kotlin;
 
 using ExecuteJob = KRef (*)(KRef, ObjHeader**);
 
+// All defined in Internal.kt (@ExportForCppRuntime).
 extern "C" {
 
 EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowWorkerAlreadyTerminated();
 EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowWrongWorkerOrAlreadyTerminated();
 EXPORT_FOR_CPP_RUNTIME_DECL RUNTIME_NORETURN void ThrowFutureInvalidState();
-mm::RawExternalRCRef* WorkerExecuteLaunchpad(ExecuteJob job, mm::RawExternalRCRef* jobArgument);
+EXPORT_FOR_CPP_RUNTIME_DECL mm::RawExternalRCRef* WorkerExecuteLaunchpad(
+    ExecuteJob job, mm::RawExternalRCRef* jobArgument);
 EXPORT_FOR_CPP_RUNTIME_DECL void WorkerExecuteAfterLaunchpad(mm::RawExternalRCRef* job);
 
 }  // extern "C"
