@@ -951,8 +951,9 @@ private:
             traverseReferredObjects(obj, [this, &ws](auto refObj) {
                 // Filter sentinel values: traverseReferredObjects
                 // may expose null (0) or marker (1) pointers on
-                // some platforms.  Skip them to avoid false enqueues.
-                if (isNullOrMarker(refObj) || !dumpedObjs_.Contains(refObj)) {
+                // some platforms.  Skip them to avoid false enqueues
+                // and potential crashes during queue processing.
+                if (!isNullOrMarker(refObj) && !dumpedObjs_.Contains(refObj)) {
                     ws.queue.push(refObj);
                 }
             });
@@ -1173,7 +1174,7 @@ bool DumpMemoryAsync(int fd, bool isStrip) noexcept {
                 std::chrono::duration<double, std::milli>(prepEnd - prepStart).count());
             DumpMemoryOrThrow(fd, isStrip);
             RuntimeLogInfo({kTagMemDump}, "Forked process memory dump done.");
-            exit(0);
+            _exit(0);
         }
         // Parent: log timing and return.
         RuntimeLogInfo({kTagMemDump},
