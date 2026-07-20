@@ -263,6 +263,7 @@ public:
     // each chunk in a separate thread, then writes results to fd in order.
     void CompressParallel(int fd, size_t totalSize) const {
         using Clock = std::chrono::high_resolution_clock;
+        if (totalSize == 0) { return; }
 
         // Determine thread count: clamped to [kMinThreads, kMaxConcurrency].
         size_t numChunks = std::max(kMinThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
@@ -273,6 +274,7 @@ public:
         size_t maxChunks = totalSize / kMinChunkSize;
         if (maxChunks < 1) { maxChunks = 1; }
         if (numChunks > maxChunks) { numChunks = maxChunks; }
+        if (numChunks == 0) { return; }
 
         size_t chunkSize = (totalSize + numChunks - 1) / numChunks;
 
@@ -424,42 +426,9 @@ public:
         return t2;
     }
 
-    // Stages 3-4: heap objects and extra objects. Returns end timestamp.
-    TimePoint DumpHeapAndExtraObjects(TimePoint t3) {
+    // CMS path: dump heap objects (parallel) + extra objects. Returns end timestamp.
+    TimePoint DumpHeapAndExtraObjectsCMS(TimePoint t3) {
         using Clock = std::chrono::high_resolution_clock;
-#ifdef ENABLE_CRT
-        auto t5 = t3;
-        checkUseCRT<CheckMode::Slow>([&] {
-            // CRT path: ForEachObject covers all objects + extras in one pass.
-            // safe=false: caller already holds ScopedStopTheWorld.
-            common::Heap::GetHeap().ForEachObject([&](common::BaseObject* baseObj) {
-                DumpTransitively(reinterpret_cast<ObjHeader*>(baseObj));
-                }, false);
-        }, [&] {
-            // CMS path: parallel dump + extra objects.
-            auto timing = DumpHeapObjectsParallel();
-            auto t4 = Clock::now();
-            RuntimeLogInfo({kTagMemDump},
-                "  dump/heap_objects: %.2f ms, objects=%zu, "
-                "scan=%.2f ms, parallel=%.2f ms, merge=%.2f ms, buffer=%zu MB",
-                std::chrono::duration<double, std::milli>(t4 - t3).count(),
-                timing.objectCount,
-                timing.scanMs, timing.parallelMs, timing.mergeMs,
-                memoryBuffer_.Size() / kBytesPerMB);
-
-            int extraObjCount = 0;
-            GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) {
-                DumpTransitively(extraObj);
-                ++extraObjCount;
-            });
-            t5 = Clock::now();
-            RuntimeLogInfo({kTagMemDump},
-                "  dump/extra_objects: %.2f ms, count=%d, buffer=%zu MB",
-                std::chrono::duration<double, std::milli>(t5 - t4).count(),
-                extraObjCount, memoryBuffer_.Size() / kBytesPerMB);
-        });
-        return t5;
-#else
         auto timing = DumpHeapObjectsParallel();
         auto t4 = Clock::now();
         RuntimeLogInfo({kTagMemDump},
@@ -481,6 +450,24 @@ public:
             std::chrono::duration<double, std::milli>(t5 - t4).count(),
             extraObjCount, memoryBuffer_.Size() / kBytesPerMB);
         return t5;
+    }
+
+    // Stages 3-4: heap objects and extra objects. Returns end timestamp.
+    TimePoint DumpHeapAndExtraObjects(TimePoint t3) {
+#ifdef ENABLE_CRT
+        auto t5 = t3;
+        checkUseCRT<CheckMode::Slow>([&] {
+            // CRT path: ForEachObject covers all objects + extras in one pass.
+            // safe=false: caller already holds ScopedStopTheWorld.
+            common::Heap::GetHeap().ForEachObject([&](common::BaseObject* baseObj) {
+                DumpTransitively(reinterpret_cast<ObjHeader*>(baseObj));
+                }, false);
+        }, [&] {
+            t5 = DumpHeapAndExtraObjectsCMS(t3);
+        });
+        return t5;
+#else
+        return DumpHeapAndExtraObjectsCMS(t3);
 #endif
     }
 
@@ -1012,6 +999,7 @@ private:
         }
 
         // --- Sub-stage 3b: dispatch parallel workers ---
+        if (numThreads == 0) { return {totalObjects, scanMs, 0.0, 0.0}; }
         size_t chunkSize = (totalObjects + numThreads - 1) / numThreads;
         std::vector<WorkerState> workers(numThreads);
         // Estimate: typical object dump ~60 bytes; reserve per-worker + 1 MB slack.
@@ -1140,7 +1128,7 @@ void DumpMemoryOrThrow(int fd, bool isStrip) {
 
     // Phase 2: Compress collected data into fd using parallel threads.
     size_t numChunks = std::max(kMinThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
-    if (numChunks > kMaxConcurrency) numChunks = kMaxConcurrency;
+    if (numChunks > kMaxConcurrency) { numChunks = kMaxConcurrency; }
     RuntimeLogInfo({kTagMemDump},
         "Starting parallel compression (%zu threads) of %zu bytes",
         numChunks, dumper.GetDumpSize());
