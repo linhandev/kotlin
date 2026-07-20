@@ -12,9 +12,10 @@
 
 using namespace kotlin;
 
-// Defined in Cleaner.kt
+// Defined in Cleaner.kt (@ExportForCppRuntime).
 HAS_SAFEPOINT
-extern "C" void Kotlin_native_ref_executeCleanerAction(mm::RawExternalRCRef* cleanerAction);
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL void
+Kotlin_native_ref_executeCleanerAction(mm::RawExternalRCRef* cleanerAction);
 
 namespace {
 

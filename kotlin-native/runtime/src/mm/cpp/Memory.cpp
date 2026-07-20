@@ -705,8 +705,9 @@ RUNTIME_NOTHROW extern "C" void Kotlin_processEmptyObjectInMark(void* state, Obj
     // TODO: Try to generate it in the code generator.
 }
 
+// Defined in WeakPrivate.kt (@ExportForCppRuntime).
 HAS_SAFEPOINT
-extern "C" OBJ_GETTER(makePermanentWeakReferenceImpl, ObjHeader*);
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL OBJ_GETTER(makePermanentWeakReferenceImpl, ObjHeader*);
 extern "C" OBJ_GETTER(makeObjCWeakReferenceImpl, void*);
 
 HAS_SAFEPOINT

@@ -93,7 +93,9 @@ inline const KRef* ArrayAddressOfElementAt(const ArrayHeader* obj, KInt index) {
 extern "C" {
 #endif
 
+// Defined in RuntimeUtils.kt (@ExportForCppRuntime).
 NO_SAFEPOINT
+EXPORT_FOR_CPP_RUNTIME_DECL
 OBJ_GETTER0(TheEmptyString);
 
 HAS_SAFEPOINT

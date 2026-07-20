@@ -23,8 +23,9 @@
 #include "Natives.h"
 #include "Types.h"
 
-extern "C" void ThrowRangeIndexOutOfBoundsException(KInt from, KInt to, KInt size);
-extern "C" void ThrowRangeIllegalArgumentException(KInt from, KInt to);
+// Defined in ArrayUtil.kt (@ExportForCppRuntime).
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL void ThrowRangeIndexOutOfBoundsException(KInt from, KInt to, KInt size);
+extern "C" EXPORT_FOR_CPP_RUNTIME_DECL void ThrowRangeIllegalArgumentException(KInt from, KInt to);
 
 namespace {
 // Duplicate range-check within runtime to avoid calling back to KT side which causes safepoint on non-throwing path.

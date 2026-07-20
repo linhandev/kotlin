@@ -27,9 +27,13 @@ extern "C" {
         auto ref = reinterpret_cast<uintptr_t>(ReadHeapRef(field, weakRef));
         RETURN_OBJ(reinterpret_cast<ObjHeader*>(ref & common::WEAK_REF_TAGS_MASK));
     }
+    // Defined in WeakPrivate.kt (@ExportForCppRuntime).
+    EXPORT_FOR_CPP_RUNTIME_DECL
     OBJ_GETTER0(makeCRTWeakReferenceImpl);
 #endif
 
+    // Defined in WeakPrivate.kt (@ExportForCppRuntime).
+    EXPORT_FOR_CPP_RUNTIME_DECL
     OBJ_GETTER(makeRegularWeakReferenceImpl, KRef, void*);
 }
 
