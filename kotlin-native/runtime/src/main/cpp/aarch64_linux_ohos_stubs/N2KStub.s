@@ -91,6 +91,11 @@ Kotlin_N2KStub:
         add  sp, sp, #16
 
         .cfi_startproc
+        // A Kotlin exception escaping the invoked Kotlin code unwinds through this
+        // stub and skips its RestoreLastFrameAndStatus epilogue (state + anchor leak
+        // into the C caller). The personality's phase-2 cleanup runs the restore
+        // while the stub frame and its K2CSlotData snapshot are still intact.
+        .cfi_personality 0x9b, DW.ref.Kotlin_N2KStubUnwindPersonality
         stp  x29, x30, [sp,  #-288]!
         .cfi_adjust_cfa_offset 288
         .cfi_rel_offset x29, 0
@@ -264,3 +269,14 @@ unwindPCForN2KStub:
         .cfi_restore x30
         ret
         .cfi_endproc
+
+// Indirection cell for the .cfi_personality 0x9b reference above (PIC-safe,
+// COMDAT so multiple stub files can carry their own copy).
+    .hidden DW.ref.Kotlin_N2KStubUnwindPersonality
+    .weak   DW.ref.Kotlin_N2KStubUnwindPersonality
+    .section .data.DW.ref.Kotlin_N2KStubUnwindPersonality,"awG",@progbits,DW.ref.Kotlin_N2KStubUnwindPersonality,comdat
+    .p2align 3
+    .type DW.ref.Kotlin_N2KStubUnwindPersonality, @object
+    .size DW.ref.Kotlin_N2KStubUnwindPersonality, 8
+DW.ref.Kotlin_N2KStubUnwindPersonality:
+    .xword Kotlin_N2KStubUnwindPersonality

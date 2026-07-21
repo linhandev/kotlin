@@ -119,16 +119,18 @@ internal inline fun generateFunction(
             // TODO: Alternative approach: lowering that changes origin of such functions to C_TO_KOTLIN_BRIDGE?
             || function.hasAnnotation(RuntimeNames.exportedBridge)
 
+    // Under precise-stackmap the N2K/KonanStart stub owns the whole foreign boundary for a
+    // C-to-Kotlin bridge; leaving switchToRunnable/needsRuntimeInit unset emits no brackets for it.
     val functionGenerationContext = DefaultFunctionGenerationContext(
             llvmFunction,
             codegen,
             startLocation,
             endLocation,
-            switchToRunnable = isCToKotlinBridge,
+            switchToRunnable = isCToKotlinBridge && !codegen.enableStackmap,
             needSafePoint = true,
             function)
-    functionGenerationContext.needsRuntimeInit = isCToKotlinBridge
-    functionGenerationContext.needsSetReliableStatus = isCToKotlinBridge
+    functionGenerationContext.needsRuntimeInit = isCToKotlinBridge && !codegen.enableStackmap
+    functionGenerationContext.isCToKotlinBridge = isCToKotlinBridge
 
     try {
         generateFunctionBody(functionGenerationContext, code)
@@ -642,6 +644,10 @@ internal abstract class FunctionGenerationContext(
             return baseline ||
                    irFunction?.annotations?.hasAnnotation(RuntimeNames.exportForIntrinsic) == true ||
                    irFunction?.annotations?.hasAnnotation(KonanFqNames.gcUnsafeCall) == true ||
+                   // Stub-owned bridges don't switchToRunnable, but keep the cleanup pad so a
+                   // Kotlin exception escaping into C unwinds cleanly (LeaveFrame + resume);
+                   // the state/anchor/x28 restore is owned by the stub's unwind personality.
+                   isCToKotlinBridge ||
                    isCleanupLandingpadUsed
         }
 
@@ -662,7 +668,9 @@ internal abstract class FunctionGenerationContext(
     // for example.
     var needsRuntimeInit = false
 
-    var needsSetReliableStatus = false
+    // The stub-wrapped C-to-Kotlin bridge entries only; objc2kotlin thunks also switch to
+    // Runnable but are not stub-wrapped, so they must keep their own brackets.
+    var isCToKotlinBridge = false
 
     // Marks that function is not allowed to call into Kotlin runtime. For this function no safepoints, no enter/leave
     // frames are generated.
@@ -1975,11 +1983,6 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
                 call(llvm.saveX28, emptyList())
                 call(llvm.initRuntimeIfNeeded, emptyList())
             }
-            // SetLastFrameReliable is a precise-stackmap-only runtime symbol;
-            // skip the emit on the OFF path.
-            if (needsSetReliableStatus && enableStackmap) {
-                call(llvm.setLastFrameReliable, emptyList())
-            }
             if (switchToRunnable) {
                 switchThreadState(Runnable)
             }
@@ -2069,6 +2072,11 @@ private fun canBitcast(fromType: LLVMTypeRef, toType: LLVMTypeRef): Boolean {
     }
 
     private fun handleEpilogueExperimentalMM() {
+        // A stub-owned C-to-Kotlin bridge (enableStackmap && isCToKotlinBridge) is constructed
+        // with switchToRunnable = needsRuntimeInit = false (see generateFunction), so both
+        // branches below are no-ops for it: the N2K / EnterKotlinFromCpp stub owns state, anchor
+        // and x28 — its asm epilogue on the normal path, its unwind personality
+        // (Kotlin_N2KStubUnwindPersonality) on the C++ exception path.
         if (switchToRunnable) {
             check(!forbidRuntime) { "Generating a bridge when runtime is forbidden" }
             switchThreadState(Native)

@@ -66,18 +66,16 @@ kotlin::ThreadState kotlin::mm::ThreadSuspensionData::setState(kotlin::ThreadSta
     // e.g. from `Kotlin_deinitRuntimeCallback`.
     // Moreover, it's used for kNative -> kRunnable state switch and x28 value is not guaranteed in kNative.
     return checkUseCRT<CheckMode::Slow>([&] {
-        if (newState == ThreadState::kRunnable) {
-            // Ported from mpcore/crt_fp_unwind 7e581cd. Capture this frame
-            // before TransferToRunning, which can block on STW: the GC walker
-            // needs a valid lastFrame to unwind through this transition path.
-            threadData_.RuntimeSetLastFrame();
+        ThreadState oldState = state_.exchange(newState);
+        // runnable -> runnable is no-op, otherwise we enter safepoint without a valid LastFrameInfo
+        if (oldState == ThreadState::kNative && newState == ThreadState::kRunnable) {
             auto* th = threadData_.GetThreadHolder();
             th->TransferToRunning();
             common::RestoreThreadLocalDataReg(&threadData_);
-        } else {
+        } else if (newState == ThreadState::kNative) {
             threadData_.GetThreadHolder()->TransferToNative();
         }
-        return state_.exchange(newState, std::memory_order_acq_rel);
+        return oldState;
     }, [&] {
         ThreadState oldState = state_.exchange(newState);
         if (oldState == ThreadState::kNative && newState == ThreadState::kRunnable) {

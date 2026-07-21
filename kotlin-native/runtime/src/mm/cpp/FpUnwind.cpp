@@ -21,14 +21,18 @@
 #include "Common.h"
 #include "Memory.h"
 #include "ThreadData.hpp"
+#include "ThreadState.hpp"
 #include <cstdint>
 #include <sstream>
 #include <iostream>
+#include <unwind.h>
 #ifdef KONAN_OHOS
 #include <hilog/log.h>
 #endif
 
+
 namespace kotlin {
+
 
 ALWAYS_INLINE RUNTIME_NOTHROW mm::FrameAddress *GetLastFrameWithThreadData(mm::ThreadData& threadData) noexcept
 {
@@ -85,6 +89,53 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliabl
     threadData->SetLastFrameInfo({ nullptr, mm::FrameStatus::RELIABLE, nullptr });
 }
 
+// Unwind personality for Kotlin_K2NStub (referenced by .cfi_personality in both
+// aarch64_*_stubs/K2NStub.s). A Kotlin exception unwinding back through the stub
+// skips its epilogue: the thread stays kNative (scannable) with lastFrameInfo pinned
+// on the just-popped stub frame, and the call-site landing pad's first call chain
+// (switchThreadStateRunnable -> TransferToRunning -> SuspendForStw) clobbers that
+// frame while parked -> the GC walker reads a torn {caller_fp, ret} pair
+// (VisitMutatorRoots SIGSEGV, or an fp-cycle livelock). Phase-2 cleanup runs the
+// epilogue HERE, while the stub frame is still intact: a park inside the state
+// switch keeps a valid walkable anchor; afterwards the anchor is disarmed and the
+// landing-pad mirror's own switch+heal become idempotent no-ops.
+extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT _Unwind_Reason_Code Kotlin_K2NStubUnwindPersonality(
+        int version, _Unwind_Action actions, uint64_t exceptionClass,
+        struct _Unwind_Exception* unwindException, struct _Unwind_Context* context) noexcept {
+    if (!(actions & _UA_SEARCH_PHASE) && mm::IsCurrentThreadRegistered()) {
+        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+        if (threadData->state() == ThreadState::kNative) {
+            Kotlin_mm_switchThreadStateRunnable();
+        }
+        SetLastFrameReliable();
+    }
+    return _URC_CONTINUE_UNWIND;
+}
+
+// Unwind personality for the C-to-Kotlin entry stubs (Kotlin_N2KStub and
+// EnterKotlinFromCppStub; referenced by .cfi_personality in aarch64_*_stubs). A
+// Kotlin exception escaping the invoked Kotlin code (e.g. worker jobs — caught in
+// processQueueElement ABOVE these stubs) unwinds through the stub and skips its
+// RestoreLastFrameAndStatus epilogue: the C caller then resumes with the thread
+// still kRunnable and the job-side anchor left in TLS (pointing at frames the
+// unwind popped) — a GC-stalling state leak plus a dead-anchor walk hazard.
+// Phase-2 cleanup runs the epilogue here, while the stub frame and its K2CSlotData
+// snapshot are still intact; both stubs keep x29 == stub fp across the callee.
+// If an inner bridge-style landing pad already ran the restore (thread already
+// back to kNative), skip — a second restore would re-enter kNative.
+extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT _Unwind_Reason_Code Kotlin_N2KStubUnwindPersonality(
+        int version, _Unwind_Action actions, uint64_t exceptionClass,
+        struct _Unwind_Exception* unwindException, struct _Unwind_Context* context) noexcept {
+    if (!(actions & _UA_SEARCH_PHASE) && mm::IsCurrentThreadRegistered()) {
+        auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+        if (threadData->state() != ThreadState::kNative) {
+            auto* stubFp = reinterpret_cast<mm::FrameAddress*>(_Unwind_GetGR(context, 29));
+            RestoreLastFrameAndStatus(stubFp);
+        }
+    }
+    return _URC_CONTINUE_UNWIND;
+}
+
 // invoke before enter kotlin (called from N2K stub entry, KonanStart stub)
 //
 // Fix for GC scan race: transition to Runnable BEFORE writing lastFrameInfo_.
@@ -94,22 +145,20 @@ extern "C" ALWAYS_INLINE RUNTIME_NOTHROW RUNTIME_EXPORT void SetLastFrameReliabl
 extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndStatus(mm::FrameAddress *fp) noexcept
 {
 #ifdef ENABLE_GC_FASTPATH
-    // Foreign (kNative/unregistered) callers own x28 per AAPCS: snapshot it before setState()
-    // re-derives it. kRunnable callers' x28 is live GC state - no snapshot, keep it flowing.
+    // Sample x28 before the attach below
     if (!mm::IsCurrentThreadRegistered() ||
         mm::ThreadRegistry::Instance().CurrentThreadData()->state() == ThreadState::kNative) {
         SaveX28();
     }
 #endif
+    // The stub owns the whole boundary (the bridge emits no brackets; see CodeGenerator.kt):
+    // attach here so the transition is unconditional. initRuntime leaves the thread kNative.
+    Kotlin_initRuntimeIfNeeded();
+    auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    auto prevState = threadData->suspensionData().setState(ThreadState::kRunnable);
+
     K2CSlotData *data = reinterpret_cast<K2CSlotData*>(fp + OFFSET_K2C_SLOT_DATA);
-    // Default to kNative for unregistered threads: they are not in a Kotlin-managed
-    // Runnable state, so the conceptually correct "state to restore to" is Native.
-    data->prevThreadState = static_cast<uint8_t>(ThreadState::kNative);
-    if (mm::IsCurrentThreadRegistered()) {
-        auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
-        auto prev = threadData->suspensionData().setState(ThreadState::kRunnable);
-        data->prevThreadState = static_cast<uint8_t>(prev);
-    }
+    data->prevThreadState = static_cast<uint8_t>(prevState);
     data->fa = GetLastFrame();
     data->status = GetFrameStatus();
     SetLastFrameReliable();
@@ -118,23 +167,17 @@ extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void SaveLastFrameAndStatus(mm::FrameA
 // invoke after leave kotlin (called from N2K stub exit, KonanStart stub)
 extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT void RestoreLastFrameAndStatus(mm::FrameAddress *fp) noexcept
 {
-    if (!mm::IsCurrentThreadRegistered()) {
-#ifdef ENABLE_GC_FASTPATH
-        // Unregistered = foreign caller; pop the snapshot SaveLastFrameAndStatus pushed.
-        RestoreX28();
-#endif
-        return;
-    }
+    // Save attaches unconditionally, so the thread cannot be unregistered here.
+    RuntimeAssert(mm::IsCurrentThreadRegistered(), "RestoreLastFrameAndStatus on a detached thread");
+
     K2CSlotData *data = reinterpret_cast<K2CSlotData*>(fp + OFFSET_K2C_SLOT_DATA);
     auto *threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
     threadData->SetLastFrameInfo({ data->fa, data->status, nullptr });
-    // Roll ThreadState back to what it was before this stub entered Kotlin.
+    // Full transition, needSetLastFrame=false so the just-restored anchor is not re-pointed.
     auto prevState = static_cast<ThreadState>(data->prevThreadState);
     if (prevState == ThreadState::kNative) {
-        threadData->suspensionData().setStateNoSafePoint(prevState);
+        SwitchThreadState(threadData, ThreadState::kNative, false, false);
 #ifdef ENABLE_GC_FASTPATH
-        // Pop the foreign caller's snapshot; must follow setStateNoSafePoint. kRunnable
-        // callers pushed nothing - never roll their live x28 back (!274).
         RestoreX28();
 #endif
     }

@@ -35,7 +35,9 @@ PERFORMANCE_INLINE inline ThreadState SwitchThreadState(
 {
     RuntimeAssert(threadData != nullptr, "threadData must not be nullptr");
 
-    if (newState == ThreadState::kNative && needSetLastFrame) {
+    // Publish only on a real kRunnable -> kNative edge; same-state kNative re-entry must not
+    // re-point the retained anchor
+    if (needSetLastFrame && threadData->state() != ThreadState::kNative && newState == ThreadState::kNative) {
         threadData->RuntimeSetLastFrame();
     }
     auto oldState = threadData->setState(newState);

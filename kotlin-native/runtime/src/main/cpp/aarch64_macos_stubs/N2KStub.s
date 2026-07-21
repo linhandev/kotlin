@@ -91,6 +91,11 @@ _Kotlin_N2KStub:
         add  sp, sp, #FuncAddrAndCpStacksizeOffset
 
         .cfi_startproc
+        // A Kotlin exception escaping the invoked Kotlin code unwinds through this
+        // stub and skips its RestoreLastFrameAndStatus epilogue (state + anchor leak
+        // into the C caller). The personality's phase-2 cleanup runs the restore
+        // while the stub frame and its K2CSlotData snapshot are still intact.
+        .cfi_personality 155, _Kotlin_N2KStubUnwindPersonality
         stp  x29, x30, [sp,  #-ForwardStubFrameSize]!
         cfi_adjust_cfa_offset (ForwardStubFrameSize)
         cfi_rel_offset (x29, 0)
