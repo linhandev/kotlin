@@ -221,7 +221,7 @@ class OhosExecutor(
             // One hdc shell for mkdir+rm to avoid an extra host↔device connect.
             val prepareScript = buildString {
                 if (destinationParent.isNotEmpty()) {
-                    append("mkdir -p '${shellEscape(destinationParent)}' ; ")
+                    append("mkdir -p '${shellEscape(destinationParent)}' && ")
                 }
                 append("rm $rmFlag '${shellEscape(deviceDestinationPath)}'")
             }
