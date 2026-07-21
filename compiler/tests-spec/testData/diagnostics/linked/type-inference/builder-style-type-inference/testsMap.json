@@ -1,0 +1,66 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference — multiple builder lambdas require BuilderInference annotation on each",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference — using postponed receiver type in expression is a compile-time error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference — single lambda receiver inferred from body without BuilderInference annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference — explicit type arguments satisfy standard inference without postponed variables",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference — postponed receiver type variables fixed after lambda body completes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference — putAll and put in lambda body infer Map\u003cString, Number\u003e",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/builder-style-type-inference/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

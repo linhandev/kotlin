@@ -1,0 +1,24 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension component function without operator modifier reports OPERATOR_MODIFIER_REQUIRED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "destructuring with more placeholders than component functions reports COMPONENT_FUNCTION_MISSING",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/operator-overloading/destructuring-declarations/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

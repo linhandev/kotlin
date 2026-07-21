@@ -1,0 +1,104 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "top-level function from different package requires import directive and reports UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "importList with multiple importHeader entries is valid",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "import alias without simpleIdentifier violates importAlias grammar and reports SYNTAX",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "renaming import makes original unqualified name unresolved per spec example",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "star-import from object is disallowed and reports CANNOT_ALL_UNDER_IMPORT_FROM_SINGLETON",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "import directive is local to its file and does not introduce entity to sibling file",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private top-level declaration cannot be imported from another file",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "protected member cannot be imported from another file",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "import keyword without identifier violates importHeader grammar",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private class member cannot be imported from another file",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/importing/p-2/neg/2.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

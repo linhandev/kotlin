@@ -1,0 +1,31 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "operator syntax without matching operator function reports UNRESOLVED_REFERENCE_WRONG_RECEIVER",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "missing operator modifier on set reports OPERATOR_MODIFIER_REQUIRED; invalid compareTo return type reports INAPPLICABLE_OPERATOR_MODIFIER, COMPARE_TO_TYPE_MISMATCH, and TYPE_MISMATCH via checkSubtype\u003cInt\u003e",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/operator-overloading/overview/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression body — declared return type constrains body and reports mismatch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression body — declared return type constrains generic call in foo/bar example",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression body — anonymous function return type inferred from initializer",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "control structure body — without return type declaration function returns kotlin.Unit",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/function-signature-type-inference/named-and-anonymous-function-declarations/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

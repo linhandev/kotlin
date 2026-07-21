@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "exhaustive when on sealed class returns correct value at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

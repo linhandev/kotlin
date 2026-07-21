@@ -1,0 +1,24 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 5 expected Double constrains nested run at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "five-step lambda statement processing — step 5 nested run infers Int at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/function-signature-type-inference/statements-with-lambda-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

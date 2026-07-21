@@ -1,0 +1,28 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal top-level declaration cannot be imported from another module",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal top-level declaration is importable within the same module",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/packages-and-imports/modules/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

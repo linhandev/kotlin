@@ -1,0 +1,30 @@
+{
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "two coroutines interleave on a single thread when resumed alternately at suspension points",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "shared mutable state is updated across suspension points at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

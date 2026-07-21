@@ -1,0 +1,154 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inner used outside run block reports UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested run block reads outer val outer \u003d 10",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "case1 call to protected secret() on Derived641Neg from outside class reports INVISIBLE_MEMBER",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Derived641.greet() calls inherited super.greet() and appends !",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "left declared in if branch referenced in else branch reports UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "top-level reference to fun local reports UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Outer636.Nested.read() reference to outer value reports UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/neg/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Holder634.copyDefault() calls companion default()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init block reads constructor parameter name into length",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "if and else branches both read shared from enclosing function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "returns value + 1 using function parameter from enclosing scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Outer633.Inner.read() accesses outer private secret",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "a in sibling run block reports UNRESOLVED_REFERENCE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "innermost run block reads outer and middle locals",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/scopes-and-identifiers/linked-scopes/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

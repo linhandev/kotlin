@@ -1,4 +1,59 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "later statement usage cannot re-infer type of earlier local property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local type inference deduces generic type parameters from argument types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast effects are considered in local type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "free type variable without explicit constraints resolves to optimal upper bound Any",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local type inference deduces property type from initializer expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/local-type-inference/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
   "2": {
     "neg": {
       "1": [

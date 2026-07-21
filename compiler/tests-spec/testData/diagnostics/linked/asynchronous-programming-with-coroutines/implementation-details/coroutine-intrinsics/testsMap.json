@@ -1,0 +1,76 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspendCoroutineUninterceptedOrReturn cannot be called from non-suspending function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "startCoroutineUninterceptedOrReturn requires suspend function type receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "completion Continuation type parameter must match suspend function result type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "createCoroutineUnintercepted requires suspend function type receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "startCoroutineUninterceptedOrReturn starts coroutine from suspending lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Continuation.intercepted returns intercepted continuation in suspending context",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "createCoroutineUnintercepted supports explicit receiver suspend function type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "createCoroutineUnintercepted with resumeWith starts coroutine",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/implementation-details/coroutine-intrinsics/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

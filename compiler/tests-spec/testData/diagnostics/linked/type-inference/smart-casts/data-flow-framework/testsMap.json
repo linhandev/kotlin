@@ -1,0 +1,60 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "assume(x !is T) transfer excludes T in false branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "join of incompatible branch facts does not retain narrowed type after if-else",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "assume(x is T) transfer refines type in true branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "assume(x !\u003d null) transfer refines nullable receiver in true branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "x as T transfer refines expression type after cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "SmartCastType P component narrows expression type in each when is branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/data-flow-framework/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

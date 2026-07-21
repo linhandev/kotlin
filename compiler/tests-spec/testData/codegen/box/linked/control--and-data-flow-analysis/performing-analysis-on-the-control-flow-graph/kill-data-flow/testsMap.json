@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested loop assignment example from killDataFlow preliminary analysis runs correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/control--and-data-flow-analysis/performing-analysis-on-the-control-flow-graph/kill-data-flow/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

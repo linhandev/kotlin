@@ -1,0 +1,24 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference — runtime buildList145 collects inferred element type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/builder-style-type-inference/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference — runtime buildMap145 infers String and Int from lambda body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/builder-style-type-inference/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

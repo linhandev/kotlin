@@ -1,0 +1,24 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "throw accepts user-defined exception type value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/exceptions/throwing-exceptions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "throw inspects the innermost active try-block and enters its matching catch with the thrown value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/exceptions/throwing-exceptions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

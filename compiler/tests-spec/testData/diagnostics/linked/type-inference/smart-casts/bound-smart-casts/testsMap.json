@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reassignment breaks must-alias so is check on b does not smart cast a",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "alias set with three stable copies propagates smart cast to all members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": true,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-null member access implies receiver non-null in bound alias set",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bound smart cast propagates is check on b to stable alias a",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/type-inference/smart-casts/bound-smart-casts/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": true,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
