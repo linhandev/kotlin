@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.io.TempDir
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.nio.file.Path
 import kotlin.time.Duration.Companion.ZERO
 
@@ -256,6 +257,45 @@ class OhosExecutorTest {
         val text = stdout.toString()
         assertTrue(text.contains("device output"))
         assertFalse(text.contains("__OHOS_HDC_EXIT__"))
+    }
+
+    @Test
+    fun `execute always syncs libCrt so once and adds shared lib search path`(@TempDir tempDir: Path) {
+        val libCrtDir = tempDir.resolve("nativeHome/konan/targets/ohos_arm64/native").toFile().apply { mkdirs() }
+        val libCrt = libCrtDir.resolve("libcrt.so").apply { writeText("crt-runtime") }
+
+        val workDir = tempDir.resolve("native.tests/bb.out/ha64_NatCrtGCTesGen/crt_cached_boxed_value").toFile().apply { mkdirs() }
+        val localExe = File(workDir, "crt_cached_boxed_value.kexe").apply { writeText("bin") }
+        val otherExe = File(workDir, "other.kexe").apply { writeText("bin2") }
+
+        // first: prepare+send exe, prepare+send libCrt, run (5)
+        // second: prepare+send other exe, run; libCrt skipped (3)
+        val recording = RecordingExecutor(
+            outputs = List(5) { "OK" } + listOf("__OHOS_HDC_EXIT__:0\n") +
+                List(2) { "OK" } + listOf("__OHOS_HDC_EXIT__:0\n")
+        )
+        val executor = OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC, libCrtSo = libCrt)
+        executor.execute(ExecuteRequest(executableAbsolutePath = localExe.absolutePath))
+        executor.execute(ExecuteRequest(executableAbsolutePath = otherExe.absolutePath))
+
+        val sendRequests = recording.requests.filter { it.args.getOrNull(0) == "file" && it.args.getOrNull(1) == "send" }
+        assertEquals(
+            1,
+            sendRequests.count { it.args[2] == libCrt.absolutePath && it.args[3] == "/data/local/tmp/native.tests/lib/libcrt.so" },
+            "libcrt.so should be synced exactly once; sends=$sendRequests",
+        )
+        assertTrue(sendRequests.any { it.args[2] == localExe.absolutePath })
+        assertTrue(sendRequests.any { it.args[2] == otherExe.absolutePath })
+
+        val runScripts = recording.requests.filter {
+            it.args.getOrNull(0) == "shell" && it.args.getOrNull(1)?.contains("__OHOS_HDC_EXIT__") == true
+        }.map { it.args[1] }
+        assertTrue(runScripts.isNotEmpty())
+        assertTrue(
+            runScripts.all {
+                it.contains("LD_LIBRARY_PATH='/data/local/tmp/native.tests/bb.out/ha64_NatCrtGCTesGen/crt_cached_boxed_value:/data/local/tmp/native.tests/lib'")
+            },
+        )
     }
 
     /** syncSteps successful host calls (prepare/send/...), then one run with exit probe. */

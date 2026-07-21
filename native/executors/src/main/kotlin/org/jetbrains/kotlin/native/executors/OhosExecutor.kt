@@ -42,9 +42,17 @@ class OhosExecutor(
     private val hostExecutor: Executor = HostExecutor(),
     /** Absolute path to `hdc`. The first executable `hdc` on `PATH`. */
     private val hdcAbsolutePath: String = findHdcOnPath(),
+    /**
+     * `libcrt.so` from the same KN dist/target that native.tests used to compile.
+     * Supplied by the test harness from KotlinNativeHome + test target; not read from system properties here.
+     */
+    private val libCrtSo: File? = null,
 ) : Executor {
     private val logger = Logger.getLogger(OhosExecutor::class.java.name)
     private val deviceExeDir = "/data/local/tmp/native.tests"
+
+    /** Shared .so files (CRT runtime, future runtimes) pushed once under this directory. */
+    private val deviceSharedLibDir = "$deviceExeDir/lib"
 
     companion object {
         private const val HDC_CONNECT_KEY_FAILURE = "[Fail]ExecuteCommand need connect-key? please confirm a device by help info"
@@ -119,6 +127,11 @@ class OhosExecutor(
             executedExeLastModified = File(localExePath).lastModified(),
         )
 
+        // Always stage libcrt.so from the KN dist under test into [deviceSharedLibDir]
+        // (mtime-keyed syncToDeviceOnce). libc++ is already on device. Search path always
+        // includes [deviceSharedLibDir] so CRT / cinterop+CMC can resolve it.
+        syncLibCrtToDeviceOnce(hdcTimeout)
+
         val stdinBytes = request.stdin.readBytes()
         val deviceStdinPath = "${deviceExePath}.stdin".replace(File.separatorChar, '/')
         val stdinRedirect: String = when {
@@ -145,9 +158,10 @@ class OhosExecutor(
         val captureOut = ByteArrayOutputStream()
         val captureErr = ByteArrayOutputStream()
         val onDeviceExeAndArgs = (listOf(deviceExePath) + request.args).joinToString(" ") { "'${shellEscape(it)}'" }
+        val ldLibraryPath = "$deviceWorkDir:$deviceSharedLibDir"
         val executionScript = buildString {
             append("chmod u+x '${shellEscape(deviceExePath)}' ; ")
-            append("LD_LIBRARY_PATH='${shellEscape(deviceWorkDir)}' ")
+            append("LD_LIBRARY_PATH='${shellEscape(ldLibraryPath)}' ")
             append(onDeviceExeAndArgs)
             append(" < ")
             append(stdinRedirect)
@@ -198,6 +212,26 @@ class OhosExecutor(
         val idx = path.indexOf(marker)
         if (idx < 0) return null
         return path.substring(idx + marker.length).trim('/').takeIf { it.isNotEmpty() }
+    }
+
+    /**
+     * Syncs [libCrtSo] once per JVM (mtime-keyed) to [deviceSharedLibDir]. No-op when unset / missing.
+     */
+    private fun syncLibCrtToDeviceOnce(hdcTimeout: Duration) {
+        val libCrt = libCrtSo ?: return
+        if (!libCrt.isFile) {
+            logger.warning("libcrt.so not found at ${libCrt.absolutePath}; skipping CRT runtime sync")
+            return
+        }
+        val deviceLibCrtPath = "$deviceSharedLibDir/libcrt.so"
+        syncToDevice(
+            hdcTimeout = hdcTimeout,
+            destinationKey = deviceLibCrtPath,
+            localSourcePath = libCrt.absolutePath,
+            deviceDestinationPath = deviceLibCrtPath,
+            removeRecursively = false,
+            executedExeLastModified = libCrt.lastModified(),
+        )
     }
 
     /**
