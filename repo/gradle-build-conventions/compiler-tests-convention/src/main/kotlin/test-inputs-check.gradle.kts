@@ -61,7 +61,11 @@ tasks.withType<Test>().names.forEach { taskName ->
                     for (dir in (System.getenv("PATH") ?: "").split(File.pathSeparatorChar)) {
                         if (dir.isEmpty()) continue
                         val candidate = File(dir, "hdc")
-                        if (candidate.isFile && candidate.canExecute()) return candidate.absoluteFile
+                        try {
+                            if (candidate.isFile && candidate.canExecute()) return candidate.absoluteFile
+                        } catch (_: SecurityException) {
+                            // Skip PATH entries the SecurityManager does not allow reading.
+                        }
                     }
                     return null
                 }
@@ -164,8 +168,8 @@ tasks.withType<Test>().names.forEach { taskName ->
                                         """permission java.io.FilePermission "${nativeHome.getOrElse(nativeHomeDefault.get().asFile.absolutePath)}/-" , "read,write,delete";""",
                                     )
                                     // Absolute hdc path so SecurityManager.checkExec does not require "<<ALL FILES>>".
+                                    // Only the file itself needs read,execute (ancestor directory reads are unnecessary).
                                     if (hdcPath != null) {
-                                        konanPermissions.addAll(parentsReadPermission(hdcPath))
                                         konanPermissions.add(
                                             """permission java.io.FilePermission "${hdcPath.absolutePath}", "read,execute";"""
                                         )

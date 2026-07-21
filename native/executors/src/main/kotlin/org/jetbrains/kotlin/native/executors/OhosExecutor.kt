@@ -29,8 +29,8 @@ import kotlin.time.Duration.Companion.seconds
  * [Executor] that runs the process on a HarmonyOS device using hdc commands.
  *
  * notes:
- * - hdc command has higher communication cost, this executor avoid sending the same file/folder to device repeatedly by keeping track of
- *     what's already sent in this session and skipping subsequent send
+ * - hdc command has higher communication cost; this executor skips re-sync when the device destination was already sent in this JVM
+ *     and the executed host executable's [File.lastModified] is unchanged (rebuilds with a newer mtime re-sync)
  * - hdc command exits 0 on the host regardless of the inner command's exit code on device. [OhosExecutor] appends printing $? after actual
  *     execution command to get the inner exit code
  * - Run inner command with `hdc shell <script>` (not `hdc shell sh -c <script>`) so the probe’s `$?` matches the test binary exit code
@@ -55,19 +55,23 @@ class OhosExecutor(
         private const val HDC_CONNECT_KEY_MAX_ATTEMPTS = 3
 
         /**
-         * Records destinations already synced this JVM run.
-         * [ConcurrentHashMap.computeIfAbsent] runs at most once per key (atomically); concurrent callers for the same key block until [sync] finishes.
+         * Device destination → lastModified of the host executable that was synced for that destination.
+         * Re-sync when the executable mtime changes (same path after rebuild); skip when unchanged.
          */
-        private val syncOnceCompleted = ConcurrentHashMap<String, Boolean>()
+        private val syncedExeMtimeByDestination = ConcurrentHashMap<String, Long>()
 
         /**
-         * Runs [sync] at most once per [destinationKey] for the lifetime of this process.
-         * Concurrent callers for the same key block until the first sync finishes, then skip.
+         * Runs [sync] when [destinationKey] was never synced, or when [executedExeLastModified] differs
+         * from the mtime recorded for the previous sync. Concurrent callers for the same key are serialized by [ConcurrentHashMap.compute].
          */
-        private fun syncToDeviceOnce(destinationKey: String, sync: () -> Unit) {
-            syncOnceCompleted.computeIfAbsent(destinationKey) {
-                sync()
-                true
+        private fun syncToDeviceOnce(destinationKey: String, executedExeLastModified: Long, sync: () -> Unit) {
+            syncedExeMtimeByDestination.compute(destinationKey) { _, previousMtime ->
+                if (previousMtime == executedExeLastModified) {
+                    previousMtime
+                } else {
+                    sync()
+                    executedExeLastModified
+                }
             }
         }
 
@@ -112,6 +116,7 @@ class OhosExecutor(
             localSourcePath = if (syncWholeWorkingDir) workingDirectory.normalize().absolutePath else localExePath,
             deviceDestinationPath = if (syncWholeWorkingDir) deviceWorkDir else deviceExePath,
             removeRecursively = syncWholeWorkingDir,
+            executedExeLastModified = File(localExePath).lastModified(),
         )
 
         val stdinBytes = request.stdin.readBytes()
@@ -196,8 +201,10 @@ class OhosExecutor(
     }
 
     /**
-     * @param skipSynced when `false` (default), at most one upload per [destinationKey] in this JVM.
-     *   When `true`, always sync (e.g. stdin: same path may get new bytes each run).
+     * @param skipSynced when `false` (default), sync at most once per [destinationKey] while the
+     *   executed host binary's [executedExeLastModified] is unchanged. When `true`, always sync
+     *   (e.g. stdin: same path may get new bytes each run).
+     * @param executedExeLastModified [File.lastModified] of the host test executable; ignored when [skipSynced] is true.
      */
     private fun syncToDevice(
         hdcTimeout: Duration,
@@ -206,25 +213,25 @@ class OhosExecutor(
         deviceDestinationPath: String,
         removeRecursively: Boolean,
         skipSynced: Boolean = false,
+        executedExeLastModified: Long = 0L,
     ) {
         val sync: () -> Unit = {
             val destinationParent = deviceDestinationPath.substringBeforeLast('/', "")
-            if (destinationParent.isNotEmpty()) {
-                executeHdcCommand(hdcTimeout, "shell", "mkdir", "-p", destinationParent)
+            val rmFlag = if (removeRecursively) "-rf" else "-f"
+            // One hdc shell for mkdir+rm to avoid an extra host↔device connect.
+            val prepareScript = buildString {
+                if (destinationParent.isNotEmpty()) {
+                    append("mkdir -p '${shellEscape(destinationParent)}' ; ")
+                }
+                append("rm $rmFlag '${shellEscape(deviceDestinationPath)}'")
             }
-            executeHdcCommand(
-                hdcTimeout,
-                "shell",
-                "rm",
-                if (removeRecursively) "-rf" else "-f",
-                deviceDestinationPath,
-            )
+            executeHdcCommand(hdcTimeout, "shell", prepareScript)
             executeHdcCommand(hdcTimeout, "file", "send", localSourcePath, deviceDestinationPath)
         }
         if (skipSynced) {
             sync()
         } else {
-            syncToDeviceOnce(destinationKey, sync)
+            syncToDeviceOnce(destinationKey, executedExeLastModified, sync)
         }
     }
 
