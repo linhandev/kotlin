@@ -16,7 +16,6 @@
 
 package org.jetbrains.kotlin.native.executors
 
-import org.jetbrains.kotlin.native.executors.OhosExecutor.Companion.HDC_CONNECT_KEY_FAILURE
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -41,6 +40,8 @@ import kotlin.time.Duration.Companion.seconds
 
 class OhosExecutor(
     private val hostExecutor: Executor = HostExecutor(),
+    /** Absolute path to `hdc`. The first executable `hdc` on `PATH`. */
+    private val hdcAbsolutePath: String = findHdcOnPath(),
 ) : Executor {
     private val logger = Logger.getLogger(OhosExecutor::class.java.name)
     private val deviceExeDir = "/data/local/tmp/native.tests"
@@ -68,6 +69,20 @@ class OhosExecutor(
                 sync()
                 true
             }
+        }
+
+        /** First executable named `hdc` on `PATH`, as an absolute path. */
+        private fun findHdcOnPath(): String {
+            for (dir in (System.getenv("PATH") ?: "").split(File.pathSeparatorChar)) {
+                if (dir.isEmpty()) continue
+                val candidate = File(dir, "hdc")
+                try {
+                    if (candidate.isFile && candidate.canExecute()) return candidate.absolutePath
+                } catch (_: SecurityException) {
+                    // Skip PATH entries the SecurityManager does not allow reading.
+                }
+            }
+            error("hdc not found on PATH")
         }
     }
 
@@ -134,7 +149,7 @@ class OhosExecutor(
             append("; printf '\\n__OHOS_HDC_EXIT__:%d' $?")
         }
         val executionRequest = ExecuteRequest(
-            executableAbsolutePath = "hdc",
+            executableAbsolutePath = hdcAbsolutePath,
             args = mutableListOf("shell", executionScript),
             workingDirectory = workingDirectory,
             stdin = ByteArrayInputStream(byteArrayOf()),
@@ -219,7 +234,7 @@ class OhosExecutor(
             val stdout = ByteArrayOutputStream()
             val stderr = ByteArrayOutputStream()
             val req = ExecuteRequest(
-                executableAbsolutePath = "hdc",
+                executableAbsolutePath = hdcAbsolutePath,
                 args = commandArgs.toMutableList(),
                 workingDirectory = Paths.get("").toAbsolutePath().toFile(),
                 stdout = stdout,

@@ -27,15 +27,42 @@ import kotlin.time.Duration.Companion.ZERO
 
 class OhosExecutorTest {
 
+    companion object {
+        // Absolute path so unit tests do not require a real hdc on PATH.
+        private const val FAKE_HDC = "/tmp/fake-hdc"
+    }
+
+    @Test
+    fun `execute uses absolute hdc path for all host invocations`(@TempDir tempDir: Path) {
+        val recording = RecordingExecutor(
+            outputs = listOf(
+                "__OHOS_HDC_EXIT__:0\n",
+                "__OHOS_HDC_EXIT__:0\n",
+                "__OHOS_HDC_EXIT__:0\n",
+                "ok\n__OHOS_HDC_EXIT__:0\n",
+            ),
+        )
+        val localExe = tempDir.resolve("test.kexe").toFile().apply { writeText("bin") }
+
+        OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
+            ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
+        )
+
+        assertTrue(recording.requests.isNotEmpty())
+        recording.requests.forEach { req ->
+            assertEquals(FAKE_HDC, req.executableAbsolutePath)
+        }
+    }
+
     @Test
     fun `execute pushes binary via hdc and runs on device`(@TempDir tempDir: Path) {
         val recording = RecordingExecutor()
         val localExe = tempDir.resolve("test.kexe").toFile().apply { writeText("bin") }
 
-        OhosExecutor(recording).execute(
+        OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(
                 executableAbsolutePath = localExe.absolutePath,
-                args = listOf("arg1"),
+                args = mutableListOf("arg1"),
             )
         )
 
@@ -63,7 +90,7 @@ class OhosExecutorTest {
         )
         val localExe = tempDir.resolve("fail.kexe").toFile().apply { writeText("bin") }
 
-        val response = OhosExecutor(recording).execute(
+        val response = OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         )
 
@@ -75,10 +102,10 @@ class OhosExecutorTest {
         val recording = RecordingExecutor()
         val localExe = tempDir.resolve("test.kexe").toFile().apply { writeText("bin") }
 
-        OhosExecutor(recording).execute(
+        OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(
                 executableAbsolutePath = localExe.absolutePath,
-                args = listOf("it's"),
+                args = mutableListOf("it's"),
             )
         )
 
@@ -91,7 +118,7 @@ class OhosExecutorTest {
         val recording = RecordingExecutor(outputs = listOf("", "", "", "Segmentation fault"))
         val localExe = tempDir.resolve("crash.kexe").toFile().apply { writeText("bin") }
 
-        assertEquals(1, OhosExecutor(recording).execute(
+        assertEquals(1, OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         ).exitCode)
     }
@@ -101,7 +128,7 @@ class OhosExecutorTest {
         val recording = RecordingExecutor(outputs = listOf("", "", "", "Fatal signal 11 (SIGSEGV)"))
         val localExe = tempDir.resolve("crash.kexe").toFile().apply { writeText("bin") }
 
-        assertEquals(1, OhosExecutor(recording).execute(
+        assertEquals(1, OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         ).exitCode)
     }
@@ -113,7 +140,7 @@ class OhosExecutorTest {
         )
         val localExe = tempDir.resolve("test.kexe").toFile().apply { writeText("bin") }
 
-        assertEquals(2, OhosExecutor(recording).execute(
+        assertEquals(2, OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         ).exitCode)
     }
@@ -123,7 +150,7 @@ class OhosExecutorTest {
         val recording = RecordingExecutor()
         val localExe = tempDir.resolve("my-test.kexe").toFile().apply { writeText("bin") }
 
-        OhosExecutor(recording).execute(
+        OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         )
 
@@ -138,7 +165,7 @@ class OhosExecutorTest {
         val recording = RecordingExecutor(outputs = listOf("", "", "", "undefined symbol: foo"))
         val localExe = tempDir.resolve("fail.kexe").toFile().apply { writeText("bin") }
 
-        assertEquals(1, OhosExecutor(recording).execute(
+        assertEquals(1, OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         ).exitCode)
     }
@@ -148,7 +175,7 @@ class OhosExecutorTest {
         val recording = RecordingExecutor(outputs = listOf("", "", "", "Error loading shared library"))
         val localExe = tempDir.resolve("fail.kexe").toFile().apply { writeText("bin") }
 
-        assertEquals(1, OhosExecutor(recording).execute(
+        assertEquals(1, OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         ).exitCode)
     }
@@ -158,7 +185,7 @@ class OhosExecutorTest {
         val recording = RecordingExecutor(outputs = listOf("", "", "", "Fatal exception in runtime"))
         val localExe = tempDir.resolve("fail.kexe").toFile().apply { writeText("bin") }
 
-        assertEquals(1, OhosExecutor(recording).execute(
+        assertEquals(1, OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         ).exitCode)
     }
@@ -168,7 +195,7 @@ class OhosExecutorTest {
         val recording = RecordingExecutor(outputs = listOf("", "", "", "hello from device"))
         val localExe = tempDir.resolve("ok.kexe").toFile().apply { writeText("bin") }
 
-        assertEquals(0, OhosExecutor(recording).execute(
+        assertEquals(0, OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
         ).exitCode)
     }
@@ -179,7 +206,7 @@ class OhosExecutorTest {
         val localExe = tempDir.resolve("test.kexe").toFile().apply { writeText("bin") }
 
         assertThrows<IllegalStateException> {
-            OhosExecutor(recording).execute(
+            OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
                 ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
             )
         }
@@ -191,7 +218,7 @@ class OhosExecutorTest {
         val localExe = tempDir.resolve("test.kexe").toFile().apply { writeText("bin") }
         val stdout = ByteArrayOutputStream()
 
-        OhosExecutor(recording).execute(
+        OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
             ExecuteRequest(
                 executableAbsolutePath = localExe.absolutePath,
                 stdout = stdout,
