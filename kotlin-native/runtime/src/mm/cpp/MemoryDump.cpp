@@ -325,7 +325,7 @@ public:
 
 private:
     // Compresses [data, data+size) into |output| as a standalone gzip member.
-    // Uses Z_BEST_SPEED to match the existing gzdopen("w1") behaviour.
+    // Uses Z_DEFAULT_COMPRESSION to match the existing gzdopen("w1") behaviour.
     static void CompressChunkToGzip(const char* data, size_t size,
                                     std::vector<char>& output) {
         z_stream strm{};
