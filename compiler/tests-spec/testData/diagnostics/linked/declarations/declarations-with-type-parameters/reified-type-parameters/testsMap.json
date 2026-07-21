@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested reified type parameters require the enclosing function to be inline",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "reified type parameters require inline and cannot be used as runtime types otherwise",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline property accessors may declare reified type parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "inline reified type parameter supports is-check and class name lookup in inline function body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/declarations-with-type-parameters/reified-type-parameters/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

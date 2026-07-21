@@ -3,11 +3,61 @@
     "neg": {
       "1": [
         {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "uninitialized local properties used after catch block with control-flow exception (unexpected behaviour)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": true,
+          "linkType": "main"
+        },
+        {
           "specVersion": "0.1-218",
           "casesNumber": 2,
           "description": "All non-abstract properties must be definitely initialized before their first use.",
           "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-1/neg/1.1.kt",
           "unexpectedBehaviour": true,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "local property without initializer cannot be used before assignment",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local var without initializer cannot be read before assignment",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "local val and local var declarations inside function body compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local delegated property in function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/local-property-declaration/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
           "linkType": "main"
         }
       ]

@@ -1,6 +1,40 @@
 {
   "1": {
     "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class must have at least one data property in primary constructor",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "data class primary constructor allows property parameters only and disallows vararg data properties",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data classes are closed and cannot be inherited from",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "data class primary constructor parameters must be val or var; plain parameters with Any, function, enum, Nothing, and generic types are rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ],
       "2": [
         {
           "specVersion": "0.1-544",
@@ -9,6 +43,70 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/class-declaration/constructor-declaration/p-5/neg/1.2.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class generated copy function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class destructuring via generated componentN functions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class declaration with val property constructor parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data object requires DataObjects language feature",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data object cannot override equals or hashCode",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data object singleton declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/data-class-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
         }
       ]
     }

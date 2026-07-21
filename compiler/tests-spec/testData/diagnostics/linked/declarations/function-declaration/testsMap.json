@@ -1,18 +1,312 @@
 {
-  "7": {
-    "pos": {
-      "1": [
+  "30": {
+    "neg": {
+      "30": [
         {
-          "specVersion": "0.1-152",
-          "casesNumber": 0,
-          "description": "Kt10809",
-          "path": "compiler/testData/diagnostics/tests/when/kt10809.kt",
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function body cannot access private members from outside their declaring classifier",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30/neg/30.1.kt",
           "unexpectedBehaviour": false,
-          "linkType": "primary"
+          "linkType": "main"
         }
       ]
     },
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "function body scope may access outer variables and enclosing classifier members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "22": {
     "neg": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline parameters forbid non-local returns in lambda arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/neg/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline functional parameters cannot be passed to noinline parameter positions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/neg/22.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline functions may declare crossinline and noinline functional parameters and call them directly",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "25": {
+    "neg": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "platform restrictions forbid inlining open or abstract members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-25/neg/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "13": {
+    "neg": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "generic array cannot be spread into primitive vararg parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13/neg/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "specialized array type may be spread into primitive vararg",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "neg": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "spread requires an array expression at a vararg parameter position",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/neg/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable array cannot be spread into a vararg parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/neg/14.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "spread operator expands array arguments and may be mixed with positional arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "neg": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension receiver type must be a valid type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/neg/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "duplicate extension declarations on the same receiver conflict",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/neg/15.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "extension function declaration introduces a receiver parameter before the function name",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "neg": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "vararg parameter default value must be an array type; non-array literal default is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12/neg/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "vararg parameter may use array literal or empty array as default value",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "neg": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline lambda cannot be passed to noinline parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24/neg/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "noinline parameters may be passed to other functions as noinline or crossinline arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "23": {
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline parameters cannot be stored in variables",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline lambda cannot be returned from inline function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/neg/23.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline parameters may be called directly inside an inline function body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline lambda may be invoked inside inline function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-23/pos/23.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "neg": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "cannot assume later arguments are evaluated before earlier ones",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9/neg/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "function call evaluates arguments left-to-right including side effects in parameter expressions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "cannot skip middle default parameter with positional argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/neg/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "default parameter value cannot reference a parameter declared later in the parameter list",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ],
       "1": [
         {
           "specVersion": "0.1-152",
@@ -33,10 +327,118 @@
           "linkType": "primary"
         }
       ]
+    },
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "default parameter values used when arguments are omitted",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ],
+      "1": [
+        {
+          "specVersion": "0.1-152",
+          "casesNumber": 0,
+          "description": "Kt10809",
+          "path": "compiler/testData/diagnostics/tests/when/kt10809.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "vararg parameter cannot be passed twice via named argument, array, or spread",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "vararg calls with spread operator, named spread, and mixed positional arguments compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function parameter must have a name; parameter with missing identifier is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function declaration without name",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "top-level, member, local, and extension function declarations compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
     }
   },
   "8": {
     "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named argument followed by positional argument in call",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "too many arguments in call",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/neg/8.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "duplicate named argument binding",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/neg/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ],
       "1": [
         {
           "specVersion": "0.1-152",
@@ -45,6 +447,466 @@
           "path": "compiler/testData/diagnostics/tests/when/whenWithNothingAndLambdas.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "function calls mixing positional and named arguments, including omitted defaults, compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "neg": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "extension functions cannot be called without an explicit or implicit receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19/neg/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "extension functions behave like non-extension functions except for receiver dispatch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "neg": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "inline parameters cannot be passed to noinline positions or captured in lambdas passed to non-inline functions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26/neg/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline parameters with inl/crossinline/noinline modifiers follow allowed propagation rules",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "neg": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified type parameters are only allowed on inline functions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21/neg/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "inline functions may declare reified type parameters for runtime type checks and class literals",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "neg": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local function is not visible outside the function where it is declared",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28/neg/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "local function declared inside another function may capture values from the enclosing scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "neg": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "extension on Int, List\u003cInt\u003e, and bounded type parameter is not applicable to incompatible receiver types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "extension on superclass, open class, and interface is applicable to concrete subtype receivers",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "only one vararg parameter is allowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "variable length parameter accepts any number of arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "positional argument after named argument when vararg is not last",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/neg/11.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "required parameter after non-last vararg must be passed explicitly",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "non-last vararg with default parameters on subsequent arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "29": {
+    "neg": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tailrec modifier on a non-tail-recursive function produces NO_TAIL_CALLS_FOUND",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29/neg/29.1.kt",
+          "unexpectedBehaviour": true,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "tail-recursive function with recursive call in tail position is valid",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "neg": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "nullable receiver cannot call extension declared on a non-null receiver type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16/neg/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "extension is invoked with explicit receiver, implicit receiver in lambda, and labeled this receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "20": {
+    "neg": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline parameters cannot be passed to non-crossinline inline parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/neg/20.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline functional parameters cannot be stored or leak from the inline function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/neg/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "inline functions may take functional parameters and be called at call-site",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "neg": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "member extension declared in a class is not visible outside its scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18/neg/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "generic, nested-local, and String extension functions declared in class body compile and are callable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "neg": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "infix modifier requires a member or extension function with exactly one value parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27/neg/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "infix extension function with single parameter may be called in infix form",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "unknown named parameter, duplicate named argument, and positional followed by duplicate name are rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "named arguments reorder parameters, bind two parameters by name, and override a default parameter value",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "override with mismatched parameter type is not an override; override with mismatched return type is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "JVM-erased signature conflict between overloads",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "matching function signatures allow override; differing signatures allow overload",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "top-level function without body is rejected; throw-only expression body infers Nothing return type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "missing function body in non-abstract class member",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "block body, expression body, and default parameter value in function declaration compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named argument followed by positional argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "positional arguments before named arguments in mixed calls",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/function-declaration/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
         }
       ]
     }

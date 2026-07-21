@@ -1,0 +1,112 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "delegated read-only properties require suitable getValue operator",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "delegated read-only properties use getValue operator",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "provideDelegate operator must have correct signature; missing or inapplicable operator is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "provideDelegate with wrong operator signature",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "delegated properties may use provideDelegate before getValue and setValue",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local delegated property uses provideDelegate operator before getValue",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "delegated mutable properties require suitable setValue operator",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "delegated val cannot use setValue-only delegate",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "delegated mutable properties use getValue and setValue operators",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "delegated var with vetoable pattern",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/delegated-property-declaration/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

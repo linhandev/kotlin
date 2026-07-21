@@ -1,0 +1,36 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "accessor bodies cannot access members outside their permitted scopes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "setter parameter shadows outer name in accessor scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "accessor bodies introduce parameter scopes linked to enclosing property scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/property-declaration/property-declaration-scopes/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

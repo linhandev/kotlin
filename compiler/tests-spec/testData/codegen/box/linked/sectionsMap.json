@@ -1,20 +1,121 @@
 {
+  "operator-overloading": [
+    "destructuring-declarations",
+    "overview"
+  ],
+  "type-inference": [
+    "smart-casts/smart-cast-sink-stability",
+    "smart-casts/smart-cast-types",
+    "smart-casts",
+    "smart-casts/loop-handling",
+    "smart-casts/data-flow-framework",
+    "builder-style-type-inference",
+    "local-type-inference",
+    "function-signature-type-inference/statements-with-lambda-literals",
+    "function-signature-type-inference/named-and-anonymous-function-declarations",
+    "bare-type-argument-inference"
+  ],
+  "asynchronous-programming-with-coroutines": [
+    "coroutine-intrinsics",
+    "suspending-functions",
+    "coroutines",
+    "continuation-passing-style",
+    "coroutine-state-machine"
+  ],
   "type-system": [
     "type-kinds/built-in-types/kotlin.nothing",
     "introduction-1"
   ],
+  "scopes-and-identifiers": [
+    "labels",
+    "linked-scopes"
+  ],
+  "runtime-type-information": [
+    "runtime-available-types",
+    "",
+    "reflection"
+  ],
+  "declarations": [
+    "classifier-declaration/object-declaration",
+    "classifier-declaration/annotation-class-declaration",
+    "classifier-declaration/interface-declaration",
+    "classifier-declaration",
+    "classifier-declaration/value-class-declaration",
+    "classifier-declaration/classifier-initialization",
+    "classifier-declaration/data-class-declaration",
+    "classifier-declaration/enum-class-declaration",
+    "classifier-declaration/local-class-declaration",
+    "classifier-declaration/class-declaration/abstract-classes",
+    "classifier-declaration/class-declaration/constructor-declaration",
+    "classifier-declaration/class-declaration/nested-and-inner-classifiers",
+    "classifier-declaration/class-declaration",
+    "classifier-declaration/class-declaration/inheritance-delegation",
+    "function-declaration",
+    "property-declaration/extension-property-declaration",
+    "property-declaration/getters-and-setters",
+    "property-declaration/delegated-property-declaration"
+  ],
+  "exceptions": [
+    "",
+    "throwing-exceptions",
+    "catching-exceptions"
+  ],
+  "annotations": [
+    "overview"
+  ],
   "statements": [
     "assignments/operator-assignments",
+    "assignments",
     "assignments/simple-assignments",
+    "loop-statements",
     "loop-statements/while-loop-statement",
     "loop-statements/do-while-loop-statement",
-    "assignments"
+    "code-blocks/coercion-to-kotlin-unit",
+    "code-blocks"
+  ],
+  "inheritance": [
+    "overriding",
+    "classifier-type-inheritance/abstract-classes",
+    "classifier-type-inheritance/sealed-classes-and-interfaces",
+    "classifier-type-inheritance/inheritance-from-built-in-types"
+  ],
+  "packages-and-imports": [
+    "package-header",
+    "importing"
+  ],
+  "overload-resolution": [
+    "callables-and-invoke-convention",
+    "building-the-overload-candidate-set/call-without-an-explicit-receiver",
+    "choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1",
+    "choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection",
+    "c-level-partition",
+    "the-forms-of-call-expression",
+    "building-the-overload-candidate-set-ocs/infix-function-call",
+    "building-the-overload-candidate-set-ocs/operator-call",
+    "building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver",
+    "determining-function-applicability-for-a-specific-call/description",
+    "determining-function-applicability-for-a-specific-call/rationale",
+    "receivers",
+    "type-inference-and-overload-resolution",
+    "resolving-property-access",
+    "building-the-overload-candidate-set/call-with-trailing-lambda-expressions",
+    "building-the-overload-candidate-set/call-with-specified-type-parameters",
+    "building-the-overload-candidate-set/infix-function-call",
+    "building-the-overload-candidate-set/operator-call",
+    "building-the-overload-candidate-set/fully-qualified-call",
+    "building-the-overload-candidate-set/call-with-an-explicit-receiver",
+    "building-the-overload-candidate-set/call-with-named-parameters",
+    "conflicting-overloads"
   ],
   "expressions": [
+    "try-expressions",
     "not-null-assertion-expression",
     "comparison-expressions",
     "indexing-expressions",
+    "null-literals",
     "when-expression",
+    "conditional-expressions",
+    "not-null-assertion-expressions",
     "constant-literals/real-literals",
     "constant-literals/integer-literals/decimal-integer-literals",
     "constant-literals/integer-literals/binary-integer-literals",
@@ -23,36 +124,77 @@
     "constant-literals/character-literals",
     "constant-literals/the-types-for-integer-literals",
     "logical-disjunction-expression",
+    "this-expressions",
     "logical-conjunction-expression",
+    "function-literals/anonymous-function-declarations",
+    "function-literals/lambda-literals",
     "postfix-operator-expressions/postfix-increment-expression",
     "prefix-expressions/prefix-increment-expression",
+    "postfix-operator-expressions/postfix-decrement-expressions",
+    "postfix-operator-expressions/postfix-increment-expressions",
     "postfix-operator-expressions/postfix-decrement-expression",
     "prefix-expressions/prefix-decrement-expression",
     "additive-expression",
+    "type-checking-and-containment-checking-expressions/containment-checking-expressions",
     "type-checking-and-containment-checking-expressions/type-checking-expression",
     "type-checking-and-containment-checking-expressions/containment-checking-expression",
+    "type-checking-and-containment-checking-expressions/type-checking-expressions",
+    "type-checking-and-containment-checking-expressions",
+    "logical-disjunction-expressions",
     "try-expression",
     "elvis-operator-expression",
+    "when-expressions",
+    "when-expressions/exhaustive-when-expressions",
     "multiplicative-expression",
+    "elvis-operator-expressions",
+    "string-interpolation-expressions",
     "range-expression",
+    "range-expressions",
+    "object-literals",
+    "object-literals/functional-interface-lambda-literals",
+    "multiplicative-expressions",
     "equality-expressions/value-equality-expressions",
+    "equality-expressions",
     "equality-expressions/reference-equality-expressions",
+    "constant-expressions",
+    "cast-expressions",
+    "real-literals",
+    "integer-literals",
+    "additive-expressions",
     "jump-expressions/break-expression",
     "jump-expressions/return-expressions",
+    "jump-expressions",
+    "jump-expressions/throw-expressions",
     "jump-expressions/continue-expression",
+    "jump-expressions/break-expressions",
+    "jump-expressions/continue-expressions",
+    "boolean-literals",
+    "character-literals",
+    "character-literals/escaped-characters",
     "conditional-expression",
+    "call-and-property-access-expressions/navigation-operators",
+    "call-and-property-access-expressions/spread-operator-expressions",
+    "call-and-property-access-expressions/function-calls-and-property-access",
+    "call-and-property-access-expressions/class-literals",
+    "call-and-property-access-expressions/callable-references",
+    "the-types-for-integer-literals",
+    "super-forms",
     "built-in-types-and-their-semantics/kotlin.nothing-1",
     "built-in-types-and-their-semantics/kotlin.unit",
+    "logical-conjunction-expressions",
     "cast-expression",
     "prefix-expressions/unary-minus-expression",
     "prefix-expressions/logical-not-expression",
-    "prefix-expressions/unary-plus-expression"
+    "prefix-expressions/unary-plus-expression",
+    "prefix-expressions/unary-minus-expressions",
+    "prefix-expressions/logical-not-expressions",
+    "prefix-expressions/prefix-increment-expressions",
+    "prefix-expressions/prefix-decrement-expressions",
+    "prefix-expressions/annotated-expressions",
+    "prefix-expressions/unary-plus-expressions"
   ],
   "overloadable-operators": [
     ""
-  ],
-  "exceptions": [
-    "catching-exceptions"
   ],
   "syntax-and-grammar": [
     "lexical-grammar/string-mode-grammar",
@@ -62,15 +204,23 @@
     "lexical-grammar/literals",
     "syntax-grammar"
   ],
-  "overload-resolution": [
-    "choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection",
-    "callables-and-invoke-convention",
-    "building-the-overload-candidate-set-ocs/infix-function-call",
-    "building-the-overload-candidate-set-ocs/operator-call",
-    "building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver",
-    "receivers"
+  "kotlin-type-constraints": [
+    "the-relations-on-types-as-constraints",
+    "type-constraint-definition",
+    "finding-optimal-constraint-system-solution",
+    "checking-constraint-system-soundness"
   ],
   "built-in-types-and-their-semantics": [
     "integer-type-widening"
+  ],
+  "control--and-data-flow-analysis": [
+    "performing-analysis-on-the-control-flow-graph",
+    "performing-analysis-on-the-control-flow-graph/kill-data-flow",
+    "control-flow-graph/kotlin-nothing",
+    "control-flow-graph",
+    "control-flow-graph/declarations",
+    "control-flow-graph/statements",
+    "control-flow-graph/examples",
+    "control-flow-graph/expressions"
   ]
 }

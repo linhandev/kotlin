@@ -1,0 +1,44 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "static nested class cannot access outer instance members without receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "private member function and private property are not accessible from outside the declaring class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "primary constructor parameter scope visible in initialization",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "companion object factory accesses private constructor; inner class reads outer private property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-declaration-scopes/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

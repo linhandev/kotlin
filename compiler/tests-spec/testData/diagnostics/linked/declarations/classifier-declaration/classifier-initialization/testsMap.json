@@ -1,6 +1,80 @@
 {
+  "9": {
+    "neg": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "non-abstract class member without body is rejected; abstract member in non-abstract class is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/neg/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "expression body must satisfy declared return type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/neg/9.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "block body, expression body, abstract function without body, and interface default implementation compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "capturing uninitialized property during subsequent initialization",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-7/neg/7.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "capturing uninitialized property during subsequent initialization",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "6": {
     "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reading property before definite initialization in init block",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-6/neg/6.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "accessing property before definite initialization in init block",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ],
       "4": [
         {
           "specVersion": "0.1-152",
@@ -9,6 +83,224 @@
           "path": "compiler/testData/diagnostics/tests/when/PropertyNotInitialized.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property initializer cannot access uninitialized sibling property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "superclass init runs before class body property and init blocks",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member function declaration without name inside classifier initialization scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member function value parameters syntax error inside classifier initialization scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/neg/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "top-level, member, extension, and generic function declarations compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "private generic function with upper bound and infix member function in class body compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-8/pos/8.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "abstract function with body in non-abstract class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/neg/10.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "throw-only expression body infers Nothing return type; abstract function with body in concrete class is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function with block body in class member",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/pos/10.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "function return type is inferred from expression body and explicit Nothing return is allowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "cannot access property before initialization regardless of constructor used",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object constructed via primary constructor does not execute secondary constructor body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init block cannot access property declared later in class body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init block between property declarations runs between their initializers",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "secondary constructor must delegate to primary or super",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "secondary constructor cannot access this before delegation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "secondary constructor delegates to primary and has body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "property initializer referencing a later property and self-referencing initializer cause initialization errors",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "initialization cycle through init block and property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/classifier-initialization/p-5/neg/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
         }
       ]
     }

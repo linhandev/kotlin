@@ -1,0 +1,162 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object cannot be instantiated like a constructor call",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object type cannot be used as supertype",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "object singleton with member property and object implementing interface compile successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named object cannot be declared locally unlike object literals",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named object cannot be declared locally unlike object literals",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/neg/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named object declaration at package scope exposes callable members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named object declaration at top level",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object cannot have explicit constructors",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object cannot declare secondary constructors",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object implicitly has default parameterless primary constructor",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object singleton is accessed via implicit default constructor without explicit call",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "object cannot contain companion object, type parameters, explicit constructor, or inner class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object cannot inherit from multiple classes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object with supertypes and body members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object may implement interfaces and override members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/object-declaration/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

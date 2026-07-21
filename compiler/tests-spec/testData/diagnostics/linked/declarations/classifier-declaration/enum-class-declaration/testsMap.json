@@ -1,0 +1,220 @@
+{
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry override with mismatched signature",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry overrides abstract member in enum class body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum example State with name ordinal compareTo toString valueOf values",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entries must have unique names",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class cannot inherit from class supertypes other than kotlin.Enum",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry with body declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class with enum entries",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entries property returns all constants and supports indexed access",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class static valueOf function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "cannot override final Enum name and ordinal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "cannot override final Enum compareTo equals hashCode",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/neg/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry provides name ordinal and compareTo",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry may override toString",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry implicit equals and hashCode",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class body syntax error with missing enum class name",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry initialization is required when enum class has constructor parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class body with entries list and member declarations after semicolon",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class with zero enum entries",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class values function for backwards compatibility",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enumValues top-level function returns array of all enum constants",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/enum-class-declaration/p-5/pos/5.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

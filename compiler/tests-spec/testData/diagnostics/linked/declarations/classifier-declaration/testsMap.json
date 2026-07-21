@@ -1,0 +1,190 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interface name must be a valid identifier; numeric literal is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data modifier cannot be applied to enum class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fun interface name must be a valid identifier; numeric literal is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "open modifier cannot be applied to enum class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class name must be a valid identifier; numeric literal is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class with multiple where-clause type constraints compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interface declaration without body compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fun interface with single abstract invoke function compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "open class with constructor parameter and member function in body compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.7.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class with multiple entries in body compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class with type parameter, primary constructor, inheritance, and interface implementation compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class declaration without body compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object name must be a valid identifier; keyword return is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object implementing interface requires colon before supertype name",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object body with invalid trailing syntax after property initializer is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object name must be a valid identifier; numeric literal is rejected",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/neg/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "minimal object declaration with identifier only compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private object with property initializer compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object implementing interface with overridden member in body compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named object with property and member function in body compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object implementing interface via delegation specifier compiles successfully",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/declarations/classifier-declaration/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
