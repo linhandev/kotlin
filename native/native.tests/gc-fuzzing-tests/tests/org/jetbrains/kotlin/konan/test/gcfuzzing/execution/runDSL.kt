@@ -38,7 +38,7 @@ fun AbstractNativeSimpleTest.runDSL(
     dslOutput: Output,
     executionTimeout: Duration
 ) {
-    Assumptions.assumeTrue(testRunSettings.get<KotlinNativeTargets>().hostTarget.family.isAppleFamily)
+    Assumptions.assumeTrue(testRunSettings.get<KotlinNativeTargets>().testTarget.family.isAppleFamily)
     val cinterop = cinteropToLibrary(
         testRunSettings.get<KotlinNativeTargets>(),
         dslGeneratedDir.resolve(dslOutput.cinterop.defFilename),
