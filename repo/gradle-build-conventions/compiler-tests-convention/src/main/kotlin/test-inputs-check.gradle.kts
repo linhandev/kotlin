@@ -57,6 +57,19 @@ tasks.withType<Test>().names.forEach { taskName ->
                     }.toList()
                 }
 
+                fun resolveHdcOnPathOrNull(): File? {
+                    for (dir in (System.getenv("PATH") ?: "").split(File.pathSeparatorChar)) {
+                        if (dir.isEmpty()) continue
+                        val candidate = File(dir, "hdc")
+                        try {
+                            if (candidate.isFile && candidate.canExecute()) return candidate.absoluteFile
+                        } catch (_: SecurityException) {
+                            // Skip PATH entries the SecurityManager does not allow reading.
+                        }
+                    }
+                    return null
+                }
+
                 fun getJDKFromToolchain(service: JavaToolchainService, version: Int): String {
                     return service.launcherFor {
                         languageVersion.set(JavaLanguageVersion.of(version))
@@ -130,6 +143,8 @@ tasks.withType<Test>().names.forEach { taskName ->
 
                 val tempDir = calcCanonicalTempPath()
 
+                val hdcPath = if (testInputsCheck.isNative.get()) resolveHdcOnPathOrNull() else null
+
                 val policyFile = policyFileProvider.get().asFile
                 policyFile.parentFile.mkdirs()
                 try {
@@ -152,6 +167,13 @@ tasks.withType<Test>().names.forEach { taskName ->
                                         """permission java.io.FilePermission "/bin/sh", "execute";""",
                                         """permission java.io.FilePermission "${nativeHome.getOrElse(nativeHomeDefault.get().asFile.absolutePath)}/-" , "read,write,delete";""",
                                     )
+                                    // Absolute hdc path so SecurityManager.checkExec does not require "<<ALL FILES>>".
+                                    // Only the file itself needs read,execute (ancestor directory reads are unnecessary).
+                                    if (hdcPath != null) {
+                                        konanPermissions.add(
+                                            """permission java.io.FilePermission "${hdcPath.absolutePath}", "read,execute";"""
+                                        )
+                                    }
                                     if (nativeHome.isPresent) {
                                         konanPermissions.add("""permission java.io.FilePermission "${nativeHome.get()}/-" , "read,write,delete";""")
                                     }
