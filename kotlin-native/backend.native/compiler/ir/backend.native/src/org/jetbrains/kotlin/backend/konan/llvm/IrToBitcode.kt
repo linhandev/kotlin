@@ -2468,7 +2468,7 @@ internal class CodeGeneratorVisitor(
             val f = this@scope
             val nodebug = f.originalConstructor != null && f.parentAsClass.isSubclassOf(context.irBuiltIns.throwableClass.owner)
             if (functionLlvmValue != null) {
-                subprograms.getOrPut(functionLlvmValue) {
+                subprograms.getOrPut(functionLlvmValue.asCallback()) {
                     // Also enable transparent stepping if this function is a bridge:
                     val isTransparentStepping = generationState.config.enableDebugTransparentStepping && f.bridgeTarget != null
 
@@ -2489,7 +2489,7 @@ internal class CodeGeneratorVisitor(
     @Suppress("UNCHECKED_CAST")
     private fun LlvmCallable.scope(startLine: Int, subroutineType: DISubroutineTypeRef, nodebug: Boolean) =
             with(debugInfo) {
-                subprograms.getOrPut(this@scope) {
+                subprograms.getOrPut(this@scope.asCallback()) {
                     diFunctionScope(fileEntry(), name!!, name!!, startLine, subroutineType, nodebug).also {
                         this@scope.addDebugInfoSubprogram(it)
                     }

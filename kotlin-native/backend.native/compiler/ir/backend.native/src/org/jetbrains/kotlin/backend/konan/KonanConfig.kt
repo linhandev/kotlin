@@ -230,6 +230,9 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     val moduleIncludes: Map<String, List<String>>
         get() = configuration.get(BinaryOptions.moduleIncludes)?: emptyMap()
 
+    val forceExportInternalSymbolNames: List<String>
+        get() = configuration.get(BinaryOptions.forceExportInternalSymbolNames) ?: emptyList()
+
     val runtimeName: String
         get() = configuration.get(BinaryOptions.runtimeName) ?: "runtime"
 

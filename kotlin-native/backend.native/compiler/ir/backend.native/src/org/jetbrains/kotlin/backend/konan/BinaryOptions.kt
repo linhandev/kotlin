@@ -45,6 +45,8 @@ object BinaryOptions : BinaryOptionRegistry() {
 
     val moduleIncludeOnly by listStringOption()
 
+    val forceExportInternalSymbolNames by listStringOption()
+
     val emitRuntimeOpt by option<RuntimeEmissionMode>()
 
     val emitRuntime by booleanOption()
