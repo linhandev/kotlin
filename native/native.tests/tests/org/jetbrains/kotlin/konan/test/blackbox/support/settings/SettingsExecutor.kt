@@ -47,7 +47,12 @@ val Settings.testProcessExecutor: Executor
                     }
                 }
                 configurables.target == hostTarget -> HostExecutor()
-                configurables.target.family == Family.OHOS -> OhosExecutor()
+                configurables.target.family == Family.OHOS -> {
+                    val libCrtSo = get<KotlinNativeHome>().dir
+                        .resolve("konan/targets/${testTarget.name}/native/libcrt.so")
+                        .takeIf { it.isFile }
+                    OhosExecutor(libCrtSo = libCrtSo)
+                }
                 configurables is ConfigurablesWithEmulator -> EmulatorExecutor(configurables)
                 configurables is AppleConfigurables && configurables.targetTriple.isSimulator -> XcodeSimulatorExecutor(configurables)
                 configurables is AppleConfigurables && RosettaExecutor.availableFor(configurables) -> RosettaExecutor(configurables)
