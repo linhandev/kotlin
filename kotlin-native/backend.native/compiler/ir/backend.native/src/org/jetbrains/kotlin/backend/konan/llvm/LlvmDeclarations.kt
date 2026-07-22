@@ -142,9 +142,8 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
     private val nonExportedTypeInfoSymbolOwners = mutableMapOf<String, IrClass>()
 
     private fun shouldExcludeFromCodegen(declaration: IrDeclaration): Boolean {
-        val libraryName = declaration.konanLibrary?.uniqueName ?: return false
-        val moduleIncludeOnly = context.config.moduleIncludeOnly
-        return moduleIncludeOnly.isNotEmpty() && libraryName !in moduleIncludeOnly
+        val library = declaration.konanLibrary ?: return false
+        return !context.config.isIncludedLibrary(library.uniqueName)
     }
 
     class Namer(val prefix: String) {
@@ -483,13 +482,7 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
             generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
                 declaration.symbol, declaration.konanLibrary?.uniqueName)
 
-        val isNonPrivateSimpleFunction = context.config.moduleIncludeOnly.isNotEmpty() &&
-            !shouldExcludeFromCodegen(declaration) &&
-            !declaration.isFakeOverride &&
-            declaration.visibility != DescriptorVisibilities.PRIVATE &&
-            declaration.visibility != DescriptorVisibilities.LOCAL
-
-        val needsExport = isCrossModuleReferenced || isNonPrivateSimpleFunction
+        val needsExport = isCrossModuleReferenced
 
         val llvmFunction = if (declaration.isExternal) {
             if (declaration.isTypedIntrinsic || declaration.isObjCBridgeBased()
