@@ -167,6 +167,18 @@ extern "C" OBJ_GETTER(AllocArrayInstance, const TypeInfo* typeInfo, int32_t elem
     RETURN_RESULT_OF(mm::AllocateArray, threadData, typeInfo, static_cast<uint32_t>(elements));
 }
 
+#if KONAN_OHOS
+HAS_SAFEPOINT
+extern "C" ALWAYS_INLINE OBJ_GETTER(AllocStringInstance, int32_t elements) {
+    if (elements < 0 || elements >= INT32_MAX) RETURN_OBJ(nullptr);
+    ArrayHeader* array = AllocArrayInstance(theStringTypeInfo, elements + 1, OBJ_RESULT)->array();
+    KChar* c = CharArrayAddressOfElementAt(array, elements);
+    *c = static_cast<KChar>(0);
+    array->count_ -= 1;
+    RETURN_OBJ(array->obj());
+}
+#endif
+
 HAS_SAFEPOINT
 extern "C" ALWAYS_INLINE RUNTIME_NOTHROW OBJ_GETTER(AllocInstanceForCI, const TypeInfo* typeInfo) {
     // Trampoline to AllocInstance. CRT codegen emits calls to *ForCI; fp-unwind K2RStub

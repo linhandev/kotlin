@@ -323,9 +323,10 @@ extern "C" {
         }
 
         // Fall back to copy
-        // Create an uninitialized UTF-16 string
-        // Allocate str_size+1 to reserve space for the null terminator written by napi_get_value_string_utf16
-        KRef kotlinString = CreateUninitializedString(StringEncoding::kUTF16, (uint32_t)(str_size + 1), OBJ_RESULT);
+        // Create an uninitialized UTF-16 string.
+        // AllocStringInstance (inside CreateUninitializedString) already allocates one extra KChar
+        // and writes a null terminator, so no explicit +1 is needed here.
+        KRef kotlinString = CreateUninitializedString(StringEncoding::kUTF16, (uint32_t)str_size, OBJ_RESULT);
         EnterPinScope<void*> scope((void*)kotlinString);
 
         StringHeader* kotlinHeader = StringHeader::of(kotlinString);
@@ -344,9 +345,6 @@ extern "C" {
             RETURN_OBJ(nullptr);
         }
 
-        // Adjust “count_” to exclude the null terminator.
-        // The value of “count_” is calculated following the implementation in StringHeader::size().
-        kotlinHeader->count_ = str_size + (kotlinHeader->extraLength (kotlinHeader->flags_) / sizeof(KChar));
         RETURN_OBJ(kotlinString);
     }
 }

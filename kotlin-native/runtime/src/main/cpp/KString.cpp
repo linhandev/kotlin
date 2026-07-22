@@ -204,14 +204,22 @@ HAS_SAFEPOINT
 extern "C" OBJ_GETTER(CreateUninitializedString, StringEncoding encoding, uint32_t length) {
     if (length == 0) RETURN_RESULT_OF0(TheEmptyString);
     return allocateString(encoding, length, [=](size_t sizeInChars) {
+#if KONAN_OHOS
+        RETURN_RESULT_OF(AllocStringInstance, static_cast<int32_t>(sizeInChars));
+#else
         RETURN_RESULT_OF(AllocArrayInstance, theStringTypeInfo, sizeInChars);
+#endif
     });
 }
 
 HAS_SAFEPOINT
 extern "C" OBJ_GETTER0(CreateEmptyUtf16StringForProxy) {
     return allocateString(StringEncoding::kUTF16, 0, [=](size_t sizeInChars) {
+#if KONAN_OHOS
+        RETURN_RESULT_OF(AllocStringInstance, static_cast<int32_t>(sizeInChars));
+#else
         RETURN_RESULT_OF(AllocArrayInstance, theStringTypeInfo, sizeInChars);
+#endif
     });
 }
 

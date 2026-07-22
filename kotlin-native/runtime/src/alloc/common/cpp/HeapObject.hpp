@@ -6,6 +6,7 @@
 #pragma once
 
 #include "KObject.hpp"
+#include "Types.h"
 
 namespace kotlin::alloc {
 
@@ -66,8 +67,16 @@ template <typename HeapHeader>
 size_t HeapObject<HeapHeader>::size() noexcept {
     const auto* obj = object();
     const auto* typeInfo = obj->type_info();
-    if (!typeInfo->IsArray())
+    if (!typeInfo->IsArray()) {
         return descriptorFrom(typeInfo).size();
+    }
+#if KONAN_OHOS
+    if (typeInfo == theStringTypeInfo) {
+        auto count = obj->array()->count_;
+        RuntimeAssert(count < UINT32_MAX, "string count_ overflow");
+        return HeapArray<HeapHeader>::descriptorFrom(typeInfo, count + 1).size();
+    }
+#endif
     return HeapArray<HeapHeader>::descriptorFrom(typeInfo, obj->array()->count_).size();
 }
 
