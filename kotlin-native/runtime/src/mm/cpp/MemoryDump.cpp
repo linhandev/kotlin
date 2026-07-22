@@ -7,13 +7,17 @@
 
 #include <unistd.h>
 #include <algorithm>
+#include <cerrno>
 #include <cstdio>
 #include <cstring>
 #include <limits>
+#include <system_error>
+#include <thread>
 #include <vector>
 #include <queue>
 #include <cinttypes>
 #include <zlib.h>
+#include <chrono>
 #include "Logging.hpp"
 #include "Porting.h"
 #include "TypeInfo.h"
@@ -27,10 +31,6 @@
 
 #ifdef KONAN_OHOS
 #include "hilog/log.h"
-#undef LOG_DOMAIN
-#undef LOG_TAG
-#define LOG_DOMAIN 0xFF00
-#define LOG_TAG "DEBUG_MEMORYDUMP"
 #endif
 
 #ifdef ENABLE_CRT
@@ -42,6 +42,19 @@
 #endif
 
 constexpr auto kTagMemDump = kotlin::logging::Tag::kMemoryDump;
+
+// Bytes-to-MB conversion constant for log messages.
+constexpr size_t kBytesPerMB = 1024 * 1024;
+// Bytes-to-MB conversion constant (double), for floating-point contexts.
+constexpr double kBytesPerMBDouble = 1024.0 * 1024.0;
+// Bytes-to-KB conversion constant (double).
+constexpr double kBytesPerKBDouble = 1024.0;
+// Maximum number of parallel compression/dump threads.
+constexpr size_t kMaxConcurrency = 16;
+// Minimum number of parallel compression/dump threads.
+constexpr size_t kMinThreads = 2;
+// Percentage multiplier for compression ratio calculation.
+constexpr double kPercentMultiplier = 100.0;
 
 namespace kotlin::mm {
 
@@ -107,6 +120,8 @@ public:
 
     size_t Size() const { return size_; }
 
+    size_t Capacity() const { return table_.size(); }
+
     void Reserve(size_t capacity) {
         size_t tableSize = 1;
         while (tableSize < capacity * kExpansionFactor) {
@@ -118,6 +133,23 @@ public:
             mask_ = tableSize - 1;
             size_ = 0;
         }
+    }
+
+    // Iterates all non-null entries. Thread-safe for concurrent reads
+    // (no concurrent writes allowed).
+    template <typename F>
+    void ForEach(F&& fn) const {
+        for (const void* ptr : table_) {
+            if (ptr != nullptr) {
+                fn(ptr);
+            }
+        }
+    }
+
+    // Bulk-insert all entries from |other|. Caller must ensure
+    // |this| has enough capacity to avoid mid-merge resizes.
+    void MergeFrom(const PointerSet& other) {
+        other.ForEach([this](const void* ptr) { Insert(ptr); });
     }
 
 private:
@@ -167,159 +199,383 @@ private:
     size_t size_;
 };
 
-// using OutputBuffer to buffer data before writing to gzFile
-// , reducing the number of gzwrite calls and improving performance
-// , especially for small writes;
-class OutputBuffer {
+// MemoryBuffer collects all dump data in memory before compression.
+// This separates the dump phase from the compression phase,
+// allowing precise timing of each step.
+class MemoryBuffer {
 public:
-    static constexpr size_t kBufferSize = 1 * 1024 * 1024; // 1MB buffer
-
-    explicit OutputBuffer(gzFile file) : file_(file), buffer_(new char[kBufferSize]), pos_(0) {}
-
-    ~OutputBuffer() {
-        Flush();
-        delete[] buffer_;
+    void Write(const void* data, size_t size) {
+        const char* ptr = static_cast<const char*>(data);
+        data_.insert(data_.end(), ptr, ptr + size);
     }
 
-    void Write(const void* data, size_t size) {
-        if (size > kBufferSize) {
-            // Large block: write directly to file, bypass buffer
-            Flush();
-            const char* ptr = static_cast<const char*>(data);
-            size_t remaining = size;
-            const size_t kMaxChunk = static_cast<size_t>(std::numeric_limits<unsigned>::max());
-            while (remaining > 0) {
-                unsigned toWrite = static_cast<unsigned>(remaining > kMaxChunk ? kMaxChunk : remaining);
-                gzwrite(file_, ptr, toWrite);
-                ptr += toWrite;
-                remaining -= toWrite;
-            }
+    // Pre-allocate internal buffer to avoid repeated reallocations.
+    void Reserve(size_t capacity) {
+        data_.reserve(capacity);
+    }
+
+    // Appends all data from |other| into this buffer.
+    void Append(const MemoryBuffer& other) {
+        if (!other.data_.empty()) {
+            data_.insert(data_.end(), other.data_.begin(), other.data_.end());
+        }
+    }
+
+    // Raw data access (read-only).
+    const char* Data() const { return data_.data(); }
+    size_t Size() const { return data_.size(); }
+
+    // Compresses collected data to fd using multiple threads.
+    // The data is split into chunks; each chunk is compressed independently
+    // as a gzip member, then concatenated to the output fd. Gzip decompressors
+    // natively handle concatenated gzip members (equivalent to "cat *.gz").
+    void CompressToFile(int fd) const {
+        if (data_.empty()) { return; }
+
+        size_t totalSize = data_.size();
+        if (totalSize == 0) { return; }
+
+        // Use single-threaded path for small dumps to avoid thread overhead.
+        constexpr size_t kMinParallelSize = 2 * 1024 * 1024;  // 2 MB
+        if (totalSize < kMinParallelSize) {
+            CompressSingleThreaded(fd, totalSize);
             return;
         }
-
-        if (pos_ + size > kBufferSize) {
-            Flush();
-        }
-
-        std::memcpy(buffer_ + pos_, data, size);
-        pos_ += size;
+        CompressParallel(fd, totalSize);
     }
 
-    void Flush() {
-        if (pos_ > 0) {
-            char* ptr = buffer_;
-            size_t remaining = pos_;
-            const size_t kMaxChunk = static_cast<size_t>(std::numeric_limits<unsigned>::max());
-            while (remaining > 0) {
-                unsigned toWrite = static_cast<unsigned>(remaining > kMaxChunk ? kMaxChunk : remaining);
-                gzwrite(file_, ptr, toWrite);
-                ptr += toWrite;
-                remaining -= toWrite;
-            }
-            pos_ = 0;
+    // Single-threaded compression path for small dumps.
+    void CompressSingleThreaded(int fd, size_t totalSize) const {
+        using Clock = std::chrono::high_resolution_clock;
+        auto t0 = Clock::now();
+        std::vector<char> out;
+        CompressChunkToGzip(data_.data(), totalSize, out);
+        auto t1 = Clock::now();
+        WriteAll(fd, out.data(), out.size());
+        auto t2 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  compress/single: deflate=%.2f ms, write=%.2f ms",
+            std::chrono::duration<double, std::milli>(t1 - t0).count(),
+            std::chrono::duration<double, std::milli>(t2 - t1).count());
+    }
+
+    // Multi-threaded compression path: splits data into chunks, compresses
+    // each chunk in a separate thread, then writes results to fd in order.
+    void CompressParallel(int fd, size_t totalSize) const {
+        using Clock = std::chrono::high_resolution_clock;
+        if (totalSize == 0) { return; }
+
+        // Determine thread count: clamped to [kMinThreads, kMaxConcurrency].
+        size_t numChunks = std::max(kMinThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
+        if (numChunks > kMaxConcurrency) { numChunks = kMaxConcurrency; }
+
+        // Ensure each chunk is at least 8 MB to amortize thread-creation cost.
+        constexpr size_t kMinChunkSize = 8 * 1024 * 1024;
+        size_t maxChunks = totalSize / kMinChunkSize;
+        if (maxChunks < 1) { maxChunks = 1; }
+        if (numChunks > maxChunks) { numChunks = maxChunks; }
+        if (numChunks == 0) { return; }
+
+        size_t chunkSize = (totalSize + numChunks - 1) / numChunks;
+
+        // Pre-allocate output buffers and thread vector.
+        std::vector<std::vector<char>> compressedChunks(numChunks);
+        std::vector<std::thread> threads;
+        threads.reserve(numChunks);
+
+        // Dispatch compression threads.
+        auto t0 = Clock::now();
+        for (size_t i = 0; i < numChunks; ++i) {
+            size_t offset = i * chunkSize;
+            size_t size = std::min(chunkSize, totalSize - offset);
+            if (size == 0) { continue; }
+            threads.emplace_back([this, offset, size, &compressedChunks, i]() {
+                CompressChunkToGzip(data_.data() + offset, size, compressedChunks[i]);
+            });
         }
+        auto t1 = Clock::now();
+
+        // Wait for all threads to finish.
+        for (auto& t : threads) {
+            t.join();
+        }
+        auto t2 = Clock::now();
+
+        // Write compressed chunks to fd in order.
+        size_t totalCompressed = 0;
+        for (const auto& chunk : compressedChunks) {
+            if (!chunk.empty()) {
+                totalCompressed += chunk.size();
+                WriteAll(fd, chunk.data(), chunk.size());
+            }
+        }
+        auto t3 = Clock::now();
+
+        RuntimeLogInfo({kTagMemDump},
+            "  compress/parallel: threads=%zu, chunk=%.1f MB, "
+            "dispatch=%.2f ms, deflate=%.2f ms, write=%.2f ms, "
+            "raw=%zu MB, compressed=%zu MB, ratio=%.1f%%",
+            numChunks, chunkSize / kBytesPerMBDouble,
+            std::chrono::duration<double, std::milli>(t1 - t0).count(),
+            std::chrono::duration<double, std::milli>(t2 - t1).count(),
+            std::chrono::duration<double, std::milli>(t3 - t2).count(),
+            totalSize / kBytesPerMB, totalCompressed / kBytesPerMB,
+            kPercentMultiplier * totalCompressed / totalSize);
     }
 
 private:
-    gzFile file_;
-    char* buffer_;
-    size_t pos_;
+    // Compresses [data, data+size) into |output| as a standalone gzip member.
+    // Uses Z_DEFAULT_COMPRESSION to match the existing gzdopen("w1") behaviour.
+    static void CompressChunkToGzip(const char* data, size_t size,
+                                    std::vector<char>& output) {
+        z_stream strm{};
+
+        // MAX_WBITS + 16 = gzip format (header + trailer generated automatically).
+        // Level 6: zlib default, good balance of speed and compression.
+        // Targets 500MB raw → <100MB compressed. Level 1 was ~27% ratio,
+        // level 6 provides ~25-30% better compression at ~2x slower deflate.
+        int ret = deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED,
+                               MAX_WBITS + 16, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY);
+        if (ret != Z_OK) {
+            output.clear();
+            return;
+        }
+
+        strm.next_in = const_cast<Bytef*>(reinterpret_cast<const Bytef*>(data));
+        strm.avail_in = static_cast<uInt>(size);
+
+        // Allocate worst-case output buffer.
+        uLong bound = deflateBound(&strm, static_cast<uLong>(size));
+        output.resize(bound);
+
+        strm.next_out = reinterpret_cast<Bytef*>(output.data());
+        strm.avail_out = static_cast<uInt>(output.size());
+
+        ret = deflate(&strm, Z_FINISH);
+        if (ret == Z_STREAM_END) {
+            // Trim to actual compressed size.
+            output.resize(strm.total_out);
+        } else {
+            output.clear();  // compression failed → empty chunk, skipped on write
+        }
+
+        deflateEnd(&strm);
+    }
+
+    // Writes all |size| bytes from |data| to |fd|, retrying on partial writes
+    // and EINTR. Throws std::system_error on unrecoverable write errors.
+    static void WriteAll(int fd, const void* data, size_t size) {
+        const char* ptr = static_cast<const char*>(data);
+        while (size > 0) {
+            ssize_t written = write(fd, ptr, size);
+            if (written < 0) {
+                if (errno == EINTR) { continue; }
+                throw std::system_error(errno, std::generic_category());
+            }
+            ptr += written;
+            size -= static_cast<size_t>(written);
+        }
+    }
+
+    std::vector<char> data_;
 };
 
 class MemoryDumper {
 public:
-    static constexpr size_t kInitialObjectSetCapacity = 8388608; // 8M objects
+    static constexpr size_t kInitialObjectSetCapacity = 0x1000000; // 8M objects
     static constexpr size_t kInitialTypeSetCapacity = 4096;
 
-    explicit MemoryDumper(gzFile file, bool isStrip) : file_(file), outputBuffer_(file), isStrip_(isStrip) {
+    explicit MemoryDumper(bool isStrip) : isStrip_(isStrip) {
         dumpedObjs_.Reserve(kInitialObjectSetCapacity);
         dumpedTypes_.Reserve(kInitialTypeSetCapacity);
     }
 
-    // Dumps the memory and returns the success flag.
+    using TimePoint = std::chrono::high_resolution_clock::time_point;
+
+    // Stages 1-2: global roots and thread roots. Returns end timestamp.
+    TimePoint DumpRootsAndThreads(TimePoint startTime) {
+        using Clock = std::chrono::high_resolution_clock;
+        // Stage 1: global roots.
+        int globalRootCount = 0;
+        for (auto value : mm::GlobalRootSet()) {
+            DumpTransitively(value);
+            ++globalRootCount;
+        }
+        auto t1 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/global_roots: %.2f ms, roots=%d, buffer=%zu MB",
+            std::chrono::duration<double, std::milli>(t1 - startTime).count(),
+            globalRootCount, memoryBuffer_.Size() / kBytesPerMB);
+
+        // Stage 2: threads and thread roots.
+        int threadCount = 0;
+        int threadRootCount = 0;
+        for (auto& thread : mm::GlobalData::Instance().threadRegistry().LockForIter()) {
+            DumpThread(thread);
+            ++threadCount;
+            for (auto value : mm::ThreadRootSet(thread)) {
+                DumpTransitively(thread, value);
+                ++threadRootCount;
+            }
+        }
+        auto t2 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/thread_roots: %.2f ms, threads=%d, roots=%d, buffer=%zu MB",
+            std::chrono::duration<double, std::milli>(t2 - t1).count(),
+            threadCount, threadRootCount, memoryBuffer_.Size() / kBytesPerMB);
+        return t2;
+    }
+
+    // CMS path: dump heap objects (parallel) + extra objects. Returns end timestamp.
+    TimePoint DumpHeapAndExtraObjectsCMS(TimePoint t3) {
+        using Clock = std::chrono::high_resolution_clock;
+        auto timing = DumpHeapObjectsParallel();
+        auto t4 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/heap_objects: %.2f ms, objects=%zu, "
+            "scan=%.2f ms, parallel=%.2f ms, merge=%.2f ms, buffer=%zu MB",
+            std::chrono::duration<double, std::milli>(t4 - t3).count(),
+            timing.objectCount,
+            timing.scanMs, timing.parallelMs, timing.mergeMs,
+            memoryBuffer_.Size() / kBytesPerMB);
+
+        int extraObjCount = 0;
+        GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) {
+            DumpTransitively(extraObj);
+            ++extraObjCount;
+        });
+        auto t5 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/extra_objects: %.2f ms, count=%d, buffer=%zu MB",
+            std::chrono::duration<double, std::milli>(t5 - t4).count(),
+            extraObjCount, memoryBuffer_.Size() / kBytesPerMB);
+        return t5;
+    }
+
+    // Stages 3-4: heap objects and extra objects. Returns end timestamp.
+    TimePoint DumpHeapAndExtraObjects(TimePoint t3) {
+#ifdef ENABLE_CRT
+        auto t5 = t3;
+        checkUseCRT<CheckMode::Slow>([&] {
+            // CRT path: ForEachObject covers all objects + extras in one pass.
+            // safe=false: caller already holds ScopedStopTheWorld.
+            common::Heap::GetHeap().ForEachObject([&](common::BaseObject* baseObj) {
+                DumpTransitively(reinterpret_cast<ObjHeader*>(baseObj));
+                }, false);
+        }, [&] {
+            t5 = DumpHeapAndExtraObjectsCMS(t3);
+        });
+        return t5;
+#else
+        return DumpHeapAndExtraObjectsCMS(t3);
+#endif
+    }
+
+    // Stages 5-6: stable references and enqueued objects. Returns end timestamp.
+    TimePoint DumpFinalStages(TimePoint t5) {
+        using Clock = std::chrono::high_resolution_clock;
+        DumpStableRefs();
+        auto t6 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/stable_refs: %.2f ms, buffer=%zu MB",
+            std::chrono::duration<double, std::milli>(t6 - t5).count(),
+            memoryBuffer_.Size() / kBytesPerMB);
+
+        int queuedCount = static_cast<int>(objQueue_.size());
+        DumpEnqueuedObjects();
+        auto t7 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/enqueued: %.2f ms, queued=%d, dumped_objs=%zu, dumped_types=%zu, buffer=%zu MB",
+            std::chrono::duration<double, std::milli>(t7 - t6).count(),
+            queuedCount, dumpedObjs_.Size(), dumpedTypes_.Size(),
+            memoryBuffer_.Size() / kBytesPerMB);
+        return t7;
+    }
+
+    // Dumps the memory into the internal buffer (no compression yet).
     void Dump() {
-        RuntimeLogInfo({kTagMemDump}, "Starting to dump memory into %p", file_);
+        using Clock = std::chrono::high_resolution_clock;
+        auto totalStart = Clock::now();
 
         DumpStr("Kotlin/Native dump 1.0.10");
         DumpBool(konan::isLittleEndian());
         DumpU8(sizeof(void*));
+        auto t1 = Clock::now();
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/header: %.2f ms",
+            std::chrono::duration<double, std::milli>(t1 - totalStart).count());
 
-        RuntimeLogInfo({kTagMemDump}, "Dumping global roots");
-        for (auto value : mm::GlobalRootSet()) {
-            DumpTransitively(value);
-        }
+        auto t3 = DumpRootsAndThreads(t1);
+        auto t5 = DumpHeapAndExtraObjects(t3);
+        auto t7 = DumpFinalStages(t5);
 
-        RuntimeLogInfo({kTagMemDump}, "Dumping threads and thread roots");
-        for (auto& thread : mm::GlobalData::Instance().threadRegistry().LockForIter()) {
-            DumpThread(thread);
-            for (auto value : mm::ThreadRootSet(thread)) {
-                DumpTransitively(thread, value);
-            }
-        }
-
-#ifdef ENABLE_CRT
-        checkUseCRT<CheckMode::Slow>([&] {
-            // safe=false: caller already holds ScopedStopTheWorld.
-            common::Heap::GetHeap().ForEachObject([&](common::BaseObject* baseObj) {
-                DumpTransitively(reinterpret_cast<ObjHeader*>(baseObj));
-            },
-                false);
-        }, [&] {
-            RuntimeLogInfo({kTagMemDump}, "Dumping objects from the heap");
-            GlobalData::Instance().allocator().TraverseAllocatedObjects([&](auto obj) { DumpTransitively(obj); });
-
-            RuntimeLogInfo({kTagMemDump}, "Dumping extra objects from the heap");
-            GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) { DumpTransitively(extraObj); });
-        });
-#else
-        RuntimeLogInfo({kTagMemDump}, "Dumping objects from the heap");
-        GlobalData::Instance().allocator().TraverseAllocatedObjects([&](auto obj) { DumpTransitively(obj); });
-
-        RuntimeLogInfo({kTagMemDump}, "Dumping extra objects from the heap");
-        GlobalData::Instance().allocator().TraverseAllocatedExtraObjects([&](auto extraObj) { DumpTransitively(extraObj); });
-#endif
-
-        RuntimeLogInfo({kTagMemDump}, "Dumping stable references");
-        DumpStableRefs();
-
-        RuntimeLogInfo({kTagMemDump}, "Dumping enqueued objects");
-        DumpEnqueuedObjects();
-
-        RuntimeLogInfo({kTagMemDump}, "Dumping finished");
+        double totalMs = std::chrono::duration<double, std::milli>(t7 - totalStart).count();
+        RuntimeLogInfo({kTagMemDump}, "  dump/total: %.2f ms", totalMs);
     }
+
+    // Compresses the collected dump data into the given file descriptor.
+    void CompressToFile(int fd) {
+        memoryBuffer_.CompressToFile(fd);
+    }
+
+    // Writes the collected raw dump data directly to fd (no compression).
+    // Throws std::system_error on write failure.
+    void WriteRawToFd(int fd) {
+        const char* data = memoryBuffer_.Data();
+        size_t size = memoryBuffer_.Size();
+        const char* ptr = data;
+        while (size > 0) {
+            ssize_t written = write(fd, ptr, size);
+            if (written < 0) {
+                if (errno == EINTR) { continue; }
+                throw std::system_error(errno, std::generic_category());
+            }
+            ptr += written;
+            size -= static_cast<size_t>(written);
+        }
+    }
+
+    // Returns the size of the raw dump data in bytes.
+    size_t GetDumpSize() const { return memoryBuffer_.Size(); }
 
 private:
+    // ---- Low-level write helpers ----
+    // All take an optional MemoryBuffer*; when nullptr, write to memoryBuffer_.
+
     template <typename T>
-    void DumpSpan(std_support::span<T> span) {
-        outputBuffer_.Write(span.data(), span.size() * sizeof(T));
+    void DumpSpan(std_support::span<T> span, MemoryBuffer* buf = nullptr) {
+        MemoryBuffer& b = buf ? *buf : memoryBuffer_;
+        b.Write(span.data(), span.size() * sizeof(T));
     }
 
     template <typename T>
-    void DumpValue(T value) {
-        DumpSpan(std_support::span<T>(&value, 1));
+    void DumpValue(T value, MemoryBuffer* buf = nullptr) {
+        DumpSpan(std_support::span<T>(&value, 1), buf);
     }
 
-    void DumpId(const void* ptr) { DumpValue(ptr); }
+    void DumpId(const void* ptr, MemoryBuffer* buf = nullptr) { DumpValue(ptr, buf); }
 
-    void DumpBool(bool b) { DumpU8(b ? 1 : 0); }
+    void DumpBool(bool b, MemoryBuffer* buf = nullptr) { DumpU8(b ? 1 : 0, buf); }
 
-    void DumpU8(uint8_t i) { DumpValue(i); }
+    void DumpU8(uint8_t i, MemoryBuffer* buf = nullptr) { DumpValue(i, buf); }
 
-    void DumpU32(uint32_t i) { DumpValue(i); }
+    void DumpU32(uint32_t i, MemoryBuffer* buf = nullptr) { DumpValue(i, buf); }
 
-    void DumpStr(const char* str) { DumpSpan(std_support::span<const char>(str, strlen(str) + 1)); }
+    void DumpStr(const char* str, MemoryBuffer* buf = nullptr) {
+        DumpSpan(std_support::span<const char>(str, strlen(str) + 1), buf);
+    }
 
-    void DumpString(ObjHeader* obj) {
+    void DumpString(ObjHeader* obj, MemoryBuffer* buf = nullptr) {
         char* str = CreateCStringFromString(obj);
-        DumpStr(str);
+        DumpStr(str, buf);
         DisposeCString(str);
     }
 
-    void DumpStringOrEmptyIfNull(ObjHeader* obj) {
+    void DumpStringOrEmptyIfNull(ObjHeader* obj, MemoryBuffer* buf = nullptr) {
         if (obj) {
-            DumpString(obj);
+            DumpString(obj, buf);
         } else {
-            DumpStr("");
+            DumpStr("", buf);
         }
     }
 
@@ -361,11 +617,11 @@ private:
     }
 #endif
 
-    void DumpObject(const TypeInfo* type, ObjHeader* obj) {
+    void DumpObject(const TypeInfo* type, ObjHeader* obj, MemoryBuffer* buf = nullptr) {
         RuntimeLogDebug({kTagMemDump}, "Dumping object %p of type %s", obj, type->fqName().c_str());
-        DumpU8(TAG_OBJECT);
-        DumpId(obj);
-        DumpId(type);
+        DumpU8(TAG_OBJECT, buf);
+        DumpId(obj, buf);
+        DumpId(type, buf);
 
         size_t size = type->instanceSize_;
         size_t dataOffset = sizeof(TypeInfo*);
@@ -389,87 +645,66 @@ private:
                 }
             }
             
-            DumpU32(dataSize);
-            DumpSpan(std_support::span<uint8_t>(dataBuffer_.data(), dataSize));
+            DumpU32(dataSize, buf);
+            DumpSpan(std_support::span<uint8_t>(dataBuffer_.data(), dataSize), buf);
         }, [&] {
             // CMS mode: write raw data directly
-            DumpU32(dataSize);
-            DumpSpan(std_support::span<uint8_t>(data, dataSize));
+            DumpU32(dataSize, buf);
+            DumpSpan(std_support::span<uint8_t>(data, dataSize), buf);
         });
 #else
-        DumpU32(dataSize);
-        DumpSpan(std_support::span<uint8_t>(data, dataSize));
+        DumpU32(dataSize, buf);
+        DumpSpan(std_support::span<uint8_t>(data, dataSize), buf);
 #endif
     }
 
-    void DumpArray(const TypeInfo* type, ArrayHeader* arr) {
+    void DumpArray(const TypeInfo* type, ArrayHeader* arr, MemoryBuffer* buf = nullptr) {
         RuntimeLogDebug({kTagMemDump}, "Dumping array %p", arr);
-        DumpU8(TAG_ARRAY);
-        DumpId(arr);
-        DumpId(type);
+        DumpU8(TAG_ARRAY, buf);
+        DumpId(arr, buf);
+        DumpId(type, buf);
 
         uint32_t count = arr->count_;
-        DumpU32(count);
+        DumpU32(count, buf);
 
         int32_t elementSize = -type->instanceSize_;
         size_t dataOffset = alignUp(sizeof(ArrayHeader), elementSize);
 
-        if ( isStrip_ && (type == theByteArrayTypeInfo || type == theCharArrayTypeInfo || type == theStringTypeInfo) ) {
-            // ByteArray and CharArray (String backing): strip content to save space.
-            // kdumputil reconstructs zero-filled data from count * elementSize.
-            DumpU32(0);
+        if (isStrip_ && (type != theArrayTypeInfo && type != theNativePtrArrayTypeInfo)) {
+            DumpU32(0, buf);
         } else {
-            // Primitive array: write raw data.
+            // theArrayTypeInfo / theNativePtrArrayTypeInfo array: write raw data.
             size_t dataSize = elementSize * count;
-            DumpU32(dataSize);
+            DumpU32(dataSize, buf);
 
             uint8_t* data = reinterpret_cast<uint8_t*>(arr) + dataOffset;
-            DumpArrayData(elementSize, count, dataSize, data);
-        }
-    }
-
 #ifdef ENABLE_CRT
-    void DumpArrayDataCRT(int32_t elementSize, uint32_t count, size_t dataSize, uint8_t* data) {
-        // Check if this is an object array (elementSize == pointer size)
-        if (elementSize == sizeof(void*)) {
-            // Resize buffer if needed and copy array data
-            if (dataBuffer_.size() < dataSize) {
-                dataBuffer_.resize(dataSize);
-            }
-            std::copy(data, data + dataSize, dataBuffer_.data());
-
-            // use RefField::GetTargetObject() to get clean pointers from each reference field
-            for (uint32_t i = 0; i < count; i++) {
-                CleanRefFieldInPlace(reinterpret_cast<uintptr_t*>(dataBuffer_.data() + i * elementSize));
-            }
-
-            DumpSpan(std_support::span<uint8_t>(dataBuffer_.data(), dataSize));
-        } else {
-            // Primitive array: write raw data directly
-            DumpSpan(std_support::span<uint8_t>(data, dataSize));
-        }
-    }
-#endif
-
-    void DumpArrayData(int32_t elementSize, uint32_t count, size_t dataSize, uint8_t* data) {
-#ifdef ENABLE_CRT
-        checkUseCRT<CheckMode::Slow>([&] {
-            DumpArrayDataCRT(elementSize, count, dataSize, data);
-        }, [&] {
-            // CMS mode: write raw data directly
-            DumpSpan(std_support::span<uint8_t>(data, dataSize));
-        });
+            checkUseCRT<CheckMode::Slow>([&] {
+                // Copy data to reusable buffer and clean RefField pointers.
+                if (dataBuffer_.size() < dataSize) {
+                    dataBuffer_.resize(dataSize);
+                }
+                std::copy(data, data + dataSize, dataBuffer_.data());
+                for (uint32_t i = 0; i < count; i++) {
+                    CleanRefFieldInPlace(reinterpret_cast<uintptr_t*>(dataBuffer_.data() + i * elementSize));
+                }
+                DumpSpan(std_support::span<uint8_t>(dataBuffer_.data(), dataSize), buf);
+            }, [&] {
+                // CMS mode: write raw data directly
+                DumpSpan(std_support::span<uint8_t>(data, dataSize), buf);
+            });
 #else
-        DumpSpan(std_support::span<uint8_t>(data, dataSize));
+            DumpSpan(std_support::span<uint8_t>(data, dataSize), buf);
 #endif
+        }
     }
 
-    void DumpObjectOrArray(ObjHeader* obj) {
+    void DumpObjectOrArray(ObjHeader* obj, MemoryBuffer* buf = nullptr) {
         const TypeInfo* type = obj->type_info();
         if (type->IsArray()) {
-            DumpArray(type, obj->array());
+            DumpArray(type, obj->array(), buf);
         } else {
-            DumpObject(type, obj);
+            DumpObject(type, obj, buf);
         }
     }
 
@@ -512,81 +747,81 @@ private:
 #endif
     }
 
-    void DumpType(const TypeInfo* type) {
+    void DumpType(const TypeInfo* type, MemoryBuffer* buf = nullptr) {
         RuntimeLogDebug({kTagMemDump}, "Dumping type %s", type->fqName().c_str());
-        DumpU8(TAG_TYPE);
-        DumpId(type);
+        DumpU8(TAG_TYPE, buf);
+        DumpId(type, buf);
 
         bool isArray = type->IsArray();
         bool isExtended = type->extendedInfo_ != nullptr;
         bool isObjectArray = type == theArrayTypeInfo;
         uint8_t flags =
                 (isArray ? TYPE_FLAG_ARRAY : 0) | (isExtended ? TYPE_FLAG_EXTENDED : 0) | (isObjectArray ? TYPE_FLAG_OBJECT_ARRAY : 0);
-        DumpU8(flags);
+        DumpU8(flags, buf);
 
-        DumpId(type->superType_);
+        DumpId(type->superType_, buf);
 
-        DumpStringOrEmptyIfNull(type->packageName_);
-        DumpStringOrEmptyIfNull(type->relativeName_);
+        DumpStringOrEmptyIfNull(type->packageName_, buf);
+        DumpStringOrEmptyIfNull(type->relativeName_, buf);
 
         if (type->IsArray()) {
-            DumpArrayInfo(type);
+            DumpArrayInfo(type, buf);
         } else {
-            DumpObjectInfo(type);
+            DumpObjectInfo(type, buf);
         }
     }
 
-    void DumpArrayInfo(const TypeInfo* type) {
+    void DumpArrayInfo(const TypeInfo* type, MemoryBuffer* buf = nullptr) {
         int32_t elementSize = -type->instanceSize_;
-        DumpU32(elementSize);
+        DumpU32(elementSize, buf);
 
         if (type->extendedInfo_ != nullptr) {
-            DumpArrayInfo(type->extendedInfo_);
+            DumpArrayInfo(type->extendedInfo_, buf);
         }
     }
 
-    void DumpArrayInfo(const ExtendedTypeInfo* extendedInfo) {
+    void DumpArrayInfo(const ExtendedTypeInfo* extendedInfo, MemoryBuffer* buf = nullptr) {
         uint8_t elementType = -extendedInfo->fieldsCount_;
-        DumpU8(elementType);
+        DumpU8(elementType, buf);
     }
 
-    void DumpObjectInfo(const TypeInfo* type) {
+    void DumpObjectInfo(const TypeInfo* type, MemoryBuffer* buf = nullptr) {
         size_t dataOffset = sizeof(TypeInfo*);
 
-        DumpU32(type->instanceSize_ - dataOffset);
-        DumpOffsets(type, dataOffset);
+        DumpU32(type->instanceSize_ - dataOffset, buf);
+        DumpOffsets(type, dataOffset, buf);
 
         if (type->extendedInfo_ != nullptr) {
-            DumpObjectInfo(type->extendedInfo_, dataOffset);
+            DumpObjectInfo(type->extendedInfo_, dataOffset, buf);
         }
     }
 
-    void DumpOffsets(const TypeInfo* type, size_t dataOffset) {
+    void DumpOffsets(const TypeInfo* type, size_t dataOffset, MemoryBuffer* buf = nullptr) {
         int32_t count = type->objOffsetsCount_;
-        DumpU32(count);
+        DumpU32(count, buf);
         for (int32_t i = 0; i < count; i++) {
-            DumpU32(type->objOffsets_[i] - dataOffset);
+            DumpU32(type->objOffsets_[i] - dataOffset, buf);
         }
     }
 
-    void DumpObjectInfo(const ExtendedTypeInfo* extendedInfo, size_t dataOffset) {
+    void DumpObjectInfo(const ExtendedTypeInfo* extendedInfo, size_t dataOffset, MemoryBuffer* buf = nullptr) {
         int32_t fieldsCount = extendedInfo->fieldsCount_;
-        DumpU32(fieldsCount);
+        DumpU32(fieldsCount, buf);
         for (int32_t i = 0; i < fieldsCount; i++) {
-            DumpU32(extendedInfo->fieldOffsets_[i] - dataOffset);
-            DumpU8(extendedInfo->fieldTypes_[i]);
-            DumpStr(extendedInfo->fieldNames_[i]);
+            DumpU32(extendedInfo->fieldOffsets_[i] - dataOffset, buf);
+            DumpU8(extendedInfo->fieldTypes_[i], buf);
+            DumpStr(extendedInfo->fieldNames_[i], buf);
         }
     }
 
-    void DumpTransitively(const TypeInfo* type) {
+    void DumpTransitively(const TypeInfo* type, MemoryBuffer* buf = nullptr) {
         if (dumpedTypes_.Insert(type)) {
             // Dump super-type recursively, as the depth is not going to be a problem.
             if (type->superType_ != nullptr) {
-                DumpTransitively(type->superType_);
+                DumpTransitively(type->superType_, buf);
             }
 
-            DumpType(type);
+            DumpType(type, buf);
         }
     }
 
@@ -664,6 +899,152 @@ private:
         }
     }
 
+    // ---- Parallel heap-object dump ----
+    struct HeapDumpTiming {
+        size_t objectCount;
+        double scanMs;     // combined collect + type-dump + prefill
+        double parallelMs;
+        double mergeMs;
+    };
+
+    // Per-thread local state for parallel dump.
+    struct WorkerState {
+        MemoryBuffer buffer;
+        std::queue<ObjHeader*> queue;  // safety net, expect empty
+    };
+
+    // Single-pass scan: collects object pointers, pre-dumps types,
+    // and populates the global object set. Returns scan duration in ms.
+    double ScanHeapObjects(std::vector<ObjHeader*>& allObjects) {
+        using Clock = std::chrono::high_resolution_clock;
+        auto t0 = Clock::now();
+        allObjects.reserve(kInitialObjectSetCapacity);
+        GlobalData::Instance().allocator().TraverseAllocatedObjects([&](auto obj) {
+            allObjects.push_back(obj);
+            DumpTransitively(obj->type_info());
+            dumpedObjs_.Insert(obj);
+        });
+        auto t1 = Clock::now();
+        return std::chrono::duration<double, std::milli>(t1 - t0).count();
+    }
+
+    // Single-threaded fallback for tiny heaps. Returns dump duration in ms.
+    double DumpHeapSingleThreaded(const std::vector<ObjHeader*>& allObjects) {
+        using Clock = std::chrono::high_resolution_clock;
+        auto t0 = Clock::now();
+        for (auto obj : allObjects) {
+            DumpObjectOrArray(obj);
+            traverseReferredObjects(obj, [this](auto refObj) {
+                if (!dumpedObjs_.Contains(refObj)) { Enqueue(refObj); }
+            });
+        }
+        auto t1 = Clock::now();
+        return std::chrono::duration<double, std::milli>(t1 - t0).count();
+    }
+
+    // Worker body: dumps objects [start, end) from allObjects into ws.buffer.
+    void ProcessObjectChunk(const std::vector<ObjHeader*>& allObjects,
+                            size_t start, size_t end, WorkerState& ws) {
+        for (size_t j = start; j < end; ++j) {
+            ObjHeader* obj = allObjects[j];
+            DumpObjectOrArray(obj, &ws.buffer);
+            traverseReferredObjects(obj, [this, &ws](auto refObj) {
+                // Filter sentinel values: traverseReferredObjects
+                // may expose null (0) or marker (1) pointers on
+                // some platforms.  Skip them to avoid false enqueues
+                // and potential crashes during queue processing.
+                if (!isNullOrMarker(refObj) && !dumpedObjs_.Contains(refObj)) {
+                    ws.queue.push(refObj);
+                }
+            });
+        }
+    }
+
+    // Merges per-thread buffers into the global buffer and transfers
+    // leftover queue entries. Returns {mergedBytes, mergedQueued}.
+    std::pair<size_t, size_t> MergeWorkerBuffers(std::vector<WorkerState>& workers) {
+        size_t mergedBytes = 0;
+        size_t mergedQueued = 0;
+        for (auto& ws : workers) {
+            mergedBytes += ws.buffer.Size();
+        }
+        memoryBuffer_.Reserve(memoryBuffer_.Size() + mergedBytes);
+        for (auto& ws : workers) {
+            memoryBuffer_.Append(ws.buffer);
+            while (!ws.queue.empty()) {
+                objQueue_.push(ws.queue.front());
+                ws.queue.pop();
+                ++mergedQueued;
+            }
+        }
+        return {mergedBytes, mergedQueued};
+    }
+
+    HeapDumpTiming DumpHeapObjectsParallel() {
+        using Clock = std::chrono::high_resolution_clock;
+
+        // --- Sub-stage 3a: combined scan ---
+        std::vector<ObjHeader*> allObjects;
+        double scanMs = ScanHeapObjects(allObjects);
+        size_t totalObjects = allObjects.size();
+
+        // Determine thread count.
+        size_t numThreads = std::max(kMinThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
+        if (numThreads > kMaxConcurrency) { numThreads = kMaxConcurrency; }
+
+        // Fallback to single-threaded for tiny heaps.
+        constexpr size_t kMinParallelObjects = 10000;
+        if (totalObjects < kMinParallelObjects || numThreads < kMinThreads) {
+            double parallelMs = DumpHeapSingleThreaded(allObjects);
+            return {totalObjects, scanMs, parallelMs, 0.0};
+        }
+
+        // --- Sub-stage 3b: dispatch parallel workers ---
+        if (numThreads == 0) { return {totalObjects, scanMs, 0.0, 0.0}; }
+        size_t chunkSize = (totalObjects + numThreads - 1) / numThreads;
+        std::vector<WorkerState> workers(numThreads);
+        // Estimate: typical object dump ~60 bytes; reserve per-worker + 1 MB slack.
+        constexpr size_t kEstimatedBytesPerObject = 60;
+        size_t estimatedPerWorker =
+                (totalObjects * kEstimatedBytesPerObject) / numThreads + kBytesPerMB;
+        for (auto& w : workers) {
+            w.buffer.Reserve(estimatedPerWorker);
+        }
+
+        std::vector<std::thread> threads;
+        threads.reserve(numThreads);
+        auto t2 = Clock::now();
+        for (size_t i = 0; i < numThreads; ++i) {
+            size_t start = i * chunkSize;
+            size_t end = std::min(start + chunkSize, totalObjects);
+            if (start >= end) { break; }
+            threads.emplace_back([this, start, end, &allObjects, &workers, i]() {
+                ProcessObjectChunk(allObjects, start, end, workers[i]);
+            });
+        }
+        auto t3 = Clock::now();
+
+        // Wait for all workers.
+        for (auto& t : threads) {
+            t.join();
+        }
+        auto t4 = Clock::now();
+
+        // --- Sub-stage 3c: merge results ---
+        auto [mergedBytes, mergedQueued] = MergeWorkerBuffers(workers);
+        auto t5 = Clock::now();
+
+        RuntimeLogInfo({kTagMemDump},
+            "  dump/heap_parallel: threads=%zu, objects=%zu, chunksize=%.1f K, "
+            "merged_queued=%zu, buffer=%zu MB",
+            numThreads, totalObjects, chunkSize / kBytesPerKBDouble,
+            mergedQueued, mergedBytes / kBytesPerMB);
+
+        return {totalObjects, scanMs,
+                std::chrono::duration<double, std::milli>(t4 - t3).count(),
+                std::chrono::duration<double, std::milli>(t5 - t4).count()};
+    }
+
     uint8_t UInt8(GlobalRootSet::Source source) {
         switch (source) {
             case GlobalRootSet::Source::kGlobal:
@@ -714,9 +1095,8 @@ private:
     const uint8_t TYPE_FLAG_EXTENDED = 1 << 1;
     const uint8_t TYPE_FLAG_OBJECT_ARRAY = 1 << 2;
 
-    // Target file.
-    gzFile file_;
-    OutputBuffer outputBuffer_;
+    // In-memory buffer that collects all raw dump data before compression.
+    MemoryBuffer memoryBuffer_;
 
     // A set of already dumped type pointers.
     PointerSet dumpedTypes_;
@@ -739,44 +1119,92 @@ void PrepareForMemoryDump() {
 }
 
 void DumpMemoryOrThrow(int fd, bool isStrip) {
-    gzFile file = gzdopen(fd, "w");
-    if (!file) {
-        throw std::system_error(errno, std::generic_category());
-    }
+    using Clock = std::chrono::high_resolution_clock;
 
-    // Perform memory dump with zlib compression
-    MemoryDumper(file, isStrip).Dump();
+    // Phase 1: Dump memory into internal buffer (no compression).
+    auto dumpStart = Clock::now();
+    MemoryDumper dumper(isStrip);
+    dumper.Dump();
+    auto dumpEnd = Clock::now();
 
-    // gzclose flushes remaining data, finalizes the gzip stream,
-    // and closes the underlying file descriptor.
-    int ret = gzclose(file);
-    if (ret != Z_OK) {
-        const char* zmsg = zError(ret);
-        throw std::runtime_error(std::string("zlib error: ") + (zmsg ? zmsg : "unknown"));
-    }
+    // Phase 2: Compress collected data into fd using parallel threads.
+    size_t numChunks = std::max(kMinThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
+    if (numChunks > kMaxConcurrency) { numChunks = kMaxConcurrency; }
+    RuntimeLogInfo({kTagMemDump},
+        "Starting parallel compression (%zu threads) of %zu bytes",
+        numChunks, dumper.GetDumpSize());
+    auto compressStart = Clock::now();
+    dumper.CompressToFile(fd);
+    auto compressEnd = Clock::now();
+
+    // Record precise timing for each phase.
+    double dumpMs = std::chrono::duration<double, std::milli>(dumpEnd - dumpStart).count();
+    double compressMs = std::chrono::duration<double, std::milli>(compressEnd - compressStart).count();
+    double totalMs = std::chrono::duration<double, std::milli>(compressEnd - dumpStart).count();
+
+    RuntimeLogInfo({kTagMemDump},
+        ">>> Timing: dump=%.2f ms, compress=%.2f ms, total=%.2f ms, raw_size=%zu bytes",
+        dumpMs, compressMs, totalMs, dumper.GetDumpSize());
 }
 
-bool DumpMemory(int fd, bool isStrip) noexcept {
+bool DumpMemoryAsync(int fd, bool isStrip) noexcept {
+    using Clock = std::chrono::high_resolution_clock;
+    auto prepStart = Clock::now();
     PrepareForMemoryDump();
+    auto prepEnd = Clock::now();
 
     bool success = true;
     try {
 #ifndef KONAN_OHOS
         DumpMemoryOrThrow(fd, isStrip);
 #else
-        OH_LOG_INFO(LOG_APP, "Attempting to fork process for memory dump.");
+        RuntimeLogInfo({kTagMemDump}, "Attempting to fork process for memory dump.");
+        auto forkStart = Clock::now();
         int pid = fork();
-        OH_LOG_INFO(LOG_APP, "Forked process %d for memory dump.", pid);
+        auto forkEnd = Clock::now();
         if (pid < 0) {
-            OH_LOG_ERROR(LOG_APP, "Failed to fork process for memory dump.");
+            RuntimeLogError({kTagMemDump}, "Failed to fork process for memory dump.");
             return false;
         }
         if (pid == 0) {
+            // Child process: do the actual dump+compress.
+            RuntimeLogInfo({kTagMemDump},
+                "  fork/child: fork=%.2f ms, prepare=%.2f ms",
+                std::chrono::duration<double, std::milli>(forkEnd - forkStart).count(),
+                std::chrono::duration<double, std::milli>(prepEnd - prepStart).count());
             DumpMemoryOrThrow(fd, isStrip);
-            OH_LOG_INFO(LOG_APP, "Forked process memory dump done.");
-            exit(0);
+            RuntimeLogInfo({kTagMemDump}, "Forked process memory dump done.");
+            _exit(0);
         }
+        // Parent: log timing and return.
+        RuntimeLogInfo({kTagMemDump},
+            "  fork/parent: fork=%.2f ms, prepare=%.2f ms",
+            std::chrono::duration<double, std::milli>(forkEnd - forkStart).count(),
+            std::chrono::duration<double, std::milli>(prepEnd - prepStart).count());
 #endif
+    } catch (const std::system_error& e) {
+        success = false;
+        RuntimeLogError({kTagMemDump}, "Memory dump error: %s", e.what());
+    }
+    return success;
+}
+
+bool DumpMemory(int fd) noexcept {
+    PrepareForMemoryDump();
+
+    bool success = true;
+    try {
+        auto dumpStart = std::chrono::high_resolution_clock::now();
+        // isStrip=false: DumpMemory always writes full array data.
+        MemoryDumper dumper(false);
+        dumper.Dump();
+        dumper.WriteRawToFd(fd);
+        auto dumpEnd = std::chrono::high_resolution_clock::now();
+
+        double dumpMs = std::chrono::duration<double, std::milli>(dumpEnd - dumpStart).count();
+        RuntimeLogInfo({kTagMemDump},
+            ">>> DumpMemory: dump=%.2f ms, raw_size=%zu bytes",
+            dumpMs, dumper.GetDumpSize());
     } catch (const std::system_error& e) {
         success = false;
         RuntimeLogError({kTagMemDump}, "Memory dump error: %s", e.what());

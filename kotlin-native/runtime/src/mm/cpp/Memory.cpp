@@ -412,25 +412,25 @@ extern "C" void Kotlin_native_internal_GC_schedule(ObjHeader*) {
     mm::GlobalData::Instance().gcScheduler().schedule();
 }
 
-extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHeader*, int fd, bool isStrip) {
+extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHeader*, int fd) {
 #ifdef ENABLE_CRT
     return checkUseCRT<CheckMode::Slow>(
-        [fd, isStrip] {
+        [fd] {
             // CRT path: RAII saferegion + STW (LIBCRT_STANDALONE fixes VLOG symbol mismatch).
             Kotlin_initRuntimeIfNeeded();
             common::ScopedEnterSaferegion enterSafe(false);
             common::STWParam stwParam { .stwReason = "Kotlin HeapDump" };
             common::ScopedStopTheWorld stw(stwParam);
-            return mm::DumpMemory(fd, isStrip);
+            return mm::DumpMemory(fd);
         },
-        [fd, isStrip] {
+        [fd] {
             // CMS path: original STW protocol.
             auto mainGCLock = mm::GlobalData::Instance().gc().gcLock();
             auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
             threadData->suspensionData().requestThreadsSuspension("Memory dump");
             CallsCheckerIgnoreGuard guard;
             mm::WaitForThreadsSuspension();
-            bool success = mm::DumpMemory(fd, isStrip);
+            bool success = mm::DumpMemory(fd);
             mm::ResumeThreads();
             return success;
         }
@@ -445,7 +445,44 @@ extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHe
     // We're in the runnable state, but everything else (including the GC thread) will be suspended.
     // It's fine to wait for that suspension and execute long-running operations (I/O) here.
     mm::WaitForThreadsSuspension();
-    bool success = mm::DumpMemory(fd, isStrip);
+    bool success = mm::DumpMemory(fd);
+    mm::ResumeThreads();
+    return success;
+#endif
+}
+
+extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemoryAsync(ObjHeader*, int fd, bool isStrip) {
+#ifdef ENABLE_CRT
+    return checkUseCRT<CheckMode::Slow>(
+        [fd, isStrip] {
+            // CRT path: RAII saferegion + STW (LIBCRT_STANDALONE fixes VLOG symbol mismatch).
+            Kotlin_initRuntimeIfNeeded();
+            common::ScopedEnterSaferegion enterSafe(false);
+            common::STWParam stwParam { .stwReason = "Kotlin HeapDump Async" };
+            common::ScopedStopTheWorld stw(stwParam);
+            return mm::DumpMemoryAsync(fd, isStrip);
+        },
+        [fd, isStrip] {
+            // CMS path: original STW protocol.
+            auto mainGCLock = mm::GlobalData::Instance().gc().gcLock();
+            auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+            threadData->suspensionData().requestThreadsSuspension("Memory dump async");
+            CallsCheckerIgnoreGuard guard;
+            mm::WaitForThreadsSuspension();
+            bool success = mm::DumpMemoryAsync(fd, isStrip);
+            mm::ResumeThreads();
+            return success;
+        }
+    );
+#else
+    // CMS-only path when CRT is not enabled at compile time.
+    auto mainGCLock = mm::GlobalData::Instance().gc().gcLock();
+
+    auto* threadData = mm::ThreadRegistry::Instance().CurrentThreadData();
+    threadData->suspensionData().requestThreadsSuspension("Memory dump async");
+    CallsCheckerIgnoreGuard guard;
+    mm::WaitForThreadsSuspension();
+    bool success = mm::DumpMemoryAsync(fd, isStrip);
     mm::ResumeThreads();
     return success;
 #endif
