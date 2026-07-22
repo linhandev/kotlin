@@ -51,7 +51,8 @@ val Settings.testProcessExecutor: Executor
                     val libCrtSo = get<KotlinNativeHome>().dir
                         .resolve("konan/targets/${testTarget.name}/native/libcrt.so")
                         .takeIf { it.isFile }
-                    OhosExecutor(libCrtSo = libCrtSo)
+                    val ohosDeviceId = System.getProperty(ClassLevelProperty.OHOS_DEVICE_ID.propertyName)
+                    OhosExecutor(libCrtSo = libCrtSo, deviceId = ohosDeviceId)
                 }
                 configurables is ConfigurablesWithEmulator -> EmulatorExecutor(configurables)
                 configurables is AppleConfigurables && configurables.targetTriple.isSimulator -> XcodeSimulatorExecutor(configurables)

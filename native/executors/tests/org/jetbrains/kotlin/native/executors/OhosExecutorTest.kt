@@ -62,6 +62,23 @@ class OhosExecutorTest {
     }
 
     @Test
+    fun `execute prepends -t deviceId to all hdc commands when deviceId is set`(@TempDir tempDir: Path) {
+        val recording = RecordingExecutor(successOutputs(syncSteps = 2, runExit = 0, runPayload = "ok\n"))
+        val localExe = tempDir.resolve("device_id.kexe").toFile().apply { writeText("bin") }
+
+        OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC, deviceId = "3DK0124730000497").execute(
+            ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
+        )
+
+        assertTrue(recording.requests.isNotEmpty())
+        recording.requests.forEach { request ->
+            assertEquals(FAKE_HDC, request.executableAbsolutePath)
+            assertEquals("-t", request.args[0])
+            assertEquals("3DK0124730000497", request.args[1])
+        }
+    }
+
+    @Test
     fun `execute pushes binary via hdc and runs on device`(@TempDir tempDir: Path) {
         val recording = RecordingExecutor(successOutputs(syncSteps = 2, runExit = 0))
         val localExe = tempDir.resolve("push_arg1.kexe").toFile().apply { writeText("bin") }
