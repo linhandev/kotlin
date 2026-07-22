@@ -1,0 +1,36 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OptIn markerClass parameter must be KClass of Annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OptIn with vararg multiple marker classes allows experimental feature usage",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OptIn annotation allows usage of RequiresOptIn-marked experimental feature",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-opt-in/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

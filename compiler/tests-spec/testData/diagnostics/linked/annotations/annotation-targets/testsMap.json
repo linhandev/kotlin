@@ -1,7 +1,75 @@
 {
   "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Target meta-annotation allowedTargets parameter must be AnnotationTarget enum",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation with CLASS target cannot be applied to function parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation with CLASS target cannot be applied to function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
     "pos": {
       "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property getter and setter use-site annotation targets are valid",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value parameter and constructor annotation targets are valid",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type parameter annotation target is valid",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local property annotation target is valid",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Target meta-annotation with CLASS and FUNCTION allows annotation on both targets",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-targets/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
         {
           "specVersion": "0.1-313",
           "casesNumber": 0,

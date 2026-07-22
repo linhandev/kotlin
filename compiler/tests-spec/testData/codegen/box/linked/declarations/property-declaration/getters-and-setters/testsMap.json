@@ -1,0 +1,30 @@
+{
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "default accessors read and write backing field at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/property-declaration/getters-and-setters/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property read and write access invoke getter and setter at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/property-declaration/getters-and-setters/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

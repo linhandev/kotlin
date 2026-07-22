@@ -1,0 +1,36 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Retention meta-annotation value parameter must be AnnotationRetention enum",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Retention meta-annotation cannot be applied to regular class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "SOURCE BINARY and RUNTIME retention levels may be declared on annotation classes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/annotation-retention/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

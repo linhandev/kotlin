@@ -1,0 +1,36 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Repeatable meta-annotation cannot be applied to regular class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-repeatable annotation cannot be applied twice to the same entity",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Repeatable meta-annotation marks annotation class as repeatable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-repeatable/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

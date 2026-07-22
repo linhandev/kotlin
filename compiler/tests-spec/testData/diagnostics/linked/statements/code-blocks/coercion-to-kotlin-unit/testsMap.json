@@ -1,0 +1,24 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fun case1(): Int \u003d if (true) work() reports INVALID_IF_AS_EXPRESSION and TYPE_MISMATCH",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "{ work() } assigned to () -\u003e Int reports TYPE_MISMATCH because work() returns Unit",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/coercion-to-kotlin-unit/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "BuilderInference-like annotation cannot be applied to class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stdlib BuilderInference requires opt-in in Kotlin 1.9+",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "BuilderInference may be applied to function parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "builder-style type inference infers type argument from lambda body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stdlib BuilderInference with OptIn compiles on function parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local BuilderInference annotation on function enables builder-style type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-builder-inference/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

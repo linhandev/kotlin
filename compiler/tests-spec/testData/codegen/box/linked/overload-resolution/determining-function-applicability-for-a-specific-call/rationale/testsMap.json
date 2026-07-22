@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function applicable when call arguments are assignable to parameters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/determining-function-applicability-for-a-specific-call/rationale/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

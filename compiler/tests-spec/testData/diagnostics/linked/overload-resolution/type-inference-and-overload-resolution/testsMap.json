@@ -1,0 +1,16 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda type inference cannot disambiguate overloaded pick117N before overload resolution completes",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/type-inference-and-overload-resolution/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

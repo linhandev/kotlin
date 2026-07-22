@@ -1,0 +1,68 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation with CLASS target cannot be applied to function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation parameter type mismatch is reported",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation on function declaration is valid metadata association",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation on property declaration is valid metadata association",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation on value parameter is valid metadata association",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation on annotation class declaration is valid metadata association",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation on class declaration is valid metadata association",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/overview/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

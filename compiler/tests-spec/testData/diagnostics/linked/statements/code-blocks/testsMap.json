@@ -1,0 +1,16 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "run { x \u003d 1 } block and inner assignment as Int return type report TYPE_MISMATCH",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/statements/code-blocks/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bidirectional resolution fails when referenced member is ambiguous for selected invoke overload",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bidirectional resolution links overloaded pick1162 with ::foo1162 using second argument type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/bidirectional-resolution-for-callable-calls/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

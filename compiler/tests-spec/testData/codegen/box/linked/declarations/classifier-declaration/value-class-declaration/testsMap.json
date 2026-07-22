@@ -1,0 +1,44 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class wraps underlying value at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/value-class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class equals hashCode toString delegate to underlying property",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/value-class-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "legacy inline class works at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/declarations/classifier-declaration/value-class-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

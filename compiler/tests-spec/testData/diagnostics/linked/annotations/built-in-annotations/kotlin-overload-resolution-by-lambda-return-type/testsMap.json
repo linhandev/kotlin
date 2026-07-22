@@ -1,0 +1,52 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OverloadResolutionByLambdaReturnType-like annotation cannot be applied to class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stdlib OverloadResolutionByLambdaReturnType requires opt-in in Kotlin 1.9+",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OverloadResolutionByLambdaReturnType may annotate generic extension overloads with lambda parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overload resolution selects overload by lambda return type with stdlib annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "OverloadResolutionByLambdaReturnType may be applied to overloaded functions with lambda parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-overload-resolution-by-lambda-return-type/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

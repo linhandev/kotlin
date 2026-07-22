@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "more specific overload Int,String is chosen over Any?,CharSequence for f(2, Hello)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "call f\u003cT\u003e() with explicit type argument resolves generic callable with one type parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/building-the-overload-candidate-set/call-with-specified-type-parameters/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

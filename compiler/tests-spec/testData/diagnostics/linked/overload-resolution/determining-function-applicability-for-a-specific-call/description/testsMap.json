@@ -21,6 +21,38 @@
       ]
     }
   },
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "not all call arguments assignable to parameters so function is not applicable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "declaration-site type constraint violation makes function not applicable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/determining-function-applicability-for-a-specific-call/description/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ],
+      "3": [
+        {
+          "specVersion": "0.1-152",
+          "casesNumber": 0,
+          "description": "When with nothing and lambdas",
+          "path": "compiler/testData/diagnostics/tests/when/whenWithNothingAndLambdas.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
   "4": {
     "neg": {
       "3": [
@@ -95,20 +127,6 @@
           "casesNumber": 0,
           "description": "Kt10439",
           "path": "compiler/testData/diagnostics/tests/when/kt10439.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "primary"
-        }
-      ]
-    }
-  },
-  "1": {
-    "neg": {
-      "3": [
-        {
-          "specVersion": "0.1-152",
-          "casesNumber": 0,
-          "description": "When with nothing and lambdas",
-          "path": "compiler/testData/diagnostics/tests/when/whenWithNothingAndLambdas.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
         }

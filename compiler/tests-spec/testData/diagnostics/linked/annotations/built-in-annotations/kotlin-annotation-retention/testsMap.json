@@ -1,0 +1,36 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Retention value parameter must be AnnotationRetention enum",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Retention meta-annotation cannot be applied to function declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Retention without arguments defaults to RUNTIME and compiles on annotation class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/annotations/built-in-annotations/kotlin-annotation-retention/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

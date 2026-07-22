@@ -1,0 +1,196 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "while (i++ \u003c 3); empty body with semicolon yields i \u003d\u003d 4 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "While-loop with false condition does not evaluate body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "while-loop body break when i \u003d\u003d 2 yields i \u003d\u003d 2 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "while (i \u003c 3) i++ single statement without braces yields i \u003d\u003d 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-1/pos/1.7.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "While-loop evaluates condition before every body evaluation including the first one",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "while-loop body continue at i \u003d\u003d 3 skips iteration and yields sum \u003d\u003d 12",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "while (i \u003c 3) sums 0+1+2 to 3 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "continue at v \u003d\u003d 3 yields sum \u003d\u003d 12 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-3/pos/3.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for ((_, value) in map) destructuring sums values to 6 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-3/pos/3.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for (v in listOf(1, 2, 3)) sums to 6 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for (v in 1..3) sum +\u003d v single statement without braces yields sum \u003d\u003d 6",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-3/pos/3.8.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for (v in custom IntRange(1..3)) uses operator iterator() and sums to 6",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-3/pos/3.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for (v in intArrayOf(1, 2, 3)) sums to 6 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break at v \u003d\u003d 4 yields sum \u003d\u003d 6 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for (v in emptyList\u003cInt\u003e()) leaves count \u003d\u003d 0 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-3/pos/3.7.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Do-while-loop evaluates body at least once before condition check",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "do-while-loop body continue at i \u003d\u003d 3 skips iteration and yields sum \u003d\u003d 12",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-2/pos/2.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "do-while-loop body break when i \u003d\u003d 2 yields i \u003d\u003d 2 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-2/pos/2.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "do i++ while (i \u003c 3) single statement without braces yields i \u003d\u003d 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-2/pos/2.7.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Do-while-loop evaluates body before condition on every iteration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Do-while-loop repeats body while condition is true after each iteration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "do while (i++ \u003c 3) empty body yields i \u003d\u003d 4 at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/statements/loop-statements/p-2/pos/2.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interlinked member overloads with same phantom applicability report CONFLICTING_OVERLOADS",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/conflicting-overloads/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

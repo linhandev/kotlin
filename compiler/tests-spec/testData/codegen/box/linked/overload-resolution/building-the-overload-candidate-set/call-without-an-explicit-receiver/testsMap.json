@@ -1,0 +1,32 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit import has higher priority than star-import for same simple name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/packages-and-imports/importing/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicitly imported top-level function has higher priority than star-import in OCS",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simple-path call foo() resolves top-level callable without explicit receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/overload-resolution/building-the-overload-candidate-set/call-without-an-explicit-receiver/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

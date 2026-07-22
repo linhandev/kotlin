@@ -1,4 +1,54 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "companion object without invoke operator cannot be called as X()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry without invoke operator cannot be called as E.A()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration without invoke operator cannot be called as X()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property without invoke operator cannot be called as X()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local function declaration is a function-like callable resolved as f()",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/overload-resolution/callables-and-invoke-convention/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "2": {
     "pos": {
       "8": [
