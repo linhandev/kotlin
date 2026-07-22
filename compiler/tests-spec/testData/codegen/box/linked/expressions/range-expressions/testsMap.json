@@ -1,0 +1,56 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Wrapper(1)..3 yields MyRange via custom operator rangeTo",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/range-expressions/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "half-open range 1..\u003c3 excludes upper bound",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/range-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "range operators .. and ..\u003c resolve to overloadable operator functions",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/range-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "w..3 invokes operator fun rangeTo with rhs 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/range-expressions/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "w..\u003c3 invokes operator fun rangeUntil with rhs 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/range-expressions/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "closed range 1..3 creates range including both endpoints",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/range-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

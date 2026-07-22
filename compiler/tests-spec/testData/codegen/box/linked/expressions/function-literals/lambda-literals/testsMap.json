@@ -1,0 +1,60 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "{ it + 1 } single-parameter lambda uses implicit it",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/lambda-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda with explicit zero-parameter list before arrow",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/lambda-literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda literal with no parameter list defines zero-parameter function in context",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/lambda-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda destructuring parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/lambda-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda literal with explicit parameter list",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/lambda-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

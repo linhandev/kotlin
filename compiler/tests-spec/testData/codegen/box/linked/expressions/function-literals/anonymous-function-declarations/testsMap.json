@@ -1,0 +1,40 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous function with inferred parameter and return types from context",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/anonymous-function-declarations/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous extension function can be called on receiver type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/anonymous-function-declarations/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous function with block function body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/anonymous-function-declarations/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous function with typed parameters and equals-sign body returns computed value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/function-literals/anonymous-function-declarations/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

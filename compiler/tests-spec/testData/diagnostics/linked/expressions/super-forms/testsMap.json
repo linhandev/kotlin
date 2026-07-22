@@ -1,0 +1,40 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unqualified super with multiple immediate supertypes reports AMBIGUOUS_SUPER",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "super\u003cKlazz\u003e with non-immediate supertype reports NOT_A_SUPERTYPE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inner class super\u003cKlazz\u003e without @type when supertype belongs to outer reports NOT_A_SUPERTYPE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare super in Leaf.case1 reports SUPER_IS_NOT_AN_EXPRESSION",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/super-forms/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

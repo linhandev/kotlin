@@ -1,5 +1,25 @@
 {
   "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return@function in non-inline lambda referring to outer function reports RETURN_NOT_ALLOWED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/return-expressions/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return in non-inline lambda reports RETURN_NOT_ALLOWED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/return-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    },
     "pos": {
       "1": [
         {

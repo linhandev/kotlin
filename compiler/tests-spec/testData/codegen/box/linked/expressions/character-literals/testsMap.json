@@ -1,0 +1,106 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unescaped symbol # is allowed in character literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-quoted character literal has type kotlin.Char",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unescaped letter A in character literal evaluates to itself",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unicode escape \\uFFFF represents maximum BMP codepoint U+FFFF",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unicode escape supports codepoints from U+0000 through U+FFFF",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "escape \\n in character literal equals line feed U+000A",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "escape \\\u0027 in character literal equals apostrophe U+0027",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "escape \\\\ in character literal equals backslash U+005C",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-3/pos/3.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u0027\\u0041\u0027 character escape evaluates to letter A",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "character literal escape \\t evaluates to tab character U+0009",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/character-literals/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

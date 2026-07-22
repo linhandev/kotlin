@@ -1,0 +1,17 @@
+// FIR_IDENTICAL
+// DIAGNOSTICS: -UNUSED_VARIABLE -ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE -UNUSED_VALUE -UNUSED_PARAMETER -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: expressions, integer-literals -> paragraph 1 -> sentence 1
+ * NUMBER: 2
+ * DESCRIPTION: decimal literal 1234_ with trailing underscore reports ILLEGAL_UNDERSCORE
+ */
+
+// TESTCASE NUMBER: 1
+fun case1() {
+    val x = <!ILLEGAL_UNDERSCORE!>1234_<!>
+}

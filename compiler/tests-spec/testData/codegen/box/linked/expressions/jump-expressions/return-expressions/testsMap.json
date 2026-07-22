@@ -19,6 +19,22 @@
           "linkType": "main"
         },
         {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return@label returns from labeled lambda literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/return-expressions/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return inside inline lambda returns from enclosing inline function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/return-expressions/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
           "specVersion": "0.1-222",
           "casesNumber": 0,
           "description": "",

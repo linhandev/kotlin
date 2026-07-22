@@ -1,0 +1,88 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "if-else value equals the evaluated branch result",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "outer if uses nested if (1 \u003c 2) true else false as condition",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "true condition evaluates true branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "if (true) 1 else 2L has Number type with Int value 1",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.7.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "if on left side of plus has lowest precedence so else binds to addition not if",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.10.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "if (true) 1 without else used as statement has kotlin.Unit type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.8.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "if on right of plus binds as primary operand to binary plus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.9.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "false condition evaluates false branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "branchless conditional expression if (condition) else; is valid",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "if-else with both branches assigns chosen branch value to val",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/conditional-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

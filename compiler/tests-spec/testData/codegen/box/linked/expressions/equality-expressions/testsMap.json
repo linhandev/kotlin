@@ -1,0 +1,38 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "equality value operators \u003d\u003d and !\u003d connect comparisons",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/equality-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "a \u003d\u003d\u003d b for same reference; line break before !\u003d\u003d still compares references",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/equality-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!\u003d and !\u003d\u003d operators compare for inequality",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/equality-expressions/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

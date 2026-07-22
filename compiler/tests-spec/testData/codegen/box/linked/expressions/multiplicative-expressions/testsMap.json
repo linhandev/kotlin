@@ -1,0 +1,46 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Wrapper % 3 invokes operator fun rem with operand 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/multiplicative-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Wrapper(2) * 3 yields Product via custom operator times",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/multiplicative-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Wrapper / 2 invokes operator fun div with operand 2",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/multiplicative-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "times divide and remainder resolve to overloadable operator functions",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/multiplicative-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

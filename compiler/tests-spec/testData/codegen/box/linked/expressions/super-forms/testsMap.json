@@ -1,0 +1,40 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "super\u003cC\u003e.foo() returns \"C\"; super\u003cB\u003e.foo() returns \"B\" in class D",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/super-forms/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "super\u003cKlazz\u003e@type in inner class accesses outer classifier supertype",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/super-forms/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "super\u003cKlazz\u003e with interface immediate supertype",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/super-forms/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unqualified super calls immediate supertype implementation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/super-forms/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

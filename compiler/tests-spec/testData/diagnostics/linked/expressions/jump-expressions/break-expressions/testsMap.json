@@ -1,0 +1,24 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break in lambda referring to outer loop reports BREAK_OR_CONTINUE_JUMPS_ACROSS_FUNCTION_BOUNDARY",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break outside loop body reports BREAK_OR_CONTINUE_OUTSIDE_A_LOOP",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/jump-expressions/break-expressions/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

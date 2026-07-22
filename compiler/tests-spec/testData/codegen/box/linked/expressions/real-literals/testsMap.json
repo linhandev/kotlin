@@ -1,0 +1,138 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "float literal with f or F suffix has type kotlin.Float",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-1/pos/1.6.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "float literal 2.5f evaluates to 2.5",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "double literal 1e10 evaluates to ten billion",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "float literal 42F evaluates to 42.0",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unsuffixed floating-point literal 1.5 has type kotlin.Double",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "double literal 1.5 evaluates to one and a half",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "double literal 1.0e10 uses lowercase e exponent notation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "double literal 3.14e-2 uses negative exponent and evaluates to 0.0314",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-4/pos/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "double literal 2.5E+20 uses uppercase E with explicit plus exponent",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-4/pos/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "double literal 1.5e10 evaluates to fifteen billion",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "double literal 5e10 without decimal point evaluates to five billion",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-3/pos/3.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "float literal 1.5f evaluates to 1.5",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "float literal 0.5F with uppercase suffix evaluates to 0.5",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-2/pos/2.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "float literal 1.5e2f evaluates to 150.0",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/real-literals/p-2/pos/2.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

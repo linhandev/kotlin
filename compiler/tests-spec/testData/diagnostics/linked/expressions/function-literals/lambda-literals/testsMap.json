@@ -1,4 +1,26 @@
 {
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-labeled return in non-inline lambda is not allowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda literal cannot have vararg parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/function-literals/lambda-literals/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "10": {
     "neg": {
       "1": [

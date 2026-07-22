@@ -1,0 +1,48 @@
+{
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this@type refers to classifier currently being declared",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/this-expressions/p-1/pos/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this@function refers to extension function receiver being declared",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/this-expressions/p-1/pos/1.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this@outerFunction refers to extension lambda receiver for unlabeled lambda argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/this-expressions/p-1/pos/1.4.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "this@lambda refers to labeled lambda implicit receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/this-expressions/p-1/pos/1.5.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unlabeled this refers to default implicit receiver in extension lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/this-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

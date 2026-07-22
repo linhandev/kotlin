@@ -1,0 +1,54 @@
+{
+  "1": {
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "multi-character literals \u0027ab\u0027 and \u0027  \u0027 report TOO_MANY_CHARACTERS_IN_CHARACTER_LITERAL; \u0027\\\u0027 with lone backslash reports ILLEGAL_ESCAPE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "empty character literal \u0027\u0027 reports EMPTY_CHARACTER_LITERAL",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "\\u escape with one to three hex digits and \\u1wf with non-hex digit w report ILLEGAL_ESCAPE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "character literal U+10000 (𐀀) above BMP reports TOO_MANY_CHARACTERS_IN_CHARACTER_LITERAL",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4/neg/4.3.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "\\u000g and \\u000G with non-hex digits and \\u1wF2f with five hex digits report ILLEGAL_ESCAPE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/character-literals/p-4/neg/4.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
