@@ -999,15 +999,20 @@ internal class CodeGeneratorVisitor(
         val calleeName = declaration.externalSymbolOrThrow() ?: error("GCUnsafeCall must have an external symbol")
         val simpleFunction = declaration as? IrSimpleFunction ?: error("GCUnsafeCall stub requires IrSimpleFunction")
         // Per-module Stub redirection: if the C++ callee has a Stub trampoline (asm-defined
-        // in K2RStub.s, tracked in K2RStubFunctions.names), emit the call to the Stub variant
-        // directly. This way the module .bc is already in its final form and KSG step 1's
+        // in K2RStub.s, tracked in K2RStubFunctions.namesFor(target)), emit the call to the Stub
+        // variant directly. This way the module .bc is already in its final form and KSG step 1's
         // pre-pipeline callsite rewrite becomes redundant for this call. Without this, cached
         // .bc would contain `bl XXX` and rely on KSG step 1 finding the right helper set —
         // which fails for cached per-file .bc that carries no @llvm.global.annotations, see
         // K2RStubFunctions.kt for the full rationale.
+        // Use namesFor(target), NOT the bare `names`: OHOS-only helpers (K2RStubFunctions.ohosOnlyNames,
+        // e.g. Kotlin_napi_get_kotlin_string_utf16) have a Stub trampoline only in the ohos K2RStub.s
+        // and must be redirected on OHOS targets too — matching importRtFunction (ContextUtils.kt).
+        // Checking `names` alone left plain @GCUnsafeCall calls to those helpers as `bl <realName>`,
+        // leaving the K2R boundary absent and the GC fp-unwind walker unable to scan the caller frame.
         // Stub redirection is gated on enableStackmap (same as KSG / the @llvm.used pin):
         // OFF emits the direct call so the helper keeps a bitcode caller (pre-stackmap baseline).
-        val effectiveCalleeName = if (context.config.enableStackmap && calleeName in K2RStubFunctions.names)
+        val effectiveCalleeName = if (context.config.enableStackmap && calleeName in K2RStubFunctions.namesFor(context.config.target))
             K2RStubFunctions.stubNameOf(calleeName)
         else
             calleeName
