@@ -581,7 +581,6 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     val Kotlin_arrayGetElementAddress by lazy { importRtFunction("Kotlin_arrayGetElementAddress", false) }
     val Kotlin_intArrayGetElementAddress by lazy { importRtFunction("Kotlin_intArrayGetElementAddress", false) }
     val Kotlin_longArrayGetElementAddress by lazy { importRtFunction("Kotlin_longArrayGetElementAddress", false) }
-    val setLastFrameReliable by lazy { importRtFunction("SetLastFrameReliable", false) }
 
     // CRT-specific x28 register save/restore (not part of fp-unwind).
     val saveX28 by lazy { importRtFunction("SaveX28", false) }

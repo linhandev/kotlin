@@ -213,13 +213,13 @@ Lpc_konan_start:
         mov  sp, x29
         cfi_def_cfa_register (sp)
 
-        stp  d0, d1, [sp, #ForwardStubCalleeSaveArea+0x50]
-        cfi_rel_offset (d0, ForwardStubCalleeSaveArea+0x50)
-        cfi_rel_offset (d1, ForwardStubCalleeSaveArea+0x58)
+        stp  q0, q1, [sp, #ForwardStubCalleeSaveArea+0x50]
+        cfi_rel_offset (q0, ForwardStubCalleeSaveArea+0x50)
+        cfi_rel_offset (q1, ForwardStubCalleeSaveArea+0x60)
 
-        stp  d2, d3, [sp, #ForwardStubCalleeSaveArea+0x60]
-        cfi_rel_offset (d2, ForwardStubCalleeSaveArea+0x60)
-        cfi_rel_offset (d3, ForwardStubCalleeSaveArea+0x68)
+        stp  q2, q3, [sp, #ForwardStubCalleeSaveArea+0x70]
+        cfi_rel_offset (q2, ForwardStubCalleeSaveArea+0x70)
+        cfi_rel_offset (q3, ForwardStubCalleeSaveArea+0x80)
 
         /* restore last_frame */
         mov  x0, x29
@@ -232,13 +232,13 @@ Lpc_konan_start:
         mov  x3, x24
         mov  x8, x25
 
-        ldp  d0, d1, [sp, #ForwardStubCalleeSaveArea+0x50]
-        cfi_restore (d0)
-        cfi_restore (d1)
+        ldp  q0, q1, [sp, #ForwardStubCalleeSaveArea+0x50]
+        cfi_restore (q0)
+        cfi_restore (q1)
 
-        ldp  d2, d3, [sp, #ForwardStubCalleeSaveArea+0x60]
-        cfi_restore (d2)
-        cfi_restore (d3)
+        ldp  q2, q3, [sp, #ForwardStubCalleeSaveArea+0x70]
+        cfi_restore (q2)
+        cfi_restore (q3)
 
         // restore all used callee-saved registers.
         ldp  x19, x20, [sp, #ForwardStubCalleeSaveArea]
