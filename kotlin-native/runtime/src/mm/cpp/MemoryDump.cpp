@@ -5,12 +5,15 @@
 
 #include "MemoryDump.hpp"
 
+#include <csignal>
 #include <unistd.h>
 #include <algorithm>
+#include <atomic>
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
 #include <limits>
+#include <mutex>
 #include <system_error>
 #include <thread>
 #include <vector>
@@ -57,6 +60,26 @@ constexpr size_t kMinThreads = 2;
 constexpr double kPercentMultiplier = 100.0;
 
 namespace kotlin::mm {
+
+namespace {
+// Global flag ensuring only one dump runs at a time.
+std::atomic<bool> gDumpInProgress{false};
+} // namespace
+
+DumpGuard::DumpGuard() noexcept : acquired_(false) {
+    bool expected = false;
+    acquired_ = gDumpInProgress.compare_exchange_strong(
+        expected, true, std::memory_order_acq_rel);
+    if (!acquired_) {
+        RuntimeLogInfo({kTagMemDump}, "Another memory dump is in progress, skipping.");
+    }
+}
+
+DumpGuard::~DumpGuard() {
+    if (acquired_) {
+        gDumpInProgress.store(false, std::memory_order_release);
+    }
+}
 
 // using PointerSet replace std::unordered_set,
 // speed up insert and lookup operations,
@@ -325,7 +348,7 @@ public:
 
 private:
     // Compresses [data, data+size) into |output| as a standalone gzip member.
-    // Uses Z_DEFAULT_COMPRESSION to match the existing gzdopen("w1") behaviour.
+    // Uses Z_BEST_SPEED to match the existing gzdopen("w1") behaviour.
     static void CompressChunkToGzip(const char* data, size_t size,
                                     std::vector<char>& output) {
         z_stream strm{};
@@ -334,7 +357,7 @@ private:
         // Level 6: zlib default, good balance of speed and compression.
         // Targets 500MB raw → <100MB compressed. Level 1 was ~27% ratio,
         // level 6 provides ~25-30% better compression at ~2x slower deflate.
-        int ret = deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED,
+        int ret = deflateInit2(&strm, Z_BEST_SPEED, Z_DEFLATED,
                                MAX_WBITS + 16, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY);
         if (ret != Z_OK) {
             output.clear();
@@ -682,6 +705,12 @@ public:
     void Dump() {
         using Clock = std::chrono::high_resolution_clock;
         auto totalStart = Clock::now();
+
+#ifdef ENABLE_CRT
+        RuntimeLogInfo({kTagMemDump}, "Starting memory dump (CRT mode).");
+#else
+        RuntimeLogInfo({kTagMemDump}, "Starting memory dump (CMS mode).");
+#endif
 
         DumpStr("Kotlin/Native dump 1.0.10");
         DumpBool(konan::isLittleEndian());
@@ -1370,6 +1399,32 @@ void DumpMemoryOrThrow(int fd, bool isStrip) {
 
 bool DumpMemoryAsync(int fd, bool isStrip) noexcept {
     using Clock = std::chrono::high_resolution_clock;
+
+#ifdef KONAN_OHOS
+    // Check if a previous forked child is still running.
+    // The parent's DumpGuard (atomic flag) is released right after fork,
+    // so it cannot prevent concurrent children. We track the last child's
+    // PID and use kill(pid, 0) to check if it's still alive.
+    // SIGCHLD is set to SIG_IGN so children are auto-reaped (no zombies).
+    static std::atomic<pid_t> sLastChildPid{0};
+    static std::once_flag sSigchldInit;
+    std::call_once(sSigchldInit, [] {
+        signal(SIGCHLD, SIG_IGN);  // Auto-reap: no zombies after child exits.
+    });
+
+    pid_t lastPid = sLastChildPid.load();
+    if (lastPid > 0) {
+        if (kill(lastPid, 0) == 0) {
+            // Previous child still running — skip this dump.
+            RuntimeLogInfo({kTagMemDump},
+                "Previous forked dump (pid=%d) still running, skipping.", lastPid);
+            return false;
+        }
+        // Child finished (auto-reaped by SIG_IGN), clear PID.
+        sLastChildPid.compare_exchange_strong(lastPid, 0);
+    }
+#endif
+
     auto prepStart = Clock::now();
     PrepareForMemoryDump();
     auto prepEnd = Clock::now();
@@ -1397,11 +1452,13 @@ bool DumpMemoryAsync(int fd, bool isStrip) noexcept {
             RuntimeLogInfo({kTagMemDump}, "Forked process memory dump done.");
             _exit(0);
         }
-        // Parent: log timing and return.
+        // Parent: record child PID and return immediately.
+        sLastChildPid.store(pid);
         RuntimeLogInfo({kTagMemDump},
-            "  fork/parent: fork=%.2f ms, prepare=%.2f ms",
+            "  fork/parent: fork=%.2f ms, prepare=%.2f ms, child_pid=%d",
             std::chrono::duration<double, std::milli>(forkEnd - forkStart).count(),
-            std::chrono::duration<double, std::milli>(prepEnd - prepStart).count());
+            std::chrono::duration<double, std::milli>(prepEnd - prepStart).count(),
+            pid);
 #endif
     } catch (const std::system_error& e) {
         success = false;

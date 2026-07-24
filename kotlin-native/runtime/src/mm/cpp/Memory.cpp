@@ -413,6 +413,8 @@ extern "C" void Kotlin_native_internal_GC_schedule(ObjHeader*) {
 }
 
 extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHeader*, int fd) {
+    mm::DumpGuard dumpGuard;
+    if (!dumpGuard) { return false; }
 #ifdef ENABLE_CRT
     return checkUseCRT<CheckMode::Slow>(
         [fd] {
@@ -452,6 +454,8 @@ extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemory(ObjHe
 }
 
 extern "C" RUNTIME_NOTHROW bool Kotlin_native_runtime_Debugging_dumpMemoryAsync(ObjHeader*, int fd, bool isStrip) {
+    mm::DumpGuard dumpGuard;
+    if (!dumpGuard) { return false; }
 #ifdef ENABLE_CRT
     return checkUseCRT<CheckMode::Slow>(
         [fd, isStrip] {
