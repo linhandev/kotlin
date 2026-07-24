@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.backend.konan.llvm
 import kotlinx.cinterop.toCValues
 import llvm.*
 import org.jetbrains.kotlin.backend.konan.*
+import org.jetbrains.kotlin.backend.konan.cgen.CBridgeOrigin
 import org.jetbrains.kotlin.backend.konan.ir.*
 import org.jetbrains.kotlin.backend.konan.llvm.objcexport.WritableTypeInfoPointer
 import org.jetbrains.kotlin.backend.konan.llvm.objcexport.generateWritableTypeInfoForClass
@@ -482,7 +483,14 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
             generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
                 declaration.symbol, declaration.konanLibrary?.uniqueName)
 
-        val needsExport = isCrossModuleReferenced
+        // K2N/N2K cinterop bridges ("knbridgeN"): the K2N half is a pure prototype whose
+        // real body is C text compiled by clang and merged in later via llvm-link, so it's
+        // never an IrSymbol the klibCrossReferenceRegistry above can see. Always export this
+        // whole symbol class rather than relying on that (blind, for this case) analysis.
+        val isInteropBridge = declaration.origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE ||
+                declaration.origin == CBridgeOrigin.C_TO_KOTLIN_BRIDGE
+
+        val needsExport = isCrossModuleReferenced || isInteropBridge
 
         val llvmFunction = if (declaration.isExternal) {
             if (declaration.isTypedIntrinsic || declaration.isObjCBridgeBased()
@@ -532,7 +540,7 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         }
 
         val shouldPreserveInLlvmUsedForSplit = (needsExport || (context.config.emitStdlib && declaration.annotations.hasAnnotation(RuntimeNames.exportForCppRuntime))) &&
-                !(generatedSymbolName?.contains('@') ?: true)
+                !(generatedSymbolName?.contains('@') ?: false)
         if (shouldPreserveInLlvmUsedForSplit) {
             llvm.usedFunctions.add(llvmFunction)
         }
