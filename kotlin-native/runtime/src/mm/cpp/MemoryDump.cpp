@@ -248,6 +248,26 @@ public:
     const char* Data() const { return data_.data(); }
     size_t Size() const { return data_.size(); }
 
+    // Writes the buffer contents to fd and clears the buffer.
+    // Returns the number of bytes written. Throws on write failure.
+    size_t FlushToFd(int fd) {
+        if (data_.empty()) { return 0; }
+        size_t written = data_.size();
+        const char* ptr = data_.data();
+        size_t remaining = written;
+        while (remaining > 0) {
+            ssize_t n = write(fd, ptr, remaining);
+            if (n < 0) {
+                if (errno == EINTR) { continue; }
+                throw std::system_error(errno, std::generic_category());
+            }
+            ptr += n;
+            remaining -= static_cast<size_t>(n);
+        }
+        data_.clear();
+        return written;
+    }
+
     // Compresses collected data to fd using multiple threads.
     // The data is split into chunks; each chunk is compressed independently
     // as a gzip member, then concatenated to the output fd. Gzip decompressors
@@ -408,7 +428,7 @@ public:
     static constexpr size_t kInitialObjectSetCapacity = 0x1000000; // 8M objects
     static constexpr size_t kInitialTypeSetCapacity = 4096;
 
-    explicit MemoryDumper(bool isStrip) : isStrip_(isStrip) {
+    explicit MemoryDumper(bool isStrip, int streamFd = -1) : isStrip_(isStrip), streamFd_(streamFd) {
         dumpedObjs_.Reserve(kInitialObjectSetCapacity);
         dumpedTypes_.Reserve(kInitialTypeSetCapacity);
     }
@@ -553,6 +573,7 @@ public:
                     ws.dataBuffer.reserve(estimatedPerWorker / 2);
                 });
 
+        MaybeFlush();
         auto t5 = Clock::now();
         RuntimeLogInfo({kTagMemDump},
             "  dump/crt_parallel: threads=%zu, objects=%zu, chunksize=%.1f K, "
@@ -568,6 +589,13 @@ public:
     void ProcessCRTObjectChunk(const std::vector<ObjHeader*>& allObjects,
                                size_t start, size_t end, WorkerState& ws) {
         for (size_t j = start; j < end; ++j) {
+            // Prefetch next object's header to hide memory latency.
+            if (j + 1 < end) {
+                __builtin_prefetch(static_cast<const void*>(allObjects[j + 1]), 0, 1);
+            }
+            if (j + 2 < end) {
+                __builtin_prefetch(static_cast<const void*>(allObjects[j + 2]), 0, 0);
+            }
             ObjHeader* obj = allObjects[j];
             DumpObjectOrArrayCRT(obj, &ws.buffer, ws.dataBuffer);
             EnqueuePermanentRefsParallel(obj, ws.queue);
@@ -721,8 +749,11 @@ public:
             std::chrono::duration<double, std::milli>(t1 - totalStart).count());
 
         auto t3 = DumpRootsAndThreads(t1);
+        MaybeFlush();
         auto t5 = DumpHeapAndExtraObjects(t3);
+        MaybeFlush();
         auto t7 = DumpFinalStages(t5);
+        MaybeFlush();
 
         double totalMs = std::chrono::duration<double, std::milli>(t7 - totalStart).count();
         RuntimeLogInfo({kTagMemDump}, "  dump/total: %.2f ms", totalMs);
@@ -751,7 +782,14 @@ public:
     }
 
     // Returns the size of the raw dump data in bytes.
-    size_t GetDumpSize() const { return memoryBuffer_.Size(); }
+    size_t GetDumpSize() const { return totalDumpSize_ + memoryBuffer_.Size(); }
+
+    // Flush any remaining buffered data to streamFd_ (streaming mode only).
+    void FlushRemaining() {
+        if (streamFd_ >= 0 && memoryBuffer_.Size() > 0) {
+            totalDumpSize_ += memoryBuffer_.FlushToFd(streamFd_);
+        }
+    }
 
 private:
     // ---- Low-level write helpers ----
@@ -1215,7 +1253,12 @@ private:
     double DumpHeapSingleThreaded(const std::vector<ObjHeader*>& allObjects) {
         using Clock = std::chrono::high_resolution_clock;
         auto t0 = Clock::now();
-        for (auto obj : allObjects) {
+        size_t n = allObjects.size();
+        for (size_t j = 0; j < n; ++j) {
+            if (j + 1 < n) {
+                __builtin_prefetch(static_cast<const void*>(allObjects[j + 1]), 0, 1);
+            }
+            ObjHeader* obj = allObjects[j];
             DumpObjectOrArray(obj);
             traverseReferredObjects(obj, [this](auto refObj) {
                 if (!dumpedObjs_.Contains(refObj)) { Enqueue(refObj); }
@@ -1229,6 +1272,15 @@ private:
     void ProcessObjectChunk(const std::vector<ObjHeader*>& allObjects,
                             size_t start, size_t end, WorkerState& ws) {
         for (size_t j = start; j < end; ++j) {
+            // Prefetch next object's header to hide memory latency.
+            // Objects are accessed in random order (by pointer), so
+            // prefetching 1-2 ahead overlaps memory fetch with current work.
+            if (j + 1 < end) {
+                __builtin_prefetch(static_cast<const void*>(allObjects[j + 1]), 0, 1);
+            }
+            if (j + 2 < end) {
+                __builtin_prefetch(static_cast<const void*>(allObjects[j + 2]), 0, 0);
+            }
             ObjHeader* obj = allObjects[j];
             DumpObjectOrArray(obj, &ws.buffer);
             traverseReferredObjects(obj, [this, &ws](auto refObj) {
@@ -1245,19 +1297,34 @@ private:
 
     // Merges per-thread buffers into the global buffer and transfers
     // leftover queue entries. Returns {mergedBytes, mergedQueued}.
+    // In streaming mode (streamFd_ >= 0), writes worker buffers directly
+    // to fd, skipping the merge copy (~400 MB saved).
     std::pair<size_t, size_t> MergeWorkerBuffers(std::vector<WorkerState>& workers) {
         size_t mergedBytes = 0;
         size_t mergedQueued = 0;
         for (auto& ws : workers) {
             mergedBytes += ws.buffer.Size();
         }
-        memoryBuffer_.Reserve(memoryBuffer_.Size() + mergedBytes);
-        for (auto& ws : workers) {
-            memoryBuffer_.Append(ws.buffer);
-            while (!ws.queue.empty()) {
-                objQueue_.push(ws.queue.front());
-                ws.queue.pop();
-                ++mergedQueued;
+        if (streamFd_ >= 0) {
+            // Streaming: write directly to fd, no merge copy.
+            for (auto& ws : workers) {
+                totalDumpSize_ += ws.buffer.FlushToFd(streamFd_);
+                while (!ws.queue.empty()) {
+                    objQueue_.push(ws.queue.front());
+                    ws.queue.pop();
+                    ++mergedQueued;
+                }
+            }
+        } else {
+            // Non-streaming: merge into memoryBuffer_ for later compression.
+            memoryBuffer_.Reserve(memoryBuffer_.Size() + mergedBytes);
+            for (auto& ws : workers) {
+                memoryBuffer_.Append(ws.buffer);
+                while (!ws.queue.empty()) {
+                    objQueue_.push(ws.queue.front());
+                    ws.queue.pop();
+                    ++mergedQueued;
+                }
             }
         }
         return {mergedBytes, mergedQueued};
@@ -1291,6 +1358,7 @@ private:
             "merged_queued=%zu, buffer=%zu MB",
             result.numThreads, totalObjects, result.chunkSize / kBytesPerKBDouble,
             result.mergedQueued, result.mergedBytes / kBytesPerMB);
+        MaybeFlush();
 
         return {totalObjects, scanMs, result.parallelMs, result.mergeMs};
     }
@@ -1358,6 +1426,20 @@ private:
     std::queue<ObjHeader*> objQueue_;
 
     bool isStrip_ = false;
+
+    // Streaming support: when streamFd_ >= 0, the buffer is flushed
+    // to this fd periodically during Dump() to avoid holding the full
+    // dump in memory. Used by the sync DumpMemory path.
+    static constexpr size_t kFlushThreshold = 64 * 1024 * 1024;  // 64 MB
+    int streamFd_ = -1;
+    size_t totalDumpSize_ = 0;  // bytes already flushed to fd
+
+    // Flush buffer to streamFd_ if it exceeds the threshold.
+    void MaybeFlush() {
+        if (streamFd_ >= 0 && memoryBuffer_.Size() >= kFlushThreshold) {
+            totalDumpSize_ += memoryBuffer_.FlushToFd(streamFd_);
+        }
+    }
 
     // Reusable buffer for CRT mode to avoid per-object heap allocation
     // when copying object/array data for pointer cleaning.
@@ -1473,15 +1555,16 @@ bool DumpMemory(int fd) noexcept {
     bool success = true;
     try {
         auto dumpStart = std::chrono::high_resolution_clock::now();
-        // isStrip=false: DumpMemory always writes full array data.
-        MemoryDumper dumper(false);
+        // Streaming mode: flush buffer to fd during dump, avoiding
+        // holding the full dump (~430 MB) in memory.
+        MemoryDumper dumper(false, fd);
         dumper.Dump();
-        dumper.WriteRawToFd(fd);
+        dumper.FlushRemaining();
         auto dumpEnd = std::chrono::high_resolution_clock::now();
 
         double dumpMs = std::chrono::duration<double, std::milli>(dumpEnd - dumpStart).count();
         RuntimeLogInfo({kTagMemDump},
-            ">>> DumpMemory: dump=%.2f ms, raw_size=%zu bytes",
+            ">>> DumpMemory: dump=%.2f ms, raw_size=%zu bytes (streamed)",
             dumpMs, dumper.GetDumpSize());
     } catch (const std::system_error& e) {
         success = false;
