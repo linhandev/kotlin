@@ -216,7 +216,13 @@ KFloat Kotlin_math_tanf(KFloat x) { return tanf(x); }
 NO_SAFEPOINT
 KFloat Kotlin_math_asinf(KFloat x) { return asinf(x); }
 NO_SAFEPOINT
-KFloat Kotlin_math_acosf(KFloat x) { return acosf(x); }
+KFloat Kotlin_math_acosf(KFloat x) {
+#ifdef KONAN_OHOS
+    return (KFloat)acos((KDouble)x);
+#else
+    return acosf(x);
+#endif
+}
 NO_SAFEPOINT
 KFloat Kotlin_math_atanf(KFloat x) { return atanf(x); }
 NO_SAFEPOINT
