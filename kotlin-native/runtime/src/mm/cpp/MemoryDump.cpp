@@ -478,8 +478,8 @@ public:
         return t2;
     }
 
-    // CMS path: dump heap objects (parallel) + extra objects. Returns end timestamp.
-    TimePoint DumpHeapAndExtraObjectsCMS(TimePoint t3) {
+    // CMS path: dump heap objects (parallel) + extra objects.
+    void DumpHeapAndExtraObjectsCMS(TimePoint t3) {
         using Clock = std::chrono::high_resolution_clock;
         auto timing = DumpHeapObjectsParallel();
         auto t4 = Clock::now();
@@ -501,21 +501,18 @@ public:
             "  dump/extra_objects: %.2f ms, count=%d, buffer=%zu MB",
             std::chrono::duration<double, std::milli>(t5 - t4).count(),
             extraObjCount, memoryBuffer_.Size() / kBytesPerMB);
-        return t5;
     }
 
-    // Stages 3-4: heap objects and extra objects. Returns end timestamp.
-    TimePoint DumpHeapAndExtraObjects(TimePoint t3) {
+    // Stages 3-4: heap objects and extra objects.
+    void DumpHeapAndExtraObjects(TimePoint t3) {
 #ifdef ENABLE_CRT
-        auto t5 = t3;
         checkUseCRT<CheckMode::Slow>([&] {
-            t5 = DumpHeapAndExtraObjectsCRT(t3);
+            DumpHeapAndExtraObjectsCRT(t3);
         }, [&] {
-            t5 = DumpHeapAndExtraObjectsCMS(t3);
+            DumpHeapAndExtraObjectsCMS(t3);
         });
-        return t5;
 #else
-        return DumpHeapAndExtraObjectsCMS(t3);
+        DumpHeapAndExtraObjectsCMS(t3);
 #endif
     }
 
@@ -537,7 +534,7 @@ public:
     }
 
     // CRT path: parallel dump similar to CMS.
-    TimePoint DumpHeapAndExtraObjectsCRT(TimePoint t3) {
+    void DumpHeapAndExtraObjectsCRT(TimePoint t3) {
         using Clock = std::chrono::high_resolution_clock;
 
         // Stage 3a: Collect all object pointers via ForEachObject.
@@ -558,12 +555,11 @@ public:
                 EnqueuePermanentRefs(obj);
             }
             auto singleEnd = Clock::now();
-            auto t5 = Clock::now();
             RuntimeLogInfo({kTagMemDump},
                 "  dump/crt_single: %.2f ms, objects=%zu, buffer=%zu MB",
                 std::chrono::duration<double, std::milli>(singleEnd - singleStart).count(),
                 totalObjects, memoryBuffer_.Size() / kBytesPerMB);
-            return t5;
+            return;
         }
 
         // Stage 3b: Parallel dispatch + merge.
@@ -580,15 +576,14 @@ public:
             });
 
         MaybeFlush();
-        auto t5 = Clock::now();
         RuntimeLogInfo({kTagMemDump},
             "  dump/crt_parallel: threads=%zu, objects=%zu, chunksize=%.1f K, "
-            "scan=%.2f ms, parallel=%.2f ms, merge=%.2f ms, "
+            "scan=%.2f ms, parallel=%.2f ms, merge=%.2f ms, total=%.2f ms, "
             "queued=%zu, buffer=%zu MB",
             result.numThreads, totalObjects, result.chunkSize / kBytesPerKBDouble,
             scanMs, result.parallelMs, result.mergeMs,
+            std::chrono::duration<double, std::milli>(Clock::now() - t3).count(),
             result.mergedQueued, result.mergedBytes / kBytesPerMB);
-        return t5;
     }
 
     // Process a chunk of objects in CRT mode (parallel worker).
@@ -756,9 +751,11 @@ public:
 
         auto t3 = DumpRootsAndThreads(t1);
         MaybeFlush();
-        auto t5 = DumpHeapAndExtraObjects(t3);
+        DumpHeapAndExtraObjects(t3);
+        auto t5 = Clock::now();
         MaybeFlush();
-        auto t7 = DumpFinalStages(t5);
+        DumpFinalStages(t5);
+        auto t7 = Clock::now();
         MaybeFlush();
 
         double totalMs = std::chrono::duration<double, std::milli>(t7 - totalStart).count();
