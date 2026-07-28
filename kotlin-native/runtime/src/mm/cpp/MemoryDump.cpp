@@ -63,12 +63,12 @@ namespace kotlin::mm {
 
 namespace {
 // Global flag ensuring only one dump runs at a time.
-std::atomic<bool> gDumpInProgress{false};
+std::atomic<bool> g_dumpInProgress{false};
 } // namespace
 
 DumpGuard::DumpGuard() noexcept : acquired_(false) {
     bool expected = false;
-    acquired_ = gDumpInProgress.compare_exchange_strong(
+    acquired_ = g_dumpInProgress.compare_exchange_strong(
         expected, true, std::memory_order_acq_rel);
     if (!acquired_) {
         RuntimeLogInfo({kTagMemDump}, "Another memory dump is in progress, skipping.");
@@ -77,7 +77,7 @@ DumpGuard::DumpGuard() noexcept : acquired_(false) {
 
 DumpGuard::~DumpGuard() {
     if (acquired_) {
-        gDumpInProgress.store(false, std::memory_order_release);
+        g_dumpInProgress.store(false, std::memory_order_release);
     }
 }
 
@@ -520,23 +520,29 @@ public:
     }
 
 #ifdef ENABLE_CRT
+    // CRT scan: collects object pointers via ForEachObject, pre-dumps types,
+    // and populates the global object set. Returns scan duration in ms.
+    double ScanHeapObjectsCRT(std::vector<ObjHeader*>& allObjects) {
+        using Clock = std::chrono::high_resolution_clock;
+        allObjects.reserve(kInitialObjectSetCapacity);
+        auto scanStart = Clock::now();
+        common::Heap::GetHeap().ForEachObject([&](common::BaseObject* baseObj) {
+            auto* obj = reinterpret_cast<ObjHeader*>(baseObj);
+            allObjects.push_back(obj);
+            DumpTransitively(obj->type_info());
+            dumpedObjs_.Insert(obj);
+            }, false);
+        auto scanEnd = Clock::now();
+        return std::chrono::duration<double, std::milli>(scanEnd - scanStart).count();
+    }
+
     // CRT path: parallel dump similar to CMS.
     TimePoint DumpHeapAndExtraObjectsCRT(TimePoint t3) {
         using Clock = std::chrono::high_resolution_clock;
 
         // Stage 3a: Collect all object pointers via ForEachObject.
         std::vector<ObjHeader*> allObjects;
-        allObjects.reserve(kInitialObjectSetCapacity);
-        auto scanStart = Clock::now();
-        common::Heap::GetHeap().ForEachObject([&](common::BaseObject* baseObj) {
-            auto* obj = reinterpret_cast<ObjHeader*>(baseObj);
-            allObjects.push_back(obj);
-            // Pre-dump types to avoid contention on dumpedTypes_ during parallel phase.
-            DumpTransitively(obj->type_info());
-            dumpedObjs_.Insert(obj);
-        }, false);
-        auto scanEnd = Clock::now();
-        double scanMs = std::chrono::duration<double, std::milli>(scanEnd - scanStart).count();
+        double scanMs = ScanHeapObjectsCRT(allObjects);
         size_t totalObjects = allObjects.size();
 
         RuntimeLogInfo({kTagMemDump},
@@ -564,14 +570,14 @@ public:
         // Estimate: typical object dump ~80 bytes (more than CMS due to RefField cleaning).
         constexpr size_t kEstimatedBytesPerObject = 80;
         auto result = DispatchAndMergeWorkers(allObjects, totalObjects,
-                kEstimatedBytesPerObject,
-                [this](const std::vector<ObjHeader*>& objs, size_t start, size_t end, WorkerState& ws) {
-                    ProcessCRTObjectChunk(objs, start, end, ws);
-                },
-                [](WorkerState& ws, size_t estimatedPerWorker) {
-                    // Pre-allocate per-thread dataBuffer for CRT RefField cleaning.
-                    ws.dataBuffer.reserve(estimatedPerWorker / 2);
-                });
+            kEstimatedBytesPerObject,
+            [this](const std::vector<ObjHeader*>& objs, size_t start, size_t end, WorkerState& ws) {
+                ProcessCRTObjectChunk(objs, start, end, ws);
+            },
+            [](WorkerState& ws, size_t estimatedPerWorker) {
+                // Pre-allocate per-thread dataBuffer for CRT RefField cleaning.
+                ws.dataBuffer.reserve(estimatedPerWorker / 2);
+            });
 
         MaybeFlush();
         auto t5 = Clock::now();
@@ -593,8 +599,8 @@ public:
             if (j + 1 < end) {
                 __builtin_prefetch(static_cast<const void*>(allObjects[j + 1]), 0, 1);
             }
-            if (j + 2 < end) {
-                __builtin_prefetch(static_cast<const void*>(allObjects[j + 2]), 0, 0);
+            if (j + kPrefetchAheadFar < end) {
+                __builtin_prefetch(static_cast<const void*>(allObjects[j + kPrefetchAheadFar]), 0, 0);
             }
             ObjHeader* obj = allObjects[j];
             DumpObjectOrArrayCRT(obj, &ws.buffer, ws.dataBuffer);
@@ -1278,8 +1284,8 @@ private:
             if (j + 1 < end) {
                 __builtin_prefetch(static_cast<const void*>(allObjects[j + 1]), 0, 1);
             }
-            if (j + 2 < end) {
-                __builtin_prefetch(static_cast<const void*>(allObjects[j + 2]), 0, 0);
+            if (j + kPrefetchAheadFar < end) {
+                __builtin_prefetch(static_cast<const void*>(allObjects[j + kPrefetchAheadFar]), 0, 0);
             }
             ObjHeader* obj = allObjects[j];
             DumpObjectOrArray(obj, &ws.buffer);
@@ -1347,11 +1353,11 @@ private:
         // Estimate: typical object dump ~60 bytes.
         constexpr size_t kEstimatedBytesPerObject = 60;
         auto result = DispatchAndMergeWorkers(allObjects, totalObjects,
-                kEstimatedBytesPerObject,
-                [this](const std::vector<ObjHeader*>& objs, size_t start, size_t end, WorkerState& ws) {
-                    ProcessObjectChunk(objs, start, end, ws);
-                },
-                [](WorkerState&, size_t) {});
+            kEstimatedBytesPerObject,
+            [this](const std::vector<ObjHeader*>& objs, size_t start, size_t end, WorkerState& ws) {
+                ProcessObjectChunk(objs, start, end, ws);
+            },
+            [](WorkerState&, size_t) {});
 
         RuntimeLogInfo({kTagMemDump},
             "  dump/heap_parallel: threads=%zu, objects=%zu, chunksize=%.1f K, "
@@ -1431,6 +1437,8 @@ private:
     // to this fd periodically during Dump() to avoid holding the full
     // dump in memory. Used by the sync DumpMemory path.
     static constexpr size_t kFlushThreshold = 64 * 1024 * 1024;  // 64 MB
+    // Number of objects to look ahead for L1 prefetch (far prefetch).
+    static constexpr size_t kPrefetchAheadFar = 2;
     int streamFd_ = -1;
     size_t totalDumpSize_ = 0;  // bytes already flushed to fd
 
@@ -1479,68 +1487,73 @@ void DumpMemoryOrThrow(int fd, bool isStrip) {
         dumpMs, compressMs, totalMs, dumper.GetDumpSize());
 }
 
-bool DumpMemoryAsync(int fd, bool isStrip) noexcept {
-    using Clock = std::chrono::high_resolution_clock;
-
 #ifdef KONAN_OHOS
-    // Check if a previous forked child is still running.
-    // The parent's DumpGuard (atomic flag) is released right after fork,
-    // so it cannot prevent concurrent children. We track the last child's
-    // PID and use kill(pid, 0) to check if it's still alive.
-    // SIGCHLD is set to SIG_IGN so children are auto-reaped (no zombies).
-    static std::atomic<pid_t> sLastChildPid{0};
-    static std::once_flag sSigchldInit;
-    std::call_once(sSigchldInit, [] {
-        signal(SIGCHLD, SIG_IGN);  // Auto-reap: no zombies after child exits.
-    });
+// Track the last forked dump child PID to prevent concurrent children.
+// SIGCHLD is set to SIG_IGN so children are auto-reaped (no zombies).
+static std::atomic<pid_t> sLastChildPid{0};
+static std::once_flag sSigchldInit;
 
+// Check if a previous forked child is still running.
+// Returns false if another child is active (skip this dump).
+static bool CanStartForkedDump() {
+    std::call_once(sSigchldInit, [] {
+        auto prev = signal(SIGCHLD, SIG_IGN);
+        (void)prev;  // Ignore previous handler (we only set this once).
+    });
     pid_t lastPid = sLastChildPid.load();
     if (lastPid > 0) {
         if (kill(lastPid, 0) == 0) {
-            // Previous child still running — skip this dump.
             RuntimeLogInfo({kTagMemDump},
                 "Previous forked dump (pid=%d) still running, skipping.", lastPid);
             return false;
         }
-        // Child finished (auto-reaped by SIG_IGN), clear PID.
         sLastChildPid.compare_exchange_strong(lastPid, 0);
     }
+    return true;
+}
+
+// Fork a child process to do the dump. Returns true on success.
+static bool DumpMemoryAsyncFork(int fd, bool isStrip, double prepMs) {
+    if (!CanStartForkedDump()) { return false; }
+
+    using Clock = std::chrono::high_resolution_clock;
+    RuntimeLogInfo({kTagMemDump}, "Attempting to fork process for memory dump.");
+    auto forkStart = Clock::now();
+    int pid = fork();
+    auto forkEnd = Clock::now();
+    if (pid < 0) {
+        RuntimeLogError({kTagMemDump}, "Failed to fork process for memory dump.");
+        return false;
+    }
+    if (pid == 0) {
+        RuntimeLogInfo({kTagMemDump},
+            "  fork/child: fork=%.2f ms, prepare=%.2f ms",
+            std::chrono::duration<double, std::milli>(forkEnd - forkStart).count(), prepMs);
+        DumpMemoryOrThrow(fd, isStrip);
+        RuntimeLogInfo({kTagMemDump}, "Forked process memory dump done.");
+        _exit(0);
+    }
+    sLastChildPid.store(pid);
+    RuntimeLogInfo({kTagMemDump},
+        "  fork/parent: fork=%.2f ms, prepare=%.2f ms, child_pid=%d",
+        std::chrono::duration<double, std::milli>(forkEnd - forkStart).count(), prepMs, pid);
+    return true;
+}
 #endif
 
+bool DumpMemoryAsync(int fd, bool isStrip) noexcept {
+    using Clock = std::chrono::high_resolution_clock;
     auto prepStart = Clock::now();
     PrepareForMemoryDump();
     auto prepEnd = Clock::now();
+    double prepMs = std::chrono::duration<double, std::milli>(prepEnd - prepStart).count();
 
     bool success = true;
     try {
 #ifndef KONAN_OHOS
         DumpMemoryOrThrow(fd, isStrip);
 #else
-        RuntimeLogInfo({kTagMemDump}, "Attempting to fork process for memory dump.");
-        auto forkStart = Clock::now();
-        int pid = fork();
-        auto forkEnd = Clock::now();
-        if (pid < 0) {
-            RuntimeLogError({kTagMemDump}, "Failed to fork process for memory dump.");
-            return false;
-        }
-        if (pid == 0) {
-            // Child process: do the actual dump+compress.
-            RuntimeLogInfo({kTagMemDump},
-                "  fork/child: fork=%.2f ms, prepare=%.2f ms",
-                std::chrono::duration<double, std::milli>(forkEnd - forkStart).count(),
-                std::chrono::duration<double, std::milli>(prepEnd - prepStart).count());
-            DumpMemoryOrThrow(fd, isStrip);
-            RuntimeLogInfo({kTagMemDump}, "Forked process memory dump done.");
-            _exit(0);
-        }
-        // Parent: record child PID and return immediately.
-        sLastChildPid.store(pid);
-        RuntimeLogInfo({kTagMemDump},
-            "  fork/parent: fork=%.2f ms, prepare=%.2f ms, child_pid=%d",
-            std::chrono::duration<double, std::milli>(forkEnd - forkStart).count(),
-            std::chrono::duration<double, std::milli>(prepEnd - prepStart).count(),
-            pid);
+        success = DumpMemoryAsyncFork(fd, isStrip, prepMs);
 #endif
     } catch (const std::system_error& e) {
         success = false;
