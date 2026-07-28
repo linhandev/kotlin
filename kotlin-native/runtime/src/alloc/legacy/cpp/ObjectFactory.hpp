@@ -536,6 +536,17 @@ public:
             auto& heapObject = *descriptor.construct(producer_.Insert(descriptor.size()).Data());
             ObjHeader* object = heapObject.object();
             object->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
+#ifdef ENABLE_STACKMAP
+            // Mirror CustomAllocator::CreateObject. The precise-stackmap root scan
+            // (ConcurrentMark::tryCollectRootSet -> KNStateWord::IsValid) skips any
+            // object whose valid bit is unset. std/legacy objects otherwise leave it
+            // 0, so an object reachable only through a stack root is misjudged
+            // half-constructed and dropped from the root set -> under-scan -> UAF.
+            // Gated by ENABLE_STACKMAP for the same reason as CustomAllocator: an OFF
+            // build must not poison typeInfoOrMeta_'s bit 59 (AsMetaObject would then
+            // misread it as a meta-object pointer; see CustomAllocator.cpp).
+            reinterpret_cast<KNStateWord*>(object)->SetValid();
+#endif
             // TODO: Consider supporting TF_IMMUTABLE: mark instance as frozen upon creation.
             return object;
         }
@@ -547,6 +558,11 @@ public:
             ArrayHeader* array = heapArray.array();
             array->typeInfoOrMeta_ = const_cast<TypeInfo*>(typeInfo);
             array->count_ = count;
+#ifdef ENABLE_STACKMAP
+            // Same rationale as CreateObject above: keep the valid bit set so the
+            // precise-stackmap root scan does not drop stack-root-only arrays.
+            reinterpret_cast<KNStateWord*>(array)->SetValid();
+#endif
             // TODO: Consider supporting TF_IMMUTABLE: mark instance as frozen upon creation.
             return array;
         }
