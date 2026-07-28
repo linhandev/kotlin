@@ -59,6 +59,8 @@ object NativeRuntimeNames {
         val EscapesNothing = Escapes.createNestedClassId(Name.identifier("Nothing"))
         val HasFinalizer = ClassId(kotlinNativeInternalPackage, Name.identifier("HasFinalizer"))
         val BindClassToObjCName = ClassId(kotlinNativeInternalPackage.child(Name.identifier("objc")), Name.identifier("BindClassToObjCName"))
+        val hidesFromCClassId = ClassId(kotlinNativePackage, Name.identifier("HidesFromC"))
+        val hiddenFromCClassId = ClassId(kotlinNativePackage, Name.identifier("HiddenFromC"))
     }
 }
 

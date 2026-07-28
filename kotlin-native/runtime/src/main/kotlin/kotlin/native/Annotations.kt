@@ -174,3 +174,23 @@ public actual annotation class RefinesInSwift
 @ExperimentalObjCRefinement
 @SinceKotlin("1.8")
 public actual annotation class ShouldRefineInSwift
+
+/**
+ * Meta-annotation that instructs the Kotlin compiler to remove the annotated class, function or property
+ * from the public C API (native symbol export / C adapter).
+ */
+@Target(AnnotationTarget.ANNOTATION_CLASS)
+@Retention(AnnotationRetention.BINARY)
+@MustBeDocumented
+@ExperimentalNativeApi
+public actual annotation class HidesFromC
+
+/**
+ * Instructs the Kotlin compiler to remove this class, function or property from the public C API.
+ */
+@HidesFromC
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.BINARY)
+@MustBeDocumented
+@ExperimentalNativeApi
+public actual annotation class HiddenFromC
