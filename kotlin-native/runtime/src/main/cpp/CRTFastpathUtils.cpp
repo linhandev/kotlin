@@ -37,7 +37,11 @@ ALWAYS_INLINE void UpdateThreadLocalDataRegImpl(common::GCPhase phase)
     // ENUM/MARK/REMARK/POST_MARK phases have trivial ReadRefField (direct memory load),
     // identical to IdleBarrier, so they don't need the slowpath.
     uintptr_t maskBits = phase >= common::GCPhase::GC_PHASE_PRECOPY ? 1 : 0;
-    __asm__ volatile("bfi x28, %0, #" TLS_ACTIVE_READ_BARRIER_BIT ", #1" : : "r"(maskBits));
+    if (::kotlin::compiler::isHwasanEnabled()) {
+        __asm__ volatile("bfi x28, %0, #" TLS_ACTIVE_READ_BARRIER_BIT_HWASAN ", #1" : : "r"(maskBits));
+    } else {
+        __asm__ volatile("bfi x28, %0, #" TLS_ACTIVE_READ_BARRIER_BIT ", #1" : : "r"(maskBits));
+    }
 #endif
 }
 }
@@ -101,14 +105,18 @@ ALWAYS_INLINE common::Mutator* common::GetMutatorOrNull()
 #ifdef ENABLE_GC_FASTPATH
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     uintptr_t tls;
-    FixedRegToLocalVar(tls);
+    if (::kotlin::compiler::isHwasanEnabled()) {
+        tls = ThreadLocalRegisterData();
+    } else {
+        FixedRegToLocalVar(tls);
+    }
     if (AssertionsEnabled) {
         auto td = kotlin::mm::ThreadRegistry::Instance().CurrentThreadData();
         auto crt_tls = reinterpret_cast<uintptr_t>(LoadCachedCRTTLS(td->allocator().impl()));
-        RuntimeAssert((tls & TLS_DATA_MASK) == crt_tls,
-                      "%" PRIxPTR " != %" PRIxPTR, tls & TLS_DATA_MASK, crt_tls);
+        RuntimeAssert(ClearFastpathMetadata(tls) == crt_tls,
+                      "%" PRIxPTR " != %" PRIxPTR, tls, crt_tls);
     }
-    return *reinterpret_cast<Mutator**>((tls & TLS_DATA_MASK) + TLS_MUTATOR_OFF);
+    return *reinterpret_cast<Mutator**>(tls + TLS_MUTATOR_OFF);
 #else
     return nullptr;
 #endif

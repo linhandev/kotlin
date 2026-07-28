@@ -212,7 +212,7 @@ HAS_SAFEPOINT
 extern "C" RUNTIME_NOTHROW ObjHeader *ReadHeapRef(ObjHeader** location, ObjHeader* thisPtr) {
     // Barrier dispatch (CRT vs CMS, fast vs slow path) is fully encapsulated in
     // RefFieldAccessor::load → loadWithBarrier (see ReferenceOps.cpp). Don't
-    // duplicate the x28-bit-62 check here — that previously bypassed the
+    // duplicate the x28 rb-bit check here — that previously bypassed the
     // barrier under CRT because the slow path also went through DirectRefAccessor
     // which wasn't actually wired to BaseRuntime::ReadBarrier in any meaningful way.
     return mm::RefFieldAccessor{location, thisPtr}.load();

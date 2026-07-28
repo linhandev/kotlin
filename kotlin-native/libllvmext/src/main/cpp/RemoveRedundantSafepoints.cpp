@@ -34,6 +34,11 @@ static constexpr size_t functionPrologueSafepointStubNameLength =
 // common::TLS_MUTATOR_OFF (== sizeof(void*)). The i32 safepoint flag and the
 // pointer-sized safepoint action use these natural byte alignments.
 static constexpr uint64_t tlsMutatorOffset = 8;
+// Under HWAsan, CMC utilize bit 1 in the x28 register as RB flag.
+// And needs to be cleared before the value is used as a pointer to TLS
+// Must sync with TLS_ACTIVE_READ_BARRIER_MASK_HWASAN in runtime/src/main/cpp/CRTFastpathUtils.hpp.
+static constexpr uint64_t tlsFastpathMetadataMaskHwasan = uint64_t{1} << 1;
+static constexpr uint64_t tlsPointerMaskHwasan = ~tlsFastpathMetadataMaskHwasan;
 static constexpr unsigned safepointFlagAlign = 4;
 static constexpr unsigned safepointActionAlign = 8;
 
@@ -79,7 +84,8 @@ static bool BlockHasSafepointInstruction(LLVMBasicBlockRef block) {
 //                  through the lean helper Kotlin_mm_safePointCheckCRT() (plain C++, NOT a
 //                  K2R stub), which returns the Mutator* iff a safepoint is pending else null.
 //   Native       : global *Kotlin_mm_safePointActionAddr != null.
-static Value* emitSafepointCondition(IRBuilder<>& B, SafepointExpansionMode mode, Module& M, Value*& mutPtrOut) {
+static Value* emitSafepointCondition(IRBuilder<>& B, SafepointExpansionMode mode, bool isHWAsanEnabled,
+    Module& M, Value*& mutPtrOut) {
     LLVMContext& Ctx = M.getContext();
     Type* I8 = Type::getInt8Ty(Ctx);
     Type* I32 = Type::getInt32Ty(Ctx);
@@ -90,7 +96,12 @@ static Value* emitSafepointCondition(IRBuilder<>& B, SafepointExpansionMode mode
         FunctionType* AsmTy = FunctionType::get(I64, false);
         InlineAsm* ReadX28 = InlineAsm::get(AsmTy, "mov $0, x28", "=r", true);
         Value* Tls = B.CreateCall(AsmTy, ReadX28, {}, "tls");
-        Value* Base = B.CreateIntToPtr(Tls, Ptr);
+        Value* TlsAddress = Tls;
+        if (isHWAsanEnabled) {
+            // Clear GC RB bit
+            TlsAddress = B.CreateAnd(Tls, ConstantInt::get(I64, tlsPointerMaskHwasan), "tlsAddress");
+        }
+        Value* Base = B.CreateIntToPtr(TlsAddress, Ptr);
         Value* MutAddr = B.CreateConstInBoundsGEP1_64(I8, Base, tlsMutatorOffset, "mutatorAddr");
         mutPtrOut = B.CreateLoad(Ptr, MutAddr, "mutatorPtr");
         LoadInst* Flag = B.CreateLoad(I32, mutPtrOut, "spActive");
@@ -140,13 +151,13 @@ static void emitSafepointSlowCall(Instruction* thenTerm, SafepointExpansionMode 
 // check via emitSafepointCondition, cold slow edge via emitSafepointSlowCall).
 // SAFEPOINT_EXPANSION_NONE keeps the call as-is (RUNTIME_SWITCH / OFF). Produces a SINGLE
 // K2R boundary (`kfunc -> SafePointSlowPathStub` for CRT, `-> slowPathStub` for NATIVE).
-static void expandSafepointCall(CallInst* CI, SafepointExpansionMode mode, Module& M) {
+static void expandSafepointCall(CallInst* CI, SafepointExpansionMode mode, bool isHWAsanEnabled, Module& M) {
     if (mode == SAFEPOINT_EXPANSION_NONE) {
         return;
     }
     IRBuilder<> B(CI);
     Value* MutPtr = nullptr;
-    Value* active = emitSafepointCondition(B, mode, M, MutPtr);
+    Value* active = emitSafepointCondition(B, mode, isHWAsanEnabled, M, MutPtr);
     // Cold slow edge weights {then=1, else=2000}. SplitBlockAndInsertIfThen splits the block
     // at CI; everything after CI stays in the continuation block.
     MDNode* Weights = MDBuilder(M.getContext()).createBranchWeights(1, 2000);
@@ -159,6 +170,7 @@ static void expandSafepointCall(CallInst* CI, SafepointExpansionMode mode, Modul
 // Pass-wide expansion settings, constant across the whole module walk.
 struct SafepointExpansionConfig {
     bool enableStackmap;
+    bool isHWAsanEnabled;
     SafepointExpansionMode expansionMode;
     Module& module;
 };
@@ -205,7 +217,7 @@ static void RemoveOrInlinePrologueSafepointInstructions(
         // is left as-is (keeps its ...PrologueStub trampoline call). expandSafepointCall
         // no-ops when the mode is SAFEPOINT_EXPANSION_NONE (RUNTIME_SWITCH / OFF).
         if (auto* CI = dyn_cast<CallInst>(unwrap(toExpand))) {
-            expandSafepointCall(CI, config.expansionMode, config.module);
+            expandSafepointCall(CI, config.expansionMode, config.isHWAsanEnabled, config.module);
         }
     }
 }
@@ -217,11 +229,13 @@ static void RemoveOrInlinePrologueSafepointInstructions(
 // (OFF/shadow-stack or RUNTIME_SWITCH).
 // Caller is RemoveRedundantSafepointsPass.kt.
 void LLVMKotlinRemoveRedundantSafepoints(LLVMModuleRef module, int isSafepointInliningAllowed,
-                                         int enableStackmap, SafepointExpansionMode safepointExpansionMode) {
+                                         int enableStackmap, SafepointExpansionMode safepointExpansionMode,
+                                         int isHWAsanEnabled) {
     bool inliningAllowed = isSafepointInliningAllowed != 0;
     bool stackmapEnabled = enableStackmap != 0;
+    bool hwasanEnabled = isHWAsanEnabled != 0;
     Module& M = *unwrap(module);
-    SafepointExpansionConfig config{stackmapEnabled, safepointExpansionMode, M};
+    SafepointExpansionConfig config{stackmapEnabled, hwasanEnabled, safepointExpansionMode, M};
 
     // ===== STABILITY INVARIANT — IR expansion here is PERFORMANCE-ONLY =====
     // Whether this pass expands ALL, SOME, or NONE of the safepoints, the slow path is always

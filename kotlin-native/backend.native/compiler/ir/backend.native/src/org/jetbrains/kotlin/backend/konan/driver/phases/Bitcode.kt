@@ -167,6 +167,7 @@ internal val RemoveRedundantSafepointsPhase = createSimpleNamedCompilerPhase<Bit
                     // per-target via KonanConfig.enableStackmap.
                     enableStackmap = context.config.enableStackmap,
                     safepointExpansionMode = expansionMode,
+                    isHWAsanEnabled = context.config.sanitizer == SanitizerKind.HWADDRESS,
             )
         }
 )

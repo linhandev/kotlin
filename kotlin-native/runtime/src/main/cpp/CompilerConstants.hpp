@@ -30,6 +30,7 @@ extern "C" const int32_t Kotlin_gcMarkSingleThreaded;
 extern "C" const int32_t Kotlin_fixedBlockPageSize;
 extern "C" const int32_t Kotlin_pagedAllocator;
 extern "C" const int32_t Kotlin_memoryManagerMode;
+extern "C" const int32_t Kotlin_isHwasanEnabled;
 
 class SourceInfo;
 
@@ -67,6 +68,10 @@ ALWAYS_INLINE inline RuntimeAssertsMode runtimeAssertsMode() noexcept {
 ALWAYS_INLINE inline MemoryManagerMode memoryManagerMode() noexcept
 {
     return static_cast<MemoryManagerMode>(Kotlin_memoryManagerMode);
+}
+
+ALWAYS_INLINE inline bool isHwasanEnabled() noexcept {
+    return static_cast<bool>(Kotlin_isHwasanEnabled);
 }
 
 ALWAYS_INLINE inline bool runtimeAssertsEnabled() noexcept {

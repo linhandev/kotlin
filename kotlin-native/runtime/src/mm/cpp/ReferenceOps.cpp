@@ -30,9 +30,9 @@ namespace {
 template<typename F, typename G>
 ALWAYS_INLINE auto fastReadBarrier(F readBarrier, G fastPath) {
 #ifdef ENABLE_GC_FASTPATH
-    // x28 bit 62 is a CRT/CMC phase bit only. It must not participate in
+    // The x28 metadata bit is a CRT/CMC rb bit only. It must not participate in
     // deciding whether the current runtime is CMS.
-    CHECK_READ_BARRIER_SLOW_PATH(slow_path)
+    CHECK_READ_BARRIER_SLOW_PATH(slow_path);
     return fastPath();
 slow_path:
 #endif

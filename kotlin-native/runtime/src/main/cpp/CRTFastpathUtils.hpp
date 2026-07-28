@@ -15,6 +15,7 @@
 #ifndef CRT_ALLOC_CPP_CRTFASTPATHUTILS_HPP_
 #define CRT_ALLOC_CPP_CRTFASTPATHUTILS_HPP_
 
+#include "CompilerConstants.hpp"
 #include "KAssert.h"
 
 namespace kotlin::mm {
@@ -115,25 +116,65 @@ private:
 #ifdef ENABLE_GC_FASTPATH
 #define SetThreadLocalDataToFixedReg(tls) \
     do { \
+    const uintptr_t tlsValue = reinterpret_cast<uintptr_t>(tls); \
+    RuntimeAssert((tlsValue & common::ActiveReadBarrierMask()) == 0, \
+                  "CRT TLS address must leave the fastpath metadata bit clear"); \
     common::CallToFFixedX28::Verify(); \
-    LocalVarToFixedReg_UNCHECKED(tls); \
+    LocalVarToFixedReg_UNCHECKED(tlsValue); \
     } while (false);
 
-#define TLS_ACTIVE_READ_BARRIER_BIT "62" // string, to simplify uses in __asm__, keep in sync with TLS_DATA_MASK
-constexpr uintptr_t TLS_DATA_MASK = (1L << 62) - 1; // keep in sync with TLS_ACTIVE_READ_BARRIER_BIT
+// Position of the read-barrier-active flag inside the x28 TLS pointer:
+//   HWAsan off: bit 62 — utilize TBI on arm so one can also directly use x28 as a pointer to TLS.
+//   HWAsan on : bit 1  — leave the top byte for HWASAN tag. RB flag store in bit 1.
+//              Hence must be cleared before deref x28 as a TLS pointer
+#define TLS_ACTIVE_READ_BARRIER_BITNO_HWASAN 1
+#define TLS_ACTIVE_READ_BARRIER_BIT_HWASAN TOSTRING(TLS_ACTIVE_READ_BARRIER_BITNO_HWASAN)
+constexpr uintptr_t TLS_ACTIVE_READ_BARRIER_MASK_HWASAN = uintptr_t{1} << TLS_ACTIVE_READ_BARRIER_BITNO_HWASAN;
+constexpr uintptr_t TLS_DATA_MASK_HWASAN = ~TLS_ACTIVE_READ_BARRIER_MASK_HWASAN;
 
-static inline uintptr_t ThreadLocalRegisterData()
+#define TLS_ACTIVE_READ_BARRIER_BITNO 62
+#define TLS_ACTIVE_READ_BARRIER_BIT TOSTRING(TLS_ACTIVE_READ_BARRIER_BITNO)
+constexpr uintptr_t TLS_ACTIVE_READ_BARRIER_MASK = uintptr_t{1} << TLS_ACTIVE_READ_BARRIER_BITNO;
+constexpr uintptr_t TLS_DATA_MASK = ~TLS_ACTIVE_READ_BARRIER_MASK;
+
+ALWAYS_INLINE inline uintptr_t ClearFastpathMetadata(uintptr_t value) noexcept
+{
+    if (::kotlin::compiler::isHwasanEnabled()) {
+        return value & TLS_DATA_MASK_HWASAN;
+    } else {
+        return value & TLS_DATA_MASK;
+    }
+}
+
+ALWAYS_INLINE inline uintptr_t ActiveReadBarrierMask() noexcept
+{
+    return ::kotlin::compiler::isHwasanEnabled() ? TLS_ACTIVE_READ_BARRIER_MASK_HWASAN
+                                                 : TLS_ACTIVE_READ_BARRIER_MASK;
+}
+
+// return a clear pointer to TLS by masking off the rb bit
+ALWAYS_INLINE inline uintptr_t ThreadLocalRegisterData()
 {
     uintptr_t tlr;
     FixedRegToLocalVar(tlr);
-    // Usually we access data pointed by x28 value without masking
-    // relying on TBI, masking is only required for equality checks.
-    return tlr & TLS_DATA_MASK;
+    return ClearFastpathMetadata(tlr);
 }
-static_assert(CallToFFixedX28::MAGIC_MARKER == (CallToFFixedX28::MAGIC_MARKER & TLS_DATA_MASK));
+
+static_assert((CallToFFixedX28::MAGIC_MARKER & TLS_ACTIVE_READ_BARRIER_MASK) == 0,
+              "MAGIC_MARKER must survive ClearFastpathMetadata unchanged (HWAsan off, bit 62)");
+static_assert((CallToFFixedX28::MAGIC_MARKER & TLS_ACTIVE_READ_BARRIER_MASK_HWASAN) == 0,
+              "MAGIC_MARKER must survive ClearFastpathMetadata unchanged (HWAsan on, bit 1)");
 
 #define CHECK_READ_BARRIER_SLOW_PATH(slow_path) \
-    __asm__ volatile goto("tbnz x28, #" TLS_ACTIVE_READ_BARRIER_BIT ", %l[" #slow_path "]" : : : : slow_path);
+    do { \
+        if (::kotlin::compiler::isHwasanEnabled()) { \
+            __asm__ volatile goto("tbnz x28, #" TLS_ACTIVE_READ_BARRIER_BIT_HWASAN \
+                                  ", %l[" #slow_path "]" : : : : slow_path); \
+        } else { \
+            __asm__ volatile goto("tbnz x28, #" TLS_ACTIVE_READ_BARRIER_BIT \
+                                  ", %l[" #slow_path "]" : : : : slow_path); \
+        } \
+    } while (false);
 
 #define FAST_CHECK_MM_SWITCH(slow_path) \
     __asm__ volatile goto("cbz x28, %l[" #slow_path "]" : : : : slow_path);
