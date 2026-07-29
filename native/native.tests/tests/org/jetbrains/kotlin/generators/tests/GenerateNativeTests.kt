@@ -459,9 +459,9 @@ fun main() {
                 model()
             }
         }
-        // sanitizer corruption ut
+        // sanitizer corruption ut (ADDRESS/HWADDRESS only; see AbstractSanitizerBlackBoxTest)
         testGroup("native/native.tests/tests-gen", "native/native.tests/testData/sanitizer/corruption") {
-            testClass<AbstractNativeBlackBoxTest>(
+            testClass<AbstractSanitizerBlackBoxTest>(
                 suiteTestClassName = "FirSanitizerCorruptionTestGenerated",
                 annotations = listOf(
                     *sanitizerCorruption(),
@@ -471,9 +471,9 @@ fun main() {
                 model(recursive = false)
             }
         }
-        // tbi conflict ut
+        // tbi conflict ut (ADDRESS/HWADDRESS only; see AbstractSanitizerBlackBoxTest)
         testGroup("native/native.tests/tests-gen", "native/native.tests/testData/sanitizer/tbi") {
-            testClass<AbstractNativeBlackBoxTest>(
+            testClass<AbstractSanitizerBlackBoxTest>(
                 suiteTestClassName = "FirSanitizerTbiTestGenerated",
                 annotations = listOf(
                     *sanitizerTbi(),

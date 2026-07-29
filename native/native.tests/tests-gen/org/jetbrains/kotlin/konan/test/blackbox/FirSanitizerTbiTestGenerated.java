@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 @EnforcedProperty(property = ClassLevelProperty.TEST_KIND, propertyValue = "STANDALONE_NO_TR")
 @EnforcedProperty(property = ClassLevelProperty.CACHE_MODE, propertyValue = "NO")
 @UseStandardTestCaseGroupProvider()
-public class FirSanitizerTbiTestGenerated extends AbstractNativeBlackBoxTest {
+public class FirSanitizerTbiTestGenerated extends AbstractSanitizerBlackBoxTest {
   @Test
   public void testAllFilesPresentInTbi() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/sanitizer/tbi"), Pattern.compile("^(.+)\\.kt$"), null, false);
