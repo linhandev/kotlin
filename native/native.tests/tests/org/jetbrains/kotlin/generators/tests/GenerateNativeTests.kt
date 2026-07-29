@@ -459,6 +459,30 @@ fun main() {
                 model()
             }
         }
+        // sanitizer corruption ut
+        testGroup("native/native.tests/tests-gen", "native/native.tests/testData/sanitizer/corruption") {
+            testClass<AbstractNativeBlackBoxTest>(
+                suiteTestClassName = "FirSanitizerCorruptionTestGenerated",
+                annotations = listOf(
+                    *sanitizerCorruption(),
+                    provider<UseStandardTestCaseGroupProvider>(),
+                )
+            ) {
+                model(recursive = false)
+            }
+        }
+        // tbi conflict ut
+        testGroup("native/native.tests/tests-gen", "native/native.tests/testData/sanitizer/tbi") {
+            testClass<AbstractNativeBlackBoxTest>(
+                suiteTestClassName = "FirSanitizerTbiTestGenerated",
+                annotations = listOf(
+                    *sanitizerTbi(),
+                    provider<UseStandardTestCaseGroupProvider>(),
+                )
+            ) {
+                model(recursive = false)
+            }
+        }
     }
 }
 
@@ -638,5 +662,31 @@ private fun dfx() = arrayOf(
         EnforcedProperty::class.java,
         "property" to ClassLevelProperty.TEST_KIND,
         "propertyValue" to "STANDALONE"
+    ),
+)
+private fun sanitizerCorruption() = arrayOf(
+    annotation(Tag::class.java, "sanitizer-corruption"),
+    annotation(
+        EnforcedProperty::class.java,
+        "property" to ClassLevelProperty.TEST_KIND,
+        "propertyValue" to "STANDALONE_NO_TR"
+    ),
+    annotation(
+        EnforcedProperty::class.java,
+        "property" to ClassLevelProperty.CACHE_MODE,
+        "propertyValue" to "NO"
+    ),
+)
+private fun sanitizerTbi() = arrayOf(
+    annotation(Tag::class.java, "sanitizer-tbi"),
+    annotation(
+        EnforcedProperty::class.java,
+        "property" to ClassLevelProperty.TEST_KIND,
+        "propertyValue" to "STANDALONE_NO_TR"
+    ),
+    annotation(
+        EnforcedProperty::class.java,
+        "property" to ClassLevelProperty.CACHE_MODE,
+        "propertyValue" to "NO"
     ),
 )

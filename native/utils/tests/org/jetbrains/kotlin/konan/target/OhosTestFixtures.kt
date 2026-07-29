@@ -24,6 +24,7 @@ internal class StubOhosConfigurables(
     private val baseDir: File,
     override val additionalTargetSysRoot: String? = null,
     override val linkerDynamicFlags: List<String> = emptyList(),
+    override val linkerKonanFlags: List<String> = emptyList(),
 ) : OhosConfigurables {
     val libDir = when (target) {
         KonanTarget.OHOS_X64 -> "x86_64-linux-ohos"
@@ -51,7 +52,6 @@ internal class StubOhosConfigurables(
     override val cacheableTargets: List<String> = emptyList()
     override val additionalCacheFlags: List<String> = emptyList()
     override val linkerOptimizationFlags: List<String> = emptyList()
-    override val linkerKonanFlags: List<String> = emptyList()
     override val linkerNoDebugFlags: List<String> = emptyList()
     override val targetSysRoot: String = "sysroot"
     override val targetToolchain: String = "toolchain"

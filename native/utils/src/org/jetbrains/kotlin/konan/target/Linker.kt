@@ -257,29 +257,33 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
             if (dynamic) +linkerDynamicFlags
             if (dynamic) +"--soname=${File(executable).name}"
             +objectFiles
-            +librariesArgs
-            +linkerArgs
-            +linkerKonanFlags
             // ohos_x64: LLVM codegen may reference __cpu_model for CPU feature dispatching.
             if (target == KonanTarget.OHOS_X64) +"$targetLib/libclang_rt.builtins.a"
+            // Sanitizer runtime DSOs precede -lc so their interceptors win symbol
+            // resolution (DT_NEEDED order: libclang_rt.*.so ahead of libc).
             when (sanitizer) {
-                null -> {}
                 SanitizerKind.ADDRESS -> {
-                    +"$targetLib/libclang_rt.asan.so"
                     +"$targetLib/libclang_rt.asan-preinit.a"
-                    +"$targetLib/clang_rt.crtend.o"
+                    +"$targetLib/libclang_rt.asan.so"
                 }
                 SanitizerKind.HWADDRESS -> {
-                    +"$targetLib/libclang_rt.hwasan.so"
                     +"$targetLib/libclang_rt.hwasan-preinit.a"
-                    +"$targetLib/clang_rt.crtend.o"
+                    +"$targetLib/libclang_rt.hwasan.so"
                 }
                 SanitizerKind.THREAD -> {
                     +"$targetLib/libclang_rt.builtins.a"
                     +"$targetLib/libclang_rt.tsan_cxx.a"
                     +"$targetLib/libclang_rt.tsan.so"
-                    +"$targetLib/clang_rt.crtend.o"
                 }
+                null -> {}
+            }
+            +librariesArgs
+            +linkerArgs
+            +linkerKonanFlags
+            when (sanitizer) {
+                SanitizerKind.ADDRESS, SanitizerKind.HWADDRESS, SanitizerKind.THREAD ->
+                    +"$targetLib/clang_rt.crtend.o"
+                null -> {}
             }
         })
     }

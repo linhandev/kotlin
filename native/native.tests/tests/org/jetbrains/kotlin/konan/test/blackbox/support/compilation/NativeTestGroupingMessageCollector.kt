@@ -73,6 +73,7 @@ internal class NativeTestGroupingMessageCollector(
                     || isKlibResolver(message)
                     || isContextReceiversWarning(message)
                     || isK1LanguageVersionWarning(message)
+                    || isSanitizerWithCustomAllocatorWarning(message)
                 -> {
                 // These warnings are known and should not be reported as errors.
                 severity
@@ -122,6 +123,9 @@ internal class NativeTestGroupingMessageCollector(
 
     private fun isK1LanguageVersionWarning(message: String): Boolean = message.matches(K1_LANGUAGE_VERSIONS_WARNING_REGEX)
 
+    private fun isSanitizerWithCustomAllocatorWarning(message: String): Boolean =
+        message == SANITIZER_WITH_CUSTOM_ALLOCATOR_WARNING
+
     override fun hasErrors() = hasWarningsWithRaisedSeverity || super.hasErrors()
 
     companion object {
@@ -131,6 +135,8 @@ internal class NativeTestGroupingMessageCollector(
         private const val K2_NATIVE_EXPERIMENTAL_WARNING_PREFIX = "Language version 2.0 is experimental"
         private const val KLIB_RESOLVER_WARNING_PREFIX = "KLIB resolver: "
         private const val CONTEXT_RECEIVERS_WARNING_PREFIX = "Experimental context receivers are superseded by context parameters"
+        // Keep in sync with KonanConfig when -Xallocator=custom is combined with a sanitizer.
+        private const val SANITIZER_WITH_CUSTOM_ALLOCATOR_WARNING = "Sanitizers are useful only with the std allocator"
 
         private val K1_LANGUAGE_VERSIONS_WARNING_REGEX = Regex("Language version 1.[0-9.]+ is deprecated and its support will be removed in a future version of Kotlin")
         private val PARTIAL_LINKAGE_WARNING_REGEX = Regex("^<[^<>]+>( @ (?:(?!: ).)+)?: .*")
