@@ -125,9 +125,12 @@ extern "C" void DeinitMemory(MemoryState* state, bool destroyRuntime) {
     AssertThreadState(state, ThreadState::kNative);
     auto* node = mm::FromMemoryState(state);
     checkUseCRT<CheckMode::Slow>([&] {
-        // First take lock of MutatorManager for gc, avoid dead lock while gc iterate ThreadRegistry
-        // Kotlin::ThreadData is 1-1 corresponding to CRT ThreadHolder
-        node->Get()->ClearThreadHolder();
+        auto* threadData = node->Get();
+        // Terminating thread might have unpublished global/special roots,
+        // publish those before the thread is unlinked from the CRT thread list.
+        threadData->Publish();
+        // Destroy CRT data structures associated with this thread before it is unregistered on K/N runtime side.
+        threadData->ClearThreadHolder();
         if (destroyRuntime) {
             // CRT will properly stop its own GC and Finalizer threads upon destruction.
             // No other running threads are expected to exist by this point.
