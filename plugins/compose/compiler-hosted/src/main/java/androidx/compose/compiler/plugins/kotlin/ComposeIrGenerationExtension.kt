@@ -20,6 +20,7 @@ import androidx.compose.compiler.plugins.kotlin.analysis.FqNameMatcher
 import androidx.compose.compiler.plugins.kotlin.analysis.StabilityInferencer
 import androidx.compose.compiler.plugins.kotlin.k1.ComposeDescriptorSerializerContext
 import androidx.compose.compiler.plugins.kotlin.lower.*
+import androidx.compose.compiler.plugins.kotlin.lower.hiddenfromc.AddHiddenFromCLowering
 import androidx.compose.compiler.plugins.kotlin.lower.hiddenfromobjc.AddHiddenFromObjCLowering
 import com.intellij.openapi.progress.ProgressManager
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
@@ -87,6 +88,12 @@ class ComposeIrGenerationExtension(
                 pluginContext,
                 metrics,
                 descriptorSerializerContext?.hideFromObjCDeclarationsSet,
+                stabilityInferencer,
+                featureFlags,
+            ).lower(moduleFragment)
+            AddHiddenFromCLowering(
+                pluginContext,
+                metrics,
                 stabilityInferencer,
                 featureFlags,
             ).lower(moduleFragment)
