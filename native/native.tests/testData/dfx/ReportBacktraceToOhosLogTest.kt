@@ -53,12 +53,47 @@ class ReportBacktraceToOhosLogTest {
     }
 
     /**
-     * NDK semantics: OH_HiDebug_SetCrashObj returns a crash-object handle (ULong); 0 means none.
-     * It is not a HIDEBUG_* error code. On exception (API/symbol unavailable) the probe uses 0uL;
-     * either outcome is acceptable.
+     * Validates a SetCrashObj probe result for the ReportBacktrace channel.
+     *
+     * NDK: return is the *previously* set crash-object handle (0 if none) — not HIDEBUG_*.
+     * 0 is normal on a first attach, so [handle] alone cannot prove success.
+     *
+     * Therefore, when API >= [ohosHidebugMinApi]:
+     * - if [handle] != 0, it must be accepted by [OH_HiDebug_ResetCrashObj]
+     * - re-probe SetCrashObj with a retained STRING buffer and assert it does not throw
+     *   (mirrors Exceptions.cpp; ignores return like runtime)
+     * Below min API: previousHandle is only logged (unavailable / exception → 0uL).
      */
     private fun assertSetCrashObjAcceptable(handle: ULong) {
-        logLine("SetCrashObj handle=$handle (0=none/unavailable)")
+        val api = sdkApiVersion()
+        logLine("SetCrashObj previousHandle=$handle api=$api (0=none; not HIDEBUG_*)")
+        if (api < ohosHidebugMinApi) return
+
+        if (handle != 0uL) {
+            try {
+                OH_HiDebug_ResetCrashObj(handle)
+            } catch (e: Throwable) {
+                fail("non-zero SetCrashObj return must be ResetCrashObj-able: $handle ($e)")
+            }
+        }
+
+        // Channel probe: handle==0 cannot prove attach worked; assert callable like runtime.
+        val msgBytes = "ReportBacktrace_SetCrashObj_channel_probe".encodeToByteArray()
+        val buf = nativeHeap.allocArray<ByteVar>(msgBytes.size + 1)
+        for (i in msgBytes.indices) {
+            buf[i] = msgBytes[i]
+        }
+        buf[msgBytes.size] = 0.toByte()
+        try {
+            OH_HiDebug_SetCrashObj(HIDEBUG_CRASHOBJ_STRING, buf)
+        } catch (e: Throwable) {
+            nativeHeap.free(buf)
+            fail(
+                "ReportBacktrace SetCrashObj must be callable on API >= $ohosHidebugMinApi " +
+                    "(previousHandle=$handle): $e",
+            )
+        }
+        // Retain buf: NDK requires addr valid until crash (mirrors static truncated).
     }
 
     // ---------- Constants aligned with Exceptions.cpp ----------
