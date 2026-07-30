@@ -39,6 +39,7 @@ __attribute__((objc_subclassing_restricted))
  *   kotlin.experimental.ExperimentalNativeApi
 */
 - (KotlinArray<NSString *> *)getStackTrace __attribute__((swift_name("getStackTrace()")));
+- (BOOL)keepStackTrace __attribute__((swift_name("keepStackTrace()"))) __attribute__((deprecated("")));
 - (void)printStackTrace __attribute__((swift_name("printStackTrace()")));
 - (NSString *)description __attribute__((swift_name("description()")));
 @property (readonly) KotlinThrowable * _Nullable cause __attribute__((swift_name("cause")));

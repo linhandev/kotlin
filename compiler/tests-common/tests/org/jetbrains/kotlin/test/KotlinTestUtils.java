@@ -326,14 +326,62 @@ public class KotlinTestUtils {
         failIfNotEqual(message, compareExpectFileWithActualText(expectedFile, actual, sanitizer));
     }
 
+    /**
+     * Per-section cap for text embedded in the failure message (expected golden and actual each).
+     * Sized to fit current ObjCExport bang headers (largest ~146KB) with headroom; if truncated,
+     * {@link #appendPossiblyTruncated} always emits an explicit TRUNCATED marker.
+     */
+    private static final int MAX_CHARS_PER_SECTION_IN_FAILURE_MESSAGE = 512 * 1024;
+
     public static void failIfNotEqual(@NotNull String message, FileComparisonResult fileComparisonResult) {
         if (!fileComparisonResult.doesEqual) {
             throw new AssertionFailedError(
-                    message + ": " + fileComparisonResult.expectedFile.getName(),
+                    formatFileComparisonFailureMessage(message, fileComparisonResult),
                     new FileInfo(fileComparisonResult.expectedFile.getAbsolutePath(), fileComparisonResult.expectedText.getBytes(StandardCharsets.UTF_8)),
                     fileComparisonResult.actualSanitizedText
             );
         }
+    }
+
+    @NotNull
+    private static String formatFileComparisonFailureMessage(
+            @NotNull String message,
+            @NotNull FileComparisonResult fileComparisonResult
+    ) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(message).append(": ").append(fileComparisonResult.expectedFile.getName());
+        sb.append("\n<<< expected (golden): ")
+                .append(fileComparisonResult.expectedFile.getName())
+                .append(" >>>\n");
+        appendPossiblyTruncated(sb, fileComparisonResult.expectedSanitizedText, "expected");
+        sb.append("\n\n\n\n\n<<< actual (generated) >>>\n");
+        appendPossiblyTruncated(sb, fileComparisonResult.actualSanitizedText, "actual");
+        return sb.toString();
+    }
+
+    private static void appendPossiblyTruncated(
+            @NotNull StringBuilder sb,
+            @NotNull String text,
+            @NotNull String label) {
+        if (text.length() <= MAX_CHARS_PER_SECTION_IN_FAILURE_MESSAGE) {
+            sb.append(text);
+            if (!text.isEmpty() && !text.endsWith("\n")) {
+                sb.append('\n');
+            }
+            return;
+        }
+        sb.append(text, 0, MAX_CHARS_PER_SECTION_IN_FAILURE_MESSAGE);
+        if (MAX_CHARS_PER_SECTION_IN_FAILURE_MESSAGE > 0
+                && text.charAt(MAX_CHARS_PER_SECTION_IN_FAILURE_MESSAGE - 1) != '\n') {
+            sb.append('\n');
+        }
+        sb.append("*** TRUNCATED ").append(label).append(": showing first ")
+                .append(MAX_CHARS_PER_SECTION_IN_FAILURE_MESSAGE)
+                .append(" of ")
+                .append(text.length())
+                .append(" chars (")
+                .append(text.length() - MAX_CHARS_PER_SECTION_IN_FAILURE_MESSAGE)
+                .append(" omitted) ***\n");
     }
 
     public static JavaCompilationResult compileKotlinWithJava(
