@@ -1,0 +1,91 @@
+{
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "times operand types must match overload signature",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary times resolves to operator fun times",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "percent uses rem; infix mod is separate explicit call",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "percent operator resolves to operator fun rem",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary div resolves to operator fun div",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiplicative binds tighter than additive in mixed expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

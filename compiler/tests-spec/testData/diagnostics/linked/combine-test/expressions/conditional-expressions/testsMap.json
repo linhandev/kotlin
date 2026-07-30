@@ -1,0 +1,370 @@
+{
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression branch with Elvis operator and throw expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "conditional expression branch with safe call and Elvis operator type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "13": {
+    "neg": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast is invalidated after reassignment to var local in conditional expression branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-13/neg/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "neg": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast does not apply to mutable property access in conditional expression branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-14/neg/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "is CharSequence then as? String with Elvis infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "neg": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is smart cast in \u0026\u0026 condition must appear before member access on left-hand side",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-12/neg/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "neg": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with nullable branch cannot be assigned to non-nullable type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-24/neg/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression with nullable and non-nullable branches infers nullable result type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional on Any? with is String and null branch infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast passed as function call argument type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested conditional expression in branch with is smart cast type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression with is smart cast type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast and member function call in branch type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "neg": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression condition with Elvis operator still nullable cannot be used as Boolean condition",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-19/neg/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression branch with Elvis operator and return expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression else branch with Elvis operator providing default value type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast does not apply outside the branch where type was narrowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast from true branch does not apply in else branch of conditional expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "conditional expression true branch with Elvis operator providing non-null receiver type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression result type inference with Elvis operator in true branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression condition with Elvis operator converting nullable Boolean to Boolean type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with || in condition and !is smart cast type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with \u0026\u0026 in condition and is smart cast type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with !is smart cast in else branch type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast and different branch types infer common supertype Number",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

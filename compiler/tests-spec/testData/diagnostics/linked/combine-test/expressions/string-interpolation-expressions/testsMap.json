@@ -1,0 +1,418 @@
+{
+  "22": {
+    "neg": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "call expression cannot use simple $identifier form without ${}",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-22/neg/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "25": {
+    "neg": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private member cannot be accessed from interpolation expression outside class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-25/neg/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom toString in simple identifier interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "nullable reference interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "safe call and Elvis inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interpolated Int converted to String type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "invoked function type result inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "23": {
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "empty ${} interpolation expression reports syntax error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension property access inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property on implicit this receiver interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property chain and call chain inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simple identifier interpolation resolves to local variable access type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member call on implicit this receiver inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Char simple identifier interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "invoke operator call inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "neg": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unresolved identifier in simple interpolation reports error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-21/neg/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interpolated string passed to function expecting String type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension function call inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interpolation expression with comparison operator type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "escaped dollar sign produces literal text type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "adjacent interpolations in one template type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested string template inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "zero-argument call expression inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property access in interpolation must be wrapped in ${} type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simple interpolation only includes object before dot, remainder is literal text type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "call expression with arguments inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}
