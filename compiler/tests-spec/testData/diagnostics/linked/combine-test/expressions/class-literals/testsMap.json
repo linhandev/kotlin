@@ -1,0 +1,460 @@
+{
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branch x::class infers KClass\u003cout Any\u003e and compares with class literal, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "31": {
+    "neg": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function type class literal ((Int) -\u003e Int)::class is not equal to Function1::class with class literal comparison, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-31/neg/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified type parameter T::class in inline function infers KClass\u003cT\u003e at call site, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "KClass.isInstance returns Boolean, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested class class literal Outer.Inner::class infers KClass\u003cOuter.Inner\u003e with fully qualified name, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inner class Outer.Inner::class infers KClass\u003cOuter.Inner\u003e distinct from KClass\u003cOuter\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration class literal Singleton::class infers KClass\u003cSingleton\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type alias UserId::class infers KClass\u003cString\u003e same as String::class, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified type check isT\u003cString?\u003e with nullable type parameter infers Boolean, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified with nullable type argument String? infers KClass\u003cString\u003e (erased), verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "raw List::class infers KClass\u003cList\u003c*\u003e\u003e without specific type arguments, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "KClass variable infers as nullable KClass\u003cString\u003e? when conditionally assigned class literal or null, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class literal String::class infers KClass\u003cString\u003e and is assignable even when target is typed String?, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class literal String::class infers KClass\u003cString\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "KClass\u003cString\u003e cannot be assigned to KClass\u003cString?\u003e due to upper bound Any constraint, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "IntArray::class infers KClass\u003cIntArray\u003e distinct from KClass\u003cArray\u003cInt\u003e\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String::class infers KClass\u003cString\u003e assignable to KClass\u003cout Any\u003e via covariance, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "neg": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-reified type parameter T::class is not allowed, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-21/neg/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "neg": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String::class of type KClass\u003cString\u003e cannot be assigned to KClass\u003cInt\u003e, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-28/neg/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class class literal Color::class infers KClass\u003cColor\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare List::class infers KClass\u003cList\u003c*\u003e\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "star-projected type List\u003c*\u003e::class is not a valid class literal, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local class class literal Local::class infers KClass\u003cLocal\u003e within declaring function, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "companion object C.Companion::class infers KClass\u003cC.Companion\u003e distinct from KClass\u003cC\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "after nullable smart cast, value::class infers KClass\u003cout String\u003e; Number receiver ::class is KClass\u003cout Number\u003e",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry class literal Color.RED::class infers KClass\u003cColor.RED\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Sub::class infers KClass\u003cSub\u003e assignable to KClass\u003cBase\u003e via covariance, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "::class cannot be used on null literal, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "instance ::class infers KClass\u003cout Base\u003e on statically typed Base receiver, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class literal String::class.isInstance returns Boolean, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable type String?::class is not a valid class literal syntax, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

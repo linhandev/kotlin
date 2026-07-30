@@ -1,0 +1,449 @@
+{
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis with non-nullable left inside try reports USELESS_ELVIS and type remains Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand throw is Nothing inside try expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "finally does not change nullable Elvis result type of try expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try expression with all Nothing branches is usable at expected type Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try expression as function call argument participates in type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "nullable try branch with Nothing catch remains String?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try block of Nothing allows overall type to be determined by catch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "parenthesized nullable try with Elvis then .length infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "23": {
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable try expression cannot be assigned to non-nullable String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "missing matching catch does not affect static type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally block does not change try expression result type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch with return is Nothing so try expression type remains Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try and catch returning the same type infers that type for the try expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return in finally overrides try expression result type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try block with safe call and Elvis providing default Int type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally return overrides try Elvis; try body type still checks",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand return is Nothing inside try expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "outer Elvis covers try safe-call null and catch null, infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try expression result with Elvis providing default value type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try expression with Int and String branches cannot be assigned to Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiple catch branches participate in overall type inference to Any",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "multi-catch nullable and non-nullable branches with outer Elvis type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try block returning nullable value yields nullable overall type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch uses Elvis on nullable exception message type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "catch returning non-null still allows overall nullable type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try expression as Elvis left operand type inference to String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "throw branch is Nothing and does not affect try expression result type Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try and catch returning unrelated types infer common supertype Any",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try and catch returning different numeric types infer common supertype Number",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch that throws is Nothing so overall type is determined by try block",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

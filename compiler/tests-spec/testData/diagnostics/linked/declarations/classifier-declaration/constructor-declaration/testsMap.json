@@ -1,0 +1,17 @@
+{
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "constructor reference ::User infers function type (String) -\u003e User, distinct from member property references, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/callable-references/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

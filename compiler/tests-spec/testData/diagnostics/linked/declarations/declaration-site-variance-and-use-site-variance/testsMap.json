@@ -1,0 +1,47 @@
+{
+  "55": {
+    "pos": {
+      "55": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "covariant out-projected type argument in function parameter accepts subtype argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-55/pos/55.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "54": {
+    "pos": {
+      "54": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "star-projected type as receiver in call to non-generic member",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-54/pos/54.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "56": {
+    "pos": {
+      "56": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "contravariant in-projected type argument in function parameter accepts supertype argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-56/pos/56.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}
