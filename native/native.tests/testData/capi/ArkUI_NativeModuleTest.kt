@@ -6099,8 +6099,12 @@ class ArkUI_NativeModuleTest {
         assertEquals(ARKUI_NODE_SCROLL.toInt(), 1002)
         assertEquals(ARKUI_NODE_LIST.toInt(), 1003)
         assertEquals(ARKUI_NODE_LIST_ITEM.toInt(), 1004)
+        assertEquals(ARKUI_NODE_LIST_ITEM_GROUP.toInt(), 1005)
         assertEquals(ARKUI_NODE_COLUMN.toInt(), 1006)
-        assertEquals(ARKUI_NODE_ROW.toInt(), 1010)
+        assertEquals(ARKUI_NODE_ROW.toInt(), 1007)
+        assertEquals(ARKUI_NODE_FLEX.toInt(), 1008)
+        assertEquals(ARKUI_NODE_REFRESH.toInt(), 1009)
+        assertEquals(ARKUI_NODE_WATER_FLOW.toInt(), 1010)
         logLine("ArkUI_NodeType passed")
     }
 
