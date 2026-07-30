@@ -414,9 +414,9 @@ fun main() {
                 model()
             }
         }
-        // CAPI tests
+        // CAPI tests (OHOS-only platform kits; see AbstractOhosCAPIBlackBoxTest)
         testGroup("native/native.tests/tests-gen", "native/native.tests/testData/capi") {
-            testClass<AbstractNativeBlackBoxTest>(
+            testClass<AbstractOhosCAPIBlackBoxTest>(
                 suiteTestClassName = "OhosCAPITestGenerated",
                 annotations = listOf(
                     *capi(),
