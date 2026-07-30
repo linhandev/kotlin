@@ -13,7 +13,8 @@
     "local-type-inference",
     "function-signature-type-inference/statements-with-lambda-literals",
     "function-signature-type-inference/named-and-anonymous-function-declarations",
-    "bare-type-argument-inference"
+    "bare-type-argument-inference",
+    "introduction-1"
   ],
   "asynchronous-programming-with-coroutines": [
     "coroutine-intrinsics",
@@ -24,7 +25,16 @@
   ],
   "type-system": [
     "type-kinds/built-in-types/kotlin.nothing",
-    "introduction-1"
+    "introduction-1",
+    "type-kinds/flexible-types/platform-types",
+    "subtyping/subtyping-rules",
+    "nullable-types",
+    "type-kinds/union-types",
+    "upper-and-lower-bounds",
+    "type-kinds/type-parameters",
+    "type-kinds/intersection-types",
+    "introduction-1/type-kinds",
+    "type-kinds/function-types"
   ],
   "scopes-and-identifiers": [
     "labels",
@@ -53,7 +63,19 @@
     "function-declaration",
     "property-declaration/extension-property-declaration",
     "property-declaration/getters-and-setters",
-    "property-declaration/delegated-property-declaration"
+    "property-declaration/delegated-property-declaration",
+    "declaration-visibility",
+    "property-declaration",
+    "classifier-declaration/companion-object",
+    "declarations-with-type-parameters",
+    "destructuring-declarations",
+    "classifier-declaration/classifier-declaration-scopes",
+    "declarations-with-type-parameters/type-parameter-variance",
+    "property-declaration/late-initialized-properties",
+    "declarations-with-type-parameters/reified-type-parameters",
+    "declaration-site-variance-and-use-site-variance",
+    "function-declaration/extension-function-declaration",
+    "classifier-declaration/constructor-declaration"
   ],
   "exceptions": [
     "",
@@ -61,7 +83,9 @@
     "catching-exceptions"
   ],
   "annotations": [
-    "overview"
+    "overview",
+    "annotation-declarations",
+    "annotation-use-site-targets"
   ],
   "statements": [
     "assignments/operator-assignments",
@@ -77,7 +101,9 @@
     "overriding",
     "classifier-type-inheritance/abstract-classes",
     "classifier-type-inheritance/sealed-classes-and-interfaces",
-    "classifier-type-inheritance/inheritance-from-built-in-types"
+    "classifier-type-inheritance/inheritance-from-built-in-types",
+    "inheriting",
+    "classifier-type-inheritance/open-classes"
   ],
   "packages-and-imports": [
     "package-header",
@@ -86,8 +112,11 @@
   "overload-resolution": [
     "callables-and-invoke-convention",
     "building-the-overload-candidate-set/call-without-an-explicit-receiver",
-    "choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1",
+    "building-the-overload-candidate-set/call-with-named-parameters",
     "choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection",
+    "building-the-overload-candidate-set/call-with-trailing-lambda-expressions",
+    "resolving-callable-references",
+    "choosing-the-most-specific-candidate-from-the-overload-candidate-set/rationale-1",
     "c-level-partition",
     "the-forms-of-call-expression",
     "building-the-overload-candidate-set-ocs/infix-function-call",
@@ -98,13 +127,11 @@
     "receivers",
     "type-inference-and-overload-resolution",
     "resolving-property-access",
-    "building-the-overload-candidate-set/call-with-trailing-lambda-expressions",
     "building-the-overload-candidate-set/call-with-specified-type-parameters",
     "building-the-overload-candidate-set/infix-function-call",
     "building-the-overload-candidate-set/operator-call",
     "building-the-overload-candidate-set/fully-qualified-call",
     "building-the-overload-candidate-set/call-with-an-explicit-receiver",
-    "building-the-overload-candidate-set/call-with-named-parameters",
     "conflicting-overloads"
   ],
   "expressions": [
@@ -191,7 +218,8 @@
     "prefix-expressions/prefix-increment-expressions",
     "prefix-expressions/prefix-decrement-expressions",
     "prefix-expressions/annotated-expressions",
-    "prefix-expressions/unary-plus-expressions"
+    "prefix-expressions/unary-plus-expressions",
+    "call-expressions"
   ],
   "overloadable-operators": [
     ""
@@ -204,14 +232,51 @@
     "lexical-grammar/literals",
     "syntax-grammar"
   ],
+  "combine-test": [
+    "declarations/classifier-declaration/object-declaration",
+    "declarations/classifier-declaration/interface-declaration",
+    "declarations/classifier-declaration/data-class-declaration",
+    "declarations/classifier-declaration/enum-class-declaration",
+    "declarations/classifier-declaration/companion-object",
+    "declarations/classifier-declaration/class-declaration",
+    "declarations/classifier-declaration/class-declaration/inheritance-delegation",
+    "declarations/classifier-declaration/class-members",
+    "declarations/property-declaration",
+    "inheritance/classifier-type-inheritance/sealed-classes-and-interfaces",
+    "expressions/try-expressions",
+    "expressions/comparison-expressions",
+    "expressions/indexing-expressions",
+    "expressions/conditional-expressions",
+    "expressions/call-expressions",
+    "expressions/function-literals/lambda-literals",
+    "expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions",
+    "expressions/type-checking-and-containment-checking-expressions/type-checking-expressions",
+    "expressions/logical-disjunction-expressions",
+    "expressions/when-expressions",
+    "expressions/elvis-operator-expressions",
+    "expressions/string-interpolation-expressions",
+    "expressions/range-expressions",
+    "expressions/object-literals",
+    "expressions/multiplicative-expressions",
+    "expressions/equality-expressions",
+    "expressions/cast-expressions",
+    "expressions/additive-expressions",
+    "expressions/call-and-property-access-expressions/navigation-operators",
+    "expressions/call-and-property-access-expressions/member-access",
+    "expressions/call-and-property-access-expressions/function-calls-and-property-access",
+    "expressions/call-and-property-access-expressions/callable-references",
+    "expressions/class-literals",
+    "expressions/logical-conjunction-expressions"
+  ],
+  "built-in-types-and-their-semantics": [
+    "kotlin.nothing",
+    "integer-type-widening"
+  ],
   "kotlin-type-constraints": [
     "the-relations-on-types-as-constraints",
     "type-constraint-definition",
     "finding-optimal-constraint-system-solution",
     "checking-constraint-system-soundness"
-  ],
-  "built-in-types-and-their-semantics": [
-    "integer-type-widening"
   ],
   "control--and-data-flow-analysis": [
     "performing-analysis-on-the-control-flow-graph",

@@ -82,7 +82,7 @@ compiler/tests-spec/
 #### 1.5.1 运行全量 spec 测试
 
 ```bash
-./gradlew :compiler:tests-spec:test --no-configuration-cache
+./gradlew :compiler:tests-spec:test 
 ```
 
 **常用参数**：
