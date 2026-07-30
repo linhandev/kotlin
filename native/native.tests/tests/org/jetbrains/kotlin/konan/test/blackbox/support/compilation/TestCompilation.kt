@@ -127,7 +127,9 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
         // We use dev distribution for tests as it provides a full set of testing utilities,
         // which might not be available in user distribution.
         add("-Xllvm-variant=dev")
-        add("-Xbinary=gc=cms")
+        if (gcType == GCType.UNSPECIFIED) {
+            add("-Xbinary=gc=cms")
+        }
         addFlattened(binaryOptions.entries) { (name, value) -> listOf("-Xbinary=$name=$value") }
     }
 

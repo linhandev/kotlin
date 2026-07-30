@@ -144,6 +144,40 @@ class OhosLinkerTest {
     }
 
     @Test
+    fun `ohos address runtime links ahead of libc`(@TempDir tempDir: Path) {
+        assertSanitizerRuntimeAheadOfLibc(tempDir, SanitizerKind.ADDRESS, "asan")
+    }
+
+    @Test
+    fun `ohos hwaddress runtime links ahead of libc`(@TempDir tempDir: Path) {
+        assertSanitizerRuntimeAheadOfLibc(tempDir, SanitizerKind.HWADDRESS, "hwasan")
+    }
+
+    /**
+     * The sanitizer runtime DSO must link before -lc so its interceptors win
+     * symbol resolution (DT_NEEDED order: libclang_rt.*.so ahead of libc).
+     * We assert only this relative invariant; the absolute position of user
+     * objects / crtend is not part of the contract.
+     */
+    private fun assertSanitizerRuntimeAheadOfLibc(tempDir: Path, sanitizer: SanitizerKind, runtimeName: String) {
+        val args = ohosLinkCommandArgs(
+            StubOhosConfigurables(
+                KonanTarget.OHOS_ARM64,
+                tempDir.toFile(),
+                linkerKonanFlags = listOf("-lc"),
+            ),
+            sanitizer = sanitizer,
+        )
+        val preinit = args.single { it.endsWith("libclang_rt.$runtimeName-preinit.a") }
+        val runtime = args.single { it.endsWith("libclang_rt.$runtimeName.so") }
+        val libc = args.single { it == "-lc" }
+
+        assertEquals(1, args.count { it.endsWith("libclang_rt.$runtimeName.so") })
+        assertTrue(args.indexOf(preinit) < args.indexOf(runtime), "preinit.a should precede the runtime .so")
+        assertTrue(args.indexOf(runtime) < args.indexOf(libc), "$runtimeName runtime .so should link before -lc")
+    }
+
+    @Test
     fun `ohos x64 asan link uses x86_64 runtime libs without duplicate builtins`(@TempDir tempDir: Path) {
         val args = ohosLinkCommandArgs(
             StubOhosConfigurables(KonanTarget.OHOS_X64, tempDir.toFile()),
@@ -211,7 +245,7 @@ class OhosLinkerTest {
             kind = LinkerOutputKind.STATIC_LIBRARY,
             executable = "/tmp/out/libtest.a",
         )
-        assertTrue(commands.any { it.args.first().endsWith("llvm-ar") })
+        assertTrue(commands.any { it.argsWithExecutable.first().endsWith("llvm-ar") })
     }
 
     @Test

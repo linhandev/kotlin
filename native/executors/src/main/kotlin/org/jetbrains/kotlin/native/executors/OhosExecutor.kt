@@ -67,6 +67,15 @@ class OhosExecutor(
         /** At most this many hdc invocations when [HDC_CONNECT_KEY_FAILURE] is reported to prevent hdc channel flakiness */
         private const val HDC_CONNECT_KEY_MAX_ATTEMPTS = 3
 
+        // alloc_dealloc_mismatch is suppressed. On-device measurement (aarch64 OHOS):
+        //   - libffrt.so (/system/lib64/ndk/libffrt.so) does operator-new-then-free during its
+        //     init, tripping ASAN alloc-dealloc-mismatch and aborting otherwise-clean (negative)
+        //     test binaries. The mismatch stack frames all land inside libffrt.so, outside the
+        //     test binary, so it is system-lib noise, not a test bug.
+        // TODO: drop this option once libffrt.so stops mixing new/free (tracked per OHOS release);
+        //       then a clean ASAN run needs no ASAN_OPTIONS at all.
+        private const val ASAN_OPTIONS = "alloc_dealloc_mismatch=0"
+
         /**
          * Device destination → lastModified of the host executable that was synced for that destination.
          * Re-sync when the executable mtime changes (same path after rebuild); skip when unchanged.
@@ -167,6 +176,7 @@ class OhosExecutor(
         val executionScript = buildString {
             append("chmod u+x '${shellEscape(deviceExePath)}' ; ")
             append("LD_LIBRARY_PATH='${shellEscape(ldLibraryPath)}' ")
+            append("ASAN_OPTIONS='${shellEscape(ASAN_OPTIONS)}' ")
             append(onDeviceExeAndArgs)
             append(" < ")
             append(stdinRedirect)

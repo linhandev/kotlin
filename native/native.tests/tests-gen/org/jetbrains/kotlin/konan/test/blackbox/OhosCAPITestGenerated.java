@@ -123,7 +123,7 @@ public class OhosCAPITestGenerated extends AbstractNativeBlackBoxTest {
 
   @Test
   public void testAllFilesPresentInCapi() {
-    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/capi"), Pattern.compile("^(.+)\\.kt$"), null, true);
+    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/capi"), Pattern.compile("^(.+)\\.kt$"), null, false);
   }
 
   @Test

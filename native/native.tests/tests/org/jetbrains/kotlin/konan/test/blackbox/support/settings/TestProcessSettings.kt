@@ -147,7 +147,9 @@ enum class ThreadStateChecker(val compilerFlag: String?) {
  */
 enum class Sanitizer(val compilerFlag: String?) {
     NONE(null),
-    THREAD("-Xbinary=sanitizer=thread");
+    THREAD("-Xbinary=sanitizer=thread"),
+    ADDRESS("-Xbinary=sanitizer=address"),
+    HWADDRESS("-Xbinary=sanitizer=hwaddress");
 
     override fun toString() = compilerFlag?.let { "($it)" }.orEmpty()
 }
@@ -160,7 +162,8 @@ enum class GCType(val compilerFlag: String?) {
     NOOP("-Xbinary=gc=noop"),
     STWMS("-Xbinary=gc=stwms"),
     PMCS("-Xbinary=gc=pmcs"),
-    CMS("-Xbinary=gc=cms");
+    CMS("-Xbinary=gc=cms"),
+    CMC("-Xbinary=gc=cmc");
 
     override fun toString() = compilerFlag?.let { "($it)" }.orEmpty()
 }
