@@ -37,13 +37,8 @@ namespace common {
 
 class KNRootsVisitor : public common::RootsRegistryInterface, private kotlin::Pinned {
 public:
-    // Upstream 33af2848b3c made this a no-op assuming all root scanning runs via VisitConcurrentRoots.
-    // But our libcrt (cc-kotlin-dev) still has STW paths (ark_collector.cpp's EnumRootsImpl<VisitGlobalRoots>
-    // at line 1025 and STW collection at line 479) that only call VisitGlobalRoots. Empty here loses
-    // Kotlin globals + stable refs during STW GCs — GlobalRootsStress / StableRefStress / StableRef
-    // benchmark regress from 0 fails to 3 fails. Delegate to VisitConcurrentRoots so both STW and
-    // concurrent paths cover the same set of roots.
-    void VisitGlobalRoots(const RefFieldVisitor& visitor) { VisitConcurrentRoots(visitor); }
+    // Publish pending Kotlin global roots before the global-root visitor scans them.
+    void VisitGlobalRoots(const RefFieldVisitor& visitor);
 
     void VisitConcurrentRoots(const RefFieldVisitor& visitor);
 

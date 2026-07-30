@@ -349,6 +349,15 @@ void StackMapHelper::TraverseBaseAndDerived(RootVisitor v1, DerivedPtrVisitor v2
 
 namespace common {
 
+void KNRootsVisitor::VisitGlobalRoots(const RefFieldVisitor& visitor)
+{
+    // NOTE: move concurrent roots out of global roots later.
+    for (auto& thread : kotlin::mm::GlobalData::Instance().threadRegistry().LockForIter()) {
+        thread.Publish();
+    }
+    VisitConcurrentRoots(visitor);
+}
+
 void KNRootsVisitor::VisitConcurrentRoots(const RefFieldVisitor& visitor)
 {
     TraverseGlobalRoots([&visitor](ObjHeader*& object) {
