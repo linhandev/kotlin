@@ -1,0 +1,431 @@
+{
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested object inside a class can implement an interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal object can implement a public interface in the same module",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fun interface can be implemented by object declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fun interface supports lambda and object declaration implementations with the same interface type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "neg": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "ordinary interface requires an object implementation and cannot be constructed with a lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-15/neg/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "neg": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object override return type must match generic interface type argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-12/neg/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "neg": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "override with mismatched signature fails",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-24/neg/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object implementing interface properties initializes them in the declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can override interface default implementations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration identity differs from anonymous object expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration is a singleton with a single identity",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration can implement a single interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object inherits interface default method implementations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can implement an interface by delegation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "neg": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration cannot be open",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-26/neg/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "companion object can implement an interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function can return an object that implements an interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can implement a sealed interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "abstract interface properties must be implemented by object",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object implementing generic interface matches type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data object can implement an interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can implement a nested interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object must explicitly override conflicting interface default members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can implement a Java functional interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can implement a covariant generic interface",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can implement multiple interfaces",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "neg": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object implementing interface members must use override",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-3/neg/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object must implement abstract interface members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can be assigned to an interface-typed reference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

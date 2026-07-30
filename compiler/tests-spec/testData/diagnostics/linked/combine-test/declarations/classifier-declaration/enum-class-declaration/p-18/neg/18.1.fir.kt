@@ -1,0 +1,21 @@
+// DIAGNOSTICS: -UNUSED_VARIABLE -UNUSED_PARAMETER -UNUSED_VALUE -UNUSED_EXPRESSION
+// SKIP_TXT
+
+/*
+ * KOTLIN DIAGNOSTICS SPEC TEST (NEGATIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, classifier-declaration, enum-class-declaration -> paragraph 18 -> sentence 18
+ * PRIMARY LINKS: expressions, when-expressions -> paragraph 18 -> sentence 18
+ *                expressions, when-expressions, exhaustive-when-expressions -> paragraph 18 -> sentence 18
+ * NUMBER: 1
+ * DESCRIPTION: is checks against enum entries on Any subject are not exhaustive
+ */
+
+// TESTCASE NUMBER: 1
+enum class E { A, B }
+
+fun case_1(x: Any): Int = <!NO_ELSE_IN_WHEN!>when<!>(x) {
+    is <!IS_ENUM_ENTRY!>E.A<!> -> 1
+    is <!IS_ENUM_ENTRY!>E.B<!> -> 2
+}
