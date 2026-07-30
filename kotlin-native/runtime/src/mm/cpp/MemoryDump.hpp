@@ -8,6 +8,32 @@
 namespace kotlin::mm {
 
 /**
+ * RAII guard ensuring only one dump runs at a time.
+ *
+ * Uses non-blocking try-lock semantics: if another dump is already in
+ * progress, acquisition fails and `operator bool()` returns false.
+ * The caller should check the guard before proceeding:
+ *
+ *   DumpGuard guard;
+ *   if (!guard) return false;  // another dump is running
+ *
+ * For the fork-based async path, the parent releases the flag immediately
+ * after fork (in ~DumpGuard), while the child process inherits a "locked"
+ * flag in its own address space — which is harmless since the child calls
+ * _exit() without running destructors.
+ */
+class DumpGuard {
+public:
+    DumpGuard() noexcept;
+    ~DumpGuard();
+    explicit operator bool() const noexcept { return acquired_; }
+    DumpGuard(const DumpGuard&) = delete;
+    DumpGuard& operator=(const DumpGuard&) = delete;
+private:
+    bool acquired_;
+};
+
+/**
  * Dumps memory into the given POSIX file in raw Kotlin/Native Dump file format
  * (no compression, no fork), and returns success flag. Must be called during STW.
  *
