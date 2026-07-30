@@ -1,0 +1,128 @@
+{
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String plus Any uses built-in concatenation, result is x1",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator fun plus participates in additive expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type plus operator resolves to operator fun plus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plus return type participates in subsequent expression, result v is 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "compound assignment plusAssign is preferred over plus desugaring",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plusAssign desugars to plus when only plus is defined, a.x becomes 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary minus resolves to operator fun minus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Int addition uses built-in plus, result is 3",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained plus is left-associative, result x is 6",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

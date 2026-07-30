@@ -1,0 +1,100 @@
+{
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "true.or evaluates right while true || skips right",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-disjunction-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Boolean and/or/xor evaluate both operands",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-disjunction-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained || short-circuits after true",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-disjunction-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "|| Boolean result with short-circuit vs evaluate-right paths",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-disjunction-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "false || evaluates side-effecting throw call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-disjunction-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "|| short-circuits before side-effecting throw call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-disjunction-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "parentheses change ||/\u0026\u0026 evaluation and side effects",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-disjunction-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

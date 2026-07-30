@@ -1,0 +1,338 @@
+{
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom toString participates in simple identifier interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable reference interpolated as literal null text",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call and Elvis operator can be used inside ${} interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interpolated value is converted to String via toString()",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function type value invoked and interpolated inside ${}",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension property access can be used inside ${} interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property on implicit this receiver can be interpolated with simple identifier form",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property chain and call chain can be combined inside ${} interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simple identifier interpolation resolves to local variable access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member call on implicit this receiver can be interpolated inside ${}",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Char simple identifier interpolation uses character value directly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "invoke operator call can be interpolated inside ${}",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interpolated string result remains String and can be passed to another function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiline string literal supports the same interpolation syntax",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension function call can be used inside ${} interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interpolation expression may contain comparison operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression can be used inside ${} interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "escaped dollar sign is not treated as interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "adjacent interpolations and literal text concatenate in one template",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested string template inside ${} is evaluated before outer concatenation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "zero-argument call expression can be used inside ${} interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property access in interpolation must be wrapped in ${}",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "simple interpolation only includes object before dot, remainder is literal text",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "call expression with arguments can be used inside ${} interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
