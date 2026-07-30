@@ -38,8 +38,17 @@
  * {null, Reliable, null} that the entry wrote; the GC walker treats this as
  * "no managed top frame" and skips this thread until the next safepoint poll
  * re-publishes lfi.  Short missed-scan window; no SIGSEGV / unbounded walk.
+ *
+ * MUST NOT be declared RUNTIME_NOTHROW / noexcept.  The stub tail-calls
+ * arbitrary Kotlin code, and callers such as CallInitGlobalPossiblyLock /
+ * CallInitThreadLocal (Runtime.cpp) wrap it in
+ * `try { ... } catch (ExceptionObjHolder&)` and *depend* on a Kotlin exception
+ * unwinding out of it (that is what the stub's .cfi_personality
+ * Kotlin_N2KStubUnwindPersonality exists for).  A nounwind declaration lowers
+ * the call to `call` instead of `invoke`, so clang drops the enclosing catch
+ * entirely: top-level initializer failures escape unwrapped instead of becoming
+ * FileFailedToInitializeException (failInInitializer1~4).
  */
-extern "C" RUNTIME_NOTHROW void* EnterKotlinFromCppStub(
-        void* fnPtr, void* a0, void* a1) noexcept;
+extern "C" void* EnterKotlinFromCppStub(void* fnPtr, void* a0, void* a1);
 
 #endif // RUNTIME_MAIN_ENTER_KOTLIN_FROM_CPP_H
