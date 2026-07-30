@@ -359,7 +359,10 @@ public class KotlinTestUtils {
         return sb.toString();
     }
 
-    private static void appendPossiblyTruncated(@NotNull StringBuilder sb, @NotNull String text, @NotNull String label) {
+    private static void appendPossiblyTruncated(
+            @NotNull StringBuilder sb,
+            @NotNull String text,
+            @NotNull String label) {
         if (text.length() <= MAX_CHARS_PER_SECTION_IN_FAILURE_MESSAGE) {
             sb.append(text);
             if (!text.isEmpty() && !text.endsWith("\n")) {
