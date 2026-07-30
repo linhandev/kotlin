@@ -594,9 +594,6 @@ public:
             if (j + 1 < end) {
                 __builtin_prefetch(static_cast<const void*>(allObjects[j + 1]), 0, 1);
             }
-            if (j + kPrefetchAheadFar < end) {
-                __builtin_prefetch(static_cast<const void*>(allObjects[j + kPrefetchAheadFar]), 0, 0);
-            }
             ObjHeader* obj = allObjects[j];
             DumpObjectOrArrayCRT(obj, &ws.buffer, ws.dataBuffer);
             EnqueuePermanentRefsParallel(obj, ws.queue);
@@ -1277,12 +1274,9 @@ private:
         for (size_t j = start; j < end; ++j) {
             // Prefetch next object's header to hide memory latency.
             // Objects are accessed in random order (by pointer), so
-            // prefetching 1-2 ahead overlaps memory fetch with current work.
+            // prefetching 1 ahead overlaps memory fetch with current work.
             if (j + 1 < end) {
                 __builtin_prefetch(static_cast<const void*>(allObjects[j + 1]), 0, 1);
-            }
-            if (j + kPrefetchAheadFar < end) {
-                __builtin_prefetch(static_cast<const void*>(allObjects[j + kPrefetchAheadFar]), 0, 0);
             }
             ObjHeader* obj = allObjects[j];
             DumpObjectOrArray(obj, &ws.buffer);
@@ -1434,8 +1428,6 @@ private:
     // to this fd periodically during Dump() to avoid holding the full
     // dump in memory. Used by the sync DumpMemory path.
     static constexpr size_t kFlushThreshold = 64 * 1024 * 1024;  // 64 MB
-    // Number of objects to look ahead for L1 prefetch (far prefetch).
-    static constexpr size_t kPrefetchAheadFar = 2;
     int streamFd_ = -1;
     size_t totalDumpSize_ = 0;  // bytes already flushed to fd
 
