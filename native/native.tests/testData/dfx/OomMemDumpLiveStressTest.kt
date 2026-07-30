@@ -210,8 +210,9 @@ class OomMemDumpLiveStressTest {
         try {
             return memScoped {
                 val buf = allocArray<ByteVar>(byteCount)
+                // posix read returns ssize_t/Long; do not compare with a UInt literal
                 val nread = read(fd, buf, byteCount.toULong())
-                assertTrue(nread > 0u, "expected prefix bytes at $path errno=$errno")
+                assertTrue(nread > 0L, "expected prefix bytes at $path errno=$errno")
                 ByteArray(nread.toInt()) { i -> buf[i] }
             }
         } finally {
@@ -236,8 +237,9 @@ class OomMemDumpLiveStressTest {
         try {
             return memScoped {
                 val buf = allocArray<ByteVar>(sizeInt)
+                // nread is Long; compare as Long to avoid ULong/Long type inference failure
                 val nread = read(fd, buf, sizeInt.toULong())
-                assertEquals(sizeInt.toULong(), nread, "read dump file $path")
+                assertEquals(sizeInt.toLong(), nread, "read dump file $path")
                 ByteArray(sizeInt) { i -> buf[i] }
             }
         } finally {
@@ -278,8 +280,9 @@ class OomMemDumpLiveStressTest {
                     avail_in = compressed.size.toUInt()
                 }
                 assertEquals(Z_OK, inflateInit2(stream.ptr, 15 + 16), "inflateInit2(gzip) for $path")
+                // zlib next_out is CPointer<UByteVar>; reinterpret ByteVar buffer
                 val outBuf = allocArray<ByteVar>(outChunkBytes)
-                stream.next_out = outBuf
+                stream.next_out = outBuf.reinterpret()
                 stream.avail_out = outChunkBytes.toUInt()
                 var streamEnded = false
                 while (!streamEnded) {
@@ -289,7 +292,7 @@ class OomMemDumpLiveStressTest {
                             when {
                                 stream.avail_out == 0u -> {
                                     // Buffer full — discard decompressed chunk and continue.
-                                    stream.next_out = outBuf
+                                    stream.next_out = outBuf.reinterpret()
                                     stream.avail_out = outChunkBytes.toUInt()
                                 }
                                 stream.avail_in == 0u -> {

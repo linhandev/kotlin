@@ -52,15 +52,13 @@ class ReportBacktraceToOhosLogTest {
         )
     }
 
-    /** SetCrashObj may return NOT_SUPPORTED / INVALID_ARGUMENT when API < 23 or the weak symbol is absent. */
-    private fun assertSetCrashObjAcceptable(rc: UInt) {
-        val code = rc.toInt()
-        assertTrue(
-            code == HIDEBUG_SUCCESS.toInt() ||
-                code == HIDEBUG_NOT_SUPPORTED.toInt() ||
-                code == HIDEBUG_INVALID_ARGUMENT.toInt(),
-            "unexpected SetCrashObj ret=$rc (code=$code)",
-        )
+    /**
+     * NDK semantics: OH_HiDebug_SetCrashObj returns a crash-object handle (ULong); 0 means none.
+     * It is not a HIDEBUG_* error code. On exception (API/symbol unavailable) the probe uses 0uL;
+     * either outcome is acceptable.
+     */
+    private fun assertSetCrashObjAcceptable(handle: ULong) {
+        logLine("SetCrashObj handle=$handle (0=none/unavailable)")
     }
 
     // ---------- Constants aligned with Exceptions.cpp ----------
@@ -167,7 +165,8 @@ class ReportBacktraceToOhosLogTest {
         return sofiles to addresses
     }
 
-    private fun setCrashObjWithString(message: String) = memScoped {
+    /** Calls SetCrashObj; returns the handle, or 0uL on exception (unavailable). */
+    private fun setCrashObjWithString(message: String): ULong = memScoped {
         val msgBytes = message.encodeToByteArray()
         val buf = allocArray<ByteVar>(msgBytes.size + 1)
         msgBytes.forEachIndexed { i, b -> buf[i] = b }
@@ -176,7 +175,7 @@ class ReportBacktraceToOhosLogTest {
             OH_HiDebug_SetCrashObj(HIDEBUG_CRASHOBJ_STRING, buf.reinterpret<COpaque>())
         } catch (e: Throwable) {
             logLine("OH_HiDebug_SetCrashObj exception: $e")
-            HIDEBUG_NOT_SUPPORTED
+            0uL
         }
     }
 
@@ -478,14 +477,15 @@ class ReportBacktraceToOhosLogTest {
     @Test
     fun testOH_HiDebug_SetCrashObj() {
         memScoped {
-            val rc = try {
+            // Return value is a handle (ULong); use 0uL on exception — not a HIDEBUG_* error code
+            val handle = try {
                 OH_HiDebug_SetCrashObj(HIDEBUG_CRASHOBJ_STRING, null)
             } catch (e: Throwable) {
                 logLine("OH_HiDebug_SetCrashObj(null) exception (API < 23): $e")
-                HIDEBUG_NOT_SUPPORTED
+                0uL
             }
-            assertSetCrashObjAcceptable(rc)
-            logLine("OH_HiDebug_SetCrashObj(null) ret=$rc")
+            assertSetCrashObjAcceptable(handle)
+            logLine("OH_HiDebug_SetCrashObj(null) handle=$handle")
         }
     }
 

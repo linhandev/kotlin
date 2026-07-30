@@ -91,6 +91,18 @@ class OhosMemoryTraceTagTest {
         return true
     }
 
+    /**
+     * OHOS/Linux smaps may report PR_SET_VMA_ANON_NAME as `[anon:kotlin heap]`
+     * rather than the bare name passed to prctl. Strip the wrapper for matching.
+     */
+    private fun normalizeSmapsNameLabel(raw: String): String {
+        val trimmed = raw.trim()
+        if (trimmed.startsWith("[anon:") && trimmed.endsWith("]")) {
+            return trimmed.removePrefix("[anon:").removeSuffix("]").trim()
+        }
+        return trimmed
+    }
+
     private fun readSmapsNameLabels(): Set<String> {
         val f = fopen("/proc/self/smaps", "r") ?: return emptySet()
         val labels = mutableSetOf<String>()
@@ -99,7 +111,7 @@ class OhosMemoryTraceTagTest {
             while (fgets(buf, 1023, f) != null) {
                 val line = buf.toKString().trim()
                 if (line.startsWith("Name:")) {
-                    labels.add(line.removePrefix("Name:").trim())
+                    labels.add(normalizeSmapsNameLabel(line.removePrefix("Name:").trim()))
                 }
             }
         }
