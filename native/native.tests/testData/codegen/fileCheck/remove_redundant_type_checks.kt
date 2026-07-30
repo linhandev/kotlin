@@ -205,7 +205,8 @@ fun test12(x: Int, o: Any): Int {
         (mutO as A).x
     else y
 
-// CHECK: call ptr @"kfun:#getAny(){}kotlin.Any
+// CHECK-STACKMAP: call ptr addrspace(1) @"kfun:#getAny(){}kotlin.Any
+// CHECK-NOSTACKMAP: call ptr @"kfun:#getAny(){}kotlin.Any
     mutO = getAny()
     return if (a != null)
 // CHECK-DEBUG: {{call|call zeroext}} i1 @IsSubtype
@@ -258,7 +259,8 @@ fun test14(x: Int, o: Any): Int {
         (mutO as A).x
     else y
 
-// CHECK: call ptr @"kfun:#getAny(){}kotlin.Any
+// CHECK-STACKMAP: call ptr addrspace(1) @"kfun:#getAny(){}kotlin.Any
+// CHECK-NOSTACKMAP: call ptr @"kfun:#getAny(){}kotlin.Any
     mutO = getAny()
     return if (f)
 // CHECK-DEBUG: {{call|call zeroext}} i1 @IsSubtype
@@ -741,14 +743,16 @@ fun test34(o: Any, x: Int): Int {
 
 // CHECK-LABEL: define i32 @"kfun:#test35(B){}kotlin.Int
 fun test35(b: B): Int {
-// CHECK-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-NOSTACKMAP-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
 // CHECK-OPT: getelementptr inbounds %"kclassbody:B#internal
 // CHECK-DEBUG: {{call|call zeroext}} i1 @IsSubtype
 // CHECK-OPT: {{call|call zeroext}} i1 @IsSubclassFast
     return if ((b.o as? A)?.s?.length == 5)
 // CHECK-DEBUG-NOT: {{call|call zeroext}} i1 @IsSubtype
 // CHECK-OPT-NOT: {{call|call zeroext}} i1 @IsSubclassFast
-// CHECK-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-NOSTACKMAP-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
 // CHECK-OPT: getelementptr inbounds %"kclassbody:B#internal
 // CHECK-DEBUG: call i32 @"kfun:A#<get-x>(){}kotlin.Int
 // CHECK-OPT: getelementptr inbounds %"kclassbody:A#internal
@@ -759,14 +763,16 @@ fun test35(b: B): Int {
 
 // CHECK-LABEL: define i32 @"kfun:#test36(B;kotlin.Int){}kotlin.Int
 fun test36(b: B, z: Int): Int {
-// CHECK-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-NOSTACKMAP-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
 // CHECK-OPT: getelementptr inbounds %"kclassbody:B#internal
 // CHECK-DEBUG: {{call|call zeroext}} i1 @IsSubtype
 // CHECK-OPT: {{call|call zeroext}} i1 @IsSubclassFast
     return if ((b.o as? A)?.sum(z) == 5)
 // CHECK-DEBUG-NOT: {{call|call zeroext}} i1 @IsSubtype
 // CHECK-OPT-NOT: {{call|call zeroext}} i1 @IsSubclassFast
-// CHECK-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-NOSTACKMAP-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
 // CHECK-OPT: getelementptr inbounds %"kclassbody:B#internal
 // CHECK-DEBUG: call i32 @"kfun:A#<get-x>(){}kotlin.Int
 // CHECK-OPT: getelementptr inbounds %"kclassbody:A#internal
@@ -777,14 +783,16 @@ fun test36(b: B, z: Int): Int {
 
 // CHECK-LABEL: define i32 @"kfun:#test37(kotlin.Int;B){}kotlin.Int
 fun test37(x: Int, b: B): Int {
-// CHECK-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-NOSTACKMAP-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
 // CHECK-OPT: getelementptr inbounds %"kclassbody:B#internal
 // CHECK-DEBUG: {{call|call zeroext}} i1 @IsSubtype
 // CHECK-OPT: {{call|call zeroext}} i1 @IsSubclassFast
     var a = b.o as? A
     val y = x + x
     val z = if (a != null)
-// CHECK-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-NOSTACKMAP-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
 // CHECK-OPT: getelementptr inbounds %"kclassbody:B#internal
 // CHECK-DEBUG-NOT: {{call|call zeroext}} i1 @IsSubtype
 // CHECK-OPT-NOT: {{call|call zeroext}} i1 @IsSubclassFast
@@ -796,7 +804,8 @@ fun test37(x: Int, b: B): Int {
 // CHECK-OPT: {{call|call zeroext}} i1 @IsSubclassFast
     a = getAny() as? A
     return if (a != null)
-// CHECK-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @"kfun:B#<get-o>(){}kotlin.Any
+// CHECK-NOSTACKMAP-DEBUG: call ptr @"kfun:B#<get-o>(){}kotlin.Any
 // CHECK-OPT: getelementptr inbounds %"kclassbody:B#internal
 // CHECK-DEBUG: {{call|call zeroext}} i1 @IsSubtype
 // CHECK-OPT: {{call|call zeroext}} i1 @IsSubclassFast
@@ -807,7 +816,8 @@ fun test37(x: Int, b: B): Int {
 // CHECK-LABEL: epilogue:
 }
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 fun box(): String {
     val a = A("zzz", 42, 117)
     val b = B(a)

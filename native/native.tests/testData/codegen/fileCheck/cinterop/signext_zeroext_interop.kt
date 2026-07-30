@@ -82,7 +82,8 @@ fun checkDirectInterop() {
     callbackUser(staticCFunction { int: Int, short: Short -> int + short })
 }
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 fun box(): String {
     checkRuntimeFunctionImport()
     checkDirectInterop()

@@ -4,16 +4,24 @@
 package codegen.stringConcatenationTypeNarrowing.kt53119_append_generated
 import kotlin.test.*
 
-// CHECK-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeAny
-// CHECK-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeAny
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeAny
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 
-// CHECK-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 
 // CHECK: ret ptr
 
@@ -21,30 +29,44 @@ fun maybeAnyMaybeAny(maybeAny1: Any?, maybeAny2: Any?): String {
     return "$maybeAny1,$maybeAny2"
 }
 
-// CHECK-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeString
-// CHECK-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeString
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeString
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 // CHECK: ret ptr
 
 fun maybeAnyMaybeString(maybeAny1: Any?, maybeString2: String?): String {
     return "$maybeAny1,$maybeString2"
 }
 
-// CHECK-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyString
-// CHECK-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyString
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyString
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 // CHECK: ret ptr
 
 fun maybeAnyString(maybeAny1: Any?, string: String): String {
@@ -53,35 +75,52 @@ fun maybeAnyString(maybeAny1: Any?, string: String): String {
 
 data class Foo(val bar: Int)
 
-// CHECK-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyFoo
-// CHECK-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyFoo
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyFoo
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
-// CHECK-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 // CHECK: ret ptr
 
 fun maybeAnyFoo(maybeAny: Any?, foo: Foo): String {
     return "$maybeAny,$foo"
 }
-// CHECK-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeFoo
-// CHECK-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeFoo
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated#maybeAnyMaybeFoo
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_append_generated.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
-// CHECK-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-NOSTACKMAP-OPT: ptr @"kfun:kotlin.text.StringBuilder#append(kotlin.String?)
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 
 
-// CHECK-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
+// CHECK-STACKMAP-OPT-NOT: ptr addrspace(1) @"kfun:kotlin.text.StringBuilder#append
+// CHECK-NOSTACKMAP-OPT-NOT: ptr @"kfun:kotlin.text.StringBuilder#append
 // CHECK: ret ptr
 
 fun maybeAnyMaybeFoo(maybeAny: Any?, foo: Foo?): String {

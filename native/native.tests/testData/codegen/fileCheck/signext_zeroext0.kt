@@ -130,25 +130,30 @@ fun checkInlineClasses() {
     id(CharWrapper('c'))
 }
 
-// CHECK-LABEL: define ptr @"kfun:#nullableId(kotlin.Byte?){}kotlin.Byte?"(ptr %0, ptr %1)
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#nullableId(kotlin.Byte?){}kotlin.Byte?"(ptr addrspace(1) %0, ptr %1)
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#nullableId(kotlin.Byte?){}kotlin.Byte?"(ptr %0, ptr %1)
 fun nullableId(arg: Byte?): Byte? {
     return arg
 }
 
-// CHECK-LABEL: define ptr @"kfun:#nullableId(CharWrapper?){}CharWrapper?"(ptr %0, ptr %1)
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#nullableId(CharWrapper?){}CharWrapper?"(ptr addrspace(1) %0, ptr %1)
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#nullableId(CharWrapper?){}CharWrapper?"(ptr %0, ptr %1)
 fun nullableId(arg: CharWrapper?): CharWrapper? {
     return arg
 }
 
 // Check that we don't pass primitive-specific attributes to their boxes
 fun checkBoxes() {
-    // CHECK: call ptr @"kfun:#nullableId(kotlin.Byte?){}kotlin.Byte?"(ptr {{.*}}, ptr {{.*}})
+    // CHECK-STACKMAP: call ptr addrspace(1) @"kfun:#nullableId(kotlin.Byte?){}kotlin.Byte?"(ptr addrspace(1) {{.*}}, ptr {{.*}})
+    // CHECK-NOSTACKMAP: call ptr @"kfun:#nullableId(kotlin.Byte?){}kotlin.Byte?"(ptr {{.*}}, ptr {{.*}})
     nullableId(1.toByte())
-    // CHECK: call ptr @"kfun:#nullableId(CharWrapper?){}CharWrapper?"(ptr {{.*}}, ptr {{.*}})
+    // CHECK-STACKMAP: call ptr addrspace(1) @"kfun:#nullableId(CharWrapper?){}CharWrapper?"(ptr addrspace(1) {{.*}}, ptr {{.*}})
+    // CHECK-NOSTACKMAP: call ptr @"kfun:#nullableId(CharWrapper?){}CharWrapper?"(ptr {{.*}}, ptr {{.*}})
     nullableId(CharWrapper('a'))
 }
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 fun box(): String {
     checkPrimitives()
     checkInlineClasses()

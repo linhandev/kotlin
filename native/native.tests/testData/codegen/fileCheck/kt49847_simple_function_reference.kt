@@ -3,7 +3,8 @@
 
 fun plus1(x: Int) = x + 1
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 // CHECK-OPT-NOT: Int-box
 // CHECK-OPT-NOT: Int-unbox
 // CHECK-DEBUG: Int-box

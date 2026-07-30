@@ -3,5 +3,6 @@
 // FILECHECK_STAGE: StackProtectorPhase
 // FREE_COMPILER_ARGS: -Xbinary=stackProtector=YES
 
-// CHECK: Function Attrs: ssp{{[[:space:]].*}}define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP: Function Attrs: ssp{{[[:space:]].*}}define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP: Function Attrs: ssp{{[[:space:]].*}}define ptr @"kfun:#box(){}kotlin.String"
 fun box() = "OK"

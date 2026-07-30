@@ -5,7 +5,8 @@ class C {
     fun foo(x: Int) = x
 }
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 // CHECK-OPT-NOT: Int-box
 // CHECK-DEBUG: Int-box
 // CHECK-NOT: Int-unbox
