@@ -36,7 +36,7 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
     }
 
     // Try to allocate and install a new ExtraObject.
-    auto* cleanTypeInfo = clearPointerBits(curHeader, OBJECT_TAG_MASK);
+    auto* cleanTypeInfo = clearPointerBits(curHeader, objectTagMask());
     auto& allocator = mm::ThreadRegistry::Instance().CurrentThreadData()->allocator();
     auto& extraObj = allocator.allocateExtraObjectData(object, cleanTypeInfo);
 
@@ -48,7 +48,7 @@ mm::ExtraObjectData& mm::ExtraObjectData::Install(ObjHeader* object) noexcept {
 
     // Ensure that `object` header would still have the same `tags` (low Kotlin tag bits
     // and high CRT BaseStateWord bits, e.g. language_/forwardState_).
-    const auto tags = getPointerBits(curHeader, OBJECT_TAG_MASK);
+    const auto tags = getPointerBits(curHeader, objectTagMask());
     auto* newHeader = setPointerBits(reinterpret_cast<TypeInfo*>(&extraObj), tags);
 
     std_support::atomic_ref objectAtomicTypeInfo{object->typeInfoOrMeta_};
@@ -105,7 +105,7 @@ void mm::ExtraObjectData::UnlinkFromBaseObject() noexcept {
     // the base object's header in a state that downstream GC code (e.g.,
     // KNBaseObjectOperator dispatch) misinterprets.
     auto curHeader = object->typeInfoOrMeta_;
-    auto bits = getPointerBits(curHeader, OBJECT_TAG_MASK);
+    auto bits = getPointerBits(curHeader, objectTagMask());
     auto newHeader = setPointerBits(const_cast<TypeInfo*>(typeInfo_), bits);
     std_support::atomic_ref{object->typeInfoOrMeta_}.store(const_cast<TypeInfo*>(newHeader), std::memory_order_release);
     RuntimeAssert(
