@@ -104,15 +104,10 @@ internal fun runKotlinStubGenerator(module: LLVMModuleRef) {
     // from @llvm.global.annotations (idempotent).
     lowerInteropBridgeAnnotationsToAttrs(module)
 
-    // Step 2: tag native->kotlin boundary callees "n2k", per defined function;
-    // and mirror a plain @SymbolName call-site "k2n" onto its callee (see
-    // markK2nCalleesFromCallSite).
+    // Step 2: tag native->kotlin boundary callees "n2k", per defined function.
     var fn = LLVMGetFirstFunction(module)
     while (fn != null) {
-        if (LLVMIsDeclaration(fn) == 0) {
-            markN2kCalleesFromCaller(fn, context)
-            markK2nCalleesFromCallSite(fn, context)
-        }
+        if (LLVMIsDeclaration(fn) == 0) markN2kCalleesFromCaller(fn, context)
         fn = LLVMGetNextFunction(fn)
     }
 
@@ -139,30 +134,6 @@ private fun markN2kCalleesFromCaller(caller: LLVMValueRef, context: LLVMContextR
                         val attrKey = "n2k"
                         LLVMAddAttributeAtIndex(callee, LLVMAttributeFunctionIndex,
                                 LLVMCreateStringAttribute(context, attrKey, attrKey.length, "", 0))
-                    }
-                }
-            }
-            inst = LLVMGetNextInstruction(inst)
-        }
-        bb = LLVMGetNextBasicBlock(bb)
-    }
-}
-
-// Step 2b: mirror a plain @SymbolName call-site "k2n" onto its callee, post-merge.
-// The call-site attr survives llvm-link (bitcode-merge drops the declaration-side
-// one), and the AsmPrinter keys the Kotlin_K2NStub routing on the callee -- so this
-// makes the routing work whether the callee is object- or bitcode-linked. No-op when
-// the callee declaration already carries k2n (object-linked).
-private fun markK2nCalleesFromCallSite(caller: LLVMValueRef, context: LLVMContextRef) {
-    var bb = LLVMGetFirstBasicBlock(caller)
-    while (bb != null) {
-        var inst = LLVMGetFirstInstruction(bb)
-        while (inst != null) {
-            if (LLVMIsACallInst(inst) != null || LLVMIsAInvokeInst(inst) != null) {
-                if (LLVMGetCallSiteStringAttribute(inst, LLVMAttributeFunctionIndex, "k2n", "k2n".length) != null) {
-                    val callee = stripBitcastConstantExpr(LLVMGetCalledValue(inst))
-                    if (callee != null && LLVMIsAFunction(callee) != null && !hasStringFnAttr(callee, "k2n")) {
-                        addStringFnAttrIfMissing(callee, context, "k2n")
                     }
                 }
             }
