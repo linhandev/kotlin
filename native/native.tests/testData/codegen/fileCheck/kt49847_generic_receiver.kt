@@ -7,9 +7,9 @@ fun <T> T.foo() { println(this) }
 // CHECK-STACKMAP-SAME: (ptr addrspace(1) [[x:%[0-9]+]])
 // CHECK-NOSTACKMAP-SAME: (ptr [[x:%[0-9]+]])
 fun <BarTP> bar(x: BarTP) {
-    // CHECK-STACKMAP-OPT: call void @"kfun:bar$$FUNCTION_REFERENCE_FOR$foo$0.<init>#internal"(ptr addrspace(1) {{%[0-9]+}}, ptr [[x]])
+    // CHECK-STACKMAP-OPT: call void @"kfun:bar$$FUNCTION_REFERENCE_FOR$foo$0.<init>#internal"(ptr addrspace(1) {{%[0-9]+}}, ptr addrspace(1) [[x]])
     // CHECK-NOSTACKMAP-OPT: call void @"kfun:bar$$FUNCTION_REFERENCE_FOR$foo$0.<init>#internal"(ptr {{%[0-9]+}}, ptr [[x]])
-    // CHECK-STACKMAP-DEBUG: call void @"kfun:bar$$FUNCTION_REFERENCE_FOR$foo$0.<init>#internal"(ptr addrspace(1) {{%[0-9]+}}, ptr {{%[0-9]+}})
+    // CHECK-STACKMAP-DEBUG: call void @"kfun:bar$$FUNCTION_REFERENCE_FOR$foo$0.<init>#internal"(ptr addrspace(1) {{%[0-9]+}}, ptr addrspace(1) {{%[0-9]+}})
     // CHECK-NOSTACKMAP-DEBUG: call void @"kfun:bar$$FUNCTION_REFERENCE_FOR$foo$0.<init>#internal"(ptr {{%[0-9]+}}, ptr {{%[0-9]+}})
     println(x::foo)
 }
