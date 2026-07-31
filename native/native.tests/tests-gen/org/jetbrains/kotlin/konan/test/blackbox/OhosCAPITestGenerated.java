@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 @Tag("capi")
 @EnforcedProperty(property = ClassLevelProperty.TEST_KIND, propertyValue = "STANDALONE")
 @UseStandardTestCaseGroupProvider()
-public class OhosCAPITestGenerated extends AbstractNativeBlackBoxTest {
+public class OhosCAPITestGenerated extends AbstractOhosCAPIBlackBoxTest {
   @Test
   @TestMetadata("AIPTest.kt")
   public void testAIPTest() {

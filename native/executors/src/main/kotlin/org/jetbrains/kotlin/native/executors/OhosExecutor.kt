@@ -36,6 +36,8 @@ import kotlin.time.Duration.Companion.seconds
  * - Run inner command with `hdc shell <script>` (not `hdc shell sh -c <script>`) so the probe’s `$?` matches the test binary exit code
  * - Host stdin is not forwarded to the binary on device by hdc; non-empty [ExecuteRequest.stdin] is uploaded and applied with shell
  *     redirection in inner command. All other tc takes input from /dev/null
+ * - [ExecuteRequest.timeout]: when unset ([Duration.INFINITE]), hdc host processes default to 30s; when explicitly set
+ *     (e.g. native.tests EXECUTION_TIMEOUT / CLI `--timeout`), that value is honored for sync and on-device execution
  */
 
 class OhosExecutor(
@@ -112,7 +114,11 @@ class OhosExecutor(
         }
     }
 
-    private fun hdcCommandTimeout(outerTimeout: Duration): Duration = minOf(outerTimeout, 30.seconds)
+    /**
+     * Final gatekeeper for timeout, if nothing is set, cap it at 30s
+     */
+    private fun hdcCommandTimeout(outerTimeout: Duration): Duration =
+        if (outerTimeout.isInfinite()) 30.seconds else outerTimeout
 
     override fun execute(request: ExecuteRequest): ExecuteResponse {
         val hdcTimeout = hdcCommandTimeout(request.timeout)

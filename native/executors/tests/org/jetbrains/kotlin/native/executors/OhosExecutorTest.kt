@@ -26,6 +26,8 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Path
 import kotlin.time.Duration.Companion.ZERO
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Unit tests for [OhosExecutor].
@@ -313,6 +315,37 @@ class OhosExecutorTest {
                 it.contains("LD_LIBRARY_PATH='/data/local/tmp/native.tests/bb.out/ha64_NatCrtGCTesGen/crt_cached_boxed_value:/data/local/tmp/native.tests/lib'")
             },
         )
+    }
+
+    @Test
+    fun `unset ExecuteRequest timeout defaults hdc host processes to 30s`(@TempDir tempDir: Path) {
+        val recording = RecordingExecutor(successOutputs(syncSteps = 2, runExit = 0))
+        val localExe = tempDir.resolve("timeout_default.kexe").toFile().apply { writeText("bin") }
+
+        OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
+            ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
+        )
+
+        assertTrue(recording.requests.isNotEmpty())
+        recording.requests.forEach { req ->
+            assertEquals(30.seconds, req.timeout, "args=${req.args}")
+        }
+    }
+
+    @Test
+    fun `explicit ExecuteRequest timeout is honored without 30s clamp`(@TempDir tempDir: Path) {
+        val recording = RecordingExecutor(successOutputs(syncSteps = 2, runExit = 0))
+        val localExe = tempDir.resolve("timeout_explicit.kexe").toFile().apply { writeText("bin") }
+        val explicit = 15.minutes
+
+        OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
+            ExecuteRequest(executableAbsolutePath = localExe.absolutePath, timeout = explicit)
+        )
+
+        assertTrue(recording.requests.isNotEmpty())
+        recording.requests.forEach { req ->
+            assertEquals(explicit, req.timeout, "args=${req.args}")
+        }
     }
 
     /** syncSteps successful host calls (prepare/send/...), then one run with exit probe. */

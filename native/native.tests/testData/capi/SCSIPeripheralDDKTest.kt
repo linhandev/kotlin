@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// DISABLE_NATIVE: targetFamily=OHOS
+// These kits are not linked by default on phone ROMs; special permission/entitlement
+// is required. Without it the device loader fails with missing .so → exit 127.
 import kotlin.test.*
 import kotlinx.cinterop.*
 import platform.DriverDevelopmentKit.SCSIPeripheralDDK.*
