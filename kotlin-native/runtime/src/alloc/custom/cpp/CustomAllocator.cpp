@@ -45,7 +45,8 @@ ObjHeader* CustomAllocator::CreateObject(const TypeInfo* typeInfo) noexcept {
     }
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {
-        restrace(RES_KMP_HEAP_MASK, (void*)object, object->typeInfoOrMeta_->instanceSize_,
+        CustomAllocInfo("restrace alloc object: addr=%p size=%" PRIu64, (void*)object, size.inBytes());
+        restrace(RES_KMP_HEAP_MASK, (void*)object, size.inBytes(),
             TAG_RES_KMP_HEAP_MASK, true);
     }
     #endif
@@ -77,7 +78,8 @@ ArrayHeader* CustomAllocator::CreateArray(const TypeInfo* typeInfo, uint32_t cou
     array->count_ = count;
     #ifdef KONAN_OHOS
     if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {
-        restrace(RES_KMP_HEAP_MASK, (void*)array, array->typeInfoOrMeta_->instanceSize_,
+        CustomAllocInfo("restrace alloc array: addr=%p size=%" PRIu64, (void*)array, size.inBytes());
+        restrace(RES_KMP_HEAP_MASK, (void*)array, size.inBytes(),
             TAG_RES_KMP_HEAP_MASK, true);
     }
     #endif

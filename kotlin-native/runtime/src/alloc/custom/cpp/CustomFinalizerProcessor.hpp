@@ -6,8 +6,11 @@
 #ifndef CUSTOM_ALLOC_CPP_CUSTOMFINALIZERPROCESSOR_HPP_
 #define CUSTOM_ALLOC_CPP_CUSTOMFINALIZERPROCESSOR_HPP_
 
+#include <cinttypes>
+
 #include "Allocator.hpp"
 #include "AtomicStack.hpp"
+#include "CustomLogging.hpp"
 #include "ExtraObjectCell.hpp"
 #include "FinalizerHooks.hpp"
 #include "SegregatedFinalizerQueue.hpp"
@@ -34,8 +37,9 @@ struct FinalizerQueueTraits {
                 RunFinalizers(baseObject);
 #ifdef KONAN_OHOS
                 if (OH_GetSdkApiVersion() >= OHOS_RESTRACE_MIN_API && restrace) {
-                    restrace(RES_KMP_HEAP_MASK, (void*)baseObject, baseObject->typeInfoOrMeta_->instanceSize_,
-                        TAG_RES_KMP_HEAP_MASK, false);
+                    uint64_t size = allocatedHeapSize(baseObject);
+                    CustomAllocInfo("restrace free object: addr=%p size=%" PRIu64, (void*)baseObject, size);
+                    restrace(RES_KMP_HEAP_MASK, (void*)baseObject, size, TAG_RES_KMP_HEAP_MASK, false);
                 }
 #endif
             } else {
