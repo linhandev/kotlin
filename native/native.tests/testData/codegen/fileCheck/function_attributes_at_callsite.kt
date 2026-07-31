@@ -1,7 +1,8 @@
 // TARGET_BACKEND: NATIVE
 // FILECHECK_STAGE: CStubs
 
-// CHECK: declare void @ThrowException(ptr noundef) #[[THROW_EXCEPTION_DECLARATION_ATTRIBUTES:[0-9]+]]
+// CHECK-STACKMAP: declare void @ThrowException(ptr addrspace(1) noundef) #[[THROW_EXCEPTION_DECLARATION_ATTRIBUTES:[0-9]+]]
+// CHECK-NOSTACKMAP: declare void @ThrowException(ptr noundef) #[[THROW_EXCEPTION_DECLARATION_ATTRIBUTES:[0-9]+]]
 
 // CHECK: void @"kfun:#flameThrower(){}kotlin.Nothing"() #[[FLAME_THROWER_DECLARATION_ATTRIBUTES:[0-9]+]]
 fun flameThrower(): Nothing {
@@ -9,7 +10,8 @@ fun flameThrower(): Nothing {
     throw Throwable("🔥")
 }
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 fun box(): String {
 
     // CHECK: invoke void @"kfun:#flameThrower(){}kotlin.Nothing"() #[[FLAME_THROWER_CALLSITE_ATTRIBUTES:[0-9]+]]

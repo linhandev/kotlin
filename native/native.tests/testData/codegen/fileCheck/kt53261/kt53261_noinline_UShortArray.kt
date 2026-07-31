@@ -1,13 +1,18 @@
 // TARGET_BACKEND: NATIVE
 // FILECHECK_STAGE: CStubs
 
-// CHECK-AAPCS-OPT-LABEL: define i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr %0, ptr %1)
-// CHECK-DEFAULTABI-OPT-LABEL: define zeroext i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr %0, ptr %1)
-// CHECK-WINDOWSX64-OPT-LABEL: define zeroext i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr %0, ptr %1)
+// CHECK-STACKMAP-AAPCS-OPT-LABEL: define i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr addrspace(1) %0, ptr addrspace(1) %1)
+// CHECK-NOSTACKMAP-AAPCS-OPT-LABEL: define i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr %0, ptr %1)
+// CHECK-STACKMAP-DEFAULTABI-OPT-LABEL: define zeroext i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr addrspace(1) %0, ptr addrspace(1) %1)
+// CHECK-NOSTACKMAP-DEFAULTABI-OPT-LABEL: define zeroext i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr %0, ptr %1)
+// CHECK-STACKMAP-WINDOWSX64-OPT-LABEL: define zeroext i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr addrspace(1) %0, ptr addrspace(1) %1)
+// CHECK-NOSTACKMAP-WINDOWSX64-OPT-LABEL: define zeroext i1 @"kfun:kotlin.UShortArray#equals(kotlin.Any?){}kotlin.Boolean"(ptr %0, ptr %1)
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 
-// CHECK-OPT: call ptr @"kfun:kotlin#<UShortArray-unbox>(kotlin.Any?){}kotlin.UShortArray?"
+// CHECK-STACKMAP-OPT: call ptr addrspace(1) @"kfun:kotlin#<UShortArray-unbox>(kotlin.Any?){}kotlin.UShortArray?"
+// CHECK-NOSTACKMAP-OPT: call ptr @"kfun:kotlin#<UShortArray-unbox>(kotlin.Any?){}kotlin.UShortArray?"
 
 // CHECK-LABEL: epilogue:
 

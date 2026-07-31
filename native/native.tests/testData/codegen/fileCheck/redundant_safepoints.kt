@@ -17,7 +17,8 @@ fun f(): Any {
 
 fun g() = f()
 
-// CHECK-LABEL: define {{(noundef )?}}ptr @"kfun:#h(kotlin.Boolean){}kotlin.Any"
+// CHECK-STACKMAP-LABEL: define {{(noundef )?}}ptr addrspace(1) @"kfun:#h(kotlin.Boolean){}kotlin.Any"
+// CHECK-NOSTACKMAP-LABEL: define {{(noundef )?}}ptr @"kfun:#h(kotlin.Boolean){}kotlin.Any"
 @Retain
 fun h(cond: Boolean): Any {
     // We have to check actual _call_ to a function, not just callee mention.
@@ -37,7 +38,8 @@ fun h(cond: Boolean): Any {
 // CHECK-LABEL: ret
 }
 
-// CHECK-LABEL: define {{(noundef )?}}{{(nonnull )?}}ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define {{(noundef )?}}{{(nonnull )?}}ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define {{(noundef )?}}{{(nonnull )?}}ptr @"kfun:#box(){}kotlin.String"
 @Retain
 fun box(): String {
     // CHECK-SMALLBINARY: {{call .*Kotlin_mm_safePointFunctionPrologue\(\)}}

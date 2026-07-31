@@ -6,7 +6,8 @@ import kotlinx.cinterop.*
 
 val arr: Array<String> = arrayOf("1")
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 @kotlinx.cinterop.ExperimentalForeignApi
 fun box(): String {
     println(arr.size.toByte() == arr[0].toByte())

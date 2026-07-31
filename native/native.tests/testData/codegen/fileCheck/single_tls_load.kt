@@ -3,7 +3,8 @@
 
 class Wrapper(x: Int)
 
-// CHECK-LABEL: define internal fastcc ptr @"kfun:#f(kotlin.Int;kotlin.String){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define internal fastcc ptr addrspace(1) @"kfun:#f(kotlin.Int;kotlin.String){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define internal fastcc ptr @"kfun:#f(kotlin.Int;kotlin.String){}kotlin.String"
 fun f(x: Int, s: String): String {
     // https://youtrack.jetbrains.com/issue/KT-64880/K-N-EnterFrame-runtime-function-should-be-always-inlined-in-OPT-mode
     // Remove `|call fastcc void @EnterFrame` below, after KT-64880 is fixed

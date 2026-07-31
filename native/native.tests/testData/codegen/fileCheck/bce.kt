@@ -308,7 +308,8 @@ fun chainedReceivers() {
 }
 // CHECK-LABEL: {{^}}epilogue:
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 @ExperimentalStdlibApi
 fun box(): String {
     forEachIndicies()

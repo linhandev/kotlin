@@ -11,7 +11,8 @@ inline fun foo(x: Boolean) = assert(x)
 
 // MODULE: main
 // FILE: main.kt
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 // CHECK-NOT: call void @"kfun:kotlin.AssertionError#<init>(kotlin.Any?){}"
 fun box(): String {
     foo(false)

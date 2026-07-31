@@ -218,6 +218,13 @@ sealed interface TestRunCheck {
             get() {
                 val testTarget = settings.get<KotlinNativeTargets>().testTarget
                 val optimizationMode = settings.get<OptimizationMode>()
+                // Mirrors KonanConfig.enableStackmap default: ohos_arm64 / macos_arm64 only.
+                // Goldens that differ by `ptr addrspace(1)` use CHECK-STACKMAP* vs CHECK-NOSTACKMAP*.
+                val stackmapTag = if (testTarget == KonanTarget.OHOS_ARM64 || testTarget == KonanTarget.MACOS_ARM64) {
+                    "STACKMAP"
+                } else {
+                    "NOSTACKMAP"
+                }
                 val checkPrefixes = buildList {
                     add("CHECK")
                     add("CHECK-${testTarget.abiInfoString}")
@@ -230,6 +237,9 @@ sealed interface TestRunCheck {
                     } else {
                         add("CHECK-BIGBINARY")
                     }
+                }.flatMap { base ->
+                    // CHECK -> CHECK-STACKMAP; CHECK-AAPCS -> CHECK-STACKMAP-AAPCS; etc.
+                    listOf(base, base.replaceFirst("CHECK", "CHECK-$stackmapTag"))
                 }
                 val optMode = when (optimizationMode) {
                     OptimizationMode.NO, OptimizationMode.DEBUG -> "DEBUG" // generated LLVM bitcode should be the same; split them up if this stops being the case.

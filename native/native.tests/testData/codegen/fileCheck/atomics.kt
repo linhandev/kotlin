@@ -195,31 +195,36 @@ fun booleanGlobal_compareAndExchangeField() = ::booleanGlobal.compareAndExchange
 val intArr = IntArray(2)
 
 // CHECK-LABEL: define i32 @"kfun:#intArr_atomicGet(){}kotlin.Int"()
-// CHECK: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: load atomic i32, ptr %{{[0-9]+}} seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun intArr_atomicGet() = intArr.atomicGet(0)
 
 // CHECK-LABEL: define void @"kfun:#intArr_atomicSet(){}"()
-// CHECK: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: store atomic i32 1, ptr %{{[0-9]+}} seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun intArr_atomicSet() = intArr.atomicSet(0, 1)
 
 // CHECK-LABEL: define i32 @"kfun:#intArr_getAndSet(){}kotlin.Int"()
-// CHECK: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: atomicrmw xchg ptr %{{[0-9]+}}, i32 1 seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun intArr_getAndSet() = intArr.getAndSet(0, 1)
 
 // CHECK-LABEL: define i32 @"kfun:#intArr_getAndAdd(){}kotlin.Int"()
-// CHECK: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: atomicrmw add ptr %{{[0-9]+}}, i32 1 seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun intArr_getAndAdd() = intArr.getAndAdd(0, 1)
 
 // CHECK-LABEL: define i32 @"kfun:#intArr_compareAndExchange(){}kotlin.Int"()
-// CHECK: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: cmpxchg ptr %{{[0-9]+}}, i32 1, i32 2 seq_cst seq_cst
 // CHECK: extractvalue { i32, i1 } %{{[0-9]+}}, 0
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
@@ -228,7 +233,8 @@ fun intArr_compareAndExchange() = intArr.compareAndExchange(0, 1, 2)
 // CHECK-AAPCS-LABEL: define i1 @"kfun:#intArr_compareAndSet(){}kotlin.Boolean"()
 // CHECK-DEFAULTABI-LABEL: define zeroext i1 @"kfun:#intArr_compareAndSet(){}kotlin.Boolean"()
 // CHECK-WINDOWSX64-LABEL: define zeroext i1 @"kfun:#intArr_compareAndSet(){}kotlin.Boolean"()
-// CHECK: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_intArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: cmpxchg ptr %{{[0-9]+}}, i32 1, i32 2 seq_cst seq_cst
 // CHECK: extractvalue { i32, i1 } %{{[0-9]+}}, 1
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
@@ -238,31 +244,36 @@ fun intArr_compareAndSet() = intArr.compareAndSet(0, 1, 2)
 val longArr = LongArray(2)
 
 // CHECK-LABEL: define i64 @"kfun:#longArr_atomicGet(){}kotlin.Long"()
-// CHECK: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: load atomic i64, ptr %{{[0-9]+}} seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun longArr_atomicGet() = longArr.atomicGet(0)
 
 // CHECK-LABEL: define void @"kfun:#longArr_atomicSet(){}"()
-// CHECK: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: store atomic i64 1, ptr %{{[0-9]+}} seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun longArr_atomicSet() = longArr.atomicSet(0, 1L)
 
 // CHECK-LABEL: define i64 @"kfun:#longArr_getAndSet(){}kotlin.Long"()
-// CHECK: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: atomicrmw xchg ptr %{{[0-9]+}}, i64 1 seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun longArr_getAndSet() = longArr.getAndSet(0, 1L)
 
 // CHECK-LABEL: define i64 @"kfun:#longArr_getAndAdd(){}kotlin.Long"()
-// CHECK: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: atomicrmw add ptr %{{[0-9]+}}, i64 1 seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun longArr_getAndAdd() = longArr.getAndAdd(0, 1L)
 
 // CHECK-LABEL: define i64 @"kfun:#longArr_compareAndExchange(){}kotlin.Long"()
-// CHECK: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: cmpxchg ptr %{{[0-9]+}}, i64 1, i64 2 seq_cst seq_cst
 // CHECK: extractvalue { i64, i1 } %{{[0-9]+}}, 0
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
@@ -271,7 +282,8 @@ fun longArr_compareAndExchange() = longArr.compareAndExchange(0, 1L, 2L)
 // CHECK-AAPCS-LABEL: define i1 @"kfun:#longArr_compareAndSet(){}kotlin.Boolean"()
 // CHECK-DEFAULTABI-LABEL: define zeroext i1 @"kfun:#longArr_compareAndSet(){}kotlin.Boolean"()
 // CHECK-WINDOWSX64-LABEL: define zeroext i1 @"kfun:#longArr_compareAndSet(){}kotlin.Boolean"()
-// CHECK: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_longArrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
 // CHECK: cmpxchg ptr %{{[0-9]+}}, i64 1, i64 2 seq_cst seq_cst
 // CHECK: extractvalue { i64, i1 } %{{[0-9]+}}, 1
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
@@ -280,41 +292,57 @@ fun longArr_compareAndSet() = longArr.compareAndSet(0, 1L, 2L)
 // Array<T>
 val refArr = arrayOfNulls<String?>(2)
 
-// CHECK-LABEL: define ptr @"kfun:#refArr_atomicGet(){}kotlin.String?"
-// CHECK: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
-// CHECK: load atomic ptr, ptr %{{[0-9]+}} seq_cst
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#refArr_atomicGet(){}kotlin.String?"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#refArr_atomicGet(){}kotlin.String?"
+// CHECK-STACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: load atomic ptr addrspace(1), ptr %{{[0-9]+}} seq_cst
+// CHECK-NOSTACKMAP: load atomic ptr, ptr %{{[0-9]+}} seq_cst
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun refArr_atomicGet() = refArr.atomicGet(0)
 
 // CHECK-LABEL: define void @"kfun:#refArr_atomicSet(){}"()
-// CHECK: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
-// CHECK: call void @UpdateVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null)
+// CHECK-STACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call void @UpdateVolatileHeapRef(ptr addrspace(1) noundef %{{[0-9]+}}, ptr addrspace(1) noundef null)
+// CHECK-NOSTACKMAP: call void @UpdateVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null)
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun refArr_atomicSet() = refArr.atomicSet(0, null)
 
-// CHECK-LABEL: define ptr @"kfun:#refArr_getAndSet(){}kotlin.String?"
-// CHECK: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
-// CHECK: call ptr @GetAndSetVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef %{{[0-9]+}})
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#refArr_getAndSet(){}kotlin.String?"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#refArr_getAndSet(){}kotlin.String?"
+// CHECK-STACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr addrspace(1) @GetAndSetVolatileHeapRef(ptr addrspace(1) noundef %{{[0-9]+}}, ptr addrspace(1) noundef null, ptr addrspace(1) noundef %{{[0-9]+}})
+// CHECK-NOSTACKMAP: call ptr @GetAndSetVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef %{{[0-9]+}})
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun refArr_getAndSet() = refArr.getAndSet(0, null)
 
-// CHECK-LABEL: define ptr @"kfun:#refArr_compareAndExchange(){}kotlin.String?"
-// CHECK: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
-// CHECK: call ptr @CompareAndSwapVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef null, ptr noundef %{{[0-9]+}})
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#refArr_compareAndExchange(){}kotlin.String?"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#refArr_compareAndExchange(){}kotlin.String?"
+// CHECK-STACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP: call ptr addrspace(1) @CompareAndSwapVolatileHeapRef(ptr addrspace(1) noundef %{{[0-9]+}}, ptr addrspace(1) noundef null, ptr addrspace(1) noundef null, ptr addrspace(1) noundef %{{[0-9]+}})
+// CHECK-NOSTACKMAP: call ptr @CompareAndSwapVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef null, ptr noundef %{{[0-9]+}})
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun refArr_compareAndExchange() = refArr.compareAndExchange(0, null, null)
 
 // CHECK-AAPCS-LABEL: define i1 @"kfun:#refArr_compareAndSet(){}kotlin.Boolean"()
 // CHECK-DEFAULTABI-LABEL: define zeroext i1 @"kfun:#refArr_compareAndSet(){}kotlin.Boolean"()
 // CHECK-WINDOWSX64-LABEL: define zeroext i1 @"kfun:#refArr_compareAndSet(){}kotlin.Boolean"()
-// CHECK: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
-// CHECK-AAPCS: call i1 @CompareAndSetVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef null)
-// CHECK-DEFAULTABI: call zeroext i1 @CompareAndSetVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef null)
-// CHECK-WINDOWSX64: call zeroext i1 @CompareAndSetVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef null)
+// CHECK-STACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr addrspace(1) noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-NOSTACKMAP: call ptr @Kotlin_arrayGetElementAddress(ptr noundef %{{[0-9]+}}, i32 noundef 0)
+// CHECK-STACKMAP-AAPCS: call i1 @CompareAndSetVolatileHeapRef(ptr addrspace(1) noundef %{{[0-9]+}}, ptr addrspace(1) noundef null, ptr addrspace(1) noundef null)
+// CHECK-NOSTACKMAP-AAPCS: call i1 @CompareAndSetVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef null)
+// CHECK-STACKMAP-DEFAULTABI: call zeroext i1 @CompareAndSetVolatileHeapRef(ptr addrspace(1) noundef %{{[0-9]+}}, ptr addrspace(1) noundef null, ptr addrspace(1) noundef null)
+// CHECK-NOSTACKMAP-DEFAULTABI: call zeroext i1 @CompareAndSetVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef null)
+// CHECK-STACKMAP-WINDOWSX64: call zeroext i1 @CompareAndSetVolatileHeapRef(ptr addrspace(1) noundef %{{[0-9]+}}, ptr addrspace(1) noundef null, ptr addrspace(1) noundef null)
+// CHECK-NOSTACKMAP-WINDOWSX64: call zeroext i1 @CompareAndSetVolatileHeapRef(ptr noundef %{{[0-9]+}}, ptr noundef null, ptr noundef null)
 @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 fun refArr_compareAndSet() = refArr.compareAndSet(0, null, null)
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 fun box(): String {
     byteGlobal_getField()
     byteGlobal_setField()

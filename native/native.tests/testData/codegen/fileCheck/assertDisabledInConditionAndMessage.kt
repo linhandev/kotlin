@@ -5,7 +5,8 @@
 
 @OptIn(kotlin.experimental.ExperimentalNativeApi::class)
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 // CHECK-NOT: call void @"kfun:kotlin.AssertionError#<init>(kotlin.Any?){}"
 fun box(): String {
     assert(assert(false).toString() != "") { assert(false) }

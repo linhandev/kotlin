@@ -26,7 +26,8 @@ fun callBar(f: Boolean): ULong {
 }
 // CHECK: ret i64
 
-// CHECK-LABEL: define ptr @"kfun:#box(){}kotlin.String"
+// CHECK-STACKMAP-LABEL: define ptr addrspace(1) @"kfun:#box(){}kotlin.String"
+// CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 fun box(): String {
     val resultFoo = foo()
     val resultBar = callBar(false)
