@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.ir.objcinterop.*
 import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.konan.ForeignExceptionMode
 import org.jetbrains.kotlin.konan.target.CompilerOutputKind
+import org.jetbrains.kotlin.konan.target.SanitizerKind
 
 internal class CodeGenerator(override val generationState: NativeGenerationState) : ContextUtils {
     fun addFunction(proto: LlvmFunctionProto): LlvmCallable =
@@ -44,7 +45,17 @@ internal class CodeGenerator(override val generationState: NativeGenerationState
     // CustomAllocator with `valid` and `remainded`; also used by CRT for
     // the language tag). Mirrors kImmTypeInfoMask in Memory.h.
     // 0x0000_FFFF_FFFF_FFFC = bits 48-63 + bits 0-1 cleared, bits 2-47 kept.
-    internal val immTypeInfoMask = LLVMConstInt(intPtrType, 0xFFFFFFFFFFFCL, 0)!!
+    // Under HWASan `valid` moves to bit 2 and, for NATIVE, the top byte carries the
+    // HWASan tag and must be kept. Complement of objectTagMask() in Memory.h, which
+    // makes the same choice at run time; here the config is known statically.
+    internal val immTypeInfoMask = LLVMConstInt(intPtrType,
+            if (context.config.sanitizer != SanitizerKind.HWADDRESS)
+                0xFFFFFFFFFFFCL
+            else if (context.config.memoryManagerMode == MemoryManagerMode.NATIVE)
+                0xFFFF_FFFF_FFFF_FFF8UL.toLong()
+            else
+                0x0000_FFFF_FFFF_FFF8L,
+            0)!!
 
     //-------------------------------------------------------------------------//
 

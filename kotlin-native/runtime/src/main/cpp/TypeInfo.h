@@ -11,6 +11,7 @@
 #include <string>
 
 #include "Common.h"
+#include "CompilerConstants.hpp"
 
 #if KONAN_TYPE_INFO_HAS_WRITABLE_PART
 struct WritableTypeInfo;
@@ -87,25 +88,32 @@ struct InterfaceTableRecord {
 // and read by GC sweep (ConcurrentMark) to skip half-constructed objects.
 // All callsites (CustomAllocator + ConcurrentMark) are #ifdef ENABLE_STACKMAP
 // gated; the class itself is dead in OFF.
+//
+// Under HWASan bit 59 is inside the pointer tag (bits 56-63), so `valid` moves to
+// bit 2 (the alignment gap above the OBJECT_TAG bits). Kotlin_isHwasanEnabled is an
+// app-emitted constant global, so this folds away at link time and a non-HWASan
+// build keeps the single bit-59 store it had before. Hence not a bitfield: bitfield
+// offsets are fixed at compile time. Keep in sync with objectTagMask() in Memory.h.
+constexpr unsigned kValidBitNoHwasan = 59;
+constexpr unsigned kValidBitHwasan = 2;
+
 class KNStateWord {
 public:
-    struct GCStateWord {
-        uint64_t address : 59;
-        uint64_t valid : 1;
-        uint64_t remainded : 4;
-    };
+    ALWAYS_INLINE static uint64_t ValidBit() noexcept {
+        return uint64_t{1} << (kotlin::compiler::isHwasanEnabled() ? kValidBitHwasan : kValidBitNoHwasan);
+    }
 
     void SetValid()
     {
-        state_.valid = 1;
+        state_ |= ValidBit();
     }
 
     bool IsValid()
     {
-        return state_.valid == 1;
+        return (state_ & ValidBit()) != 0;
     }
 private:
-    GCStateWord state_;
+    uint64_t state_;
 };
 #endif // ENABLE_STACKMAP
 

@@ -68,6 +68,19 @@ typedef enum : uintptr_t {
     OBJECT_TAG_MASK = ~kImmTypeInfoMask
 } ObjectTag;
 
+// Tag bits to strip from typeInfoOrMeta_ to recover a dereferenceable pointer.
+// Without HWASan this is OBJECT_TAG_MASK, unchanged. Under HWASan KNStateWord::valid
+// moves to bit 2 (see TypeInfo.h) so the mask must reach the low 3 bits, and kNative
+// must additionally keep the top byte, which holds the HWASan/MTE tag of a
+// std-allocated meta object -- clearing it would break the ->typeInfo_ shadow check.
+// Both globals are app-emitted constants, so this folds per app at link time.
+ALWAYS_INLINE inline uintptr_t objectTagMask() noexcept {
+    if (!kotlin::compiler::isHwasanEnabled()) return static_cast<uintptr_t>(OBJECT_TAG_MASK);
+    return checkUseCRT<CheckMode::Slow>(
+            [] { return static_cast<uintptr_t>(0xffff000000000007ULL); },
+            [] { return static_cast<uintptr_t>(0x0000000000000007ULL); });
+}
+
 struct ArrayHeader;
 struct MetaObjHeader;
 
@@ -82,12 +95,11 @@ struct ObjHeader {
 
   // Returns `nullptr` if it's not a meta object.
   static MetaObjHeader* AsMetaObject(TypeInfo* typeInfo) noexcept {
-      auto* typeInfoOrMeta = clearPointerBits(typeInfo, OBJECT_TAG_MASK);
-#ifdef ENABLE_STACKMAP
-      // OHOS arm64 pointer tagging requires clearing the top 16 bits of the tag.
-      // OFF path does not mask (baseline behaviour).
-      typeInfoOrMeta = reinterpret_cast<TypeInfo*>(reinterpret_cast<uintptr_t>(typeInfoOrMeta) & 0xffffffffffff);
-#endif
+      // objectTagMask() already clears the top 16 bits, except under kNative+HWASan
+      // where the top byte is the HWASan tag and must survive (TBI resolves it on
+      // deref), so the extra `& 0xffffffffffff` this used to do is both redundant
+      // and wrong there.
+      auto* typeInfoOrMeta = clearPointerBits(typeInfo, objectTagMask());
       if (typeInfoOrMeta != typeInfoOrMeta->typeInfo_) {
           return reinterpret_cast<MetaObjHeader*>(typeInfoOrMeta);
       } else {
@@ -111,7 +123,7 @@ struct ObjHeader {
    * Hardware guaranties on many supported platforms doesn't allow this to happen.
    */
   const TypeInfo* type_info() const {
-      auto typeInfoOrMeta = clearPointerBits(typeInfoOrMetaRelaxed(), OBJECT_TAG_MASK);
+      auto typeInfoOrMeta = clearPointerBits(typeInfoOrMetaRelaxed(), objectTagMask());
       auto atomicTypeInfoPtr = kotlin::std_support::atomic_ref{typeInfoOrMeta->typeInfo_};
       const TypeInfo* typeInfo = atomicTypeInfoPtr.load(std::memory_order_relaxed);
       RuntimeAssert(typeInfo != nullptr, "TypeInfo ptr in object %p in null", this);
