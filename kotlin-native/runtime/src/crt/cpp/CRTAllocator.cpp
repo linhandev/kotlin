@@ -57,7 +57,11 @@ uint8_t* CRTAllocator::AllocFromCMC(size_t size) {
     size_t allocSize = common::HeapAllocateSize(size);
 #ifdef ENABLE_GC_FASTPATH
     uintptr_t tls;
-    FixedRegToLocalVar(tls);
+    if (kotlin::compiler::isHwasanEnabled()) {
+        tls = common::ThreadLocalRegisterData();
+    } else {
+        FixedRegToLocalVar(tls);
+    }
 #else
     auto tls = reinterpret_cast<uintptr_t>(crtTLS);
 #endif

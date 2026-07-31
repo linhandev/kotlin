@@ -34,6 +34,7 @@ import org.jetbrains.kotlin.ir.visitors.acceptVoid
 import org.jetbrains.kotlin.konan.ForeignExceptionMode
 import org.jetbrains.kotlin.konan.target.CompilerOutputKind
 import org.jetbrains.kotlin.konan.target.Family
+import org.jetbrains.kotlin.konan.target.SanitizerKind
 import org.jetbrains.kotlin.library.KotlinLibrary
 import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.name.Name
@@ -3264,6 +3265,7 @@ internal fun NativeGenerationState.generateRuntimeConstantsModule() : LLVMModule
     setRuntimeConstGlobal("Kotlin_fixedBlockPageSize", llvm.constInt32(config.fixedBlockPageSize.toInt()))
     setRuntimeConstGlobal("Kotlin_pagedAllocator", llvm.constInt32(if (config.pagedAllocator) 1 else 0))
     setRuntimeConstGlobal("Kotlin_memoryManagerMode", llvm.constInt32(config.memoryManagerMode.value))
+    setRuntimeConstGlobal("Kotlin_isHwasanEnabled", llvm.constInt32(if (config.sanitizer == SanitizerKind.HWADDRESS) 1 else 0))
 
     return llvmModule
 }

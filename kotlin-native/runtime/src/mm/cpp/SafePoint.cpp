@@ -240,9 +240,12 @@ PERFORMANCE_INLINE void mm::safePoint(std::memory_order fastPathOrder) noexcept
         // lambda body still has to compile. Stub-out when stackmap=off.
 #ifdef ENABLE_STACKMAP
 #ifdef ENABLE_GC_FASTPATH
-        // CRT fastpath: x28 holds the TLS pointer.
         uintptr_t tls;
-        FixedRegToLocalVar(tls);
+        if (kotlin::compiler::isHwasanEnabled()) {
+            tls = common::ThreadLocalRegisterData();
+        } else {
+            FixedRegToLocalVar(tls);
+        }
         auto mutatorPtr = reinterpret_cast<common::MutatorBase**>(tls + common::TLS_MUTATOR_OFF);
         uint32_t IsSafePointActive = *reinterpret_cast<uint32_t*>(*mutatorPtr);
         if (UNLIKELY(IsSafePointActive)) {

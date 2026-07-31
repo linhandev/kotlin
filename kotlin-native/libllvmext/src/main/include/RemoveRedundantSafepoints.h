@@ -32,10 +32,12 @@ enum SafepointExpansionMode {
 // shadow-stack) to force-inline the first eligible bare prologue instead.
 // `safepointExpansionMode` (fourth arg): which expanded fast check / cold edge to emit;
 // SAFEPOINT_EXPANSION_NONE keeps the surviving stub call (no expansion).
+// `isHWAsanEnabled` (fifth arg): non-zero when compiling with -Xbinary=sanitizer=hwaddress.
 void LLVMKotlinRemoveRedundantSafepoints(LLVMModuleRef module,
                                          int isSafePointInliningAllowed,
                                          int enableStackmap,
-                                         enum SafepointExpansionMode safepointExpansionMode);
+                                         enum SafepointExpansionMode safepointExpansionMode,
+                                         int isHWAsanEnabled);
 
 # ifdef __cplusplus
 }

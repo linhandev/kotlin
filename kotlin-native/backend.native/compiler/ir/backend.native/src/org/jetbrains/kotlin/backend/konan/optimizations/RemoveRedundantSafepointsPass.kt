@@ -21,14 +21,17 @@ internal class RemoveRedundantSafepointsPass {
      *   the first eligible bare prologue. Replaces the legacy compile-time `#ifndef
      *   ENABLE_STACKMAP` gate so one libllvmext binary supports both at runtime; the caller
      *   passes `config.enableStackmap` (per-target).
+     * @param isHWAsanEnabled Whether the module is compiled with `-Xbinary=sanitizer=hwaddress`.
      */
     fun runOnModule(module: LLVMModuleRef, isSafepointInliningAllowed: Boolean,
-                    enableStackmap: Boolean, safepointExpansionMode: SafepointExpansionMode) {
+                    enableStackmap: Boolean, safepointExpansionMode: SafepointExpansionMode,
+                    isHWAsanEnabled: Boolean) {
         LLVMKotlinRemoveRedundantSafepoints(
                 module,
                 if (isSafepointInliningAllowed) 1 else 0,
                 if (enableStackmap) 1 else 0,
                 safepointExpansionMode,
+                if (isHWAsanEnabled) 1 else 0,
         )
     }
 }
