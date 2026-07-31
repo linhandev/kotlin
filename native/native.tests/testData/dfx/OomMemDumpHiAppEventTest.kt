@@ -154,7 +154,8 @@ class OomMemDumpHiAppEventTest {
         apiVersion >= ohosOomMinApi && symbolResolved
 
     /**
-     * On device with API >= 26, calls NDK [OH_HiAppEvent_ReportFrameworkMemAnomaly] (cinterop [OH_KMP_KOTLIN]).
+     * On device with API >= 26, calls NDK [OH_HiAppEvent_ReportFrameworkMemAnomaly]
+     * (cinterop nested enum [OH_HiAppEvent_FrameworkType.OH_KMP_KOTLIN]).
      * Compile-time requires HMS sysroot with hiappevent.h @ API 26; runtime failures degrade to OPERATE_FAILED via try/catch.
      */
     private fun reportFrameworkMemAnomalyProbe(fwVersion: String, description: String): Int {
@@ -163,7 +164,12 @@ class OomMemDumpHiAppEventTest {
             return HIAPPEVENT_OPERATE_FAILED.toInt()
         }
         return try {
-            OH_HiAppEvent_ReportFrameworkMemAnomaly(OH_KMP_KOTLIN, fwVersion, description).toInt()
+            // OH_KMP_KOTLIN is a nested enum member, not a top-level symbol
+            OH_HiAppEvent_ReportFrameworkMemAnomaly(
+                OH_HiAppEvent_FrameworkType.OH_KMP_KOTLIN,
+                fwVersion,
+                description,
+            ).toInt()
         } catch (e: Throwable) {
             logLine("ReportFrameworkMemAnomaly exception: $e")
             HIAPPEVENT_OPERATE_FAILED.toInt()

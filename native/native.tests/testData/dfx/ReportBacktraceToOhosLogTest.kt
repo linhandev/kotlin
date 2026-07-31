@@ -52,15 +52,48 @@ class ReportBacktraceToOhosLogTest {
         )
     }
 
-    /** SetCrashObj may return NOT_SUPPORTED / INVALID_ARGUMENT when API < 23 or the weak symbol is absent. */
-    private fun assertSetCrashObjAcceptable(rc: UInt) {
-        val code = rc.toInt()
-        assertTrue(
-            code == HIDEBUG_SUCCESS.toInt() ||
-                code == HIDEBUG_NOT_SUPPORTED.toInt() ||
-                code == HIDEBUG_INVALID_ARGUMENT.toInt(),
-            "unexpected SetCrashObj ret=$rc (code=$code)",
-        )
+    /**
+     * Validates a SetCrashObj probe result for the ReportBacktrace channel.
+     *
+     * NDK: return is the *previously* set crash-object handle (0 if none) — not HIDEBUG_*.
+     * 0 is normal on a first attach, so [handle] alone cannot prove success.
+     *
+     * Therefore, when API >= [ohosHidebugMinApi]:
+     * - if [handle] != 0, it must be accepted by [OH_HiDebug_ResetCrashObj]
+     * - re-probe SetCrashObj with a retained STRING buffer and assert it does not throw
+     *   (mirrors Exceptions.cpp; ignores return like runtime)
+     * Below min API: previousHandle is only logged (unavailable / exception → 0uL).
+     */
+    private fun assertSetCrashObjAcceptable(handle: ULong) {
+        val api = sdkApiVersion()
+        logLine("SetCrashObj previousHandle=$handle api=$api (0=none; not HIDEBUG_*)")
+        if (api < ohosHidebugMinApi) return
+
+        if (handle != 0uL) {
+            try {
+                OH_HiDebug_ResetCrashObj(handle)
+            } catch (e: Throwable) {
+                fail("non-zero SetCrashObj return must be ResetCrashObj-able: $handle ($e)")
+            }
+        }
+
+        // Channel probe: handle==0 cannot prove attach worked; assert callable like runtime.
+        val msgBytes = "ReportBacktrace_SetCrashObj_channel_probe".encodeToByteArray()
+        val buf = nativeHeap.allocArray<ByteVar>(msgBytes.size + 1)
+        for (i in msgBytes.indices) {
+            buf[i] = msgBytes[i]
+        }
+        buf[msgBytes.size] = 0.toByte()
+        try {
+            OH_HiDebug_SetCrashObj(HIDEBUG_CRASHOBJ_STRING, buf)
+        } catch (e: Throwable) {
+            nativeHeap.free(buf)
+            fail(
+                "ReportBacktrace SetCrashObj must be callable on API >= $ohosHidebugMinApi " +
+                    "(previousHandle=$handle): $e",
+            )
+        }
+        // Retain buf: NDK requires addr valid until crash (mirrors static truncated).
     }
 
     // ---------- Constants aligned with Exceptions.cpp ----------
@@ -167,7 +200,8 @@ class ReportBacktraceToOhosLogTest {
         return sofiles to addresses
     }
 
-    private fun setCrashObjWithString(message: String) = memScoped {
+    /** Calls SetCrashObj; returns the handle, or 0uL on exception (unavailable). */
+    private fun setCrashObjWithString(message: String): ULong = memScoped {
         val msgBytes = message.encodeToByteArray()
         val buf = allocArray<ByteVar>(msgBytes.size + 1)
         msgBytes.forEachIndexed { i, b -> buf[i] = b }
@@ -176,7 +210,7 @@ class ReportBacktraceToOhosLogTest {
             OH_HiDebug_SetCrashObj(HIDEBUG_CRASHOBJ_STRING, buf.reinterpret<COpaque>())
         } catch (e: Throwable) {
             logLine("OH_HiDebug_SetCrashObj exception: $e")
-            HIDEBUG_NOT_SUPPORTED
+            0uL
         }
     }
 
@@ -478,14 +512,15 @@ class ReportBacktraceToOhosLogTest {
     @Test
     fun testOH_HiDebug_SetCrashObj() {
         memScoped {
-            val rc = try {
+            // Return value is a handle (ULong); use 0uL on exception — not a HIDEBUG_* error code
+            val handle = try {
                 OH_HiDebug_SetCrashObj(HIDEBUG_CRASHOBJ_STRING, null)
             } catch (e: Throwable) {
                 logLine("OH_HiDebug_SetCrashObj(null) exception (API < 23): $e")
-                HIDEBUG_NOT_SUPPORTED
+                0uL
             }
-            assertSetCrashObjAcceptable(rc)
-            logLine("OH_HiDebug_SetCrashObj(null) ret=$rc")
+            assertSetCrashObjAcceptable(handle)
+            logLine("OH_HiDebug_SetCrashObj(null) handle=$handle")
         }
     }
 
