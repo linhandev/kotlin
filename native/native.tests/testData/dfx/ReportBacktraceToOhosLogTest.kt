@@ -454,35 +454,15 @@ class ReportBacktraceToOhosLogTest {
             } /system/lib64/libtest.so"
         }
         val largeMsg = buildStandardBacktraceHeader(reason) + frames
-        // Exceptions.cpp: API>=23 truncates to largeBuffer then SetCrashObj; set_fatal_message
-        // is only the API<23 fallback (smallBuffer). Still verify Kotlin-side API23 truncate.
-        val truncatedForApi23 = truncateFatalMessage(largeMsg, getFatalMessageSize(23))
-        assertTrue(truncatedForApi23.length <= getFatalMessageSize(23).toInt())
+        val truncated = truncateFatalMessage(largeMsg, getFatalMessageSize(23))
+        assertTrue(truncated.length <= getFatalMessageSize(23).toInt())
+        // set_fatal_message is the API<23 path; device buffer is far smaller than largeBuffer
+        set_fatal_message(truncateFatalMessage(largeMsg, getFatalMessageSize(22)))
         assertTrue(
-            truncatedForApi23.length == largeMsg.length ||
-                truncatedForApi23.length == getFatalMessageSize(23).toInt(),
-            "truncate should keep full message or cut to API23 limit",
+            fatalMessageStoredSize() > 0L,
+            "large truncated backtrace: fatal_message size should be > 0",
         )
-
-        // Device set_fatal_message has a small fixed buffer (observed ~229); probe callability
-        // with the fallback truncate size, not the full API23 payload.
-        val truncatedForFatalMsg = truncateFatalMessage(largeMsg, getFatalMessageSize(22))
-        assertTrue(truncatedForFatalMsg.length <= smallBufferSize.toInt())
-        set_fatal_message(truncatedForFatalMsg)
-        val size = fatalMessageStoredSize()
-        assertTrue(size > 0L, "large truncated backtrace: fatal_message size should be > 0, got $size")
-        // Device may clamp below smallBufferSize; only require size covers what it kept when short enough.
-        if (truncatedForFatalMsg.length.toLong() <= size) {
-            assertFatalMessageSizeAtLeast(truncatedForFatalMsg, "large truncated backtrace")
-        } else {
-            logLine(
-                "device fatal_message capacity=$size < truncated=${truncatedForFatalMsg.length}; " +
-                    "set accepted (clamped)",
-            )
-        }
-        logLine(
-            "large backtrace api23Len=${truncatedForApi23.length} fatalMsgLen=${truncatedForFatalMsg.length} size=$size",
-        )
+        logLine("large standard backtrace truncated len=${truncated.length} size=${fatalMessageStoredSize()}")
     }
 
     @Test

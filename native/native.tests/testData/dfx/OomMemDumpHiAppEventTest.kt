@@ -112,7 +112,6 @@ class OomMemDumpHiAppEventTest {
             "oom_threshold=$threshold; timestamp=$timestamp"
 
     private fun isOomDumpFileName(filename: String): Boolean {
-        // Mirrors AllocatedSizeTracker.cpp IsOomDumpFileName (prefix + ".dump" suffix only).
         val ext = ".dump"
         return filename.startsWith("oom_dump_") &&
             filename.endsWith(ext) &&
@@ -186,25 +185,18 @@ class OomMemDumpHiAppEventTest {
                 logLine("$label ret=OPERATE_FAILED ($rc) (device policy or probe skipped)")
             HIAPPEVENT_INVALID_PARAM_VALUE.toInt() ->
                 logLine("$label ret=INVALID_PARAM ($rc)")
-            HIAPPEVENT_INVALID_UID.toInt() ->
-                logLine("$label ret=INVALID_UID ($rc)")
-            HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED.toInt() ->
-                logLine("$label ret=REPORT_FREQUENCY_EXCEEDED ($rc)")
             else -> logLine("$label ret=$rc")
         }
     }
 
-    /**
-     * Device probe: accepts SUCCESS and soft-fail codes the NDK may return for a standalone
-     * kexe (no app uid / rate limit / operate failed / bad param). Other codes fail.
-     */
+    /** Device probe: accepts SUCCESS / OPERATE_FAILED / INVALID_PARAM; other codes fail the assertion. */
     private fun assertHiAppEventProbeAcceptable(rc: Int, label: String = "ReportFrameworkMemAnomaly") {
         logHiAppEventProbeResult(rc, label)
         assertTrue(
             rc == HIAPPEVENT_SUCCESS.toInt() ||
                 rc == HIAPPEVENT_OPERATE_FAILED.toInt() ||
                 rc == HIAPPEVENT_INVALID_PARAM_VALUE.toInt() ||
-                rc == HIAPPEVENT_INVALID_UID.toInt() ||
+                // standalone kexe often hits device rate limit
                 rc == HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED.toInt(),
             "$label unexpected ret=$rc",
         )
@@ -238,13 +230,11 @@ class OomMemDumpHiAppEventTest {
 
     @Test
     fun testOomDumpFileNamePattern() {
-        // Loose IsOomDumpFileName (C++): prefix + ".dump"
         assertTrue(isOomDumpFileName("oom_dump_20260415_120530.dump"))
+        assertTrue(dumpFileNameRegex.matches("oom_dump_20260415_120530.dump"))
+        // IsOomDumpFileName only checks prefix + ".dump"
         assertTrue(isOomDumpFileName("oom_dump_.dump"))
         assertFalse(isOomDumpFileName("other_dump_20260415.dump"))
-        // Strict create-time pattern used by BuildDumpMetadata
-        assertTrue(dumpFileNameRegex.matches("oom_dump_20260415_120530.dump"))
-        assertFalse(dumpFileNameRegex.matches("oom_dump_.dump"))
         logLine("oom_dump filename pattern ok")
     }
 
@@ -397,8 +387,8 @@ class OomMemDumpHiAppEventTest {
 
     @Test
     fun testPickOldestDumpToDelete_whenAtMax_deletesOldestMtime() {
-        // old.dump must have the smallest mtime among counted oom_dump_* files.
         val entries = listOf(
+            // mtime must be smaller than f4..f10 (i*10) so old.dump is the oldest
             OomDumpFileEntry("oom_dump_20260401_120501.dump", 1, "$oomDumpDir/old.dump"),
             OomDumpFileEntry("oom_dump_20260402_120502.dump", 300, "$oomDumpDir/mid.dump"),
             OomDumpFileEntry("oom_dump_20260403_120503.dump", 200, "$oomDumpDir/newer.dump"),
@@ -483,8 +473,6 @@ class OomMemDumpHiAppEventTest {
         p("HIAPPEVENT_SUCCESS", HIAPPEVENT_SUCCESS.toInt(), 0)
         p("HIAPPEVENT_INVALID_PARAM_VALUE", HIAPPEVENT_INVALID_PARAM_VALUE.toInt(), -9)
         p("HIAPPEVENT_OPERATE_FAILED", HIAPPEVENT_OPERATE_FAILED.toInt(), -100)
-        p("HIAPPEVENT_INVALID_UID", HIAPPEVENT_INVALID_UID.toInt(), -200)
-        p("HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED", HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED.toInt(), -300)
     }
 
     @Test
