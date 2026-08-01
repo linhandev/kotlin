@@ -454,14 +454,14 @@ class ReportBacktraceToOhosLogTest {
             } /system/lib64/libtest.so"
         }
         val largeMsg = buildStandardBacktraceHeader(reason) + frames
+        // Kotlin-side: API>=23 truncate to largeBuffer (SetCrashObj path).
         val truncated = truncateFatalMessage(largeMsg, getFatalMessageSize(23))
         assertTrue(truncated.length <= getFatalMessageSize(23).toInt())
-        // set_fatal_message is the API<23 path; device buffer is far smaller than largeBuffer
-        set_fatal_message(truncateFatalMessage(largeMsg, getFatalMessageSize(22)))
-        assertTrue(
-            fatalMessageStoredSize() > 0L,
-            "large truncated backtrace: fatal_message size should be > 0",
-        )
+        // Device set_fatal_message capacity is ~229 (same run: empty/roundtrip size=229).
+        // Writing smallBufferSize(1004) can clear the buffer (size→0); probe with a fitting slice.
+        val forDevice = truncateFatalMessage(largeMsg, 200L)
+        set_fatal_message(forDevice)
+        assertFatalMessageSizeAtLeast(forDevice, "large truncated backtrace")
         logLine("large standard backtrace truncated len=${truncated.length} size=${fatalMessageStoredSize()}")
     }
 

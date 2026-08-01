@@ -15,7 +15,7 @@
  */
 // DISABLE_NATIVE: gcType=NOOP
 // TARGET_BACKEND: NATIVE
-// SR009: mem dump strip + gzip (f42e3ef); strip policy incl. String (37b1dac).
+// SR009: mem dump strip + gzip; isStrip keeps only object Array / NativePtrArray payloads.
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.ExperimentalStdlibApi,kotlin.experimental.ExperimentalNativeApi,kotlinx.cinterop.ExperimentalForeignApi
 
 import kotlin.test.*
@@ -27,10 +27,10 @@ import platform.posix.*
 import platform.zlib.*
 
 /**
- * Black-box tests for SR009 [MemoryDump.cpp] strip policy and kdumputil reconstruction.
+ * Black-box tests for [MemoryDump.cpp] isStrip_ dump policy and kdumputil reconstruction.
  *
- * f42e3ef: gzip (gzdopen), PointerSet, OutputBuffer, strip ByteArray/CharArray payload (DumpU32(0)).
- * 37b1dac: also strip [theStringTypeInfo]; object/primitive arrays write full raw data.
+ * Current DumpArray (isStrip_=true): payload kept only for [theArrayTypeInfo] / [theNativePtrArrayTypeInfo];
+ * all other arrays (ByteArray/CharArray/String/IntArray/…) write payloadSize=0.
  */
 @OptIn(
     kotlin.experimental.ExperimentalNativeApi::class,
@@ -41,16 +41,30 @@ class OhosMemDumpStripTest {
 
     private fun logLine(msg: String) = println(msg)
 
-    /** [Debugging.dumpMemory] closes the fd it receives; dup first so the caller's [FILE] stays valid. */
-    private fun dumpMemoryPreservingFd(keepFd: Int): Boolean {
+    /**
+     * Strip + gzip require [Debugging.dumpMemoryAsync] (DumpMemoryOrThrow).
+     * On OHOS the runtime forks; reap the child before reading the FILE.
+     */
+    private fun dumpMemoryPreservingFd(keepFd: Int, strip: Boolean = true): Boolean {
         val dumpFd = dup(keepFd)
         assertTrue(dumpFd >= 0, "dup($keepFd) failed")
-        return Debugging.dumpMemory(dumpFd.toLong())
+        val ok = Debugging.dumpMemoryAsync(dumpFd.toLong(), strip)
+        if (ok) waitForForkedDumpChild()
+        return ok
     }
 
-    // ---------- Mirrors MemoryDump.cpp / kdumputil (post-37b1dac) ----------
+    /** OHOS may fork; ECHILD (errno=10) means dump already finished in-process. */
+    private fun waitForForkedDumpChild() = memScoped {
+        val status = alloc<IntVar>()
+        waitpid(-1, status.ptr, 0)
+    }
 
-    private val strippedArrayRelativeNames = setOf("ByteArray", "CharArray", "String")
+    // ---------- Mirrors MemoryDump.cpp DumpArray isStrip_ gate ----------
+
+    /** Sample relative names that must be stripped under isStrip_. */
+    private val strippedArrayRelativeNames = setOf("ByteArray", "CharArray", "String", "IntArray")
+    /** Relative names that keep payload (theArrayTypeInfo / theNativePtrArrayTypeInfo). */
+    private val keepPayloadArrayRelativeNames = setOf("Array", "NativePtrArray")
     private val pointerSetExpansionFactor = 2
     private val pointerSetMaxLoadFactor = 0.7
     private val pointerSetShiftBits = 3
@@ -124,29 +138,40 @@ class OhosMemDumpStripTest {
         }
     }
 
-    /** Returns null on [Z_BUF_ERROR] so [gunzipGzip] can grow the output buffer and retry. */
+    /**
+     * Returns null on [Z_BUF_ERROR] so [gunzipGzip] can grow the buffer.
+     * Handles concatenated gzip members from parallel CompressToFile.
+     */
     private fun inflateGzipOnce(compressed: ByteArray, outCapacity: Int): ByteArray? = memScoped {
         val out = ByteArray(outCapacity)
         compressed.usePinned { inPinned ->
             out.usePinned { outPinned ->
-                val stream = alloc<z_stream>().apply {
-                    next_in = inPinned.addressOf(0).reinterpret()
-                    avail_in = compressed.size.toUInt()
-                    next_out = outPinned.addressOf(0).reinterpret()
-                    avail_out = outCapacity.toUInt()
-                }
-                val initRc = inflateInit2(stream.ptr, 15 + 16)
-                assertEquals(Z_OK, initRc, "inflateInit2(gzip)")
-                val inflateRc = inflate(stream.ptr, Z_FINISH)
-                inflateEnd(stream.ptr)
-                when (inflateRc) {
-                    Z_STREAM_END -> {
-                        val produced = outCapacity - stream.avail_out.toInt()
-                        out.copyOf(produced)
+                var inOffset = 0
+                var outOffset = 0
+                while (inOffset < compressed.size) {
+                    if (outOffset >= outCapacity) return null
+                    val stream = alloc<z_stream>().apply {
+                        next_in = inPinned.addressOf(inOffset).reinterpret()
+                        avail_in = (compressed.size - inOffset).toUInt()
+                        next_out = outPinned.addressOf(outOffset).reinterpret()
+                        avail_out = (outCapacity - outOffset).toUInt()
                     }
-                    Z_BUF_ERROR -> null
-                    else -> fail("inflate gzip dump failed with rc=$inflateRc")
+                    val initRc = inflateInit2(stream.ptr, 15 + 16)
+                    assertEquals(Z_OK, initRc, "inflateInit2(gzip)")
+                    val inflateRc = inflate(stream.ptr, Z_FINISH)
+                    val consumedIn = (compressed.size - inOffset) - stream.avail_in.toInt()
+                    val produced = (outCapacity - outOffset) - stream.avail_out.toInt()
+                    inflateEnd(stream.ptr)
+                    when (inflateRc) {
+                        Z_STREAM_END -> {
+                            inOffset += consumedIn
+                            outOffset += produced
+                        }
+                        Z_BUF_ERROR -> return null
+                        else -> fail("inflate gzip dump failed with rc=$inflateRc")
+                    }
                 }
+                out.copyOf(outOffset)
             }
         }
     }
@@ -160,7 +185,7 @@ class OhosMemDumpStripTest {
             ok = dumpMemoryPreservingFd(fd)
             if (ok) compressed = readCompressedDumpFromFile(file)
         }
-        assertTrue(ok, "Debugging.dumpMemory() must return true")
+        assertTrue(ok, "Debugging.dumpMemoryAsync() must return true")
         assertTrue(compressed.isNotEmpty(), "compressed dump must be non-empty")
         return gunzipGzip(compressed)
     }
@@ -358,13 +383,9 @@ class OhosMemDumpStripTest {
         return arrays.filter { it.typeIdKey in typeKeys }
     }
 
-    private fun shouldStripArrayPayload(relativeName: String): Boolean =
-        relativeName in strippedArrayRelativeNames
-
-    private fun expectedFullPayloadSize(type: DumpTypeEntry, count: Int): Int? {
-        val elementSize = type.arrayElementSize ?: return null
-        return elementSize * count
-    }
+    /** Mirrors DumpArray: strip unless object Array or NativePtrArray. */
+    private fun shouldStripArrayPayload(relativeName: String, isObjectArray: Boolean = false): Boolean =
+        !(isObjectArray || relativeName in keepPayloadArrayRelativeNames)
 
     /** Mirrors kdumputil [Converter.reconstructObjectByteArray] for stripped object bodies. */
     private fun reconstructObjectByteArray(
@@ -413,12 +434,13 @@ class OhosMemDumpStripTest {
     }
 
     @Test
-    fun testStripPolicy_includesString_after37b1dac() {
+    fun testStripPolicy_isStrip_stripsAllExceptObjectAndNativePtrArray() {
         assertTrue(shouldStripArrayPayload("ByteArray"))
         assertTrue(shouldStripArrayPayload("CharArray"))
         assertTrue(shouldStripArrayPayload("String"))
-        assertFalse(shouldStripArrayPayload("IntArray"))
-        assertFalse(shouldStripArrayPayload("Array"))
+        assertTrue(shouldStripArrayPayload("IntArray"))
+        assertFalse(shouldStripArrayPayload("Array", isObjectArray = true))
+        assertFalse(shouldStripArrayPayload("NativePtrArray"))
     }
 
     @Test
@@ -478,7 +500,7 @@ class OhosMemDumpStripTest {
         assertEquals(0, full[0])
     }
 
-    // ---------- Live dump: strip vs full payload (SR009 + 37b1dac) ----------
+    // ---------- Live dump: isStrip keeps only object Array / NativePtrArray ----------
 
     @Test
     fun testLiveDump_strippedByteArray_hasZeroPayload() {
@@ -506,35 +528,32 @@ class OhosMemDumpStripTest {
         assertTrue(stringArrays.isNotEmpty(), "expected String array instances in dump")
         assertTrue(
             stringArrays.any { it.payloadSize == 0 },
-            "String (theStringTypeInfo) payload must be stripped per 37b1dac; got $stringArrays",
+            "String payload must be stripped under isStrip; got $stringArrays",
         )
     }
 
     @Test
-    fun testLiveDump_intArray_writesFullPayload() {
+    fun testLiveDump_intArray_isStrippedToZeroPayload() {
         val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
-        val intType = parsed.types.values.first { it.relativeName == "IntArray" }
         val entries = parsed.arrayEntriesNamed("IntArray").filter { it.count == 4 }
         assertTrue(entries.isNotEmpty(), "expected IntArray(count=4) in dump")
-        val expected = expectedFullPayloadSize(intType, 4)
-        assertNotNull(expected)
-        assertTrue(entries.all { it.payloadSize == expected }, "IntArray payload=$entries expected=$expected")
+        assertTrue(entries.all { it.payloadSize == 0 }, "IntArray must be stripped under isStrip: $entries")
     }
 
     @Test
-    fun testLiveDump_objectArray_writesFullPayload() {
+    fun testLiveDump_objectArray_keepsFullPayload() {
         val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
         val arrayType = parsed.types.values.first { it.isObjectArray }
         val entries = parsed.arrays.filter { it.typeIdKey == arrayType.idKey && it.count == 2 }
         assertTrue(entries.isNotEmpty(), "expected object Array(count=2) in dump")
         assertTrue(
             entries.all { it.payloadSize > 0 },
-            "object Array must write references (37b1dac else branch): $entries",
+            "object Array (theArrayTypeInfo) must keep references under isStrip: $entries",
         )
     }
 
     @Test
-    fun testLiveDump_allStrippedTypesHaveZeroPayload() {
+    fun testLiveDump_sampleStrippedTypesHaveZeroPayload() {
         val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
         for (name in strippedArrayRelativeNames) {
             val typeKeys = parsed.types.filter { it.value.relativeName == name }.keys
@@ -548,33 +567,19 @@ class OhosMemDumpStripTest {
     }
 
     @Test
-    fun testLiveDump_nonStrippedPrimitiveArraysHavePositivePayload() {
-        val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
-        val nonStripped = parsed.types.values.filter { it.isArray && it.relativeName !in strippedArrayRelativeNames && !it.isObjectArray }
-        for (type in nonStripped) {
-            val arrays = parsed.arrays.filter { it.typeIdKey == type.idKey && it.count > 0 && it.payloadSize > 0 }
-            if (arrays.isEmpty()) continue
-            val sample = arrays.first()
-            val expected = expectedFullPayloadSize(type, sample.count)
-            if (expected != null && expected > 0) {
-                assertEquals(expected, sample.payloadSize, "type=${type.relativeName} count=${sample.count}")
-            }
-        }
-    }
-
-    @Test
-    fun testStrippedContentReducesDecompressedSize() {
+    fun testLiveDump_objectArrayKeepsPayload_whileByteArrayStripped() {
         touchFixtures()
         val manyBytes = Array(32) { byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8) }
-        val manyInts = Array(32) { intArrayOf(1, 2, 3, 4, 5, 6, 7, 8) }
+        val manyObjs = Array(32) { arrayOf("a", "b", "c", "d") }
         GC.collect()
-        fun decompressedSize(setup: () -> Unit): Int {
-            setup()
-            return parseTypesAndArrays(dumpToDecompressedBytes()).arrays.sumOf { it.payloadSize }
-        }
-        val payloadBytesOnly = decompressedSize { manyBytes.forEach { assertEquals(8, it.size) } }
-        val payloadIntsOnly = decompressedSize { manyInts.forEach { assertEquals(8, it.size) } }
-        assertTrue(payloadIntsOnly > payloadBytesOnly, "stripped ByteArray payload sum $payloadBytesOnly < IntArray $payloadIntsOnly")
-        logLine("payload sum byte-only=$payloadBytesOnly int-only=$payloadIntsOnly")
+        manyBytes.forEach { assertEquals(8, it.size) }
+        manyObjs.forEach { assertEquals(4, it.size) }
+        val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
+        val bytePayload = parsed.arrayEntriesNamed("ByteArray").sumOf { it.payloadSize }
+        val objKeys = parsed.types.filter { it.value.isObjectArray }.keys
+        val objPayload = parsed.arrays.filter { it.typeIdKey in objKeys }.sumOf { it.payloadSize }
+        assertEquals(0, bytePayload, "ByteArray payload must be stripped")
+        assertTrue(objPayload > 0, "object Array payload must be kept: obj=$objPayload byte=$bytePayload")
+        logLine("payload sum byte=$bytePayload obj=$objPayload")
     }
 }
