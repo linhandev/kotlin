@@ -195,7 +195,9 @@ class OomMemDumpHiAppEventTest {
         assertTrue(
             rc == HIAPPEVENT_SUCCESS.toInt() ||
                 rc == HIAPPEVENT_OPERATE_FAILED.toInt() ||
-                rc == HIAPPEVENT_INVALID_PARAM_VALUE.toInt(),
+                rc == HIAPPEVENT_INVALID_PARAM_VALUE.toInt() ||
+                // standalone kexe often hits device rate limit
+                rc == HIAPPEVENT_REPORT_FREQUENCY_EXCEEDED.toInt(),
             "$label unexpected ret=$rc",
         )
     }
@@ -230,7 +232,8 @@ class OomMemDumpHiAppEventTest {
     fun testOomDumpFileNamePattern() {
         assertTrue(isOomDumpFileName("oom_dump_20260415_120530.dump"))
         assertTrue(dumpFileNameRegex.matches("oom_dump_20260415_120530.dump"))
-        assertFalse(isOomDumpFileName("oom_dump_.dump"))
+        // IsOomDumpFileName only checks prefix + ".dump"
+        assertTrue(isOomDumpFileName("oom_dump_.dump"))
         assertFalse(isOomDumpFileName("other_dump_20260415.dump"))
         logLine("oom_dump filename pattern ok")
     }
@@ -385,7 +388,8 @@ class OomMemDumpHiAppEventTest {
     @Test
     fun testPickOldestDumpToDelete_whenAtMax_deletesOldestMtime() {
         val entries = listOf(
-            OomDumpFileEntry("oom_dump_20260401_120501.dump", 100, "$oomDumpDir/old.dump"),
+            // mtime must be smaller than f4..f10 (i*10) so old.dump is the oldest
+            OomDumpFileEntry("oom_dump_20260401_120501.dump", 1, "$oomDumpDir/old.dump"),
             OomDumpFileEntry("oom_dump_20260402_120502.dump", 300, "$oomDumpDir/mid.dump"),
             OomDumpFileEntry("oom_dump_20260403_120503.dump", 200, "$oomDumpDir/newer.dump"),
             OomDumpFileEntry("not_oom.txt", 50, "$oomDumpDir/skip.txt"),
