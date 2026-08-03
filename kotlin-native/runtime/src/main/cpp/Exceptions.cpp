@@ -359,7 +359,7 @@ class TerminateHandler : private kotlin::Pinned {
   RUNTIME_NORETURN static void queuedHandler() {
       concurrentTerminateWrapper([]() {
           // Not a Kotlin exception - call default handler
-          instance()->queuedHandler_;
+          instance()->queuedHandler_();
       });
   }
 

@@ -50,13 +50,7 @@ internal interface KotlinStubs {
 
     val isSwiftExportEnabled: Boolean
 
-    /**
-     * Stackmap pipeline ON/OFF toggle. When false (OFF / pre-stackmap baseline),
-     * `addFilterExceptionsAnnotation` must be forced to true at every K->C bridge
-     * generation so cross-language exception propagation matches the baseline.
-     * The ON path defaults to false because precise-stackmap drives the decision
-     * per-callsite via `foreignExceptionMode`.
-     */
+    /** Stackmap pipeline ON/OFF toggle. */
     val enableStackmap: Boolean
 
     fun addKotlin(declaration: IrDeclaration)
@@ -72,8 +66,7 @@ private class KotlinToCCallBuilder(
         val irBuilder: IrBuilderWithScope,
         val stubs: KotlinStubs,
         val isObjCMethod: Boolean,
-        foreignExceptionMode: ForeignExceptionMode.Mode,
-        addFilterExceptionsAnnotation: Boolean
+        foreignExceptionMode: ForeignExceptionMode.Mode
 ) {
 
     val cBridgeName = stubs.getUniqueCName("knbridge")
@@ -87,8 +80,7 @@ private class KotlinToCCallBuilder(
             cBridgeName,
             stubs,
             isKotlinToC = true,
-            foreignExceptionMode = foreignExceptionMode,
-            addFilterExceptionsAnnotation = addFilterExceptionsAnnotation
+            foreignExceptionMode = foreignExceptionMode
     )
     val cBridgeBodyLines = mutableListOf<String>()
     val cCallBuilder = CCallBuilder()
@@ -130,20 +122,12 @@ private fun KotlinToCCallBuilder.buildKotlinBridgeCall(transformCall: (IrMemberA
         )
 
 internal fun KotlinStubs.generateCCall(expression: IrCall, builder: IrBuilderWithScope, isInvoke: Boolean,
-                                       foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default,
-                                       addFilterExceptionsAnnotation: Boolean = false): IrExpression {
-    // OFF path forces the filterExceptions annotation back on (the baseline
-    // always added it). The ON path makes it opt-in via this parameter; OFF must
-    // restore the always-on behaviour or cross-language exception propagation
-    // breaks (cinterop tests SIGABRT in baseline-equivalent scenarios).
-    @Suppress("NAME_SHADOWING")
-    val addFilterExceptionsAnnotation = if (enableStackmap) addFilterExceptionsAnnotation else true
+                                       foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default): IrExpression {
     val callBuilder = KotlinToCCallBuilder(
             builder,
             this,
             isObjCMethod = false,
-            foreignExceptionMode = foreignExceptionMode,
-            addFilterExceptionsAnnotation = addFilterExceptionsAnnotation
+            foreignExceptionMode = foreignExceptionMode
     )
 
     val callee = expression.symbol.owner
@@ -349,8 +333,7 @@ internal fun KotlinStubs.generateObjCCall(
             builder,
             this@generateObjCCall,
             isObjCMethod = true,
-            foreignExceptionMode = exceptionMode,
-            addFilterExceptionsAnnotation = true
+            foreignExceptionMode = exceptionMode
     )
 
     val superClass = irTemporary(
@@ -1320,9 +1303,7 @@ private class ObjCBlockPointerValuePassing(
                 this,
                 stubs,
                 isObjCMethod = false,
-                foreignExceptionMode = ForeignExceptionMode.default,
-                // ObjC block bridge: OFF restores the baseline always-on filterExceptions.
-                addFilterExceptionsAnnotation = if (stubs.enableStackmap) false else true
+                foreignExceptionMode = ForeignExceptionMode.default
         )
 
         val rawBlockPointerParameter =  callBuilder.passThroughBridge(blockPtr, blockPtr.type, CTypes.id)
