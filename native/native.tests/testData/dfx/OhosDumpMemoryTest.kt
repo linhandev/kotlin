@@ -92,9 +92,13 @@ class OhosDumpMemoryTest {
     private fun dumpMemoryAsyncGzipPreservingFd(keepFd: Int): Boolean {
         val dumpFd = dup(keepFd)
         assertTrue(dumpFd >= 0, "dup($keepFd) failed")
-        val ok = Debugging.dumpMemoryAsync(dumpFd.toLong(), false)
-        if (ok) waitForForkedDumpChild()
-        return ok
+        try {
+            val ok = Debugging.dumpMemoryAsync(dumpFd.toLong(), false)
+            if (ok) waitForForkedDumpChild()
+            return ok
+        } finally {
+            close(dumpFd)
+        }
     }
 
     private fun waitForForkedDumpChild() = memScoped {
