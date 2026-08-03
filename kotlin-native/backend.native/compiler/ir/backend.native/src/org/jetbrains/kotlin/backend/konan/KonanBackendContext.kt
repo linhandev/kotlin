@@ -29,4 +29,10 @@ internal abstract class KonanBackendContext(config: KonanConfig) : BasicPhaseCon
 
     override val messageCollector: MessageCollector
         get() = super<BasicPhaseContext>.messageCollector
+
+    // KT-50289: when precise stackmap is on (ohos_arm64 / macos_arm64 default, or
+    // -Xbinary=enableStackmap=true), do not trust Kotlin nullability in `?.`/`?:`
+    // fusion — same policy as JVM. Stackmap-off keeps the community default (true).
+    override val optimizeNullChecksUsingKotlinNullability: Boolean
+        get() = !config.enableStackmap
 }
