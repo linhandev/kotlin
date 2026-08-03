@@ -48,9 +48,13 @@ class OhosMemDumpStripTest {
     private fun dumpMemoryPreservingFd(keepFd: Int, strip: Boolean = true): Boolean {
         val dumpFd = dup(keepFd)
         assertTrue(dumpFd >= 0, "dup($keepFd) failed")
-        val ok = Debugging.dumpMemoryAsync(dumpFd.toLong(), strip)
-        if (ok) waitForForkedDumpChild()
-        return ok
+        try {
+            val ok = Debugging.dumpMemoryAsync(dumpFd.toLong(), false)
+            if (ok) waitForForkedDumpChild()
+            return ok
+        } finally {
+            close(dumpFd)
+        }
     }
 
     /** OHOS may fork; ECHILD (errno=10) means dump already finished in-process. */
