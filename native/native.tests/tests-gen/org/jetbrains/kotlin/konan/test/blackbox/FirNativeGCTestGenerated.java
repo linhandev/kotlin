@@ -400,6 +400,12 @@ public class FirNativeGCTestGenerated extends AbstractNativeBlackBoxTest {
     }
 
     @Test
+    @TestMetadata("crt_nullable_global_root_race.kt")
+    public void testCrt_nullable_global_root_race() {
+      runTest("native/native.tests/testData/gc/crt/crt_nullable_global_root_race.kt");
+    }
+
+    @Test
     @TestMetadata("crt_oom_fragmentation.kt")
     public void testCrt_oom_fragmentation() {
       runTest("native/native.tests/testData/gc/crt/crt_oom_fragmentation.kt");
