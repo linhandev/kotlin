@@ -20,9 +20,11 @@ object C {
 fun f() = A.x + B.y
 // CHECK: {{^}}epilogue:
 
-// test that assumption on how EnterFrame looks like is not broken
+// Positive control: accessing a non-constant object requires GC root slots.
+// Precise StackMap does not use EnterFrame here, so check the root slots directly.
 // CHECK-LABEL: define void @"kfun:#g(){}"()
-// CHECK: EnterFrame
+// CHECK-STACKMAP: alloca ptr addrspace(1)
+// CHECK-NOSTACKMAP: EnterFrame
 fun g() {
     val x = C.x
 }

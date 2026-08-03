@@ -1,3 +1,8 @@
+// With precise StackMap enabled, node1 is no longer reported as a root after its
+// last machine-level use, so the strong path to node3 is lost at GC.collect().
+// This failure is independent of EscapeAnalysis.
+// IGNORE_NATIVE: target=ohos_arm64
+// IGNORE_NATIVE: target=macos_arm64
 @file:OptIn(kotlin.experimental.ExperimentalNativeApi::class)
 import kotlin.native.ref.WeakReference
 

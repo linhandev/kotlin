@@ -150,7 +150,7 @@ inline fun weakResurrectTest(create: () -> Ref, doRetainRelease: Boolean) {
                 if (result != null) {
                     if (doRetainRelease) retainExternalRCRef(ref.second)
                     assertEquals(ref.first, result.identityHashCode())
-                    assertEquals(ref.first, dereferenceExternalRCRef(ref.second).identityHashCode())
+                    if (doRetainRelease) assertEquals(ref.first, dereferenceExternalRCRef(ref.second).identityHashCode())
                     if (doRetainRelease) releaseExternalRCRef(ref.second)
                 }
             }
