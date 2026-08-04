@@ -272,7 +272,6 @@ class OhosLinker(targetProperties: OhosConfigurables) : LinkerFlags(targetProper
                 }
                 SanitizerKind.THREAD -> {
                     +"$targetLib/libclang_rt.builtins.a"
-                    +"$targetLib/libclang_rt.tsan_cxx.a"
                     +"$targetLib/libclang_rt.tsan.so"
                 }
                 null -> {}

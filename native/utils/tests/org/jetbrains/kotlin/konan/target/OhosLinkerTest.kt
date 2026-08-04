@@ -207,7 +207,6 @@ class OhosLinkerTest {
             sanitizer = SanitizerKind.THREAD,
         )
         assertTrue(args.any { it.contains("x86_64-linux-ohos/libclang_rt.tsan.so") })
-        assertTrue(args.any { it.endsWith("libclang_rt.tsan_cxx.a") })
         assertTrue(args.any { it.endsWith("clang_rt.crtend.o") })
         assertTrue(args.count { it.endsWith("libclang_rt.builtins.a") } >= 1)
     }
@@ -232,7 +231,6 @@ class OhosLinkerTest {
             sanitizer = SanitizerKind.THREAD,
         )
         assertTrue(args.any { it.endsWith("libclang_rt.tsan.so") })
-        assertTrue(args.any { it.endsWith("libclang_rt.tsan_cxx.a") })
         assertTrue(args.any { it.endsWith("libclang_rt.builtins.a") })
         assertTrue(args.any { it.endsWith("clang_rt.crtend.o") })
         assertFalse(args.any { it.contains("libclang_rt.hwasan") })
