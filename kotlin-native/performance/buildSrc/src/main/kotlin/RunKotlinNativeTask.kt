@@ -118,13 +118,18 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             }
             args("-w", warmupCount.toString())
             args("-r", repeatCount.toString())
-            standardOutput = output
+            // OHOS hdc shell cwd is often '/' (ro on Mate/ALN); write absolute path so ./result.json does not fail.
+            if (useHdc) {
+                args("-o", "/data/local/tmp/result.json")
+            } else {
+                standardOutput = output
+            }
         }
-        // hdc shell stdout (verbose):
-        //   [DEBUG][19:44:27] Warm up iterations for benchmark Foo
-        //   [{"name":"Foo","status":"PASSED",...}]
-        // substringAfter("[") would cut at the '[' in "[DEBUG]"; use Last to start at the benchmark JSON array '['.
-        return output.toString().substringAfterLast("[").removeSuffix("]")
+        // OHOS: JsonReportCreator writes to -o file; stdout is DEBUG lines — read the file.
+        if (useHdc) {
+            return readOhosBenchmarkResult()
+        }
+        return output.toString().substringAfter("[").removeSuffix("]")
     }
 
     private fun execBenchmarkRepeatedly(benchmark: String, warmupCount: Int, repeatCount: Int) : List<String> {
