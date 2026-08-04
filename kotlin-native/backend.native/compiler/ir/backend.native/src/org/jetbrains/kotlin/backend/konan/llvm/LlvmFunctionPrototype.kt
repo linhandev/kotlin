@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.backend.konan.llvm
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.get
 import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.toKString
 import llvm.*
 import org.jetbrains.kotlin.backend.konan.Context
 import org.jetbrains.kotlin.backend.konan.RuntimeNames
@@ -214,6 +215,15 @@ internal class LlvmFunctionProto(
     )
 
     fun createLlvmFunction(context: Context, llvmModule: LLVMModuleRef): LlvmCallable {
+        if (shouldDeduplicateInternalSymbol(name, context)) {
+            LLVMGetNamedFunction(llvmModule, name)?.let { existing ->
+                val existingType = getGlobalFunctionType(existing)
+                if (existingType == signature.llvmFunctionType) {
+                    return LlvmCallable(existing, signature)
+                }
+            }
+        }
+
         val function = LLVMAddFunction(llvmModule, name, signature.llvmFunctionType)!!
         // In OFF mode skip `gc "kotlin-native"` so LLVM's RewriteStatepointsForGC
         // pass does not fire (no slowPathStub injections, avoiding a large
@@ -229,8 +239,15 @@ internal class LlvmFunctionProto(
         addTargetCpuAndFeaturesAttributes(context, function)
         signature.addFunctionAttributes(function)
         LLVMSetLinkage(function, linkage)
+        if (shouldDeduplicateInternalSymbol(name, context)) {
+            LLVMSetLinkage(function, LLVMLinkage.LLVMExternalLinkage)
+        }
         return LlvmCallable(function, signature)
     }
+}
+
+private fun shouldDeduplicateInternalSymbol(symbolName: String, context: Context): Boolean {
+    return symbolName in context.config.forceExportInternalSymbolNames
 }
 
 internal fun LlvmFunctionSignature.toProto(name: String, origin: FunctionOrigin?, linkage: LLVMLinkage, independent: Boolean = false) =

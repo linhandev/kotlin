@@ -19,6 +19,8 @@ object BinaryOptions : BinaryOptionRegistry() {
 
     val checkStateAtExternalCalls by booleanOption()
 
+    val printModule by booleanOption()
+
     // Toggle the precise-stackmap codegen path (emit `addrspace(1)` heap
     // pointers, phi cast across AS0/AS1 boundary). Must match the runtime build
     // property `kotlin.native.precise.stackmap` (which controls cpp
@@ -42,6 +44,8 @@ object BinaryOptions : BinaryOptionRegistry() {
     val llvmSplitPath by stringOption()
 
     val moduleIncludeOnly by listStringOption()
+
+    val forceExportInternalSymbolNames by listStringOption()
 
     val emitRuntimeOpt by option<RuntimeEmissionMode>()
 

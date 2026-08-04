@@ -126,6 +126,8 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     val runtimeAssertsMode: RuntimeAssertsMode get() = configuration.get(BinaryOptions.runtimeAssertionsMode) ?: RuntimeAssertsMode.IGNORE
     val checkStateAtExternalCalls: Boolean get() = configuration.get(BinaryOptions.checkStateAtExternalCalls) ?: false
 
+    val printModule: Boolean get() = configuration.get(BinaryOptions.printModule) ?: false
+    
     // Per-target default: ohos_arm64 and macos_arm64 → ON (precise stackmap
     // pipeline), every other target → OFF (shadow-stack baseline). Rationale:
     //   - The precise stackmap pipeline requires the CRT runtime (libcrt.so) plus
@@ -227,6 +229,9 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     
     val moduleIncludes: Map<String, List<String>>
         get() = configuration.get(BinaryOptions.moduleIncludes)?: emptyMap()
+
+    val forceExportInternalSymbolNames: List<String>
+        get() = configuration.get(BinaryOptions.forceExportInternalSymbolNames) ?: emptyList()
 
     val runtimeName: String
         get() = configuration.get(BinaryOptions.runtimeName) ?: "runtime"

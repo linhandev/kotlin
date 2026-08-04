@@ -116,6 +116,10 @@ internal class KotlinStaticData(override val generationState: NativeGenerationSt
         }
         val global = this.placeGlobal(kind.llvmName, objHeader, isExported = true)
         global.setConstant(true)
+        // In split-SO mode, protect unique instances from internalization during optimization.
+        if (context.config.moduleIncludeOnly.isNotEmpty()) {
+            llvm.splitSoTypeInfoUsedGlobals += global.pointer.llvm
+        }
         return createRef(global.pointer)
     }
 

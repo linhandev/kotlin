@@ -34,6 +34,7 @@ import org.jetbrains.kotlin.konan.file.File
 import org.jetbrains.kotlin.konan.target.CompilerOutputKind
 import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.library.impl.javaFile
+import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.util.PerformanceManager
 import org.jetbrains.kotlin.util.PerformanceManagerImpl
 import org.jetbrains.kotlin.util.PhaseType
@@ -94,6 +95,7 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBackend(backendContext: Contex
     val config = context.config
     useContext(backendContext) { backendEngine ->
         backendEngine.runPhase(functionsWithoutBoundCheck)
+        var dependenciesToCompilePrinted = false
 
         fun createGenerationState(fragment: BackendJobFragment): NativeGenerationState {
             val outputPath = config.cacheSupport.tryGetImplicitOutput(fragment.cacheDeserializationStrategy) ?: config.outputPath
@@ -133,6 +135,22 @@ internal fun <C : PhaseContext> PhaseEngine<C>.runBackend(backendContext: Contex
 
         fun NativeGenerationState.runSpecifiedLowerings(fragment: BackendJobFragment, loweringsToLaunch: LoweringList) {
             runEngineForLowerings {
+                if (context.config.printModule && !dependenciesToCompilePrinted) {
+                    val dependenciesToCompile = findDependenciesToCompile()
+                    val uniqueNameByModule = context.config.librariesWithDependencies()
+                            .mapNotNull { library ->
+                                context.context.irModules[library.libraryName]
+                                        ?.takeIf { context.llvmModuleSpecification.containsModule(it) }
+                                        ?.let { it to library.uniqueName }
+                            }
+                            .toMap()
+                    dependenciesToCompile.forEach { dependencyModule ->
+                        val uniqueName = uniqueNameByModule[dependencyModule] ?: dependencyModule.name.asString()
+                        println("[dependenciesToCompile] $uniqueName")
+                    }
+                    dependenciesToCompilePrinted = true
+                    throw KonanCompilationException("Stopped after printing dependenciesToCompile (-Xbinary=printModule=true)")
+                }
                 val module = fragment.irModule
                 partiallyLowerModuleWithDependencies(module, loweringsToLaunch)
             }
@@ -579,6 +597,7 @@ private fun PhaseEngine<NativeGenerationState>.runCodegen(module: IrModuleFragme
     module.files.forEach {
         runPhase(CoroutinesVarSpillingPhase, it)
     }
+    runPhase(CollectKlibSymbolsPhase, module)
     runPhase(CreateLLVMDeclarationsPhase, module)
     runPhase(GHAPhase, module, disable = !optimize)
     runPhase(RTTIPhase, RTTIInput(module, dceResult))

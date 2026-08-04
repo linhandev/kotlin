@@ -152,6 +152,11 @@ internal class RTTIGenerator(
             // TODO: use LLVMAddAlias.
             val global = addGlobal(name, pointerType(runtime.typeInfoType), isExported = true)
             LLVMSetInitializer(global, typeInfoGlobal)
+            // In split-SO mode, protect the exported typeinfo pointer from internalization
+            // during optimization (consistent with how typeinfo globals are handled in LlvmDeclarations).
+            if (context.config.moduleIncludeOnly.isNotEmpty()) {
+                llvm.splitSoTypeInfoUsedGlobals += global
+            }
         }
     }
 

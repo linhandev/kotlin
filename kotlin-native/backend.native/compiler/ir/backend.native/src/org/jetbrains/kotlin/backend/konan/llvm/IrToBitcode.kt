@@ -420,27 +420,7 @@ internal class CodeGeneratorVisitor(
 
     private fun protectedSymbols() {
         val symbolList = listOf(
-                "Kotlin_Internal_GC_GCInfoBuilder_setEpoch",
-                "Kotlin_Internal_GC_GCInfoBuilder_setStartTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setEndTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setFirstPauseRequestTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setFirstPauseStartTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setFirstPauseEndTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setSecondPauseRequestTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setSecondPauseStartTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setSecondPauseEndTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setPostGcCleanupTime",
-                "Kotlin_Internal_GC_GCInfoBuilder_setRootSet",
-                "Kotlin_Internal_GC_GCInfoBuilder_setMarkStats",
-                "Kotlin_Internal_GC_GCInfoBuilder_setSweepStats",
-                "Kotlin_Internal_GC_GCInfoBuilder_setMemoryUsageBefore",
-                "Kotlin_Internal_GC_GCInfoBuilder_setMemoryUsageAfter",
-                "ThrowIllegalArgumentException",
-                "ThrowNotImplementedError",
-                "ThrowInvalidMutabilityException",
-                "ThrowFreezingException",
-                "makePermanentWeakReferenceImpl",
-                "makeRegularWeakReferenceImpl",
+                // Functions that must remain visible across SO boundaries
                 "Kotlin_runUnhandledExceptionHook",
                 "ReportUnhandledException",
                 "Kotlin_CleanerImpl_shutdownCleanerWorker",
@@ -462,43 +442,22 @@ internal class CodeGeneratorVisitor(
                 "checkRangeIndexes",
                 "ThrowFileFailedToInitializeException",
                 "ThrowCharacterCodingException",
+                // Runtime config globals that must remain visible across SO boundaries
                 "Kotlin_runtimeAssertsMode",
+                "Kotlin_disableAllocatorOverheadEstimate",
                 "Kotlin_runtimeLogs",
                 "Kotlin_disableMmap",
                 "Kotlin_freezingChecksEnabled",
-                "theArrayTypeInfo",
                 "Kotlin_concurrentWeakSweep",
                 "Kotlin_gcMarkSingleThreaded",
-                "BOOLEAN_CACHE",
-                "BOOLEAN_RANGE_FROM",
-                "BOOLEAN_RANGE_TO",
-                "BYTE_CACHE",
-                "BYTE_RANGE_FROM",
-                "BYTE_RANGE_TO",
-                "CHAR_CACHE",
-                "CHAR_RANGE_FROM",
-                "CHAR_RANGE_TO",
-                "INT_CACHE",
-                "INT_RANGE_FROM",
-                "INT_RANGE_TO",
                 "Kotlin_freezingEnabled",
-                "Kotlin_needDebugInfo",
-                "LONG_CACHE",
-                "LONG_RANGE_FROM",
-                "LONG_RANGE_TO",
-                "SHORT_CACHE",
-                "SHORT_RANGE_FROM",
-                "SHORT_RANGE_TO",
-                "theByteArrayTypeInfo",
-                "theCharArrayTypeInfo",
-                "theCleanerImplTypeInfo",
-                "theEmptyArray",
-                "theIntArrayTypeInfo",
-                "theNativePtrArrayTypeInfo",
-                "theRegularWeakReferenceImplTypeInfo",
-                "theStringTypeInfo",
-                "theThrowableTypeInfo",
-                "theWorkerBoundReferenceTypeInfo"
+                "Kotlin_needDebugInfo"
+                // Note: the*TypeInfo symbols (e.g. theStringTypeInfo) are now protected in
+                // RTTIGenerator.exportTypeInfoIfRequired() via splitSoTypeInfoUsedGlobals.
+                // Note: the*UniqueInstance globals (e.g. theEmptyArray) are now protected in
+                // KotlinStaticData.createUniqueInstance() via splitSoTypeInfoUsedGlobals.
+                // Note: Boxing cache globals (BOOLEAN_CACHE, *_RANGE_*, etc.) are already
+                // added to usedGlobals in Boxing.kt initCache(), so they need no protection here.
         )
         symbolList.forEach { symbolName ->
             val symbol = LLVMGetNamedFunction(llvm.module, symbolName)
@@ -533,7 +492,7 @@ internal class CodeGeneratorVisitor(
 
             overrideRuntimeGlobals()
             if (context.config.emitRuntime || context.config.emitStdlib){ protectedSymbols()}
-            appendLlvmUsed("llvm.used", llvm.usedFunctions.map { it.toConstPointer().llvm } + llvm.usedGlobals)
+            appendLlvmUsed("llvm.used", llvm.usedFunctions.map { it.toConstPointer().llvm } + llvm.usedGlobals + llvm.splitSoTypeInfoUsedGlobals)
             appendLlvmUsed("llvm.compiler.used", llvm.compilerUsedGlobals)
             if (context.config.produceCInterface) {
                 context.cAdapterExportedElements?.let { appendCAdapters(it) }
@@ -987,6 +946,12 @@ internal class CodeGeneratorVisitor(
             }
         }
 
+        if (context.config.moduleIncludeOnly.isNotEmpty() && generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                        declaration.symbol, declaration.konanLibrary?.uniqueName)) {
+            val llvmFn = codegen.llvmFunction(declaration)
+            LLVMSetLinkage(llvmFn.asCallback(), LLVMLinkage.LLVMExternalLinkage)
+            llvm.usedFunctions.add(llvmFn)
+        }
 
         if (declaration.retainAnnotation(context.config.target)) {
             llvm.usedFunctions.add(codegen.llvmFunction(declaration))
@@ -1105,10 +1070,11 @@ internal class CodeGeneratorVisitor(
                 }
 
                 LLVMSetInitializer(globalProperty, initValue)
-                // (Cannot do this before the global is initialized).
-                if (moduleIncludeOnly.isNotEmpty()) {
-                    LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMExternalLinkage)
-                } else LLVMSetLinkage(globalProperty, LLVMLinkage.LLVMInternalLinkage)
+                // Set linkage: external if referenced from other modules, internal otherwise.
+                // Cannot do this before the global is initialized.
+                val isCrossModule = moduleIncludeOnly.isNotEmpty() && generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                        declaration.symbol, declaration.konanLibrary?.uniqueName)
+                LLVMSetLinkage(globalProperty, if (isCrossModule) LLVMLinkage.LLVMExternalLinkage else LLVMLinkage.LLVMInternalLinkage)
             }
             llvm.initializersGenerationState.scopeState.topLevelFields.add(declaration)
         }
@@ -2467,7 +2433,7 @@ internal class CodeGeneratorVisitor(
             val f = this@scope
             val nodebug = f.originalConstructor != null && f.parentAsClass.isSubclassOf(context.irBuiltIns.throwableClass.owner)
             if (functionLlvmValue != null) {
-                subprograms.getOrPut(functionLlvmValue) {
+                subprograms.getOrPut(functionLlvmValue.asCallback()) {
                     // Also enable transparent stepping if this function is a bridge:
                     val isTransparentStepping = generationState.config.enableDebugTransparentStepping && f.bridgeTarget != null
 
@@ -2488,7 +2454,7 @@ internal class CodeGeneratorVisitor(
     @Suppress("UNCHECKED_CAST")
     private fun LlvmCallable.scope(startLine: Int, subroutineType: DISubroutineTypeRef, nodebug: Boolean) =
             with(debugInfo) {
-                subprograms.getOrPut(this@scope) {
+                subprograms.getOrPut(this@scope.asCallback()) {
                     diFunctionScope(fileEntry(), name!!, name!!, startLine, subroutineType, nodebug).also {
                         this@scope.addDebugInfoSubprogram(it)
                     }

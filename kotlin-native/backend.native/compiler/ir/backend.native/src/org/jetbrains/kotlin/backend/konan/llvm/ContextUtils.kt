@@ -588,6 +588,7 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
 
     val usedFunctions = mutableListOf<LlvmCallable>()
     val usedGlobals = mutableListOf<LLVMValueRef>()
+    val splitSoTypeInfoUsedGlobals = mutableListOf<LLVMValueRef>()
     val compilerUsedGlobals = mutableListOf<LLVMValueRef>()
     val irStaticInitializers = mutableListOf<IrStaticInitializer>()
     val otherStaticInitializers = mutableListOf<LlvmCallable>()
@@ -610,6 +611,49 @@ internal class CodegenLlvmHelpers(private val generationState: NativeGenerationS
     val int32PtrPtrType = pointerType(int32PtrType)
     val voidPtrType = pointerType(voidType)
     val voidPtrPtrType = pointerType(voidPtrType)
+
+    /**
+     * Removes TypeInfo entries that were temporarily added to "llvm.used" for split SO mode.
+     * Should be called after all optimization passes have completed.
+     */
+    fun stripSplitSoTypeInfoFromLlvmUsed() {
+        if (splitSoTypeInfoUsedGlobals.isEmpty()) return
+        val toRemove = splitSoTypeInfoUsedGlobals.toHashSet()
+
+        val llvmUsedGlobal = LLVMGetNamedGlobal(module, "llvm.used") ?: return
+        val initializer = LLVMGetInitializer(llvmUsedGlobal) ?: run {
+            LLVMDeleteGlobal(llvmUsedGlobal)
+            return
+        }
+
+        val count = LLVMGetNumOperands(initializer)
+        val kept = (0 until count).mapNotNull { i ->
+            val entry = LLVMGetOperand(initializer, i)!!
+            // Each entry is a bitcast ConstantExpr of the form `bitcast(global to i8*)`;
+            // operand 0 is the underlying global pointer.
+            val underlying = unwrapLlvmUsedEntry(entry)
+            if (underlying in toRemove) null else entry
+        }
+
+        LLVMDeleteGlobal(llvmUsedGlobal)
+        if (kept.isEmpty()) return
+
+        val i8PtrType = LLVMPointerType(LLVMInt8TypeInContext(llvmContext), 0)!!
+        val arrayType = LLVMArrayType(i8PtrType, kept.size)!!
+        val newArray = LLVMConstArray(i8PtrType, kept.toCValues(), kept.size)!!
+        val newGlobal = LLVMAddGlobal(module, arrayType, "llvm.used")!!
+        LLVMSetInitializer(newGlobal, newArray)
+        LLVMSetLinkage(newGlobal, LLVMLinkage.LLVMAppendingLinkage)
+        LLVMSetSection(newGlobal, "llvm.metadata")
+    }
+
+    private fun unwrapLlvmUsedEntry(value: LLVMValueRef): LLVMValueRef {
+        var current = value
+        while (LLVMIsAConstantExpr(current) != null) {
+            current = LLVMGetOperand(current, 0) ?: return current
+        }
+        return current
+    }
 
     fun structType(vararg types: LLVMTypeRef): LLVMTypeRef = structType(types.toList())
 

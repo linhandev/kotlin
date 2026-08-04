@@ -68,6 +68,7 @@ internal class NativeGenerationState(
     val inlineFunctionBodies = mutableListOf<SerializedInlineFunctionReference>()
     val classFields = mutableListOf<SerializedClassFields>()
     val eagerInitializedFiles = mutableListOf<SerializedEagerInitializedFile>()
+    val klibCrossReferenceRegistry = KlibCrossReferenceRegistry()
     var coroutinesLivenessAnalysisPhasePerformed = false
 
     lateinit var fileLowerState: FileLowerState

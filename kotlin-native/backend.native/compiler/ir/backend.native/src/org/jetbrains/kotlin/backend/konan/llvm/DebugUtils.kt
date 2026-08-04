@@ -132,7 +132,9 @@ internal class DebugInfo(override val generationState: NativeGenerationState) : 
     }
 
     val files = mutableMapOf<String, DIFileRef>()
-    val subprograms = mutableMapOf<LlvmCallable, DISubprogramRef>()
+    // Key debug subprograms by underlying LLVMValueRef so multiple LlvmCallable wrappers
+    // referring to the same Function don't produce duplicate DISubprograms.
+    val subprograms = mutableMapOf<LLVMValueRef, DISubprogramRef>()
 
     /* Some functions are inlined on all callsites and body is eliminated by DCE, so there's no LLVM value */
     val inlinedSubprograms = mutableMapOf<IrFunction, DISubprogramRef>()
