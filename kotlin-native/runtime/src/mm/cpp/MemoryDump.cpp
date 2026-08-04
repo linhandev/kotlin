@@ -1574,7 +1574,10 @@ bool DumpMemory(int fd) noexcept {
         success = false;
         try {
             dumper.FlushRemaining();
-        } catch (...) {}
+        } catch (...) {
+            // FlushRemaining failed, but the header has already been flushed to fd,
+            // so partial data is available for debugging.
+        }
         RuntimeLogError({kTagMemDump}, "Memory dump error: %s", e.what());
     }
     return success;
