@@ -746,6 +746,10 @@ public:
             "  dump/header: %.2f ms",
             std::chrono::duration<double, std::milli>(t1 - totalStart).count());
 
+        if (streamFd_ >= 0) {
+            totalDumpSize_ += memoryBuffer_.FlushToFd(streamFd_);
+        }
+
         auto t3 = DumpRootsAndThreads(t1);
         MaybeFlush();
         DumpHeapAndExtraObjects(t3);
@@ -1555,11 +1559,9 @@ bool DumpMemory(int fd) noexcept {
     PrepareForMemoryDump();
 
     bool success = true;
+    auto dumpStart = std::chrono::high_resolution_clock::now();
+    MemoryDumper dumper(false, fd);
     try {
-        auto dumpStart = std::chrono::high_resolution_clock::now();
-        // Streaming mode: flush buffer to fd during dump, avoiding
-        // holding the full dump (~430 MB) in memory.
-        MemoryDumper dumper(false, fd);
         dumper.Dump();
         dumper.FlushRemaining();
         auto dumpEnd = std::chrono::high_resolution_clock::now();
@@ -1570,6 +1572,9 @@ bool DumpMemory(int fd) noexcept {
             dumpMs, dumper.GetDumpSize());
     } catch (const std::system_error& e) {
         success = false;
+        try {
+            dumper.FlushRemaining();
+        } catch (...) {}
         RuntimeLogError({kTagMemDump}, "Memory dump error: %s", e.what());
     }
     return success;
