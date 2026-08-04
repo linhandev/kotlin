@@ -113,6 +113,7 @@ class OhosExecutorTest {
         val runScript = run.args[1]
         assertTrue(runScript.contains("chmod u+x "))
         assertTrue(runScript.contains("LD_LIBRARY_PATH="))
+        assertTrue(runScript.contains("/bin/timeout -k 10s 40s "))
         assertTrue(runScript.contains("'$deviceExe' 'arg1'"))
         assertTrue(runScript.contains("< /dev/null"))
         assertTrue(runScript.contains("__OHOS_HDC_EXIT__"))
@@ -291,7 +292,7 @@ class OhosExecutorTest {
         // second: prepare+send other exe, run; libCrt skipped (3)
         val recording = RecordingExecutor(
             outputs = List(5) { "OK" } + listOf("__OHOS_HDC_EXIT__:0\n") +
-                List(2) { "OK" } + listOf("__OHOS_HDC_EXIT__:0\n")
+                    List(2) { "OK" } + listOf("__OHOS_HDC_EXIT__:0\n")
         )
         val executor = OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC, libCrtSo = libCrt)
         executor.execute(ExecuteRequest(executableAbsolutePath = localExe.absolutePath))
@@ -346,6 +347,11 @@ class OhosExecutorTest {
         recording.requests.forEach { req ->
             assertEquals(explicit, req.timeout, "args=${req.args}")
         }
+        val runScript = recording.requests.last().args[1]
+        assertTrue(
+            runScript.contains("/bin/timeout -k 10s 910s "),
+            "device /bin/timeout must be -k tg (hdc+tg), got: $runScript",
+        )
     }
 
     /** syncSteps successful host calls (prepare/send/...), then one run with exit probe. */
