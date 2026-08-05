@@ -1,0 +1,24 @@
+// WITH_STDLIB
+
+/*
+ * KOTLIN CODEGEN BOX SPEC TEST (POSITIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, classifier-declaration, class-declaration -> paragraph 385 -> sentence 385
+ * declarations, declaration-visibility -> paragraph 385 -> sentence 385
+ * declarations, function-declaration -> paragraph 385 -> sentence 385
+ * declarations, classifier-declaration, class-declaration, nested-and-inner-classifiers -> paragraph 385 -> sentence 385
+ * NUMBER: 1
+ * DESCRIPTION: inner class 可调用外部类 private fun
+ */
+
+// TESTCASE NUMBER: 1
+class Outer { private fun secret(): Int = 7; inner class Inner { fun get(): Int = secret() } }
+
+// TESTCASE NUMBER: 1
+fun test(): Int = Outer().Inner().get()
+
+fun box(): String {
+    if (test() != 7) return "NOK"
+    return "OK"
+}

@@ -125,6 +125,48 @@
       ]
     }
   },
+  "384": {
+    "pos": {
+      "384": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "子类可调用父类 public fun 即使其内部使用 private fun",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384/pos/384.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "370": {
+    "pos": {
+      "370": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal val 在模块内类外可访问（对比 private）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370/pos/370.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "377": {
+    "pos": {
+      "377": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private val 与 const val 在伴生对象中类外访问规则不同",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377/pos/377.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "145": {
     "pos": {
       "145": [
@@ -335,6 +377,20 @@
       ]
     }
   },
+  "378": {
+    "pos": {
+      "378": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "类内 private fun 可被同类成员调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378/pos/378.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "347": {
     "pos": {
       "347": [
@@ -391,6 +447,20 @@
       ]
     }
   },
+  "382": {
+    "pos": {
+      "382": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init 块可调用 private fun",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382/pos/382.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "144": {
     "pos": {
       "144": [
@@ -413,6 +483,20 @@
           "casesNumber": 3,
           "description": "enum class init block runs once for each enum constant during class declaration initialization",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-143/pos/143.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "385": {
+    "pos": {
+      "385": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inner class 可调用外部类 private fun",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385/pos/385.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -1399,6 +1483,20 @@
       ]
     }
   },
+  "353": {
+    "pos": {
+      "353": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "类体 private var 可在类内修改",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353/pos/353.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "192": {
     "pos": {
       "192": [
@@ -1435,6 +1533,34 @@
           "casesNumber": 3,
           "description": "generic superclass type arguments are fixed or forwarded by subclasses while constructor values are delegated consistently in class declaration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-166/pos/166.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "396": {
+    "pos": {
+      "396": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "实例成员可调用伴生 private fun（经伴生公开成员）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396/pos/396.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "362": {
+    "pos": {
+      "362": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inner class 可访问外部类 private val",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362/pos/362.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -1609,6 +1735,20 @@
       ]
     }
   },
+  "390": {
+    "pos": {
+      "390": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal fun 在模块内类外可调用（对比 private）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390/pos/390.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "169": {
     "pos": {
       "169": [
@@ -1623,6 +1763,20 @@
       ]
     }
   },
+  "397": {
+    "pos": {
+      "397": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private operator fun 仅类内可调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397/pos/397.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "1": {
     "pos": {
       "1": [
@@ -1631,6 +1785,20 @@
           "casesNumber": 1,
           "description": "generic class constructor infers type argument",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "355": {
+    "pos": {
+      "355": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "主构造 private val 生成私有属性",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355/pos/355.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -1673,6 +1841,20 @@
           "casesNumber": 3,
           "description": "after constructor delegation, superclass primary-constructor-driven property and init complete before subclass property and init in class declaration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-160/pos/160.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "399": {
+    "pos": {
+      "399": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "抽象类中 private fun 可在同类具体成员中调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399/pos/399.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -1827,6 +2009,34 @@
           "casesNumber": 3,
           "description": "subclass without primary constructor parameters still must explicitly delegate via : Parent(...) in the supertype list in class declaration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-146/pos/146.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "380": {
+    "pos": {
+      "380": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "public fun 可封装暴露 private fun 结果",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380/pos/380.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "373": {
+    "pos": {
+      "373": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "次构造器可通过 this 访问主构造 private val",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373/pos/373.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -2113,6 +2323,20 @@
       ]
     }
   },
+  "372": {
+    "pos": {
+      "372": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class 的 private val 不参与自动生成的对外 copy 参数暴露",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372/pos/372.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "178": {
     "pos": {
       "178": [
@@ -2121,6 +2345,34 @@
           "casesNumber": 3,
           "description": "an abstract member is implicitly open and must be overridden in a concrete subclass; the inherited concrete member then uses the override in a class declaration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-178/pos/178.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "381": {
+    "pos": {
+      "381": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private fun 可访问同类 private val",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381/pos/381.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "375": {
+    "pos": {
+      "375": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lateinit var 可为 private 且仅类内使用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375/pos/375.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -2351,6 +2603,20 @@
       ]
     }
   },
+  "402": {
+    "pos": {
+      "402": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private inline fun 可在类内调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402/pos/402.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "56": {
     "pos": {
       "56": [
@@ -2373,6 +2639,20 @@
           "casesNumber": 1,
           "description": "nested class construction does not require any outer instance to exist",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-298/pos/298.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "405": {
+    "pos": {
+      "405": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "子类可调用父类 protected fun",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405/pos/405.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -2449,6 +2729,20 @@
       ]
     }
   },
+  "404": {
+    "pos": {
+      "404": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "类内匿名对象可以访问外部类 private fun",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos/404.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "50": {
     "pos": {
       "50": [
@@ -2485,6 +2779,20 @@
           "casesNumber": 3,
           "description": "a class may implement a generic interface with a nullable type argument; contrasts with p-21/p-147 class Box\u003cString?\u003e, p-231 non-nullable interface producers, and p-246 nullable Box used mainly for default isNull",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-255/pos/255.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "403": {
+    "pos": {
+      "403": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数与 private 成员函数作用域不同",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403/pos/403.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -3135,6 +3443,20 @@
       ]
     }
   },
+  "357": {
+    "pos": {
+      "357": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "主构造 private var 生成私有可变属性",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357/pos/357.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "350": {
     "pos": {
       "350": [
@@ -3163,6 +3485,34 @@
       ]
     }
   },
+  "366": {
+    "pos": {
+      "366": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "public val + private set 类外可读不可写",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366/pos/366.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "392": {
+    "pos": {
+      "392": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private fun 可在表达式体中定义",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392/pos/392.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "4": {
     "pos": {
       "4": [
@@ -3171,6 +3521,20 @@
           "casesNumber": 1,
           "description": "multi type-parameter class construction",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "359": {
+    "pos": {
+      "359": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init 块可读取主构造 private val",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359/pos/359.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -3331,6 +3695,20 @@
       ]
     }
   },
+  "360": {
+    "pos": {
+      "360": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "成员函数可访问同类 private 属性",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360/pos/360.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "152": {
     "pos": {
       "152": [
@@ -3345,6 +3723,20 @@
       ]
     }
   },
+  "394": {
+    "pos": {
+      "394": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "伴生对象内 private fun 仅能通过伴生/类内公开入口访问",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394/pos/394.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "2": {
     "pos": {
       "2": [
@@ -3353,6 +3745,20 @@
           "casesNumber": 1,
           "description": "explicit type argument on constructor",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "393": {
+    "pos": {
+      "393": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private fun 支持递归调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393/pos/393.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
@@ -3387,6 +3793,20 @@
       ]
     }
   },
+  "358": {
+    "pos": {
+      "358": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init 块可读写已声明的 private var",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358/pos/358.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "197": {
     "pos": {
       "197": [
@@ -3415,6 +3835,20 @@
       ]
     }
   },
+  "351": {
+    "pos": {
+      "351": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "类体 private val 仅类内可读",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351/pos/351.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "190": {
     "pos": {
       "190": [
@@ -3423,6 +3857,20 @@
           "casesNumber": 3,
           "description": "open override keeps a member overridable so a grandchild can replace the Mid implementation in a class declaration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-190/pos/190.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "369": {
+    "pos": {
+      "369": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "类内可通过 private getter 读取",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369/pos/369.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }

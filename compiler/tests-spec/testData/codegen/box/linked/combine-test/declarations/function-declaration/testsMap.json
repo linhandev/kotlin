@@ -1,0 +1,282 @@
+{
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数 vararg 与默认尾参组合调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "嵌套局部函数（局部内再声明局部）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "成员函数体内的局部辅助函数",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "泛型局部函数声明保持类型参数",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tailrec 局部函数可递归求阶乘",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数默认实参可引用外层形参",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数可捕获外层函数局部变量",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数可捕获外层函数形参",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "顶层函数声明默认参数后调用可省略",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数声明可带默认参数",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数省略调用时默认实参每次重新求值",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数名可遮蔽外层同名函数且调用解析到最近声明",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "调用局部函数时可使用命名实参跳过中间默认参数",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "调用顶层函数时显式 null 覆盖可空默认参数（声明+调用组合）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "内层局部函数可捕获中层与外层变量",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "同一外层体内局部函数 :: 引用可传给高阶调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "属性 getter 内可声明并调用局部函数",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数可在声明后由外层函数体调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "顶层函数默认实参可引用前置形参",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数可相互递归（声明顺序在前向调用之后亦可）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

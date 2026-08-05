@@ -1,0 +1,23 @@
+// WITH_STDLIB
+
+/*
+ * KOTLIN CODEGEN BOX SPEC TEST (POSITIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, classifier-declaration, class-declaration -> paragraph 370 -> sentence 370
+ * declarations, declaration-visibility -> paragraph 370 -> sentence 370
+ * declarations, property-declaration -> paragraph 370 -> sentence 370
+ * NUMBER: 1
+ * DESCRIPTION: internal val 在模块内类外可访问（对比 private）
+ */
+
+// TESTCASE NUMBER: 1
+class C { internal val code = 42 }
+
+// TESTCASE NUMBER: 1
+fun test(): Int = C().code
+
+fun box(): String {
+    if (test() != 42) return "NOK"
+    return "OK"
+}

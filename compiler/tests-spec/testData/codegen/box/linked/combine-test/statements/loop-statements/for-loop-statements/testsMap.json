@@ -1,0 +1,366 @@
+{
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "可变集合在迭代中结构性修改可触发运行期异常（JVM ConcurrentModificationException）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "泛型 Iterable\u003cT\u003e 保持元素类型",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Map 默认 for-in 遍历 Entry",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Map 解构 for ((k,v) in map)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Pair 列表解构 for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "可直接对 Iterator 实例 for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "自定义类实现 Iterable 可 for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for-in 右侧表达式只求值一次",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "空 Iterable 循环体不执行",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List 上 for-in 累加元素",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Iterable 上 iterator() 只调用一次",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "带标签的 break@ 退出外层 for",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "自定义 Iterator 每次迭代调用 next()",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "扩展 operator fun iterator() 使第三方类型可遍历",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "可空元素 Iterable\u003cInt?\u003e 可 for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break 提前退出 for 循环",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "仅提供 operator fun iterator()（不必实现 Iterable）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "iterator() 返回带 operator hasNext/next 的对象",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Sequence 可作为 for-in 对象",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "嵌套 for-in 可累加",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "continue 跳过当前迭代",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Array 可 for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "IntRange 可作为 for-in 对象",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String/CharSequence 按字符 for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Set 可 for-in 遍历",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "downTo/until 区间可 for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

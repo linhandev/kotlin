@@ -1,0 +1,25 @@
+// WITH_STDLIB
+
+/*
+ * KOTLIN CODEGEN BOX SPEC TEST (POSITIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 9 -> sentence 9
+ * PRIMARY LINKS: declarations, function-declaration -> paragraph 9 -> sentence 9
+ * NUMBER: 1
+ * DESCRIPTION: 局部函数默认实参可引用外层形参
+ */
+
+// TESTCASE NUMBER: 1
+fun outer(limit: Int): Int {
+    fun take(n: Int = limit): Int = n
+    return take()
+}
+
+// TESTCASE NUMBER: 1
+fun test(): Int = outer(4)
+
+fun box(): String {
+    if (test() != 4) return "NOK"
+    return "OK"
+}
