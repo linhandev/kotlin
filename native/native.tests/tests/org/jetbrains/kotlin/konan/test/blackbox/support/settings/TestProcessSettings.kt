@@ -208,6 +208,18 @@ enum class Allocator(val compilerFlag: String?) {
 }
 
 /**
+ * `-Xbinary=pagedAllocator=` for the custom allocator. Default compiler behavior is true
+ * when unset; sanitizer matrices may pin FALSE (SingleObjectPage / unpaged custom).
+ */
+enum class PagedAllocator(val compilerFlag: String?) {
+    UNSPECIFIED(null),
+    TRUE("-Xbinary=pagedAllocator=true"),
+    FALSE("-Xbinary=pagedAllocator=false");
+
+    override fun toString() = compilerFlag?.let { "($it)" }.orEmpty()
+}
+
+/**
  * Current project's directories.
  */
 internal class BaseDirs(val testBuildDir: File)

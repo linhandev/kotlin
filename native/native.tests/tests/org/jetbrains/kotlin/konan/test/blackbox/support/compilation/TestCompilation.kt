@@ -51,6 +51,7 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
     private val gcType: GCType,
     private val gcScheduler: GCScheduler,
     private val allocator: Allocator,
+    private val pagedAllocator: PagedAllocator,
     private val splitBCfile: SplitBCfile,
     protected val freeCompilerArgs: TestCompilerArgs,
     protected val compilerPlugins: CompilerPlugins,
@@ -124,6 +125,7 @@ abstract class BasicCompilation<A : TestCompilationArtifact>(
         gcType.compilerFlag?.let { compilerFlag -> add(compilerFlag) }
         gcScheduler.compilerFlag?.let { compilerFlag -> add(compilerFlag) }
         allocator.compilerFlag?.let { compilerFlag -> add(compilerFlag) }
+        pagedAllocator.compilerFlag?.let { compilerFlag -> add(compilerFlag) }
         splitBCfile.compilerFlag?.let { compilerFlag -> add(compilerFlag) }
 
         // We use dev distribution for tests as it provides a full set of testing utilities,
@@ -287,6 +289,7 @@ abstract class SourceBasedCompilation<A : TestCompilationArtifact>(
     gcType: GCType,
     gcScheduler: GCScheduler,
     allocator: Allocator,
+    pagedAllocator: PagedAllocator,
     splitBCfile: SplitBCfile,
     private val pipelineType: PipelineType,
     cacheMode: CacheMode,
@@ -311,6 +314,7 @@ abstract class SourceBasedCompilation<A : TestCompilationArtifact>(
     gcType = gcType,
     gcScheduler = gcScheduler,
     allocator = allocator,
+    pagedAllocator = pagedAllocator,
     splitBCfile = splitBCfile,
 ) {
     override fun applySpecificArgs(argsBuilder: ArgsBuilder): Unit = with(argsBuilder) {
@@ -356,6 +360,7 @@ class LibraryCompilation(
     gcType = settings.get(),
     gcScheduler = settings.get(),
     allocator = settings.get(),
+    pagedAllocator = settings.get(),
     splitBCfile = settings.get(),
     pipelineType = settings.get(),
     cacheMode = settings.get(),
@@ -408,6 +413,7 @@ class ObjCFrameworkCompilation(
     gcType = settings.get(),
     gcScheduler = settings.get(),
     allocator = settings.get(),
+    pagedAllocator = settings.get(),
     splitBCfile = settings.get(),
     pipelineType = settings.getStageDependentPipelineType(sourceModules),
     cacheMode = settings.get(),
@@ -456,6 +462,7 @@ class BinaryLibraryCompilation(
     gcType = settings.get(),
     gcScheduler = settings.get(),
     allocator = settings.get(),
+    pagedAllocator = settings.get(),
     splitBCfile = settings.get(),
     pipelineType = settings.getStageDependentPipelineType(sourceModules),
     cacheMode = settings.get(),
@@ -658,6 +665,7 @@ abstract class FinalBinaryCompilation<A : TestCompilationArtifact>(
     gcType = settings.get(),
     gcScheduler = settings.get(),
     allocator = settings.get(),
+    pagedAllocator = settings.get(),
     splitBCfile = settings.get(),
     pipelineType = settings.getStageDependentPipelineType(sourceModules),
     cacheMode = cacheMode,
@@ -794,6 +802,7 @@ class StaticCacheCompilation(
     gcType = settings.get(),
     gcScheduler = settings.get(),
     allocator = settings.get(),
+    pagedAllocator = settings.get(),
     splitBCfile = settings.get(),
 ) {
     sealed interface Options {

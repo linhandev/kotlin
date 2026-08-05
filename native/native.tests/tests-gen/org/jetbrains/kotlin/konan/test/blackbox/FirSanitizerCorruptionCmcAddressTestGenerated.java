@@ -24,8 +24,10 @@ import java.util.regex.Pattern;
 @Tag("sanitizer-corruption")
 @EnforcedProperty(property = ClassLevelProperty.TEST_KIND, propertyValue = "STANDALONE_NO_TR")
 @EnforcedProperty(property = ClassLevelProperty.CACHE_MODE, propertyValue = "NO")
+@EnforcedProperty(property = ClassLevelProperty.GC_TYPE, propertyValue = "CMC")
+@EnforcedProperty(property = ClassLevelProperty.SANITIZER, propertyValue = "ADDRESS")
 @UseStandardTestCaseGroupProvider()
-public class FirSanitizerCorruptionTestGenerated extends AbstractSanitizerBlackBoxTest {
+public class FirSanitizerCorruptionCmcAddressTestGenerated extends AbstractSanitizerBlackBoxTest {
   @Test
   public void testAllFilesPresentInCorruption() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/sanitizer/corruption"), Pattern.compile("^(.+)\\.kt$"), null, false);

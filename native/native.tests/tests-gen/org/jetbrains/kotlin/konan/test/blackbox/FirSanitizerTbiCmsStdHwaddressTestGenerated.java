@@ -24,8 +24,11 @@ import java.util.regex.Pattern;
 @Tag("sanitizer-tbi")
 @EnforcedProperty(property = ClassLevelProperty.TEST_KIND, propertyValue = "STANDALONE_NO_TR")
 @EnforcedProperty(property = ClassLevelProperty.CACHE_MODE, propertyValue = "NO")
+@EnforcedProperty(property = ClassLevelProperty.GC_TYPE, propertyValue = "CMS")
+@EnforcedProperty(property = ClassLevelProperty.ALLOCATOR, propertyValue = "STD")
+@EnforcedProperty(property = ClassLevelProperty.SANITIZER, propertyValue = "HWADDRESS")
 @UseStandardTestCaseGroupProvider()
-public class FirSanitizerTbiTestGenerated extends AbstractSanitizerBlackBoxTest {
+public class FirSanitizerTbiCmsStdHwaddressTestGenerated extends AbstractSanitizerBlackBoxTest {
   @Test
   public void testAllFilesPresentInTbi() {
     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("native/native.tests/testData/sanitizer/tbi"), Pattern.compile("^(.+)\\.kt$"), null, false);
