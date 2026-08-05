@@ -128,7 +128,7 @@ extern "C" void DeinitMemory(MemoryState* state, bool destroyRuntime) {
         auto* threadData = node->Get();
         // Terminating thread might have unpublished global/special roots,
         // publish those before the thread is unlinked from the CRT thread list.
-        threadData->Publish();
+        // threadData->Publish();
         // Destroy CRT data structures associated with this thread before it is unregistered on K/N runtime side.
         threadData->ClearThreadHolder();
         if (destroyRuntime) {
