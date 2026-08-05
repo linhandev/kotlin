@@ -31,8 +31,9 @@ import kotlin.time.Duration.Companion.seconds
  * notes:
  * - hdc command has higher communication cost; this executor skips re-sync when the device destination was already sent in this JVM
  *     and the executed host executable's [File.lastModified] is unchanged (rebuilds with a newer mtime re-sync)
- * - hdc command exits 0 on the host regardless of the inner command's exit code on device. [OhosExecutor] appends printing $? after actual
- *     execution command to get the inner exit code
+ * - hdc command exits 0 on the host regardless of the inner command's exit code on device. [OhosExecutor] records $? via a trailing
+ *     `__OHOS_HDC_EXIT__:<code>` probe on the shell stdout/stderr path and a device-side exit file (same code). The host hdc exit
+ *     must never be treated as the device exit: if both probes are missing after hdc finishes, execution fails hard
  * - Run inner command with `hdc shell <script>` (not `hdc shell sh -c <script>`) so the probe’s `$?` matches the test binary exit code
  * - Host stdin is not forwarded to the binary on device by hdc; non-empty [ExecuteRequest.stdin] is uploaded and applied with shell
  *     redirection in inner command. All other tc takes input from /dev/null
@@ -79,6 +80,9 @@ class OhosExecutor(
         // TODO: drop this option once libffrt.so stops mixing new/free (tracked per OHOS release);
         //       then a clean ASAN run needs no ASAN_OPTIONS at all.
         private const val ASAN_OPTIONS = "alloc_dealloc_mismatch=0"
+
+        /** Stream probe prefix; last line of captured hdc shell output after a successful on-device run. */
+        private const val HDC_EXIT_MARKER = "__OHOS_HDC_EXIT__:"
 
         /**
          * Shared grace for on-device kexe execution timeout:
@@ -190,6 +194,8 @@ class OhosExecutor(
         val ldLibraryPath = "$deviceWorkDir:$deviceSharedLibDir"
         val timeoutGraceArg = formatToyboxTimeoutDuration(TIMEOUT_GRACE)
         val deviceTimeoutArg = formatToyboxTimeoutDuration(hdcTimeout + TIMEOUT_GRACE)
+        // Side-file survives hdc shell stdout truncation that can drop the trailing stream probe.
+        val deviceExitFile = "$deviceExePath.hdc_exit"
         val executionScript = buildString {
             append("chmod u+x '${shellEscape(deviceExePath)}' ; ")
             append("LD_LIBRARY_PATH='${shellEscape(ldLibraryPath)}' ")
@@ -198,7 +204,8 @@ class OhosExecutor(
             append(onDeviceExeAndArgs)
             append(" < ")
             append(stdinRedirect)
-            append("; printf '\\n__OHOS_HDC_EXIT__:%d' $?")
+            append("; ec=$?; printf '%d' \"\$ec\" > '${shellEscape(deviceExitFile)}'; ")
+            append("printf '\\n$HDC_EXIT_MARKER%d' \"\$ec\"")
         }
         val executionRequest = ExecuteRequest(
             executableAbsolutePath = hdcAbsolutePath,
@@ -214,19 +221,27 @@ class OhosExecutor(
         val response = hostExecutor.execute(executionRequest)
         val (outText, codeOut) = stripHdcExitMarkers(captureOut.toString())
         val (errText, codeErr) = stripHdcExitMarkers(captureErr.toString())
-        val deviceExitCode = codeOut ?: codeErr
+        var deviceExitCode = codeOut ?: codeErr
         request.stdout.apply { write(outText.toByteArray(Charsets.UTF_8)); flush() }
         request.stderr.apply { write(errText.toByteArray(Charsets.UTF_8)); flush() }
 
-        val effectiveExitCode =
-            if (response.exitCode == null) null
-            else deviceExitCode ?: response.exitCode
-        val exitFailed = effectiveExitCode != null && effectiveExitCode != 0
-        return when {
-            response.exitCode == null -> response
-            exitFailed -> response.copy(exitCode = effectiveExitCode)
-            else -> response.copy(exitCode = effectiveExitCode)
+        // Host timeout: preserve null exit (RunnerWithExecutor treats as timed out).
+        if (response.exitCode == null) {
+            return response
         }
+
+        // Never fall back to hdc host exit (almost always 0). Prefer stream probe, then side-file.
+        if (deviceExitCode == null) {
+            deviceExitCode = readDeviceExitSideFile(hdcTimeout, deviceExitFile)
+        }
+        if (deviceExitCode == null) {
+            val got = (outText + errText).trim().ifEmpty { "<empty>" }
+            throw IllegalStateException(
+                "Could not determine device exit code (hdc never ran the exit probe). Got: $got"
+            )
+        }
+
+        return response.copy(exitCode = deviceExitCode)
     }
 
     /** Formats [timeout] for toybox `timeout` / `-k` duration arguments. */
@@ -343,17 +358,43 @@ class OhosExecutor(
     }
 
     /**
+     * Reads [deviceExitFile] written by the on-device script. Used when the stream probe was lost
+     * (hdc shell stdout truncation on large dumps). Returns null if cat fails or content is not an int.
+     */
+    private fun readDeviceExitSideFile(hdcTimeout: Duration, deviceExitFile: String): Int? {
+        val stdout = ByteArrayOutputStream()
+        val stderr = ByteArrayOutputStream()
+        val req = ExecuteRequest(
+            executableAbsolutePath = hdcAbsolutePath,
+            args = (deviceArgs + listOf("shell", "cat '${shellEscape(deviceExitFile)}'")).toMutableList(),
+            workingDirectory = Paths.get("").toAbsolutePath().toFile(),
+            stdout = stdout,
+            stderr = stderr,
+            timeout = hdcCommandTimeout(hdcTimeout),
+        )
+        val response = hostExecutor.execute(req)
+        if (response.exitCode != 0 && response.exitCode != null) {
+            return null
+        }
+        val output = (stdout.toString() + stderr.toString()).trim()
+        // Wrong-device / connect failures print [Fail]... rather than a numeric exit code.
+        if (output.contains("[Fail]") || output.contains(HDC_CONNECT_KEY_FAILURE)) {
+            return null
+        }
+        return output.lineSequence().map { it.trim() }.firstOrNull { it.isNotEmpty() }?.toIntOrNull()
+    }
+
+    /**
      * Removes the hdc exit probe: last line must be `__OHOS_HDC_EXIT__:<code>` (after dropping one trailing empty line
      * if present, e.g. hdc adding `\n` after the probe).
      */
     private fun stripHdcExitMarkers(text: String): Pair<String, Int?> {
-        val marker = "__OHOS_HDC_EXIT__:"
         val lines = text.split('\n')
         val content = if (lines.isNotEmpty() && lines.last().isEmpty()) lines.dropLast(1) else lines
         if (content.isEmpty()) return text to null
         val lastLine = content.last().trimEnd('\r')
-        if (!lastLine.startsWith(marker)) return text to null
-        val code = lastLine.substring(marker.length).trim().toIntOrNull() ?: return text to null
+        if (!lastLine.startsWith(HDC_EXIT_MARKER)) return text to null
+        val code = lastLine.substring(HDC_EXIT_MARKER.length).trim().toIntOrNull() ?: return text to null
         return content.dropLast(1).joinToString("\n") to code
     }
 
