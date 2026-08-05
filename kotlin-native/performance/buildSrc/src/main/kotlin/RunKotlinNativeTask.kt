@@ -77,6 +77,15 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
         return base + command.toList()
     }
 
+    /** Strip the outer `[...]` from a launcher JSON report; fail if no report was produced. */
+    private fun extractBenchmarkReport(raw: String): String {
+        val trimmed = raw.trim()
+        if (!trimmed.startsWith("[")) {
+            error("Benchmark did not produce a JSON report (crashed before report?). Got: $trimmed")
+        }
+        return trimmed.removePrefix("[").removeSuffix("]")
+    }
+
     private fun readOhosBenchmarkResult(): String {
         val jsonOutput = ByteArrayOutputStream()
         project.exec {
@@ -84,12 +93,21 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             args(hdcArgs("shell", "cat", "/data/local/tmp/result.json"))
             standardOutput = jsonOutput
         }
-        return jsonOutput.toString().trim().removePrefix("[").removeSuffix("]")
+        // hdc shell does not propagate remote exit codes; missing/corrupt report must not be treated as success.
+        return extractBenchmarkReport(jsonOutput.toString())
     }
 
     private fun execBenchmarkOnce(benchmark: String, warmupCount: Int, repeatCount: Int) : String {
         val output = ByteArrayOutputStream()
         val useCset = project.findProperty("useCset")?.toString()?.toBoolean() ?: false
+
+        // Drop any previous report so a crash-on-start cannot be mistaken for a fresh result.
+        if (useHdc) {
+            project.exec {
+                executable = "hdc"
+                args(hdcArgs("shell", "rm", "-f", "/data/local/tmp/result.json"))
+            }
+        }
 
         project.exec {
             when {
@@ -129,7 +147,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
         if (useHdc) {
             return readOhosBenchmarkResult()
         }
-        return output.toString().substringAfter("[").removeSuffix("]")
+        return extractBenchmarkReport(output.toString())
     }
 
     private fun execBenchmarkRepeatedly(benchmark: String, warmupCount: Int, repeatCount: Int) : List<String> {
@@ -168,7 +186,7 @@ open class RunKotlinNativeTask @Inject constructor(private val linkTask: Task,
             // remove existing exe in case there's permission issue etc.
             project.exec {
                 executable = "hdc"
-                args(hdcArgs("shell", "rm", "/data/local/tmp/$execName"))
+                args(hdcArgs("shell", "rm", "-f", "/data/local/tmp/$execName"))
             }
             project.exec {
                 executable = "hdc"
