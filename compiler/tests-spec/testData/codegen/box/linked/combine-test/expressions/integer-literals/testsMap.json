@@ -1,0 +1,310 @@
+{
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "separator Long literal passed to Long parameter in function call preserves value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit Long variable accepts separator Long literal and preserves value in expressions",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "arrayOf with separator Long literals preserves element values at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "separator Long literal as default parameter value preserves value when argument omitted",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long binary literal with numeric separator is typed as Long and equivalent to plain binary Long literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "numeric separator in hexadecimal integer literal is equivalent to plain hex literal in equality and arithmetic",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hex Long literal equals hex Int literal toLong() in Long multiplication",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal Int literal toLong() equals Long literal and preserves Int arithmetic",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary Int literal equals decimal value and toLong() matches binary Long literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long separator literals in multiplicative expression evaluate to 2000L",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "negative Long literal with L suffix preserves value in arithmetic",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "const val initialized with separator integer literal preserves value in expressions",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression branch with separator integer literal matches subject value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "separator literal beyond Int.MAX_VALUE is Long and Int.MAX_VALUE boundary remains Int",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int.MAX_VALUE separator literal is Int and toLong()+1 enters Long range",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "containment check with separator integer literals in range bounds",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int separator literal converted to Long equals Long separator literal at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "negative separator Int literal in Int arithmetic and toLong() matches Long literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long literal with numeric separator is typed as Long and equivalent to plain Long literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "numeric separator in decimal integer literal is equivalent to plain literal in equality and arithmetic",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "L suffix Long literal equals Int literal toLong() in Long multiplication",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hex Int literal equals decimal value and toLong() matches hex Long literal",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}
