@@ -52,5 +52,429 @@
         }
       ]
     }
+  },
+  "35": {
+    "pos": {
+      "35": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable value class at T? boundary refined by when/Elvis",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-35/pos/35.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "platform type can be assigned to Kotlin String when null is handled with Elvis",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try expression result with Elvis providing default value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression condition with Elvis operator converting nullable Boolean to Boolean",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call let with elvis both paths",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? List\u003c*\u003e then unchecked as List\u003cString\u003e feeds Elvis fallback when cast target is absent",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "65": {
+    "pos": {
+      "65": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvis after nullable invoke: null and non-null paths",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-65/pos/65.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis with non-nullable left inside try does not change try expression result",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis right-hand throw is Nothing inside try expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally does not change nullable Elvis result type of try expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "parenthesized nullable try with Elvis then non-null member access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression branch with safe call and Elvis operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try block with safe call and Elvis providing default Int",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression result type inference with Elvis operator in true branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally return overrides try Elvis result while try body still runs",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis right-hand return is Nothing inside try expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression branch with Elvis operator and throw expression on right-hand side",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "in operator on Elvis fallback nullable List receiver at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "outer Elvis covers both try safe-call null and catch null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u003d\u003d null then else uses non-null value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/equality-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multi-catch nullable and non-nullable branches with outer Elvis to non-null String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch uses Elvis on nullable exception message",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression branch with Elvis operator and return expression on right-hand side",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try expression as Elvis left operand; catch null also participates in null check",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is CharSequence then as? String with Elvis (safe cast not redundant)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested nullable safe call with elvis: property-null, value, and receiver-null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression else branch with Elvis operator providing default value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression true branch with Elvis operator providing non-null receiver for property access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call and Elvis operator can be used inside ${} interpolation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/string-interpolation-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with Elvis operator on nullable subject before range containment branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? combined with Elvis",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call followed by Elvis operator converges to non-null type, providing default when receiver is null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast branch and safe-call elvis branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on Int property with elvis default for null receiver",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u0026\u0026 binds tighter than Elvis",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-conjunction-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

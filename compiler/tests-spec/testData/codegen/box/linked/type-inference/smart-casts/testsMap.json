@@ -9,6 +9,556 @@
           "path": "compiler/tests-spec/testData/codegen/box/linked/type-inference/smart-casts/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is String smart cast applies to a value originating from a platform type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!is concrete subclass then else branch smart-casts to remaining sealed type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "40": {
+    "pos": {
+      "40": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension plus on Shape uses smart cast of operands inside operator body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with nullable subject is branch smart cast to non-null target type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed interface when branch smart-casts to implementation type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with sealed class subject and else branch covering unlisted direct subclass",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!is then else branch smart cast without as",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast after null check allows direct member access on originally nullable receiver, no safe call needed",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "subject-less when can still use is checks on sealed values",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "more specific sealed subclasses should be matched before intermediate types",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast and member function call in branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u0026\u0026 enables smart cast on right",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-conjunction-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class sealed subclass properties are accessible after is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with sealed object branch matched by object and class branch matched by is with smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is branch smart-casts sealed subject to data class subclass",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with || in condition and !is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is branches can recursively walk nested sealed structure",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast and different branch types infer common supertype Number",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional on Any? distinguishes null from other non-String via is String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast passed as function call argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u003d\u003d null else branch smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/equality-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested conditional expression in branch with is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!\u003d null then smart cast to non-null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/equality-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call result smart-cast after null check",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with \u0026\u0026 in condition and is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with !is smart cast in else branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type is-check enables smart cast and accessed members work correctly at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type is check with type-parameterized member access via smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "39": {
+    "pos": {
+      "39": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when is branch smart cast then parameterized member calls",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-39/pos/39.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "37": {
+    "pos": {
+      "37": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with multiple is branches smart cast to different types",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-37/pos/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "36": {
+    "pos": {
+      "36": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with is branch smart cast for property access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-36/pos/36.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "31": {
+    "pos": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with in range branch after nullable subject is narrowed by if condition",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "38": {
+    "pos": {
+      "38": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with !is branch excluding type and else branch smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-38/pos/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression is branch smart casts sealed class subject for property access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is on String? distinguishes null from String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "44": {
+    "pos": {
+      "44": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on Base matches is B first, then is A as parent fallback (not subject-type is A)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-44/pos/44.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with sealed class subject is exhaustive when all direct subclasses are covered with smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is-safe access vs as failure path",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "45": {
+    "pos": {
+      "45": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with is branches returning different types infers common supertype Any",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-45/pos/45.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int? \u003d\u003d Int then smart cast uses n as Int",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/equality-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "redundant as after is",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when is branch smart cast without as",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvis smart cast to non-null then as String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with null check branch smart-casts to non-null for direct member access in else branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast branch and safe-call elvis branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "after smart cast via requireNotNull, bound member reference s::length can be created on non-null String, verifying runtime semantics",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/callable-references/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }

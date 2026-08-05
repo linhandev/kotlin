@@ -32,5 +32,319 @@
         }
       ]
     }
+  },
+  "323": {
+    "pos": {
+      "323": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotation on a property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-323/pos/323.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "324": {
+    "pos": {
+      "324": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotation on a method",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-324/pos/324.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "348": {
+    "neg": {
+      "348": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "annotation with FUNCTION target cannot be applied to a class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-348/neg/348.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "341": {
+    "pos": {
+      "341": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for an annotation class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-341/pos/341.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "346": {
+    "pos": {
+      "346": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotation that has RUNTIME retention",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-346/pos/346.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "322": {
+    "pos": {
+      "322": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotation on the primary constructor",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-322/pos/322.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "347": {
+    "pos": {
+      "347": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with a CLASS-targeted annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-347/pos/347.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "340": {
+    "pos": {
+      "340": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for an inline value class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-340/pos/340.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "349": {
+    "pos": {
+      "349": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotated companion object",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-349/pos/349.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "336": {
+    "pos": {
+      "336": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a nested class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-336/pos/336.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "338": {
+    "pos": {
+      "338": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a data class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-338/pos/338.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "339": {
+    "pos": {
+      "339": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a sealed class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-339/pos/339.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "337": {
+    "pos": {
+      "337": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for an enum class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-337/pos/337.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "345": {
+    "pos": {
+      "345": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with multiple nested annotations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-345/pos/345.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "342": {
+    "pos": {
+      "342": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotation that has default parameter values",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-342/pos/342.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "343": {
+    "pos": {
+      "343": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotation that has a vararg parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-343/pos/343.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "344": {
+    "pos": {
+      "344": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotation that has a KClass parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-344/pos/344.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "321": {
+    "pos": {
+      "321": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for a class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-321/pos/321.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "335": {
+    "pos": {
+      "335": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for an inner class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-335/pos/335.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "333": {
+    "pos": {
+      "333": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for an interface with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-333/pos/333.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "334": {
+    "pos": {
+      "334": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for an abstract class with an annotation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-334/pos/334.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

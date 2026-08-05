@@ -19,6 +19,167 @@
           "linkType": "main"
         }
       ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand throw is Nothing and Elvis expression type is Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand throw is Nothing inside try expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression branch with Elvis operator and throw expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis with non-nullable literal left and throw RHS reports USELESS_ELVIS; type remains Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis on nullable String with throw on right-hand side infers String type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand throw after nullable conversion infers Int type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "neg": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "parenthesized throw as Elvis left-hand operand yields Int which cannot initialize String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "Elvis with literal default and with throw both infer Int for nullable length",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis after takeIf with throw infers String type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "neg": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis expression inferring Int cannot initialize non-nullable String variable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-16/neg/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis with non-nullable left and throw RHS reports USELESS_ELVIS; type remains Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
     }
   }
 }

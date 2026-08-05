@@ -20,5 +20,75 @@
         }
       ]
     }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object can implement an interface by delegation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/object-declaration/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class delegation forwards interface default function body from delegatee at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "221": {
+    "pos": {
+      "221": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "class declaration can delegate multiple interfaces with distinct members via by to one impl; each interface default/body is supplied separately; contrasts with p-45 single-interface by and with next-point same-name dual-default by conflict",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-221/pos/221.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "171": {
+    "pos": {
+      "171": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "interface implementation by class delegation is distinct from superclass constructor delegation in class declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-171/pos/171.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object literal supports class delegation to implement interface",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/object-literals/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

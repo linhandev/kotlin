@@ -43,6 +43,15 @@
           "unexpectedBehaviour": false,
           "linkType": "primary",
           "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "in operator evaluates rhs receiver before lhs element and infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
         }
       ]
     },

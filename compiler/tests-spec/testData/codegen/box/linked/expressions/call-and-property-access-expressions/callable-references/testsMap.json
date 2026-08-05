@@ -52,5 +52,47 @@
         }
       ]
     }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend function reference can be assigned to a suspend function type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "57": {
+    "pos": {
+      "57": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callable reference as function return value is invokable, verifying runtime semantics",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-57/pos/57.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callable reference and trailing lambda resolve to equivalent map results",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/function-calls-and-property-access/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

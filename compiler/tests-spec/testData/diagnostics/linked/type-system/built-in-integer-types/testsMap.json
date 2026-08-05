@@ -1,0 +1,644 @@
+{
+  "31": {
+    "pos": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long unary minus with multiplicative expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator fun Long.times(W) type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "separator Long literal infers Long type when passed to Long parameter in function call",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long mixed multiplicative and additive expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "separator integer literal beyond Long.MAX_VALUE is out of range even beside valid separator Long literals",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-25/neg/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "negative Long remainder type inference with rem sign convention",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "trailing underscore in integer literal is illegal even beside valid separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-13/neg/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long mod function type inference distinct from percent rem",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "leading underscore in integer literal is illegal even beside valid separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-14/neg/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long division by zero expression type inference remains Long at compile time",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "trailing consecutive underscores in integer literal (1__) is illegal even beside valid separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-15/neg/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long local variables multiplicative expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit Long variable infers Long type from separator Long literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long.times type inference for Long times Long with Int extension overload in scope",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "arrayOf with separator Long literals infers Long element type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long remainder type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long binary literal with numeric separator infers Long type in expressions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long multiplication type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long division type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary integer literal in Int range infers Int type, not Long",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "33": {
+    "neg": {
+      "33": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String literal cannot be left operand of times with Long in multiplicative expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-33/neg/33.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long literal with numeric separator in remainder expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun div(Long) type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long separator literals in multiplicative expression infer Long result type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained built-in Long multiplication type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "negative Long literal and negative separator Long literal infer Long type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "operator times result Long type inference in subsequent Long addition",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun timesAssign(Long) type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun times(Long) type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int separator literal cannot be directly compared to Long separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long literal multiplicative expression with Int operand type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "separator literal beyond Int.MAX_VALUE infers Long and Int.MAX_VALUE boundary remains Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit Int to Long conversion in multiplicative expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int.MAX_VALUE separator literal is Int and toLong()+1 enters Long range",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun rem(Long) result type inference in subsequent Long addition",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long multiplication overflow expression type inference remains Long",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lowercase l long suffix is illegal even beside valid Long separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-16/neg/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "20": {
+    "neg": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "times(Int) overload cannot accept Long operand in multiplication",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-20/neg/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int separator literal inferred as Int cannot be assigned to Long variable without conversion even beside valid Long separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-20/neg/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun rem(Long) type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int separator literal converted to Long can be compared with Long separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long augmented assignment times-equals type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "negative separator Int literal infers Int and toLong() matches Long literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "separator Long literal as default parameter value infers Long type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "L suffix infers Long type for hexadecimal integer literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal Int literal infers Int type and toLong() matches Long literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long literal with numeric separator infers Long type in expressions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "L suffix infers Long type for decimal integer literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "hexadecimal integer literal in Int range infers Int type, not Long",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

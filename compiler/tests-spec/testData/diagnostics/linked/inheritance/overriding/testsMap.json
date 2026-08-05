@@ -104,5 +104,1169 @@
         }
       ]
     }
+  },
+  "26": {
+    "neg": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration cannot be open",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-26/neg/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "30": {
+    "neg": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "final is illegal on interface members (WRONG_MODIFIER_CONTAINING_DECLARATION) because interface members are open/overridable by default; explicit open on abstract is only REDUNDANT_OPEN_IN_INTERFACE (warning, not error)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-30/neg/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "14": {
+    "neg": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "implementing class inheriting two interfaces with same-named default function bodies must explicitly override (MANY_INTERFACES_MEMBER_NOT_IMPLEMENTED)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-14/neg/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type inference after resolving multi-interface default conflict via override + super\u003cIF\u003e",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sub-interface overriding parent interface default function type inference in implementing class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overriding interface val with default getter body type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type inference when override calls interface default via super\u003cIF\u003e",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overriding interface default function body type inference in implementing class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "neg": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class cannot be declared open",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/data-class-declaration/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "189": {
+    "neg": {
+      "189": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "final override seals an open superclass member so a further subclass cannot override it (OVERRIDING_FINAL_MEMBER) in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-189/neg/189.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "187": {
+    "pos": {
+      "187": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when override widens visibility of an open superclass member in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-187/pos/187.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "180": {
+    "pos": {
+      "180": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "type inference for override val replacing an open val in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-180/pos/180.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "174": {
+    "neg": {
+      "174": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "implementing interface abstract members in a class declaration requires override; omitting it hides the member",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-174/neg/174.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "175": {
+    "neg": {
+      "175": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "override modifier in a class declaration is rejected when no matching open supertype member exists to override",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-175/neg/175.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "181": {
+    "neg": {
+      "181": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "override val cannot replace open var because val is a stronger mutability than var in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-181/neg/181.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "186": {
+    "neg": {
+      "186": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "override in a class declaration cannot narrow visibility of an open superclass member (CANNOT_WEAKEN_ACCESS_PRIVILEGE)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-186/neg/186.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "188": {
+    "neg": {
+      "188": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "implementing an interface in a class declaration cannot narrow a public interface member to internal (CANNOT_WEAKEN_ACCESS_PRIVILEGE)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-188/neg/188.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "371": {
+    "neg": {
+      "371": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "覆盖属性不能把 protected val 收窄为 private",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371/neg/371.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "203": {
+    "pos": {
+      "203": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a single override in a class declaration resolves the same abstract member from two interfaces",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-203/pos/203.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "204": {
+    "neg": {
+      "204": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "implementing the same abstract member inherited from two interfaces in a class declaration without override hides the supertype members (VIRTUAL_MEMBER_HIDDEN)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-204/neg/204.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "250": {
+    "pos": {
+      "250": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "precise types when overriding a generic interface producer narrows the return type covariantly",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-250/pos/250.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "233": {
+    "neg": {
+      "233": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "accept parameter type that mismatches the interface type argument is not an override (NOTHING_TO_OVERRIDE) and leaves the member unimplemented (ABSTRACT_MEMBER_NOT_IMPLEMENTED); contrasts with p-232 matching Sink type arguments and with p-185 class-member parameter narrowing",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-233/neg/233.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "205": {
+    "neg": {
+      "205": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "identically named abstract members from two interfaces with incompatible return types cannot be satisfied by a single override in a class declaration (RETURN_TYPE_MISMATCH_ON_OVERRIDE); distinct from p-195 by covering both override-return choices and Boolean/Double clash",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-205/neg/205.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "202": {
+    "pos": {
+      "202": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference for dynamic dispatch of overrides through superclass-typed references in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-202/pos/202.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "256": {
+    "pos": {
+      "256": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "precise types when a single override satisfies identically named members from two generic interfaces with the same type argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-256/pos/256.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "251": {
+    "neg": {
+      "251": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "overriding a generic interface producer with an incompatible return type fails (RETURN_TYPE_MISMATCH_ON_OVERRIDE / PROPERTY_TYPE_MISMATCH_ON_OVERRIDE); contrasts with p-250 covariant narrowing success and with p-75/p-201 class-base return mismatches",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-251/neg/251.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "220": {
+    "neg": {
+      "220": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "a widened common-supertype override (Any/Number/CharSequence) cannot satisfy two interfaces with mutually incompatible return types (RETURN_TYPE_MISMATCH_ON_OVERRIDE); contrasts with p-195/p-205 choosing one side and with p-219 covariant success when both declare the same general type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-220/neg/220.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "218": {
+    "pos": {
+      "218": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a class declaration overrides after inheriting two conflicting interface defaults plus a third abstract same-named member",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-218/pos/218.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "227": {
+    "neg": {
+      "227": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "a wrong-return-type override of one overload cannot fake-resolve dual-interface members that differ by parameter list (RETURN_TYPE_MISMATCH_ON_OVERRIDE + ABSTRACT_MEMBER_NOT_IMPLEMENTED); contrasts with p-214 correct dual overloads and with p-220 same-signature incompatible returns",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-227/neg/227.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "211": {
+    "pos": {
+      "211": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when empty class declarations inherit a sub-interface that already resolved dual conflicting defaults",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-211/pos/211.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "229": {
+    "pos": {
+      "229": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a named object overrides dual conflicting interface defaults",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-229/pos/229.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "216": {
+    "pos": {
+      "216": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a class declaration resolves two same-named abstract vals of identical type via a single override val",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-216/pos/216.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "228": {
+    "pos": {
+      "228": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when override + super\u003cDefault\u003e resolves default+abstract same-named dual interface members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-228/pos/228.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "217": {
+    "neg": {
+      "217": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "same-named abstract vals with incompatible types from two interfaces cannot be resolved by a single override (PROPERTY_TYPE_MISMATCH_ON_OVERRIDE); covers primary-ctor Int/String choices and body Boolean/Double; contrasts with p-216 identical-type single override and with p-195 body-only Int clash",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-217/neg/217.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "210": {
+    "pos": {
+      "210": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a sub-interface overrides dual conflicting defaults and a class declaration inherits that resolution",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-210/pos/210.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "219": {
+    "pos": {
+      "219": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a class declaration uses a covariant override to satisfy two interfaces with the same more general return type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-219/pos/219.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "226": {
+    "pos": {
+      "226": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference for ordinary and sealed-leaf multi-interface override resolution when unrelated enum/sealed classifiers coexist",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-226/pos/226.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "221": {
+    "pos": {
+      "221": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a class declaration delegates multiple distinct-member interfaces via by to one impl",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-221/pos/221.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "195": {
+    "neg": {
+      "195": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "identically named members from multiple interfaces with incompatible return types cannot be satisfied by a single override in a class declaration (RETURN_TYPE_MISMATCH_ON_OVERRIDE / PROPERTY_TYPE_MISMATCH_ON_OVERRIDE)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-195/neg/195.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "192": {
+    "pos": {
+      "192": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when an abstract class re-declares a concrete open member as abstract override in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-192/pos/192.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "157": {
+    "pos": {
+      "157": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference for overriding members that call the immediate superclass implementation via super in class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-157/pos/157.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "391": {
+    "neg": {
+      "391": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "覆盖成员函数不能收窄为 private",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391/neg/391.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "156": {
+    "neg": {
+      "156": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "non-open superclass member cannot be overridden even when the subclass properly delegates to the superclass constructor in class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-156/neg/156.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "193": {
+    "neg": {
+      "193": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "a non-abstract class cannot use abstract override on an inherited open member (ABSTRACT_FUNCTION_IN_NON_ABSTRACT_CLASS / ABSTRACT_PROPERTY_IN_NON_ABSTRACT_CLASS)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-193/neg/193.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "158": {
+    "pos": {
+      "158": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference for protected superclass members accessed within subclasses across inheritance and overriding in class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-158/pos/158.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "194": {
+    "pos": {
+      "194": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a single override satisfies identically named members from multiple interfaces in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-194/pos/194.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "179": {
+    "neg": {
+      "179": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "a concrete subclass that inherits abstract class members without overriding them is rejected (ABSTRACT_CLASS_MEMBER_NOT_IMPLEMENTED) in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-179/neg/179.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "183": {
+    "pos": {
+      "183": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "type inference for overridden property getters that call super in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-183/pos/183.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "177": {
+    "neg": {
+      "177": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "class members are final by default, so override of a member that is not marked open is rejected in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-177/neg/177.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "184": {
+    "pos": {
+      "184": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "type inference for covariant return types on override in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-184/pos/184.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "185": {
+    "neg": {
+      "185": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "override with a more specific parameter type than the open superclass member is rejected (NOTHING_TO_OVERRIDE) because parameter types are invariant in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-185/neg/185.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "176": {
+    "pos": {
+      "176": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "type inference for overriding an open member that changes the implementation in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-176/pos/176.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "182": {
+    "pos": {
+      "182": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "type inference for override var replacing open var in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-182/pos/182.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "178": {
+    "pos": {
+      "178": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "type inference for overriding abstract members in a concrete subclass in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-178/pos/178.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "207": {
+    "pos": {
+      "207": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a class declaration resolves dual interface defaults via override + qualified super\u003cIF\u003e",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-207/pos/207.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "200": {
+    "pos": {
+      "200": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when overriding members of a JDK non-final class from Kotlin in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-200/pos/200.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "209": {
+    "neg": {
+      "209": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "class declaration inheriting one interface default and one abstract same-named member still requires explicit override (MANY_INTERFACES_MEMBER_NOT_IMPLEMENTED); covers fun/String/val and reversed interface order; contrasts with p-206 dual-default conflict and with later override + super resolution of a single default",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-209/neg/209.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "230": {
+    "pos": {
+      "230": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when anonymous objects override dual conflicting interface defaults",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-230/pos/230.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "208": {
+    "neg": {
+      "208": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "unqualified super call inside override is ambiguous when a class declaration inherits the same default member from two interfaces (AMBIGUOUS_SUPER); contrasts with p-207 qualified super\u003cIF\u003e",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-208/neg/208.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "201": {
+    "neg": {
+      "201": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "override return type must be a subtype of the open superclass member return type (RETURN_TYPE_MISMATCH_ON_OVERRIDE / PROPERTY_TYPE_MISMATCH_ON_OVERRIDE)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-201/neg/201.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "206": {
+    "neg": {
+      "206": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "a class declaration inheriting two interfaces that each provide a default implementation for the same member must explicitly override (MANY_INTERFACES_MEMBER_NOT_IMPLEMENTED); covers fun defaults, val getter defaults, and multi-member dual defaults",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-206/neg/206.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "224": {
+    "neg": {
+      "224": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "a sub-interface inheriting two conflicting defaults must override at the interface layer (MANY_INTERFACES_MEMBER_NOT_IMPLEMENTED); a class override of that sub-interface does not remove the interface-level error; contrasts with p-210 interface-level resolution and p-223 class-level override dispatch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-224/neg/224.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "223": {
+    "pos": {
+      "223": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a class override of dual interface defaults is observed through superinterface-typed references",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-223/pos/223.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "215": {
+    "neg": {
+      "215": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "List/Set/Map type-arg differences make f(List\u003cInt\u003e) and f(List\u003cString\u003e) distinct abstract members at the Kotlin level (ABSTRACT_MEMBER_NOT_IMPLEMENTED if either is missing); dual override of both is a JVM erasure clash (CONFLICTING_JVM_DECLARATIONS) outside frontend diagnostics; contrasts with p-214 non-erasing parameter-list overloads",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-215/neg/215.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "212": {
+    "pos": {
+      "212": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a class declaration resolves open-class vs interface-default conflict via override + qualified super",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-212/pos/212.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "283": {
+    "neg": {
+      "283": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "override cannot narrow visibility (CANNOT_WEAKEN_ACCESS_PRIVILEGE); covers abstract protected→private, generic protected→private, and public→protected property; contrasts with p-186 open-class/public→internal/public→protected set and with next-point widening success",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-283/neg/283.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "284": {
+    "pos": {
+      "284": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "precise types when override widens visibility of abstract/generic/protected members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-284/pos/284.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "213": {
+    "neg": {
+      "213": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "final (non-open) class member body conflicting with interface default cannot be left unresolved (MANY_IMPL_MEMBER_NOT_IMPLEMENTED) and cannot be overridden (OVERRIDING_FINAL_MEMBER); covers fun/String/val and reversed order; contrasts with p-212 open class member + qualified super",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-213/neg/213.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "214": {
+    "pos": {
+      "214": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a class declaration implements two interfaces whose same-named members differ by parameter list (overloads, not override conflict)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-214/pos/214.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "222": {
+    "neg": {
+      "222": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "class delegation via by cannot auto-resolve same-named dual interface defaults (MANY_INTERFACES on conflicting impl type; 2x DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE + 2x MANY_IMPL on delegated class); covers fun/String/val and separate per-interface delegates; contrasts with p-221 distinct-member dual by and with p-206 non-delegated dual defaults",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-222/neg/222.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "225": {
+    "pos": {
+      "225": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when same-named val dual default getters are resolved via override + qualified super",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-225/pos/225.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "191": {
+    "pos": {
+      "191": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when a default override remains open for further overriding in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-191/pos/191.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "196": {
+    "pos": {
+      "196": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference for equals/hashCode overrides composed across a class hierarchy in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-196/pos/196.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "198": {
+    "pos": {
+      "198": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when overriding a member of a generic class with a consistent substituted signature in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-198/pos/198.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "199": {
+    "neg": {
+      "199": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "internal override cannot replace a public open superclass member (CANNOT_WEAKEN_ACCESS_PRIVILEGE) in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-199/neg/199.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "155": {
+    "pos": {
+      "155": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "subclass override of open superclass member combined with constructor delegation type inference in class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-155/pos/155.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "197": {
+    "pos": {
+      "197": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when an open operator is overridden with override operator in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-197/pos/197.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "190": {
+    "pos": {
+      "190": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when open override allows a grandchild to further override in a class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-190/pos/190.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "68": {
+    "pos": {
+      "68": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overridden invoke infers String from subclass",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-68/pos/68.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "neg": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数不能 override 成员函数",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-21/neg/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

@@ -12,5 +12,559 @@
         }
       ]
     }
+  },
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List equality compares elements after erasure, independent of declared type arguments type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "43": {
+    "pos": {
+      "43": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class equality through Any channel keeps value equality type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-43/pos/43.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "97": {
+    "pos": {
+      "97": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class null vs non-null property equals infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-97/pos/97.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "90": {
+    "pos": {
+      "90": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "equals and hashCode consistency types as Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-90/pos/90.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "99": {
+    "pos": {
+      "99": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "partially different data class \u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-99/pos/99.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "98": {
+    "pos": {
+      "98": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multi-property data class \u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-98/pos/98.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "91": {
+    "pos": {
+      "91": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member Double property \u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-91/pos/91.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "96": {
+    "pos": {
+      "96": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class both-null properties equals infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-96/pos/96.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "78": {
+    "pos": {
+      "78": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data object \u003d\u003d itself infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-78/pos/78.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "85": {
+    "pos": {
+      "85": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class-typed nullable \u003d\u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-85/pos/85.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "76": {
+    "pos": {
+      "76": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class \u003d\u003d ignores body var property differences",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-76/pos/76.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "82": {
+    "pos": {
+      "82": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "identical reference \u003d\u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-82/pos/82.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "83": {
+    "pos": {
+      "83": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-null instance \u003d\u003d null is false; infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-83/pos/83.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "77": {
+    "pos": {
+      "77": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overridden equals on data class drives \u003d\u003d",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-77/pos/77.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "84": {
+    "pos": {
+      "84": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class-typed nullable \u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-84/pos/84.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "79": {
+    "pos": {
+      "79": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class \u003d\u003d with equal values infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-79/pos/79.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "102": {
+    "pos": {
+      "102": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "A as Any \u003d\u003d B infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-102/pos/102.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "93": {
+    "pos": {
+      "93": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when with custom equals branches infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-93/pos/93.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "94": {
+    "pos": {
+      "94": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable param \u003d\u003d null infers Boolean on both paths",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-94/pos/94.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "95": {
+    "pos": {
+      "95": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class copy equals original",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-95/pos/95.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "92": {
+    "pos": {
+      "92": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member Double boxed as Any \u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-92/pos/92.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "88": {
+    "pos": {
+      "88": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom equals makes \u003d\u003d true for equal properties",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-88/pos/88.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "75": {
+    "pos": {
+      "75": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class \u003d\u003d with different properties infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-75/pos/75.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "81": {
+    "pos": {
+      "81": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "distinct equal-valued instances \u003d\u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-81/pos/81.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "86": {
+    "pos": {
+      "86": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable var identity \u003d\u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-86/pos/86.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "72": {
+    "pos": {
+      "72": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "default \u003d\u003d on distinct class instances infers Boolean false path",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-72/pos/72.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "73": {
+    "pos": {
+      "73": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "default \u003d\u003d on same reference infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-73/pos/73.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "87": {
+    "pos": {
+      "87": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Child \u003d\u003d Parent with default equals infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-87/pos/87.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "80": {
+    "pos": {
+      "80": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class \u003d\u003d with different values infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-80/pos/80.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "74": {
+    "pos": {
+      "74": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class \u003d\u003d infers Boolean for equal properties",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-74/pos/74.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "89": {
+    "pos": {
+      "89": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u003d\u003d and equals agree and infer Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-89/pos/89.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "100": {
+    "pos": {
+      "100": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data object \u003d\u003d unrelated class via Any infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-100/pos/100.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "101": {
+    "pos": {
+      "101": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class instance \u003d\u003d null infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-101/pos/101.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "numeric separator in hexadecimal integer literal infers Int and preserves value in expressions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "neg": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int separator literal cannot be directly compared to Long separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int separator literal converted to Long can be compared with Long separator literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "numeric separator in decimal integer literal infers Int and preserves value in expressions",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

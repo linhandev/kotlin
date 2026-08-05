@@ -20,5 +20,64 @@
         }
       ]
     }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type inference for fun interface SAM member and inherited default function body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "neg": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fun interface cannot declare more than one abstract member even when an additional default function body is present (FUN_INTERFACE_WRONG_COUNT_OF_ABSTRACT_MEMBERS; contrast with p-19)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-20/neg/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "252": {
+    "pos": {
+      "252": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "precise types for a generic fun interface constructed via SAM lambda with a fixed type argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-252/pos/252.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "functional interface trailing lambda type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/function-calls-and-property-access/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

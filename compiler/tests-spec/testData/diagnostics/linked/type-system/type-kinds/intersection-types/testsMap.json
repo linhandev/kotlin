@@ -53,5 +53,20 @@
         }
       ]
     }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type is check with intersection type smart cast type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

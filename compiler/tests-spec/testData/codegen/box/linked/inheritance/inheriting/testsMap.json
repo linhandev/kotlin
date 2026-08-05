@@ -1,4 +1,60 @@
 {
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "abstract suspend fun is implemented by a suspending override in a subclass",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspending open member can be overridden by a suspending override",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interface suspend member must be implemented with suspend override",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "39": {
+    "pos": {
+      "39": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class upcast to interface boxes but keeps behavior",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-39/pos/39.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
   "20": {
     "pos": {
       "20": [

@@ -77,6 +77,282 @@
           "unexpectedBehaviour": false,
           "linkType": "main",
           "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check with automatic type argument inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check smart cast passed to lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check on class hierarchy",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type is check with intersection type smart cast type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for nested generic bare type is-check",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for nullable bare type is-check with smart cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check with multi-type-parameter inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check in when expression with smart cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "neg": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type is-check with star-projection input causes inference failure — smart-casted type is star-projected and cannot be passed as concrete type argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19/neg/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is check with function-typed property",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type !is test",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check with upper-bounded type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type is check with type-parameterized member access type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check with multiple subclass branches in when expression — each branch independently infers correct type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is check inside inline function with reified type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is-check with specific type arguments fails because Fee\u003cString, Int\u003e cannot be checked for erased type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for is-check with explicit type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check with smart cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare type is-check with star-projection input results in star-projected members that cannot be used as concrete types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }

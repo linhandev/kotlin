@@ -12,5 +12,117 @@
         }
       ]
     }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration implementing interface inherits default function body (contrast with p-25 empty class)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "229": {
+    "pos": {
+      "229": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "a named object implementing dual conflicting interface defaults must explicitly override to resolve; singleton identity preserved through superinterface refs; contrasts with p-223 class override dispatch and with next-point anonymous object override",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-229/pos/229.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "288": {
+    "pos": {
+      "288": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "an internal object declaration is usable in the same module via public helpers that do not expose its type; covers plain object, object with members, and nested access; contrasts with p-262 internal class and with next-point enum private constructor",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-288/pos/288.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "131": {
+    "pos": {
+      "131": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init block runs when object singleton is first created in class declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-131/pos/131.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "137": {
+    "pos": {
+      "137": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "companion object const val is compile-time constant outside instance init mutation in class declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-137/pos/137.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "companion object member function can be imported and called by short name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "star import introduces the top-level object type short name but members still require the type qualifier",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with sealed object branch matched by object and class branch matched by is with smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

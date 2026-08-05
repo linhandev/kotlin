@@ -25,6 +25,798 @@
           "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as casts Any to String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "38": {
+    "pos": {
+      "38": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List\u003c*\u003e of value-class elements refined by when-is back to value class",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-38/pos/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with !is branch excluding type and else branch smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-38/pos/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline reified filterIsInstance uses erased class information to filter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!is then else branch smart cast without as",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "41": {
+    "pos": {
+      "41": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified is-check recognizes value class runtime type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-41/pos/41.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branch with is smart cast and in range at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41/pos/41.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with nullable subject is branch and else branch covering null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-41/pos/41.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on a Java List\u003c*\u003e uses is List\u003c*\u003e smart cast and joins with Int under Number",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as to String? widens result type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is String smart cast applies to a value originating from a platform type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Number as String then length throws CCE",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call after safe cast on nullable Any? returns uppercase string or null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified is-check works on values originating from platform types",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? List\u003c*\u003e then unchecked as List\u003cString\u003e feeds Elvis fallback when cast target is absent",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "supertype as subtype may throw CCE",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified is-check agrees with T::class for matching and rejecting values",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with || in condition and !is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable as non-null throws when value is null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is-check against List\u003c*\u003e is a valid star-projection runtime type test",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with !is smart cast in else branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? returns null on mismatch or null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List values with different type arguments share ::class and both pass is List\u003c*\u003e due to erasure",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast and different branch types infer common supertype Number",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? with safe call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is CharSequence then as? String with Elvis (safe cast not redundant)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression is branch smart casts sealed class subject for property access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is on String? distinguishes null from String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional on Any? distinguishes null from other non-String via is String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "subtype as supertype",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast passed as function call argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "impossible as throws CCE at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested conditional expression in branch with is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? combined with Elvis",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with is smart cast and member function call in branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "impossible as? yields null at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class literal User::class returns KClass\u003cUser\u003e not a function type, verifying runtime semantics and distinction from callable references",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/callable-references/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with \u0026\u0026 in condition and is smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null as String throws NPE at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is smart cast Int element in range after type check at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String literal as Int throws CCE",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "in operator on Map checks keys not values at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "filterIsInstance yields List without handwritten as",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "in operator on Map checks key membership via containsKey convention at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? then !! yields non-null or NPE",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "39": {
+    "pos": {
+      "39": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when is branch smart cast then parameterized member calls",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-39/pos/39.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "37": {
+    "pos": {
+      "37": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with multiple is branches smart cast to different types",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-37/pos/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "36": {
+    "pos": {
+      "36": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with is branch smart cast for property access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-36/pos/36.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "40": {
+    "pos": {
+      "40": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with nullable subject is branch smart cast to non-null target type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "48": {
+    "pos": {
+      "48": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when used as statement with is branch only for Any subject",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-48/pos/48.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "50": {
+    "pos": {
+      "50": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression is check against List star projection is runtime-available",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-50/pos/50.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "44": {
+    "pos": {
+      "44": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on Base matches is B first, then is A as parent fallback (not subject-type is A)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-44/pos/44.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "43": {
+    "pos": {
+      "43": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with supertype is branch before subtype is branch matches supertype first",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-43/pos/43.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with sealed object branch matched by object and class branch matched by is with smart cast",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "impossible Array cast throws CCE at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "42": {
+    "pos": {
+      "42": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with subject static type String and redundant is String branch",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-42/pos/42.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "45": {
+    "pos": {
+      "45": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with is branches returning different types infers common supertype Any",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/when-expressions/p-45/pos/45.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit Int to Long conversion enables Long multiplicative expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is-safe access vs as failure path",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "redundant as after is",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? Number then safe call toInt",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when is branch smart cast without as",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "elvis smart cast to non-null then as String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? List\u003cString\u003e from List\u003c*\u003e is unchecked",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is List star then as? List String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unchecked as List\u003cString\u003e from Any",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as String then property access",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified inline as checks runtime type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/cast-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }

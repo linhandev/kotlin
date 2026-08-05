@@ -12,5 +12,125 @@
         }
       ]
     }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overloaded plus and times precedence expressions infer Vector",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member operator fun div in multiplicative expression infers Vector",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member operator fun times in multiplicative expression infers Vector",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member operator fun rem in multiplicative expression infers Vector",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "36": {
+    "pos": {
+      "36": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiplicative expression with in operator infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36/pos/36.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "L suffix infers Long type for hexadecimal integer literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long separator literals in multiplicative expression infer Long result type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "L suffix infers Long type for decimal integer literal",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

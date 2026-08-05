@@ -12,5 +12,19 @@
         }
       ]
     }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member operator fun dec called as member and returns decremented Counter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

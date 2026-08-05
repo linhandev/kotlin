@@ -1,0 +1,16 @@
+{
+  "37": {
+    "pos": {
+      "37": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List of value class elements unpacks correctly after generic storage",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-37/pos/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  }
+}

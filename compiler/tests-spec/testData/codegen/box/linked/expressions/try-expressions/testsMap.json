@@ -120,5 +120,47 @@
         }
       ]
     }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try/catch inside a suspend fun may wrap suspend calls",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "50": {
+    "pos": {
+      "50": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-local return from forEach still executes finally block",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/function-literals/lambda-literals/p-50/pos/50.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "45": {
+    "pos": {
+      "45": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "in operator inside try expression at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45/pos/45.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

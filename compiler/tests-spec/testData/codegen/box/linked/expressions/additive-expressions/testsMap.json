@@ -9,6 +9,22 @@
           "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/additive-expressions/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member operator fun plus desugars to member call in additive expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "decimal Int literal toLong() equals Long literal and preserves Int arithmetic",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }
@@ -31,6 +47,218 @@
           "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/additive-expressions/p-2/pos/2.2.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member operator fun minus desugars to member call in additive expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "39": {
+    "pos": {
+      "39": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plus used as conditional return expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-39/pos/39.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plus assigned to explicit Vector local then returned",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "38": {
+    "pos": {
+      "38": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member plus evaluated inside lambda/run block",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-38/pos/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "40": {
+    "pos": {
+      "40": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension plus on Shape uses smart cast of operands inside operator body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overloaded plus for Vector and Int mixed in chained additive expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator fun plus enables additive expression on class without member plus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long multiplicative binds tighter than additive in mixed expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class member plus handles nullable Int operands with Elvis defaults",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator plus on generic Box specialized for Int",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained class member operator fun plus left-associative evaluation",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plus(Int) preferred over plus(Vector) when right operand is Int",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member operator plus takes precedence over extension operator plus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overloaded plus and times follow multiplicative-over-additive precedence",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-members/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "additive expression result used with in and not-in on IntRange at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "numeric separator in decimal integer literal is equivalent to plain literal in equality and arithmetic",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }

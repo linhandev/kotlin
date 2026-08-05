@@ -157,6 +157,20 @@
       ]
     }
   },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "invoke operator call accepts trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/function-calls-and-property-access/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
   "5": {
     "pos": {
       "1": [

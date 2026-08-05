@@ -163,6 +163,20 @@
       ]
     }
   },
+  "23": {
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "无 iterator 约定的类型不能 for-in",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
   "1": {
     "neg": {
       "2": [

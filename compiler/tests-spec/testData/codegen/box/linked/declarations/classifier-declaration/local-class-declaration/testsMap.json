@@ -12,5 +12,19 @@
         }
       ]
     }
+  },
+  "291": {
+    "pos": {
+      "291": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "public members of a local class are accessible in the declaring function body; covers primary-constructor property, member function, and body property; contrasts with previous-point private local member failure",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-291/pos/291.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

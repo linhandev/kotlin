@@ -1,4 +1,19 @@
 {
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-null assertion on a null platform type fails with NPE type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
   "10": {
     "pos": {
       "10": [

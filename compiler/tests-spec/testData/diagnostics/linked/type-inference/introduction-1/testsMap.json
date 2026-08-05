@@ -1,4 +1,67 @@
 {
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend function type can participate in inline generic type-argument inference type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit type argument overrides inferred type argument type inference check",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Java Arrays.asList is inferred as a List with platform element types type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on a Java List\u003c*\u003e uses is List\u003c*\u003e smart cast and joins with Int under Number type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "nullable try branch with Nothing catch remains String?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
   "13": {
     "pos": {
       "13": [
@@ -21,21 +84,6 @@
           "casesNumber": 1,
           "description": "try expression as function call argument participates in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-14/pos/14.1.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "primary",
-          "helpers": "checkType"
-        }
-      ]
-    }
-  },
-  "15": {
-    "pos": {
-      "15": [
-        {
-          "specVersion": "1.9-rfc+0.1",
-          "casesNumber": 2,
-          "description": "nullable try branch with Nothing catch remains String?",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-15/pos/15.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
           "helpers": "checkType"
@@ -499,21 +547,6 @@
           "casesNumber": 1,
           "description": "SAM-like function type with generic trailing lambda infers type argument correctly",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-59/pos/59.1.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "primary",
-          "helpers": "checkType"
-        }
-      ]
-    }
-  },
-  "32": {
-    "pos": {
-      "32": [
-        {
-          "specVersion": "1.9-rfc+0.1",
-          "casesNumber": 1,
-          "description": "explicit type argument overrides inferred type argument type inference check",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-32/pos/32.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
           "helpers": "checkType"

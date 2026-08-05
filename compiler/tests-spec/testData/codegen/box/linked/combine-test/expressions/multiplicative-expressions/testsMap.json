@@ -1,4 +1,144 @@
 {
+  "31": {
+    "pos": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long unary minus combines with multiplicative expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator fun Long.times(W) enables reverse multiplication",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long multiplicative binds tighter than additive in mixed expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "negative Long remainder via percent uses rem semantics (sign matches dividend)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long mod function differs from percent rem on negative operands",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long division by zero throws ArithmeticException at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long multiplicative expression result type is Long",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long.times is used for Long times Long despite irrelevant Int extension overload",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long remainder uses rem semantics",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long multiplication yields Long result",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
   "1": {
     "pos": {
       "1": [
@@ -7,6 +147,188 @@
           "casesNumber": 1,
           "description": "binary times resolves to operator fun times",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long division truncates toward zero",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long literal with numeric separator participates in remainder expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun div(Long) participates in division",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained built-in Long multiplication is left-associative",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "operator times result Long continues in built-in Long addition",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun timesAssign(Long) in augmented assignment",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun times(Long) participates in multiplication",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long literal participates in multiplicative expression with Int operand",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit Int to Long conversion enables Long multiplicative expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun rem(Long) result participates in built-in Long addition",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Long multiplication overflow wraps in two\u0027s complement",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type operator fun rem(Long) participates in remainder",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Long augmented assignment times-equals desugars to times",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-27/pos/27.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
         }

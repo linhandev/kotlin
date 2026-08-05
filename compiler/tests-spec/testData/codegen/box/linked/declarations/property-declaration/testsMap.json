@@ -115,6 +115,14 @@
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/interface-declaration/p-27/pos/27.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "属性 getter 内可声明并调用局部函数",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }
@@ -379,6 +387,48 @@
           "casesNumber": 3,
           "description": "companion object const val is compile-time constant outside instance init mutation in class declaration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-137/pos/137.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "imported top-level property used as call argument by short name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "44": {
+    "pos": {
+      "44": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "in operator on lazy delegated Box receiver resolves extension contains at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44/pos/44.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "const val initialized with separator integer literal preserves value in expressions",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-21/pos/21.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
         }

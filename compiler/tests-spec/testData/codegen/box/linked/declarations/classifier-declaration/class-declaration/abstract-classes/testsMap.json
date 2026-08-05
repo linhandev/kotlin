@@ -12,5 +12,47 @@
         }
       ]
     }
+  },
+  "192": {
+    "pos": {
+      "192": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "an abstract class may re-declare an inherited concrete open member as abstract override, forcing a concrete Leaf to implement it",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-192/pos/192.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "178": {
+    "pos": {
+      "178": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "an abstract member is implicitly open and must be overridden in a concrete subclass; the inherited concrete member then uses the override in a class declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-178/pos/178.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "153": {
+    "pos": {
+      "153": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "abstract class as direct superclass requires subclass constructor delegation to an accessible abstract-class constructor in class declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-153/pos/153.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

@@ -19,6 +19,28 @@
           "linkType": "main"
         }
       ]
+    },
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression on enum is exhaustive when all constants are covered",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on sealed class is exhaustive when all direct subclasses are covered",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
     }
   },
   "2": {
@@ -31,6 +53,1137 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/expressions/when-expressions/p-2/neg/2.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-suspending function cannot call suspend fun from a when branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression on enum missing a constant is not exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on sealed class missing a direct subclass is not exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branches inside a suspend fun may call suspend functions type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on enum implementing interface remains exhaustive by enum constants",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic sealed hierarchy when is exhaustive and preserves type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "casting Any to java.util.List\u003c*\u003e then when-branch is List\u003cString\u003e is still illegal under erasure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-14/neg/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "top-level non-suspending function cannot call local suspend fun from when",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum when branches with incompatible return types fail",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object subclass requires its own is branch for exhaustiveness",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check in when expression with smart cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend lambda may use labeled return inside when for a local return type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entries size is independent of when exhaustiveness",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "matching intermediate sealed subclass exhausts that subtree",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when null branch infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "38": {
+    "pos": {
+      "38": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List\u003c*\u003e of value-class elements refined by when-is back to value class type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-38/pos/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "25": {
+    "neg": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic class member cannot use non-reified T::class inside when against other::class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-25/neg/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "if-else chain can cover all enum constants equivalently to when",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "exhaustive sealed when assigned to val has branch common type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on a Java List\u003c*\u003e uses is List\u003c*\u003e smart cast and joins with Int under Number type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum members are accessible inside when branches",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call in when condition infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast from when is branch does not leak outside the when",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-15/neg/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "34": {
+    "pos": {
+      "34": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "wrong Any (String) cast to value class is still well-typed under when type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-34/pos/34.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "33": {
+    "pos": {
+      "33": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class boxed as Any cast back then when reads raw type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-33/pos/33.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class through generic id\u003cT\u003e then when on raw keeps value semantics type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "35": {
+    "pos": {
+      "35": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable value class at T? boundary refined by when/Elvis type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-35/pos/35.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when used as statement with range branch only for Int subject compiles without exhaustiveness error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-35/pos/35.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "26": {
+    "neg": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic class member cannot use is T inside a when branch due to erasure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-26/neg/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branches can call abstract members implemented by enum constants",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed subclasses are matched by type tests, not enum-like constants",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when expression with constant equality branch and range containment branch type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branch block returns the last expression value",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "adding a new direct sealed subclass makes an old when non-exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-22/neg/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "parameterized enum constants are still matched by constant name",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed interface when branch smart-casts to implementation type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with sealed class subject and else branch covering unlisted direct subclass type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "else covers null and remaining cases for nullable enum when",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on sealed interface is exhaustive when all implementations are covered",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "neg": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on enum ordinal is not enum-exhaustive and Int subject needs else",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-24/neg/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "subject-less when can still use is checks on sealed values",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "redundant else after exhaustive enum when is still allowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed inheritor in a different package is not allowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "subject-less when can compare enum values with \u003d\u003d",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when used as a statement with else covers remaining sealed subclasses",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with Any subject does not require enum exhaustiveness when else branch is present type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "comma merges multiple enum constants into one when branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when covering only one sealed subclass is not exhaustive when others exist",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "8": {
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "merged enum branches still require remaining constants for exhaustiveness",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "more specific sealed subclasses should be matched before intermediate types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with nullable enum subject and else branch covering null and remaining enum constants type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested enum constants can be matched with qualified names",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for bare type is-check with multiple subclass branches in when expression — each branch independently infers correct type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with Any subject does not require sealed class exhaustiveness when else branch is present type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when is branch smart cast infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when with \u0026\u0026 branch infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/logical-conjunction-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "matching only an open intermediate subclass leaf does not exhaust sealed subject",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-19/neg/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-constant enum when must still cover that constant",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!is concrete subclass then else branch smart-casts to remaining sealed type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "28": {
+    "neg": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "adding an enum constant makes an old incomplete when non-exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-28/neg/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed interface with data object and data class is exhaustively matchable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression branch with separator integer literal infers String result type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "neg": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is over enum entry in when is prohibited; use enum constant comparison",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed when branches with incompatible return types fail",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when expression with nullable sealed class subject and else branch covering null and remaining subclasses type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable enum when expression requires a null branch for exhaustiveness",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable sealed when expression requires a null branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when used as statement still checks enum exhaustiveness (NO_ELSE_IN_WHEN)",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable enum when with explicit null branch is exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable sealed when with null and subclass branches is exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "exhaustive when result can be assigned to a val",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "exhaustive sealed when infers a common result type for distinct branch implementations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "neg": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is checks against enum entries on Any subject are not exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-18/neg/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class sealed subclass properties are accessible after is smart cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "duplicate import of same declaration remains legal and usable in when type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branch with in operator and custom contains infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum constant set is closed and known at compile time for exhaustiveness",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "compareTo in when expression infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous object cannot extend a sealed class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-27/neg/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when used as a statement with else covers remaining enum constants",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is branch smart-casts sealed subject to data class subclass",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with multiple enum constants in one branch is still exhaustive type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "else branch makes when on enum usable as an expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "else makes when on sealed subject usable as an expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with enum subject and else branch covering remaining enum constants type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "exhaustive enum when without else requires compatible branch types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is branches can recursively walk nested sealed structure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with function call subject checks exhaustiveness on returned enum type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "63": {
+    "pos": {
+      "63": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when with invoke condition infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-63/pos/63.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "93": {
+    "pos": {
+      "93": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when with custom equals branches infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-93/pos/93.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "41": {
+    "pos": {
+      "41": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branch with is smart cast and in range infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41/pos/41.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when expression with nullable subject is branch and else branch covering null type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-41/pos/41.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "29": {
+    "neg": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-runtime-available type in when expression is-check",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-29/neg/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when null check branch smart-casts to non-null type in else branch, infers String result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "48": {
+    "pos": {
+      "48": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when used as statement with is branch only for Any subject compiles without exhaustiveness error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-48/pos/48.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branch x::class infers KClass\u003cout Any\u003e and compares with class literal, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
         }
       ]
     }

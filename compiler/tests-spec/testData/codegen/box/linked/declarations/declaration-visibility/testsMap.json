@@ -401,6 +401,14 @@
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/property-declaration/p-10/pos/10.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal top-level function can be imported and used across packages in the same module",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }
@@ -427,6 +435,48 @@
           "casesNumber": 1,
           "description": "public override of protected open property",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/property-declaration/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "31": {
+    "pos": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "same-file private top-level class is usable by other declarations in that file",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "public (default) top-level class can be imported from another package",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal class with internal constructor is visible across packages in the same module",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-23/pos/23.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
         }

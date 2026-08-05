@@ -44,5 +44,90 @@
         }
       ]
     }
+  },
+  "37": {
+    "pos": {
+      "37": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List of value class elements unpacks correctly after generic storage type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-37/pos/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "31": {
+    "neg": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "abstract base that implements only f(List\u003cInt\u003e) still leaves f(List\u003cString\u003e) abstract for subclasses",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-31/neg/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "9": {
+    "neg": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "star-projected MutableList\u003c*\u003e cannot add a concrete element",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-9/neg/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "8": {
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inheriting two interfaces with List type-arg overloads requires both overrides; implementing only one reports ABSTRACT_MEMBER_NOT_IMPLEMENTED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "27": {
+    "neg": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Java generic interfaces with erased List signatures remain distinct at Kotlin level; incomplete override reports ABSTRACT_MEMBER_NOT_IMPLEMENTED",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-27/neg/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "254": {
+    "neg": {
+      "254": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "implementing a generic interface with the wrong number of type arguments fails (WRONG_NUMBER_OF_TYPE_ARGUMENTS) and override is rejected (NOTHING_TO_OVERRIDE); contrasts with p-231/p-244 correct arity and with single-feature parameterized-classifier-types arity checks",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-254/neg/254.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

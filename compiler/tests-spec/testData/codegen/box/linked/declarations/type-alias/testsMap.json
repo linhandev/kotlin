@@ -1,0 +1,16 @@
+{
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "typealias can be imported and used as a type short name across packages",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  }
+}

@@ -1,4 +1,18 @@
 {
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic suspend fun \u003cT\u003e preserves the type argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
   "11": {
     "pos": {
       "11": [

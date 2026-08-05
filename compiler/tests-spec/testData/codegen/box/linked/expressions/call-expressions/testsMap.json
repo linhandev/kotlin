@@ -5,8 +5,170 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
+          "description": "suspend fun may freely call a regular non-suspending function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
           "description": "safe call on nullable receiver calls member function and returns nullable return type, null receiver short-circuits to null",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数 vararg 与默认尾参组合调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "成员函数体内的局部辅助函数",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "顶层函数声明默认参数后调用可省略",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数省略调用时默认实参每次重新求值",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "调用局部函数时可使用命名实参跳过中间默认参数",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "调用顶层函数时显式 null 覆盖可空默认参数（声明+调用组合）",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "同一外层体内局部函数 :: 引用可传给高阶调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "局部函数可在声明后由外层函数体调用",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "imported top-level property used as call argument by short name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "separator Long literal passed to Long parameter in function call preserves value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "arrayOf with separator Long literals preserves element values at runtime",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-24/pos/24.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
         }

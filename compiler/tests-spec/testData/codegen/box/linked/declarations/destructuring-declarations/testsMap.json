@@ -13,6 +13,14 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
+          "description": "Map 解构 for ((k,v) in map)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
           "description": "nested destructuring via lambda parameter and body destructuring is allowed",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/function-literals/lambda-literals/p-14/pos/14.1.kt",
           "unexpectedBehaviour": false,
@@ -233,6 +241,28 @@
       ]
     }
   },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Pair 列表解构 for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "destructuring lambda works with trailing lambda syntax",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/function-literals/lambda-literals/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
   "30": {
     "pos": {
       "30": [
@@ -255,20 +285,6 @@
           "casesNumber": 1,
           "description": "custom operator component1 supports lambda destructuring",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/function-literals/lambda-literals/p-22/pos/22.1.kt",
-          "unexpectedBehaviour": false,
-          "linkType": "primary"
-        }
-      ]
-    }
-  },
-  "15": {
-    "pos": {
-      "15": [
-        {
-          "specVersion": "1.9-rfc+0.1",
-          "casesNumber": 1,
-          "description": "destructuring lambda works with trailing lambda syntax",
-          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/function-literals/lambda-literals/p-15/pos/15.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
         }

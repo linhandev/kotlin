@@ -20,6 +20,74 @@
           "linkType": "primary",
           "helpers": "checkType, functions"
         }
+      ],
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Map index read infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/indexing-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u003d\u003d null else uppercase infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-null receiver direct member access infers non-null result type String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on Int property with elvis infers non-null Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "KClass variable infers as nullable KClass\u003cString\u003e? when conditionally assigned class literal or null, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null check \u0026\u0026 call infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/logical-conjunction-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with nullable enum subject missing null branch and without else is not exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
       ]
     }
   },
@@ -51,6 +119,73 @@
           "linkType": "main"
         }
       ]
+    },
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Java ArrayList class literals with different type arguments collapse to the same erased runtime class type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with nullable enum subject is exhaustive when null branch is covered type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!\u003d null then length infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? with Elvis infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on a nullable field of a non-null receiver infers nullable result Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast after safe call null check uses Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class literal String::class infers KClass\u003cString\u003e and is assignable even when target is typed String?, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
     }
   },
   "8": {
@@ -75,6 +210,2136 @@
           "unexpectedBehaviour": false,
           "linkType": "main",
           "helpers": "checkType"
+        }
+      ],
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with nullable enum subject and else branch covering null and remaining enum constants type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null \u003d\u003d\u003d null infers Boolean with SENSELESS_COMPARISON",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "impossible as? reports CAST_NEVER_SUCCEEDS",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on non-null receiver promotes result type to nullable Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call of member function infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u0026\u0026 smart cast length infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/logical-conjunction-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "KClass\u003cString\u003e cannot be assigned to KClass\u003cString?\u003e due to upper bound Any constraint, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-8/neg/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "39": {
+    "pos": {
+      "39": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class upcast to interface boxes but keeps behavior type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-39/pos/39.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List equality compares elements after erasure, independent of declared type arguments type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unchecked cast with non-runtime-available type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branch x::class infers KClass\u003cout Any\u003e and compares with class literal, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with nullable subject cannot use containment operator requiring non-nullable element type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-30/neg/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained safe call still nullable; cannot return as non-null Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-30/neg/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "37": {
+    "pos": {
+      "37": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List of value class elements unpacks correctly after generic storage type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-37/pos/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "not-in operator with nullable Int? element on List\u003cInt?\u003e infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37/pos/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "38": {
+    "pos": {
+      "38": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List\u003c*\u003e of value-class elements refined by when-is back to value class type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-38/pos/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "40": {
+    "pos": {
+      "40": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reading wrong element type from an erased generic container fails at use-site type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom Iterable with member operator contains supports in operator and infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when expression with nullable subject is branch smart cast to non-null target type type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "33": {
+    "pos": {
+      "33": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class boxed as Any cast back then when reads raw type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-33/pos/33.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "33": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-reified type parameter T::class is not allowed, T is not a runtime-available type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-33/neg/33.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class through generic id\u003cT\u003e then when on raw keeps value semantics type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when expression with Elvis operator on nullable subject before range containment branch type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "parameterized type as a non-runtime-available type cannot be used in catch clause",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-32/neg/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "35": {
+    "pos": {
+      "35": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable value class at T? boundary refined by when/Elvis type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-35/pos/35.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "43": {
+    "pos": {
+      "43": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "value class equality through Any channel keeps value equality type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-43/pos/43.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension contains on smart-cast nullable receiver with in infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43/pos/43.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unchecked cast List to List\u003cString\u003e may throw ClassCastException at use-site type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable enum when with explicit null branch is exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable sealed when with null and subclass branches is exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int \u003d\u003d in if condition infers Int result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is-branch Int and as String both type-check",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-null assertion on nullable receiver infers non-null result type String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call list get infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "star-projected type List\u003c*\u003e::class is not a valid class literal, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List values with different type arguments share ::class and both pass is List\u003c*\u003e due to erasure type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!\u003d null infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? with safe call infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained safe call infers final nullable type Int? regardless of C.v being non-null Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "unnecessary safe call on non-null still typed as Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable type String?::class is not a valid class literal syntax, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-5/neg/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable enum when expression requires a null branch for exhaustiveness",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/enum-class-declaration/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable sealed when expression requires a null branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call with non-null assertion infers non-null result type Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call array get infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare List::class infers KClass\u003cList\u003c*\u003e\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "a \u003d\u003d true \u0026\u0026 b infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/logical-conjunction-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "48": {
+    "neg": {
+      "48": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable String question violates non-null Any upper bound",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-48/neg/48.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "311": {
+    "pos": {
+      "311": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise types for nullable outer instance allows safe inner class construction",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-311/pos/311.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "255": {
+    "pos": {
+      "255": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "precise nullable types when a class implements a generic interface with a nullable type argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-255/pos/255.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable type argument Box String question",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand return is Nothing inside try expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "xs?.get infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/indexing-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression branch with Elvis operator and throw expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis fallback nullable List receiver with in operator infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "NaN \u003d\u003d and equals infer Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call after safe cast infers nullable String? result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "takeUnless then safe property access infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-reified type parameter T::class is not allowed, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-21/neg/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "53": {
+    "pos": {
+      "53": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call of member invoke infers nullable Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-53/pos/53.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "调用顶层函数时显式 null 覆盖可空默认参数（声明+调用组合） type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "multi-catch nullable and non-nullable branches with outer Elvis type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum \u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is List star then as? List String reports UNCHECKED_CAST",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when null check branch smart-casts to non-null type in else branch, infers String result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local class class literal Local::class infers KClass\u003cLocal\u003e within declaring function, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-runtime-available type in when expression is-check",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-29/neg/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable receiver member function call without safe call is UNSAFE_CALL",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-29/neg/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "可空元素 Iterable\u003cInt?\u003e 可 for-in type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "outer Elvis covers try safe-call null and catch null, infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u003d\u003d null else branch infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call result Int? cannot be compared with Int directly via \u003e operator, UNSAFE_OPERATOR_CALL diagnostic",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-28/neg/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call assignment to val property is VAL_REASSIGNMENT",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-28/neg/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String::class of type KClass\u003cString\u003e cannot be assigned to KClass\u003cInt\u003e, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-28/neg/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand throw is Nothing inside try expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression with nullable and non-nullable branches infers nullable result type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable Double compared with Any? using structural equality infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on null literal infers nullable Int? result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "box?.value!! infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified type parameter T::class in inline function infers KClass\u003cT\u003e at call site, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable receiver index reports UNSAFE_CALL",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/indexing-expressions/p-22/neg/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "finally does not change nullable Elvis result type of try expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on nullable receiver with nullable-returning member infers nullable String? result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on lazy delegated property infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "KClass.isInstance returns Boolean, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "nullable try branch with Nothing catch remains String?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "conditional expression true branch with Elvis operator providing non-null receiver type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "when expression with nullable sealed class subject is exhaustive when null branch is covered type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "safe call and Elvis inside ${} interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as String? infers String?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension on nullable receiver infers non-null String result when Elvis provides non-null default",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call in when condition infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object declaration class literal Singleton::class infers KClass\u003cSingleton\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "parenthesized nullable try with Elvis then .length infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "conditional expression branch with safe call and Elvis operator type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Array contentEquals and \u003d\u003d infer Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? then !! infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call chained on nullable function return infers nullable Int? result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "box?.let(block) accepts (Box) -\u003e Unit",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified type check isT\u003cString?\u003e with nullable type parameter infers Boolean, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "23": {
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable try expression cannot be assigned to non-nullable String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression with nullable branch cannot be assigned to non-nullable type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-24/neg/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    },
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Float? equals Float infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "as? Number then toInt infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on nullable Int infers nullable String? result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast after null check then safe call elvis",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified with nullable type argument String? infers KClass\u003cString\u003e (erased), verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try block with safe call and Elvis providing default Int type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression result type inference with Elvis operator in true branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "in operator on smart-cast non-null Box receiver infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Any? equals null infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on non-null this still promotes result to nullable String? for member access",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "box?.also infers Box?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "IntArray::class infers KClass\u003cIntArray\u003e distinct from KClass\u003cArray\u003cInt\u003e\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "finally return overrides try Elvis; try body type still checks",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lateinit property has non-null type String, safe call on non-null receiver promotes to nullable Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String::class infers KClass\u003cString\u003e assignable to KClass\u003cout Any\u003e via covariance, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable class receiver member access without safe call is UNSAFE_CALL",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-26/neg/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bound callable reference on nullable receiver String? cannot be created without safe call or smart cast, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/callable-references/p-26/neg/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try expression result with Elvis providing default value type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression condition with Elvis operator converting nullable Boolean to Boolean type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when expression with nullable sealed class subject and else branch covering null and remaining subclasses type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom equals \u003d\u003d infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? List\u003cString\u003e from List\u003c*\u003e reports UNCHECKED_CAST",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on nullable IntArray infers nullable Int result for index access",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "box?.let infers Int with elvis",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum class class literal Color::class infers KClass\u003cColor\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try block returning nullable value yields nullable overall type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression else branch with Elvis operator providing default value type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension on nullable receiver infers non-null Boolean result regardless of receiver nullability",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? String then ?.length infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "companion object C.Companion::class infers KClass\u003cC.Companion\u003e distinct from KClass\u003cC\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when expression with nullable sealed class subject missing null branch and without else is not exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-16/neg/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis expression inferring Int cannot initialize non-nullable String variable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-16/neg/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch uses Elvis on nullable exception message type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression branch with Elvis operator and return expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when null branch infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on nullable outer instance with inner class construction infers nullable Int? result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "box?.takeIf infers Box?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "after nullable smart cast, value::class infers KClass\u003cout String\u003e; Number receiver ::class is KClass\u003cout Number\u003e",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "catch returning non-null still allows overall nullable type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on nullable List infers nullable String result from firstOrNull",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "box?.apply returns Box?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum entry class literal Color.RED::class infers KClass\u003cColor.RED\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis with \u0026\u0026 infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/logical-conjunction-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression condition with Elvis operator still nullable cannot be used as Boolean condition",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-19/neg/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "try expression as Elvis left operand type inference to String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "\u003d\u003d null with custom equals infers Boolean with SENSELESS_COMPARISON",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call mixed with non-null assertion infers non-null result type Int after !!",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "after smart cast via requireNotNull, bound member reference s::length infers type () -\u003e Int on non-null String, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/callable-references/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Sub::class infers KClass\u003cSub\u003e assignable to KClass\u003cBase\u003e via covariance, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call property result is Int? and cannot assign to Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-27/neg/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "is CharSequence then as? String with Elvis infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "nullable reference interpolation type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/string-interpolation-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "string template equals concatenation infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "is on String? with else infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "let with safe call infers non-null type inside lambda, Elvis converges result to non-null String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested nullable safe call with elvis infers non-null Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inner class Outer.Inner::class infers KClass\u003cOuter.Inner\u003e distinct from KClass\u003cOuter\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null literal cannot be operand of ..",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/range-expressions/p-14/neg/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional on Any? with is String and null branch infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "precise type inference for nullable bare type is-check with smart cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null \u003d\u003d\u003d non-null infers Boolean with SENSELESS_COMPARISON",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call with Elvis operator infers non-null result type Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call assignment allowed on nullable receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "raw List::class infers KClass\u003cList\u003c*\u003e\u003e without specific type arguments, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Boolean? cannot be used directly in \u0026\u0026",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/logical-conjunction-expressions/p-9/neg/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "31": {
+    "pos": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? safe cast with non-runtime-available type parameter produces unchecked cast warning",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when expression with in range branch after nullable subject is narrowed by if condition type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "default Int? and List element \u003d\u003d 1 infer Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "function type class literal ((Int) -\u003e Int)::class is not equal to Function1::class with class literal comparison, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-31/neg/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "34": {
+    "pos": {
+      "34": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified type parameter T::class in inline function infers KClass\u003cT\u003e at call site, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-34/pos/34.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "41": {
+    "pos": {
+      "41": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "when expression with nullable subject is branch and else branch covering null type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/when-expressions/p-41/pos/41.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable-bound range infers IntRange?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/range-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast after null check infers non-null type for direct member access result",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested nullable property via safe call is Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested class class literal Outer.Inner::class infers KClass\u003cOuter.Inner\u003e with fully qualified name, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int equals String reports EQUALITY_NOT_APPLICABLE",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-13/neg/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int? \u003d\u003d 1 then smart cast n + 10 infers Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call extension function infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type alias UserId::class infers KClass\u003cString\u003e same as String::class, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call assignment result cannot be used as an expression value, ASSIGNMENT_IN_EXPRESSION_CONTEXT diagnostic",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-12/neg/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null equals null infers Boolean with SENSELESS_COMPARISON",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on nullable receiver infers nullable result type String?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call property access infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class literal String::class infers KClass\u003cString\u003e, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "two nullables equality infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String? as String infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call result type is nullable even when the accessed member has non-null type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null as Box? safe call property infers Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "::class cannot be used on null literal, verifying compile-time failure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-4/neg/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable equals null infers Boolean",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null as String reports CAST_NEVER_SUCCEEDS and infers String",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "safe call on nullable receiver calling member function infers nullable result type String?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit Int? local matches safe call result type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "instance ::class infers KClass\u003cout Base\u003e on statically typed Base receiver, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "null equals non-null infers Boolean with SENSELESS_COMPARISON",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/equality-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "as? infers String? for mismatch, null literal, and nullable ref",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/cast-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained safe calls infer Int?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/member-access/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class literal String::class.isInstance returns Boolean, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/class-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "direct member access on nullable receiver without safe call is a compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-and-property-access-expressions/navigation-operators/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }
