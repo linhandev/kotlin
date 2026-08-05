@@ -26,19 +26,23 @@
   "type-system": [
     "type-kinds/built-in-types/kotlin.nothing",
     "introduction-1",
+    "type-kinds/classifier-types/parameterized-classifier-types",
     "type-kinds/flexible-types/platform-types",
+    "type-kinds/nullable-types",
+    "type-kinds/type-parameters",
     "subtyping/subtyping-rules",
     "nullable-types",
     "type-kinds/union-types",
     "upper-and-lower-bounds",
-    "type-kinds/type-parameters",
     "type-kinds/intersection-types",
     "introduction-1/type-kinds",
+    "built-in-integer-types",
     "type-kinds/function-types"
   ],
   "scopes-and-identifiers": [
     "labels",
-    "linked-scopes"
+    "linked-scopes",
+    "identifiers-and-paths"
   ],
   "runtime-type-information": [
     "runtime-available-types",
@@ -64,17 +68,18 @@
     "property-declaration/extension-property-declaration",
     "property-declaration/getters-and-setters",
     "property-declaration/delegated-property-declaration",
+    "declarations-with-type-parameters",
+    "declarations-with-type-parameters/reified-type-parameters",
     "declaration-visibility",
     "property-declaration",
     "classifier-declaration/companion-object",
-    "declarations-with-type-parameters",
     "destructuring-declarations",
     "classifier-declaration/classifier-declaration-scopes",
     "declarations-with-type-parameters/type-parameter-variance",
     "property-declaration/late-initialized-properties",
-    "declarations-with-type-parameters/reified-type-parameters",
-    "declaration-site-variance-and-use-site-variance",
     "function-declaration/extension-function-declaration",
+    "type-alias",
+    "declaration-site-variance-and-use-site-variance",
     "classifier-declaration/constructor-declaration"
   ],
   "exceptions": [
@@ -107,7 +112,8 @@
   ],
   "packages-and-imports": [
     "package-header",
-    "importing"
+    "importing",
+    "modules"
   ],
   "overload-resolution": [
     "callables-and-invoke-convention",
@@ -233,6 +239,8 @@
     "syntax-grammar"
   ],
   "combine-test": [
+    "asynchronous-programming-with-coroutines/suspending-functions",
+    "type-system/introduction-1",
     "declarations/classifier-declaration/object-declaration",
     "declarations/classifier-declaration/interface-declaration",
     "declarations/classifier-declaration/data-class-declaration",
@@ -241,8 +249,11 @@
     "declarations/classifier-declaration/class-declaration",
     "declarations/classifier-declaration/class-declaration/inheritance-delegation",
     "declarations/classifier-declaration/class-members",
+    "declarations/function-declaration",
     "declarations/property-declaration",
+    "statements/loop-statements/for-loop-statements",
     "inheritance/classifier-type-inheritance/sealed-classes-and-interfaces",
+    "packages-and-imports/importing",
     "expressions/try-expressions",
     "expressions/comparison-expressions",
     "expressions/indexing-expressions",
@@ -260,6 +271,7 @@
     "expressions/multiplicative-expressions",
     "expressions/equality-expressions",
     "expressions/cast-expressions",
+    "expressions/integer-literals",
     "expressions/additive-expressions",
     "expressions/call-and-property-access-expressions/navigation-operators",
     "expressions/call-and-property-access-expressions/member-access",
@@ -269,6 +281,7 @@
     "expressions/logical-conjunction-expressions"
   ],
   "built-in-types-and-their-semantics": [
+    "iterator-types",
     "kotlin.nothing",
     "integer-type-widening"
   ],

@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCodegenTestSpec {
   @Test
   public void testAllFilesPresentInBox() {
-    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "helpers", "templates", "linked/annotations/annotation-declarations", "linked/annotations/annotation-use-site-targets", "linked/built-in-types-and-their-semantics/kotlin.nothing", "linked/combine-test/expressions/conditional-expressions/p-14", "linked/combine-test/expressions/conditional-expressions/p-19", "linked/combine-test/expressions/conditional-expressions/p-24", "linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19", "linked/declarations/classifier-declaration/classifier-declaration-scopes", "linked/declarations/classifier-declaration/companion-object", "linked/declarations/classifier-declaration/constructor-declaration", "linked/declarations/declaration-site-variance-and-use-site-variance", "linked/declarations/declaration-visibility", "linked/declarations/declarations-with-type-parameters", "linked/declarations/destructuring-declarations", "linked/declarations/function-declaration/extension-function-declaration", "linked/declarations/property-declaration/late-initialized-properties", "linked/expressions/call-expressions", "linked/inheritance/classifier-type-inheritance/open-classes", "linked/inheritance/inheriting", "linked/operator-call", "linked/overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "linked/overload-resolution/resolving-callable-references", "linked/overloadable-operators", "linked/type-inference/introduction-1", "linked/type-system/introduction-1/type-kinds", "linked/type-system/nullable-types", "linked/type-system/subtyping", "linked/type-system/type-kinds/flexible-types", "linked/type-system/type-kinds/function-types", "linked/type-system/type-kinds/intersection-types", "linked/type-system/type-kinds/type-parameters", "linked/type-system/type-kinds/union-types", "linked/type-system/upper-and-lower-bounds");
+    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "helpers", "templates", "linked/annotations/annotation-declarations", "linked/annotations/annotation-use-site-targets", "linked/built-in-types-and-their-semantics/iterator-types", "linked/built-in-types-and-their-semantics/kotlin.nothing", "linked/combine-test/declarations/classifier-declaration/class-declaration/p-401", "linked/combine-test/declarations/function-declaration/p-22", "linked/combine-test/declarations/function-declaration/p-28", "linked/combine-test/expressions/conditional-expressions/p-14", "linked/combine-test/expressions/conditional-expressions/p-19", "linked/combine-test/expressions/conditional-expressions/p-24", "linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19", "linked/declarations/classifier-declaration/classifier-declaration-scopes", "linked/declarations/classifier-declaration/companion-object", "linked/declarations/classifier-declaration/constructor-declaration", "linked/declarations/declaration-site-variance-and-use-site-variance", "linked/declarations/declaration-visibility", "linked/declarations/declarations-with-type-parameters", "linked/declarations/destructuring-declarations", "linked/declarations/function-declaration/extension-function-declaration", "linked/declarations/property-declaration/late-initialized-properties", "linked/declarations/type-alias", "linked/expressions/call-expressions", "linked/inheritance/classifier-type-inheritance/open-classes", "linked/inheritance/inheriting", "linked/operator-call", "linked/overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "linked/overload-resolution/resolving-callable-references", "linked/overloadable-operators", "linked/packages-and-imports/modules", "linked/scopes-and-identifiers/identifiers-and-paths", "linked/type-inference/introduction-1", "linked/type-system/built-in-integer-types", "linked/type-system/introduction-1/type-kinds", "linked/type-system/nullable-types", "linked/type-system/subtyping", "linked/type-system/type-kinds/classifier-types", "linked/type-system/type-kinds/flexible-types", "linked/type-system/type-kinds/function-types", "linked/type-system/type-kinds/intersection-types", "linked/type-system/type-kinds/nullable-types", "linked/type-system/type-kinds/type-parameters", "linked/type-system/type-kinds/union-types", "linked/type-system/upper-and-lower-bounds");
   }
 
   @Nested
@@ -31,7 +31,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
   public class Linked {
     @Test
     public void testAllFilesPresentInLinked() {
-      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "annotations/annotation-declarations", "annotations/annotation-use-site-targets", "built-in-types-and-their-semantics/kotlin.nothing", "combine-test/expressions/conditional-expressions/p-14", "combine-test/expressions/conditional-expressions/p-19", "combine-test/expressions/conditional-expressions/p-24", "combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19", "declarations/classifier-declaration/classifier-declaration-scopes", "declarations/classifier-declaration/companion-object", "declarations/classifier-declaration/constructor-declaration", "declarations/declaration-site-variance-and-use-site-variance", "declarations/declaration-visibility", "declarations/declarations-with-type-parameters", "declarations/destructuring-declarations", "declarations/function-declaration/extension-function-declaration", "declarations/property-declaration/late-initialized-properties", "expressions/call-expressions", "inheritance/classifier-type-inheritance/open-classes", "inheritance/inheriting", "operator-call", "overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "overload-resolution/resolving-callable-references", "overloadable-operators", "type-inference/introduction-1", "type-system/introduction-1/type-kinds", "type-system/nullable-types", "type-system/subtyping", "type-system/type-kinds/flexible-types", "type-system/type-kinds/function-types", "type-system/type-kinds/intersection-types", "type-system/type-kinds/type-parameters", "type-system/type-kinds/union-types", "type-system/upper-and-lower-bounds");
+      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "annotations/annotation-declarations", "annotations/annotation-use-site-targets", "built-in-types-and-their-semantics/iterator-types", "built-in-types-and-their-semantics/kotlin.nothing", "combine-test/declarations/classifier-declaration/class-declaration/p-401", "combine-test/declarations/function-declaration/p-22", "combine-test/declarations/function-declaration/p-28", "combine-test/expressions/conditional-expressions/p-14", "combine-test/expressions/conditional-expressions/p-19", "combine-test/expressions/conditional-expressions/p-24", "combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19", "declarations/classifier-declaration/classifier-declaration-scopes", "declarations/classifier-declaration/companion-object", "declarations/classifier-declaration/constructor-declaration", "declarations/declaration-site-variance-and-use-site-variance", "declarations/declaration-visibility", "declarations/declarations-with-type-parameters", "declarations/destructuring-declarations", "declarations/function-declaration/extension-function-declaration", "declarations/property-declaration/late-initialized-properties", "declarations/type-alias", "expressions/call-expressions", "inheritance/classifier-type-inheritance/open-classes", "inheritance/inheriting", "operator-call", "overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "overload-resolution/resolving-callable-references", "overloadable-operators", "packages-and-imports/modules", "scopes-and-identifiers/identifiers-and-paths", "type-inference/introduction-1", "type-system/built-in-integer-types", "type-system/introduction-1/type-kinds", "type-system/nullable-types", "type-system/subtyping", "type-system/type-kinds/classifier-types", "type-system/type-kinds/flexible-types", "type-system/type-kinds/function-types", "type-system/type-kinds/intersection-types", "type-system/type-kinds/nullable-types", "type-system/type-kinds/type-parameters", "type-system/type-kinds/union-types", "type-system/upper-and-lower-bounds");
     }
 
     @Nested
@@ -334,7 +334,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
     public class Built_in_types_and_their_semantics {
       @Test
       public void testAllFilesPresentInBuilt_in_types_and_their_semantics() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "kotlin.nothing");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/built-in-types-and-their-semantics"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "iterator-types", "kotlin.nothing");
       }
 
       @Nested
@@ -380,7 +380,521 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
     public class Combine_test {
       @Test
       public void testAllFilesPresentInCombine_test() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "expressions/conditional-expressions/p-14", "expressions/conditional-expressions/p-19", "expressions/conditional-expressions/p-24", "expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "declarations/classifier-declaration/class-declaration/p-401", "declarations/function-declaration/p-22", "declarations/function-declaration/p-28", "expressions/conditional-expressions/p-14", "expressions/conditional-expressions/p-19", "expressions/conditional-expressions/p-24", "expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19");
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Asynchronous_programming_with_coroutines {
+        @Test
+        public void testAllFilesPresentInAsynchronous_programming_with_coroutines() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Suspending_functions {
+          @Test
+          public void testAllFilesPresentInSuspending_functions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_10 {
+            @Test
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10/pos/10.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_12 {
+            @Test
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12/pos/12.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_14 {
+            @Test
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14/pos/14.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_15 {
+            @Test
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15/pos/15.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_16 {
+            @Test
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16/pos/16.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_17 {
+            @Test
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17/pos/17.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_18 {
+            @Test
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18/pos/18.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_20 {
+            @Test
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20/pos/20.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_21 {
+            @Test
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21/pos/21.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_23 {
+            @Test
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23/pos/23.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_24 {
+            @Test
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24/pos/24.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_28 {
+            @Test
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28/pos/28.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_29 {
+            @Test
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29/pos/29.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_32 {
+            @Test
+            public void testAllFilesPresentInP_32() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("32.1.kt")
+              public void test32_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32/pos/32.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5/pos/5.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_8 {
+            @Test
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8/pos/8.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+        }
       }
 
       @Nested
@@ -389,7 +903,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
       public class Declarations {
         @Test
         public void testAllFilesPresentInDeclarations() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "classifier-declaration/class-declaration/p-401", "function-declaration/p-22", "function-declaration/p-28");
         }
 
         @Nested
@@ -398,7 +912,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
         public class Classifier_declaration {
           @Test
           public void testAllFilesPresentInClassifier_declaration() {
-            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "class-declaration/p-401");
           }
 
           @Nested
@@ -407,7 +921,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
           public class Class_declaration {
             @Test
             public void testAllFilesPresentInClass_declaration() {
-              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "p-401");
             }
 
             @Nested
@@ -6219,6 +6733,162 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
             }
 
             @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_351 {
+              @Test
+              public void testAllFilesPresentInP_351() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("351.1.kt")
+                public void test351_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351/pos/351.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_353 {
+              @Test
+              public void testAllFilesPresentInP_353() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("353.1.kt")
+                public void test353_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353/pos/353.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_355 {
+              @Test
+              public void testAllFilesPresentInP_355() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("355.1.kt")
+                public void test355_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355/pos/355.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_357 {
+              @Test
+              public void testAllFilesPresentInP_357() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("357.1.kt")
+                public void test357_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357/pos/357.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_358 {
+              @Test
+              public void testAllFilesPresentInP_358() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("358.1.kt")
+                public void test358_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358/pos/358.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_359 {
+              @Test
+              public void testAllFilesPresentInP_359() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("359.1.kt")
+                public void test359_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359/pos/359.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
             @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-36")
             @TestDataPath("$PROJECT_ROOT")
             public class P_36 {
@@ -6245,6 +6915,266 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
             }
 
             @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_360 {
+              @Test
+              public void testAllFilesPresentInP_360() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("360.1.kt")
+                public void test360_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360/pos/360.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_362 {
+              @Test
+              public void testAllFilesPresentInP_362() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("362.1.kt")
+                public void test362_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362/pos/362.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_366 {
+              @Test
+              public void testAllFilesPresentInP_366() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("366.1.kt")
+                public void test366_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366/pos/366.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_369 {
+              @Test
+              public void testAllFilesPresentInP_369() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("369.1.kt")
+                public void test369_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369/pos/369.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_370 {
+              @Test
+              public void testAllFilesPresentInP_370() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("370.1.kt")
+                public void test370_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370/pos/370.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_372 {
+              @Test
+              public void testAllFilesPresentInP_372() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("372.1.kt")
+                public void test372_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372/pos/372.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_373 {
+              @Test
+              public void testAllFilesPresentInP_373() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("373.1.kt")
+                public void test373_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373/pos/373.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_375 {
+              @Test
+              public void testAllFilesPresentInP_375() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("375.1.kt")
+                public void test375_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375/pos/375.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_377 {
+              @Test
+              public void testAllFilesPresentInP_377() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("377.1.kt")
+                public void test377_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377/pos/377.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_378 {
+              @Test
+              public void testAllFilesPresentInP_378() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("378.1.kt")
+                public void test378_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378/pos/378.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
             @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-38")
             @TestDataPath("$PROJECT_ROOT")
             public class P_38 {
@@ -6266,6 +7196,318 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
                 @Test
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-38/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_380 {
+              @Test
+              public void testAllFilesPresentInP_380() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("380.1.kt")
+                public void test380_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380/pos/380.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_381 {
+              @Test
+              public void testAllFilesPresentInP_381() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("381.1.kt")
+                public void test381_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381/pos/381.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_382 {
+              @Test
+              public void testAllFilesPresentInP_382() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("382.1.kt")
+                public void test382_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382/pos/382.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_384 {
+              @Test
+              public void testAllFilesPresentInP_384() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("384.1.kt")
+                public void test384_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384/pos/384.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_385 {
+              @Test
+              public void testAllFilesPresentInP_385() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("385.1.kt")
+                public void test385_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385/pos/385.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_390 {
+              @Test
+              public void testAllFilesPresentInP_390() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("390.1.kt")
+                public void test390_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390/pos/390.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_392 {
+              @Test
+              public void testAllFilesPresentInP_392() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("392.1.kt")
+                public void test392_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392/pos/392.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_393 {
+              @Test
+              public void testAllFilesPresentInP_393() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("393.1.kt")
+                public void test393_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393/pos/393.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_394 {
+              @Test
+              public void testAllFilesPresentInP_394() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("394.1.kt")
+                public void test394_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394/pos/394.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_396 {
+              @Test
+              public void testAllFilesPresentInP_396() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("396.1.kt")
+                public void test396_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396/pos/396.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_397 {
+              @Test
+              public void testAllFilesPresentInP_397() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("397.1.kt")
+                public void test397_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397/pos/397.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_399 {
+              @Test
+              public void testAllFilesPresentInP_399() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("399.1.kt")
+                public void test399_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399/pos/399.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
                 }
               }
             }
@@ -6318,6 +7560,110 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
                 @Test
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-40/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_402 {
+              @Test
+              public void testAllFilesPresentInP_402() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("402.1.kt")
+                public void test402_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402/pos/402.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_403 {
+              @Test
+              public void testAllFilesPresentInP_403() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("403.1.kt")
+                public void test403_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403/pos/403.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_404 {
+              @Test
+              public void testAllFilesPresentInP_404() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("404.1.kt")
+                public void test404_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos/404.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_405 {
+              @Test
+              public void testAllFilesPresentInP_405() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("405.1.kt")
+                public void test405_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405/pos/405.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
                 }
               }
             }
@@ -13477,6 +14823,536 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/object-declaration/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
                 }
+              }
+            }
+          }
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Function_declaration {
+          @Test
+          public void testAllFilesPresentInFunction_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "p-22", "p-28");
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_10 {
+            @Test
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-10"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-10/pos/10.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_12 {
+            @Test
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-12"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-12/pos/12.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_15 {
+            @Test
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-15"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-15/pos/15.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_16 {
+            @Test
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-16"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-16/pos/16.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_17 {
+            @Test
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-17"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-17/pos/17.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_18 {
+            @Test
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-18"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-18/pos/18.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_23 {
+            @Test
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-23"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-23/pos/23.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_24 {
+            @Test
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-24"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-24/pos/24.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_25 {
+            @Test
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-25"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-25/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-25/pos/25.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_26 {
+            @Test
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-26"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-26/pos/26.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_27 {
+            @Test
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-27"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-27/pos/27.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_29 {
+            @Test
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-29"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-29/pos/29.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-4"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-5"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-5/pos/5.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_6 {
+            @Test
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-6"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-6/pos/6.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_7 {
+            @Test
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-7"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-7/pos/7.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_8 {
+            @Test
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-8"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-8/pos/8.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_9 {
+            @Test
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-9"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-9/pos/9.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
               }
             }
           }
@@ -23413,6 +25289,588 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
         }
 
         @Nested
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Integer_literals {
+          @Test
+          public void testAllFilesPresentInInteger_literals() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_10 {
+            @Test
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-10"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-10/pos/10.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_11 {
+            @Test
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-11"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-11/pos/11.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_12 {
+            @Test
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-12"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-12/pos/12.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_18 {
+            @Test
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-18"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-18/pos/18.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_19 {
+            @Test
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-19"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-19/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-19/pos/19.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-2"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_21 {
+            @Test
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-21"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-21/pos/21.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_22 {
+            @Test
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-22"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-22/pos/22.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_23 {
+            @Test
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-23"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-23/pos/23.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_24 {
+            @Test
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-24"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-24/pos/24.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_26 {
+            @Test
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-26"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-26/pos/26.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_27 {
+            @Test
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-27"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-27/pos/27.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_28 {
+            @Test
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-28"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-28/pos/28.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_29 {
+            @Test
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-29"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-29/pos/29.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-3"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-4"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-5"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-5/pos/5.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_6 {
+            @Test
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-6"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-6/pos/6.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_7 {
+            @Test
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-7"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-7/pos/7.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_8 {
+            @Test
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-8"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-8/pos/8.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_9 {
+            @Test
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-9"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-9/pos/9.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/integer-literals/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+        }
+
+        @Nested
         @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/logical-conjunction-expressions")
         @TestDataPath("$PROJECT_ROOT")
         public class Logical_conjunction_expressions {
@@ -24144,6 +26602,266 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
           }
 
           @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_10 {
+            @Test
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-10"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-10/pos/10.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_11 {
+            @Test
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-11"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-11/pos/11.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_12 {
+            @Test
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-12"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-12/pos/12.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_13 {
+            @Test
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-13"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-13/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-13/pos/13.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_14 {
+            @Test
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-14"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-14/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-14/pos/14.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_15 {
+            @Test
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-15"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-15/pos/15.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_16 {
+            @Test
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-16"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-16/pos/16.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_17 {
+            @Test
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-17"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-17/pos/17.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_18 {
+            @Test
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-18"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-18/pos/18.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_19 {
+            @Test
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-19"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-19/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-19/pos/19.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
           @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-2")
           @TestDataPath("$PROJECT_ROOT")
           public class P_2 {
@@ -24170,6 +26888,214 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
           }
 
           @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_21 {
+            @Test
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-21"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-21/pos/21.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_22 {
+            @Test
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-22"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-22/pos/22.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_24 {
+            @Test
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-24"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-24/pos/24.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_25 {
+            @Test
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-25"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-25/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-25/pos/25.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_26 {
+            @Test
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-26"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-26/pos/26.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_27 {
+            @Test
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-27"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-27/pos/27.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_28 {
+            @Test
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-28"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-28/pos/28.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_29 {
+            @Test
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-29"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-29/pos/29.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
           @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-3")
           @TestDataPath("$PROJECT_ROOT")
           public class P_3 {
@@ -24191,6 +27117,58 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
               @Test
               public void testAllFilesPresentInPos() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-31")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_31 {
+            @Test
+            public void testAllFilesPresentInP_31() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-31"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-31/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("31.1.kt")
+              public void test31_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-31/pos/31.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-31/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-32")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_32 {
+            @Test
+            public void testAllFilesPresentInP_32() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-32"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-32/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("32.1.kt")
+              public void test32_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-32/pos/32.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
               }
             }
           }
@@ -24243,6 +27221,84 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
               @Test
               public void testAllFilesPresentInPos() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_7 {
+            @Test
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-7"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-7/pos/7.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_8 {
+            @Test
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-8"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-8/pos/8.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_9 {
+            @Test
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-9"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-9/pos/9.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/multiplicative-expressions/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
               }
             }
           }
@@ -26881,6 +29937,500 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
             }
 
             @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_21 {
+              @Test
+              public void testAllFilesPresentInP_21() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("21.1.kt")
+                public void test21_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21/pos/21.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_22 {
+              @Test
+              public void testAllFilesPresentInP_22() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("22.1.kt")
+                public void test22_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22/pos/22.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_23 {
+              @Test
+              public void testAllFilesPresentInP_23() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("23.1.kt")
+                public void test23_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23/pos/23.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_24 {
+              @Test
+              public void testAllFilesPresentInP_24() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("24.1.kt")
+                public void test24_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24/pos/24.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_25 {
+              @Test
+              public void testAllFilesPresentInP_25() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("25.1.kt")
+                public void test25_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25/pos/25.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_26 {
+              @Test
+              public void testAllFilesPresentInP_26() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("26.1.kt")
+                public void test26_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26/pos/26.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_30 {
+              @Test
+              public void testAllFilesPresentInP_30() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("30.1.kt")
+                public void test30_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30/pos/30.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_31 {
+              @Test
+              public void testAllFilesPresentInP_31() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("31.1.kt")
+                public void test31_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31/pos/31.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_32 {
+              @Test
+              public void testAllFilesPresentInP_32() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("32.1.kt")
+                public void test32_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32/pos/32.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_34 {
+              @Test
+              public void testAllFilesPresentInP_34() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("34.1.kt")
+                public void test34_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34/pos/34.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_35 {
+              @Test
+              public void testAllFilesPresentInP_35() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("35.1.kt")
+                public void test35_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35/pos/35.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_36 {
+              @Test
+              public void testAllFilesPresentInP_36() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("36.1.kt")
+                public void test36_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36/pos/36.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_37 {
+              @Test
+              public void testAllFilesPresentInP_37() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("37.1.kt")
+                public void test37_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37/pos/37.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_40 {
+              @Test
+              public void testAllFilesPresentInP_40() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("40.1.kt")
+                public void test40_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40/pos/40.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_41 {
+              @Test
+              public void testAllFilesPresentInP_41() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("41.1.kt")
+                public void test41_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41/pos/41.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_43 {
+              @Test
+              public void testAllFilesPresentInP_43() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("43.1.kt")
+                public void test43_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43/pos/43.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_44 {
+              @Test
+              public void testAllFilesPresentInP_44() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("44.1.kt")
+                public void test44_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44/pos/44.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_45 {
+              @Test
+              public void testAllFilesPresentInP_45() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("45.1.kt")
+                public void test45_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45/pos/45.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_46 {
+              @Test
+              public void testAllFilesPresentInP_46() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("46.1.kt")
+                public void test46_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46/pos/46.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
             @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-5")
             @TestDataPath("$PROJECT_ROOT")
             public class P_5 {
@@ -29064,6 +32614,2208 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
           }
         }
       }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Packages_and_imports {
+        @Test
+        public void testAllFilesPresentInPackages_and_imports() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Importing {
+          @Test
+          public void testAllFilesPresentInImporting() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_1 {
+            @Test
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-1"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-1/pos/1.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_10 {
+            @Test
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-10"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-10/pos/10.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_12 {
+            @Test
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-12"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-12/pos/12.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_14 {
+            @Test
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-14"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-14/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-14/pos/14.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_15 {
+            @Test
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-15"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-15/pos/15.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_16 {
+            @Test
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-16"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-16/pos/16.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_17 {
+            @Test
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-17"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-17/pos/17.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_18 {
+            @Test
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-18"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-18/pos/18.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-2"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_22 {
+            @Test
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-22"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-22/pos/22.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_23 {
+            @Test
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-23"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-23/pos/23.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_25 {
+            @Test
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-25"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-25/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-25/pos/25.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_26 {
+            @Test
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-26"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-26/pos/26.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_27 {
+            @Test
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-27"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-27/pos/27.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_28 {
+            @Test
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-28"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-28/pos/28.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_29 {
+            @Test
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-29"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-29/pos/29.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_3 {
+            @Test
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-3"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-3/pos/3.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-31")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_31 {
+            @Test
+            public void testAllFilesPresentInP_31() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-31"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-31/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("31.1.kt")
+              public void test31_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-31/pos/31.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-31/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-4"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-5"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-5/pos/5.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_6 {
+            @Test
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-6"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-6/pos/6.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_7 {
+            @Test
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-7"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-7/pos/7.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_8 {
+            @Test
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-8"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-8/pos/8.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/packages-and-imports/importing/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Statements {
+        @Test
+        public void testAllFilesPresentInStatements() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Loop_statements {
+          @Test
+          public void testAllFilesPresentInLoop_statements() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements")
+          @TestDataPath("$PROJECT_ROOT")
+          public class For_loop_statements {
+            @Test
+            public void testAllFilesPresentInFor_loop_statements() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-1")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_1 {
+              @Test
+              public void testAllFilesPresentInP_1() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-1"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("1.1.kt")
+                public void test1_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos/1.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_10 {
+              @Test
+              public void testAllFilesPresentInP_10() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("10.1.kt")
+                public void test10_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos/10.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_11 {
+              @Test
+              public void testAllFilesPresentInP_11() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("11.1.kt")
+                public void test11_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos/11.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-12")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_12 {
+              @Test
+              public void testAllFilesPresentInP_12() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-12"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("12.1.kt")
+                public void test12_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos/12.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-13")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_13 {
+              @Test
+              public void testAllFilesPresentInP_13() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-13"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("13.1.kt")
+                public void test13_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos/13.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_14 {
+              @Test
+              public void testAllFilesPresentInP_14() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("14.1.kt")
+                public void test14_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos/14.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_15 {
+              @Test
+              public void testAllFilesPresentInP_15() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("15.1.kt")
+                public void test15_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos/15.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-16")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_16 {
+              @Test
+              public void testAllFilesPresentInP_16() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-16"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("16.1.kt")
+                public void test16_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos/16.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-17")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_17 {
+              @Test
+              public void testAllFilesPresentInP_17() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-17"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("17.1.kt")
+                public void test17_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos/17.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-18")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_18 {
+              @Test
+              public void testAllFilesPresentInP_18() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-18"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("18.1.kt")
+                public void test18_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos/18.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-19")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_19 {
+              @Test
+              public void testAllFilesPresentInP_19() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-19"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("19.1.kt")
+                public void test19_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos/19.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-2")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_2 {
+              @Test
+              public void testAllFilesPresentInP_2() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-2"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("2.1.kt")
+                public void test2_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos/2.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-20")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_20 {
+              @Test
+              public void testAllFilesPresentInP_20() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-20"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("20.1.kt")
+                public void test20_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos/20.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_21 {
+              @Test
+              public void testAllFilesPresentInP_21() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("21.1.kt")
+                public void test21_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos/21.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_22 {
+              @Test
+              public void testAllFilesPresentInP_22() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("22.1.kt")
+                public void test22_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos/22.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_26 {
+              @Test
+              public void testAllFilesPresentInP_26() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("26.1.kt")
+                public void test26_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos/26.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-27")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_27 {
+              @Test
+              public void testAllFilesPresentInP_27() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-27"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("27.1.kt")
+                public void test27_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos/27.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-28")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_28 {
+              @Test
+              public void testAllFilesPresentInP_28() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-28"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("28.1.kt")
+                public void test28_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos/28.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_3 {
+              @Test
+              public void testAllFilesPresentInP_3() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("3.1.kt")
+                public void test3_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos/3.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-30")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_30 {
+              @Test
+              public void testAllFilesPresentInP_30() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-30"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("30.1.kt")
+                public void test30_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos/30.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_4 {
+              @Test
+              public void testAllFilesPresentInP_4() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("4.1.kt")
+                public void test4_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos/4.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_5 {
+              @Test
+              public void testAllFilesPresentInP_5() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("5.1.kt")
+                public void test5_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos/5.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-6")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_6 {
+              @Test
+              public void testAllFilesPresentInP_6() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-6"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("6.1.kt")
+                public void test6_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos/6.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_7 {
+              @Test
+              public void testAllFilesPresentInP_7() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("7.1.kt")
+                public void test7_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos/7.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-8")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_8 {
+              @Test
+              public void testAllFilesPresentInP_8() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-8"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("8.1.kt")
+                public void test8_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos/8.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-9")
+            @TestDataPath("$PROJECT_ROOT")
+            public class P_9 {
+              @Test
+              public void testAllFilesPresentInP_9() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-9"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+
+              @Nested
+              @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              public class Pos {
+                @Test
+                @TestMetadata("9.1.kt")
+                public void test9_1() {
+                  runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos/9.1.kt");
+                }
+
+                @Test
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @Nested
+      @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system")
+      @TestDataPath("$PROJECT_ROOT")
+      public class Type_system {
+        @Test
+        public void testAllFilesPresentInType_system() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+        }
+
+        @Nested
+        @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1")
+        @TestDataPath("$PROJECT_ROOT")
+        public class Introduction_1 {
+          @Test
+          public void testAllFilesPresentInIntroduction_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_10 {
+            @Test
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-10"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-10/pos/10.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_11 {
+            @Test
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-11"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-11/pos/11.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_12 {
+            @Test
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-12"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-12/pos/12.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_13 {
+            @Test
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-13"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-13/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-13/pos/13.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_15 {
+            @Test
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-15"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-15/pos/15.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_16 {
+            @Test
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-16"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-16/pos/16.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_17 {
+            @Test
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-17"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-17/pos/17.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_18 {
+            @Test
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-18"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-18/pos/18.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_19 {
+            @Test
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-19"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-19/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-19/pos/19.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_2 {
+            @Test
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-2"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-2/pos/2.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_20 {
+            @Test
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-20"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-20/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-20/pos/20.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-20/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_21 {
+            @Test
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-21"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-21/pos/21.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_22 {
+            @Test
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-22"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-22/pos/22.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_23 {
+            @Test
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-23"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-23/pos/23.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_24 {
+            @Test
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-24"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-24/pos/24.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_28 {
+            @Test
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-28"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-28/pos/28.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_29 {
+            @Test
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-29"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-29/pos/29.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-30")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_30 {
+            @Test
+            public void testAllFilesPresentInP_30() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-30"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-30/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("30.1.kt")
+              public void test30_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-30/pos/30.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-30/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-32")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_32 {
+            @Test
+            public void testAllFilesPresentInP_32() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-32"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-32/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("32.1.kt")
+              public void test32_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-32/pos/32.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-33")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_33 {
+            @Test
+            public void testAllFilesPresentInP_33() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-33"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-33/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("33.1.kt")
+              public void test33_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-33/pos/33.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-33/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-34")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_34 {
+            @Test
+            public void testAllFilesPresentInP_34() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-34"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-34/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("34.1.kt")
+              public void test34_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-34/pos/34.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-34/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-35")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_35 {
+            @Test
+            public void testAllFilesPresentInP_35() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-35"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-35/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("35.1.kt")
+              public void test35_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-35/pos/35.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-35/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-36")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_36 {
+            @Test
+            public void testAllFilesPresentInP_36() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-36"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-36/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("36.1.kt")
+              public void test36_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-36/pos/36.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-36/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-37")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_37 {
+            @Test
+            public void testAllFilesPresentInP_37() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-37"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-37/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("37.1.kt")
+              public void test37_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-37/pos/37.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-37/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-38")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_38 {
+            @Test
+            public void testAllFilesPresentInP_38() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-38"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-38/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("38.1.kt")
+              public void test38_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-38/pos/38.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-38/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-39")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_39 {
+            @Test
+            public void testAllFilesPresentInP_39() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-39"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-39/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("39.1.kt")
+              public void test39_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-39/pos/39.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-39/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_4 {
+            @Test
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-4"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-4/pos/4.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-40")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_40 {
+            @Test
+            public void testAllFilesPresentInP_40() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-40"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-40/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("40.1.kt")
+              public void test40_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-40/pos/40.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-40/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-41")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_41 {
+            @Test
+            public void testAllFilesPresentInP_41() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-41"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-41/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("41.1.kt")
+              public void test41_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-41/pos/41.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-41/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-43")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_43 {
+            @Test
+            public void testAllFilesPresentInP_43() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-43"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-43/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("43.1.kt")
+              public void test43_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-43/pos/43.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-43/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_5 {
+            @Test
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-5"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-5/pos/5.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_6 {
+            @Test
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-6"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-6/pos/6.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+
+          @Nested
+          @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          public class P_7 {
+            @Test
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-7"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+            }
+
+            @Nested
+            @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            public class Pos {
+              @Test
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-7/pos/7.1.kt");
+              }
+
+              @Test
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/type-system/introduction-1/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+              }
+            }
+          }
+        }
+      }
     }
 
     @Nested
@@ -29606,7 +35358,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
     public class Declarations {
       @Test
       public void testAllFilesPresentInDeclarations() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/declarations"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "classifier-declaration/classifier-declaration-scopes", "classifier-declaration/companion-object", "classifier-declaration/constructor-declaration", "declaration-site-variance-and-use-site-variance", "declaration-visibility", "declarations-with-type-parameters", "destructuring-declarations", "function-declaration/extension-function-declaration", "property-declaration/late-initialized-properties");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/declarations"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "classifier-declaration/classifier-declaration-scopes", "classifier-declaration/companion-object", "classifier-declaration/constructor-declaration", "declaration-site-variance-and-use-site-variance", "declaration-visibility", "declarations-with-type-parameters", "destructuring-declarations", "function-declaration/extension-function-declaration", "property-declaration/late-initialized-properties", "type-alias");
       }
 
       @Nested
@@ -40194,7 +45946,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
     public class Packages_and_imports {
       @Test
       public void testAllFilesPresentInPackages_and_imports() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/packages-and-imports"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/packages-and-imports"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "modules");
       }
 
       @Nested
@@ -40496,7 +46248,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
     public class Scopes_and_identifiers {
       @Test
       public void testAllFilesPresentInScopes_and_identifiers() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/scopes-and-identifiers"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/scopes-and-identifiers"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "identifiers-and-paths");
       }
 
       @Nested
@@ -51376,7 +57128,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
     public class Type_system {
       @Test
       public void testAllFilesPresentInType_system() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/type-system"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "introduction-1/type-kinds", "nullable-types", "subtyping", "type-kinds/flexible-types", "type-kinds/function-types", "type-kinds/intersection-types", "type-kinds/type-parameters", "type-kinds/union-types", "upper-and-lower-bounds");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/type-system"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "built-in-integer-types", "introduction-1/type-kinds", "nullable-types", "subtyping", "type-kinds/classifier-types", "type-kinds/flexible-types", "type-kinds/function-types", "type-kinds/intersection-types", "type-kinds/nullable-types", "type-kinds/type-parameters", "type-kinds/union-types", "upper-and-lower-bounds");
       }
 
       @Nested
@@ -51427,7 +57179,7 @@ public class FirBlackBoxCodegenTestSpecGenerated extends AbstractFirBlackBoxCode
       public class Type_kinds {
         @Test
         public void testAllFilesPresentInType_kinds() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/type-system/type-kinds"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "flexible-types", "function-types", "intersection-types", "type-parameters", "union-types");
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/type-system/type-kinds"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true, "classifier-types", "flexible-types", "function-types", "intersection-types", "nullable-types", "type-parameters", "union-types");
         }
 
         @Nested

@@ -21,6 +21,7 @@
   "overload-resolution": [
     "building-the-overload-candidate-set-ocs/operator-call",
     "building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver",
+    "building-the-overload-candidate-set-ocs/call-without-an-explicit-receiver",
     "building-the-overload-candidate-set/call-with-named-parameters",
     "choosing-the-most-specific-candidate-from-the-overload-candidate-set/algorithm-of-msc-selection",
     "building-the-overload-candidate-set/call-with-trailing-lambda-expressions",
@@ -34,7 +35,6 @@
     "building-the-overload-candidate-set-ocs/call-with-specified-type-parameters",
     "building-the-overload-candidate-set-ocs/infix-function-call",
     "determining-function-applicability-for-a-specific-call/description",
-    "building-the-overload-candidate-set-ocs/call-without-an-explicit-receiver",
     "c-level-partition",
     "receivers",
     "building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver/call-with-an-explicit-type-receiver",
@@ -102,7 +102,8 @@
     "upper-and-lower-bounds",
     "nullable-types",
     "type-kinds/parameterized-classifier-types",
-    "introduction-1/type-kinds"
+    "introduction-1/type-kinds",
+    "built-in-integer-types"
   ],
   "expressions": [
     "constant-literals/the-types-for-integer-literals",
@@ -181,14 +182,14 @@
     "prefix-expressions/prefix-increment-expressions",
     "prefix-expressions/prefix-decrement-expressions",
     "prefix-expressions/prefix-decrement-expression",
+    "call-expressions",
+    "call-and-property-access-expressions/navigation-operators",
+    "not-null-assertion-expressions",
     "call-and-property-access-expressions/function-calls-and-property-access",
     "type-checking-and-containment-checking-expressions/containment-checking-expressions",
     "prefix-expressions/logical-not-expressions",
     "prefix-expressions/unary-plus-expressions",
-    "prefix-expressions/unary-minus-expressions",
-    "call-and-property-access-expressions/navigation-operators",
-    "not-null-assertion-expressions",
-    "call-expressions"
+    "prefix-expressions/unary-minus-expressions"
   ],
   "scopes-and-identifiers": [
     "labels",
@@ -235,8 +236,8 @@
     "property-declaration/delegated-property-declaration",
     "classifier-declaration/companion-object",
     "destructuring-declarations",
-    "declaration-site-variance-and-use-site-variance",
     "function-declaration/extension-function-declaration",
+    "declaration-site-variance-and-use-site-variance",
     "classifier-declaration/constructor-declaration"
   ],
   "inheritance": [
@@ -304,6 +305,8 @@
     "syntax-grammar"
   ],
   "combine-test": [
+    "asynchronous-programming-with-coroutines/suspending-functions",
+    "type-system/introduction-1",
     "declarations/classifier-declaration/object-declaration",
     "declarations/classifier-declaration/interface-declaration",
     "declarations/classifier-declaration/data-class-declaration",
@@ -312,8 +315,11 @@
     "declarations/classifier-declaration/class-declaration",
     "declarations/classifier-declaration/class-declaration/inheritance-delegation",
     "declarations/classifier-declaration/class-members",
+    "declarations/function-declaration",
     "declarations/property-declaration",
+    "statements/loop-statements/for-loop-statements",
     "inheritance/classifier-type-inheritance/sealed-classes-and-interfaces",
+    "packages-and-imports/importing",
     "expressions/try-expressions",
     "expressions/comparison-expressions",
     "expressions/indexing-expressions",
@@ -331,6 +337,7 @@
     "expressions/multiplicative-expressions",
     "expressions/equality-expressions",
     "expressions/cast-expressions",
+    "expressions/integer-literals",
     "expressions/additive-expressions",
     "expressions/call-and-property-access-expressions/navigation-operators",
     "expressions/call-and-property-access-expressions/member-access",
@@ -340,6 +347,7 @@
     "expressions/logical-conjunction-expressions"
   ],
   "built-in-types-and-their-semantics": [
+    "iterator-types",
     "kotlin.nothing",
     "built-in-integer-types-1/integer-type-widening",
     "kotlin.throwable",
@@ -355,7 +363,6 @@
     "kotlin.unit",
     "kotlin.reflect.kclass",
     "kotlin.function",
-    "iterator-types",
     "kotlin.boolean",
     "integer-type-widening",
     "kotlin.reflect.kfunction",

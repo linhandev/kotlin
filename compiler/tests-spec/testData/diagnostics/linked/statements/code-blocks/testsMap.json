@@ -12,5 +12,20 @@
         }
       ]
     }
+  },
+  "115": {
+    "pos": {
+      "115": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "secondary constructor body may execute arbitrary statements with side effects after this() delegation type inference in class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-115/pos/115.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

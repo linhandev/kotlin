@@ -24,5 +24,168 @@
         }
       ]
     }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "public (default) top-level class can be imported from another package type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "neg": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal class type is invisible across modules even when calling its public members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-24/neg/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal class with internal constructor is visible across packages in the same module type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "star import brings top-level declarations from another package into short-name scope type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "file without package header belongs to the root package and can be imported by short name type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Java interop types from java.util can be imported and used type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal top-level function can be imported and used across packages in the same module type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "internal top-level declaration cannot be imported across different modules",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "import only affects compile-time name resolution and does not change runtime module boundaries type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit import of a single type enables short-name construction across packages type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "FQCN can reference a declaration from another package without import in the same module type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

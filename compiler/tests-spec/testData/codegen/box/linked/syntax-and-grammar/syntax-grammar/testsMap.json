@@ -613,6 +613,14 @@
           "path": "compiler/tests-spec/testData/codegen/box/linked/syntax-and-grammar/syntax-grammar/p-135/pos/135.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested generic call type arguments with angle bracket syntax are correctly parsed",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-51/pos/51.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }

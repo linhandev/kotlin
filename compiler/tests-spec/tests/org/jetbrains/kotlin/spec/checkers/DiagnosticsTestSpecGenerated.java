@@ -26,7 +26,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
   }
 
   public void testAllFilesPresentInDiagnostics() {
-    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "helpers", "linked/annotations/annotation-use-site-targets", "linked/annotations/built-in-annotations/kotlin.annotation.Target", "linked/built-in-types-and-their-semantics/built-in-integer-types-1", "linked/call-and-property-access-class-literals", "linked/constant-literals", "linked/declarations/classifier-declaration/companion-object", "linked/declarations/classifier-declaration/constructor-declaration", "linked/declarations/declaration-site-variance-and-use-site-variance", "linked/declarations/destructuring-declarations", "linked/declarations/function-declaration/extension-function-declaration", "linked/expressions/call-and-property-access-expressions/function-calls-and-property-access", "linked/expressions/call-and-property-access-expressions/navigation-operators", "linked/expressions/call-expressions", "linked/expressions/not-null-assertion-expressions", "linked/expressions/prefix-expressions/logical-not-expressions", "linked/expressions/prefix-expressions/unary-minus-expressions", "linked/expressions/prefix-expressions/unary-plus-expressions", "linked/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions", "linked/inheritance/classifier-type-inheritance/open-classes", "linked/overload-resolution/building-the-overload-candidate-set/call-with-trailing-lambda-expressions", "linked/overload-resolution/c-level-partition", "linked/overloadable-operators", "linked/statements/assignments/simple-assignments", "linked/type-inference/introduction-1", "linked/type-system/introduction-1/type-kinds", "linked/type-system/nullable-types", "linked/type-system/type-kinds/parameterized-classifier-types");
+    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "helpers", "linked/annotations/annotation-use-site-targets", "linked/annotations/built-in-annotations/kotlin.annotation.Target", "linked/built-in-types-and-their-semantics/built-in-integer-types-1", "linked/call-and-property-access-class-literals", "linked/combine-test/declarations/classifier-declaration/class-declaration/p-401/pos", "linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/neg", "linked/constant-literals", "linked/declarations/classifier-declaration/companion-object", "linked/declarations/classifier-declaration/constructor-declaration", "linked/declarations/declaration-site-variance-and-use-site-variance", "linked/declarations/destructuring-declarations", "linked/declarations/function-declaration/extension-function-declaration", "linked/expressions/call-and-property-access-expressions/function-calls-and-property-access", "linked/expressions/call-and-property-access-expressions/navigation-operators", "linked/expressions/call-expressions", "linked/expressions/not-null-assertion-expressions", "linked/expressions/prefix-expressions/logical-not-expressions", "linked/expressions/prefix-expressions/unary-minus-expressions", "linked/expressions/prefix-expressions/unary-plus-expressions", "linked/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions", "linked/inheritance/classifier-type-inheritance/open-classes", "linked/overload-resolution/building-the-overload-candidate-set/call-with-trailing-lambda-expressions", "linked/overload-resolution/c-level-partition", "linked/overloadable-operators", "linked/statements/assignments/simple-assignments", "linked/type-inference/introduction-1", "linked/type-system/built-in-integer-types", "linked/type-system/introduction-1/type-kinds", "linked/type-system/nullable-types", "linked/type-system/type-kinds/parameterized-classifier-types");
   }
 
   @TestMetadata("compiler/tests-spec/testData/diagnostics/linked")
@@ -38,7 +38,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
     }
 
     public void testAllFilesPresentInLinked() {
-      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "annotations/annotation-use-site-targets", "annotations/built-in-annotations/kotlin.annotation.Target", "built-in-types-and-their-semantics/built-in-integer-types-1", "call-and-property-access-class-literals", "constant-literals", "declarations/classifier-declaration/companion-object", "declarations/classifier-declaration/constructor-declaration", "declarations/declaration-site-variance-and-use-site-variance", "declarations/destructuring-declarations", "declarations/function-declaration/extension-function-declaration", "expressions/call-and-property-access-expressions/function-calls-and-property-access", "expressions/call-and-property-access-expressions/navigation-operators", "expressions/call-expressions", "expressions/not-null-assertion-expressions", "expressions/prefix-expressions/logical-not-expressions", "expressions/prefix-expressions/unary-minus-expressions", "expressions/prefix-expressions/unary-plus-expressions", "expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions", "inheritance/classifier-type-inheritance/open-classes", "overload-resolution/building-the-overload-candidate-set/call-with-trailing-lambda-expressions", "overload-resolution/c-level-partition", "overloadable-operators", "statements/assignments/simple-assignments", "type-inference/introduction-1", "type-system/introduction-1/type-kinds", "type-system/nullable-types", "type-system/type-kinds/parameterized-classifier-types");
+      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "annotations/annotation-use-site-targets", "annotations/built-in-annotations/kotlin.annotation.Target", "built-in-types-and-their-semantics/built-in-integer-types-1", "call-and-property-access-class-literals", "combine-test/declarations/classifier-declaration/class-declaration/p-401/pos", "combine-test/declarations/classifier-declaration/class-declaration/p-404/neg", "constant-literals", "declarations/classifier-declaration/companion-object", "declarations/classifier-declaration/constructor-declaration", "declarations/declaration-site-variance-and-use-site-variance", "declarations/destructuring-declarations", "declarations/function-declaration/extension-function-declaration", "expressions/call-and-property-access-expressions/function-calls-and-property-access", "expressions/call-and-property-access-expressions/navigation-operators", "expressions/call-expressions", "expressions/not-null-assertion-expressions", "expressions/prefix-expressions/logical-not-expressions", "expressions/prefix-expressions/unary-minus-expressions", "expressions/prefix-expressions/unary-plus-expressions", "expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions", "inheritance/classifier-type-inheritance/open-classes", "overload-resolution/building-the-overload-candidate-set/call-with-trailing-lambda-expressions", "overload-resolution/c-level-partition", "overloadable-operators", "statements/assignments/simple-assignments", "type-inference/introduction-1", "type-system/built-in-integer-types", "type-system/introduction-1/type-kinds", "type-system/nullable-types", "type-system/type-kinds/parameterized-classifier-types");
     }
 
     @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations")
@@ -4083,7 +4083,1025 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
       }
 
       public void testAllFilesPresentInCombine_test() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "declarations/classifier-declaration/class-declaration/p-401/pos", "declarations/classifier-declaration/class-declaration/p-404/neg");
+      }
+
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines")
+      @TestDataPath("$PROJECT_ROOT")
+      @RunWith(JUnit3RunnerWithInners.class)
+      public static class Asynchronous_programming_with_coroutines extends AbstractDiagnosticsTestSpec {
+        private void runTest(String testDataFilePath) {
+          KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInAsynchronous_programming_with_coroutines() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Suspending_functions extends AbstractDiagnosticsTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInSuspending_functions() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10/pos/10.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-11"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-11/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-11/neg/11.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-11/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_12 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12/pos/12.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_13 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-13"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-13/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-13/neg/13.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-13/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_14 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14/pos/14.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_15 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15/pos/15.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_16 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16/pos/16.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_17 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17/pos/17.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_18 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18/pos/18.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_19 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-19"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-19/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-19/neg/19.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-19/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg/2.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_20 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20/pos/20.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-20/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_21 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21/pos/21.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_22 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-22/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-22/neg/22.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-22/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_23 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23/pos/23.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_24 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24/pos/24.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_25 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-25/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-25/neg/25.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-25/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_26 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-26/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-26/neg/26.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-26/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_27 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-27/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-27/neg/27.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-27/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_28 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28/pos/28.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_29 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29/pos/29.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos/3.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-30")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_30 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_30() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-30"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-30/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("30.1.kt")
+              public void test30_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-30/neg/30.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-30/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-31")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_31 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_31() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-31"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-31/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("31.1.kt")
+              public void test31_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-31/neg/31.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-31/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_32 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_32() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("32.1.kt")
+              public void test32_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32/pos/32.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4/pos/4.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5/pos/5.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-6/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-6/neg/6.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-6/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-7/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-7/neg/7.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-7/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8/pos/8.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-9/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-9/neg/9.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-9/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
       }
 
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations")
@@ -4095,7 +5113,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
         }
 
         public void testAllFilesPresentInDeclarations() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "classifier-declaration/class-declaration/p-401/pos", "classifier-declaration/class-declaration/p-404/neg");
         }
 
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration")
@@ -4107,7 +5125,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
           }
 
           public void testAllFilesPresentInClassifier_declaration() {
-            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "class-declaration/p-401/pos", "class-declaration/p-404/neg");
           }
 
           @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration")
@@ -4119,7 +5137,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
             }
 
             public void testAllFilesPresentInClass_declaration() {
-              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "p-401/pos", "p-404/neg");
             }
 
             @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/inheritance-delegation")
@@ -13776,6 +14794,285 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
               }
             }
 
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_351 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_351() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("351.1.kt")
+                public void test351_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351/pos/351.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-352")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_352 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_352() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-352"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-352/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("352.1.kt")
+                public void test352_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-352/neg/352.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-352/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_353 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_353() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("353.1.kt")
+                public void test353_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353/pos/353.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-354")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_354 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_354() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-354"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-354/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("354.1.kt")
+                public void test354_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-354/neg/354.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-354/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_355 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_355() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("355.1.kt")
+                public void test355_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355/pos/355.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-356")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_356 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_356() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-356"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-356/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("356.1.kt")
+                public void test356_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-356/neg/356.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-356/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_357 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_357() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("357.1.kt")
+                public void test357_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357/pos/357.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_358 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_358() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("358.1.kt")
+                public void test358_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358/pos/358.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_359 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_359() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("359.1.kt")
+                public void test359_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359/pos/359.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
             @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-36")
             @TestDataPath("$PROJECT_ROOT")
             @RunWith(JUnit3RunnerWithInners.class)
@@ -13803,6 +15100,316 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
 
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-36/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_360 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_360() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("360.1.kt")
+                public void test360_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360/pos/360.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-361")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_361 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_361() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-361"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-361/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("361.1.kt")
+                public void test361_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-361/neg/361.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-361/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_362 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_362() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("362.1.kt")
+                public void test362_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362/pos/362.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_363 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_363() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("363.1.kt")
+                public void test363_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363/neg/363.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-364")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_364 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_364() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-364"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-364/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("364.1.kt")
+                public void test364_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-364/neg/364.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-364/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-365")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_365 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_365() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-365"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-365/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("365.1.kt")
+                public void test365_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-365/neg/365.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-365/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_366 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_366() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("366.1.kt")
+                public void test366_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366/pos/366.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-367")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_367 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_367() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-367"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-367/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("367.1.kt")
+                public void test367_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-367/neg/367.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-367/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-368")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_368 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_368() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-368"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-368/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("368.1.kt")
+                public void test368_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-368/neg/368.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-368/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_369 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_369() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("369.1.kt")
+                public void test369_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369/pos/369.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
               }
             }
@@ -13838,6 +15445,316 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
               }
             }
 
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_370 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_370() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("370.1.kt")
+                public void test370_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370/pos/370.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_371 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_371() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("371.1.kt")
+                public void test371_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371/neg/371.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_372 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_372() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("372.1.kt")
+                public void test372_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372/pos/372.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_373 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_373() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("373.1.kt")
+                public void test373_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373/pos/373.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_374 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_374() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("374.1.kt")
+                public void test374_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374/neg/374.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_375 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_375() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("375.1.kt")
+                public void test375_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375/pos/375.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-376")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_376 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_376() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-376"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-376/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("376.1.kt")
+                public void test376_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-376/neg/376.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-376/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_377 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_377() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("377.1.kt")
+                public void test377_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377/pos/377.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_378 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_378() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("378.1.kt")
+                public void test378_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378/pos/378.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-379")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_379 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_379() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-379"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-379/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("379.1.kt")
+                public void test379_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-379/neg/379.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-379/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
             @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-38")
             @TestDataPath("$PROJECT_ROOT")
             @RunWith(JUnit3RunnerWithInners.class)
@@ -13869,6 +15786,316 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
               }
             }
 
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_380 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_380() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("380.1.kt")
+                public void test380_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380/pos/380.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_381 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_381() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("381.1.kt")
+                public void test381_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381/pos/381.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_382 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_382() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("382.1.kt")
+                public void test382_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382/pos/382.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-383")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_383 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_383() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-383"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-383/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("383.1.kt")
+                public void test383_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-383/neg/383.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-383/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_384 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_384() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("384.1.kt")
+                public void test384_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384/pos/384.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_385 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_385() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("385.1.kt")
+                public void test385_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385/pos/385.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_386 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_386() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("386.1.kt")
+                public void test386_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386/neg/386.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-387")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_387 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_387() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-387"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-387/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("387.1.kt")
+                public void test387_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-387/neg/387.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-387/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_388 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_388() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("388.1.kt")
+                public void test388_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388/neg/388.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-389")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_389 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_389() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-389"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-389/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("389.1.kt")
+                public void test389_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-389/neg/389.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-389/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
             @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-39")
             @TestDataPath("$PROJECT_ROOT")
             @RunWith(JUnit3RunnerWithInners.class)
@@ -13896,6 +16123,316 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
 
                 public void testAllFilesPresentInNeg() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-39/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_390 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_390() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("390.1.kt")
+                public void test390_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390/pos/390.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_391 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_391() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("391.1.kt")
+                public void test391_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391/neg/391.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_392 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_392() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("392.1.kt")
+                public void test392_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392/pos/392.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_393 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_393() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("393.1.kt")
+                public void test393_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393/pos/393.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_394 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_394() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("394.1.kt")
+                public void test394_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394/pos/394.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-395")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_395 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_395() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-395"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-395/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("395.1.kt")
+                public void test395_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-395/neg/395.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-395/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_396 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_396() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("396.1.kt")
+                public void test396_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396/pos/396.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_397 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_397() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("397.1.kt")
+                public void test397_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397/pos/397.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-398")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_398 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_398() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-398"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-398/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("398.1.kt")
+                public void test398_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-398/neg/398.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-398/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_399 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_399() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("399.1.kt")
+                public void test399_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399/pos/399.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
               }
             }
@@ -13958,6 +16495,192 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
 
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-40/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-400")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_400 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_400() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-400"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-400/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("400.1.kt")
+                public void test400_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-400/neg/400.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-400/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_401 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_401() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "pos");
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("401.1.kt")
+                public void test401_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401/neg/401.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_402 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_402() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("402.1.kt")
+                public void test402_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402/pos/402.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_403 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_403() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("403.1.kt")
+                public void test403_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403/pos/403.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_404 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_404() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "neg");
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("404.1.kt")
+                public void test404_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos/404.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_405 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_405() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("405.1.kt")
+                public void test405_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405/pos/405.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
               }
             }
@@ -24236,6 +26959,918 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/object-declaration/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
+              }
+            }
+          }
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Function_declaration extends AbstractDiagnosticsTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInFunction_declaration() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-1/pos/1.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-10/pos/10.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-11"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-11/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-11/neg/11.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-11/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_12 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-12"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-12/pos/12.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_13 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-13"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-13/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-13/neg/13.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-13/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_14 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-14"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-14/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-14/neg/14.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-14/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_15 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-15"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-15/pos/15.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_16 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-16"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-16/pos/16.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_17 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-17"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-17/pos/17.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_18 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-18"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-18/pos/18.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_19 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-19"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-19/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-19/neg/19.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-19/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-2/pos/2.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_20 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-20"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-20/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-20/neg/20.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-20/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_21 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-21/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-21/neg/21.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-21/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_22 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-22/pos/22.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_23 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-23/pos/23.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_24 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-24/pos/24.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_25 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-25/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-25/pos/25.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_26 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-26/pos/26.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_27 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-27/pos/27.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_28 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-28/pos/28.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_29 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-29/pos/29.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-3/neg/3.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-4/pos/4.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-5/pos/5.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-6/pos/6.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-7/pos/7.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-8/pos/8.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-9/pos/9.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
             }
           }
@@ -38921,6 +42556,918 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
           }
         }
 
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Integer_literals extends AbstractDiagnosticsTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInInteger_literals() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-1/pos/1.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-10/pos/10.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-11"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-11/pos/11.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_12 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-12"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-12/pos/12.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_13 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-13"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-13/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-13/neg/13.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-13/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_14 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-14"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-14/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-14/neg/14.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-14/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_15 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-15"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-15/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-15/neg/15.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-15/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_16 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-16"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-16/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-16/neg/16.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-16/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_17 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-17"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-17/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-17/neg/17.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-17/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_18 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-18"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-18/pos/18.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_19 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-19"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-19/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-19/pos/19.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-2/pos/2.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_20 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-20"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-20/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-20/neg/20.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-20/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_21 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-21/pos/21.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_22 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-22/pos/22.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_23 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-23/pos/23.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_24 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-24/pos/24.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_25 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-25/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-25/neg/25.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-25/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_26 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-26/pos/26.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_27 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-27/pos/27.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_28 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-28/pos/28.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_29 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-29/pos/29.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-3/pos/3.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-4/pos/4.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-5/pos/5.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-6/pos/6.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-7/pos/7.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-8/pos/8.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-9/pos/9.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/integer-literals/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/logical-conjunction-expressions")
         @TestDataPath("$PROJECT_ROOT")
         @RunWith(JUnit3RunnerWithInners.class)
@@ -39827,6 +44374,316 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
             }
           }
 
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-10/pos/10.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-11"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-11/pos/11.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_12 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-12"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-12/pos/12.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_13 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-13"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-13/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-13/pos/13.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_14 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-14"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-14/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-14/pos/14.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_15 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-15"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-15/pos/15.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_16 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-16"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-16/pos/16.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_17 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-17"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-17/pos/17.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_18 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-18"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-18/pos/18.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_19 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-19"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-19/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-19/pos/19.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
           @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-2")
           @TestDataPath("$PROJECT_ROOT")
           @RunWith(JUnit3RunnerWithInners.class)
@@ -39858,6 +44715,316 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
             }
           }
 
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_20 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-20"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-20/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-20/neg/20.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-20/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_21 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-21/pos/21.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_22 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-22/pos/22.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_23 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-23/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-23/neg/23.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-23/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_24 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-24/pos/24.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_25 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-25/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-25/pos/25.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_26 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-26/pos/26.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_27 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-27/pos/27.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_28 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-28/pos/28.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_29 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-29/pos/29.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
           @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-3")
           @TestDataPath("$PROJECT_ROOT")
           @RunWith(JUnit3RunnerWithInners.class)
@@ -39885,6 +45052,130 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
 
               public void testAllFilesPresentInPos() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-30")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_30 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_30() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-30"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-30/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("30.1.kt")
+              public void test30_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-30/neg/30.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-30/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-31")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_31 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_31() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-31"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-31/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("31.1.kt")
+              public void test31_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-31/pos/31.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-31/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-32")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_32 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_32() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-32"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-32/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("32.1.kt")
+              public void test32_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-32/pos/32.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-33")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_33 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_33() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-33"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-33/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("33.1.kt")
+              public void test33_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-33/neg/33.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-33/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
             }
           }
@@ -39978,6 +45269,99 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
 
               public void testAllFilesPresentInNeg() {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-6/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-7/pos/7.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-8/pos/8.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-9/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-9/pos/9.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/multiplicative-expressions/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
             }
           }
@@ -43779,6 +49163,285 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
               }
             }
 
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_21 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_21() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("21.1.kt")
+                public void test21_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21/pos/21.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_22 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_22() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("22.1.kt")
+                public void test22_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22/pos/22.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_23 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_23() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("23.1.kt")
+                public void test23_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23/pos/23.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_24 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_24() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("24.1.kt")
+                public void test24_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24/pos/24.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_25 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_25() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("25.1.kt")
+                public void test25_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25/pos/25.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_26 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_26() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("26.1.kt")
+                public void test26_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26/pos/26.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-27")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_27 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_27() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-27/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("27.1.kt")
+                public void test27_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-27/neg/27.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-27/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-28")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_28 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_28() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-28/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("28.1.kt")
+                public void test28_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-28/neg/28.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-28/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-29")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_29 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_29() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-29/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("29.1.kt")
+                public void test29_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-29/neg/29.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-29/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
             @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-3")
             @TestDataPath("$PROJECT_ROOT")
             @RunWith(JUnit3RunnerWithInners.class)
@@ -43810,6 +49473,316 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
               }
             }
 
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_30 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_30() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("30.1.kt")
+                public void test30_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30/pos/30.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-30/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_31 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_31() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("31.1.kt")
+                public void test31_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31/pos/31.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-31/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_32 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_32() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("32.1.kt")
+                public void test32_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32/pos/32.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-33")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_33 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_33() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-33"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-33/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("33.1.kt")
+                public void test33_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-33/neg/33.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-33/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_34 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_34() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("34.1.kt")
+                public void test34_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34/pos/34.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-34/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_35 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_35() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("35.1.kt")
+                public void test35_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35/pos/35.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-35/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_36 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_36() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("36.1.kt")
+                public void test36_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36/pos/36.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-36/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_37 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_37() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("37.1.kt")
+                public void test37_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37/pos/37.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-37/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-38")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_38 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_38() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-38"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-38/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("38.1.kt")
+                public void test38_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-38/neg/38.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-38/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-39")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_39 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_39() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-39"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-39/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("39.1.kt")
+                public void test39_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-39/neg/39.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-39/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
             @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-4")
             @TestDataPath("$PROJECT_ROOT")
             @RunWith(JUnit3RunnerWithInners.class)
@@ -43837,6 +49810,285 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
 
                 public void testAllFilesPresentInNeg() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-4/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_40 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_40() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("40.1.kt")
+                public void test40_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40/pos/40.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-40/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_41 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_41() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("41.1.kt")
+                public void test41_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41/pos/41.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-41/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-42")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_42 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_42() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-42"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-42/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("42.1.kt")
+                public void test42_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-42/neg/42.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-42/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_43 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_43() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("43.1.kt")
+                public void test43_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43/pos/43.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-43/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_44 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_44() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("44.1.kt")
+                public void test44_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44/pos/44.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-44/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_45 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_45() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("45.1.kt")
+                public void test45_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45/pos/45.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-45/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_46 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_46() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("46.1.kt")
+                public void test46_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46/pos/46.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-46/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-47")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_47 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_47() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-47"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-47/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("47.1.kt")
+                public void test47_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-47/neg/47.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-47/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-48")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_48 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_48() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-48"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-48/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("48.1.kt")
+                public void test48_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-48/neg/48.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-48/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
               }
             }
@@ -47716,6 +53968,3321 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
                 public void testAllFilesPresentInPos() {
                   KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
                 }
+              }
+            }
+          }
+        }
+      }
+
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports")
+      @TestDataPath("$PROJECT_ROOT")
+      @RunWith(JUnit3RunnerWithInners.class)
+      public static class Packages_and_imports extends AbstractDiagnosticsTestSpec {
+        private void runTest(String testDataFilePath) {
+          KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInPackages_and_imports() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Importing extends AbstractDiagnosticsTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInImporting() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-1/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-1/pos/1.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-10/pos/10.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-11"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-11/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-11/neg/11.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-11/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_12 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-12"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-12/pos/12.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_13 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-13"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-13/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-13/neg/13.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-13/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_14 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-14"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-14/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-14/pos/14.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_15 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-15"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-15/pos/15.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_16 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-16"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-16/pos/16.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_17 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-17"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-17/pos/17.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_18 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-18"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-18/pos/18.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_19 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-19"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-19/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-19/neg/19.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-19/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-2/pos/2.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_20 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-20"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-20/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-20/neg/20.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-20/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_21 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-21/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-21/neg/21.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-21/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_22 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-22/pos/22.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_23 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-23/pos/23.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_24 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-24/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-24/neg/24.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-24/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_25 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-25/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-25/pos/25.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-25/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_26 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-26/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-26/pos/26.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_27 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-27/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-27/pos/27.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_28 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-28/pos/28.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_29 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-29/pos/29.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-3/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-3/pos/3.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-30")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_30 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_30() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-30"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-30/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("30.1.kt")
+              public void test30_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-30/neg/30.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-30/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-31")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_31 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_31() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-31"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-31/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("31.1.kt")
+              public void test31_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-31/pos/31.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-31/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-4/pos/4.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-5/pos/5.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-6/pos/6.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-7/pos/7.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-8/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-8/pos/8.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-9/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-9/neg/9.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-9/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+        }
+      }
+
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements")
+      @TestDataPath("$PROJECT_ROOT")
+      @RunWith(JUnit3RunnerWithInners.class)
+      public static class Statements extends AbstractDiagnosticsTestSpec {
+        private void runTest(String testDataFilePath) {
+          KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInStatements() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Loop_statements extends AbstractDiagnosticsTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInLoop_statements() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class For_loop_statements extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInFor_loop_statements() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-1")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_1 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_1() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("1.1.kt")
+                public void test1_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos/1.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-10")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_10 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_10() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("10.1.kt")
+                public void test10_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos/10.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-11")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_11 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_11() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-11"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("11.1.kt")
+                public void test11_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos/11.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-12")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_12 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_12() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-12"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("12.1.kt")
+                public void test12_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos/12.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-13")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_13 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_13() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-13"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("13.1.kt")
+                public void test13_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos/13.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-14")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_14 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_14() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-14"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("14.1.kt")
+                public void test14_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos/14.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-15")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_15 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_15() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-15"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("15.1.kt")
+                public void test15_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos/15.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-16")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_16 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_16() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-16"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("16.1.kt")
+                public void test16_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos/16.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-17")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_17 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_17() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-17"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("17.1.kt")
+                public void test17_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos/17.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-18")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_18 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_18() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-18"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("18.1.kt")
+                public void test18_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos/18.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-19")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_19 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_19() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-19"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("19.1.kt")
+                public void test19_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos/19.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-2")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_2 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_2() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("2.1.kt")
+                public void test2_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos/2.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-20")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_20 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_20() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-20"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("20.1.kt")
+                public void test20_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos/20.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-21")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_21 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_21() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("21.1.kt")
+                public void test21_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos/21.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-22")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_22 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_22() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("22.1.kt")
+                public void test22_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos/22.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-23")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_23 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_23() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-23/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("23.1.kt")
+                public void test23_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-23/neg/23.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-23/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-24")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_24 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_24() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-24/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("24.1.kt")
+                public void test24_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-24/neg/24.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-24/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-25")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_25 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_25() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-25/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("25.1.kt")
+                public void test25_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-25/neg/25.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-25/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-26")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_26 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_26() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("26.1.kt")
+                public void test26_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos/26.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-27")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_27 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_27() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("27.1.kt")
+                public void test27_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos/27.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-28")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_28 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_28() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("28.1.kt")
+                public void test28_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos/28.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-29")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_29 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_29() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-29/neg")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Neg extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("29.1.kt")
+                public void test29_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-29/neg/29.1.kt");
+                }
+
+                public void testAllFilesPresentInNeg() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-29/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-3")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_3 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_3() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("3.1.kt")
+                public void test3_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos/3.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-30")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_30 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_30() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-30"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("30.1.kt")
+                public void test30_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos/30.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-4")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_4 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_4() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("4.1.kt")
+                public void test4_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos/4.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-5")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_5 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_5() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("5.1.kt")
+                public void test5_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos/5.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-6")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_6 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_6() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("6.1.kt")
+                public void test6_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos/6.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-7")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_7 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_7() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("7.1.kt")
+                public void test7_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos/7.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-8")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_8 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_8() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("8.1.kt")
+                public void test8_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos/8.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-9")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class P_9 extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              public void testAllFilesPresentInP_9() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+
+              @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos")
+              @TestDataPath("$PROJECT_ROOT")
+              @RunWith(JUnit3RunnerWithInners.class)
+              public static class Pos extends AbstractDiagnosticsTestSpec {
+                private void runTest(String testDataFilePath) {
+                  KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+                }
+
+                @TestMetadata("9.1.kt")
+                public void test9_1() {
+                  runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos/9.1.kt");
+                }
+
+                public void testAllFilesPresentInPos() {
+                  KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system")
+      @TestDataPath("$PROJECT_ROOT")
+      @RunWith(JUnit3RunnerWithInners.class)
+      public static class Type_system extends AbstractDiagnosticsTestSpec {
+        private void runTest(String testDataFilePath) {
+          KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+        }
+
+        public void testAllFilesPresentInType_system() {
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+        }
+
+        @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class Introduction_1 extends AbstractDiagnosticsTestSpec {
+          private void runTest(String testDataFilePath) {
+            KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+          }
+
+          public void testAllFilesPresentInIntroduction_1() {
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-1")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_1 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_1() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-1"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-1/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("1.1.kt")
+              public void test1_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-1/neg/1.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-1/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-10")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_10 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_10() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-10"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-10/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("10.1.kt")
+              public void test10_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-10/pos/10.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-10/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-11")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_11 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_11() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-11"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-11/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("11.1.kt")
+              public void test11_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-11/pos/11.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-11/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-12")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_12 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_12() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-12"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-12/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("12.1.kt")
+              public void test12_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-12/pos/12.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-12/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-13")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_13 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_13() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-13"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-13/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("13.1.kt")
+              public void test13_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-13/pos/13.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-13/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-14")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_14 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_14() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-14"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-14/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("14.1.kt")
+              public void test14_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-14/neg/14.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-14/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-15")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_15 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_15() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-15"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-15/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("15.1.kt")
+              public void test15_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-15/pos/15.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-15/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-16")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_16 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_16() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-16"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-16/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("16.1.kt")
+              public void test16_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-16/pos/16.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-16/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-17")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_17 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_17() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-17"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-17/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("17.1.kt")
+              public void test17_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-17/pos/17.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-17/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-18")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_18 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_18() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-18"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-18/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("18.1.kt")
+              public void test18_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-18/pos/18.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-18/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-19")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_19 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_19() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-19"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-19/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("19.1.kt")
+              public void test19_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-19/pos/19.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-19/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-2")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_2 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_2() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-2"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-2/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("2.1.kt")
+              public void test2_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-2/pos/2.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-2/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-20")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_20 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_20() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-20"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-20/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("20.1.kt")
+              public void test20_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-20/pos/20.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-20/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-21")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_21 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_21() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-21"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-21/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("21.1.kt")
+              public void test21_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-21/pos/21.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-21/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-22")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_22 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_22() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-22"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-22/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("22.1.kt")
+              public void test22_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-22/pos/22.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-22/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-23")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_23 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_23() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-23"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-23/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("23.1.kt")
+              public void test23_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-23/pos/23.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-23/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-24")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_24 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_24() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-24"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-24/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("24.1.kt")
+              public void test24_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-24/pos/24.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-24/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-25")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_25 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_25() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-25"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-25/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("25.1.kt")
+              public void test25_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-25/neg/25.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-25/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-26")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_26 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_26() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-26"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-26/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("26.1.kt")
+              public void test26_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-26/neg/26.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-26/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-27")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_27 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_27() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-27"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-27/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("27.1.kt")
+              public void test27_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-27/neg/27.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-27/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-28")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_28 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_28() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-28"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-28/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("28.1.kt")
+              public void test28_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-28/pos/28.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-28/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-29")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_29 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_29() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-29"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-29/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("29.1.kt")
+              public void test29_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-29/pos/29.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-29/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-3")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_3 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_3() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-3"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-3/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("3.1.kt")
+              public void test3_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-3/neg/3.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-3/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-30")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_30 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_30() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-30"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-30/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("30.1.kt")
+              public void test30_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-30/pos/30.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-30/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-31")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_31 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_31() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-31"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-31/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("31.1.kt")
+              public void test31_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-31/neg/31.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-31/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-32")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_32 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_32() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-32"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-32/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("32.1.kt")
+              public void test32_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-32/pos/32.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-32/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-33")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_33 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_33() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-33"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-33/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("33.1.kt")
+              public void test33_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-33/pos/33.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-33/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-34")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_34 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_34() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-34"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-34/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("34.1.kt")
+              public void test34_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-34/pos/34.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-34/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-35")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_35 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_35() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-35"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-35/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("35.1.kt")
+              public void test35_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-35/pos/35.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-35/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-36")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_36 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_36() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-36"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-36/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("36.1.kt")
+              public void test36_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-36/pos/36.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-36/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-37")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_37 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_37() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-37"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-37/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("37.1.kt")
+              public void test37_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-37/pos/37.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-37/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-38")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_38 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_38() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-38"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-38/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("38.1.kt")
+              public void test38_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-38/pos/38.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-38/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-39")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_39 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_39() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-39"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-39/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("39.1.kt")
+              public void test39_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-39/pos/39.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-39/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-4")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_4 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_4() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-4"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-4/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("4.1.kt")
+              public void test4_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-4/pos/4.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-4/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-40")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_40 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_40() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-40"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-40/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("40.1.kt")
+              public void test40_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-40/pos/40.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-40/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-41")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_41 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_41() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-41"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-41/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("41.1.kt")
+              public void test41_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-41/pos/41.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-41/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-42")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_42 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_42() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-42"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-42/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("42.1.kt")
+              public void test42_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-42/neg/42.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-42/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-43")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_43 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_43() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-43"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-43/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("43.1.kt")
+              public void test43_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-43/pos/43.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-43/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-5")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_5 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_5() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-5"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-5/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("5.1.kt")
+              public void test5_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-5/pos/5.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-5/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-6")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_6 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_6() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-6"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-6/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("6.1.kt")
+              public void test6_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-6/pos/6.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-6/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-7")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_7 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_7() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-7"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-7/pos")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Pos extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("7.1.kt")
+              public void test7_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-7/pos/7.1.kt");
+              }
+
+              public void testAllFilesPresentInPos() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-7/pos"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-8")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_8 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_8() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-8"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-8/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("8.1.kt")
+              public void test8_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-8/neg/8.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-8/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+              }
+            }
+          }
+
+          @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-9")
+          @TestDataPath("$PROJECT_ROOT")
+          @RunWith(JUnit3RunnerWithInners.class)
+          public static class P_9 extends AbstractDiagnosticsTestSpec {
+            private void runTest(String testDataFilePath) {
+              KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInP_9() {
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-9"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
+            }
+
+            @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-9/neg")
+            @TestDataPath("$PROJECT_ROOT")
+            @RunWith(JUnit3RunnerWithInners.class)
+            public static class Neg extends AbstractDiagnosticsTestSpec {
+              private void runTest(String testDataFilePath) {
+                KotlinTestUtils.runTest(this::doTest, this, testDataFilePath);
+              }
+
+              @TestMetadata("9.1.kt")
+              public void test9_1() {
+                runTest("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-9/neg/9.1.kt");
+              }
+
+              public void testAllFilesPresentInNeg() {
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/type-system/introduction-1/p-9/neg"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
             }
           }
@@ -83175,7 +92742,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
       }
 
       public void testAllFilesPresentInType_system() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-system"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "introduction-1/type-kinds", "nullable-types", "type-kinds/parameterized-classifier-types");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/type-system"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "built-in-integer-types", "introduction-1/type-kinds", "nullable-types", "type-kinds/parameterized-classifier-types");
       }
 
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/type-system/introduction-1")
