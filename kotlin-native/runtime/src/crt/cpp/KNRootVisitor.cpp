@@ -383,7 +383,7 @@ void KNRootsVisitor::VisitMutatorRoots(const RefFieldVisitor& visitor, ThreadHol
         return;
     }
     // Publish this mutator's global and special roots for later VisitConcurrentRoots to traverse.
-    kotlinThreadData->Publish();
+    // kotlinThreadData->Publish();
 
     kotlin::StackMapHelper stackMapHelper(*kotlinThreadData);
 
