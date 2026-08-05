@@ -68,6 +68,7 @@ enum class ClassLevelProperty(val shortName: String) {
     GC_TYPE("gcType"),
     GC_SCHEDULER("gcScheduler"),
     ALLOCATOR("alloc"),
+    PAGED_ALLOCATOR("pagedAllocator"),
     CACHE_MODE("cacheMode"),
     EXECUTION_TIMEOUT("executionTimeout"),
     SANITIZER("sanitizer"),
@@ -78,6 +79,8 @@ enum class ClassLevelProperty(val shortName: String) {
     C_INTERFACE_MODE("cInterfaceMode"),
     XCTEST_FRAMEWORK("xctest"),
     OHOS_DEVICE_ID("ohosDeviceId"),
+    /** Bitcode split partition count for ohos_arm64 OPT (`-Xbinary=splitBCfile=N`). Default `2`. */
+    SPLIT_BC_FILE("splitBCfile"),
     ;
 
     internal val propertyName = fullPropertyName(shortName)

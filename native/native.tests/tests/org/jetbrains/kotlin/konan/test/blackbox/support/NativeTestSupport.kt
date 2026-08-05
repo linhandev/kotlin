@@ -205,6 +205,10 @@ object NativeTestSupport {
 
         val allocator = computeAllocator(enforcedProperties)
 
+        val pagedAllocator = computePagedAllocator(enforcedProperties)
+
+        val splitBCfile = computeSplitBCfile(enforcedProperties)
+
         val nativeHome = getOrCreateTestProcessSettings().get<KotlinNativeHome>()
 
         val distribution = Distribution(nativeHome.dir.path)
@@ -226,6 +230,8 @@ object NativeTestSupport {
         output += gcType
         output += gcScheduler
         output += allocator
+        output += pagedAllocator
+        output += splitBCfile
         output += nativeTargets
         output += sanitizer
         output += CacheMode::class to cacheMode
@@ -287,6 +293,22 @@ object NativeTestSupport {
 
     private fun computeAllocator(enforcedProperties: EnforcedProperties): Allocator =
         ClassLevelProperty.ALLOCATOR.readValue(enforcedProperties, Allocator.values(), default = Allocator.UNSPECIFIED)
+
+    private fun computePagedAllocator(enforcedProperties: EnforcedProperties): PagedAllocator =
+        ClassLevelProperty.PAGED_ALLOCATOR.readValue(
+            enforcedProperties,
+            PagedAllocator.entries.toTypedArray(),
+            default = PagedAllocator.UNSPECIFIED
+        )
+
+    private fun computeSplitBCfile(enforcedProperties: EnforcedProperties): SplitBCfile {
+        val partitions = ClassLevelProperty.SPLIT_BC_FILE.readValue(
+            enforcedProperties,
+            transform = { raw -> raw.toUIntOrNull()?.takeIf { it >= 1u } },
+            default = SplitBCfile.DEFAULT
+        )
+        return SplitBCfile(partitions)
+    }
 
     private fun computeNativeTargets(enforcedProperties: EnforcedProperties, hostManager: HostManager): KotlinNativeTargets {
         val hostTarget = HostManager.host

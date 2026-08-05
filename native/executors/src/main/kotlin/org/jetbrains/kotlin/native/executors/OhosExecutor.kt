@@ -38,6 +38,8 @@ import kotlin.time.Duration.Companion.seconds
  *     redirection in inner command. All other tc takes input from /dev/null
  * - [ExecuteRequest.timeout]: when unset ([Duration.INFINITE]), hdc host processes default to 30s; when explicitly set
  *     (e.g. native.tests EXECUTION_TIMEOUT / CLI `--timeout`), that value is honored for sync and on-device execution
+ * - On-device binary is wrapped with toybox `/bin/timeout -k tg (hdcTimeout+tg)` where [TIMEOUT_GRACE] (`tg`)
+ *     both delays device TERM past the host hdc limit (so hdc usually times out first) and is the TERM→KILL wait.
  */
 
 class OhosExecutor(
@@ -77,6 +79,13 @@ class OhosExecutor(
         // TODO: drop this option once libffrt.so stops mixing new/free (tracked per OHOS release);
         //       then a clean ASAN run needs no ASAN_OPTIONS at all.
         private const val ASAN_OPTIONS = "alloc_dealloc_mismatch=0"
+
+        /**
+         * Shared grace for on-device kexe execution timeout:
+         * - start execution + test case timeout + TIMEOUT_GRACE: send TERM signal
+         * - start execution + test case timeout + 2 * TIMEOUT_GRACE: send hard KILL signal
+         */
+        private val TIMEOUT_GRACE = 10.seconds
 
         /**
          * Device destination → lastModified of the host executable that was synced for that destination.
@@ -179,10 +188,13 @@ class OhosExecutor(
         val captureErr = ByteArrayOutputStream()
         val onDeviceExeAndArgs = (listOf(deviceExePath) + request.args).joinToString(" ") { "'${shellEscape(it)}'" }
         val ldLibraryPath = "$deviceWorkDir:$deviceSharedLibDir"
+        val timeoutGraceArg = formatToyboxTimeoutDuration(TIMEOUT_GRACE)
+        val deviceTimeoutArg = formatToyboxTimeoutDuration(hdcTimeout + TIMEOUT_GRACE)
         val executionScript = buildString {
             append("chmod u+x '${shellEscape(deviceExePath)}' ; ")
             append("LD_LIBRARY_PATH='${shellEscape(ldLibraryPath)}' ")
             append("ASAN_OPTIONS='${shellEscape(ASAN_OPTIONS)}' ")
+            append("/bin/timeout -k $timeoutGraceArg $deviceTimeoutArg ")
             append(onDeviceExeAndArgs)
             append(" < ")
             append(stdinRedirect)
@@ -215,6 +227,12 @@ class OhosExecutor(
             exitFailed -> response.copy(exitCode = effectiveExitCode)
             else -> response.copy(exitCode = effectiveExitCode)
         }
+    }
+
+    /** Formats [timeout] for toybox `timeout` / `-k` duration arguments. */
+    private fun formatToyboxTimeoutDuration(timeout: Duration): String {
+        val seconds = timeout.inWholeSeconds.coerceAtLeast(1)
+        return "${seconds}s"
     }
 
     /**

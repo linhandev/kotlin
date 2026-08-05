@@ -459,28 +459,33 @@ fun main() {
                 model()
             }
         }
-        // sanitizer corruption ut (ADDRESS/HWADDRESS only; see AbstractSanitizerBlackBoxTest)
+        // sanitizer corruption / tbi: one suite class per legal (gcType × alloc × sanitizer) combination
         testGroup("native/native.tests/tests-gen", "native/native.tests/testData/sanitizer/corruption") {
-            testClass<AbstractSanitizerBlackBoxTest>(
-                suiteTestClassName = "FirSanitizerCorruptionTestGenerated",
-                annotations = listOf(
-                    *sanitizerCorruption(),
-                    provider<UseStandardTestCaseGroupProvider>(),
-                )
-            ) {
-                model(recursive = false)
+            for (cell in sanitizerMatrixCells()) {
+                testClass<AbstractSanitizerBlackBoxTest>(
+                    suiteTestClassName = "FirSanitizerCorruption${cell.suffix}TestGenerated",
+                    annotations = listOf(
+                        *sanitizerCorruption(),
+                        *cell.enforcedAnnotations(),
+                        provider<UseStandardTestCaseGroupProvider>(),
+                    )
+                ) {
+                    model(recursive = false)
+                }
             }
         }
-        // tbi conflict ut (ADDRESS/HWADDRESS only; see AbstractSanitizerBlackBoxTest)
         testGroup("native/native.tests/tests-gen", "native/native.tests/testData/sanitizer/tbi") {
-            testClass<AbstractSanitizerBlackBoxTest>(
-                suiteTestClassName = "FirSanitizerTbiTestGenerated",
-                annotations = listOf(
-                    *sanitizerTbi(),
-                    provider<UseStandardTestCaseGroupProvider>(),
-                )
-            ) {
-                model(recursive = false)
+            for (cell in sanitizerMatrixCells()) {
+                testClass<AbstractSanitizerBlackBoxTest>(
+                    suiteTestClassName = "FirSanitizerTbi${cell.suffix}TestGenerated",
+                    annotations = listOf(
+                        *sanitizerTbi(),
+                        *cell.enforcedAnnotations(),
+                        provider<UseStandardTestCaseGroupProvider>(),
+                    )
+                ) {
+                    model(recursive = false)
+                }
             }
         }
     }
@@ -689,4 +694,41 @@ private fun sanitizerTbi() = arrayOf(
         "property" to ClassLevelProperty.CACHE_MODE,
         "propertyValue" to "NO"
     ),
+)
+
+/**
+ * Sanitizer corruption/tbi matrix cells.
+ * CMC must not enforce alloc (STD/CUSTOM conflict with CRT); leave UNSPECIFIED → Konan picks CRT.
+ * CmsCustomPagedFalse* pins CUSTOM + `-Xbinary=pagedAllocator=false`.
+ */
+private data class SanitizerMatrixCell(
+    val suffix: String,
+    val gcType: String,
+    val allocator: String?,
+    val sanitizer: String,
+    val pagedAllocator: String? = null,
+) {
+    fun enforcedAnnotations(): Array<AnnotationModel> = buildList {
+        add(enforced(ClassLevelProperty.GC_TYPE, gcType))
+        if (allocator != null) add(enforced(ClassLevelProperty.ALLOCATOR, allocator))
+        if (pagedAllocator != null) add(enforced(ClassLevelProperty.PAGED_ALLOCATOR, pagedAllocator))
+        add(enforced(ClassLevelProperty.SANITIZER, sanitizer))
+    }.toTypedArray()
+}
+
+private fun enforced(property: ClassLevelProperty, value: String) = annotation(
+    EnforcedProperty::class.java,
+    "property" to property,
+    "propertyValue" to value,
+)
+
+private fun sanitizerMatrixCells() = listOf(
+    SanitizerMatrixCell("CmsStdAddress", "CMS", "STD", "ADDRESS"),
+    SanitizerMatrixCell("CmsStdHwaddress", "CMS", "STD", "HWADDRESS"),
+    SanitizerMatrixCell("CmsCustomAddress", "CMS", "CUSTOM", "ADDRESS"),
+    SanitizerMatrixCell("CmsCustomHwaddress", "CMS", "CUSTOM", "HWADDRESS"),
+    SanitizerMatrixCell("CmsCustomPagedFalseAddress", "CMS", "CUSTOM", "ADDRESS", "FALSE"),
+    SanitizerMatrixCell("CmsCustomPagedFalseHwaddress", "CMS", "CUSTOM", "HWADDRESS", "FALSE"),
+    SanitizerMatrixCell("CmcAddress", "CMC", null, "ADDRESS"),
+    SanitizerMatrixCell("CmcHwaddress", "CMC", null, "HWADDRESS"),
 )

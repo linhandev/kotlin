@@ -42,6 +42,7 @@ private enum class TestProperty(shortName: String) {
     GC_TYPE("gcType"),
     GC_SCHEDULER("gcScheduler"),
     ALLOCATOR("alloc"),
+    PAGED_ALLOCATOR("pagedAllocator"),
     CACHE_MODE("cacheMode"),
     EXECUTION_TIMEOUT("executionTimeout"),
     SANITIZER("sanitizer"),
@@ -51,6 +52,8 @@ private enum class TestProperty(shortName: String) {
     TEAMCITY("teamcity"),
     MINIDUMP_ANALYZER("minidumpAnalyzer"),
     OHOS_DEVICE_ID("ohosDeviceId"),
+    // Bitcode split partitions for ohos_arm64 OPT compiles (default 2): -Pkn.splitBCfile=2
+    SPLIT_BC_FILE("splitBCfile"),
     ;
 
     val fullName = "kotlin.internal.native.test.$shortName"
@@ -109,6 +112,10 @@ private open class NativeArgsProvider @Inject constructor(
 
     @get:Input
     @get:Optional
+    protected val pagedAllocator = providers.testProperty(PAGED_ALLOCATOR)
+
+    @get:Input
+    @get:Optional
     protected val cacheMode = providers.testProperty(CACHE_MODE)
 
     @get:Input
@@ -157,6 +164,10 @@ private open class NativeArgsProvider @Inject constructor(
     @get:Input
     @get:Optional
     protected val ohosDeviceId = providers.testProperty(OHOS_DEVICE_ID)
+
+    @get:Input
+    @get:Optional
+    protected val splitBCfile = providers.testProperty(SPLIT_BC_FILE)
 
     @get:Internal
     protected val internalNativeHomeDir: Provider<File> = customNativeHome.map { File(it) }
@@ -258,6 +269,7 @@ private open class NativeArgsProvider @Inject constructor(
             gcType.orNull?.let { "-D${GC_TYPE.fullName}=$it" },
             gcScheduler.orNull?.let { "-D${GC_SCHEDULER.fullName}=$it" },
             allocator.orNull?.let { "-D${ALLOCATOR.fullName}=$it" },
+            pagedAllocator.orNull?.let { "-D${PAGED_ALLOCATOR.fullName}=$it" },
             cacheMode.orNull?.let { "-D${CACHE_MODE.fullName}=$it" },
             executionTimeout.orNull?.let { "-D${EXECUTION_TIMEOUT.fullName}=$it" },
             sanitizer.orNull?.let { "-D${SANITIZER.fullName}=$it" },
@@ -265,6 +277,7 @@ private open class NativeArgsProvider @Inject constructor(
             eagerGroupCreation.orNull?.let { "-D${EAGER_GROUP_CREATION.fullName}=$it" },
             xctestFramework.orNull?.let { "-D${XCTEST_FRAMEWORK.fullName}=$it" },
             ohosDeviceId.orNull?.let { "-D${OHOS_DEVICE_ID.fullName}=$it" },
+            splitBCfile.orNull?.let { "-D${SPLIT_BC_FILE.fullName}=$it" },
             "-D${CUSTOM_KLIBS.fullName}=${customKlibs.joinToString(File.pathSeparator) { it.absolutePath }}".takeIf { customKlibs.isNotEmpty() },
             if (minidumpAnalyzer.isEmpty) null else "-D${MINIDUMP_ANALYZER.fullName}=${minidumpAnalyzer.singleFile.absolutePath}",
         )

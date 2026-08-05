@@ -155,6 +155,23 @@ enum class Sanitizer(val compilerFlag: String?) {
 }
 
 /**
+ * Number of bitcode partitions for `-Xbinary=splitBCfile=N`.
+ * Effective only for ohos_arm64 non-debug compiles (see [org.jetbrains.kotlin.backend.konan.KonanConfig.splitBCfile]).
+ * Framework default is [DEFAULT] (`2`). Omitting the compiler flag only when [partitions] is `1`
+ * (compiler's own unset default).
+ */
+data class SplitBCfile(val partitions: UInt = DEFAULT) {
+    val compilerFlag: String?
+        get() = if (partitions <= 1u) null else "-Xbinary=splitBCfile=$partitions"
+
+    override fun toString() = if (partitions == 1u) "" else "(splitBCfile=$partitions)"
+
+    companion object {
+        const val DEFAULT: UInt = 2u
+    }
+}
+
+/**
  * Garbage collector type.
  */
 enum class GCType(val compilerFlag: String?) {
@@ -186,6 +203,18 @@ enum class Allocator(val compilerFlag: String?) {
     UNSPECIFIED(null),
     STD("-Xallocator=std"),
     CUSTOM("-Xallocator=custom");
+
+    override fun toString() = compilerFlag?.let { "($it)" }.orEmpty()
+}
+
+/**
+ * `-Xbinary=pagedAllocator=` for the custom allocator. Default compiler behavior is true
+ * when unset; sanitizer matrices may pin FALSE (SingleObjectPage / unpaged custom).
+ */
+enum class PagedAllocator(val compilerFlag: String?) {
+    UNSPECIFIED(null),
+    TRUE("-Xbinary=pagedAllocator=true"),
+    FALSE("-Xbinary=pagedAllocator=false");
 
     override fun toString() = compilerFlag?.let { "($it)" }.orEmpty()
 }
