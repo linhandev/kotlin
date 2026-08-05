@@ -30,6 +30,10 @@ static constexpr size_t functionPrologueSafepointNameLength =
 static constexpr size_t functionPrologueSafepointStubNameLength =
     std::char_traits<char>::length(functionPrologueSafepointStubName);
 
+// Same pair for the while-loop-body safepoint (see expandWhileLoopSafepoints).
+static constexpr const char* whileLoopSafepointName = "Kotlin_mm_safePointWhileLoopBody";
+static constexpr const char* whileLoopSafepointStubName = "Kotlin_mm_safePointWhileLoopBodyStub";
+
 // Mutator* offset (bytes) within the TLS block — same value as the runtime's
 // common::TLS_MUTATOR_OFF (== sizeof(void*)). The i32 safepoint flag and the
 // pointer-sized safepoint action use these natural byte alignments.
@@ -222,6 +226,50 @@ static void RemoveOrInlinePrologueSafepointInstructions(
     }
 }
 
+// True when the call targets the while-loop-body safepoint (bare or KSG `...Stub` form).
+static bool isWhileLoopSafepointCall(const CallInst* CI) {
+    const Function* callee = CI->getCalledFunction();
+    if (!callee) {
+        return false;
+    }
+    return callee->getName() == whileLoopSafepointName || callee->getName() == whileLoopSafepointStubName;
+}
+
+// Append F's while-loop-body safepoint calls to `out`. Split out of expandWhileLoopSafepoints
+// to keep each function's block nesting within the CodeCheck depth limit.
+static void collectWhileLoopSafepoints(Function& F, std::vector<CallInst*>& out) {
+    for (BasicBlock& BB : F) {
+        for (Instruction& I : BB) {
+            auto* CI = dyn_cast<CallInst>(&I);
+            if (CI && isWhileLoopSafepointCall(CI)) {
+                out.push_back(CI);
+            }
+        }
+    }
+}
+
+// PERF-ONLY lowering of while-loop-body safepoints to the inline fast/slow poll (single K2R
+// boundary, same as the prologue expansion). Collects all `Kotlin_mm_safePointWhileLoopBody[Stub]`
+// calls, then expands each via expandSafepointCall; SAFEPOINT_EXPANSION_NONE = no-op (keep the call).
+// STABILITY DOES NOT DEPEND ON THIS: the un-lowered `...WhileLoopBodyStub` trampoline call is
+// already a single K2R boundary (`kfunc -> WhileLoopBodyStub(K2R) -> C++ runtime ->
+// mm::safePoint() -> C++ SafePointSlowPath`). This pass only trades the per-iteration trampoline
+// spill (112-byte frame + x19-x27 save/restore) for a straight-line fast check.
+static void expandWhileLoopSafepoints(Module& M, SafepointExpansionMode mode, bool isHWAsanEnabled) {
+    if (mode == SAFEPOINT_EXPANSION_NONE) {
+        return;
+    }
+    std::vector<CallInst*> toExpand;
+    for (Function& F : M) {
+        if (!F.isDeclaration()) {
+            collectWhileLoopSafepoints(F, toExpand);
+        }
+    }
+    for (CallInst* CI : toExpand) {
+        expandSafepointCall(CI, mode, isHWAsanEnabled, M);
+    }
+}
+
 // `enableStackmap` (precise-stackmap dist): ON -> expand the surviving safepoint per block
 // into the inline poll; OFF (shadow-stack) -> force-inline the first eligible bare prologue
 // (legacy `#ifndef ENABLE_STACKMAP` behaviour). `safepointExpansionMode`: Native /
@@ -268,5 +316,15 @@ void LLVMKotlinRemoveRedundantSafepoints(LLVMModuleRef module, int isSafepointIn
             RemoveOrInlinePrologueSafepointInstructions(currentBlock, firstBlockHasSafepoint,
                                                         inliningAllowed, config);
         }
+    }
+
+    // While-loop-body safepoint lowering: same inline fast/slow poll as the prologue, applied to
+    // every `Kotlin_mm_safePointWhileLoopBody[Stub]` call. Without it the KSG-hoisted IR keeps an
+    // unconditional `bl Kotlin_mm_safePointWhileLoopBodyStub` in every loop iteration (opaque asm
+    // stub -> LLVM can never inline the fast check), which is the Picture100 / 1500-view hot-loop
+    // regression. Shares the prologue's mode: SAFEPOINT_EXPANSION_NONE (OFF / RUNTIME_SWITCH)
+    // keeps the trampoline call.
+    if (stackmapEnabled) {
+        expandWhileLoopSafepoints(M, safepointExpansionMode, hwasanEnabled);
     }
 }

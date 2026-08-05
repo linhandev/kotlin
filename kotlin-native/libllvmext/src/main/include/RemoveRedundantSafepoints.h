@@ -33,6 +33,8 @@ enum SafepointExpansionMode {
 // `safepointExpansionMode` (fourth arg): which expanded fast check / cold edge to emit;
 // SAFEPOINT_EXPANSION_NONE keeps the surviving stub call (no expansion).
 // `isHWAsanEnabled` (fifth arg): non-zero when compiling with -Xbinary=sanitizer=hwaddress.
+// `safepointExpansionMode` drives BOTH the function-prologue and the while-loop-body
+// safepoint; SAFEPOINT_EXPANSION_NONE keeps the surviving stub call for both.
 void LLVMKotlinRemoveRedundantSafepoints(LLVMModuleRef module,
                                          int isSafePointInliningAllowed,
                                          int enableStackmap,
