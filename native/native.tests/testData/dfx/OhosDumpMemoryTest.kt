@@ -15,7 +15,7 @@
  */
 // DISABLE_NATIVE: gcType=NOOP
 // TARGET_BACKEND: NATIVE
-// SR003: MemoryDump v1.0.10, stable refs (TAG 0x08); gzip via dumpMemoryAsync (dumpMemory is raw).
+// SR003: Debugging.dumpMemory / MemoryDump v1.0.10, stable refs (TAG 0x08), raw streaming output.
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.native.internal.InternalForKotlinNative,kotlin.ExperimentalStdlibApi,kotlin.experimental.ExperimentalNativeApi,kotlinx.cinterop.ExperimentalForeignApi
 
 import kotlin.test.*
@@ -25,7 +25,6 @@ import kotlin.native.ref.*
 import kotlin.native.runtime.*
 import kotlinx.cinterop.*
 import platform.posix.*
-import platform.zlib.*
 
 @OptIn(ExperimentalForeignApi::class)
 @ThreadLocal
@@ -69,8 +68,9 @@ private object OhosDumpMemoryTestFixtures {
 /**
  * Black-box tests for [Debugging.dumpMemory] and MemoryDump format (commits bae2865..7110958, SR003).
  *
- * Runtime: dumpMemory → raw kdump; dumpMemoryAsync → fork(OHOS) + gzip (DumpMemoryOrThrow).
- * Format header: "Kotlin/Native dump 1.0.10"; [TAG_STABLE_REF]=0x08.
+ * Runtime: PrepareForMemoryDump → traverse roots/heap/stable refs → raw streaming dump.
+ * Current format header: "Kotlin/Native dump 1.0.10"; older 1.0.8/1.0.9 dumps remain accepted.
+ * [TAG_STABLE_REF]=0x08 (bae2865).
  */
 @OptIn(
     ExperimentalForeignApi::class,
@@ -81,38 +81,13 @@ class OhosDumpMemoryTest {
 
     private fun logLine(msg: String) = println(msg)
 
-    /** [Debugging.dumpMemory] closes the fd it receives; dup first so the caller's [FILE] stays valid. */
-    private fun dumpMemoryPreservingFd(keepFd: Int): Boolean {
-        val dumpFd = dup(keepFd)
-        assertTrue(dumpFd >= 0, "dup($keepFd) failed")
-        return Debugging.dumpMemory(dumpFd.toLong())
-    }
-
-    /** Gzip path (SR003): dumpMemoryAsync(isStrip=false). OHOS forks — wait before reading. */
-    private fun dumpMemoryAsyncGzipPreservingFd(keepFd: Int): Boolean {
-        val dumpFd = dup(keepFd)
-        assertTrue(dumpFd >= 0, "dup($keepFd) failed")
-        try {
-            val ok = Debugging.dumpMemoryAsync(dumpFd.toLong(), false)
-            if (ok) waitForForkedDumpChild()
-            return ok
-        } finally {
-            close(dumpFd)
-        }
-    }
-
-    private fun waitForForkedDumpChild() = memScoped {
-        val status = alloc<IntVar>()
-        // Fork path waits for child; ECHILD means in-process dump (nothing to reap).
-        waitpid(-1, status.ptr, 0)
-    }
+    private fun dumpMemoryToFd(fd: Int): Boolean = Debugging.dumpMemory(fd.toLong())
 
     // ---------- Format constants (MemoryDump.cpp / kdumputil RecordTag) ----------
 
+    private val dumpHeaderV110 = "Kotlin/Native dump 1.0.10"
     private val dumpHeaderV109 = "Kotlin/Native dump 1.0.9"
     private val dumpHeaderV108 = "Kotlin/Native dump 1.0.8"
-    // MemoryDump.cpp DumpStr currently emits 1.0.10
-    private val dumpHeaderV110 = "Kotlin/Native dump 1.0.10"
     private val kdumputilAcceptedHeaders = listOf(dumpHeaderV108, dumpHeaderV109, dumpHeaderV110)
 
     private val tagType = 0x01
@@ -123,9 +98,6 @@ class OhosDumpMemoryTest {
     private val tagGlobalRoot = 0x06
     private val tagThreadRoot = 0x07
     private val tagStableRef = 0x08
-
-    // MemoryDump.cpp OutputBuffer::kBufferSize (gzip write chunk); OOM dumps may reach ~1.5GB heap (1536 MiB).
-    private val outputBufferSizeBytes = 1 * 1024 * 1024
 
     // ---------- Fixtures (file-level globals for dump roots) ----------
 
@@ -148,94 +120,37 @@ class OhosDumpMemoryTest {
         return size
     }
 
-    private fun readCompressedDumpFromFile(file: CPointer<FILE>): ByteArray {
+    private fun readDumpFromFile(file: CPointer<FILE>): ByteArray {
         fflush(file)
         rewind(file)
         fseek(file, 0, SEEK_END)
         val size = ftell(file)
-        assertTrue(size > 0L, "compressed dump size must be > 0")
+        assertTrue(size > 0L, "dump size must be > 0")
         assertTrue(
             size <= Int.MAX_VALUE.toLong(),
-            "compressed dump size $size exceeds Int.MAX_VALUE",
+            "dump size $size exceeds Int.MAX_VALUE",
         )
         val sizeInt = size.toInt()
         rewind(file)
         return memScoped {
             val buf = allocArray<ByteVar>(sizeInt)
             val read = fread(buf, 1u, sizeInt.toULong(), file)
-            assertEquals(sizeInt.toULong(), read, "fread compressed dump")
+            assertEquals(sizeInt.toULong(), read, "fread dump")
             ByteArray(sizeInt) { i -> buf[i] }
         }
     }
 
-    private fun gunzipGzip(compressed: ByteArray): ByteArray {
-        var outCapacity = maxOf(compressed.size * 32, outputBufferSizeBytes)
-        while (true) {
-            assertTrue(
-                outCapacity <= Int.MAX_VALUE,
-                "gzip inflate capacity $outCapacity exceeds Int.MAX_VALUE",
-            )
-            val inflated = inflateGzipOnce(compressed, outCapacity)
-            if (inflated != null) {
-                return inflated
-            }
-            assertTrue(
-                outCapacity <= Int.MAX_VALUE / 2,
-                "gzip inflate buffer exhausted at $outCapacity bytes",
-            )
-            outCapacity *= 2
-        }
-    }
-
-    /**
-     * Returns null on [Z_BUF_ERROR] so [gunzipGzip] can grow the buffer.
-     * Handles concatenated gzip members from parallel CompressToFile.
-     */
-    private fun inflateGzipOnce(compressed: ByteArray, outCapacity: Int): ByteArray? = memScoped {
-        val out = ByteArray(outCapacity)
-        compressed.usePinned { inPinned ->
-            out.usePinned { outPinned ->
-                var inOffset = 0
-                var outOffset = 0
-                while (inOffset < compressed.size) {
-                    if (outOffset >= outCapacity) return null
-                    val stream = alloc<z_stream>().apply {
-                        next_in = inPinned.addressOf(inOffset).reinterpret()
-                        avail_in = (compressed.size - inOffset).toUInt()
-                        next_out = outPinned.addressOf(outOffset).reinterpret()
-                        avail_out = (outCapacity - outOffset).toUInt()
-                    }
-                    val initRc = inflateInit2(stream.ptr, 15 + 16)
-                    assertEquals(Z_OK, initRc, "inflateInit2(gzip)")
-                    val inflateRc = inflate(stream.ptr, Z_FINISH)
-                    val consumedIn = (compressed.size - inOffset) - stream.avail_in.toInt()
-                    val produced = (outCapacity - outOffset) - stream.avail_out.toInt()
-                    inflateEnd(stream.ptr)
-                    when (inflateRc) {
-                        Z_STREAM_END -> {
-                            inOffset += consumedIn
-                            outOffset += produced
-                        }
-                        Z_BUF_ERROR -> return null
-                        else -> fail("inflate gzip dump failed with rc=$inflateRc")
-                    }
-                }
-                out.copyOf(outOffset)
-            }
-        }
-    }
-
-    private fun dumpToDecompressedBytes(setup: () -> Unit = {}): ByteArray {
+    private fun dumpToBytes(setup: () -> Unit = {}): ByteArray {
         setup()
         var ok = false
-        var compressed = ByteArray(0)
+        var dump = ByteArray(0)
         withTmpFile { file, fd ->
-            ok = dumpMemoryAsyncGzipPreservingFd(fd)
-            if (ok) compressed = readCompressedDumpFromFile(file)
+            ok = dumpMemoryToFd(fd)
+            if (ok) dump = readDumpFromFile(file)
         }
-        assertTrue(ok, "Debugging.dumpMemoryAsync() must return true")
-        assertTrue(compressed.isNotEmpty(), "compressed dump must be non-empty")
-        return gunzipGzip(compressed)
+        assertTrue(ok, "Debugging.dumpMemory() must return true")
+        assertTrue(dump.isNotEmpty(), "dump must be non-empty")
+        return dump
     }
 
     // ---------- Minimal kdump parser (mirrors kdumputil reader.kt) ----------
@@ -248,7 +163,7 @@ class OhosDumpMemoryTest {
         val stableRefCount: Int,
     )
 
-    private fun parseDecompressedDump(data: ByteArray): DumpParseResult {
+    private fun parseDump(data: ByteArray): DumpParseResult {
         var off = 0
         val headerStart = off
         while (off < data.size && data[off] != 0.toByte()) off++
@@ -396,14 +311,15 @@ class OhosDumpMemoryTest {
     // ---------- Format / SR003 constant tests ----------
 
     @Test
-    fun testDumpFormatHeaderConstant_v109() {
-        assertEquals(dumpHeaderV109, "Kotlin/Native dump 1.0.9")
+    fun testDumpFormatHeaderConstant_v110() {
+        assertEquals(dumpHeaderV110, "Kotlin/Native dump 1.0.10")
     }
 
     @Test
-    fun testKdumputilAcceptsV108AndV109() {
+    fun testKdumputilAcceptsV108ThroughV110() {
         assertTrue(kdumputilAcceptedHeaders.contains(dumpHeaderV108))
         assertTrue(kdumputilAcceptedHeaders.contains(dumpHeaderV109))
+        assertTrue(kdumputilAcceptedHeaders.contains(dumpHeaderV110))
     }
 
     @Test
@@ -418,42 +334,43 @@ class OhosDumpMemoryTest {
     @Test
     fun testDumpMemoryReturnsTrueAndFileIsNonEmpty() {
         val size = withTmpFile { _, fd ->
-            assertTrue(dumpMemoryPreservingFd(fd))
+            assertTrue(dumpMemoryToFd(fd))
         }
         assertTrue(size > 0)
     }
 
     @Test
-    fun testDumpOutputIsGzipCompressed() {
+    fun testDumpOutputStartsWithRawKdumpHeader() {
         val file = tmpfile()
         assertNotNull(file)
         val fd = fileno(file)
-        assertTrue(dumpMemoryAsyncGzipPreservingFd(fd))
+        assertTrue(dumpMemoryToFd(fd))
         fflush(file)
         rewind(file)
         memScoped {
             val header = allocArray<ByteVar>(2)
-            assertEquals(2uL, fread(header, 1u, 2u, file), "need gzip header bytes")
-            assertEquals(0x1F, header[0].toInt() and 0xFF)
-            assertEquals(0x8B, header[1].toInt() and 0xFF)
+            if (fread(header, 1u, 2u, file) == 2uL) {
+                assertEquals('K'.code, header[0].toInt() and 0xFF)
+                assertEquals('o'.code, header[1].toInt() and 0xFF)
+            }
         }
         fclose(file)
     }
 
     @Test
-    fun testDecompressedDumpHeaderIsV109() {
+    fun testRawDumpHeaderIsV110() {
         touchGlobals()
-        val parsed = parseDecompressedDump(dumpToDecompressedBytes())
-        assertTrue(parsed.header in kdumputilAcceptedHeaders, "header=${parsed.header}")
+        val parsed = parseDump(dumpToBytes())
+        assertEquals(dumpHeaderV110, parsed.header)
         logLine("dump header=${parsed.header} idSize=${parsed.idSizeBytes}")
     }
 
     @Test
-    fun testDecompressedDumpContainsStableRefRecord() {
+    fun testDumpContainsStableRefRecord() {
         val obj = OhosDumpMemoryTestFixtures.ArrayData()
         val stable = StableRef.create(obj)
         try {
-            val parsed = parseDecompressedDump(dumpToDecompressedBytes { GC.collect() })
+            val parsed = parseDump(dumpToBytes { GC.collect() })
             assertTrue(
                 parsed.stableRefCount >= 1,
                 "expected >=1 STABLE_REF (tag 0x08), got ${parsed.stableRefCount}; tags=${parsed.recordTags.count { it == tagStableRef }}",
@@ -467,21 +384,21 @@ class OhosDumpMemoryTest {
     @Test
     fun testDumpWithPrimitiveFields() {
         assertTrue(globalPrimitive.boolean)
-        val parsed = parseDecompressedDump(dumpToDecompressedBytes())
+        val parsed = parseDump(dumpToBytes())
         assertTrue(parsed.recordTags.contains(tagObject) || parsed.recordTags.contains(tagType))
     }
 
     @Test
     fun testDumpWithArrayFields() {
         assertEquals(5, globalArray.intArray.size)
-        val parsed = parseDecompressedDump(dumpToDecompressedBytes())
+        val parsed = parseDump(dumpToBytes())
         assertTrue(parsed.recordTags.contains(tagArray) || parsed.recordTags.contains(tagObject))
     }
 
     @Test
     fun testDumpWithNestedObjectGraph() {
         assertEquals(4, globalNested.depth)
-        assertTrue(parseDecompressedDump(dumpToDecompressedBytes()).recordTags.isNotEmpty())
+        assertTrue(parseDump(dumpToBytes()).recordTags.isNotEmpty())
     }
 
     @Test
@@ -489,46 +406,46 @@ class OhosDumpMemoryTest {
         val local = OhosDumpMemoryTestFixtures.PrimitiveData()
         val localArray = OhosDumpMemoryTestFixtures.ArrayData()
         val localNested = OhosDumpMemoryTestFixtures.NestedData(2)
-        val compressed = dumpCompressedToBytes()
-        val parsed = parseDecompressedDump(gunzipGzip(compressed))
+        val dump = dumpRawToBytes()
+        val parsed = parseDump(dump)
         assertTrue(parsed.recordTags.contains(tagThreadRoot) || parsed.recordTags.contains(tagObject))
         assertEquals(true, local.boolean)
         assertEquals(5, localArray.intArray.size)
         assertEquals(2, localNested.depth)
     }
 
-    private fun dumpCompressedToBytes(): ByteArray {
+    private fun dumpRawToBytes(): ByteArray {
         var ok = false
-        var compressed = ByteArray(0)
+        var dump = ByteArray(0)
         withTmpFile { file, fd ->
-            ok = dumpMemoryAsyncGzipPreservingFd(fd)
-            if (ok) compressed = readCompressedDumpFromFile(file)
+            ok = dumpMemoryToFd(fd)
+            if (ok) dump = readDumpFromFile(file)
         }
-        assertTrue(ok, "Debugging.dumpMemoryAsync() must return true")
-        return compressed
+        assertTrue(ok)
+        return dump
     }
 
     @Test
     fun testDumpIncludesThreadLocalRoots() {
         assertEquals(127.toByte(), tlsPrimitiveForDump.byte)
         assertEquals("kotlin/native dump test", tlsArrayForDump.string)
-        val parsed = parseDecompressedDump(dumpToDecompressedBytes())
+        val parsed = parseDump(dumpToBytes())
         assertTrue(parsed.recordTags.contains(tagThreadRoot) || parsed.recordTags.contains(tagThread))
     }
 
     @Test
     fun testDumpAfterGcCollect() {
         GC.collect()
-        assertTrue(parseDecompressedDump(dumpToDecompressedBytes()).header in kdumputilAcceptedHeaders)
+        assertEquals(dumpHeaderV110, parseDump(dumpToBytes()).header)
     }
 
     @Test
     fun testDumpSizeIncreasesWithMoreLiveObjects() {
         GC.collect()
-        val sizeBefore = dumpCompressedToBytes().size
+        val sizeBefore = dumpRawToBytes().size
         assertTrue(sizeBefore > 0)
         val extra = Array(64) { OhosDumpMemoryTestFixtures.ArrayData() }
-        val sizeAfter = dumpCompressedToBytes().size
+        val sizeAfter = dumpRawToBytes().size
         assertTrue(sizeAfter > 0)
         assertEquals(5, extra[0].intArray.size)
     }
@@ -536,27 +453,26 @@ class OhosDumpMemoryTest {
     @Test
     fun testMultipleSequentialDumps() {
         repeat(3) { i ->
-            assertTrue(parseDecompressedDump(dumpToDecompressedBytes()).header in kdumputilAcceptedHeaders)
+            assertEquals(dumpHeaderV110, parseDump(dumpToBytes()).header)
             logLine("sequential dump $i ok")
         }
     }
 
     @Test
     fun testDumpWithWeakReference() {
-        // Strong root must stay live under -opt (use referent after GC, else DCE drops it).
-        val referent = OhosDumpMemoryTestFixtures.PrimitiveData()
-        val weakRef = WeakReference(referent)
+        val strongRef = OhosDumpMemoryTestFixtures.PrimitiveData()
+        val weakRef = WeakReference(strongRef)
         GC.collect()
-        val parsed = parseDecompressedDump(dumpToDecompressedBytes())
+        val parsed = parseDump(dumpToBytes())
         assertTrue(parsed.recordTags.contains(tagExtraObject) || parsed.recordTags.isNotEmpty())
-        assertEquals(true, referent.boolean)
         assertNotNull(weakRef.value)
+        assertTrue(strongRef.boolean)
     }
 
     @Test
     fun testDumpWithAnonymousObject() {
         val anon = object { val field = "anonymous" }
-        assertTrue(parseDecompressedDump(dumpToDecompressedBytes()).header in kdumputilAcceptedHeaders)
+        assertEquals(dumpHeaderV110, parseDump(dumpToBytes()).header)
         assertEquals("anonymous", anon.field)
     }
 
@@ -566,7 +482,7 @@ class OhosDumpMemoryTest {
         val arrays = Array(100) { OhosDumpMemoryTestFixtures.ArrayData() }
         val nested = Array(50) { OhosDumpMemoryTestFixtures.NestedData(3) }
         GC.collect()
-        val parsed = parseDecompressedDump(dumpToDecompressedBytes())
+        val parsed = parseDump(dumpToBytes())
         assertTrue(parsed.recordTags.size > 10)
         assertEquals(true, primitives[0].boolean)
         assertEquals(5, arrays[0].intArray.size)

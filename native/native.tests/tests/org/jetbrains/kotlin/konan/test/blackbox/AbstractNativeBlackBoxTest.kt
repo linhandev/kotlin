@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.konan.test.blackbox
 
 import com.intellij.testFramework.TestDataFile
 import org.jetbrains.kotlin.cli.common.arguments.allowTestsOnlyLanguageFeatures
+import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.konan.test.blackbox.support.NativeBlackBoxTestSupport
 import org.jetbrains.kotlin.konan.test.blackbox.support.PackageName
 import org.jetbrains.kotlin.konan.test.blackbox.support.TestCaseId
@@ -15,12 +16,14 @@ import org.jetbrains.kotlin.konan.test.blackbox.support.group.isIgnoredTarget
 import org.jetbrains.kotlin.konan.test.blackbox.support.runner.TestRun
 import org.jetbrains.kotlin.konan.test.blackbox.support.runner.TestRunProvider
 import org.jetbrains.kotlin.konan.test.blackbox.support.runner.TestRunners.createProperTestRunner
+import org.jetbrains.kotlin.konan.test.blackbox.support.settings.KotlinNativeTargets
 import org.jetbrains.kotlin.konan.test.blackbox.support.settings.TestRunSettings
 import org.jetbrains.kotlin.konan.test.blackbox.support.util.TreeNode
 import org.jetbrains.kotlin.konan.test.blackbox.support.util.getAbsoluteFile
 import org.jetbrains.kotlin.konan.test.blackbox.support.util.joinPackageNames
 import org.jetbrains.kotlin.konan.test.blackbox.support.util.prependPackageName
 import org.jetbrains.kotlin.test.services.JUnit5Assertions.fail
+import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.DynamicNode
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.extension.ExtendWith
@@ -36,6 +39,12 @@ abstract class AbstractNativeBlackBoxTest {
      * This function should be called from a method annotated with [org.junit.jupiter.api.Test].
      */
     open fun runTest(@TestDataFile testDataFilePath: String) {
+        if (testDataFilePath.startsWith(OHOS_DFX_TEST_DATA_ROOT)) {
+            val testTarget = testRunSettings.get<KotlinNativeTargets>().testTarget
+            Assumptions.assumeTrue(testTarget.family == Family.OHOS) {
+                "DFX tests require targetFamily=OHOS (got ${testTarget.family.name})"
+            }
+        }
         allowTestsOnlyLanguageFeatures()
         val absoluteTestFile = getAbsoluteFile(testDataFilePath)
         val testCaseId = TestCaseId.TestDataFile(absoluteTestFile)
@@ -115,3 +124,5 @@ abstract class AbstractNativeBlackBoxTest {
         testRunner.run()
     }
 }
+
+private const val OHOS_DFX_TEST_DATA_ROOT = "native/native.tests/testData/dfx/"
