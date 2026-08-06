@@ -945,7 +945,7 @@ internal class CodeGeneratorVisitor(
             }
         }
 
-        if (context.config.moduleIncludeOnly.isNotEmpty() && generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+        if (context.config.codesizeOpt && context.config.moduleIncludeOnly.isNotEmpty() && generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
                         declaration.symbol, declaration.konanLibrary?.uniqueName)) {
             val llvmFn = codegen.llvmFunction(declaration)
             LLVMSetLinkage(llvmFn.asCallback(), LLVMLinkage.LLVMExternalLinkage)
@@ -1066,8 +1066,9 @@ internal class CodeGeneratorVisitor(
                 LLVMSetInitializer(globalProperty, initValue)
                 // Set linkage: external if referenced from other modules, internal otherwise.
                 // Cannot do this before the global is initialized.
-                val isCrossModule = moduleIncludeOnly.isNotEmpty() && generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
-                        declaration.symbol, declaration.konanLibrary?.uniqueName)
+                val isCrossModule = moduleIncludeOnly.isNotEmpty() && (!context.config.codesizeOpt ||
+                        generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                                declaration.symbol, declaration.konanLibrary?.uniqueName))
                 LLVMSetLinkage(globalProperty, if (isCrossModule) LLVMLinkage.LLVMExternalLinkage else LLVMLinkage.LLVMInternalLinkage)
             }
             llvm.initializersGenerationState.scopeState.topLevelFields.add(declaration)

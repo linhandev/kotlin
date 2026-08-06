@@ -21,6 +21,9 @@ object BinaryOptions : BinaryOptionRegistry() {
 
     val printModule by booleanOption()
 
+    // Enable cross-klib reference analysis to reduce exported symbols in split compilation mode.
+    val codesizeOpt by booleanOption()
+
     // Toggle the precise-stackmap codegen path (emit `addrspace(1)` heap
     // pointers, phi cast across AS0/AS1 boundary). Must match the runtime build
     // property `kotlin.native.precise.stackmap` (which controls cpp

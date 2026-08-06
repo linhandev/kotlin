@@ -597,7 +597,7 @@ private fun PhaseEngine<NativeGenerationState>.runCodegen(module: IrModuleFragme
     module.files.forEach {
         runPhase(CoroutinesVarSpillingPhase, it)
     }
-    runPhase(CollectKlibSymbolsPhase, module)
+    runPhase(CollectKlibSymbolsPhase, module, disable = !context.config.codesizeOpt)
     runPhase(CreateLLVMDeclarationsPhase, module)
     runPhase(GHAPhase, module, disable = !optimize)
     runPhase(RTTIPhase, RTTIInput(module, dceResult))

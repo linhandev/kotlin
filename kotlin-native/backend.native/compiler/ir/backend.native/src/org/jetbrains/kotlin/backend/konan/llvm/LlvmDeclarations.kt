@@ -147,6 +147,15 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         return !context.config.isIncludedLibrary(library.uniqueName)
     }
 
+    private fun shouldForceExternalLinkage(declaration: IrDeclaration): Boolean {
+        if (context.config.moduleIncludeOnly.isEmpty()) return false
+        if (declaration is IrFunction && declaration.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) return false
+        if (declaration is IrDeclarationWithVisibility && !declaration.visibility.isPublicAPI) return false
+
+        val libraryName = declaration.konanLibrary?.uniqueName ?: return false
+        return context.config.isIncludedLibrary(libraryName)
+    }
+
     class Namer(val prefix: String) {
         private val names = mutableMapOf<IrDeclaration, Name>()
         private val counts = mutableMapOf<FqName, Int>()
@@ -365,8 +374,10 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
 
         val writableTypeInfoGlobal = generateWritableTypeInfoForClass(declaration)
 
-        if (isSplitSoMode && (context.config.emitStdlib || context.config.emitRuntime || generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
-                        declaration.symbol, declaration.konanLibrary?.uniqueName))) {
+        val needsExport = !context.config.codesizeOpt ||
+                generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                        declaration.symbol, declaration.konanLibrary?.uniqueName)
+        if (isSplitSoMode && (context.config.emitStdlib || needsExport)) {
             typeInfoGlobal.setLinkage(LLVMLinkage.LLVMExternalLinkage)
             if (!excludedFromCodegen) {
                 llvm.splitSoTypeInfoUsedGlobals += typeInfoGlobal.pointer.llvm
@@ -479,9 +490,10 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         if (!declaration.isReal) return
         var generatedSymbolName: String? = null
 
-        val isCrossModuleReferenced = context.config.moduleIncludeOnly.isNotEmpty() &&
-            generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
-                declaration.symbol, declaration.konanLibrary?.uniqueName)
+        val isSplitSoMode = context.config.moduleIncludeOnly.isNotEmpty()
+        val isCrossModuleReferenced = context.config.codesizeOpt && isSplitSoMode &&
+                generationState.klibCrossReferenceRegistry.isSymbolReferencedByOtherModules(
+                        declaration.symbol, declaration.konanLibrary?.uniqueName)
 
         // K2N/N2K cinterop bridges ("knbridgeN"): the K2N half is a pure prototype whose
         // real body is C text compiled by clang and merged in later via llvm-link, so it's
@@ -490,7 +502,11 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
         val isInteropBridge = declaration.origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE ||
                 declaration.origin == CBridgeOrigin.C_TO_KOTLIN_BRIDGE
 
-        val needsExport = isCrossModuleReferenced || isInteropBridge
+        val needsExport = if (context.config.codesizeOpt) {
+            isCrossModuleReferenced || isInteropBridge
+        } else {
+            shouldForceExternalLinkage(declaration) || isInteropBridge
+        }
 
         val llvmFunction = if (declaration.isExternal) {
             if (declaration.isTypedIntrinsic || declaration.isObjCBridgeBased()
@@ -539,7 +555,8 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
             proto.createLlvmFunction(context, llvm.module)
         }
 
-        val shouldPreserveInLlvmUsedForSplit = (needsExport || (context.config.emitStdlib && declaration.annotations.hasAnnotation(RuntimeNames.exportForCppRuntime))) &&
+        val shouldPreserveInLlvmUsedForSplit = ((!context.config.codesizeOpt && isSplitSoMode) || needsExport ||
+                (context.config.emitStdlib && declaration.annotations.hasAnnotation(RuntimeNames.exportForCppRuntime))) &&
                 !(generatedSymbolName?.contains('@') ?: false)
         if (shouldPreserveInLlvmUsedForSplit) {
             llvm.usedFunctions.add(llvmFunction)
