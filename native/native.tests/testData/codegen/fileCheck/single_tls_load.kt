@@ -13,8 +13,14 @@ fun f(x: Int, s: String): String {
     // after `OptimizeTLSDataLoads` optimizaion phase.
     // - in case of no-inline, several `call .. @EnterFrame` may remain in function code.
 
-    // CHECK: {{_ZN6kotlin2mm14ThreadRegistry22currentThreadDataNode_E|call fastcc void @EnterFrame}}
-    // CHECK-NOT: _ZN6kotlin2mm14ThreadRegistry22currentThreadDataNode_E
+    // Stack-map mode does not imply that the x28 GC fast path is enabled.
+    // CHECK-NOSTACKMAP: {{_ZN6kotlin2mm14ThreadRegistry22currentThreadDataNode_E|call fastcc void @EnterFrame}}
+    // CHECK-NOSTACKMAP-NOT: _ZN6kotlin2mm14ThreadRegistry22currentThreadDataNode_E
+    // macOS uses precise stack maps without the x28 GC fast path in this lane.
+    // CHECK-MACOS_ARM64: {{_ZN6kotlin2mm14ThreadRegistry22currentThreadDataNode_E|call fastcc void @EnterFrame}}
+    // CHECK-MACOS_ARM64-NOT: _ZN6kotlin2mm14ThreadRegistry22currentThreadDataNode_E
+    // OHOS keeps thread data in x28, so no TLS load or EnterFrame is needed.
+    // CHECK-OHOS_ARM64-NOT: {{_ZN6kotlin2mm14ThreadRegistry22currentThreadDataNode_E|call fastcc void @EnterFrame}}
     if (x < 0) throw IllegalStateException()
     if (x > 0) return f(x - 1, s)
     val b = Wrapper(2)
