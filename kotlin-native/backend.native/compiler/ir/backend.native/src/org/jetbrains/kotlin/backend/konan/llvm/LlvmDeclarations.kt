@@ -547,8 +547,12 @@ private class DeclarationsGeneratorVisitor(override val generationState: NativeG
             proto.createLlvmFunction(context, llvm.module)
         }
 
+        // Under emitStdlib, only pin real runtime exports from included libs (stdlib / platform.*).
+        val shouldPreserveExportForCppRuntime = context.config.emitStdlib &&
+                declaration.annotations.hasAnnotation(RuntimeNames.exportForCppRuntime) &&
+                context.config.isIncludedLibrary(declaration.konanLibrary?.uniqueName)
         val shouldPreserveInLlvmUsedForSplit = ((!context.config.codesizeOpt && isSplitSoMode) || needsExport ||
-                (context.config.emitStdlib && declaration.annotations.hasAnnotation(RuntimeNames.exportForCppRuntime))) &&
+                shouldPreserveExportForCppRuntime) &&
                 !(generatedSymbolName?.contains('@') ?: true)
         if (shouldPreserveInLlvmUsedForSplit) {
             llvm.usedFunctions.add(llvmFunction)
