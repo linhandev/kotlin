@@ -6,16 +6,20 @@
 package org.jetbrains.kotlin.konan.test.blackbox
 
 import com.intellij.testFramework.TestDataFile
+import org.jetbrains.kotlin.konan.target.SanitizerKind
+import org.jetbrains.kotlin.konan.target.supportedSanitizers
 import org.jetbrains.kotlin.konan.test.blackbox.support.ClassLevelProperty
 import org.jetbrains.kotlin.konan.test.blackbox.support.settings.Allocator
 import org.jetbrains.kotlin.konan.test.blackbox.support.settings.GCType
+import org.jetbrains.kotlin.konan.test.blackbox.support.settings.KotlinNativeTargets
 import org.jetbrains.kotlin.konan.test.blackbox.support.settings.PagedAllocator
 import org.jetbrains.kotlin.konan.test.blackbox.support.settings.Sanitizer
 import org.junit.jupiter.api.Assumptions
 
 /**
  * Sanitizer corruption / TBI blackbox suites only make sense with AddressSanitizer or
- * HWAddressSanitizer. Skip when sanitizer is NONE/THREAD (or unset).
+ * HWAddressSanitizer. Skip when sanitizer is NONE/THREAD (or unset), or when the current
+ * test target does not advertise that sanitizer in [supportedSanitizers].
  *
  * Matrix suites pin gc/alloc/sanitizer via `@EnforcedProperty`. Optional `-P` values for
  * `gcType` / `alloc` / `sanitizer` act as filters only: if set, and they disagree with the
@@ -27,6 +31,17 @@ abstract class AbstractSanitizerBlackBoxTest : AbstractNativeBlackBoxTest() {
         Assumptions.assumeTrue(
             sanitizer == Sanitizer.ADDRESS || sanitizer == Sanitizer.HWADDRESS
         ) { "Sanitizer suite requires sanitizer=ADDRESS|HWADDRESS (got ${sanitizer.name})" }
+
+        val sanitizerKind = when (sanitizer) {
+            Sanitizer.ADDRESS -> SanitizerKind.ADDRESS
+            Sanitizer.HWADDRESS -> SanitizerKind.HWADDRESS
+            Sanitizer.THREAD, Sanitizer.NONE -> error("unreachable: filtered above")
+        }
+        val testTarget = testRunSettings.get<KotlinNativeTargets>().testTarget
+        Assumptions.assumeTrue(sanitizerKind in testTarget.supportedSanitizers()) {
+            "${sanitizer.name} sanitizer is unsupported on ${testTarget.name}; " +
+                    "supported=${testTarget.supportedSanitizers()}"
+        }
 
         assumeMatchesOptionalFilter(ClassLevelProperty.SANITIZER, sanitizer.name)
         assumeMatchesOptionalFilter(ClassLevelProperty.GC_TYPE, testRunSettings.get<GCType>().name)
