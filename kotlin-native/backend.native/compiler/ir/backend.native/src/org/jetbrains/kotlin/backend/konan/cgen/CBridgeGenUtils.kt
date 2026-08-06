@@ -74,7 +74,6 @@ internal class KotlinBridgeBuilder(
         stubs: KotlinStubs,
         isExternal: Boolean,
         foreignExceptionMode: ForeignExceptionMode.Mode,
-        addFilterExceptionsAnnotation: Boolean,
         origin: IrDeclarationOrigin
 ) {
     private var counter = 0
@@ -85,7 +84,6 @@ internal class KotlinBridgeBuilder(
             stubs,
             isExternal,
             foreignExceptionMode,
-            addFilterExceptionsAnnotation,
             origin
     )
     val irBuilder: IrBuilderWithScope = stubs.irBuiltIns.createIrBuilder(bridge.symbol).at(startOffset, endOffset)
@@ -126,7 +124,6 @@ private fun createKotlinBridge(
         stubs: KotlinStubs,
         isExternal: Boolean,
         foreignExceptionMode: ForeignExceptionMode.Mode,
-        addFilterExceptionsAnnotation: Boolean,
         origin: IrDeclarationOrigin
 ): IrFunction {
     val bridge = stubs.irBuiltIns.irFactory.createSimpleFunction(
@@ -150,15 +147,27 @@ private fun createKotlinBridge(
     if (isExternal) {
         bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
                 stubs.symbols.symbolName.owner, cBridgeName)
-        // The precise-stackmap path introduced the addFilterExceptionsAnnotation
-        // parameter (default false), making @FilterExceptions optional. The
-        // baseline emitted it unconditionally for K2N bridges. OFF restores the
-        // baseline (always emit).
-        if (addFilterExceptionsAnnotation || !stubs.enableStackmap) {
-            bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
-                    stubs.symbols.filterExceptions.owner,
-                    foreignExceptionMode.value)
-        }
+        // Emitted unconditionally for every external K->C bridge, matching the
+        // baseline and the kotlin 2.0 port (createKotlinBridge there never had an
+        // `addFilterExceptionsAnnotation` parameter -- confirmed by `git log -S`
+        // over 2.0's full history).
+        //
+        // cb50f5d9b71e ("fix plain C bridge statepoint lowering", squashed into
+        // 5ebe59a5af14) made this opt-in so that plain C bridges stay
+        // nounwind/noinline and vararg libc calls do not collapse into invalid
+        // gc.statepoint callsites. But @FilterExceptions also drives the landing
+        // pad's RTTI check -- the one that tells a Kotlin exception from a foreign
+        // one and terminates on the latter. Making it opt-in silently dropped that
+        // too: a C++ exception unwinding back through a K->C bridge was taken for
+        // an ExceptionObjHolder and its payload dereferenced as an ObjHeader*
+        // (standalone/termination/concurrentTerminate crashed with EXC_BAD_ACCESS
+        // in ExceptionObjHolderImpl, x1 holding the ASCII of the std::runtime_error
+        // message). The NoUnwind half of that fix is already gone (see
+        // LlvmFunctionPrototype.kt: the Kotlin wrapper rethrows via __cxa_throw, so
+        // callers must emit invoke), which left the annotation gate with no upside.
+        bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
+                stubs.symbols.filterExceptions.owner,
+                foreignExceptionMode.value)
     } else {
         bridge.annotations += buildSimpleAnnotation(stubs.irBuiltIns, startOffset, endOffset,
                 stubs.symbols.exportForCppRuntime.owner, cBridgeName)
@@ -172,8 +181,7 @@ internal class KotlinCBridgeBuilder(
         cName: String,
         val stubs: KotlinStubs,
         isKotlinToC: Boolean,
-        foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default,
-        addFilterExceptionsAnnotation: Boolean = false
+        foreignExceptionMode: ForeignExceptionMode.Mode = ForeignExceptionMode.default
 ) {
     private val origin = if (isKotlinToC) CBridgeOrigin.KOTLIN_TO_C_BRIDGE else CBridgeOrigin.C_TO_KOTLIN_BRIDGE
 
@@ -184,7 +192,6 @@ internal class KotlinCBridgeBuilder(
             stubs,
             isExternal = isKotlinToC,
             foreignExceptionMode = foreignExceptionMode,
-            addFilterExceptionsAnnotation = addFilterExceptionsAnnotation,
             origin = origin
     )
     private val cBridgeBuilder = CFunctionBuilder()

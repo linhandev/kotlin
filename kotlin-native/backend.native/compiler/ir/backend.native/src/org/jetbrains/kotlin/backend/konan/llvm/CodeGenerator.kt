@@ -143,10 +143,76 @@ internal inline fun generateFunction(
     functionGenerationContext.needsRuntimeInit = isCToKotlinBridge && !codegen.enableStackmap
     functionGenerationContext.isCToKotlinBridge = isCToKotlinBridge
 
+    // An @ExportedBridge symbol is called by name from foreign code, so no call site for it
+    // exists in any Kotlin module and the AsmPrinter rewrite cannot reach it. Interposing a
+    // ktstub trampoline that owns the exported name gives the rewrite the call site it needs,
+    // after which the boundary is the stub's, exactly like a CAdapter V1 export.
+    if (codegen.enableStackmap && function.hasAnnotation(RuntimeNames.exportedBridge)) {
+        codegen.emitExportedBridgeTrampoline(llvmFunction)
+    }
+
     try {
         generateFunctionBody(functionGenerationContext, code)
     } finally {
         functionGenerationContext.dispose()
+    }
+}
+
+private fun addStringFnAttr(context: LLVMContextRef, fn: LLVMValueRef, name: String) {
+    LLVMAddAttributeAtIndex(fn, LLVMAttributeFunctionIndex,
+            LLVMCreateStringAttribute(context, name, name.length, "", 0))
+}
+
+/**
+ * Interposes a trampoline that takes over the exported @ExportedBridge name and calls the
+ * Kotlin function, which is renamed out of the way.
+ *
+ * The trampoline carries "ktstub" and the callee "konan-fn-bridge" — exactly the pair
+ * [markN2kCalleesFromCaller] keys off to mark the callee "n2k", after which AsmPrinter
+ * rewrites the trampoline's call into `bl Kotlin_N2KStub`. CAdapter V1 gets the same effect
+ * from its generated C `_impl` wrapper (CAdapterGenerator.kt); the only reason either wrapper
+ * exists is to provide a call site the rewrite can reach, since the rewrite works on call
+ * sites and needs caller and callee in the same module.
+ *
+ * Going through the stub is what makes the frame a real R2K_STUB frame: `IsR2KStub` recognizes
+ * it by `unwindPCForN2KStub` and `UnwindR2KStub` reads the `K2CSlotData` at `stub_fp+16` to
+ * cross back to the previous Kotlin stack segment. Without it the walker falls into the
+ * `KOTLIN_FRAME` catch-all in `UnwindKotlinFrame` and reads the foreign caller's frame as if
+ * `*(fp-2)` held a stackmap address.
+ */
+internal fun CodeGenerator.emitExportedBridgeTrampoline(callee: LlvmCallable) {
+    val exportedName = callee.name ?: return
+    val original = LLVMGetNamedFunction(llvm.module, exportedName) ?: return
+
+    val implName = "${exportedName}_kbridge"
+    LLVMSetValueName2(original, implName, implName.length.toLong())
+    addStringFnAttr(llvm.llvmContext, original, "konan-fn-bridge")
+
+    val trampoline = LLVMAddFunction(llvm.module, exportedName, callee.functionType)!!
+    // Take over everything that made the original externally callable; the C side is
+    // linking against this symbol now.
+    LLVMSetLinkage(trampoline, LLVMGetLinkage(original))
+    LLVMSetVisibility(trampoline, LLVMGetVisibility(original))
+    LLVMSetFunctionCallConv(trampoline, LLVMGetFunctionCallConv(original))
+    addStringFnAttr(llvm.llvmContext, trampoline, "ktstub")
+    // The original was kept alive by RetainAnnotation on the IR declaration. Nothing
+    // in the module references the trampoline (its callers are outside), so without an
+    // llvm.used pin GlobalDCE drops it and the exported symbol disappears entirely.
+    llvm.usedGlobals += trampoline
+
+    val builder = LLVMCreateBuilderInContext(llvm.llvmContext)!!
+    try {
+        val bb = LLVMAppendBasicBlockInContext(llvm.llvmContext, trampoline, "entry")!!
+        LLVMPositionBuilderAtEnd(builder, bb)
+        val args = (0 until LLVMCountParams(trampoline)).map { LLVMGetParam(trampoline, it)!! }
+        val result = callee.buildCall(builder, args)
+        if (LLVMGetTypeKind(LLVMGetReturnType(callee.functionType)) == LLVMTypeKind.LLVMVoidTypeKind) {
+            LLVMBuildRetVoid(builder)
+        } else {
+            LLVMBuildRet(builder, result)
+        }
+    } finally {
+        LLVMDisposeBuilder(builder)
     }
 }
 

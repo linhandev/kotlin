@@ -2767,27 +2767,17 @@ internal class CodeGeneratorVisitor(
 
     private val IrSimpleFunction.needsNativeThreadState: Boolean
         get() {
-            if (context.config.enableStackmap) {
-                // ON path: only bridges that explicitly model foreign-exception
-                // handling need thread-state switching (pre-cdb0a5 gate).
-                val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
-                        annotations.hasAnnotation(RuntimeNames.filterExceptions)
-                if (result) {
-                    check(isExternal)
-                    check(!annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
-                }
-                return result
-            } else {
-                // OFF path baseline: all KOTLIN_TO_C_BRIDGE require a
-                // thread-state switch.
-                val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE
-                if (result) {
-                    check(isExternal)
-                    check(!annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
-                    check(annotations.hasAnnotation(RuntimeNames.filterExceptions))
-                }
-                return result
+            // We assume that call site thread state switching is required for interop calls only.
+            // @FilterExceptions is emitted for every external K->C bridge (see
+            // CBridgeGenUtils.createKotlinBridge), so its presence is an invariant to assert,
+            // not a gate to branch on -- same as the baseline and the kotlin 2.0 port.
+            val result = origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE
+            if (result) {
+                check(isExternal)
+                check(!annotations.hasAnnotation(KonanFqNames.gcUnsafeCall))
+                check(annotations.hasAnnotation(RuntimeNames.filterExceptions))
             }
+            return result
         }
 
     private val IrFunction.gcSafeCall: Boolean

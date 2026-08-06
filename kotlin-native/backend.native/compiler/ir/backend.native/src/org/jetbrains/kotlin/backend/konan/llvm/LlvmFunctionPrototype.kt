@@ -278,22 +278,21 @@ private fun inferFunctionAttributes(contextUtils: ContextUtils, irFunction: IrSi
             if (mustNotInline(contextUtils.context, irFunction)) {
                 add(LlvmFunctionAttribute.NoInline)
             }
-            // The KOTLIN_TO_C_BRIDGE NoInline policy and the KFunc /
-            // ExportForCppRuntimeKFunc string attributes are part of the
+            // The KFunc / ExportForCppRuntimeKFunc string attributes are part of the
             // precise-stackmap pipeline. The pre-stackmap baseline emits neither.
             // Gate on enableStackmap so the OFF dist produces baseline-equivalent
             // attribute sets and the addCallSiteAttributesAtIndex /
             // addDeclarationAttributesAtIndex double-path (which only matters
             // when a value=0 string attribute is present) becomes dead code.
+            //
+            // No KOTLIN_TO_C_BRIDGE NoUnwind/NoInline policy here: cb50f5d9b71e added it
+            // to keep plain C bridges out of invoke (vararg libc calls were collapsing
+            // into invalid gc.statepoint callsites), gated on the bridge *lacking*
+            // @FilterExceptions. NoUnwind was later dropped (cdb0a5abbc09 -- the Kotlin
+            // wrapper rethrows via __cxa_throw, so callers must emit invoke anyway), and
+            // the annotation is now emitted unconditionally again, which left the whole
+            // condition unsatisfiable. The baseline and kotlin 2.0 tag neither.
             if (contextUtils.context.config.enableStackmap) {
-                if (irFunction.origin == CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
-                        !irFunction.annotations.hasAnnotation(RuntimeNames.filterExceptions) &&
-                        !irFunction.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
-                    // No NoUnwind: the Kotlin wrapper rethrows non-OK return codes via
-                    // __cxa_throw, so callers must emit invoke for the IR cleanup
-                    // landing pad. NoInline keeps the bridge as a distinct GC frame.
-                    add(LlvmFunctionAttribute.NoInline)
-                }
                 add(LlvmFunctionAttribute.KFunc)
                 val classId = NativeRuntimeNames.Annotations.exportForCppRuntimeClassId
                 // A @GCUnsafeCall function is a Kotlin->C import (declaration only), not a
