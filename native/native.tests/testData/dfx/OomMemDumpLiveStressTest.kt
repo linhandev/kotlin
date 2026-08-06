@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// DISABLE_NATIVE: isAppleTarget=true
+// DISABLE_NATIVE: targetFamily=LINUX
+// DISABLE_NATIVE: targetFamily=MINGW
+// DISABLE_NATIVE: targetFamily=ANDROID
 // TARGET_BACKEND: NATIVE
 // LIVE_STRESS: requires DFX_OOM_STRESS=1; retains ~1.5GB heap; device needs >=2GB free RAM (else kernel OOM killer).
 // Do not set gcType=NOOP — OOM path uses custom allocator (AllocatedSizeTracker.cpp).

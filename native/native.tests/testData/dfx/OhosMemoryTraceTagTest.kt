@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 // DISABLE_NATIVE: gcType=NOOP
+// DISABLE_NATIVE: isAppleTarget=true
+// DISABLE_NATIVE: targetFamily=LINUX
+// DISABLE_NATIVE: targetFamily=MINGW
+// DISABLE_NATIVE: targetFamily=ANDROID
 // TARGET_BACKEND: NATIVE
 // Tests OHOS memory tagging from SR005 commits: restrace (CustomAllocator / CustomFinalizerProcessor)
 // and VMA anon name (GCApi::SafeAlloc). Smaps probes run only on OHOS (OH_GetSdkApiVersion) with procfs.

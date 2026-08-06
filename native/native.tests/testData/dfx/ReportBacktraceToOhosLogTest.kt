@@ -13,6 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// DISABLE_NATIVE: isAppleTarget=true
+// DISABLE_NATIVE: targetFamily=LINUX
+// DISABLE_NATIVE: targetFamily=MINGW
+// DISABLE_NATIVE: targetFamily=ANDROID
+// TARGET_BACKEND: NATIVE
 import kotlin.test.*
 import kotlinx.cinterop.*
 import platform.BasicServicesKit.DeviceInfo.OH_GetSdkApiVersion
