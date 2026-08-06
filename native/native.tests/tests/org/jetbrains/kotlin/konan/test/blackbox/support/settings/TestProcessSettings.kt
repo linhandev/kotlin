@@ -157,8 +157,8 @@ enum class Sanitizer(val compilerFlag: String?) {
 /**
  * Number of bitcode partitions for `-Xbinary=splitBCfile=N`.
  * Effective only for ohos_arm64 non-debug compiles (see [org.jetbrains.kotlin.backend.konan.KonanConfig.splitBCfile]).
- * Framework default is [DEFAULT] (`2`). Omitting the compiler flag only when [partitions] is `1`
- * (compiler's own unset default).
+ * Framework default is [DEFAULT] (`1`). Omitting the compiler flag when [partitions] is `1`
+ * (compiler's own unset default). Pass `-Pkn.splitBCfile=N` (N>1) to enable split.
  */
 data class SplitBCfile(val partitions: UInt = DEFAULT) {
     val compilerFlag: String?
@@ -167,7 +167,7 @@ data class SplitBCfile(val partitions: UInt = DEFAULT) {
     override fun toString() = if (partitions == 1u) "" else "(splitBCfile=$partitions)"
 
     companion object {
-        const val DEFAULT: UInt = 2u
+        const val DEFAULT: UInt = 1u
     }
 }
 

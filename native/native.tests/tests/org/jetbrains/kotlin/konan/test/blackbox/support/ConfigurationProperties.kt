@@ -79,7 +79,7 @@ enum class ClassLevelProperty(val shortName: String) {
     C_INTERFACE_MODE("cInterfaceMode"),
     XCTEST_FRAMEWORK("xctest"),
     OHOS_DEVICE_ID("ohosDeviceId"),
-    /** Bitcode split partition count for ohos_arm64 OPT (`-Xbinary=splitBCfile=N`). Default `2`. */
+    /** Bitcode split partition count for ohos_arm64 OPT (`-Xbinary=splitBCfile=N`). Default `1`. */
     SPLIT_BC_FILE("splitBCfile"),
     ;
 
