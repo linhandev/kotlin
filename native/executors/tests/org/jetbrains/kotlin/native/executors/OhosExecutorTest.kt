@@ -117,6 +117,8 @@ class OhosExecutorTest {
         assertTrue(runScript.contains("'$deviceExe' 'arg1'"))
         assertTrue(runScript.contains("< /dev/null"))
         assertTrue(runScript.contains("__OHOS_HDC_EXIT__"))
+        assertTrue(runScript.contains("$deviceExe.hdc_exit"))
+        assertTrue(runScript.contains("ec=\$?"))
     }
 
     @Test
@@ -244,6 +246,53 @@ class OhosExecutorTest {
     }
 
     @Test
+    fun `execute recovers exit code from side-file when stream probe is missing`(@TempDir tempDir: Path) {
+        val recording = RecordingExecutor(
+            outputs = listOf(
+                "OK", // prepare
+                "OK", // file send
+                "AddressSanitizer: huge dump without trailing probe\n", // run: truncated
+                "139", // cat side-file
+            )
+        )
+        val localExe = tempDir.resolve("exit_sidefile_139.kexe").toFile().apply { writeText("bin") }
+
+        assertEquals(
+            139,
+            OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
+                ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
+            ).exitCode
+        )
+        assertEquals(4, recording.requests.size)
+        val cat = recording.requests[3]
+        assertEquals("shell", cat.args[0])
+        assertTrue(cat.args[1].contains("cat "))
+        assertTrue(cat.args[1].contains(".hdc_exit"))
+    }
+
+    @Test
+    fun `execute fails hard when exit probe and side-file are both missing`(@TempDir tempDir: Path) {
+        val recording = RecordingExecutor(
+            outputs = listOf(
+                "OK",
+                "OK",
+                "[Fail]Not match target founded, check connect-key please\n",
+                "[Fail]Not match target founded, check connect-key please\n",
+            )
+        )
+        val localExe = tempDir.resolve("exit_probe_missing.kexe").toFile().apply { writeText("bin") }
+
+        val error = assertThrows<IllegalStateException> {
+            OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC).execute(
+                ExecuteRequest(executableAbsolutePath = localExe.absolutePath)
+            )
+        }
+        assertTrue(error.message!!.contains("Could not determine device exit code"))
+        assertTrue(error.message!!.contains("Not match target"))
+        assertEquals(4, recording.requests.size)
+    }
+
+    @Test
     fun `execute fails after repeated hdc connect-key failures`(@TempDir tempDir: Path) {
         val recording = RecordingExecutor(
             outputs = List(3) { HDC_CONNECT_KEY_FAILURE }
@@ -291,7 +340,7 @@ class OhosExecutorTest {
         // first: prepare+send exe, prepare+send libCrt, run (5)
         // second: prepare+send other exe, run; libCrt skipped (3)
         val recording = RecordingExecutor(
-            outputs = List(5) { "OK" } + listOf("__OHOS_HDC_EXIT__:0\n") +
+            outputs = List(4) { "OK" } + listOf("__OHOS_HDC_EXIT__:0\n") +
                     List(2) { "OK" } + listOf("__OHOS_HDC_EXIT__:0\n")
         )
         val executor = OhosExecutor(recording, hdcAbsolutePath = FAKE_HDC, libCrtSo = libCrt)
