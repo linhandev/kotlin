@@ -5,6 +5,7 @@
 // DISABLE_NATIVE: targetFamily=ANDROID && targetArchitecture=ARM64
 // DISABLE_NATIVE: targetFamily=ANDROID && targetArchitecture=X86
 // DISABLE_NATIVE: targetFamily=LINUX && targetArchitecture=ARM64
+// IGNORE_NATIVE: target=ohos_arm64
 
 // CHECK-DAG: {{define|declare}}{{.*}} void @EnterFrame({{[^\)]*}}) #[[ENTER_FRAME_ATTRS:[0-9]+]]
 
