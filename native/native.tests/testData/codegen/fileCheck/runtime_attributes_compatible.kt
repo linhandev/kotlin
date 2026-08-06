@@ -13,6 +13,10 @@
 // CHECK-NOSTACKMAP-DAG: define ptr @"kfun:#box(){}kotlin.String"(ptr %0) #[[BOX_ATTRS:[0-9]+]]
 fun box(): String = "OK"
 
+// Feature order is not significant, and application code may enable a superset
+// of the features used to build the runtime.
 // CHECK-DAG: attributes #[[ENTER_FRAME_ATTRS]] = {{{.*}}"target-cpu"="[[RT_CPU:[^"]+]]" "target-features"="[[RT_FEATURES:[^"]+]]"
 
-// CHECK-DAG: attributes #[[BOX_ATTRS]] = {{{.*}}"target-cpu"="[[RT_CPU]]" "target-features"="{{[^"]*}}[[RT_FEATURES]]{{[^"]*}}"
+// CHECK-DAG: attributes #[[BOX_ATTRS]] = {{{.*}}"target-cpu"="[[RT_CPU]]" "target-features"="[[BOX_FEATURES:[^"]+]]"
+// CHECK-MACOS_ARM64-DAG: attributes #[[ENTER_FRAME_ATTRS]] = {{{.*}}"target-features"="{{[^"]*}}+fp-armv8{{[^"]*}}+neon{{[^"]*}}+reserve-x28{{[^"]*}}"
+// CHECK-MACOS_ARM64-DAG: attributes #[[BOX_ATTRS]] = {{{.*}}"target-features"="{{[^"]*}}+fp-armv8{{[^"]*}}+neon{{[^"]*}}+reserve-x28{{[^"]*}}+reserve-x27{{[^"]*}}"

@@ -2,8 +2,7 @@
 // FILECHECK_STAGE: CStubs
 
 // FILE: TEST_FILE1.kt
-// CHECK-NOSTACKMAP-NOT: @CallInitGlobalPossiblyLock({{.*}}TEST_FILE1
-// CHECK-STACKMAP-NOT: @CallInitGlobalPossiblyLockStub({{.*}}TEST_FILE1
+// CHECK-NOT: @CallInitGlobalPossiblyLock{{(Stub)?}}({{.*}}TEST_FILE1
 
 import kotlin.reflect.*
 
@@ -29,8 +28,7 @@ fun box(): String {
 // FILE: TEST_FILE2.kt
 
 // to check code-generation of static scope initialization didn't change
-// CHECK-NOSTACKMAP: @CallInitGlobalPossiblyLock({{.*}}TEST_FILE2
-// CHECK-STACKMAP: @CallInitGlobalPossiblyLockStub({{.*}}TEST_FILE2
+// CHECK: @CallInitGlobalPossiblyLock{{(Stub)?}}({{.*}}TEST_FILE2
 
 fun foo() = "G"
 val g = foo()

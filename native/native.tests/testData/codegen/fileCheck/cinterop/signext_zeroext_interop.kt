@@ -36,20 +36,22 @@ int callbackUser(int (*fn)(int, short)) {
 import signext_zeroext_interop_input.*
 import kotlinx.cinterop.*
 
-// CHECK-DEFAULTABI-CACHE_NO: declare zeroext i1 @Kotlin_Char_isHighSurrogate(i16 zeroext){{.*}}
-// CHECK-AAPCS-CACHE_NO: declare i1 @Kotlin_Char_isHighSurrogate(i16)
-// CHECK-WINDOWSX64-CACHE_NO: declare zeroext i1 @Kotlin_Char_isHighSurrogate(i16)
+// CHECK-NOSTACKMAP-DEFAULTABI-CACHE_NO: declare zeroext i1 @Kotlin_Char_isHighSurrogate(i16 zeroext){{.*}}
+// CHECK-NOSTACKMAP-AAPCS-CACHE_NO: declare i1 @Kotlin_Char_isHighSurrogate(i16)
+// CHECK-NOSTACKMAP-WINDOWSX64-CACHE_NO: declare zeroext i1 @Kotlin_Char_isHighSurrogate(i16)
 
 // Check that we pass attributes to functions imported from runtime.
 // CHECK-LABEL: void @"kfun:#checkRuntimeFunctionImport(){}"()
 fun checkRuntimeFunctionImport() {
-    // CHECK-DEFAULTABI: call zeroext i1 @Kotlin_Char_isHighSurrogate(i16 zeroext {{.*}})
-    // CHECK-AAPCS: call i1 @Kotlin_Char_isHighSurrogate(i16 {{.*}})
-    // CHECK-WINDOWSX64: call zeroext i1 @Kotlin_Char_isHighSurrogate(i16 {{.*}})
+    // CHECK-NOSTACKMAP-DEFAULTABI: call zeroext i1 @Kotlin_Char_isHighSurrogate(i16 zeroext {{.*}})
+    // CHECK-NOSTACKMAP-AAPCS: call i1 @Kotlin_Char_isHighSurrogate(i16 {{.*}})
+    // CHECK-NOSTACKMAP-WINDOWSX64: call zeroext i1 @Kotlin_Char_isHighSurrogate(i16 {{.*}})
+    // CHECK-STACKMAP-AAPCS: call i1 @"kfun:kotlin.text#isHighSurrogate__at__kotlin.Char(){}kotlin.Boolean"(i16 {{.*}})
     'c'.isHighSurrogate()
-    // CHECK-DEFAULTABI: call zeroext i1 @Kotlin_Float_isNaN(float {{.*}}
-    // CHECK-AAPCS: call i1 @Kotlin_Float_isNaN(float {{.*}}
-    // CHECK-WINDOWSX64: call zeroext i1 @Kotlin_Float_isNaN(float {{.*}}
+    // CHECK-NOSTACKMAP-DEFAULTABI: call zeroext i1 @Kotlin_Float_isNaN(float {{.*}}
+    // CHECK-NOSTACKMAP-AAPCS: call i1 @Kotlin_Float_isNaN(float {{.*}}
+    // CHECK-NOSTACKMAP-WINDOWSX64: call zeroext i1 @Kotlin_Float_isNaN(float {{.*}}
+    // CHECK-STACKMAP-AAPCS: call i1 @"kfun:kotlin#isNaN__at__kotlin.Float(){}kotlin.Boolean"(float {{.*}}
     0.0f.isNaN()
 }
 
@@ -60,25 +62,25 @@ fun checkDirectInterop() {
     // compiler generates quite lovely names for bridges
     // (e.g. `_66696c65636865636b5f7369676e6578745f7a65726f6578745f696e7465726f70_knbridge0`),
     // so we don't check exact function names here.
-    // CHECK-DEFAULTABI: invoke signext i8 [[CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 signext {{.*}})
-    // CHECK-AAPCS: invoke i8 [[CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 {{.*}})
-    // CHECK-WINDOWSX64: invoke i8 [[CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 {{.*}})
+    // CHECK-DEFAULTABI: {{call|invoke}} signext i8 [[CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 signext {{.*}})
+    // CHECK-AAPCS: {{call|invoke}} i8 [[CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 {{.*}})
+    // CHECK-WINDOWSX64: {{call|invoke}} i8 [[CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 {{.*}})
     char_id(0.toByte())
-    // CHECK-DEFAULTABI: invoke zeroext i8 [[UNSIGNED_CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 zeroext {{.*}})
-    // CHECK-AAPCS: invoke i8 [[UNSIGNED_CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 {{.*}})
-    // CHECK-WINDOWSX64: invoke i8 [[UNSIGNED_CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 {{.*}})
+    // CHECK-DEFAULTABI: {{call|invoke}} zeroext i8 [[UNSIGNED_CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 zeroext {{.*}})
+    // CHECK-AAPCS: {{call|invoke}} i8 [[UNSIGNED_CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 {{.*}})
+    // CHECK-WINDOWSX64: {{call|invoke}} i8 [[UNSIGNED_CHAR_ID_BRIDGE:@_.*_knbridge[0-9]+]](i8 {{.*}})
     unsigned_char_id(0.toUByte())
-    // CHECK-DEFAULTABI: invoke signext i16 [[SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 signext {{.*}})
-    // CHECK-AAPCS: invoke i16 [[SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 {{.*}})
-    // CHECK-WINDOWSX64: invoke i16 [[SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 {{.*}})
+    // CHECK-DEFAULTABI: {{call|invoke}} signext i16 [[SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 signext {{.*}})
+    // CHECK-AAPCS: {{call|invoke}} i16 [[SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 {{.*}})
+    // CHECK-WINDOWSX64: {{call|invoke}} i16 [[SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 {{.*}})
     short_id(0.toShort())
-    // CHECK-DEFAULTABI: invoke zeroext i16 [[UNSIGNED_SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 zeroext {{.*}})
-    // CHECK-AAPCS: invoke i16 [[UNSIGNED_SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 {{.*}})
-    // CHECK-WINDOWSX64: invoke i16 [[UNSIGNED_SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 {{.*}})
+    // CHECK-DEFAULTABI: {{call|invoke}} zeroext i16 [[UNSIGNED_SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 zeroext {{.*}})
+    // CHECK-AAPCS: {{call|invoke}} i16 [[UNSIGNED_SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 {{.*}})
+    // CHECK-WINDOWSX64: {{call|invoke}} i16 [[UNSIGNED_SHORT_ID_BRIDGE:@_.*_knbridge[0-9]+]](i16 {{.*}})
     unsigned_short_id(0.toUShort())
-    // CHECK-DEFAULTABI: invoke i32 [[CALLBACK_USER_BRIDGE:@_.*_knbridge[0-9]+]](ptr [[STATIC_C_FUNCTION_BRIDGE:@_.*_kncfun[0-9]+]])
-    // CHECK-AAPCS: invoke i32 [[CALLBACK_USER_BRIDGE:@_.*_knbridge[0-9]+]](ptr [[STATIC_C_FUNCTION_BRIDGE:@_.*_kncfun[0-9]+]])
-    // CHECK-WINDOWSX64: invoke i32 [[CALLBACK_USER_BRIDGE:@_.*_knbridge[0-9]+]](ptr [[STATIC_C_FUNCTION_BRIDGE:@_.*_kncfun[0-9]+]])
+    // CHECK-DEFAULTABI: {{call|invoke}} i32 [[CALLBACK_USER_BRIDGE:@_.*_knbridge[0-9]+]](ptr [[STATIC_C_FUNCTION_BRIDGE:@_.*_kncfun[0-9]+]])
+    // CHECK-AAPCS: {{call|invoke}} i32 [[CALLBACK_USER_BRIDGE:@_.*_knbridge[0-9]+]](ptr [[STATIC_C_FUNCTION_BRIDGE:@_.*_kncfun[0-9]+]])
+    // CHECK-WINDOWSX64: {{call|invoke}} i32 [[CALLBACK_USER_BRIDGE:@_.*_knbridge[0-9]+]](ptr [[STATIC_C_FUNCTION_BRIDGE:@_.*_kncfun[0-9]+]])
     callbackUser(staticCFunction { int: Int, short: Short -> int + short })
 }
 
@@ -90,9 +92,9 @@ fun box(): String {
     return "OK"
 }
 
-// CHECK-DEFAULTABI-CACHE_STATIC_ONLY_DIST: declare zeroext i1 @Kotlin_Char_isHighSurrogate(i16 zeroext){{.*}}
-// CHECK-AAPCS-CACHE_STATIC_ONLY_DIST: declare i1 @Kotlin_Char_isHighSurrogate(i16)
-// CHECK-WINDOWSX64-CACHE_STATIC_ONLY_DIST: declare zeroext i1 @Kotlin_Char_isHighSurrogate(i16)
+// CHECK-NOSTACKMAP-DEFAULTABI-CACHE_STATIC_ONLY_DIST: declare zeroext i1 @Kotlin_Char_isHighSurrogate(i16 zeroext){{.*}}
+// CHECK-NOSTACKMAP-AAPCS-CACHE_STATIC_ONLY_DIST: declare i1 @Kotlin_Char_isHighSurrogate(i16)
+// CHECK-NOSTACKMAP-WINDOWSX64-CACHE_STATIC_ONLY_DIST: declare zeroext i1 @Kotlin_Char_isHighSurrogate(i16)
 
 // CHECK-DEFAULTABI: signext i8 [[CHAR_ID_BRIDGE]](i8 noundef signext %0)
 // CHECK-DEFAULTABI: [[CHAR_ID_PTR:%[0-9]+]] = load ptr, ptr @{{.*char_id}}
@@ -145,16 +147,15 @@ fun box(): String {
 // CHECK-WINDOWSX64: [[UNSIGNED_SHORT_ID_PTR:%[0-9]+]] = load ptr, ptr @{{.*unsigned_short_id}}
 // CHECK-WINDOWSX64: call i16 [[UNSIGNED_SHORT_ID_PTR]](i16 noundef %0)
 
+// The static-C-function and callback-user bridges have opposite order in the two pipelines.
+// CHECK-NOSTACKMAP-DEFAULTABI: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef signext %1)
+// CHECK-NOSTACKMAP-DEFAULTABI: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef signext %1)
 
-// CHECK-DEFAULTABI: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef signext %1)
-// CHECK-DEFAULTABI: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef signext %1)
+// CHECK-NOSTACKMAP-AAPCS: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef %1)
+// CHECK-NOSTACKMAP-AAPCS: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef %1)
 
-// CHECK-AAPCS: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef %1)
-// CHECK-AAPCS: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef %1)
-
-// CHECK-WINDOWSX64: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef %1)
-// CHECK-WINDOWSX64: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef %1)
-
+// CHECK-NOSTACKMAP-WINDOWSX64: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef %1)
+// CHECK-NOSTACKMAP-WINDOWSX64: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef %1)
 
 // CHECK-DEFAULTABI: i32 [[CALLBACK_USER_BRIDGE]](ptr noundef %0)
 // CHECK-DEFAULTABI: [[CALLBACK_USER_PTR:%[0-9]+]] = load ptr, ptr @{{.*callbackUser}}
@@ -167,3 +168,12 @@ fun box(): String {
 // CHECK-WINDOWSX64: i32 [[CALLBACK_USER_BRIDGE]](ptr noundef %0)
 // CHECK-WINDOWSX64: [[CALLBACK_USER_PTR:%[0-9]+]] = load ptr, ptr @{{.*callbackUser}}
 // CHECK-WINDOWSX64: call i32 [[CALLBACK_USER_PTR]](ptr noundef %0)
+
+// CHECK-STACKMAP-DEFAULTABI: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef signext %1)
+// CHECK-STACKMAP-DEFAULTABI: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef signext %1)
+
+// CHECK-STACKMAP-AAPCS: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef %1)
+// CHECK-STACKMAP-AAPCS: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef %1)
+
+// CHECK-STACKMAP-WINDOWSX64: i32 [[STATIC_C_FUNCTION_BRIDGE]](i32 noundef %0, i16 noundef %1)
+// CHECK-STACKMAP-WINDOWSX64: call i32 {{@_.*_knbridge[0-9]+}}(i32 noundef %0, i16 noundef %1)

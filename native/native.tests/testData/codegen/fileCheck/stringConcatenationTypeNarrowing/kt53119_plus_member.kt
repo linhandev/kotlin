@@ -11,7 +11,7 @@ import kotlin.test.*
 // CHECK-STACKMAP-OPT: call ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_plus_member.Foo#toString(){}kotlin.String"
 // CHECK-NOSTACKMAP-OPT: call ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_plus_member.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
-// CHECK-STACKMAP-OPT: call ptr addrspace(1) @Kotlin_String_plusImpl
+// CHECK-STACKMAP-OPT: call ptr addrspace(1) @{{Kotlin_String_plusImpl|"kfun:kotlin.String#plusImpl}}
 // CHECK-NOSTACKMAP-OPT: call ptr @Kotlin_String_plusImpl
 // CHECK-OPT-NOT: kfun:kotlin.String#plus(kotlin.Any?)
 
@@ -24,7 +24,7 @@ fun manualPlusMemberAny(str: String, maybeAny: kotlin.Any?): kotlin.String =
 // CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_plus_member#manualPlusMemberString
 // CHECK-OPT-NOT: kfun:kotlin.String#plus(kotlin.Any?)
 
-// CHECK-STACKMAP-OPT: call ptr addrspace(1) @Kotlin_String_plusImpl
+// CHECK-STACKMAP-OPT: call ptr addrspace(1) @{{Kotlin_String_plusImpl|"kfun:kotlin.String#plusImpl}}
 // CHECK-NOSTACKMAP-OPT: call ptr @Kotlin_String_plusImpl
 // CHECK-OPT-NOT: kfun:kotlin.String#plus(kotlin.Any?)
 
@@ -43,7 +43,7 @@ fun manualPlusMemberString(str1: String, str2: String): kotlin.String =
 // CHECK-STACKMAP-OPT: call ptr addrspace(1) @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_plus_member.Foo#toString(){}kotlin.String"
 // CHECK-NOSTACKMAP-OPT: call ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_plus_member.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
-// CHECK-STACKMAP-OPT: call ptr addrspace(1) @Kotlin_String_plusImpl
+// CHECK-STACKMAP-OPT: call ptr addrspace(1) @{{Kotlin_String_plusImpl|"kfun:kotlin.String#plusImpl}}
 // CHECK-NOSTACKMAP-OPT: call ptr @Kotlin_String_plusImpl
 // CHECK-OPT-NOT: kfun:kotlin.String#plus(kotlin.Any?)
 
@@ -57,9 +57,9 @@ fun generatedPlusMemberAny(str: String, maybeAny: Any?): String {
 // CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_plus_member#generatedPlusMemberString
 // CHECK-OPT-NOT: kfun:kotlin.String#plus(kotlin.Any?)
 
-// CHECK-STACKMAP-OPT: call ptr addrspace(1) @Kotlin_String_plusImpl
+// CHECK-STACKMAP-OPT: call ptr addrspace(1) @{{Kotlin_String_plusImpl|"kfun:kotlin.String#plusImpl}}
 // CHECK-NOSTACKMAP-OPT: call ptr @Kotlin_String_plusImpl
-// CHECK-STACKMAP-OPT-NOT: call ptr addrspace(1) @Kotlin_String_plusImpl
+// CHECK-STACKMAP-OPT-NOT: call ptr addrspace(1) @{{Kotlin_String_plusImpl|"kfun:kotlin.String#plusImpl}}
 // CHECK-NOSTACKMAP-OPT-NOT: call ptr @Kotlin_String_plusImpl
 
 // CHECK-STACKMAP-OPT-NOT: call ptr addrspace(1) @"kfun:kotlin.String#toString(){}kotlin.String"
@@ -81,7 +81,7 @@ data class Foo(val bar: Int)
 // CHECK-NOSTACKMAP-OPT: call ptr @"kfun:codegen.stringConcatenationTypeNarrowing.kt53119_plus_member.Foo#toString(){}kotlin.String"
 // CHECK-OPT-NOT Foo#toString(){}kotlin.String
 
-// CHECK-STACKMAP-OPT: call ptr addrspace(1) @Kotlin_String_plusImpl
+// CHECK-STACKMAP-OPT: call ptr addrspace(1) @{{Kotlin_String_plusImpl|"kfun:kotlin.String#plusImpl}}
 // CHECK-NOSTACKMAP-OPT: call ptr @Kotlin_String_plusImpl
 // CHECK-OPT-NOT: kfun:kotlin.String#plus(kotlin.Any?)
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
@@ -98,7 +98,7 @@ fun manualPlusMemberFoo(str1: String, foo: Foo): kotlin.String =
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String
 // CHECK-OPT-NOT: kfun:kotlin.String#plus(kotlin.Any?)
 
-// CHECK-STACKMAP-OPT: call ptr addrspace(1) @Kotlin_String_plusImpl
+// CHECK-STACKMAP-OPT: call ptr addrspace(1) @{{Kotlin_String_plusImpl|"kfun:kotlin.String#plusImpl}}
 // CHECK-NOSTACKMAP-OPT: call ptr @Kotlin_String_plusImpl
 // CHECK-OPT-NOT: Foo#toString(){}kotlin.String"
 

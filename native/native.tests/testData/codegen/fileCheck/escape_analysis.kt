@@ -7,9 +7,9 @@ class A(val x: Int)
 // CHECK-NOSTACKMAP-LABEL: define ptr @"kfun:#box(){}kotlin.String"
 fun box(): String {
     // CHECK-NOSTACKMAP-DEBUG: call ptr @AllocInstance
-    // CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @AllocInstance
     // CHECK-NOSTACKMAP-OPT: alloca %"kclassbody:A#internal"
-    // CHECK-STACKMAP-OPT: call ptr addrspace(1) @AllocInstance
+    // Escape analysis is disabled when precise stack maps are enabled.
+    // CHECK-STACKMAP: call ptr addrspace(1) @AllocInstanceForCIStub
     val a = A(5)
     println(a.x)
 // CHECK-LABEL: epilogue:

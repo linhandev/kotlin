@@ -93,7 +93,7 @@ fun box(): String {
 // CHECK-NOSTACKMAP-LABEL: define internal ptr @"kfun:stringifyArray$$FUNCTION_REFERENCE_FOR$get$0.invoke#internal"
 // CHECK-STACKMAP-SAME: (ptr addrspace(1) [[this:%[0-9]+]], ptr addrspace(1) [[array:%[0-9]+]], i32 [[index:%[0-9]+]], ptr [[ret:%[0-9]+]])
 // CHECK-NOSTACKMAP-SAME: (ptr [[this:%[0-9]+]], ptr [[array:%[0-9]+]], i32 [[index:%[0-9]+]], ptr [[ret:%[0-9]+]])
-// CHECK-STACKMAP-OPT: call ptr addrspace(1) @Kotlin_Array_get(ptr addrspace(1) [[array]], i32 [[index]], ptr [[ret]])
+// CHECK-STACKMAP-OPT: call ptr addrspace(1) @{{Kotlin_Array_get|"kfun:kotlin.Array#get[^"]*"}}(ptr addrspace(1) [[array]], i32 [[index]], ptr [[ret]])
 // CHECK-NOSTACKMAP-OPT: call ptr @Kotlin_Array_get(ptr [[array]], i32 [[index]], ptr [[ret]])
 // CHECK-STACKMAP-DEBUG: call ptr addrspace(1) @Kotlin_Array_get(ptr addrspace(1) {{%[0-9]+}}, i32 {{%[0-9]+}}, ptr {{%[0-9]+}})
 // CHECK-NOSTACKMAP-DEBUG: call ptr @Kotlin_Array_get(ptr {{%[0-9]+}}, i32 {{%[0-9]+}}, ptr {{%[0-9]+}})

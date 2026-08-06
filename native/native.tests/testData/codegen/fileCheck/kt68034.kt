@@ -2,7 +2,7 @@
 // FILECHECK_STAGE: CStubs
 
 // CHECK-LABEL: define i32 @"kfun:#wrapString(kotlin.String){}kotlin.Int
-// CHECK-OPT: call {{zeroext i16|i16}} @Kotlin_String_get
+// CHECK-OPT: call {{zeroext i16|i16}} @{{Kotlin_String_get|"kfun:kotlin.String#get}}
 // CHECK-DEBUG: call {{zeroext i16|i16}} @"kfun:kotlin.CharSequence#get(kotlin.Int){}kotlin.Char-trampoline"
 // CHECK-LABEL: epilogue:
 fun wrapString(impl: String) = ifaceHandler(impl)
