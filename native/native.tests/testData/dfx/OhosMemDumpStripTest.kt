@@ -15,7 +15,7 @@
  */
 // DISABLE_NATIVE: gcType=NOOP
 // TARGET_BACKEND: NATIVE
-// SR009: mem dump strip + gzip; isStrip keeps only object Array / NativePtrArray payloads.
+// SR009: mem dump strip + gzip (f42e3ef); strip policy incl. String (37b1dac).
 // FREE_COMPILER_ARGS: -opt-in=kotlin.native.runtime.NativeRuntimeApi,kotlin.ExperimentalStdlibApi,kotlin.experimental.ExperimentalNativeApi,kotlinx.cinterop.ExperimentalForeignApi
 
 import kotlin.test.*
@@ -27,10 +27,10 @@ import platform.posix.*
 import platform.zlib.*
 
 /**
- * Black-box tests for [MemoryDump.cpp] isStrip_ dump policy and kdumputil reconstruction.
+ * Black-box tests for SR009 [MemoryDump.cpp] strip policy and kdumputil reconstruction.
  *
- * Current DumpArray (isStrip_=true): payload kept only for [theArrayTypeInfo] / [theNativePtrArrayTypeInfo];
- * all other arrays (ByteArray/CharArray/String/IntArray/…) write payloadSize=0.
+ * The current async path emits one or more concatenated gzip members and strips
+ * every array payload except object-reference and NativePtr arrays.
  */
 @OptIn(
     kotlin.experimental.ExperimentalNativeApi::class,
@@ -42,39 +42,30 @@ class OhosMemDumpStripTest {
     private fun logLine(msg: String) = println(msg)
 
     /**
-     * Strip + gzip require [Debugging.dumpMemoryAsync] (DumpMemoryOrThrow).
-     * On OHOS the runtime forks; reap the child before reading the FILE.
+     * OHOS permits only one forked dump child at a time. A gzip stream can be
+     * complete just before that child exits, so the next sequential request may
+     * transiently be rejected while the previous PID is still alive.
      */
-    private fun dumpMemoryPreservingFd(keepFd: Int, strip: Boolean = true): Boolean {
-        val dumpFd = dup(keepFd)
-        assertTrue(dumpFd >= 0, "dup($keepFd) failed")
-        try {
-            val ok = Debugging.dumpMemoryAsync(dumpFd.toLong(), false)
-            if (ok) waitForForkedDumpChild()
-            return ok
-        } finally {
-            close(dumpFd)
+    private fun startDumpMemoryStripAsync(fd: Int): Boolean {
+        repeat(2_400) {
+            if (Debugging.dumpMemoryAsync(fd.toLong(), true)) return true
+            usleep(50_000u)
         }
+        return false
     }
 
-    /** OHOS may fork; ECHILD (errno=10) means dump already finished in-process. */
-    private fun waitForForkedDumpChild() = memScoped {
-        val status = alloc<IntVar>()
-        waitpid(-1, status.ptr, 0)
-    }
+    // ---------- Mirrors MemoryDump.cpp / kdumputil (post-37b1dac) ----------
 
-    // ---------- Mirrors MemoryDump.cpp DumpArray isStrip_ gate ----------
-
-    /** Sample relative names that must be stripped under isStrip_. */
-    private val strippedArrayRelativeNames = setOf("ByteArray", "CharArray", "String", "IntArray")
-    /** Relative names that keep payload (theArrayTypeInfo / theNativePtrArrayTypeInfo). */
-    private val keepPayloadArrayRelativeNames = setOf("Array", "NativePtrArray")
+    private val strippedArrayRelativeNames = setOf(
+        "BooleanArray", "ByteArray", "CharArray", "ShortArray",
+        "IntArray", "LongArray", "FloatArray", "DoubleArray", "String",
+    )
     private val pointerSetExpansionFactor = 2
     private val pointerSetMaxLoadFactor = 0.7
     private val pointerSetShiftBits = 3
-    private val initialObjectSetCapacity = 8_388_608
+    private val initialObjectSetCapacity = 16_777_216
     private val initialTypeSetCapacity = 4096
-    private val outputBufferSizeBytes = 1 * 1024 * 1024
+    private val initialInflateBufferSizeBytes = 1 * 1024 * 1024
     private val gzipMagic0 = 0x1f
     private val gzipMagic1 = 0x8b
 
@@ -103,95 +94,120 @@ class OhosMemDumpStripTest {
         return size
     }
 
-    private fun readCompressedDumpFromFile(file: CPointer<FILE>): ByteArray {
-        fflush(file)
-        rewind(file)
-        fseek(file, 0, SEEK_END)
-        val size = ftell(file)
-        assertTrue(size > 0L, "compressed dump size must be > 0")
-        assertTrue(
-            size <= Int.MAX_VALUE.toLong(),
-            "compressed dump size $size exceeds Int.MAX_VALUE",
-        )
-        val sizeInt = size.toInt()
-        rewind(file)
-        return memScoped {
-            val buf = allocArray<ByteVar>(sizeInt)
-            val read = fread(buf, 1u, sizeInt.toULong(), file)
-            assertEquals(sizeInt.toULong(), read, "fread compressed dump")
-            ByteArray(sizeInt) { i -> buf[i] }
-        }
-    }
+    private data class InflateAttempt(val data: ByteArray?, val needsMoreOutput: Boolean)
 
-    private fun gunzipGzip(compressed: ByteArray): ByteArray {
-        var outCapacity = maxOf(compressed.size * 32, outputBufferSizeBytes)
-        while (true) {
-            assertTrue(
-                outCapacity <= Int.MAX_VALUE,
-                "gzip inflate capacity $outCapacity exceeds Int.MAX_VALUE",
-            )
-            val inflated = inflateGzipOnce(compressed, outCapacity)
-            if (inflated != null) {
-                return inflated
+    /** Reads without changing the open-file offset shared with the OHOS fork child. */
+    private fun readFdSnapshot(fd: Int): ByteArray = memScoped {
+        val fileStat = alloc<stat>()
+        assertEquals(0, fstat(fd, fileStat.ptr), "fstat dump fd")
+        val size = fileStat.st_size
+        if (size <= 0L) return@memScoped ByteArray(0)
+        assertTrue(size <= Int.MAX_VALUE.toLong(), "compressed dump size $size exceeds Int.MAX_VALUE")
+        val result = ByteArray(size.toInt())
+        result.usePinned { pinned ->
+            var offset = 0
+            while (offset < result.size) {
+                val read = pread(
+                    fd,
+                    pinned.addressOf(offset),
+                    (result.size - offset).toULong(),
+                    offset.toLong(),
+                )
+                if (read <= 0L) return@memScoped ByteArray(0)
+                offset += read.toInt()
             }
-            assertTrue(
-                outCapacity <= Int.MAX_VALUE / 2,
-                "gzip inflate buffer exhausted at $outCapacity bytes",
-            )
-            outCapacity *= 2
         }
+        result
     }
 
-    /**
-     * Returns null on [Z_BUF_ERROR] so [gunzipGzip] can grow the buffer.
-     * Handles concatenated gzip members from parallel CompressToFile.
-     */
-    private fun inflateGzipOnce(compressed: ByteArray, outCapacity: Int): ByteArray? = memScoped {
+    /** Inflates every concatenated gzip member. Incomplete input is retried by the caller. */
+    private fun tryInflateAllGzipMembers(compressed: ByteArray, outCapacity: Int): InflateAttempt = memScoped {
+        if (compressed.size < 2 ||
+            (compressed[0].toInt() and 0xFF) != gzipMagic0 ||
+            (compressed[1].toInt() and 0xFF) != gzipMagic1
+        ) return@memScoped InflateAttempt(null, false)
+
         val out = ByteArray(outCapacity)
         compressed.usePinned { inPinned ->
             out.usePinned { outPinned ->
-                var inOffset = 0
-                var outOffset = 0
-                while (inOffset < compressed.size) {
-                    if (outOffset >= outCapacity) return null
-                    val stream = alloc<z_stream>().apply {
-                        next_in = inPinned.addressOf(inOffset).reinterpret()
-                        avail_in = (compressed.size - inOffset).toUInt()
-                        next_out = outPinned.addressOf(outOffset).reinterpret()
-                        avail_out = (outCapacity - outOffset).toUInt()
-                    }
-                    val initRc = inflateInit2(stream.ptr, 15 + 16)
-                    assertEquals(Z_OK, initRc, "inflateInit2(gzip)")
-                    val inflateRc = inflate(stream.ptr, Z_FINISH)
-                    val consumedIn = (compressed.size - inOffset) - stream.avail_in.toInt()
-                    val produced = (outCapacity - outOffset) - stream.avail_out.toInt()
-                    inflateEnd(stream.ptr)
-                    when (inflateRc) {
+                val stream = alloc<z_stream>().apply {
+                    next_in = inPinned.addressOf(0).reinterpret()
+                    avail_in = compressed.size.toUInt()
+                    next_out = outPinned.addressOf(0).reinterpret()
+                    avail_out = outCapacity.toUInt()
+                }
+                if (inflateInit2(stream.ptr, 15 + 16) != Z_OK) {
+                    return@memScoped InflateAttempt(null, false)
+                }
+                while (true) {
+                    when (inflate(stream.ptr, Z_NO_FLUSH)) {
                         Z_STREAM_END -> {
-                            inOffset += consumedIn
-                            outOffset += produced
+                            if (stream.avail_in == 0u) {
+                                val produced = outCapacity - stream.avail_out.toInt()
+                                inflateEnd(stream.ptr)
+                                return@memScoped InflateAttempt(out.copyOf(produced), false)
+                            }
+                            if (inflateReset2(stream.ptr, 15 + 16) != Z_OK) {
+                                inflateEnd(stream.ptr)
+                                return@memScoped InflateAttempt(null, false)
+                            }
                         }
-                        Z_BUF_ERROR -> return null
-                        else -> fail("inflate gzip dump failed with rc=$inflateRc")
+                        Z_OK -> {
+                            if (stream.avail_out == 0u) {
+                                inflateEnd(stream.ptr)
+                                return@memScoped InflateAttempt(null, true)
+                            }
+                            if (stream.avail_in == 0u) {
+                                inflateEnd(stream.ptr)
+                                return@memScoped InflateAttempt(null, false)
+                            }
+                        }
+                        Z_BUF_ERROR -> {
+                            val needsMoreOutput = stream.avail_out == 0u
+                            inflateEnd(stream.ptr)
+                            return@memScoped InflateAttempt(null, needsMoreOutput)
+                        }
+                        else -> {
+                            inflateEnd(stream.ptr)
+                            return@memScoped InflateAttempt(null, false)
+                        }
                     }
                 }
-                out.copyOf(outOffset)
             }
         }
+        InflateAttempt(null, false) // Unreachable, but keeps the lambda result type explicit.
+    }
+
+    private fun waitForCompleteGzipDump(fd: Int): ByteArray {
+        repeat(2_400) { // Up to two minutes; OHOS returns before the fork child writes the dump.
+            val snapshot = readFdSnapshot(fd)
+            if (snapshot.isNotEmpty()) {
+                var capacity = maxOf(snapshot.size * 32, initialInflateBufferSizeBytes)
+                while (capacity > 0) {
+                    val attempt = tryInflateAllGzipMembers(snapshot, capacity)
+                    attempt.data?.let { return it }
+                    if (!attempt.needsMoreOutput) break
+                    assertTrue(capacity <= Int.MAX_VALUE / 2, "gzip inflate buffer exhausted at $capacity bytes")
+                    capacity *= 2
+                }
+            }
+            usleep(50_000u)
+        }
+        fail("timed out waiting for a complete gzip memory dump")
     }
 
     private fun dumpToDecompressedBytes(): ByteArray {
         touchFixtures()
         GC.collect()
         var ok = false
-        var compressed = ByteArray(0)
+        var decompressed = ByteArray(0)
         withTmpFile { file, fd ->
-            ok = dumpMemoryPreservingFd(fd)
-            if (ok) compressed = readCompressedDumpFromFile(file)
+            ok = startDumpMemoryStripAsync(fd)
+            if (ok) decompressed = waitForCompleteGzipDump(fd)
         }
         assertTrue(ok, "Debugging.dumpMemoryAsync() must return true")
-        assertTrue(compressed.isNotEmpty(), "compressed dump must be non-empty")
-        return gunzipGzip(compressed)
+        assertTrue(decompressed.isNotEmpty(), "decompressed dump must be non-empty")
+        return decompressed
     }
 
     // ---------- kdump parser: types + array payload sizes ----------
@@ -387,9 +403,8 @@ class OhosMemDumpStripTest {
         return arrays.filter { it.typeIdKey in typeKeys }
     }
 
-    /** Mirrors DumpArray: strip unless object Array or NativePtrArray. */
-    private fun shouldStripArrayPayload(relativeName: String, isObjectArray: Boolean = false): Boolean =
-        !(isObjectArray || relativeName in keepPayloadArrayRelativeNames)
+    private fun shouldStripArrayPayload(relativeName: String): Boolean =
+        relativeName in strippedArrayRelativeNames
 
     /** Mirrors kdumputil [Converter.reconstructObjectByteArray] for stripped object bodies. */
     private fun reconstructObjectByteArray(
@@ -428,23 +443,23 @@ class OhosMemDumpStripTest {
         assertEquals(2, pointerSetExpansionFactor)
         assertEquals(0.7, pointerSetMaxLoadFactor)
         assertEquals(3, pointerSetShiftBits)
-        assertEquals(8_388_608, initialObjectSetCapacity)
+        assertEquals(16_777_216, initialObjectSetCapacity)
         assertEquals(4096, initialTypeSetCapacity)
     }
 
     @Test
-    fun testOutputBufferSizeConstant_1MB() {
-        assertEquals(1024 * 1024, outputBufferSizeBytes)
+    fun testInitialInflateBufferSize_1MB() {
+        assertEquals(1024 * 1024, initialInflateBufferSizeBytes)
     }
 
     @Test
-    fun testStripPolicy_isStrip_stripsAllExceptObjectAndNativePtrArray() {
+    fun testStripPolicy_stripsPrimitiveArraysAndString() {
+        assertTrue(shouldStripArrayPayload("BooleanArray"))
         assertTrue(shouldStripArrayPayload("ByteArray"))
         assertTrue(shouldStripArrayPayload("CharArray"))
-        assertTrue(shouldStripArrayPayload("String"))
         assertTrue(shouldStripArrayPayload("IntArray"))
-        assertFalse(shouldStripArrayPayload("Array", isObjectArray = true))
-        assertFalse(shouldStripArrayPayload("NativePtrArray"))
+        assertTrue(shouldStripArrayPayload("String"))
+        assertFalse(shouldStripArrayPayload("Array"))
     }
 
     @Test
@@ -457,20 +472,14 @@ class OhosMemDumpStripTest {
     @Test
     fun testDumpOutputStartsWithGzipMagic() {
         touchFixtures()
-        val file = tmpfile()
-        assertNotNull(file)
-        val fd = fileno(file)
-        assertTrue(dumpMemoryPreservingFd(fd))
-        fflush(file)
-        rewind(file)
-        memScoped {
-            val header = allocArray<ByteVar>(2)
-            if (fread(header, 1u, 2u, file) == 2uL) {
-                assertEquals(gzipMagic0, header[0].toInt() and 0xFF)
-                assertEquals(gzipMagic1, header[1].toInt() and 0xFF)
-            }
+        withTmpFile { _, fd ->
+            assertTrue(startDumpMemoryStripAsync(fd))
+            assertTrue(waitForCompleteGzipDump(fd).isNotEmpty())
+            val compressed = readFdSnapshot(fd)
+            assertTrue(compressed.size >= 2)
+            assertEquals(gzipMagic0, compressed[0].toInt() and 0xFF)
+            assertEquals(gzipMagic1, compressed[1].toInt() and 0xFF)
         }
-        fclose(file)
     }
 
     @Test
@@ -504,7 +513,7 @@ class OhosMemDumpStripTest {
         assertEquals(0, full[0])
     }
 
-    // ---------- Live dump: isStrip keeps only object Array / NativePtrArray ----------
+    // ---------- Live dump: strip vs full payload (SR009 + 37b1dac) ----------
 
     @Test
     fun testLiveDump_strippedByteArray_hasZeroPayload() {
@@ -532,32 +541,32 @@ class OhosMemDumpStripTest {
         assertTrue(stringArrays.isNotEmpty(), "expected String array instances in dump")
         assertTrue(
             stringArrays.any { it.payloadSize == 0 },
-            "String payload must be stripped under isStrip; got $stringArrays",
+            "String (theStringTypeInfo) payload must be stripped per 37b1dac; got $stringArrays",
         )
     }
 
     @Test
-    fun testLiveDump_intArray_isStrippedToZeroPayload() {
+    fun testLiveDump_strippedIntArray_hasZeroPayload() {
         val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
         val entries = parsed.arrayEntriesNamed("IntArray").filter { it.count == 4 }
         assertTrue(entries.isNotEmpty(), "expected IntArray(count=4) in dump")
-        assertTrue(entries.all { it.payloadSize == 0 }, "IntArray must be stripped under isStrip: $entries")
+        assertTrue(entries.all { it.payloadSize == 0 }, "IntArray payload must be stripped: $entries")
     }
 
     @Test
-    fun testLiveDump_objectArray_keepsFullPayload() {
+    fun testLiveDump_objectArray_writesFullPayload() {
         val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
         val arrayType = parsed.types.values.first { it.isObjectArray }
         val entries = parsed.arrays.filter { it.typeIdKey == arrayType.idKey && it.count == 2 }
         assertTrue(entries.isNotEmpty(), "expected object Array(count=2) in dump")
         assertTrue(
             entries.all { it.payloadSize > 0 },
-            "object Array (theArrayTypeInfo) must keep references under isStrip: $entries",
+            "object Array must write references (37b1dac else branch): $entries",
         )
     }
 
     @Test
-    fun testLiveDump_sampleStrippedTypesHaveZeroPayload() {
+    fun testLiveDump_allStrippedTypesHaveZeroPayload() {
         val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
         for (name in strippedArrayRelativeNames) {
             val typeKeys = parsed.types.filter { it.value.relativeName == name }.keys
@@ -571,19 +580,27 @@ class OhosMemDumpStripTest {
     }
 
     @Test
-    fun testLiveDump_objectArrayKeepsPayload_whileByteArrayStripped() {
-        touchFixtures()
-        val manyBytes = Array(32) { byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8) }
-        val manyObjs = Array(32) { arrayOf("a", "b", "c", "d") }
-        GC.collect()
-        manyBytes.forEach { assertEquals(8, it.size) }
-        manyObjs.forEach { assertEquals(4, it.size) }
+    fun testLiveDump_nonStrippedObjectArraysHavePositivePayload() {
         val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
-        val bytePayload = parsed.arrayEntriesNamed("ByteArray").sumOf { it.payloadSize }
-        val objKeys = parsed.types.filter { it.value.isObjectArray }.keys
-        val objPayload = parsed.arrays.filter { it.typeIdKey in objKeys }.sumOf { it.payloadSize }
-        assertEquals(0, bytePayload, "ByteArray payload must be stripped")
-        assertTrue(objPayload > 0, "object Array payload must be kept: obj=$objPayload byte=$bytePayload")
-        logLine("payload sum byte=$bytePayload obj=$objPayload")
+        val objectTypeKeys = parsed.types.filterValues { it.isObjectArray }.keys
+        val arrays = parsed.arrays.filter { it.typeIdKey in objectTypeKeys && it.count > 0 }
+        assertTrue(arrays.isNotEmpty(), "expected non-empty object arrays in dump")
+        assertTrue(arrays.all { it.payloadSize > 0 }, "object arrays must retain reference payloads: $arrays")
+    }
+
+    @Test
+    fun testStrippedContentReducesDecompressedSize() {
+        touchFixtures()
+        val manyInts = Array(32) { intArrayOf(1, 2, 3, 4, 5, 6, 7, 8) }
+        val manyObjects = Array(32) { arrayOf("strip_a", "strip_b") }
+        val parsed = parseTypesAndArrays(dumpToDecompressedBytes())
+        val intTypeKeys = parsed.types.filterValues { it.relativeName == "IntArray" }.keys
+        val objectTypeKeys = parsed.types.filterValues { it.isObjectArray }.keys
+        val intPayload = parsed.arrays.filter { it.typeIdKey in intTypeKeys }.sumOf { it.payloadSize }
+        val objectPayload = parsed.arrays.filter { it.typeIdKey in objectTypeKeys }.sumOf { it.payloadSize }
+        assertEquals(0, intPayload, "all IntArray payloads must be stripped")
+        assertTrue(objectPayload > intPayload, "object payload $objectPayload must exceed stripped IntArray payload $intPayload")
+        assertEquals(8, manyInts.first().size)
+        assertEquals(2, manyObjects.first().size)
     }
 }
