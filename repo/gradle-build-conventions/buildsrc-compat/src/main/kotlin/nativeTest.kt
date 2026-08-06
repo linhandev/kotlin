@@ -52,7 +52,7 @@ private enum class TestProperty(shortName: String) {
     TEAMCITY("teamcity"),
     MINIDUMP_ANALYZER("minidumpAnalyzer"),
     OHOS_DEVICE_ID("ohosDeviceId"),
-    // Bitcode split partitions for ohos_arm64 OPT compiles (default 2): -Pkn.splitBCfile=2
+    // Bitcode split partitions for ohos_arm64 OPT compiles (default 1): -Pkn.splitBCfile=2
     SPLIT_BC_FILE("splitBCfile"),
     ;
 
