@@ -233,6 +233,10 @@ _Kotlin_io_Console_println0Stub:
 _Kotlin_io_Console_println0ToStdErrStub:
     CalleeSavedRegistersStub Kotlin_io_Console_println0ToStdErr
 
+    .global _Kotlin_system_exitProcessStub
+_Kotlin_system_exitProcessStub:
+    CalleeSavedRegistersStub Kotlin_system_exitProcess
+
     .global _Kotlin_io_Console_readLineStub
 _Kotlin_io_Console_readLineStub:
     CalleeSavedRegistersStub Kotlin_io_Console_readLine
@@ -348,6 +352,10 @@ _Kotlin_Worker_executeInternalStub:
     .global _Kotlin_Worker_executeAfterInternalStub
 _Kotlin_Worker_executeAfterInternalStub:
     CalleeSavedRegistersStub Kotlin_Worker_executeAfterInternal
+
+    .global _Kotlin_processUnhandledExceptionStub
+_Kotlin_processUnhandledExceptionStub:
+    CalleeSavedRegistersStub Kotlin_processUnhandledException
 
     .global _Kotlin_Worker_processQueueInternalStub
 _Kotlin_Worker_processQueueInternalStub:

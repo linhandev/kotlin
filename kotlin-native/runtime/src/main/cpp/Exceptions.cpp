@@ -427,7 +427,7 @@ extern "C" void RUNTIME_NORETURN Kotlin_terminateWithUnhandledException(KRef exc
     terminateWithUnhandledException(exception);
 }
 
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" void Kotlin_processUnhandledException(KRef exception) {
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     processUnhandledException(exception);
