@@ -22,7 +22,15 @@
 #include "Memory.h"
 #include "ThreadData.hpp"
 #include "ThreadState.hpp"
+#include "GlobalData.hpp"
+#include "GCScheduler.hpp"
+#include "Logging.hpp"
+#include "CompilerConstants.hpp"
+#ifdef ENABLE_STACKMAP
+#include "CompressedStackMap.hpp"
+#endif
 #include <cstdint>
+#include <cstdlib>
 #include <sstream>
 #include <iostream>
 #include <unwind.h>
@@ -137,7 +145,6 @@ extern "C" RUNTIME_NOTHROW RUNTIME_EXPORT _Unwind_Reason_Code Kotlin_N2KStubUnwi
 }
 
 // invoke before enter kotlin (called from N2K stub entry, KonanStart stub)
-//
 // Fix for GC scan race: transition to Runnable BEFORE writing lastFrameInfo_.
 // If the thread was Native, setState(Runnable) goes through safePoint; if GC has
 // requested suspension, we block here until the scan completes, so the scanner never
@@ -339,13 +346,143 @@ static void UnwindSpecialFrame(FrameInfo& info, FrameType currentType, std::vect
     }
 }
 
+// ---------------------------------------------------------------------------
+// VerifyKotlinStack DFX (gated by GC config verifyKotlinStack, default on).
+// Cross-checks the PC-range frame classification of the walk below against the
+// 0xBEEF sentinel that -aarch64-mark-kotlin-function (LLVM AArch64AsmPrinter)
+// stamps into bits[48:63] of every Kotlin frame's stackmap-address slot
+// (*(fp-2)). It catches the failure mode where a K2R/N2K/K2N boundary stub is
+// missed: the walker then stays in RUNTIME_FRAME mode across genuine Kotlin
+// frames, silently under-scanning their GC roots. A "runtime" frame carrying
+// the tag is exactly such a misclassified Kotlin frame -> abort at that frame.
+// ---------------------------------------------------------------------------
+namespace {
+
+constexpr uint64_t kKotlinStackTag = 0xBEEFull; // sentinel in bits[48:63] of the stackmap-addr slot
+constexpr uint64_t kKotlinFuncTag = 0xCAFEull;  // sentinel in bits[48:63] of the funcStart slot
+constexpr int kKotlinStackTagShift = 48;
+constexpr uint64_t kKotlinStackPayloadMask = (1ull << kKotlinStackTagShift) - 1;
+
+// Word offsets, relative to fp, of the two slots the precise-stackmap prologue
+// spills (AArch64AsmPrinter stamps a sentinel into the high half of each).
+constexpr int kStackMapAddrSlot = -2; // *(fp-2): stack map address, tagged 0xBEEF
+constexpr int kFuncStartSlot = -1;    // *(fp-1): function start,    tagged 0xCAFE
+
+inline bool VerifyKotlinStackEnabled() noexcept {
+    return compiler::verifyKotlinStackCompileTime();
+}
+
+// Whether the two spilled slots can be safely dereferenced: fp is non-null and 16B-aligned.
+inline bool FpDerefSafe(mm::FrameAddress* cur) noexcept {
+    auto a = reinterpret_cast<uintptr_t>(cur);
+    return a != 0 && (a & 0xful) == 0;                            // non-null and 16B-aligned
+}
+
+// Dual-tag confirmation: a genuine Kotlin frame carries BOTH the 0xBEEF sentinel
+// in bits[48:63] of *(fp-2) (stackmap addr) AND the 0xCAFE sentinel in bits[48:63]
+// of *(fp-1) (funcStart) — the two are stamped together in the function prologue
+// (AArch64AsmPrinter).
+inline bool FrameIsReallyKotlin(mm::FrameAddress* fp) noexcept {
+    const uint64_t* w = reinterpret_cast<const uint64_t*>(fp);
+    return (w[kStackMapAddrSlot] >> kKotlinStackTagShift) == kKotlinStackTag
+        && (w[kFuncStartSlot] >> kKotlinStackTagShift) == kKotlinFuncTag;
+}
+
+inline bool HasKotlinTag(mm::FrameAddress* fp) noexcept {
+    return (reinterpret_cast<const uint64_t*>(fp)[kStackMapAddrSlot] >> kKotlinStackTagShift) == kKotlinStackTag;
+}
+
+// funcStart payload of the tag sitting in this frame's slots (tag bits stripped).
+inline uint64_t TaggedFuncStart(mm::FrameAddress* fp) noexcept {
+    return reinterpret_cast<const uint64_t*>(fp)[kFuncStartSlot] & kKotlinStackPayloadMask;
+}
+
+bool TagStackMapCoversPC(mm::FrameAddress* fp, uint64_t funcStart, uint64_t pc) noexcept {
+#if ENABLE_COMPRESSED_BITMAP_STACKMAP
+    auto* stackMapAddr = reinterpret_cast<uint8_t*>(
+            reinterpret_cast<const uint64_t*>(fp)[kStackMapAddrSlot] & kKotlinStackPayloadMask);
+    if (stackMapAddr == nullptr) {
+        return false;
+    }
+    stackMap::PrologueVisitor noopVisitor = [](stackMap::PrologueRegisterClosure::Type, uint32_t) {};
+    auto head = stackMap::CompressedStackMapHead::GetStackMapHead(stackMapAddr, noopVisitor);
+    return head.HasStackMapEntry(funcStart, pc);
+#else
+    // Eager stack maps keep their call sites in a global side table rather than
+    // per function, so this frame's tag cannot be checked against them at all.
+    (void)fp;
+    (void)funcStart;
+    (void)pc;
+    return false;
+#endif
+}
+
+void DumpKotlinUnwind(mm::ThreadData& threadData) noexcept {
+    mm::LastFrameInfo lfi = threadData.GetLastFrameInfo();
+    mm::FrameAddress* fp = lfi.lastFrame;
+    RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: --- unwind dump (anchor fp=%p) ---", (void*)fp);
+    int idx = 0;
+    for (int limit = 4096; fp != nullptr && limit > 0; --limit, ++idx) {
+        auto a = reinterpret_cast<uintptr_t>(fp);
+        if (a & 0xful) {
+            RuntimeLogInfo({kTagGC}, "  #%d fp=%p misaligned; stop", idx, (void*)fp);
+            break;
+        }
+        const uint64_t* w = reinterpret_cast<const uint64_t*>(fp);
+        void* ret = reinterpret_cast<void*>(const_cast<uint32_t*>(fp->returnAddr));
+        if ((w[kStackMapAddrSlot] >> kKotlinStackTagShift) == kKotlinStackTag) {
+            RuntimeLogInfo({kTagGC}, "  #%d KOTLIN fp=%p stackmap=0x%llx funcStart=0x%llx ret=%p",
+                idx, (void*)fp, (unsigned long long)(w[kStackMapAddrSlot] & kKotlinStackPayloadMask),
+                (unsigned long long)(w[kFuncStartSlot] & kKotlinStackPayloadMask), ret);
+        } else {
+            RuntimeLogInfo({kTagGC}, "  #%d R/N    fp=%p ret=%p", idx, (void*)fp, ret);
+        }
+        fp = fp->prevThreadState;
+    }
+    RuntimeLogInfo({kTagGC}, "VerifyKotlinStack: --- end dump (%d frames) ---", idx);
+}
+
+void VerifyKotlinFrame(mm::ThreadData& threadData, FrameType currentFrameType,
+                       mm::FrameAddress* curFp, bool firstFrame, const uint32_t* curPC) noexcept {
+    if (firstFrame || !FpDerefSafe(curFp)) {
+        return;
+    }
+
+    if (currentFrameType == FrameType::RUNTIME_FRAME && FrameIsReallyKotlin(curFp)) {
+        const uint64_t funcStart = TaggedFuncStart(curFp);
+        const uint64_t pc = reinterpret_cast<uint64_t>(curPC);
+        if (!TagStackMapCoversPC(curFp, funcStart, pc)) {
+            return;
+        }
+
+        RuntimeLogInfo({kTagGC},
+            "VerifyKotlinStack: K2R MISS - frame %p classified RUNTIME is a Kotlin "
+            "frame (pc=%p, funcStart=0x%llx, ret=%p); a K2R/N2K/K2N boundary stub was missed",
+            (void*)curFp, reinterpret_cast<void*>(const_cast<uint32_t*>(curPC)),
+            (unsigned long long)funcStart,
+            reinterpret_cast<void*>(const_cast<uint32_t*>(curFp->returnAddr)));
+        DumpKotlinUnwind(threadData);
+        std::abort();
+    }
+
+    if (currentFrameType == FrameType::KOTLIN_FRAME && !HasKotlinTag(curFp) &&
+        !IsKonanRunStartFrame(curFp->returnAddr)) {
+        RuntimeLogInfo({kTagGC},
+            "VerifyKotlinStack: MIS-CLASSIFY - frame %p classified KOTLIN lacks the tag "
+            "(slot=0x%llx, ret=%p); a frame with no stackmap is being scanned as Kotlin",
+            (void*)curFp, (unsigned long long)reinterpret_cast<const uint64_t*>(curFp)[kStackMapAddrSlot],
+            reinterpret_cast<void*>(const_cast<uint32_t*>(curFp->returnAddr)));
+        DumpKotlinUnwind(threadData);
+        std::abort();
+    }
+}
+
+} // namespace
+
 std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData)
 {
     std::vector<FrameInfo> stack;
     FrameInfo info;
-    // Snapshot all three fields (lastFrame, lastPC, status) in ONE copy so that
-    // GetLast*() reads can't straddle a mutator's piece-by-piece update of
-    // lastFrameInfo_ (e.g., RuntimeSetLastFrame writes lastFrame then lastPC).
     mm::LastFrameInfo lastFrameInfo = threadData.GetLastFrameInfo();
     info.fa = lastFrameInfo.lastFrame;
     LogUnwindStart(threadData, info);
@@ -359,9 +496,17 @@ std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData)
 
     FrameType currentFrameType = info.type;
 
+    const bool verify = VerifyKotlinStackEnabled();
+    bool firstFrame = true;
+    const uint32_t* curPC = lastFrameInfo.lastPC;
+
     while (info.fa != nullptr) {
         currentFrameType = info.type;
         mm::FrameAddress* curFp = info.fa;
+
+        if (verify) {
+            VerifyKotlinFrame(threadData, currentFrameType, curFp, firstFrame, curPC);
+        }
 
         switch (info.type) {
             case FrameType::R2K_STUB:
@@ -385,6 +530,9 @@ std::vector<FrameInfo> GetStackFrame(mm::ThreadData& threadData)
         }
 
         PrintStackInfo(currentFrameType, info);
+
+        curPC = info.ip;
+        firstFrame = false;
     }
 
     return stack;

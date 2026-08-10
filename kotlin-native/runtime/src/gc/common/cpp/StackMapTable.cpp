@@ -16,6 +16,7 @@
 
 #ifdef ENABLE_STACKMAP
 #include "StackMapTable.hpp"
+#include <cstdint>
 
 namespace kotlin::stackMap {
 
@@ -259,38 +260,58 @@ uint32_t StackMapTable::DerivePtrIdxAt(uint32_t row) const
     return bitsManager.GetBits(headerInfo[DERIVE_PTR_BITS_LEN]);
 }
 
-IdxSet StackMapTable::GetIdxSet(Uptr startPC, Uptr framePC) const
+uint32_t StackMapTable::FindCallSiteRow(Uptr startPC, Uptr framePC) const
 {
-    uint32_t recordNum = headerInfo[RECORD_NUM];
+    const uint32_t recordNum = headerInfo[RECORD_NUM];
     if (recordNum == 0) {
-        return IdxSet();
+        return recordNum;
     }
-    uint32_t targetPCOff = static_cast<uint32_t>(framePC - startPC);
+    // 32 bits is enough
+    const uint32_t targetPCOff = static_cast<uint32_t>(framePC - startPC);
     uint32_t left = 0;
     uint32_t right = recordNum - 1;
-    uint32_t leftPCOff = PCAt(left);
+    const uint32_t leftPCOff = PCAt(left);
     if (leftPCOff == targetPCOff) {
-        return IdxSet(RegIdxAt(left), SlotIdxAt(left), DerivePtrIdxAt(left));
+        return left;
     }
-    uint32_t rightPCOff = PCAt(right);
+    const uint32_t rightPCOff = PCAt(right);
     if (rightPCOff == targetPCOff) {
-        return IdxSet(RegIdxAt(right), SlotIdxAt(right), DerivePtrIdxAt(right));
+        return right;
     }
     if (targetPCOff < leftPCOff || targetPCOff > rightPCOff) {
-        return IdxSet();
+        return recordNum;
     }
     while (left <= right) {
-        uint32_t mid = (left + right) >> 1;
-        uint32_t midPCOff = PCAt(mid);
+        const uint32_t mid = (left + right) >> 1;
+        const uint32_t midPCOff = PCAt(mid);
         if (midPCOff == targetPCOff) {
-            return IdxSet(RegIdxAt(mid), SlotIdxAt(mid), DerivePtrIdxAt(mid));
+            return mid;
         } else if (midPCOff < targetPCOff) {
             left = mid + 1;
         } else {
             right = mid - 1;
         }
     }
-    return IdxSet();
+    return recordNum;
+}
+
+bool StackMapTable::HasRecordForPC(Uptr startPC, Uptr framePC) const
+{
+    // Unlike root scanning, the DFX asks about a startPC that may belong to a
+    // different function than framePC entirely — that is the question.
+    if (framePC < startPC || framePC - startPC > UINT32_MAX) {
+        return false;
+    }
+    return FindCallSiteRow(startPC, framePC) != headerInfo[RECORD_NUM];
+}
+
+IdxSet StackMapTable::GetIdxSet(Uptr startPC, Uptr framePC) const
+{
+    const uint32_t row = FindCallSiteRow(startPC, framePC);
+    if (row == headerInfo[RECORD_NUM]) {
+        return IdxSet();
+    }
+    return IdxSet(RegIdxAt(row), SlotIdxAt(row), DerivePtrIdxAt(row));
 }
 
 void StackMapTable::CollectAllIdxSet(std::vector<IdxSet> &idxSetVec) const

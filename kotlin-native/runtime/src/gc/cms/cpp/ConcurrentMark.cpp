@@ -182,7 +182,9 @@ static void CollectStackMapBaseRoot(
     const uint32_t* pc, std::vector<int32_t> &baseRoots)
 {
 #if ENABLE_COMPRESSED_BITMAP_STACKMAP
-    uint32_t *funcStartPC = reinterpret_cast<uint32_t*>(*(fp - 1));
+    // *(fp-1) carries the 0xCAFE DFX sentinel in bits[48:63] (AArch64AsmPrinter ADR
+    // hijack); mask it off to recover the function-begin address.
+    uint32_t *funcStartPC = reinterpret_cast<uint32_t*>(*(fp - 1) & ((1ULL << 48) - 1));
     uint64_t *stackMapAddress = GetStackMapAddress(fp, funcStartPC, thread);
     std::unordered_map<int32_t, std::vector<int32_t>> base2DerivedOffsets;
     stackMap::StackMapBuilder stackMapBuilder(reinterpret_cast<uintptr_t>(funcStartPC),

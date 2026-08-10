@@ -144,6 +144,12 @@ public:
         return CompressedStackMapHead(compressedFormatVarInt.GetNextTable(), visitor, format);
     }
 
+    bool HasStackMapEntry(uintptr_t startPC, uintptr_t curPC) const
+    {
+        StackMapTable stackMapTable(prologue_.GetNextTable());
+        return stackMapTable.HasRecordForPC(startPC, curPC);
+    }
+
     void CollectStackMapEntry(uintptr_t startPC, uintptr_t curPC,
         std::unordered_map<int32_t, std::vector<int32_t>> &base2DerivedOffsets) const
     {

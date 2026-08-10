@@ -113,6 +113,8 @@ bool objcDisposeOnMain() noexcept;
 bool objcDisposeWithRunLoop() noexcept;
 bool enableSafepointSignposts() noexcept;
 bool globalDataLazyInit() noexcept;
+// DFX: -Xbinary=verifyKotlinStack=true baked into the binary; read at runtime init.
+bool verifyKotlinStackCompileTime() noexcept;
 bool swiftExport() noexcept;
 bool latin1Strings() noexcept;
 uint8_t mmapTag() noexcept;
