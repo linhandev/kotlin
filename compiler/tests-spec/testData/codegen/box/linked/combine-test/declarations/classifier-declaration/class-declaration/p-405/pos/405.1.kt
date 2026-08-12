@@ -9,7 +9,7 @@
  * declarations, function-declaration -> paragraph 405 -> sentence 405
  * inheritance, inheriting -> paragraph 405 -> sentence 405
  * NUMBER: 1
- * DESCRIPTION: 子类可调用父类 protected fun
+ * DESCRIPTION: subclass can call parent protected fun
  */
 
 // TESTCASE NUMBER: 1

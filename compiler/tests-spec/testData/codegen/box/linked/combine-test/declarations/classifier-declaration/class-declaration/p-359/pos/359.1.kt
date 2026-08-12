@@ -9,7 +9,7 @@
  * declarations, property-declaration -> paragraph 359 -> sentence 359
  * declarations, classifier-declaration, classifier-initialization -> paragraph 359 -> sentence 359
  * NUMBER: 1
- * DESCRIPTION: init 块可读取主构造 private val
+ * DESCRIPTION: init block can read primary constructor private val
  */
 
 // TESTCASE NUMBER: 1

@@ -8,7 +8,7 @@
  * declarations, declaration-visibility -> paragraph 399 -> sentence 399
  * declarations, function-declaration -> paragraph 399 -> sentence 399
  * NUMBER: 1
- * DESCRIPTION: 抽象类中 private fun 可在同类具体成员中调用
+ * DESCRIPTION: private fun in abstract class can be called by concrete members of same class
  */
 
 // TESTCASE NUMBER: 1

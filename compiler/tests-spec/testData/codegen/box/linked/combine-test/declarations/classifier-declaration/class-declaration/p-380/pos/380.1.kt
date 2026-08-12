@@ -8,7 +8,7 @@
  * declarations, declaration-visibility -> paragraph 380 -> sentence 380
  * declarations, function-declaration -> paragraph 380 -> sentence 380
  * NUMBER: 1
- * DESCRIPTION: public fun 可封装暴露 private fun 结果
+ * DESCRIPTION: public fun can expose result of private fun
  */
 
 // TESTCASE NUMBER: 1

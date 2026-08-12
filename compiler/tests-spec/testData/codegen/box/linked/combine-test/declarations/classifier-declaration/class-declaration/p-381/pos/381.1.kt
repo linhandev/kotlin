@@ -9,7 +9,7 @@
  * declarations, function-declaration -> paragraph 381 -> sentence 381
  * declarations, property-declaration -> paragraph 381 -> sentence 381
  * NUMBER: 1
- * DESCRIPTION: private fun 可访问同类 private val
+ * DESCRIPTION: private fun can access private val of same class
  */
 
 // TESTCASE NUMBER: 1

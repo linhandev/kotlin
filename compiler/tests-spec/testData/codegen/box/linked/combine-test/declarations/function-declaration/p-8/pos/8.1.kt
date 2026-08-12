@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 8 -> sentence 8
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 8 -> sentence 8
  * NUMBER: 1
- * DESCRIPTION: 局部函数声明可带默认参数
+ * DESCRIPTION: local function declaration may declare default parameter values
  */
 
 // TESTCASE NUMBER: 1

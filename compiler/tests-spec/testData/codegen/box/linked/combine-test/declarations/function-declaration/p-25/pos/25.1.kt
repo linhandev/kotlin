@@ -8,7 +8,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 25 -> sentence 25
  *                expressions, call-expressions -> paragraph 25 -> sentence 25
  * NUMBER: 1
- * DESCRIPTION: 局部函数 vararg 与默认尾参组合调用
+ * DESCRIPTION: local function call combines vararg and trailing default parameters
  */
 
 // TESTCASE NUMBER: 1

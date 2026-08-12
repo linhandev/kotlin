@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 17 -> sentence 17
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 17 -> sentence 17
  * NUMBER: 1
- * DESCRIPTION: 局部函数名可遮蔽外层同名函数且调用解析到最近声明
+ * DESCRIPTION: local function name can shadow outer function; call resolves to nearest declaration
  */
 
 // TESTCASE NUMBER: 1

@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 20 -> sentence 20
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 20 -> sentence 20
  * NUMBER: 1
- * DESCRIPTION: 嵌套 for-in 可累加
+ * DESCRIPTION: nested for-in loops can accumulate values
  */
 
 // TESTCASE NUMBER: 1

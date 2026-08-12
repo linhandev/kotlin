@@ -8,7 +8,7 @@
  * PRIMARY LINKS: operator-overloading, overview -> paragraph 10 -> sentence 10
  *                built-in-types-and-their-semantics, iterator-types -> paragraph 10 -> sentence 10
  * NUMBER: 1
- * DESCRIPTION: 仅提供 operator fun iterator()（不必实现 Iterable）
+ * DESCRIPTION: operator fun iterator() alone suffices without implementing Iterable
  */
 
 // TESTCASE NUMBER: 1

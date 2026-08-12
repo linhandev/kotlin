@@ -8,7 +8,7 @@
  * PRIMARY LINKS: operator-overloading, overview -> paragraph 21 -> sentence 21
  *                declarations, function-declaration, extension-function-declaration -> paragraph 21 -> sentence 21
  * NUMBER: 1
- * DESCRIPTION: 扩展 operator fun iterator() 使第三方类型可遍历
+ * DESCRIPTION: extension operator fun iterator() makes third-party type iterable
  */
 
 // TESTCASE NUMBER: 1

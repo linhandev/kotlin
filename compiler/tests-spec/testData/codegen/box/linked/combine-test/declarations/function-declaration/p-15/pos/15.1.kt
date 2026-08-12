@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 15 -> sentence 15
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 15 -> sentence 15
  * NUMBER: 1
- * DESCRIPTION: 嵌套局部函数（局部内再声明局部）
+ * DESCRIPTION: nested local function declared inside another local function
  */
 
 // TESTCASE NUMBER: 1

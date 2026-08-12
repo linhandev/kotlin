@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 6 -> sentence 6
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 6 -> sentence 6
  * NUMBER: 1
- * DESCRIPTION: 空 Iterable 循环体不执行
+ * DESCRIPTION: empty Iterable does not execute loop body
  */
 
 // TESTCASE NUMBER: 1

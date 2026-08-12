@@ -9,7 +9,7 @@
  * declarations, property-declaration -> paragraph 377 -> sentence 377
  * declarations, classifier-declaration, companion-object -> paragraph 377 -> sentence 377
  * NUMBER: 1
- * DESCRIPTION: private val 与 const val 在伴生对象中类外访问规则不同
+ * DESCRIPTION: companion private val and const val have different outside-class access rules
  */
 
 // TESTCASE NUMBER: 1

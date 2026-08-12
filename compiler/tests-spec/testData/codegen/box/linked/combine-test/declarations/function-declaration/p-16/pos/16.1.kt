@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 16 -> sentence 16
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 16 -> sentence 16
  * NUMBER: 1
- * DESCRIPTION: 内层局部函数可捕获中层与外层变量
+ * DESCRIPTION: inner local function can capture middle and outer variables
  */
 
 // TESTCASE NUMBER: 1

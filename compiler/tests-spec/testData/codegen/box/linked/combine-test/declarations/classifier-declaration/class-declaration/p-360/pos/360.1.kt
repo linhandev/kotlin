@@ -8,7 +8,7 @@
  * declarations, declaration-visibility -> paragraph 360 -> sentence 360
  * declarations, property-declaration -> paragraph 360 -> sentence 360
  * NUMBER: 1
- * DESCRIPTION: 成员函数可访问同类 private 属性
+ * DESCRIPTION: member function can access private properties of same class
  */
 
 // TESTCASE NUMBER: 1

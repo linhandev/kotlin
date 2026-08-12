@@ -8,7 +8,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 26 -> sentence 26
  *                expressions, call-expressions -> paragraph 26 -> sentence 26
  * NUMBER: 1
- * DESCRIPTION: 局部函数省略调用时默认实参每次重新求值
+ * DESCRIPTION: default arguments are re-evaluated on each call when omitted
  */
 
 // TESTCASE NUMBER: 1

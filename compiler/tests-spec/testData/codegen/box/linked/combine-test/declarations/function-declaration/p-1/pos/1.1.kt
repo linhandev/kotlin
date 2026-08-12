@@ -8,7 +8,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 1 -> sentence 1
  *                expressions, call-expressions -> paragraph 1 -> sentence 1
  * NUMBER: 1
- * DESCRIPTION: 顶层函数声明默认参数后调用可省略
+ * DESCRIPTION: top-level function call may omit arguments with default values
  */
 
 // TESTCASE NUMBER: 1

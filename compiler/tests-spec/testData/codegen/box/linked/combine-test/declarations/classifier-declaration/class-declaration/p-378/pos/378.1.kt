@@ -8,7 +8,7 @@
  * declarations, declaration-visibility -> paragraph 378 -> sentence 378
  * declarations, function-declaration -> paragraph 378 -> sentence 378
  * NUMBER: 1
- * DESCRIPTION: 类内 private fun 可被同类成员调用
+ * DESCRIPTION: private fun in class can be called by same-class members
  */
 
 // TESTCASE NUMBER: 1

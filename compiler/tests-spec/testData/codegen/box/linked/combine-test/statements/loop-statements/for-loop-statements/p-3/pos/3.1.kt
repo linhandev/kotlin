@@ -8,7 +8,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 3 -> sentence 3
  *                operator-overloading, overview -> paragraph 3 -> sentence 3
  * NUMBER: 1
- * DESCRIPTION: String/CharSequence 按字符 for-in
+ * DESCRIPTION: String and CharSequence can be iterated character-by-character in for-in
  */
 
 // TESTCASE NUMBER: 1

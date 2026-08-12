@@ -8,7 +8,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 15 -> sentence 15
  *                declarations, destructuring-declarations -> paragraph 15 -> sentence 15
  * NUMBER: 1
- * DESCRIPTION: Pair 列表解构 for-in
+ * DESCRIPTION: for-in with destructuring over list of Pair
  */
 
 // TESTCASE NUMBER: 1

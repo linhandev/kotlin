@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 5 -> sentence 5
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 5 -> sentence 5
  * NUMBER: 1
- * DESCRIPTION: 局部函数可相互递归（声明顺序在前向调用之后亦可）
+ * DESCRIPTION: local functions can be mutually recursive even when declared after forward calls
  */
 
 // TESTCASE NUMBER: 1

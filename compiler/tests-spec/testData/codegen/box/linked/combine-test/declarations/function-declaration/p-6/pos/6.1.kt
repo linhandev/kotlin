@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 6 -> sentence 6
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 6 -> sentence 6
  * NUMBER: 1
- * DESCRIPTION: 局部函数可捕获外层函数形参
+ * DESCRIPTION: local function can capture outer function parameters
  */
 
 // TESTCASE NUMBER: 1

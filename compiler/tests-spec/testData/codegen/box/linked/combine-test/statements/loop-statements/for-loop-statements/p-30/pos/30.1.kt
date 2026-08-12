@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 30 -> sentence 30
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 30 -> sentence 30
  * NUMBER: 1
- * DESCRIPTION: 可变集合在迭代中结构性修改可触发运行期异常（JVM ConcurrentModificationException）
+ * DESCRIPTION: structural modification during iteration of mutable collection may throw ConcurrentModificationException on JVM
  */
 
 // TESTCASE NUMBER: 1

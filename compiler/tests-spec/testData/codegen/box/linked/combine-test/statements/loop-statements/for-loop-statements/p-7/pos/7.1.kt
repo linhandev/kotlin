@@ -8,7 +8,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 7 -> sentence 7
  *                operator-overloading, overview -> paragraph 7 -> sentence 7
  * NUMBER: 1
- * DESCRIPTION: for-in 右侧表达式只求值一次
+ * DESCRIPTION: for-in subject expression is evaluated only once
  */
 
 // TESTCASE NUMBER: 1

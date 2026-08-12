@@ -8,7 +8,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 4 -> sentence 4
  *                operator-overloading, overview -> paragraph 4 -> sentence 4
  * NUMBER: 1
- * DESCRIPTION: IntRange 可作为 for-in 对象
+ * DESCRIPTION: IntRange can be used as for-in subject
  */
 
 // TESTCASE NUMBER: 1

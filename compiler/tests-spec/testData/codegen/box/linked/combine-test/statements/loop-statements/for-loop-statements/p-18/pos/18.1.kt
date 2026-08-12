@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 18 -> sentence 18
  * PRIMARY LINKS: statements, loop-statements -> paragraph 18 -> sentence 18
  * NUMBER: 1
- * DESCRIPTION: continue 跳过当前迭代
+ * DESCRIPTION: continue skips current iteration
  */
 
 // TESTCASE NUMBER: 1

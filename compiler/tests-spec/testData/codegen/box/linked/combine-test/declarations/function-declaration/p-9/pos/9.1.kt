@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 9 -> sentence 9
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 9 -> sentence 9
  * NUMBER: 1
- * DESCRIPTION: 局部函数默认实参可引用外层形参
+ * DESCRIPTION: local function default arguments can reference outer parameters
  */
 
 // TESTCASE NUMBER: 1

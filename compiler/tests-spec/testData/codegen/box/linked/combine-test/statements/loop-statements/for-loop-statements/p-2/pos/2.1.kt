@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 2 -> sentence 2
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 2 -> sentence 2
  * NUMBER: 1
- * DESCRIPTION: Set 可 for-in 遍历
+ * DESCRIPTION: Set can be iterated with for-in
  */
 
 // TESTCASE NUMBER: 1

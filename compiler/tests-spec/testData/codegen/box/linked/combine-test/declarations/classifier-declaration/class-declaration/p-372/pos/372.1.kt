@@ -9,7 +9,7 @@
  * declarations, property-declaration -> paragraph 372 -> sentence 372
  * declarations, classifier-declaration, data-class-declaration -> paragraph 372 -> sentence 372
  * NUMBER: 1
- * DESCRIPTION: data class 的 private val 不参与自动生成的对外 copy 参数暴露
+ * DESCRIPTION: data class private val is not exposed in generated public copy parameters
  */
 
 // TESTCASE NUMBER: 1

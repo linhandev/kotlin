@@ -9,7 +9,7 @@
  * declarations, function-declaration -> paragraph 385 -> sentence 385
  * declarations, classifier-declaration, class-declaration, nested-and-inner-classifiers -> paragraph 385 -> sentence 385
  * NUMBER: 1
- * DESCRIPTION: inner class 可调用外部类 private fun
+ * DESCRIPTION: inner class can call outer class private fun
  */
 
 // TESTCASE NUMBER: 1

@@ -8,7 +8,7 @@
  * declarations, declaration-visibility -> paragraph 370 -> sentence 370
  * declarations, property-declaration -> paragraph 370 -> sentence 370
  * NUMBER: 1
- * DESCRIPTION: internal val 在模块内类外可访问（对比 private）
+ * DESCRIPTION: internal val is accessible outside class within module unlike private
  */
 
 // TESTCASE NUMBER: 1

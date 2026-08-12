@@ -7,7 +7,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 19 -> sentence 19
  * PRIMARY LINKS: statements, loop-statements -> paragraph 19 -> sentence 19
  * NUMBER: 1
- * DESCRIPTION: 带标签的 break@ 退出外层 for
+ * DESCRIPTION: labeled break@ exits outer for loop
  */
 
 // TESTCASE NUMBER: 1
