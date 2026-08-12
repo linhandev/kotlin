@@ -356,7 +356,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "覆盖属性不能把 protected val 收窄为 private",
+          "description": "overriding property cannot narrow protected val to private",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371/neg/371.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -707,7 +707,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "覆盖成员函数不能收窄为 private",
+          "description": "overriding member cannot be narrowed to private",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391/neg/391.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1261,7 +1261,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数不能 override 成员函数",
+          "description": "local function cannot override member function",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-21/neg/21.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

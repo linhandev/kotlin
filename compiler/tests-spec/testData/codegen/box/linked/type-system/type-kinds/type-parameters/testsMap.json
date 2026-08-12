@@ -47,7 +47,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "泛型局部函数声明保持类型参数",
+          "description": "generic local function declaration preserves type parameters",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-24/pos/24.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -61,7 +61,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "泛型 Iterable\u003cT\u003e 保持元素类型",
+          "description": "generic Iterable\u003cT\u003e preserves element type",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos/22.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

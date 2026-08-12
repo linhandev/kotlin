@@ -13,7 +13,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Map 解构 for ((k,v) in map)",
+          "description": "for-in destructuring for ((k,v) in map)",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos/14.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -247,7 +247,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Pair 列表解构 for-in",
+          "description": "for-in with destructuring over list of Pair",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos/15.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

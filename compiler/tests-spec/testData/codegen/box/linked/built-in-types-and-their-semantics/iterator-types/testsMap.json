@@ -5,7 +5,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "可变集合在迭代中结构性修改可触发运行期异常（JVM ConcurrentModificationException）",
+          "description": "structural modification during iteration of mutable collection may throw ConcurrentModificationException on JVM",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos/30.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -19,7 +19,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "泛型 Iterable\u003cT\u003e 保持元素类型",
+          "description": "generic Iterable\u003cT\u003e preserves element type",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos/22.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -33,7 +33,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Map 默认 for-in 遍历 Entry",
+          "description": "Map for-in iterates over Entry by default",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos/13.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -47,7 +47,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Map 解构 for ((k,v) in map)",
+          "description": "for-in destructuring for ((k,v) in map)",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos/14.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -61,7 +61,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Pair 列表解构 for-in",
+          "description": "for-in with destructuring over list of Pair",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos/15.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -75,7 +75,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "可直接对 Iterator 实例 for-in",
+          "description": "Iterator instance can be used directly in for-in",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos/12.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -89,7 +89,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "自定义类实现 Iterable 可 for-in",
+          "description": "custom class implementing Iterable can be used in for-in",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos/9.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -103,7 +103,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "for-in 右侧表达式只求值一次",
+          "description": "for-in subject expression is evaluated only once",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos/7.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -117,7 +117,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "空 Iterable 循环体不执行",
+          "description": "empty Iterable does not execute loop body",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos/6.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -131,7 +131,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "List 上 for-in 累加元素",
+          "description": "for-in over List accumulates elements",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -145,7 +145,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Iterable 上 iterator() 只调用一次",
+          "description": "iterator() on Iterable is called only once",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos/8.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -159,7 +159,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "自定义 Iterator 每次迭代调用 next()",
+          "description": "custom Iterator calls next() on each iteration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos/26.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -173,7 +173,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "可空元素 Iterable\u003cInt?\u003e 可 for-in",
+          "description": "nullable-element Iterable\u003cInt?\u003e can be used in for-in",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos/28.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -187,7 +187,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "仅提供 operator fun iterator()（不必实现 Iterable）",
+          "description": "operator fun iterator() alone suffices without implementing Iterable",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos/10.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -201,7 +201,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "iterator() 返回带 operator hasNext/next 的对象",
+          "description": "iterator() returns object with operator hasNext/next",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos/11.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -215,7 +215,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Sequence 可作为 for-in 对象",
+          "description": "Sequence can be used as for-in subject",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos/16.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -229,7 +229,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "嵌套 for-in 可累加",
+          "description": "nested for-in loops can accumulate values",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos/20.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -243,7 +243,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Array 可 for-in",
+          "description": "Array can be used in for-in loop",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos/27.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -257,7 +257,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "IntRange 可作为 for-in 对象",
+          "description": "IntRange can be used as for-in subject",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos/4.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -271,7 +271,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "String/CharSequence 按字符 for-in",
+          "description": "String and CharSequence can be iterated character-by-character in for-in",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos/3.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -285,7 +285,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Set 可 for-in 遍历",
+          "description": "Set can be iterated with for-in",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos/2.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -299,7 +299,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "downTo/until 区间可 for-in",
+          "description": "downTo/until ranges can be used in for-in",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos/5.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

@@ -59,7 +59,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "downTo/until 区间可 for-in",
+          "description": "downTo/until ranges can be used in for-in",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos/5.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

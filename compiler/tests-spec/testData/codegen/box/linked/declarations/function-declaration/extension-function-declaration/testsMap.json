@@ -5,7 +5,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "扩展 operator fun iterator() 使第三方类型可遍历",
+          "description": "extension operator fun iterator() makes third-party type iterable",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos/21.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

@@ -885,7 +885,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "调用顶层函数时显式 null 覆盖可空默认参数（声明+调用组合） type inference",
+          "description": "explicit null overrides nullable default parameter in top-level function call type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-29/pos/29.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -965,7 +965,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "可空元素 Iterable\u003cInt?\u003e 可 for-in type inference",
+          "description": "nullable-element Iterable\u003cInt?\u003e can be used in for-in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos/28.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",

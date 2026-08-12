@@ -119,7 +119,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "属性 getter 内可声明并调用局部函数",
+          "description": "local function can be declared and called inside property getter",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-27/pos/27.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

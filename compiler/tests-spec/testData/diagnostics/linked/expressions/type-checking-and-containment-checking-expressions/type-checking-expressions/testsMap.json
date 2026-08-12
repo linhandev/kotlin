@@ -968,7 +968,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Int 等非容器类型不能 for-in",
+          "description": "non-container types such as Int cannot be used in for-in",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-24/neg/24.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

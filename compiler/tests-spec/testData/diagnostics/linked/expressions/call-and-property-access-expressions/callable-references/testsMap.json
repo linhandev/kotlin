@@ -56,7 +56,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Callable references 不能绑定 private fun",
+          "description": "callable reference cannot bind to private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388/neg/388.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -70,7 +70,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "外层作用域外不能取得局部函数的 callable reference",
+          "description": "callable reference to local function is unavailable outside outer scope",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-19/neg/19.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
