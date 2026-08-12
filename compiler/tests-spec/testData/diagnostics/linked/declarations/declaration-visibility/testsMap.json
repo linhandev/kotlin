@@ -435,7 +435,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "覆盖属性不能把 protected val 收窄为 private",
+          "description": "overriding property cannot narrow protected val to private",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371/neg/371.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -684,7 +684,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类外不能触发 private operator fun",
+          "description": "private operator fun cannot be invoked from outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-398/neg/398.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -712,7 +712,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "覆盖成员函数不能收窄为 private",
+          "description": "overriding member cannot be narrowed to private",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391/neg/391.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -726,7 +726,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "非 inner 嵌套类不能访问外部实例 private val",
+          "description": "non-inner nested class cannot access outer instance private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363/neg/363.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -770,7 +770,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "伴生对象不能直接访问外部类实例的 private val",
+          "description": "companion object cannot directly access outer instance private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374/neg/374.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -784,7 +784,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Callable references 不能绑定 private fun",
+          "description": "callable reference cannot bind to private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388/neg/388.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -798,7 +798,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "非 inner 嵌套类不能调用外部实例 private fun",
+          "description": "non-inner nested class cannot call outer instance private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386/neg/386.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1074,7 +1074,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数不能使用 private/public 等可见性修饰符",
+          "description": "local function cannot use visibility modifiers such as private or public",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-20/neg/20.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

@@ -20,7 +20,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "伴生对象不能直接访问外部类实例的 private val",
+          "description": "companion object cannot directly access outer instance private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374/neg/374.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

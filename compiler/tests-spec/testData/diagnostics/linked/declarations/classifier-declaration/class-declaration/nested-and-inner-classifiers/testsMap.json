@@ -373,7 +373,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "非 inner 嵌套类不能访问外部实例 private val",
+          "description": "non-inner nested class cannot access outer instance private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363/neg/363.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -506,7 +506,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "非 inner 嵌套类不能调用外部实例 private fun",
+          "description": "non-inner nested class cannot call outer instance private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386/neg/386.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

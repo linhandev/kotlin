@@ -94,7 +94,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "inline 局部函数声明可在同体外联调用 type inference",
+          "description": "inline local function can be inlined when called in same body type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-22/pos/22.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -156,7 +156,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数 vararg 与默认尾参组合调用 type inference",
+          "description": "local function call combines vararg and trailing default parameters type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-25/pos/25.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -179,7 +179,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类外不能调用成员函数内的局部函数",
+          "description": "local function inside member cannot be called from outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-13/neg/13.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -247,7 +247,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "顶层函数外不能调用另一函数内的局部函数",
+          "description": "local function in another function cannot be called from outside",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-14/neg/14.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -319,7 +319,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "嵌套局部函数（局部内再声明局部） type inference",
+          "description": "nested local function declared inside another local function type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-15/pos/15.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -407,7 +407,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "成员函数体内的局部辅助函数 type inference",
+          "description": "local helper function declared inside member function body type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-12/pos/12.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -451,7 +451,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "泛型局部函数声明保持类型参数 type inference",
+          "description": "generic local function declaration preserves type parameters type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-24/pos/24.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -519,7 +519,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "tailrec 局部函数可递归求阶乘 type inference",
+          "description": "tailrec local function can recursively compute factorial type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-23/pos/23.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -580,7 +580,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数默认实参可引用外层形参 type inference",
+          "description": "local function default arguments can reference outer parameters type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-9/pos/9.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -660,7 +660,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数可捕获外层函数局部变量 type inference",
+          "description": "local function can capture outer function local variables type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-7/pos/7.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -721,7 +721,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数可捕获外层函数形参 type inference",
+          "description": "local function can capture outer function parameters type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-6/pos/6.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -782,7 +782,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "顶层函数声明默认参数后调用可省略 type inference",
+          "description": "top-level function call may omit arguments with default values type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -869,7 +869,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数声明可带默认参数 type inference",
+          "description": "local function declaration may declare default parameter values type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-8/pos/8.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -892,7 +892,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "外层作用域外不能取得局部函数的 callable reference",
+          "description": "callable reference to local function is unavailable outside outer scope",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-19/neg/19.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -964,7 +964,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数省略调用时默认实参每次重新求值 type inference",
+          "description": "default arguments are re-evaluated on each call when omitted type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-26/pos/26.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -996,7 +996,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数不能 override 成员函数",
+          "description": "local function cannot override member function",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-21/neg/21.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1078,7 +1078,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "inline 外层函数体内的局部函数仍可捕获并调用 type inference",
+          "description": "local function inside inline outer function can still capture and be called type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-28/pos/28.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1131,7 +1131,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数名可遮蔽外层同名函数且调用解析到最近声明 type inference",
+          "description": "local function name can shadow outer function; call resolves to nearest declaration type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-17/pos/17.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1175,7 +1175,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "调用局部函数时可使用命名实参跳过中间默认参数 type inference",
+          "description": "named arguments can skip middle default parameters in local function call type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-10/pos/10.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1215,7 +1215,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "调用局部函数时命名实参之后不能再跟位置实参",
+          "description": "positional arguments cannot follow named arguments in local function call",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-11/neg/11.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1297,7 +1297,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "调用顶层函数时显式 null 覆盖可空默认参数（声明+调用组合） type inference",
+          "description": "explicit null overrides nullable default parameter in top-level function call type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-29/pos/29.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1350,7 +1350,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "内层局部函数可捕获中层与外层变量 type inference",
+          "description": "inner local function can capture middle and outer variables type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-16/pos/16.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1407,7 +1407,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数不能使用 private/public 等可见性修饰符",
+          "description": "local function cannot use visibility modifiers such as private or public",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-20/neg/20.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1471,7 +1471,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "同一外层体内局部函数 :: 引用可传给高阶调用 type inference",
+          "description": "local function callable reference can be passed to higher-order call in same outer body type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-18/pos/18.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1524,7 +1524,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "属性 getter 内可声明并调用局部函数 type inference",
+          "description": "local function can be declared and called inside property getter type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-27/pos/27.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1595,7 +1595,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数可在声明后由外层函数体调用 type inference",
+          "description": "local function can be called from outer body after its declaration type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-4/pos/4.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1643,7 +1643,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "顶层函数默认实参不能前向引用后续形参",
+          "description": "top-level default arguments cannot forward-reference later parameters",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-3/neg/3.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1715,7 +1715,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "顶层函数默认实参可引用前置形参 type inference",
+          "description": "top-level function default arguments can reference preceding parameters type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-2/pos/2.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1768,7 +1768,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数可相互递归（声明顺序在前向调用之后亦可） type inference",
+          "description": "local functions can be mutually recursive even when declared after forward calls type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-5/pos/5.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1845,7 +1845,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类外不能触发 private operator fun",
+          "description": "private operator fun cannot be invoked from outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-398/neg/398.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1859,7 +1859,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "覆盖成员函数不能收窄为 private",
+          "description": "overriding member cannot be narrowed to private",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391/neg/391.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1873,7 +1873,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Callable references 不能绑定 private fun",
+          "description": "callable reference cannot bind to private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388/neg/388.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1887,7 +1887,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "非 inner 嵌套类不能调用外部实例 private fun",
+          "description": "non-inner nested class cannot call outer instance private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386/neg/386.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

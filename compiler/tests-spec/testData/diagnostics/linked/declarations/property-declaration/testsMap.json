@@ -223,7 +223,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "属性 getter 内可声明并调用局部函数 type inference",
+          "description": "local function can be declared and called inside property getter type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/function-declaration/p-27/pos/27.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -295,7 +295,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "覆盖属性不能把 protected val 收窄为 private",
+          "description": "overriding property cannot narrow protected val to private",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371/neg/371.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -486,7 +486,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "非 inner 嵌套类不能访问外部实例 private val",
+          "description": "non-inner nested class cannot access outer instance private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363/neg/363.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -500,7 +500,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "伴生对象不能直接访问外部类实例的 private val",
+          "description": "companion object cannot directly access outer instance private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374/neg/374.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
