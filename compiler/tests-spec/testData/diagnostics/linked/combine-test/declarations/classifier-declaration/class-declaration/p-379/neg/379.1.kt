@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 379 -> sentence 379
  * declarations, function-declaration -> paragraph 379 -> sentence 379
  * NUMBER: 1
- * DESCRIPTION: 类外不能直接调用 private fun
+ * DESCRIPTION: private fun cannot be called directly from outside class
  */
 
 // TESTCASE NUMBER: 1

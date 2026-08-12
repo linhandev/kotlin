@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 402 -> sentence 402
  * declarations, function-declaration -> paragraph 402 -> sentence 402
  * NUMBER: 1
- * DESCRIPTION: private inline fun 可在类内调用 type inference
+ * DESCRIPTION: private inline fun can be called inside class type inference
  * HELPERS: checkType
  */
 

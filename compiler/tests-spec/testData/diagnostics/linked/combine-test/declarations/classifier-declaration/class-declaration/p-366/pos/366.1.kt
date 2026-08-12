@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 366 -> sentence 366
  * declarations, property-declaration -> paragraph 366 -> sentence 366
  * NUMBER: 1
- * DESCRIPTION: public val + private set 类外可读不可写 type inference
+ * DESCRIPTION: public val with private set is readable but not writable outside class type inference
  * HELPERS: checkType
  */
 

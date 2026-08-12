@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 387 -> sentence 387
  * declarations, function-declaration, extension-function-declaration -> paragraph 387 -> sentence 387
  * NUMBER: 1
- * DESCRIPTION: 扩展函数不能调用接收者 private fun
+ * DESCRIPTION: extension function cannot call receiver private fun
  */
 
 // TESTCASE NUMBER: 1

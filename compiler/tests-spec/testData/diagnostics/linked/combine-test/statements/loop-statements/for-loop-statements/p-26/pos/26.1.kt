@@ -10,7 +10,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 26 -> sentence 26
  *                operator-overloading, overview -> paragraph 26 -> sentence 26
  * NUMBER: 1
- * DESCRIPTION: 自定义 Iterator 每次迭代调用 next() type inference
+ * DESCRIPTION: custom Iterator calls next() on each iteration type inference
  * HELPERS: checkType
  */
 

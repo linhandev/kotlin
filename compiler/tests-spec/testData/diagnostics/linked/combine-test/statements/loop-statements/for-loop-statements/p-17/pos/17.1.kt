@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 17 -> sentence 17
  * PRIMARY LINKS: statements, loop-statements -> paragraph 17 -> sentence 17
  * NUMBER: 1
- * DESCRIPTION: break 提前退出 for 循环 type inference
+ * DESCRIPTION: break exits for loop early type inference
  * HELPERS: checkType
  */
 

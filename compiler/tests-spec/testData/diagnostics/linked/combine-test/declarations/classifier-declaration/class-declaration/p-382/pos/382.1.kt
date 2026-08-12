@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 382 -> sentence 382
  * declarations, classifier-declaration, classifier-initialization -> paragraph 382 -> sentence 382
  * NUMBER: 1
- * DESCRIPTION: init 块可调用 private fun type inference
+ * DESCRIPTION: init block can call private fun type inference
  * HELPERS: checkType
  */
 

@@ -10,7 +10,7 @@
  * PRIMARY LINKS: operator-overloading, overview -> paragraph 23 -> sentence 23
  *                overload-resolution, building-the-overload-candidate-set-ocs, operator-call -> paragraph 23 -> sentence 23
  * NUMBER: 1
- * DESCRIPTION: 无 iterator 约定的类型不能 for-in
+ * DESCRIPTION: type without iterator convention cannot be used in for-in
  */
 
 // TESTCASE NUMBER: 1

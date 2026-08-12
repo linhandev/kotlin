@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 383 -> sentence 383
  * inheritance, inheriting -> paragraph 383 -> sentence 383
  * NUMBER: 1
- * DESCRIPTION: 子类不能调用父类 private fun
+ * DESCRIPTION: subclass cannot call parent private fun
  */
 
 // TESTCASE NUMBER: 1

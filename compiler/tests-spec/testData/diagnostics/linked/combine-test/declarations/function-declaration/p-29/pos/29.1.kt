@@ -11,7 +11,7 @@
  *                expressions, call-expressions -> paragraph 29 -> sentence 29
  *                type-system, introduction-1 -> paragraph 29 -> sentence 29
  * NUMBER: 1
- * DESCRIPTION: 调用顶层函数时显式 null 覆盖可空默认参数（声明+调用组合） type inference
+ * DESCRIPTION: explicit null overrides nullable default parameter in top-level function call type inference
  * HELPERS: checkType
  */
 

@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 10 -> sentence 10
  *                expressions, call-expressions -> paragraph 10 -> sentence 10
  * NUMBER: 1
- * DESCRIPTION: 调用局部函数时可使用命名实参跳过中间默认参数 type inference
+ * DESCRIPTION: named arguments can skip middle default parameters in local function call type inference
  * HELPERS: checkType
  */
 

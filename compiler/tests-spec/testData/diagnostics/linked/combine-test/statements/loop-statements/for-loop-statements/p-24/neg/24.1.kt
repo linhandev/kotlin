@@ -10,7 +10,7 @@
  * PRIMARY LINKS: operator-overloading, overview -> paragraph 24 -> sentence 24
  *                expressions, type-checking-and-containment-checking-expressions, type-checking-expressions -> paragraph 24 -> sentence 24
  * NUMBER: 1
- * DESCRIPTION: Int 等非容器类型不能 for-in
+ * DESCRIPTION: non-container types such as Int cannot be used in for-in
  */
 
 // TESTCASE NUMBER: 1

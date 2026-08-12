@@ -99,7 +99,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "String/CharSequence 按字符 for-in",
+          "description": "String and CharSequence can be iterated character-by-character in for-in",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos/3.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -903,7 +903,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "for-in 右侧表达式只求值一次",
+          "description": "for-in subject expression is evaluated only once",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos/7.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1343,7 +1343,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "自定义 Iterator 每次迭代调用 next()",
+          "description": "custom Iterator calls next() on each iteration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos/26.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1397,7 +1397,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "扩展 operator fun iterator() 使第三方类型可遍历",
+          "description": "extension operator fun iterator() makes third-party type iterable",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos/21.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1503,7 +1503,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "仅提供 operator fun iterator()（不必实现 Iterable）",
+          "description": "operator fun iterator() alone suffices without implementing Iterable",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos/10.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1601,7 +1601,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "iterator() 返回带 operator hasNext/next 的对象",
+          "description": "iterator() returns object with operator hasNext/next",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos/11.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1833,7 +1833,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "IntRange 可作为 for-in 对象",
+          "description": "IntRange can be used as for-in subject",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos/4.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

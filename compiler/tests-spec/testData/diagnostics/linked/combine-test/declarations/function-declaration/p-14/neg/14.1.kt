@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 14 -> sentence 14
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 14 -> sentence 14
  * NUMBER: 1
- * DESCRIPTION: 顶层函数外不能调用另一函数内的局部函数
+ * DESCRIPTION: local function in another function cannot be called from outside
  */
 
 // TESTCASE NUMBER: 1

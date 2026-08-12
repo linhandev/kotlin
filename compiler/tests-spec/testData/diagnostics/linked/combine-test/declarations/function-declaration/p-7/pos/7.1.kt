@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 7 -> sentence 7
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 7 -> sentence 7
  * NUMBER: 1
- * DESCRIPTION: 局部函数可捕获外层函数局部变量 type inference
+ * DESCRIPTION: local function can capture outer function local variables type inference
  * HELPERS: checkType
  */
 

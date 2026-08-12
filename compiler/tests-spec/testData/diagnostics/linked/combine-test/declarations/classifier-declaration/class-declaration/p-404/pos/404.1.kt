@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 404 -> sentence 404
  * declarations, function-declaration -> paragraph 404 -> sentence 404
  * NUMBER: 1
- * DESCRIPTION: 类内匿名对象可以访问外部类 private fun type inference
+ * DESCRIPTION: anonymous object inside class can access outer class private fun type inference
  * HELPERS: checkType
  */
 

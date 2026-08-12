@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 389 -> sentence 389
  * declarations, function-declaration -> paragraph 389 -> sentence 389
  * NUMBER: 1
- * DESCRIPTION: 同文件顶层函数也不能调用类 private fun
+ * DESCRIPTION: top-level function in same file cannot call class private fun
  */
 
 // TESTCASE NUMBER: 1

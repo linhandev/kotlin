@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 22 -> sentence 22
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 22 -> sentence 22
  * NUMBER: 1
- * DESCRIPTION: inline 局部函数声明可在同体外联调用 type inference
+ * DESCRIPTION: inline local function can be inlined when called in same body type inference
  * HELPERS: checkType
  */
 

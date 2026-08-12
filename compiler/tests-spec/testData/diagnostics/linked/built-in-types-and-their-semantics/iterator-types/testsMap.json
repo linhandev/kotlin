@@ -5,7 +5,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "可变集合在迭代中结构性修改可触发运行期异常（JVM ConcurrentModificationException） type inference",
+          "description": "structural modification during iteration of mutable collection may throw ConcurrentModificationException on JVM type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos/30.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -20,7 +20,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "泛型 Iterable\u003cT\u003e 保持元素类型 type inference",
+          "description": "generic Iterable\u003cT\u003e preserves element type type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos/22.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -35,7 +35,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "iterator() 返回类型缺少 hasNext/next 时失败",
+          "description": "for-in fails when iterator() return type lacks hasNext/next",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-25/neg/25.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -49,7 +49,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Map 默认 for-in 遍历 Entry type inference",
+          "description": "Map for-in iterates over Entry by default type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos/13.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -64,7 +64,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Map 解构 for ((k,v) in map) type inference",
+          "description": "for-in destructuring for ((k,v) in map) type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos/14.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -79,7 +79,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Pair 列表解构 for-in type inference",
+          "description": "for-in with destructuring over list of Pair type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos/15.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -94,7 +94,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "可直接对 Iterator 实例 for-in type inference",
+          "description": "Iterator instance can be used directly in for-in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos/12.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -109,7 +109,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "自定义类实现 Iterable 可 for-in type inference",
+          "description": "custom class implementing Iterable can be used in for-in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos/9.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -124,7 +124,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "for-in 右侧表达式只求值一次 type inference",
+          "description": "for-in subject expression is evaluated only once type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos/7.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -139,7 +139,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "空 Iterable 循环体不执行 type inference",
+          "description": "empty Iterable does not execute loop body type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos/6.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -154,7 +154,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "List 上 for-in 累加元素 type inference",
+          "description": "for-in over List accumulates elements type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -200,7 +200,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Iterable 上 iterator() 只调用一次 type inference",
+          "description": "iterator() on Iterable is called only once type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos/8.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -215,7 +215,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "自定义 Iterator 每次迭代调用 next() type inference",
+          "description": "custom Iterator calls next() on each iteration type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos/26.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -230,7 +230,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "可空元素 Iterable\u003cInt?\u003e 可 for-in type inference",
+          "description": "nullable-element Iterable\u003cInt?\u003e can be used in for-in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos/28.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -245,7 +245,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "仅提供 operator fun iterator()（不必实现 Iterable） type inference",
+          "description": "operator fun iterator() alone suffices without implementing Iterable type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos/10.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -260,7 +260,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "iterator() 返回带 operator hasNext/next 的对象 type inference",
+          "description": "iterator() returns object with operator hasNext/next type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos/11.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -275,7 +275,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Sequence 可作为 for-in 对象 type inference",
+          "description": "Sequence can be used as for-in subject type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos/16.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -290,7 +290,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "嵌套 for-in 可累加 type inference",
+          "description": "nested for-in loops can accumulate values type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos/20.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -305,7 +305,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Array 可 for-in type inference",
+          "description": "Array can be used in for-in loop type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos/27.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -320,7 +320,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "IntRange 可作为 for-in 对象 type inference",
+          "description": "IntRange can be used as for-in subject type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos/4.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -335,7 +335,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "String/CharSequence 按字符 for-in type inference",
+          "description": "String and CharSequence can be iterated character-by-character in for-in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos/3.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -350,7 +350,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Set 可 for-in 遍历 type inference",
+          "description": "Set can be iterated with for-in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos/2.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -365,7 +365,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "downTo/until 区间可 for-in type inference",
+          "description": "downTo/until ranges can be used in for-in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos/5.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",

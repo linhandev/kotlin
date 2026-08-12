@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 18 -> sentence 18
  * PRIMARY LINKS: statements, loop-statements -> paragraph 18 -> sentence 18
  * NUMBER: 1
- * DESCRIPTION: continue 跳过当前迭代 type inference
+ * DESCRIPTION: continue skips current iteration type inference
  * HELPERS: checkType
  */
 

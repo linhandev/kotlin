@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 9 -> sentence 9
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 9 -> sentence 9
  * NUMBER: 1
- * DESCRIPTION: 自定义类实现 Iterable 可 for-in type inference
+ * DESCRIPTION: custom class implementing Iterable can be used in for-in type inference
  * HELPERS: checkType
  */
 

@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 403 -> sentence 403
  * declarations, function-declaration -> paragraph 403 -> sentence 403
  * NUMBER: 1
- * DESCRIPTION: 局部函数与 private 成员函数作用域不同 type inference
+ * DESCRIPTION: local function and private member function have different scopes type inference
  * HELPERS: checkType
  */
 

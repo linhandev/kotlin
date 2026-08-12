@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 351 -> sentence 351
  * declarations, property-declaration -> paragraph 351 -> sentence 351
  * NUMBER: 1
- * DESCRIPTION: 类体 private val 仅类内可读 type inference
+ * DESCRIPTION: private val in class body is readable only inside class type inference
  * HELPERS: checkType
  */
 

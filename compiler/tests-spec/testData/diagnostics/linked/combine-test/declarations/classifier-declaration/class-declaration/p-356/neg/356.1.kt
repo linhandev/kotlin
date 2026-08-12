@@ -11,7 +11,7 @@
  * declarations, property-declaration -> paragraph 356 -> sentence 356
  * declarations, classifier-declaration, class-declaration, constructor-declaration -> paragraph 356 -> sentence 356
  * NUMBER: 1
- * DESCRIPTION: 主构造 private val 在类外不可访问
+ * DESCRIPTION: primary constructor private val is inaccessible outside class
  */
 
 // TESTCASE NUMBER: 1

@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 396 -> sentence 396
  * declarations, classifier-declaration, companion-object -> paragraph 396 -> sentence 396
  * NUMBER: 1
- * DESCRIPTION: 实例成员可调用伴生 private fun（经伴生公开成员） type inference
+ * DESCRIPTION: instance member can call companion private fun through public companion member type inference
  * HELPERS: checkType
  */
 

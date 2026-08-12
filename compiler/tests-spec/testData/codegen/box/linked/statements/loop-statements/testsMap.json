@@ -213,7 +213,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "带标签的 break@ 退出外层 for",
+          "description": "labeled break@ exits outer for loop",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos/19.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -227,7 +227,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "break 提前退出 for 循环",
+          "description": "break exits for loop early",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos/17.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -241,7 +241,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "continue 跳过当前迭代",
+          "description": "continue skips current iteration",
           "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos/18.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"

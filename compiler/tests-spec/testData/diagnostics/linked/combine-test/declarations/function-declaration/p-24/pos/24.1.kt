@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 24 -> sentence 24
  *                type-system, type-kinds, type-parameters -> paragraph 24 -> sentence 24
  * NUMBER: 1
- * DESCRIPTION: 泛型局部函数声明保持类型参数 type inference
+ * DESCRIPTION: generic local function declaration preserves type parameters type inference
  * HELPERS: checkType
  */
 

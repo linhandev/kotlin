@@ -11,7 +11,7 @@
  * declarations, property-declaration -> paragraph 362 -> sentence 362
  * declarations, classifier-declaration, class-declaration, nested-and-inner-classifiers -> paragraph 362 -> sentence 362
  * NUMBER: 1
- * DESCRIPTION: inner class 可访问外部类 private val type inference
+ * DESCRIPTION: inner class can access outer class private val type inference
  * HELPERS: checkType
  */
 

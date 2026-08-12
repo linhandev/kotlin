@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 401 -> sentence 401
  * declarations, function-declaration -> paragraph 401 -> sentence 401
  * NUMBER: 1
- * DESCRIPTION: 嵌套类不能实现声明类 private abstract fun
+ * DESCRIPTION: nested class cannot implement enclosing class private abstract fun
  */
 
 // TESTCASE NUMBER: 1

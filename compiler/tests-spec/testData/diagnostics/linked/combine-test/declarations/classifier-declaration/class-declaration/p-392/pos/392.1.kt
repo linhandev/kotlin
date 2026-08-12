@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 392 -> sentence 392
  * declarations, function-declaration -> paragraph 392 -> sentence 392
  * NUMBER: 1
- * DESCRIPTION: private fun 可在表达式体中定义 type inference
+ * DESCRIPTION: private fun can be defined with expression body type inference
  * HELPERS: checkType
  */
 

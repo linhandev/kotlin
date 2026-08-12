@@ -10,7 +10,7 @@
  * PRIMARY LINKS: operator-overloading, overview -> paragraph 11 -> sentence 11
  *                built-in-types-and-their-semantics, iterator-types -> paragraph 11 -> sentence 11
  * NUMBER: 1
- * DESCRIPTION: iterator() 返回带 operator hasNext/next 的对象 type inference
+ * DESCRIPTION: iterator() returns object with operator hasNext/next type inference
  * HELPERS: checkType
  */
 

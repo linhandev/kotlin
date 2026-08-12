@@ -26,7 +26,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
   }
 
   public void testAllFilesPresentInBox() {
-    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box"), Pattern.compile("^(.+)\\.kt$"), null, true, "helpers", "templates", "linked/annotations/annotation-declarations", "linked/annotations/annotation-use-site-targets", "linked/built-in-types-and-their-semantics/iterator-types", "linked/built-in-types-and-their-semantics/kotlin.nothing", "linked/combine-test/declarations/classifier-declaration/class-declaration/p-401", "linked/combine-test/declarations/function-declaration/p-22", "linked/combine-test/declarations/function-declaration/p-28", "linked/combine-test/expressions/conditional-expressions/p-14", "linked/combine-test/expressions/conditional-expressions/p-19", "linked/combine-test/expressions/conditional-expressions/p-24", "linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19", "linked/declarations/classifier-declaration/classifier-declaration-scopes", "linked/declarations/classifier-declaration/companion-object", "linked/declarations/classifier-declaration/constructor-declaration", "linked/declarations/declaration-site-variance-and-use-site-variance", "linked/declarations/declaration-visibility", "linked/declarations/declarations-with-type-parameters", "linked/declarations/destructuring-declarations", "linked/declarations/function-declaration/extension-function-declaration", "linked/declarations/property-declaration/late-initialized-properties", "linked/declarations/type-alias", "linked/expressions/call-expressions", "linked/inheritance/classifier-type-inheritance/open-classes", "linked/inheritance/inheriting", "linked/operator-call", "linked/overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "linked/overload-resolution/resolving-callable-references", "linked/overloadable-operators", "linked/packages-and-imports/modules", "linked/scopes-and-identifiers/identifiers-and-paths", "linked/type-inference/introduction-1", "linked/type-system/built-in-integer-types", "linked/type-system/introduction-1/type-kinds", "linked/type-system/nullable-types", "linked/type-system/subtyping", "linked/type-system/type-kinds/classifier-types", "linked/type-system/type-kinds/flexible-types", "linked/type-system/type-kinds/function-types", "linked/type-system/type-kinds/intersection-types", "linked/type-system/type-kinds/nullable-types", "linked/type-system/type-kinds/type-parameters", "linked/type-system/type-kinds/union-types", "linked/type-system/upper-and-lower-bounds");
+    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box"), Pattern.compile("^(.+)\\.kt$"), null, true, "helpers", "templates", "linked/annotations/annotation-declarations", "linked/annotations/annotation-use-site-targets", "linked/built-in-types-and-their-semantics/iterator-types", "linked/built-in-types-and-their-semantics/kotlin.nothing", "linked/declarations/classifier-declaration/classifier-declaration-scopes", "linked/declarations/classifier-declaration/companion-object", "linked/declarations/classifier-declaration/constructor-declaration", "linked/declarations/declaration-site-variance-and-use-site-variance", "linked/declarations/declaration-visibility", "linked/declarations/declarations-with-type-parameters", "linked/declarations/destructuring-declarations", "linked/declarations/function-declaration/extension-function-declaration", "linked/declarations/property-declaration/late-initialized-properties", "linked/declarations/type-alias", "linked/expressions/call-expressions", "linked/inheritance/classifier-type-inheritance/open-classes", "linked/inheritance/inheriting", "linked/operator-call", "linked/overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "linked/overload-resolution/resolving-callable-references", "linked/overloadable-operators", "linked/packages-and-imports/modules", "linked/scopes-and-identifiers/identifiers-and-paths", "linked/type-inference/introduction-1", "linked/type-system/built-in-integer-types", "linked/type-system/introduction-1/type-kinds", "linked/type-system/nullable-types", "linked/type-system/subtyping", "linked/type-system/type-kinds/classifier-types", "linked/type-system/type-kinds/flexible-types", "linked/type-system/type-kinds/function-types", "linked/type-system/type-kinds/intersection-types", "linked/type-system/type-kinds/nullable-types", "linked/type-system/type-kinds/type-parameters", "linked/type-system/type-kinds/union-types", "linked/type-system/upper-and-lower-bounds");
   }
 
   @TestMetadata("compiler/tests-spec/testData/codegen/box/linked")
@@ -38,7 +38,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
     }
 
     public void testAllFilesPresentInLinked() {
-      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked"), Pattern.compile("^(.+)\\.kt$"), null, true, "annotations/annotation-declarations", "annotations/annotation-use-site-targets", "built-in-types-and-their-semantics/iterator-types", "built-in-types-and-their-semantics/kotlin.nothing", "combine-test/declarations/classifier-declaration/class-declaration/p-401", "combine-test/declarations/function-declaration/p-22", "combine-test/declarations/function-declaration/p-28", "combine-test/expressions/conditional-expressions/p-14", "combine-test/expressions/conditional-expressions/p-19", "combine-test/expressions/conditional-expressions/p-24", "combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19", "declarations/classifier-declaration/classifier-declaration-scopes", "declarations/classifier-declaration/companion-object", "declarations/classifier-declaration/constructor-declaration", "declarations/declaration-site-variance-and-use-site-variance", "declarations/declaration-visibility", "declarations/declarations-with-type-parameters", "declarations/destructuring-declarations", "declarations/function-declaration/extension-function-declaration", "declarations/property-declaration/late-initialized-properties", "declarations/type-alias", "expressions/call-expressions", "inheritance/classifier-type-inheritance/open-classes", "inheritance/inheriting", "operator-call", "overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "overload-resolution/resolving-callable-references", "overloadable-operators", "packages-and-imports/modules", "scopes-and-identifiers/identifiers-and-paths", "type-inference/introduction-1", "type-system/built-in-integer-types", "type-system/introduction-1/type-kinds", "type-system/nullable-types", "type-system/subtyping", "type-system/type-kinds/classifier-types", "type-system/type-kinds/flexible-types", "type-system/type-kinds/function-types", "type-system/type-kinds/intersection-types", "type-system/type-kinds/nullable-types", "type-system/type-kinds/type-parameters", "type-system/type-kinds/union-types", "type-system/upper-and-lower-bounds");
+      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked"), Pattern.compile("^(.+)\\.kt$"), null, true, "annotations/annotation-declarations", "annotations/annotation-use-site-targets", "built-in-types-and-their-semantics/iterator-types", "built-in-types-and-their-semantics/kotlin.nothing", "declarations/classifier-declaration/classifier-declaration-scopes", "declarations/classifier-declaration/companion-object", "declarations/classifier-declaration/constructor-declaration", "declarations/declaration-site-variance-and-use-site-variance", "declarations/declaration-visibility", "declarations/declarations-with-type-parameters", "declarations/destructuring-declarations", "declarations/function-declaration/extension-function-declaration", "declarations/property-declaration/late-initialized-properties", "declarations/type-alias", "expressions/call-expressions", "inheritance/classifier-type-inheritance/open-classes", "inheritance/inheriting", "operator-call", "overload-resolution/building-the-overload-candidate-set-ocs/call-with-an-explicit-receiver", "overload-resolution/resolving-callable-references", "overloadable-operators", "packages-and-imports/modules", "scopes-and-identifiers/identifiers-and-paths", "type-inference/introduction-1", "type-system/built-in-integer-types", "type-system/introduction-1/type-kinds", "type-system/nullable-types", "type-system/subtyping", "type-system/type-kinds/classifier-types", "type-system/type-kinds/flexible-types", "type-system/type-kinds/function-types", "type-system/type-kinds/intersection-types", "type-system/type-kinds/nullable-types", "type-system/type-kinds/type-parameters", "type-system/type-kinds/union-types", "type-system/upper-and-lower-bounds");
     }
 
     @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/annotations")
@@ -464,7 +464,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
       }
 
       public void testAllFilesPresentInCombine_test() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test"), Pattern.compile("^(.+)\\.kt$"), null, true, "declarations/classifier-declaration/class-declaration/p-401", "declarations/function-declaration/p-22", "declarations/function-declaration/p-28", "expressions/conditional-expressions/p-14", "expressions/conditional-expressions/p-19", "expressions/conditional-expressions/p-24", "expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-19");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test"), Pattern.compile("^(.+)\\.kt$"), null, true);
       }
 
       @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/asynchronous-programming-with-coroutines")
@@ -1091,7 +1091,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
         }
 
         public void testAllFilesPresentInDeclarations() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations"), Pattern.compile("^(.+)\\.kt$"), null, true, "classifier-declaration/class-declaration/p-401", "function-declaration/p-22", "function-declaration/p-28");
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations"), Pattern.compile("^(.+)\\.kt$"), null, true);
         }
 
         @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration")
@@ -1103,7 +1103,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
           }
 
           public void testAllFilesPresentInClassifier_declaration() {
-            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), null, true, "class-declaration/p-401");
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), null, true);
           }
 
           @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration")
@@ -1115,7 +1115,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
             }
 
             public void testAllFilesPresentInClass_declaration() {
-              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), null, true, "p-401");
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), null, true);
             }
 
             @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/inheritance-delegation")
@@ -17712,7 +17712,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
           }
 
           public void testAllFilesPresentInFunction_declaration() {
-            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration"), Pattern.compile("^(.+)\\.kt$"), null, true, "p-22", "p-28");
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration"), Pattern.compile("^(.+)\\.kt$"), null, true);
           }
 
           @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/function-declaration/p-1")
@@ -19475,7 +19475,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
         }
 
         public void testAllFilesPresentInExpressions() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions"), Pattern.compile("^(.+)\\.kt$"), null, true, "conditional-expressions/p-14", "conditional-expressions/p-19", "conditional-expressions/p-24", "type-checking-and-containment-checking-expressions/type-checking-expressions/p-19");
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions"), Pattern.compile("^(.+)\\.kt$"), null, true);
         }
 
         @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/additive-expressions")
@@ -26282,7 +26282,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
           }
 
           public void testAllFilesPresentInConditional_expressions() {
-            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions"), Pattern.compile("^(.+)\\.kt$"), null, true, "p-14", "p-19", "p-24");
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions"), Pattern.compile("^(.+)\\.kt$"), null, true);
           }
 
           @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-1")
@@ -35392,7 +35392,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
           }
 
           public void testAllFilesPresentInType_checking_and_containment_checking_expressions() {
-            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions"), Pattern.compile("^(.+)\\.kt$"), null, true, "type-checking-expressions/p-19");
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions"), Pattern.compile("^(.+)\\.kt$"), null, true);
           }
 
           @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions")
@@ -36502,7 +36502,7 @@ public class BlackBoxCodegenTestSpecGenerated extends AbstractBlackBoxCodegenTes
             }
 
             public void testAllFilesPresentInType_checking_expressions() {
-              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions"), Pattern.compile("^(.+)\\.kt$"), null, true, "p-19");
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions"), Pattern.compile("^(.+)\\.kt$"), null, true);
             }
 
             @TestMetadata("compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/type-checking-expressions/p-1")

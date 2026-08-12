@@ -10,7 +10,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 28 -> sentence 28
  *                type-system, introduction-1 -> paragraph 28 -> sentence 28
  * NUMBER: 1
- * DESCRIPTION: 可空元素 Iterable<Int?> 可 for-in type inference
+ * DESCRIPTION: nullable-element Iterable<Int?> can be used in for-in type inference
  * HELPERS: checkType
  */
 

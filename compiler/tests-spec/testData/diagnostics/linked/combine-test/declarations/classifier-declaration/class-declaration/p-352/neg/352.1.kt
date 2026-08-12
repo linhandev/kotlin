@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 352 -> sentence 352
  * declarations, property-declaration -> paragraph 352 -> sentence 352
  * NUMBER: 1
- * DESCRIPTION: 类外不能访问 private val
+ * DESCRIPTION: private val cannot be accessed from outside class
  */
 
 // TESTCASE NUMBER: 1

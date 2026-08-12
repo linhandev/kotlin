@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 397 -> sentence 397
  * operator-overloading, overview -> paragraph 397 -> sentence 397
  * NUMBER: 1
- * DESCRIPTION: private operator fun 仅类内可调用 type inference
+ * DESCRIPTION: private operator fun can be called only inside class type inference
  * HELPERS: checkType
  */
 

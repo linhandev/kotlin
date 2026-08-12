@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 1 -> sentence 1
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 1 -> sentence 1
  * NUMBER: 1
- * DESCRIPTION: List 上 for-in 累加元素 type inference
+ * DESCRIPTION: for-in over List accumulates elements type inference
  * HELPERS: checkType
  */
 

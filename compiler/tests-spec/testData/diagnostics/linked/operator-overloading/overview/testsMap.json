@@ -613,7 +613,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "iterator() 返回类型缺少 hasNext/next 时失败",
+          "description": "for-in fails when iterator() return type lacks hasNext/next",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-25/neg/25.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -953,7 +953,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Int 等非容器类型不能 for-in",
+          "description": "non-container types such as Int cannot be used in for-in",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-24/neg/24.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -997,7 +997,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "无 iterator 约定的类型不能 for-in",
+          "description": "type without iterator convention cannot be used in for-in",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-23/neg/23.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -1098,7 +1098,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "for-in 右侧表达式只求值一次 type inference",
+          "description": "for-in subject expression is evaluated only once type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos/7.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1654,7 +1654,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "自定义 Iterator 每次迭代调用 next() type inference",
+          "description": "custom Iterator calls next() on each iteration type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos/26.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1714,7 +1714,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "扩展 operator fun iterator() 使第三方类型可遍历 type inference",
+          "description": "extension operator fun iterator() makes third-party type iterable type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos/21.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1855,7 +1855,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "仅提供 operator fun iterator()（不必实现 Iterable） type inference",
+          "description": "operator fun iterator() alone suffices without implementing Iterable type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos/10.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -1975,7 +1975,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "iterator() 返回带 operator hasNext/next 的对象 type inference",
+          "description": "iterator() returns object with operator hasNext/next type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos/11.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -2332,7 +2332,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "IntRange 可作为 for-in 对象 type inference",
+          "description": "IntRange can be used as for-in subject type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos/4.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -2413,7 +2413,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "String/CharSequence 按字符 for-in type inference",
+          "description": "String and CharSequence can be iterated character-by-character in for-in type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos/3.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",

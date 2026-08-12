@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 4 -> sentence 4
  *                expressions, call-expressions -> paragraph 4 -> sentence 4
  * NUMBER: 1
- * DESCRIPTION: 局部函数可在声明后由外层函数体调用 type inference
+ * DESCRIPTION: local function can be called from outer body after its declaration type inference
  * HELPERS: checkType
  */
 

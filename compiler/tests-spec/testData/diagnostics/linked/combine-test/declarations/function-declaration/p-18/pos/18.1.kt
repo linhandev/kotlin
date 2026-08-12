@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 18 -> sentence 18
  *                expressions, call-expressions -> paragraph 18 -> sentence 18
  * NUMBER: 1
- * DESCRIPTION: 同一外层体内局部函数 :: 引用可传给高阶调用 type inference
+ * DESCRIPTION: local function callable reference can be passed to higher-order call in same outer body type inference
  * HELPERS: checkType
  */
 

@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 368 -> sentence 368
  * declarations, property-declaration -> paragraph 368 -> sentence 368
  * NUMBER: 1
- * DESCRIPTION: private 自定义 getter 仍禁止类外访问
+ * DESCRIPTION: private custom getter still prohibits access outside class
  */
 
 // TESTCASE NUMBER: 1

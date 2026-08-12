@@ -26,7 +26,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
   }
 
   public void testAllFilesPresentInDiagnostics() {
-    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "helpers", "linked/annotations/annotation-use-site-targets", "linked/annotations/built-in-annotations/kotlin.annotation.Target", "linked/built-in-types-and-their-semantics/built-in-integer-types-1", "linked/call-and-property-access-class-literals", "linked/combine-test/declarations/classifier-declaration/class-declaration/p-401/pos", "linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/neg", "linked/constant-literals", "linked/declarations/classifier-declaration/companion-object", "linked/declarations/classifier-declaration/constructor-declaration", "linked/declarations/declaration-site-variance-and-use-site-variance", "linked/declarations/destructuring-declarations", "linked/declarations/function-declaration/extension-function-declaration", "linked/expressions/call-and-property-access-expressions/function-calls-and-property-access", "linked/expressions/call-and-property-access-expressions/navigation-operators", "linked/expressions/call-expressions", "linked/expressions/not-null-assertion-expressions", "linked/expressions/prefix-expressions/logical-not-expressions", "linked/expressions/prefix-expressions/unary-minus-expressions", "linked/expressions/prefix-expressions/unary-plus-expressions", "linked/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions", "linked/inheritance/classifier-type-inheritance/open-classes", "linked/overload-resolution/building-the-overload-candidate-set/call-with-trailing-lambda-expressions", "linked/overload-resolution/c-level-partition", "linked/overloadable-operators", "linked/statements/assignments/simple-assignments", "linked/type-inference/introduction-1", "linked/type-system/built-in-integer-types", "linked/type-system/introduction-1/type-kinds", "linked/type-system/nullable-types", "linked/type-system/type-kinds/parameterized-classifier-types");
+    KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "helpers", "linked/annotations/annotation-use-site-targets", "linked/annotations/built-in-annotations/kotlin.annotation.Target", "linked/built-in-types-and-their-semantics/built-in-integer-types-1", "linked/call-and-property-access-class-literals", "linked/constant-literals", "linked/declarations/classifier-declaration/companion-object", "linked/declarations/classifier-declaration/constructor-declaration", "linked/declarations/declaration-site-variance-and-use-site-variance", "linked/declarations/destructuring-declarations", "linked/declarations/function-declaration/extension-function-declaration", "linked/expressions/call-and-property-access-expressions/function-calls-and-property-access", "linked/expressions/call-and-property-access-expressions/navigation-operators", "linked/expressions/call-expressions", "linked/expressions/not-null-assertion-expressions", "linked/expressions/prefix-expressions/logical-not-expressions", "linked/expressions/prefix-expressions/unary-minus-expressions", "linked/expressions/prefix-expressions/unary-plus-expressions", "linked/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions", "linked/inheritance/classifier-type-inheritance/open-classes", "linked/overload-resolution/building-the-overload-candidate-set/call-with-trailing-lambda-expressions", "linked/overload-resolution/c-level-partition", "linked/overloadable-operators", "linked/statements/assignments/simple-assignments", "linked/type-inference/introduction-1", "linked/type-system/built-in-integer-types", "linked/type-system/introduction-1/type-kinds", "linked/type-system/nullable-types", "linked/type-system/type-kinds/parameterized-classifier-types");
   }
 
   @TestMetadata("compiler/tests-spec/testData/diagnostics/linked")
@@ -38,7 +38,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
     }
 
     public void testAllFilesPresentInLinked() {
-      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "annotations/annotation-use-site-targets", "annotations/built-in-annotations/kotlin.annotation.Target", "built-in-types-and-their-semantics/built-in-integer-types-1", "call-and-property-access-class-literals", "combine-test/declarations/classifier-declaration/class-declaration/p-401/pos", "combine-test/declarations/classifier-declaration/class-declaration/p-404/neg", "constant-literals", "declarations/classifier-declaration/companion-object", "declarations/classifier-declaration/constructor-declaration", "declarations/declaration-site-variance-and-use-site-variance", "declarations/destructuring-declarations", "declarations/function-declaration/extension-function-declaration", "expressions/call-and-property-access-expressions/function-calls-and-property-access", "expressions/call-and-property-access-expressions/navigation-operators", "expressions/call-expressions", "expressions/not-null-assertion-expressions", "expressions/prefix-expressions/logical-not-expressions", "expressions/prefix-expressions/unary-minus-expressions", "expressions/prefix-expressions/unary-plus-expressions", "expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions", "inheritance/classifier-type-inheritance/open-classes", "overload-resolution/building-the-overload-candidate-set/call-with-trailing-lambda-expressions", "overload-resolution/c-level-partition", "overloadable-operators", "statements/assignments/simple-assignments", "type-inference/introduction-1", "type-system/built-in-integer-types", "type-system/introduction-1/type-kinds", "type-system/nullable-types", "type-system/type-kinds/parameterized-classifier-types");
+      KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "annotations/annotation-use-site-targets", "annotations/built-in-annotations/kotlin.annotation.Target", "built-in-types-and-their-semantics/built-in-integer-types-1", "call-and-property-access-class-literals", "constant-literals", "declarations/classifier-declaration/companion-object", "declarations/classifier-declaration/constructor-declaration", "declarations/declaration-site-variance-and-use-site-variance", "declarations/destructuring-declarations", "declarations/function-declaration/extension-function-declaration", "expressions/call-and-property-access-expressions/function-calls-and-property-access", "expressions/call-and-property-access-expressions/navigation-operators", "expressions/call-expressions", "expressions/not-null-assertion-expressions", "expressions/prefix-expressions/logical-not-expressions", "expressions/prefix-expressions/unary-minus-expressions", "expressions/prefix-expressions/unary-plus-expressions", "expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions", "inheritance/classifier-type-inheritance/open-classes", "overload-resolution/building-the-overload-candidate-set/call-with-trailing-lambda-expressions", "overload-resolution/c-level-partition", "overloadable-operators", "statements/assignments/simple-assignments", "type-inference/introduction-1", "type-system/built-in-integer-types", "type-system/introduction-1/type-kinds", "type-system/nullable-types", "type-system/type-kinds/parameterized-classifier-types");
     }
 
     @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/annotations")
@@ -4083,7 +4083,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
       }
 
       public void testAllFilesPresentInCombine_test() {
-        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "declarations/classifier-declaration/class-declaration/p-401/pos", "declarations/classifier-declaration/class-declaration/p-404/neg");
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
       }
 
       @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines")
@@ -5113,7 +5113,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
         }
 
         public void testAllFilesPresentInDeclarations() {
-          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "classifier-declaration/class-declaration/p-401/pos", "classifier-declaration/class-declaration/p-404/neg");
+          KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
         }
 
         @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration")
@@ -5125,7 +5125,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
           }
 
           public void testAllFilesPresentInClassifier_declaration() {
-            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "class-declaration/p-401/pos", "class-declaration/p-404/neg");
+            KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
           }
 
           @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration")
@@ -5137,7 +5137,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
             }
 
             public void testAllFilesPresentInClass_declaration() {
-              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "p-401/pos", "p-404/neg");
+              KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
             }
 
             @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/inheritance-delegation")
@@ -16539,7 +16539,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
               }
 
               public void testAllFilesPresentInP_401() {
-                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "pos");
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
 
               @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401/neg")
@@ -16632,7 +16632,7 @@ public class DiagnosticsTestSpecGenerated extends AbstractDiagnosticsTestSpec {
               }
 
               public void testAllFilesPresentInP_404() {
-                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true, "neg");
+                KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404"), Pattern.compile("^(.+)\\.kt$"), Pattern.compile("^(.+)\\.(reversed|partialBody|fir|ll|latestLV)\\.kts?$"), true);
               }
 
               @TestMetadata("compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos")

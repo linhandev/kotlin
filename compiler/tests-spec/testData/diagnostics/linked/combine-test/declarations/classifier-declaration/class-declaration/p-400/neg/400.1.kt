@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 400 -> sentence 400
  * declarations, function-declaration -> paragraph 400 -> sentence 400
  * NUMBER: 1
- * DESCRIPTION: 子类不能实现父类 private abstract fun
+ * DESCRIPTION: subclass cannot implement parent private abstract fun
  */
 
 // TESTCASE NUMBER: 1

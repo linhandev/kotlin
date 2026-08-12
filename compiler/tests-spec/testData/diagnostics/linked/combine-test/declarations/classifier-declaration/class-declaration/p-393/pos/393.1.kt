@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 393 -> sentence 393
  * declarations, function-declaration -> paragraph 393 -> sentence 393
  * NUMBER: 1
- * DESCRIPTION: private fun 支持递归调用 type inference
+ * DESCRIPTION: private fun supports recursive calls type inference
  * HELPERS: checkType
  */
 

@@ -11,7 +11,7 @@
  *                declarations, function-declaration -> paragraph 386 -> sentence 386
  *                declarations, classifier-declaration, class-declaration, nested-and-inner-classifiers -> paragraph 386 -> sentence 386
  * NUMBER: 1
- * DESCRIPTION: 非 inner 嵌套类不能调用外部实例 private fun
+ * DESCRIPTION: non-inner nested class cannot call outer instance private fun
  */
 
 // TESTCASE NUMBER: 1

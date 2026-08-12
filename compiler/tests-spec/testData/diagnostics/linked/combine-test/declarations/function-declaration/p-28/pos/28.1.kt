@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 28 -> sentence 28
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 28 -> sentence 28
  * NUMBER: 1
- * DESCRIPTION: inline 外层函数体内的局部函数仍可捕获并调用 type inference
+ * DESCRIPTION: local function inside inline outer function can still capture and be called type inference
  * HELPERS: checkType
  */
 

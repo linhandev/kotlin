@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 354 -> sentence 354
  * declarations, property-declaration -> paragraph 354 -> sentence 354
  * NUMBER: 1
- * DESCRIPTION: 类外不能修改 private var
+ * DESCRIPTION: private var cannot be modified from outside class
  */
 
 // TESTCASE NUMBER: 1

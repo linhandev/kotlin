@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 376 -> sentence 376
  * declarations, property-declaration -> paragraph 376 -> sentence 376
  * NUMBER: 1
- * DESCRIPTION: 反射式字符串插值 ${obj.private} 类外失败
+ * DESCRIPTION: string interpolation of private member fails outside class
  */
 
 // TESTCASE NUMBER: 1

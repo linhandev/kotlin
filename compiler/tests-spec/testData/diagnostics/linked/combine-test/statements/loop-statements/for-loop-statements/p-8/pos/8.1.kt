@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 8 -> sentence 8
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 8 -> sentence 8
  * NUMBER: 1
- * DESCRIPTION: Iterable 上 iterator() 只调用一次 type inference
+ * DESCRIPTION: iterator() on Iterable is called only once type inference
  * HELPERS: checkType
  */
 

@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 384 -> sentence 384
  * inheritance, inheriting -> paragraph 384 -> sentence 384
  * NUMBER: 1
- * DESCRIPTION: 子类可调用父类 public fun 即使其内部使用 private fun type inference
+ * DESCRIPTION: subclass can call parent public fun even if it uses private fun internally type inference
  * HELPERS: checkType
  */
 

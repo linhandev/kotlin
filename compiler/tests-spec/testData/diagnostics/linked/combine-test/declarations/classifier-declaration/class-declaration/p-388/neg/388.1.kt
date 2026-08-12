@@ -11,7 +11,7 @@
  *                declarations, function-declaration -> paragraph 388 -> sentence 388
  *                expressions, call-and-property-access-expressions, callable-references -> paragraph 388 -> sentence 388
  * NUMBER: 1
- * DESCRIPTION: Callable references 不能绑定 private fun
+ * DESCRIPTION: callable reference cannot bind to private fun
  */
 
 // TESTCASE NUMBER: 1

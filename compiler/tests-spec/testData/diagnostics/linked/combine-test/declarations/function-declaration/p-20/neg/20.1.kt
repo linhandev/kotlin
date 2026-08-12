@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 20 -> sentence 20
  *                declarations, declaration-visibility -> paragraph 20 -> sentence 20
  * NUMBER: 1
- * DESCRIPTION: 局部函数不能使用 private/public 等可见性修饰符
+ * DESCRIPTION: local function cannot use visibility modifiers such as private or public
  */
 
 // TESTCASE NUMBER: 1

@@ -11,7 +11,7 @@
  *                declarations, property-declaration -> paragraph 363 -> sentence 363
  *                declarations, classifier-declaration, class-declaration, nested-and-inner-classifiers -> paragraph 363 -> sentence 363
  * NUMBER: 1
- * DESCRIPTION: 非 inner 嵌套类不能访问外部实例 private val
+ * DESCRIPTION: non-inner nested class cannot access outer instance private val
  */
 
 // TESTCASE NUMBER: 1

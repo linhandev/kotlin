@@ -11,7 +11,7 @@
  *                declarations, property-declaration -> paragraph 374 -> sentence 374
  *                declarations, classifier-declaration, companion-object -> paragraph 374 -> sentence 374
  * NUMBER: 1
- * DESCRIPTION: 伴生对象不能直接访问外部类实例的 private val
+ * DESCRIPTION: companion object cannot directly access outer instance private val
  */
 
 // TESTCASE NUMBER: 1

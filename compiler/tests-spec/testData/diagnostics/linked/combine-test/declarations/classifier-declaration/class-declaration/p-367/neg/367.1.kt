@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 367 -> sentence 367
  * declarations, property-declaration -> paragraph 367 -> sentence 367
  * NUMBER: 1
- * DESCRIPTION: public val + private set 类外赋值失败
+ * DESCRIPTION: assignment to public val with private set fails outside class
  */
 
 // TESTCASE NUMBER: 1

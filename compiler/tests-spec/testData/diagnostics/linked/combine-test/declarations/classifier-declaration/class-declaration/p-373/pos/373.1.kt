@@ -11,7 +11,7 @@
  * declarations, property-declaration -> paragraph 373 -> sentence 373
  * declarations, classifier-declaration, class-declaration, constructor-declaration -> paragraph 373 -> sentence 373
  * NUMBER: 1
- * DESCRIPTION: 次构造器可通过 this 访问主构造 private val type inference
+ * DESCRIPTION: secondary constructor can access primary constructor private val via this type inference
  * HELPERS: checkType
  */
 

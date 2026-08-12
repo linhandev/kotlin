@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 394 -> sentence 394
  * declarations, classifier-declaration, companion-object -> paragraph 394 -> sentence 394
  * NUMBER: 1
- * DESCRIPTION: 伴生对象内 private fun 仅能通过伴生/类内公开入口访问 type inference
+ * DESCRIPTION: companion private fun is accessible only through public companion or in-class entry type inference
  * HELPERS: checkType
  */
 

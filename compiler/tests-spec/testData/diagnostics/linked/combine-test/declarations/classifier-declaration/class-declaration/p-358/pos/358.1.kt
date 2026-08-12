@@ -11,7 +11,7 @@
  * declarations, property-declaration -> paragraph 358 -> sentence 358
  * declarations, classifier-declaration, classifier-initialization -> paragraph 358 -> sentence 358
  * NUMBER: 1
- * DESCRIPTION: init 块可读写已声明的 private var type inference
+ * DESCRIPTION: init block can read and write declared private var type inference
  * HELPERS: checkType
  */
 

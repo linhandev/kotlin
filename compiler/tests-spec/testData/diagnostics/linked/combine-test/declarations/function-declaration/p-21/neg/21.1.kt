@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 21 -> sentence 21
  *                inheritance, overriding -> paragraph 21 -> sentence 21
  * NUMBER: 1
- * DESCRIPTION: 局部函数不能 override 成员函数
+ * DESCRIPTION: local function cannot override member function
  */
 
 // TESTCASE NUMBER: 1

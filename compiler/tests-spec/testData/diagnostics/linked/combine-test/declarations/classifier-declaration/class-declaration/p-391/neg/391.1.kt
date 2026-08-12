@@ -11,7 +11,7 @@
  *                declarations, function-declaration -> paragraph 391 -> sentence 391
  *                inheritance, overriding -> paragraph 391 -> sentence 391
  * NUMBER: 1
- * DESCRIPTION: 覆盖成员函数不能收窄为 private
+ * DESCRIPTION: overriding member cannot be narrowed to private
  */
 
 // TESTCASE NUMBER: 1

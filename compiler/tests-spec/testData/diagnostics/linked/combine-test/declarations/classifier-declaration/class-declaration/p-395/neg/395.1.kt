@@ -11,7 +11,7 @@
  * declarations, function-declaration -> paragraph 395 -> sentence 395
  * declarations, classifier-declaration, companion-object -> paragraph 395 -> sentence 395
  * NUMBER: 1
- * DESCRIPTION: 类外不能调用伴生 private fun
+ * DESCRIPTION: companion private fun cannot be called from outside class
  */
 
 // TESTCASE NUMBER: 1

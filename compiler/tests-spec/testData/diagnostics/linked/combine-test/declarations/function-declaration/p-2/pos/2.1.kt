@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 2 -> sentence 2
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 2 -> sentence 2
  * NUMBER: 1
- * DESCRIPTION: 顶层函数默认实参可引用前置形参 type inference
+ * DESCRIPTION: top-level function default arguments can reference preceding parameters type inference
  * HELPERS: checkType
  */
 

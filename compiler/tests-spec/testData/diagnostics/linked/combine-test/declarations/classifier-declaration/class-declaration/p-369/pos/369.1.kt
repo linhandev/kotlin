@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 369 -> sentence 369
  * declarations, property-declaration -> paragraph 369 -> sentence 369
  * NUMBER: 1
- * DESCRIPTION: 类内可通过 private getter 读取 type inference
+ * DESCRIPTION: private getter can be read inside class type inference
  * HELPERS: checkType
  */
 

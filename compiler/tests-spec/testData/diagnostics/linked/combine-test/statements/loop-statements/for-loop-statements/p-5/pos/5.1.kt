@@ -10,7 +10,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 5 -> sentence 5
  *                expressions, range-expressions -> paragraph 5 -> sentence 5
  * NUMBER: 1
- * DESCRIPTION: downTo/until 区间可 for-in type inference
+ * DESCRIPTION: downTo/until ranges can be used in for-in type inference
  * HELPERS: checkType
  */
 

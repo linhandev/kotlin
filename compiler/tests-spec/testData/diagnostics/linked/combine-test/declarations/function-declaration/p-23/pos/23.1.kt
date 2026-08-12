@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, declarations, function-declaration -> paragraph 23 -> sentence 23
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 23 -> sentence 23
  * NUMBER: 1
- * DESCRIPTION: tailrec 局部函数可递归求阶乘 type inference
+ * DESCRIPTION: tailrec local function can recursively compute factorial type inference
  * HELPERS: checkType
  */
 

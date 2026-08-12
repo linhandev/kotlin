@@ -10,7 +10,7 @@
  * PRIMARY LINKS: statements, loop-statements -> paragraph 29 -> sentence 29
  *                expressions, range-expressions -> paragraph 29 -> sentence 29
  * NUMBER: 1
- * DESCRIPTION: for 是语句不能作为表达式使用
+ * DESCRIPTION: for loop is a statement and cannot be used as an expression
  */
 
 // TESTCASE NUMBER: 1

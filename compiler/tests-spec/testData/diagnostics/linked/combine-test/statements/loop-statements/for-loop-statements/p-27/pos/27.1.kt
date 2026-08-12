@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 27 -> sentence 27
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 27 -> sentence 27
  * NUMBER: 1
- * DESCRIPTION: Array 可 for-in type inference
+ * DESCRIPTION: Array can be used in for-in loop type inference
  * HELPERS: checkType
  */
 

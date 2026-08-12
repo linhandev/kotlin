@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 365 -> sentence 365
  * declarations, property-declaration -> paragraph 365 -> sentence 365
  * NUMBER: 1
- * DESCRIPTION: 同文件顶层函数仍不能访问类 private 属性
+ * DESCRIPTION: top-level function in same file still cannot access class private property
  */
 
 // TESTCASE NUMBER: 1

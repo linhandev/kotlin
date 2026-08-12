@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 13 -> sentence 13
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 13 -> sentence 13
  * NUMBER: 1
- * DESCRIPTION: Map 默认 for-in 遍历 Entry type inference
+ * DESCRIPTION: Map for-in iterates over Entry by default type inference
  * HELPERS: checkType
  */
 

@@ -11,7 +11,7 @@
  * declarations, property-declaration -> paragraph 355 -> sentence 355
  * declarations, classifier-declaration, class-declaration, constructor-declaration -> paragraph 355 -> sentence 355
  * NUMBER: 1
- * DESCRIPTION: 主构造 private val 生成私有属性 type inference
+ * DESCRIPTION: primary constructor private val creates private property type inference
  * HELPERS: checkType
  */
 

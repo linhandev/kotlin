@@ -168,7 +168,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "子类可调用父类 public fun 即使其内部使用 private fun type inference",
+          "description": "subclass can call parent public fun even if it uses private fun internally type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-384/pos/384.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -197,7 +197,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "internal val 在模块内类外可访问（对比 private） type inference",
+          "description": "internal val is accessible outside class within module unlike private type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-370/pos/370.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -226,7 +226,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "private val 与 const val 在伴生对象中类外访问规则不同 type inference",
+          "description": "companion private val and const val have different outside-class access rules type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-377/pos/377.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -256,7 +256,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "子类不能调用父类 private fun",
+          "description": "subclass cannot call parent private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-383/neg/383.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -315,7 +315,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类外不能直接调用 private fun",
+          "description": "private fun cannot be called directly from outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-379/neg/379.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -522,7 +522,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类内 private fun 可被同类成员调用 type inference",
+          "description": "private fun in class can be called by same-class members type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-378/pos/378.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -639,7 +639,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "init 块可调用 private fun type inference",
+          "description": "init block can call private fun type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-382/pos/382.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -669,7 +669,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "反射式字符串插值 ${obj.private} 类外失败",
+          "description": "string interpolation of private member fails outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-376/neg/376.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -697,7 +697,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "覆盖属性不能把 protected val 收窄为 private",
+          "description": "overriding property cannot narrow protected val to private",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-371/neg/371.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -726,7 +726,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "inner class 可调用外部类 private fun type inference",
+          "description": "inner class can call outer class private fun type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-385/pos/385.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -1064,7 +1064,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "嵌套类不能实现声明类 private abstract fun",
+          "description": "nested class cannot implement enclosing class private abstract fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-401/neg/401.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -1210,7 +1210,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "子类不能实现父类 private abstract fun",
+          "description": "subclass cannot implement parent private abstract fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-400/neg/400.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -2169,7 +2169,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类体 private var 可在类内修改 type inference",
+          "description": "private var in class body can be modified inside class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-353/pos/353.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -2198,7 +2198,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类外不能触发 private operator fun",
+          "description": "private operator fun cannot be invoked from outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-398/neg/398.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -2242,7 +2242,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类外不能修改 private var",
+          "description": "private var cannot be modified from outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-354/neg/354.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -2285,7 +2285,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "实例成员可调用伴生 private fun（经伴生公开成员） type inference",
+          "description": "instance member can call companion private fun through public companion member type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-396/pos/396.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -2300,7 +2300,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "inner class 可访问外部类 private val type inference",
+          "description": "inner class can access outer class private val type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-362/pos/362.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -2345,7 +2345,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "同文件顶层函数仍不能访问类 private 属性",
+          "description": "top-level function in same file still cannot access class private property",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-365/neg/365.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -2359,7 +2359,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "覆盖成员函数不能收窄为 private",
+          "description": "overriding member cannot be narrowed to private",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-391/neg/391.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -2551,7 +2551,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "internal fun 在模块内类外可调用（对比 private） type inference",
+          "description": "internal fun is callable outside class within module unlike private type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-390/pos/390.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -2566,7 +2566,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "扩展函数不能访问类 private 属性",
+          "description": "extension function cannot access class private property",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-364/neg/364.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -2637,7 +2637,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "非 inner 嵌套类不能访问外部实例 private val",
+          "description": "non-inner nested class cannot access outer instance private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-363/neg/363.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -2651,7 +2651,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "private operator fun 仅类内可调用 type inference",
+          "description": "private operator fun can be called only inside class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-397/pos/397.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -2709,7 +2709,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "主构造 private val 生成私有属性 type inference",
+          "description": "primary constructor private val creates private property type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-355/pos/355.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -2768,7 +2768,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类外不能访问 private val",
+          "description": "private val cannot be accessed from outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-352/neg/352.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -2797,7 +2797,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "抽象类中 private fun 可在同类具体成员中调用 type inference",
+          "description": "private fun in abstract class can be called by concrete members of same class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-399/pos/399.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -2991,7 +2991,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "伴生对象不能直接访问外部类实例的 private val",
+          "description": "companion object cannot directly access outer instance private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-374/neg/374.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -3005,7 +3005,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "public fun 可封装暴露 private fun 结果 type inference",
+          "description": "public fun can expose result of private fun type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-380/pos/380.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -3020,7 +3020,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "扩展函数不能调用接收者 private fun",
+          "description": "extension function cannot call receiver private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-387/neg/387.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -3034,7 +3034,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "次构造器可通过 this 访问主构造 private val type inference",
+          "description": "secondary constructor can access primary constructor private val via this type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-373/pos/373.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -3122,7 +3122,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "同文件顶层函数也不能调用类 private fun",
+          "description": "top-level function in same file cannot call class private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-389/neg/389.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -3328,7 +3328,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "Callable references 不能绑定 private fun",
+          "description": "callable reference cannot bind to private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-388/neg/388.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -3461,7 +3461,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "data class 的 private val 不参与自动生成的对外 copy 参数暴露 type inference",
+          "description": "data class private val is not exposed in generated public copy parameters type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-372/pos/372.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -3476,7 +3476,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "非 inner 嵌套类不能调用外部实例 private fun",
+          "description": "non-inner nested class cannot call outer instance private fun",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-386/neg/386.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -3505,7 +3505,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "private fun 可访问同类 private val type inference",
+          "description": "private fun can access private val of same class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-381/pos/381.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -3520,7 +3520,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "lateinit var 可为 private 且仅类内使用 type inference",
+          "description": "lateinit var can be private and used only inside class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-375/pos/375.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -3859,7 +3859,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "private inline fun 可在类内调用 type inference",
+          "description": "private inline fun can be called inside class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-402/pos/402.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -3918,7 +3918,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "子类可调用父类 protected fun type inference",
+          "description": "subclass can call parent protected fun type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-405/pos/405.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -4078,7 +4078,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类内匿名对象可以访问外部类 private fun type inference",
+          "description": "anonymous object inside class can access outer class private fun type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-404/pos/404.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -4166,7 +4166,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "局部函数与 private 成员函数作用域不同 type inference",
+          "description": "local function and private member function have different scopes type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-403/pos/403.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5333,7 +5333,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "主构造 private var 生成私有可变属性 type inference",
+          "description": "primary constructor private var creates private mutable property type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-357/pos/357.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5348,7 +5348,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "private 自定义 getter 仍禁止类外访问",
+          "description": "private custom getter still prohibits access outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-368/neg/368.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -5406,7 +5406,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "public val + private set 类外可读不可写 type inference",
+          "description": "public val with private set is readable but not writable outside class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-366/pos/366.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5435,7 +5435,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "private fun 可在表达式体中定义 type inference",
+          "description": "private fun can be defined with expression body type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-392/pos/392.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5465,7 +5465,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "init 块可读取主构造 private val type inference",
+          "description": "init block can read primary constructor private val type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-359/pos/359.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5480,7 +5480,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类外不能调用伴生 private fun",
+          "description": "companion private fun cannot be called from outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-395/neg/395.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -5509,7 +5509,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "子类不能访问父类 private val",
+          "description": "subclass cannot access parent private val",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-361/neg/361.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -5701,7 +5701,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "成员函数可访问同类 private 属性 type inference",
+          "description": "member function can access private properties of same class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-360/pos/360.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5731,7 +5731,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "伴生对象内 private fun 仅能通过伴生/类内公开入口访问 type inference",
+          "description": "companion private fun is accessible only through public companion or in-class entry type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-394/pos/394.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5775,7 +5775,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "private fun 支持递归调用 type inference",
+          "description": "private fun supports recursive calls type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-393/pos/393.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5805,7 +5805,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "public val + private set 类外赋值失败",
+          "description": "assignment to public val with private set fails outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-367/neg/367.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -5834,7 +5834,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "init 块可读写已声明的 private var type inference",
+          "description": "init block can read and write declared private var type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-358/pos/358.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5879,7 +5879,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类体 private val 仅类内可读 type inference",
+          "description": "private val in class body is readable only inside class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-351/pos/351.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
@@ -5894,7 +5894,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "主构造 private val 在类外不可访问",
+          "description": "primary constructor private val is inaccessible outside class",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-356/neg/356.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
@@ -5937,7 +5937,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "类内可通过 private getter 读取 type inference",
+          "description": "private getter can be read inside class type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-369/pos/369.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",

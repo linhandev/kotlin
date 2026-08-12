@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 27 -> sentence 27
  *                declarations, property-declaration -> paragraph 27 -> sentence 27
  * NUMBER: 1
- * DESCRIPTION: 属性 getter 内可声明并调用局部函数 type inference
+ * DESCRIPTION: local function can be declared and called inside property getter type inference
  * HELPERS: checkType
  */
 

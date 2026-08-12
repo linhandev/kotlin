@@ -9,7 +9,7 @@
  * MAIN LINK: combine-test, statements, loop-statements, for-loop-statements -> paragraph 12 -> sentence 12
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 12 -> sentence 12
  * NUMBER: 1
- * DESCRIPTION: 可直接对 Iterator 实例 for-in type inference
+ * DESCRIPTION: Iterator instance can be used directly in for-in type inference
  * HELPERS: checkType
  */
 

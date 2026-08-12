@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 12 -> sentence 12
  *                expressions, call-expressions -> paragraph 12 -> sentence 12
  * NUMBER: 1
- * DESCRIPTION: 成员函数体内的局部辅助函数 type inference
+ * DESCRIPTION: local helper function declared inside member function body type inference
  * HELPERS: checkType
  */
 

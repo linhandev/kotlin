@@ -10,7 +10,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 14 -> sentence 14
  *                declarations, destructuring-declarations -> paragraph 14 -> sentence 14
  * NUMBER: 1
- * DESCRIPTION: Map 解构 for ((k,v) in map) type inference
+ * DESCRIPTION: for-in destructuring for ((k,v) in map) type inference
  * HELPERS: checkType
  */
 

@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 19 -> sentence 19
  *                expressions, call-and-property-access-expressions, callable-references -> paragraph 19 -> sentence 19
  * NUMBER: 1
- * DESCRIPTION: 外层作用域外不能取得局部函数的 callable reference
+ * DESCRIPTION: callable reference to local function is unavailable outside outer scope
  */
 
 // TESTCASE NUMBER: 1

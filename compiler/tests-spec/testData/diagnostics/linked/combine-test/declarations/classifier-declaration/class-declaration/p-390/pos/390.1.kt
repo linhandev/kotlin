@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 390 -> sentence 390
  * declarations, function-declaration -> paragraph 390 -> sentence 390
  * NUMBER: 1
- * DESCRIPTION: internal fun 在模块内类外可调用（对比 private） type inference
+ * DESCRIPTION: internal fun is callable outside class within module unlike private type inference
  * HELPERS: checkType
  */
 

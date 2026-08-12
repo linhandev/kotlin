@@ -11,7 +11,7 @@
  * declarations, property-declaration -> paragraph 364 -> sentence 364
  * declarations, function-declaration, extension-function-declaration -> paragraph 364 -> sentence 364
  * NUMBER: 1
- * DESCRIPTION: 扩展函数不能访问类 private 属性
+ * DESCRIPTION: extension function cannot access class private property
  */
 
 // TESTCASE NUMBER: 1

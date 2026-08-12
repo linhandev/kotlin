@@ -11,7 +11,7 @@
  * declarations, property-declaration -> paragraph 361 -> sentence 361
  * inheritance, inheriting -> paragraph 361 -> sentence 361
  * NUMBER: 1
- * DESCRIPTION: 子类不能访问父类 private val
+ * DESCRIPTION: subclass cannot access parent private val
  */
 
 // TESTCASE NUMBER: 1

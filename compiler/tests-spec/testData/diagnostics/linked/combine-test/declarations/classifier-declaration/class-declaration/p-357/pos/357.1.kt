@@ -11,7 +11,7 @@
  * declarations, property-declaration -> paragraph 357 -> sentence 357
  * declarations, classifier-declaration, class-declaration, constructor-declaration -> paragraph 357 -> sentence 357
  * NUMBER: 1
- * DESCRIPTION: 主构造 private var 生成私有可变属性 type inference
+ * DESCRIPTION: primary constructor private var creates private mutable property type inference
  * HELPERS: checkType
  */
 

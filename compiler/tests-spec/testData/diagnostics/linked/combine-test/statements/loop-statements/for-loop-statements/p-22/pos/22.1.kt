@@ -10,7 +10,7 @@
  * PRIMARY LINKS: built-in-types-and-their-semantics, iterator-types -> paragraph 22 -> sentence 22
  *                type-system, type-kinds, type-parameters -> paragraph 22 -> sentence 22
  * NUMBER: 1
- * DESCRIPTION: 泛型 Iterable<T> 保持元素类型 type inference
+ * DESCRIPTION: generic Iterable<T> preserves element type type inference
  * HELPERS: checkType
  */
 

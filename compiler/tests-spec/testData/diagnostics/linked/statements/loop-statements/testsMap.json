@@ -86,7 +86,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "带标签的 break@ 退出外层 for type inference",
+          "description": "labeled break@ exits outer for loop type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos/19.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -101,7 +101,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "break 提前退出 for 循环 type inference",
+          "description": "break exits for loop early type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos/17.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",
@@ -116,7 +116,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "for 是语句不能作为表达式使用",
+          "description": "for loop is a statement and cannot be used as an expression",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-29/neg/29.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
@@ -130,7 +130,7 @@
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 1,
-          "description": "continue 跳过当前迭代 type inference",
+          "description": "continue skips current iteration type inference",
           "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos/18.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary",

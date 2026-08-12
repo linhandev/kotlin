@@ -10,7 +10,7 @@
  * PRIMARY LINKS: operator-overloading, overview -> paragraph 25 -> sentence 25
  *                built-in-types-and-their-semantics, iterator-types -> paragraph 25 -> sentence 25
  * NUMBER: 1
- * DESCRIPTION: iterator() 返回类型缺少 hasNext/next 时失败
+ * DESCRIPTION: for-in fails when iterator() return type lacks hasNext/next
  */
 
 // TESTCASE NUMBER: 1

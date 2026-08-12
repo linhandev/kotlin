@@ -11,7 +11,7 @@
  *                declarations, property-declaration -> paragraph 371 -> sentence 371
  *                inheritance, overriding -> paragraph 371 -> sentence 371
  * NUMBER: 1
- * DESCRIPTION: 覆盖属性不能把 protected val 收窄为 private
+ * DESCRIPTION: overriding property cannot narrow protected val to private
  */
 
 // TESTCASE NUMBER: 1

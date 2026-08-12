@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 353 -> sentence 353
  * declarations, property-declaration -> paragraph 353 -> sentence 353
  * NUMBER: 1
- * DESCRIPTION: 类体 private var 可在类内修改 type inference
+ * DESCRIPTION: private var in class body can be modified inside class type inference
  * HELPERS: checkType
  */
 

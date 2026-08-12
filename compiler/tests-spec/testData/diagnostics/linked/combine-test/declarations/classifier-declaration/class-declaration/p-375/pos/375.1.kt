@@ -10,7 +10,7 @@
  * declarations, declaration-visibility -> paragraph 375 -> sentence 375
  * declarations, property-declaration -> paragraph 375 -> sentence 375
  * NUMBER: 1
- * DESCRIPTION: lateinit var 可为 private 且仅类内使用 type inference
+ * DESCRIPTION: lateinit var can be private and used only inside class type inference
  * HELPERS: checkType
  */
 

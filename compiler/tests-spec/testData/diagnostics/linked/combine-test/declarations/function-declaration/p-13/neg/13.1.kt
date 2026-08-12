@@ -10,7 +10,7 @@
  * PRIMARY LINKS: declarations, function-declaration -> paragraph 13 -> sentence 13
  *                expressions, call-expressions -> paragraph 13 -> sentence 13
  * NUMBER: 1
- * DESCRIPTION: 类外不能调用成员函数内的局部函数
+ * DESCRIPTION: local function inside member cannot be called from outside class
  */
 
 // TESTCASE NUMBER: 1
