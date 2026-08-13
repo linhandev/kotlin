@@ -66,6 +66,7 @@ internal class BitcodeCompiler(
             val drop = setOf(
                 "-enable-compressed-bitmap-stackmap=true",
                 "-enable-kotlin-stub-generator=true",
+                "-enable-machine-outliner=never",
             )
             val out = mutableListOf<String>()
             var i = 0
