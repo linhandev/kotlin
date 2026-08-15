@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.library.uniqueName
 import org.jetbrains.kotlin.konan.file.isBitcode
 import org.jetbrains.kotlin.konan.target.CompilerOutputKind
 import org.jetbrains.kotlin.konan.target.Family
+import org.jetbrains.kotlin.konan.target.SanitizerKind
 import org.jetbrains.kotlin.konan.target.supportsCoreSymbolication
 import org.jetbrains.kotlin.konan.target.supportsLibBacktrace
 import org.jetbrains.kotlin.library.isNativeStdlib
@@ -204,6 +205,9 @@ private fun collectLlvmModules(generationState: NativeGenerationState, generated
         when (config.checkStateAtExternalCalls) {
             true -> add(RuntimeModule.EXTERNAL_CALLS_CHECKER_IMPL)
             false -> add(RuntimeModule.EXTERNAL_CALLS_CHECKER_NOOP)
+        }
+        if (config.sanitizer == SanitizerKind.HWADDRESS) {
+            add(RuntimeModule.HWASAN)
         }
         // Bitcode parts of stdlib are considered part of the runtime
         addAll(bitcodePartOfStdlib)

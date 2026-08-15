@@ -457,6 +457,15 @@ bitcode {
             }
         }
 
+        module("hwasan") {
+            enablePreciseStackmapAndCrt(target)
+            srcRoot.set(layout.projectDirectory.dir("src/hwasan"))
+            headersDirs.from(files("src/externalCallsChecker/common/cpp", "src/objcExport/cpp", "src/main/cpp"))
+            sourceSets {
+                main {}
+            }
+        }
+
         module("source_info_core_symbolication") {
             enablePreciseStackmapAndCrt(target)
             srcRoot.set(layout.projectDirectory.dir("src/source_info/core_symbolication"))
