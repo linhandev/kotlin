@@ -1,0 +1,16 @@
+{
+  "43": {
+    "pos": {
+      "43": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type parameter with upper bound can still be inferred from value arguments at call site",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-43/pos/43.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  }
+}

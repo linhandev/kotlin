@@ -1,4 +1,19 @@
 {
+  "58": {
+    "pos": {
+      "58": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overload resolution selects non-generic overload over generic when more specific",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-58/pos/58.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
   "14": {
     "neg": {
       "1": [

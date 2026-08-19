@@ -1,0 +1,100 @@
+{
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "enum compareTo is built-in for less-than",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/comparison-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "identity operator compares references, P(1) \u003d\u003d\u003d P(1) is false",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/comparison-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom equals affects equality comparison",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/comparison-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "less-than resolves via Comparable compareTo",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/comparison-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Double \u003d\u003d uses equals (0.0 \u003d\u003d -0.0) unlike compareTo ordering of signed zeros",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/comparison-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "greater-or-equal and less-or-equal use compareTo",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/comparison-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class structural equality via generated equals",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/comparison-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

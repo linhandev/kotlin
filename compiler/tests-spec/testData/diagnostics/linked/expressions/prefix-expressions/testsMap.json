@@ -12,5 +12,19 @@
         }
       ]
     }
+  },
+  "107": {
+    "neg": {
+      "107": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-operator unaryMinus does not desugar unary expression on class instance",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-members/p-107/neg/107.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

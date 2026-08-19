@@ -1,0 +1,412 @@
+{
+  "22": {
+    "neg": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "adding a new direct sealed subclass makes an old when non-exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-22/neg/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "25": {
+    "pos": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "exhaustive sealed when assigned to val has branch common type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-25/pos/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed interface when branch smart-casts to implementation type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic sealed hierarchy when is exhaustive and preserves type arguments",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "neg": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "smart cast from when is branch does not leak outside the when",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-15/neg/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on sealed interface is exhaustive when all implementations are covered",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "subject-less when can still use is checks on sealed values",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "23": {
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed inheritor in a different package is not allowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when used as a statement with else covers remaining sealed subclasses",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when covering only one sealed subclass is not exhaustive when others exist",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "object subclass requires its own is branch for exhaustiveness",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on sealed class is exhaustive when all direct subclasses are covered",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "more specific sealed subclasses should be matched before intermediate types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "neg": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "matching only an open intermediate subclass leaf does not exhaust sealed subject",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-19/neg/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed subclasses are matched by type tests, not enum-like constants",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "!is concrete subclass then else branch smart-casts to remaining sealed type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed interface with data object and data class is exhaustively matchable",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "neg": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "sealed when branches with incompatible return types fail",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-17/neg/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable sealed when expression requires a null branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable sealed when with null and subclass branches is exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "exhaustive sealed when infers a common result type for distinct branch implementations",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "matching intermediate sealed subclass exhausts that subtree",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class sealed subclass properties are accessible after is smart cast",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "neg": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous object cannot extend a sealed class",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-27/neg/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is branch smart-casts sealed subject to data class subclass",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "else makes when on sealed subject usable as an expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when on sealed class missing a direct subclass is not exhaustive",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "is branches can recursively walk nested sealed structure",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/inheritance/classifier-type-inheritance/sealed-classes-and-interfaces/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}

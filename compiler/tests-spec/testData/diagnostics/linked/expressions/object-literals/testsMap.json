@@ -12,5 +12,20 @@
         }
       ]
     }
+  },
+  "230": {
+    "pos": {
+      "230": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "type inference when anonymous objects override dual conflicting interface defaults",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-230/pos/230.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

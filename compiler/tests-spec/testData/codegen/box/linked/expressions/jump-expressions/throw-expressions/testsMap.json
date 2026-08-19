@@ -25,6 +25,126 @@
           "path": "compiler/tests-spec/testData/codegen/box/linked/expressions/jump-expressions/throw-expressions/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis right-hand throw yields Int when left side is non-null and throws when left side is null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/elvis-operator-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis right-hand throw is Nothing inside try expression",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/try-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "conditional expression branch with Elvis operator and throw expression on right-hand side",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/conditional-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis with non-nullable literal left and throw RHS is dead code",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/elvis-operator-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis on nullable String with throw on right-hand side yields non-null String",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/elvis-operator-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis right-hand throw after failed conversion throws supplied exception",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/elvis-operator-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis with literal default and with throw both infer Int for nullable length",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/elvis-operator-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis after takeIf with throw when filtered value is null",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/elvis-operator-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis with non-nullable left and throw RHS does not execute throw",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/elvis-operator-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }

@@ -36,5 +36,19 @@
         }
       ]
     }
+  },
+  "230": {
+    "pos": {
+      "230": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "an anonymous object implementing dual conflicting interface defaults must explicitly override; each expression yields a fresh instance with the override value; contrasts with p-229 named-object singleton and with p-223 named class instances",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-230/pos/230.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

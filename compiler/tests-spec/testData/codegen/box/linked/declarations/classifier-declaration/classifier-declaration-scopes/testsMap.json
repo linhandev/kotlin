@@ -1,0 +1,58 @@
+{
+  "110": {
+    "pos": {
+      "110": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "public secondary constructors expose creation while primary constructor stays private in class declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-110/pos/110.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "286": {
+    "pos": {
+      "286": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "private companion object members are visible to instance members of the declaring class; covers function, property, and named companion; contrasts with next-point outside-class failure",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-286/pos/286.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "277": {
+    "pos": {
+      "277": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "a private primary constructor is reachable from companion factories; covers plain class, generic class, and multi-arg factory; contrasts with previous-point outside-class failure, with p-85 singleton-cache focus, and with p-109/p-110 secondary-constructor focus",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-277/pos/277.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "109": {
+    "pos": {
+      "109": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private primary constructor is reachable only via companion factory or secondary constructor in class declaration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/declarations/classifier-declaration/class-declaration/p-109/pos/109.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  }
+}
