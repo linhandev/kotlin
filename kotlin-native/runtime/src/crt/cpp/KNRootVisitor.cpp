@@ -195,7 +195,8 @@ static NO_INLINE auto GenerateAllStackMaps() {
 
 std::pair<void*, void*> StackMapHelper::GetStackMapInfo()
 {
-    uint32_t* funcStartPC = (uint32_t*)*((uintptr_t*)currentFP - 1);
+    // *(fp-1) carries the 0xCAFE DFX sentinel in bits[48:63]; mask to recover funcStart.
+    uint32_t* funcStartPC = (uint32_t*)(*((uintptr_t*)currentFP - 1) & ((1ULL << 48) - 1));
     uint64_t* stackMapAddress = kotlin::GetStackMapAddress((uint64_t*)currentFP, funcStartPC);
     return {funcStartPC, stackMapAddress};
 }

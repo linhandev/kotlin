@@ -283,7 +283,7 @@ public:
     explicit StackMapTable(BitsManager&& bits) : TableAPI(bits) { Init(); }
     ~StackMapTable() = default;
     IdxSet GetIdxSet(Uptr startPC, Uptr framePC) const;
-
+    bool HasRecordForPC(Uptr startPC, Uptr framePC) const;
     void CollectAllIdxSet(std::vector<IdxSet> &idxSetVec) const;
 
     // Iterator over all IdxSet records, used by the precise CRT root visitor.
@@ -307,6 +307,7 @@ public:
 
 private:
     void Init();
+    uint32_t FindCallSiteRow(Uptr startPC, Uptr framePC) const;
     uint32_t PCAt(uint32_t row) const;
     uint32_t RegIdxAt(uint32_t row) const;
     uint32_t SlotIdxAt(uint32_t row) const;

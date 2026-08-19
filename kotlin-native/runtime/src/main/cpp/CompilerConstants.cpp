@@ -36,6 +36,7 @@ RUNTIME_WEAK int32_t Kotlin_objcDisposeOnMain = 0;
 RUNTIME_WEAK int32_t Kotlin_objcDisposeWithRunLoop = 1;
 RUNTIME_WEAK int32_t Kotlin_enableSafepointSignposts = 0;
 RUNTIME_WEAK int32_t Kotlin_globalDataLazyInit = 1;
+RUNTIME_WEAK int32_t Kotlin_verifyKotlinStack = 0;
 RUNTIME_WEAK int32_t Kotlin_swiftExport = 0;
 RUNTIME_WEAK int32_t Kotlin_latin1Strings = 0;
 RUNTIME_WEAK uint8_t Kotlin_mmapTag = 0;
@@ -99,6 +100,10 @@ ALWAYS_INLINE bool compiler::enableSafepointSignposts() noexcept {
 
 ALWAYS_INLINE bool compiler::globalDataLazyInit() noexcept {
     return Kotlin_globalDataLazyInit != 0;
+}
+
+ALWAYS_INLINE bool compiler::verifyKotlinStackCompileTime() noexcept {
+    return Kotlin_verifyKotlinStack != 0;
 }
 
 ALWAYS_INLINE bool compiler::swiftExport() noexcept {

@@ -115,4 +115,7 @@ sealed class LlvmFunctionAttribute(private val llvmAttributeName: String,
     // String attibutes
     object ExportForCppRuntimeKFunc: LlvmFunctionAttribute("export_for_cpp_runtime_k", "StringAttr", "stubtype")
     object KFunc: LlvmFunctionAttribute("kfunc", "StringAttr", "functype")
+    // K->N boundary marker: AsmPrinter rewrites `bl <callee>` -> `bl Kotlin_K2NStub`
+    // for callees carrying it (key "k2n", value "" -- same as KSG/cinterop).
+    object K2N: LlvmFunctionAttribute("k2n", "StringAttr", "k2n", "")
 }

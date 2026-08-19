@@ -33,6 +33,8 @@ object BinaryOptions : BinaryOptionRegistry() {
     // konanc to force a specific mode (must match the dist's per-target flavour).
     val enableStackmap by booleanOption()
 
+    val verifyKotlinStack by booleanOption()
+
     // Compiler-side mirror of the runtime cpp `-DENABLE_GC_FASTPATH` (set by the
     // build property `kotlin.native.gc_fastpath` for ohos_arm64 and macos_arm64,
     // together with `-ffixed-x28`). Controls whether the CRT prologue-safepoint
@@ -250,7 +252,7 @@ open class BinaryOptionRegistry {
                     option.compilerConfigurationKey
                 }
             }
-            
+
     protected fun dictStringOption(): PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, CompilerConfigurationKey<Map<String, List<String>>>>> =
             PropertyDelegateProvider { _, property ->
                 val option = BinaryOption(property.name, object : BinaryOption.ValueParser<Map<String, List<String>>> {

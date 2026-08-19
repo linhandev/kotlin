@@ -424,16 +424,4 @@ public object GC {
     @GCUnsafeCall("Kotlin_native_internal_GC_setConcurrentMarkValidation")
     @Escapes.Nothing
     private external fun setConcurrentMarkValidation(value: Boolean)
-
-    public var verifyKotlinStack: Boolean
-        get() = getVerifyKotlinStack()
-        set(value) = setVerifyKotlinStack(value)
-
-    @GCUnsafeCall("Kotlin_native_internal_GC_getVerifyKotlinStack")
-    @Escapes.Nothing
-    private external fun getVerifyKotlinStack(): Boolean
-
-    @GCUnsafeCall("Kotlin_native_internal_GC_setVerifyKotlinStack")
-    @Escapes.Nothing
-    private external fun setVerifyKotlinStack(value: Boolean)
 }

@@ -293,6 +293,17 @@ private fun inferFunctionAttributes(contextUtils: ContextUtils, irFunction: IrSi
             // the annotation is now emitted unconditionally again, which left the whole
             // condition unsatisfiable. The baseline and kotlin 2.0 tag neither.
             if (contextUtils.context.config.enableStackmap) {
+                // A plain @SymbolName foreign call is a K->N boundary with no bridge:
+                // tag k2n so it routes through Kotlin_K2NStub (records the caller frame
+                // for GC fp-unwind), + NoInline for a distinct GC frame. Runtime helpers
+                // are @GCUnsafeCall, so this only hits app-level native bindings.
+                if (irFunction.isExternal &&
+                        irFunction.origin != CBridgeOrigin.KOTLIN_TO_C_BRIDGE &&
+                        irFunction.annotations.hasAnnotation(RuntimeNames.symbolNameAnnotation) &&
+                        !irFunction.annotations.hasAnnotation(KonanFqNames.gcUnsafeCall)) {
+                    add(LlvmFunctionAttribute.K2N)
+                    add(LlvmFunctionAttribute.NoInline)
+                }
                 add(LlvmFunctionAttribute.KFunc)
                 val classId = NativeRuntimeNames.Annotations.exportForCppRuntimeClassId
                 // A @GCUnsafeCall function is a Kotlin->C import (declaration only), not a

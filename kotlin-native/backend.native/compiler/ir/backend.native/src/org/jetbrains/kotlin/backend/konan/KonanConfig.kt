@@ -129,7 +129,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
     val printModule: Boolean get() = configuration.get(BinaryOptions.printModule) ?: false
 
     val codesizeOpt: Boolean get() = configuration.get(BinaryOptions.codesizeOpt) ?: true
-    
+
     // Per-target default: ohos_arm64 and macos_arm64 → ON (precise stackmap
     // pipeline), every other target → OFF (shadow-stack baseline). Rationale:
     //   - The precise stackmap pipeline requires the CRT runtime (libcrt.so) plus
@@ -228,7 +228,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
                     moduleIncludeOnly.isNotEmpty() -> RuntimeEmissionMode.NORUNTIME
                     else -> RuntimeEmissionMode.ALL
                 }
-    
+
     val moduleIncludes: Map<String, List<String>>
         get() = configuration.get(BinaryOptions.moduleIncludes)?: emptyMap()
 
@@ -411,6 +411,23 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
         }
     } ?: false // Disabled by default because of KT-68928
 
+    // DFX fp-unwind boundary verifier. Coupled to the precise-stackmap path:
+    //  - requires enableStackmap (verify has no meaning without the stackmap fp-unwind);
+    //  - on the stackmap path it defaults OFF; turn it on with
+    //    -Xbinary=verifyKotlinStack=true. It is a diagnostic tool: on a missed
+    //    K2R/N2K/K2N boundary it aborts the process (FpUnwind.cpp VerifyKotlinFrame)
+    //  - off the stackmap path it is always off (a warning if explicitly requested).
+    val verifyKotlinStack: Boolean by lazy {
+        val explicit = configuration.get(BinaryOptions.verifyKotlinStack)
+        if (!enableStackmap) {
+            if (explicit == true) configuration.report(CompilerMessageSeverity.STRONG_WARNING,
+                "-Xbinary=verifyKotlinStack=true requires precise stackmap (enableStackmap=true); the verifier is disabled.")
+            false
+        } else {
+            explicit ?: false
+        }
+    }
+
     val forceNativeThreadStateForFunctions: Set<String> =
             configuration.get(BinaryOptions.forceNativeThreadStateForFunctions)?.toSet()
                     ?: setOf(
@@ -525,7 +542,7 @@ class KonanConfig(val project: Project, val configuration: CompilerConfiguration
 val allocationMode by lazy {
         val explicitMode = configuration.get(KonanConfigKeys.ALLOCATION_MODE)
         val runtimeSwitchEnabled = configuration.get(BinaryOptions.runtimeSwitchMemoryManager) == true
-        
+
         when {
             runtimeSwitchEnabled && explicitMode == null -> AllocationMode.CUSTOM  // auto-set for runtime switch
             runtimeSwitchEnabled && explicitMode != AllocationMode.CUSTOM -> {
