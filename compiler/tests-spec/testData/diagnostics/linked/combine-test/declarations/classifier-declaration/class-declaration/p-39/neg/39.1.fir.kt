@@ -6,32 +6,15 @@
  *
  * SPEC VERSION: 1.9-rfc+0.1
  * MAIN LINK: combine-test, declarations, classifier-declaration, class-declaration -> paragraph 39 -> sentence 39
- * PRIMARY LINKS: declarations, classifier-declaration, enum-class-declaration -> paragraph 39 -> sentence 39
- *                inheritance, inheriting -> paragraph 39 -> sentence 39
- *                declarations, classifier-declaration, class-declaration, constructor-declaration -> paragraph 39 -> sentence 39
+ * PRIMARY LINKS: declarations, declarations-with-type-parameters -> paragraph 39 -> sentence 39
+ *                expressions, type-checking-and-containment-checking-expressions, type-checking-expressions -> paragraph 39 -> sentence 39
  * NUMBER: 1
- * DESCRIPTION: enum classes are implicitly final and their constructors are inaccessible to subclass constructor delegation in class declaration
+ * DESCRIPTION: Node does not satisfy recursive Comparable upper bound
  */
 
 // TESTCASE NUMBER: 1
-enum class Status {
-    READY
-}
+open class Node
 
-class BadStatus : <!FINAL_SUPERTYPE, INVISIBLE_MEMBER!>Status<!>()
+class Ordered<T : Comparable<T>>(a: T, b: T)
 
-// TESTCASE NUMBER: 2
-enum class Code(val value: Int) {
-    ONE(1)
-}
-
-class BadCode(value: Int) : <!FINAL_SUPERTYPE, INVISIBLE_MEMBER!>Code<!>(value)
-
-// TESTCASE NUMBER: 3
-interface Marker
-
-enum class Mode(val label: String) {
-    A("a")
-}
-
-class MixedMode(label: String) : <!FINAL_SUPERTYPE, INVISIBLE_MEMBER!>Mode<!>(label), Marker
+fun test() = <!INAPPLICABLE_CANDIDATE!>Ordered<!><<!UPPER_BOUND_VIOLATED!>Node<!>>(Node(), Node())
