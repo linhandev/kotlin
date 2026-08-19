@@ -1,0 +1,688 @@
+{
+  "39": {
+    "pos": {
+      "39": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic constructor call infers type arguments from value arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-39/pos/39.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "omitted nullable default parameter uses default value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "37": {
+    "pos": {
+      "37": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit type argument supplements uninferrable type parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-37/pos/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "52": {
+    "pos": {
+      "52": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "reified type parameter supports runtime is-check at inline call site",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-52/pos/52.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "55": {
+    "pos": {
+      "55": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "covariant out-projected type argument in function parameter accepts subtype argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-55/pos/55.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "31": {
+    "pos": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic type argument inferred from value argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "38": {
+    "pos": {
+      "38": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "assignment and return contexts provide expected type for downward inference of type arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-38/pos/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "54": {
+    "pos": {
+      "54": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "star-projected type as receiver in call to non-generic member",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-54/pos/54.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "62": {
+    "pos": {
+      "62": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic choose returns the first argument when both arguments share a type, verifying runtime semantics",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-62/pos/62.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "40": {
+    "pos": {
+      "40": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic constructor can explicitly specify type arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "47": {
+    "pos": {
+      "47": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic extension function infers type argument at call site",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-47/pos/47.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overload resolution selects Int overload with default when all arguments are omitted",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member function call may omit argument with a default value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension function call may omit argument with a default value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "48": {
+    "pos": {
+      "48": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained generic calls infer type arguments step by step",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-48/pos/48.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "46": {
+    "pos": {
+      "46": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "member function on instantiated generic class inherits type argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-46/pos/46.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "constructor call may omit argument with a default value",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic function call with default parameter compiles and evaluates",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named arguments select String overload among defaulted overloads",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "trailing default parameter is used when omitted from a call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "58": {
+    "pos": {
+      "58": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "overload resolution selects non-generic overload over generic when more specific",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-58/pos/58.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "60": {
+    "pos": {
+      "60": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named value argument does not affect type argument inference",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-60/pos/60.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "56": {
+    "pos": {
+      "56": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "contravariant in-projected type argument in function parameter accepts supertype argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-56/pos/56.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "51": {
+    "pos": {
+      "51": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested generic call type arguments with angle bracket syntax are correctly parsed",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-51/pos/51.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "34": {
+    "pos": {
+      "34": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiple type parameters inferred from value arguments separately",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-34/pos/34.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "57": {
+    "pos": {
+      "57": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "callable reference as function return value is invokable, verifying runtime semantics",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-57/pos/57.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "61": {
+    "pos": {
+      "61": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit type argument and named value argument can coexist in a call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-61/pos/61.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "59": {
+    "pos": {
+      "59": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "SAM-like function type with generic trailing lambda infers type argument correctly",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-59/pos/59.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit type argument overrides inferred type argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "35": {
+    "pos": {
+      "35": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiple type parameters can be partially or fully explicitly specified",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-35/pos/35.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "spread operator expands array as positional vararg arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline function default parameter works like non-inline function",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named arguments before trailing lambda do not prevent trailing lambda from binding to last parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "higher-order function default lambda can be replaced by trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "vararg combined with default parameter uses default when no vararg elements are provided",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "default parameter initializer is evaluated on each call",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "43": {
+    "pos": {
+      "43": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type parameter with upper bound can still be inferred from value arguments at call site",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-43/pos/43.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "default parameter value may reference a preceding parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "explicit null argument overrides nullable default parameter",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "secondary constructor forwarding to primary constructor preserves default parameter values",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "named arguments can be combined with trailing lambda",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "vararg can be passed via named argument with spread operator",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "public function default parameter is visible to caller",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "42": {
+    "pos": {
+      "42": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "higher-order stdlib call infers type arguments from lambda argument",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-42/pos/42.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "45": {
+    "pos": {
+      "45": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "class type parameter inferred from constructor arguments",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-45/pos/45.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "all arguments may be passed by name in arbitrary order",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "middle default parameter is skipped when a later parameter is passed by name",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "multiple trailing default parameters are all used when omitted",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "positional argument may be followed by named arguments for later parameters",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/expressions/call-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

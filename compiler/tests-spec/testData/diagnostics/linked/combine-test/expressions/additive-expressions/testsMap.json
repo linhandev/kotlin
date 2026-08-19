@@ -1,0 +1,207 @@
+{
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String plus Any uses built-in concatenation",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "14": {
+    "neg": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fun plus without operator modifier is not invoked by binary plus",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-14/neg/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "neg": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Int plus String has no applicable built-in or user plus overload",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-12/neg/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "neg": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plus return type mismatch: String result has no property v",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-9/neg/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "asymmetric plus: A plus B works but B plus A requires separate overload",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator fun plus participates in additive expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type plus operator resolves to operator fun plus",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plus return type participates in subsequent expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "compound assignment plusAssign is preferred over plus desugaring",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "plusAssign desugars to plus when only plus is defined",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "binary minus resolves to operator fun minus",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "built-in Int addition uses built-in plus",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "neg": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom type without plus operator cannot use binary plus",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained plus is left-associative",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/additive-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}
