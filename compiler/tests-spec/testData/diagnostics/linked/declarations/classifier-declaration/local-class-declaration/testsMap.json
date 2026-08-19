@@ -40,5 +40,34 @@
         }
       ]
     }
+  },
+  "291": {
+    "pos": {
+      "291": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "precise types when public members of a local class are accessed in the declaring function body",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-291/pos/291.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "290": {
+    "neg": {
+      "290": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 3,
+          "description": "private members of a local class are invisible to the enclosing function body outside the local class (INVISIBLE_MEMBER); covers primary-constructor property, member function, and body property; contrasts with next-point public local members",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-290/neg/290.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
   }
 }

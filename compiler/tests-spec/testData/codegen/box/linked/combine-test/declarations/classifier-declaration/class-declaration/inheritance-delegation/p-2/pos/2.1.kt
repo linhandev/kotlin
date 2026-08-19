@@ -1,0 +1,37 @@
+// WITH_STDLIB
+
+/*
+ * KOTLIN CODEGEN BOX SPEC TEST (POSITIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, classifier-declaration, class-declaration, inheritance-delegation -> paragraph 2 -> sentence 2
+ * PRIMARY LINKS: declarations, classifier-declaration, interface-declaration -> paragraph 2 -> sentence 2
+ * NUMBER: 1
+ * DESCRIPTION: multiple interface implementation by class delegation
+ */
+
+// TESTCASE NUMBER: 1
+interface I1 {
+    fun foo(): String
+}
+
+interface I2 {
+    fun bar(): String
+}
+
+class Impl1 : I1 {
+    override fun foo() = "foo"
+}
+
+class Impl2 : I2 {
+    override fun bar() = "bar"
+}
+
+class Delegate(i1: I1, i2: I2) : I1 by i1, I2 by i2
+
+fun test() = Delegate(Impl1(), Impl2()).let { it.foo() + it.bar() }
+
+fun box(): String {
+    if (test() != "foobar") return "NOK"
+    return "OK"
+}

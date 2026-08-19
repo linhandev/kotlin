@@ -1,0 +1,24 @@
+// WITH_STDLIB
+
+/*
+ * KOTLIN CODEGEN BOX SPEC TEST (POSITIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, classifier-declaration, object-declaration -> paragraph 17 -> sentence 17
+ * PRIMARY LINKS: declarations, classifier-declaration, interface-declaration -> paragraph 17 -> sentence 17
+ *                inheritance, classifier-type-inheritance, sealed-classes-and-interfaces -> paragraph 17 -> sentence 17
+ * NUMBER: 1
+ * DESCRIPTION: object can implement a sealed interface
+ */
+
+// TESTCASE NUMBER: 1
+sealed interface Marker
+
+object End : Marker
+
+fun test(): Marker = End
+
+fun box(): String {
+    if (test() !== End) return "NOK"
+    return "OK"
+}

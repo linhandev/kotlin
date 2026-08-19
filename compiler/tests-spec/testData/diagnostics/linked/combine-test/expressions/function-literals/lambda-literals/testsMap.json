@@ -1,0 +1,870 @@
+{
+  "39": {
+    "pos": {
+      "39": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "trailing lambda into custom inline allows non-local return",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-39/pos/39.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Sequence map destructuring matches List semantics",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "37": {
+    "neg": {
+      "37": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return@map emptyList type mismatches Int map transform",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-37/neg/37.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "52": {
+    "pos": {
+      "52": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-local return from repeat exits enclosing function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-52/pos/52.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "55": {
+    "pos": {
+      "55": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested inline invoke allows non-local return to named function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-55/pos/55.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "36": {
+    "pos": {
+      "36": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return@forEach is local return and does not exit enclosing function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-36/pos/36.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "31": {
+    "pos": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline forEach bare return exits enclosing function when list has negative",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-31/pos/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "38": {
+    "pos": {
+      "38": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return@map ends current element mapping without exiting function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-38/pos/38.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "54": {
+    "neg": {
+      "54": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stored non-inline lambda forbids bare return",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-54/neg/54.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "53": {
+    "pos": {
+      "53": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for-loop return exits enclosing function as control contrast to lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-53/pos/53.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "40": {
+    "pos": {
+      "40": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested inline higher-order non-local return reaches outermost named function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-40/pos/40.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "47": {
+    "pos": {
+      "47": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-local return from let lambda on nullable receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-47/pos/47.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "49": {
+    "pos": {
+      "49": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-local return skips subsequent statements after forEach",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-49/pos/49.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom operator component1 supports lambda destructuring",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "25": {
+    "neg": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "List element Int cannot be lambda-destructured as two components",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-25/neg/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "13": {
+    "neg": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "destructuring binding types must match componentN return types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-13/neg/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested destructuring via lambda parameter and body destructuring is allowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "48": {
+    "pos": {
+      "48": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-local return from also lambda exits enclosing function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-48/pos/48.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "46": {
+    "pos": {
+      "46": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda non-local return versus anonymous function local return under inline",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-46/pos/46.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "41": {
+    "neg": {
+      "41": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline lambda parameter forbids non-local return",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-41/neg/41.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "destructuring lambda works with trailing lambda syntax",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fewer destructuring bindings than available components is allowed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "neg": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "IntArray only provides component1..component5 so a sixth lambda destructuring binding fails",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-24/neg/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "23": {
+    "neg": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "only component1 cannot destructure two bindings",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-23/neg/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "single-parameter body destructuring is equivalent to parameter destructuring",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "forEach higher-order call with destructuring parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Map.Entry can be destructured in a lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda parameter can destructure Pair",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "underscore skips a destructuring component in a lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "58": {
+    "pos": {
+      "58": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "labeled run lambda allows return@label from nested forEach",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-58/pos/58.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "56": {
+    "pos": {
+      "56": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline guard with condition allows non-local return from lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-56/pos/56.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "51": {
+    "pos": {
+      "51": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-local return from onEach extension lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-51/pos/51.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "34": {
+    "neg": {
+      "34": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-inline higher-order forbids bare return in lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-34/neg/34.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "33": {
+    "pos": {
+      "33": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom inline higher-order allows non-local return from lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-33/pos/33.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "50": {
+    "pos": {
+      "50": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-local return from forEach still executes finally block",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-50/pos/50.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "57": {
+    "neg": {
+      "57": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "stored lambda variable forbids bare return",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-57/neg/57.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "59": {
+    "neg": {
+      "59": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return@missing reports unresolved label",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-59/neg/59.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline map non-local return with value when element equals zero",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "35": {
+    "pos": {
+      "35": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-inline higher-order with labeled local return infers Int for enclosing function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-35/pos/35.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "neg": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "destructuring cannot replace multiple independent parameters",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-19/neg/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fold second parameter can be Pair-destructured",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "neg": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "private component1 is invisible for lambda destructuring",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-21/neg/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline higher-order allows non-local return from destructuring lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "zip result pairs can be destructured in a lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "neg": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-data type without componentN cannot be lambda-destructured",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-10/neg/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "44": {
+    "pos": {
+      "44": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous function return exits only the anonymous function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-44/pos/44.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "43": {
+    "neg": {
+      "43": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline parameter in both forbids non-local return",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-43/neg/43.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "more destructuring bindings than componentN fails",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "29": {
+    "neg": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-inline higher-order forbids bare return in destructuring lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-29/neg/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "chained higher-order calls can use consecutive destructuring lambdas",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "destructuring parameter remains single-arg inside receiver lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable Pair as whole argument can be destructured via safe call",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "fold with non-destructured accumulator and destructured Pair",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "42": {
+    "neg": {
+      "42": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "noinline lambda parameter forbids non-local return",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-42/neg/42.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "45": {
+    "pos": {
+      "45": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "anonymous function passed to inline still returns only from anonymous function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-45/pos/45.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Triple destructures into three bindings in a lambda",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda destructuring parameters may have explicit types",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "lambda destructuring parameter types inferred from Pair argument",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "data class componentN supports lambda destructuring",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/function-literals/lambda-literals/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  }
+}
