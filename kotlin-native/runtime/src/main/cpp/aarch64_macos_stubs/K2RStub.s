@@ -413,6 +413,22 @@ _Konan_Platform_getAvailableProcessorsEnvStub:
 _Konan_Platform_getProgramNameStub:
     CalleeSavedRegistersStub Konan_Platform_getProgramName
 
+    .global _Kotlin_native_FloatingPointParser_parseDoubleImplStub
+_Kotlin_native_FloatingPointParser_parseDoubleImplStub:
+    CalleeSavedRegistersStub Kotlin_native_FloatingPointParser_parseDoubleImpl
+
+    .global _Kotlin_native_runtime_Debugging_dumpMemoryStub
+_Kotlin_native_runtime_Debugging_dumpMemoryStub:
+    CalleeSavedRegistersStub Kotlin_native_runtime_Debugging_dumpMemory
+
+    .global _Kotlin_native_runtime_Debugging_dumpMemoryAsyncStub
+_Kotlin_native_runtime_Debugging_dumpMemoryAsyncStub:
+    CalleeSavedRegistersStub Kotlin_native_runtime_Debugging_dumpMemoryAsync
+
+    .global _Kotlin_terminateWithUnhandledExceptionStub
+_Kotlin_terminateWithUnhandledExceptionStub:
+    CalleeSavedRegistersStub Kotlin_terminateWithUnhandledException
+
     .global _PerformFullGCStub
 _PerformFullGCStub:
     CalleeSavedRegistersStub PerformFullGC

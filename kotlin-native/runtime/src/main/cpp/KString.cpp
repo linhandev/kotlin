@@ -440,6 +440,7 @@ static void Kotlin_String_overwriteArray(KConstRef string, KRef destination, KIn
     });
 }
 
+HAS_SAFEPOINT
 extern "C" OBJ_GETTER(Kotlin_String_toCharArray, KConstRef string, KRef destination, KInt destinationOffset, KInt start, KInt size) {
     Kotlin_String_overwriteArray(string, destination, destinationOffset, start, size);
     RETURN_OBJ(destination);
@@ -549,7 +550,7 @@ extern "C" OBJ_GETTER(Kotlin_String_unsafeStringToUtf8OrThrow, KConstRef thiz, K
     RETURN_RESULT_OF(unsafeConvertToUTF8<KStringConversionMode::CHECKED>, thiz, start, size);
 }
 
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" KInt Kotlin_StringBuilder_insertString(KRef builder, KInt distIndex, KConstRef fromString, KInt sourceIndex, KInt count) {
     Kotlin_String_overwriteArray(fromString, builder, distIndex, sourceIndex, count);
     return count;
@@ -581,7 +582,7 @@ static std::optional<KInt> Kotlin_String_cachedHashCode(KConstRef thiz) {
     return {};
 }
 
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" KBoolean Kotlin_String_equals(KConstRef thiz, KConstRef other) {
     if (thiz == other) return true;
     if (other == nullptr || other->type_info() != theStringTypeInfo) return false;
@@ -616,7 +617,7 @@ extern "C" KBoolean Kotlin_String_equals(KConstRef thiz, KConstRef other) {
 }
 
 // Bounds checks are performed on Kotlin side
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" KBoolean Kotlin_String_unsafeRangeEquals(KConstRef thiz, KInt thizOffset, KConstRef other, KInt otherOffset, KInt length) {
     if (length == 0) {
         return true;
@@ -674,7 +675,7 @@ extern "C" KBoolean Kotlin_Char_isLowSurrogate(KChar ch) {
     return ((ch & 0xfc00) == 0xdc00);
 }
 
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" KInt Kotlin_String_indexOfChar(KConstRef thiz, KChar ch, KInt fromIndex) {
     auto unsignedIndex = fromIndex < 0 ? 0 : static_cast<size_t>(fromIndex);
 #ifdef KONAN_OHOS
@@ -691,7 +692,7 @@ extern "C" KInt Kotlin_String_indexOfChar(KConstRef thiz, KChar ch, KInt fromInd
     });
 }
 
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" KInt Kotlin_String_lastIndexOfChar(KConstRef thiz, KChar ch, KInt fromIndex) {
     if (fromIndex < 0) return -1;
 #ifdef KONAN_OHOS
@@ -710,7 +711,7 @@ extern "C" KInt Kotlin_String_lastIndexOfChar(KConstRef thiz, KChar ch, KInt fro
 }
 
 // TODO: or code up Knuth-Moris-Pratt, or use std::boyer_moore_searcher (might need backporting)
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" KInt Kotlin_String_indexOfString(KConstRef thiz, KConstRef other, KInt fromIndex) {
     auto unsignedIndex = fromIndex < 0 ? 0 : static_cast<size_t>(fromIndex);
 #ifdef KONAN_OHOS
@@ -765,7 +766,7 @@ extern "C" KInt Kotlin_String_indexOfString(KConstRef thiz, KConstRef other, KIn
     });
 }
 
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" KInt Kotlin_String_hashCode(KRef thiz) {
 #ifdef KONAN_OHOS
     if (hmm::IsKStringProxy(thiz)) {
