@@ -1,0 +1,24 @@
+// WITH_STDLIB
+
+/*
+ * KOTLIN CODEGEN BOX SPEC TEST (POSITIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, classifier-declaration, class-members -> paragraph 6 -> sentence 6
+ * PRIMARY LINKS: operator-overloading, overview -> paragraph 6 -> sentence 6
+ *                statements, assignments, operator-assignments -> paragraph 6 -> sentence 6
+ * NUMBER: 1
+ * DESCRIPTION: class member operator fun plusAssign desugars to member call in augmented assignment
+ */
+
+// TESTCASE NUMBER: 1
+class MutableVector(var x: Int) {
+    operator fun plusAssign(other: MutableVector) { x += other.x }
+}
+
+fun test(): Int = MutableVector(1).also { it += MutableVector(2) }.x
+
+fun box(): String {
+    if (test() != 3) return "NOK"
+    return "OK"
+}

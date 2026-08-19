@@ -1,0 +1,366 @@
+{
+  "30": {
+    "pos": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "structural modification during iteration of mutable collection may throw ConcurrentModificationException on JVM",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-30/pos/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "22": {
+    "pos": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic Iterable\u003cT\u003e preserves element type",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Map for-in iterates over Entry by default",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for-in destructuring for ((k,v) in map)",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for-in with destructuring over list of Pair",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Iterator instance can be used directly in for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom class implementing Iterable can be used in for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for-in subject expression is evaluated only once",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "empty Iterable does not execute loop body",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "1": {
+    "pos": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for-in over List accumulates elements",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "iterator() on Iterable is called only once",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "labeled break@ exits outer for loop",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "26": {
+    "pos": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "custom Iterator calls next() on each iteration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-26/pos/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "extension operator fun iterator() makes third-party type iterable",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nullable-element Iterable\u003cInt?\u003e can be used in for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break exits for loop early",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "operator fun iterator() alone suffices without implementing Iterable",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "iterator() returns object with operator hasNext/next",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Sequence can be used as for-in subject",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested for-in loops can accumulate values",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-20/pos/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "continue skips current iteration",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "27": {
+    "pos": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Array can be used in for-in loop",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-27/pos/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "IntRange can be used as for-in subject",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "3": {
+    "pos": {
+      "3": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "String and CharSequence can be iterated character-by-character in for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Set can be iterated with for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "downTo/until ranges can be used in for-in",
+          "path": "compiler/tests-spec/testData/codegen/box/linked/combine-test/statements/loop-statements/for-loop-statements/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main"
+        }
+      ]
+    }
+  }
+}

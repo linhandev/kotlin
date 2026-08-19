@@ -1,0 +1,21 @@
+// WITH_STDLIB
+
+/*
+ * KOTLIN CODEGEN BOX SPEC TEST (POSITIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, classifier-declaration, class-declaration -> paragraph 49 -> sentence 49
+ * PRIMARY LINKS: declarations, declarations-with-type-parameters -> paragraph 49 -> sentence 49
+ * NUMBER: 1
+ * DESCRIPTION: Any upper bound accepts object type arguments
+ */
+
+// TESTCASE NUMBER: 1
+class Box<T : Any>(val v: T)
+
+fun test(): Any = Box(1).v
+
+fun box(): String {
+    if (test() != 1) return "NOK"
+    return "OK"
+}

@@ -1,0 +1,23 @@
+// WITH_STDLIB
+
+/*
+ * KOTLIN CODEGEN BOX SPEC TEST (POSITIVE)
+ *
+ * SPEC VERSION: 1.9-rfc+0.1
+ * MAIN LINK: combine-test, declarations, classifier-declaration, class-declaration -> paragraph 392 -> sentence 392
+ * declarations, declaration-visibility -> paragraph 392 -> sentence 392
+ * declarations, function-declaration -> paragraph 392 -> sentence 392
+ * NUMBER: 1
+ * DESCRIPTION: private fun can be defined with expression body
+ */
+
+// TESTCASE NUMBER: 1
+class C { private fun double(x: Int): Int = x * 2; fun test(): Int = double(3) }
+
+// TESTCASE NUMBER: 1
+fun test(): Int = C().test()
+
+fun box(): String {
+    if (test() != 6) return "NOK"
+    return "OK"
+}
