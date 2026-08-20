@@ -93,6 +93,15 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend fun may call another suspend fun in the same compilation unit type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
         }
       ]
     }
@@ -127,6 +136,15 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos/3.2.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend fun may freely call a regular non-suspending function type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-3/pos/3.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
         }
       ]
     }
@@ -141,6 +159,14 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg/2.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-suspending function cannot call suspend fun from a when branch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-2/neg/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     },
@@ -169,6 +195,385 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/asynchronous-programming-with-coroutines/suspending-functions/p-2/pos/2.2.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        }
+      ]
+    }
+  },
+  "30": {
+    "neg": {
+      "30": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "crossinline non-suspend lambda cannot contain suspension points even inside a suspend caller",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-30/neg/30.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "31": {
+    "neg": {
+      "31": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "noinline lambda inside inline fun still cannot call a suspend function from a suspend caller",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-31/neg/31.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "22": {
+    "neg": {
+      "22": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend override cannot narrow a non-suspending open member",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-22/neg/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "25": {
+    "neg": {
+      "25": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "property cannot be declared as suspend val",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-25/neg/25.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "13": {
+    "neg": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-inline higher-order lambda cannot call a suspend function even from a suspend caller",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-13/neg/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "14": {
+    "pos": {
+      "14": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "when branches inside a suspend fun may call suspend functions type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-14/pos/14.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for-loop body inside a suspend fun may call suspend functions type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "inline non-suspend lambda argument of a call from suspend context may contain suspension points type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "24": {
+    "pos": {
+      "24": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "abstract suspend fun is implemented by a suspending override in a subclass type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-24/pos/24.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "23": {
+    "pos": {
+      "23": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspending open member can be overridden by a suspending override type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-23/pos/23.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "neg": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "non-suspending context cannot invoke a suspend function-typed value",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-9/neg/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "7": {
+    "neg": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend function type is incompatible with a regular function type parameter",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-7/neg/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "6": {
+    "neg": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "top-level non-suspending function cannot call local suspend fun from when",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-6/neg/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend function reference can be assigned to a suspend function type type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "32": {
+    "pos": {
+      "32": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend function type can participate in inline generic type-argument inference type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-32/pos/32.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "26": {
+    "neg": {
+      "26": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "init block cannot call a suspend function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-26/neg/26.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "interface suspend member must be implemented with suspend override type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "28": {
+    "pos": {
+      "28": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "tailrec suspend fun can be declared and executed type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-28/pos/28.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "bare return inside for-loop of a suspend fun still exits the outer suspend function type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspending lambda can be passed where suspend () -\u003e T is expected type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "neg": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "regular non-inline lambda cannot call a suspend function",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-11/neg/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "29": {
+    "pos": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "generic suspend fun \u003cT\u003e preserves the type argument type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-29/pos/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "16": {
+    "pos": {
+      "16": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try/catch inside a suspend fun may wrap suspend calls type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-16/pos/16.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "27": {
+    "neg": {
+      "27": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "constructor cannot be marked suspend",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-27/neg/27.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "suspend extension function can be declared and called from a suspend context type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "local suspend fun can be called from the enclosing suspend function body type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
         }
       ]
     }

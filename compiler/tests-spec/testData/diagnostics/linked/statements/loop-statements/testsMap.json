@@ -64,5 +64,79 @@
         }
       ]
     }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for-loop body inside a suspend fun may call suspend functions type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/asynchronous-programming-with-coroutines/suspending-functions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "19": {
+    "pos": {
+      "19": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "labeled break@ exits outer for loop type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-19/pos/19.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "17": {
+    "pos": {
+      "17": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "break exits for loop early type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-17/pos/17.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "29": {
+    "neg": {
+      "29": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "for loop is a statement and cannot be used as an expression",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-29/neg/29.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "18": {
+    "pos": {
+      "18": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "continue skips current iteration type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/statements/loop-statements/for-loop-statements/p-18/pos/18.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
   }
 }

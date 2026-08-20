@@ -1,29 +1,255 @@
 {
-  "1": {
-    "neg": {
-      "1": [
+  "22": {
+    "pos": {
+      "22": [
         {
           "specVersion": "1.9-rfc+0.1",
-          "casesNumber": 5,
-          "description": "Functions returning kotlin.Nothing must not return normally",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/neg/1.2.kt",
+          "casesNumber": 2,
+          "description": "Elvis right-hand throw is Nothing inside try expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-22/pos/22.1.kt",
           "unexpectedBehaviour": false,
-          "linkType": "main",
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "13": {
+    "pos": {
+      "13": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try expression with all Nothing branches is usable at expected type Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-13/pos/13.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
+      ]
+    }
+  },
+  "15": {
+    "pos": {
+      "15": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "nullable try branch with Nothing catch remains String?",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-15/pos/15.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
           "helpers": "checkType"
         },
         {
           "specVersion": "1.9-rfc+0.1",
-          "casesNumber": 5,
-          "description": "Only kotlin.Nothing values can be assigned to kotlin.Nothing",
-          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/neg/1.1.kt",
+          "casesNumber": 1,
+          "description": "Elvis right-hand labeled return in forEach lambda type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-15/pos/15.1.kt",
           "unexpectedBehaviour": false,
-          "linkType": "main",
+          "linkType": "primary",
           "helpers": "checkType"
         }
       ]
-    },
+    }
+  },
+  "12": {
+    "pos": {
+      "12": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "try block of Nothing allows overall type to be determined by catch",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-12/pos/12.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "6": {
+    "pos": {
+      "6": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch with return is Nothing so try expression type remains Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand throw after nullable conversion infers Int type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-6/pos/6.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "8": {
+    "pos": {
+      "8": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "return in finally overrides try expression result type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand return with zero default type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-8/pos/8.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "21": {
+    "pos": {
+      "21": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand return is Nothing inside try expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression branch with Elvis operator and throw expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-22/pos/22.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "4": {
+    "pos": {
+      "4": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "throw branch is Nothing and does not affect try expression result type Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-4/pos/4.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "5": {
+    "pos": {
+      "5": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "catch that throws is Nothing so overall type is determined by try block",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/try-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand return in local variable initializer type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-5/pos/5.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "20": {
+    "pos": {
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "conditional expression branch with Elvis operator and return expression type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/conditional-expressions/p-21/pos/21.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "62": {
+    "pos": {
+      "62": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Nothing (TODO()) participates in choose type inference yielding Int, verifying type inference",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-62/pos/62.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "9": {
+    "pos": {
+      "9": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis on nullable String with throw on right-hand side infers String type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-9/pos/9.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "7": {
+    "pos": {
+      "7": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested Elvis returns inside one return unify Int early-exit across two nullables",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-7/pos/7.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "1": {
     "pos": {
       "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis right-hand throw is Nothing and Elvis expression type is Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-1/pos/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        },
         {
           "specVersion": "1.9-rfc+0.1",
           "casesNumber": 4,
@@ -49,6 +275,73 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/pos/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    },
+    "neg": {
+      "1": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Functions returning kotlin.Nothing must not return normally",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/neg/1.2.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 5,
+          "description": "Only kotlin.Nothing values can be assigned to kotlin.Nothing",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/built-in-types-and-their-semantics/kotlin.nothing/p-1/neg/1.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "main",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "10": {
+    "pos": {
+      "10": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 4,
+          "description": "Elvis with literal default and with throw both infer Int for nullable length",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-10/pos/10.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "11": {
+    "pos": {
+      "11": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 2,
+          "description": "Elvis after takeIf with throw infers String type",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-11/pos/11.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
+        }
+      ]
+    }
+  },
+  "2": {
+    "pos": {
+      "2": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "Elvis right-hand return early-exits via block return of Elvis; type is Int",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/elvis-operator-expressions/p-2/pos/2.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
           "helpers": "checkType"
         }
       ]

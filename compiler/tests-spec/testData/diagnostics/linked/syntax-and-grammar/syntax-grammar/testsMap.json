@@ -1517,6 +1517,15 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/syntax-grammar/p-146/pos/146.2.kt",
           "unexpectedBehaviour": false,
           "linkType": "primary"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "nested generic call type arguments with angle bracket syntax are correctly parsed",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-51/pos/51.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary",
+          "helpers": "checkType"
         }
       ],
       "1": [
@@ -2239,6 +2248,14 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/syntax-grammar/p-100/neg/100.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        },
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "secondary constructor cannot delegate to both this() and super() in class declaration",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/declarations/classifier-declaration/class-declaration/p-100/neg/100.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     }
@@ -3443,6 +3460,16 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/syntax-grammar/p-49/neg/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        }
+      ],
+      "49": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "type arguments on non-generic function cause compile error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/call-expressions/p-49/neg/49.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     },
@@ -8200,6 +8227,16 @@
           "unexpectedBehaviour": false,
           "linkType": "main"
         }
+      ],
+      "20": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "illegal import syntax with call parentheses reports a syntax error",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/packages-and-imports/importing/p-20/neg/20.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
+        }
       ]
     },
     "pos": {
@@ -8497,6 +8534,16 @@
           "path": "compiler/tests-spec/testData/diagnostics/linked/syntax-and-grammar/syntax-grammar/p-42/neg/1.1.kt",
           "unexpectedBehaviour": false,
           "linkType": "main"
+        }
+      ],
+      "42": [
+        {
+          "specVersion": "1.9-rfc+0.1",
+          "casesNumber": 1,
+          "description": "in operator cannot be chained as a in b in c because intermediate result is not a valid contains receiver",
+          "path": "compiler/tests-spec/testData/diagnostics/linked/combine-test/expressions/type-checking-and-containment-checking-expressions/containment-checking-expressions/p-42/neg/42.1.kt",
+          "unexpectedBehaviour": false,
+          "linkType": "primary"
         }
       ]
     },

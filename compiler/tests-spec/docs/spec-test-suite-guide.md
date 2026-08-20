@@ -83,7 +83,7 @@ Output: `compiler/tests-spec/build/libs/tests-spec-<version>-tests.jar`. This ta
 #### 1.5.1 Full spec test run
 
 ```bash
-./gradlew :compiler:tests-spec:test --no-configuration-cache
+./gradlew :compiler:tests-spec:test 
 ```
 
 **Common options**:
