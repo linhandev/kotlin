@@ -421,7 +421,7 @@ void SetKonanTerminateHandler() {
   TerminateHandler::install();
 }
 
-NO_SAFEPOINT
+HAS_SAFEPOINT
 extern "C" void RUNTIME_NORETURN Kotlin_terminateWithUnhandledException(KRef exception) {
     kotlin::AssertThreadState(kotlin::ThreadState::kRunnable);
     terminateWithUnhandledException(exception);

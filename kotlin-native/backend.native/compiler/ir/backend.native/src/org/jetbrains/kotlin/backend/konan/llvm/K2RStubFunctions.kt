@@ -169,10 +169,13 @@ internal object K2RStubFunctions {
         "Kotlin_mm_switchThreadStateNative_debug",
         "Kotlin_mm_switchThreadStateRunnable",
         "Kotlin_mm_switchThreadStateRunnable_debug",
+        "Kotlin_native_FloatingPointParser_parseDoubleImpl",
         "Kotlin_native_FloatingPointParser_parseFloatImpl",
         "Kotlin_native_internal_GC_collect",
         "Kotlin_native_internal_GC_schedule",
         "Kotlin_native_internal_ref_dereferenceExternalRCRefOrNull",
+        "Kotlin_native_runtime_Debugging_dumpMemory",
+        "Kotlin_native_runtime_Debugging_dumpMemoryAsync",
         "Kotlin_processUnhandledException",
         "Kotlin_NativePtrArray_get",
         "Kotlin_NativePtrArray_get_without_BoundCheck",
@@ -194,6 +197,7 @@ internal object K2RStubFunctions {
         "Kotlin_String_unsafeStringToUtf8",
         "Kotlin_String_unsafeStringToUtf8OrThrow",
         "Kotlin_system_exitProcess",
+        "Kotlin_terminateWithUnhandledException",
         "Kotlin_text_regex_getDecompositionInternal",
         "Kotlin_TypeInfo_findAssociatedObject",
         "Kotlin_Uuid_getRandomBytes",
@@ -239,12 +243,32 @@ internal object K2RStubFunctions {
      */
     val linkRootSet: Set<String> = names + setOf("CSafePointSlowPath", "CslowPath", "Kotlin_mm_safePointCheckCRT")
 
-    // OHOS-only helpers (symbols live under NapiInterface.cpp #if KONAN_OHOS): stub only in the ohos
-    // K2RStub.s; the compiler redirects only on OHOS targets. Keep this setOf free of the close-paren
-    // char -- verifyK2RStubFunctions parses it up to the first one.
+    // Helpers redirected through a K2R trampoline on OHOS targets only: stub blocks live in the ohos
+    // K2RStub.s and must NOT appear in the macos one. Keep this setOf free of the close-paren char --
+    // verifyK2RStubFunctions parses it up to the first one.
+    //
+    // Two reasons a helper lands here:
+    //  1. The symbol itself only exists on OHOS -- NapiInterface.cpp under #if KONAN_OHOS.
+    //  2. The symbol exists everywhere, but only its OHOS-gated branch can hit a safepoint. That is
+    //     the KString.cpp ArkTS string-proxy family: each `hmm::IsKStringProxy` branch ends up in
+    //     ArkTSStringRef::withStringView / getStringView / copyTo, which take a ThreadStateGuard
+    //     (kNative) -- in getNapiValue when a NAPI scope must be opened, and in fallbackToCopy when
+    //     the ref is touched off its creating thread. Without the trampoline, FpUnwind.cpp stays in
+    //     RUNTIME_FRAME mode across the caller's Kotlin frames and drops them from the root set
+    //     (observed as `VerifyKotlinStack: K2R MISS` aborts, and as UAF once the DFX check is off).
+    //     Non-OHOS targets compile the proxy branch out, so they keep the cheaper bare call.
     val ohosOnlyNames: Set<String> = setOf(
         "Kotlin_napi_get_kotlin_string_utf16",
         "Kotlin_String_toNapiValue",
+        // ArkTS string-proxy family -- reason 2 above.
+        "Kotlin_String_equals",
+        "Kotlin_String_hashCode",
+        "Kotlin_String_indexOfChar",
+        "Kotlin_String_indexOfString",
+        "Kotlin_String_lastIndexOfChar",
+        "Kotlin_String_toCharArray",
+        "Kotlin_String_unsafeRangeEquals",
+        "Kotlin_StringBuilder_insertString",
     )
 
     fun namesFor(target: KonanTarget): Set<String> =

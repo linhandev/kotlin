@@ -645,6 +645,7 @@ OutOfMemory:
 #pragma optimize("",on)         /*restore optimizations */
 #endif
 
+HAS_SAFEPOINT
 KDouble Kotlin_native_FloatingPointParser_parseDoubleImpl (KConstRef s, KInt e)
 {
   std::string utf8;

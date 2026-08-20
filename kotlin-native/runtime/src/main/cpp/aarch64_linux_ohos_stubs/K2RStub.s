@@ -422,6 +422,54 @@ Kotlin_napi_get_kotlin_string_utf16Stub:
 Kotlin_String_toNapiValueStub:
     CalleeSavedRegistersStub Kotlin_String_toNapiValue
 
+    .global Kotlin_String_equalsStub
+Kotlin_String_equalsStub:
+    CalleeSavedRegistersStub Kotlin_String_equals
+
+    .global Kotlin_String_hashCodeStub
+Kotlin_String_hashCodeStub:
+    CalleeSavedRegistersStub Kotlin_String_hashCode
+
+    .global Kotlin_String_indexOfCharStub
+Kotlin_String_indexOfCharStub:
+    CalleeSavedRegistersStub Kotlin_String_indexOfChar
+
+    .global Kotlin_String_indexOfStringStub
+Kotlin_String_indexOfStringStub:
+    CalleeSavedRegistersStub Kotlin_String_indexOfString
+
+    .global Kotlin_String_lastIndexOfCharStub
+Kotlin_String_lastIndexOfCharStub:
+    CalleeSavedRegistersStub Kotlin_String_lastIndexOfChar
+
+    .global Kotlin_String_toCharArrayStub
+Kotlin_String_toCharArrayStub:
+    CalleeSavedRegistersStub Kotlin_String_toCharArray
+
+    .global Kotlin_String_unsafeRangeEqualsStub
+Kotlin_String_unsafeRangeEqualsStub:
+    CalleeSavedRegistersStub Kotlin_String_unsafeRangeEquals
+
+    .global Kotlin_StringBuilder_insertStringStub
+Kotlin_StringBuilder_insertStringStub:
+    CalleeSavedRegistersStub Kotlin_StringBuilder_insertString
+
+    .global Kotlin_native_FloatingPointParser_parseDoubleImplStub
+Kotlin_native_FloatingPointParser_parseDoubleImplStub:
+    CalleeSavedRegistersStub Kotlin_native_FloatingPointParser_parseDoubleImpl
+
+    .global Kotlin_native_runtime_Debugging_dumpMemoryStub
+Kotlin_native_runtime_Debugging_dumpMemoryStub:
+    CalleeSavedRegistersStub Kotlin_native_runtime_Debugging_dumpMemory
+
+    .global Kotlin_native_runtime_Debugging_dumpMemoryAsyncStub
+Kotlin_native_runtime_Debugging_dumpMemoryAsyncStub:
+    CalleeSavedRegistersStub Kotlin_native_runtime_Debugging_dumpMemoryAsync
+
+    .global Kotlin_terminateWithUnhandledExceptionStub
+Kotlin_terminateWithUnhandledExceptionStub:
+    CalleeSavedRegistersStub Kotlin_terminateWithUnhandledException
+
     .global PerformFullGCStub
 PerformFullGCStub:
     CalleeSavedRegistersStub PerformFullGC
