@@ -36,6 +36,7 @@ enum class RuntimeModule(val filename: String) {
     OBJC("objc.bc"),
     XCTEST_LAUNCHER("xctest_launcher.bc"),
     EXCEPTIONS_SUPPORT("exceptionsSupport.bc"),
+    HWASAN("hwasan.bc"),
     BREAKPAD("breakpad.bc"),
     CRASH_HANDLER_IMPL("impl_crashHandler.bc"),
     CRASH_HANDLER_NOOP("noop_crashHandler.bc"),
