@@ -213,7 +213,12 @@ internal class Linker(
         
         var libraries = linker.linkStaticLibraries(includedBinaries) + caches.static
         
-        if (config.allocationMode == AllocationMode.CRT || config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH) {
+        val usesCrt = config.allocationMode == AllocationMode.CRT ||
+                config.memoryManagerMode == MemoryManagerMode.RUNTIME_SWITCH
+        // A static archive may only contain relocatable objects (or LLVM bitcode). libcrt.so is a
+        // dynamic shared object, so it must be linked by the final executable/shared-library
+        // consumer instead of being added as an archive member.
+        if (usesCrt && linkerOutput != LinkerOutputKind.STATIC_LIBRARY) {
             // libcrt.so is shipped inside the kotlin-native dist:
             //   <konanHome>/konan/targets/<target>/native/libcrt.so
             val libcrtFile = File(config.distribution.defaultNatives(target)).child("libcrt.so")
