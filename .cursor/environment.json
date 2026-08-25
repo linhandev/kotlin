@@ -1,0 +1,5 @@
+{
+  "name": "Kotlin/Native OHOS (develop-2.2.21-OH)",
+  "user": "ubuntu",
+  "install": "bash .cursor/install.sh"
+}
