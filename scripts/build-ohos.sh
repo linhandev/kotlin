@@ -18,17 +18,14 @@
 #
 
 
+# cpf-llvm host tools (and KN's libllvmstubs.so) link against the bundled
+# libc++/libc++abi/libunwind (see HostLibcxxRuntimeLibraries). Do NOT
+# LD_PRELOAD system libstdc++ here — that overrides the RPATH-resolved
+# libc++ and breaks the host LLVM/JNI stubs at runtime.
 if [ "$(uname -s)" = "Linux" ]; then
-echo "=== 当前环境变量 ==="
-env | grep -E 'LD_LIBRARY_PATH|PATH|LD_PRELOAD'
-echo "=== 修改前 LD_LIBRARY_PATH ==="
-echo "${LD_LIBRARY_PATH:-<未设置>}"
-# 正确追加 lib64 路径（示例）
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/usr/lib/x86_64-linux-gnu
-echo "=== 修改后 LD_LIBRARY_PATH ==="
-echo "$LD_LIBRARY_PATH"
-# 可选：优先使用系统 libstdc++
-export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+  echo "=== host C++ runtime (expect libc++ via nativelib/LLVM RPATH, not libstdc++ preload) ==="
+  echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-<unset>}"
+  echo "LD_PRELOAD=${LD_PRELOAD:-<unset>}"
 fi
 
 
