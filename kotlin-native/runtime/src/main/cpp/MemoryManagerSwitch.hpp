@@ -16,6 +16,8 @@
 #ifndef KOTLIN_NATIVE_MMSWITCH_HPP
 #define KOTLIN_NATIVE_MMSWITCH_HPP
 
+#include <cstdlib>
+
 #include "CRTFastpathUtils.hpp"
 #include "CRTStubs.hpp"
 #include "KAssert.h"
@@ -33,7 +35,11 @@ namespace MemoryManagerSwitch {
         return true;
 #endif
     }
-    inline const bool useCRT = IsEnabled();
+    // Defined in MemoryManagerSwitch.cpp (single C++ TU) — not inline here.
+    // An inline dynamic initializer would be emitted by every TU that includes
+    // this header, including .mm (ObjC++) files, whose copies use
+    // __gnu_objc_personality_v0 and can win llvm-link's comdat merge.
+    extern const bool useCRT;
 };
 
 // not ALWAYS_INLINE to ensure that inline happens both in debug and release mode
