@@ -47,8 +47,12 @@ val Settings.testProcessExecutor: Executor
                         else -> JUnit5Assertions.fail { "Running tests for $testTarget on $hostTarget with XCTest is not supported yet." }
                     }
                 }
+                // Perf-only: same-host Linux still goes through Docker when forced.
+                DockerExecutor.forceRequested() && DockerExecutor.availableFor(testTarget) -> DockerExecutor(testTarget)
                 configurables.target == hostTarget -> HostExecutor()
-                configurables is ConfigurablesWithEmulator -> EmulatorExecutor(configurables)
+                configurables is ConfigurablesWithEmulator && !configurables.emulatorExecutable.isNullOrEmpty() ->
+                    EmulatorExecutor(configurables)
+                DockerExecutor.availableFor(testTarget) -> DockerExecutor(testTarget)
                 configurables is AppleConfigurables && configurables.targetTriple.isSimulator -> XcodeSimulatorExecutor(configurables)
                 configurables is AppleConfigurables && RosettaExecutor.availableFor(configurables) -> RosettaExecutor(configurables)
                 else -> JUnit5Assertions.fail { "Running tests for $testTarget on $hostTarget is not supported yet." }

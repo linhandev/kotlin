@@ -55,7 +55,8 @@ private enum class TestProperty(shortName: String) {
     TEAMCITY("teamcity"),
     MINIDUMP_ANALYZER("minidumpAnalyzer"),
     JDK_VERSION("jdkVersion"),
-    DEPEND_ON_PLATFORM_LIBS("dependOnPlatformLibs")
+    DEPEND_ON_PLATFORM_LIBS("dependOnPlatformLibs"),
+    FORCE_DOCKER("forceDocker")
     ;
 
     val fullName = "kotlin.internal.native.test.$shortName"
@@ -143,6 +144,10 @@ private open class NativeArgsProvider @Inject constructor(
     @get:Input
     @get:Optional
     protected val xctestFramework = providers.testProperty(XCTEST_FRAMEWORK)
+
+    @get:Input
+    @get:Optional
+    protected val forceDocker = providers.testProperty(FORCE_DOCKER)
 
     private val xcTestEnabled = xctestFramework.map { it == "true" }.orElse(false)
 
@@ -281,6 +286,7 @@ private open class NativeArgsProvider @Inject constructor(
             sharedTestExecution.orNull?.let { "-D${SHARED_TEST_EXECUTION.fullName}=$it" },
             eagerGroupCreation.orNull?.let { "-D${EAGER_GROUP_CREATION.fullName}=$it" },
             xctestFramework.orNull?.let { "-D${XCTEST_FRAMEWORK.fullName}=$it" },
+            forceDocker.orNull?.let { "-D${FORCE_DOCKER.fullName}=$it" },
             "-D${CUSTOM_KLIBS.fullName}=${customKlibs.joinToString(File.pathSeparator) { it.absolutePath }}".takeIf { customKlibs.isNotEmpty() },
             if (minidumpAnalyzer.isEmpty) null else "-D${MINIDUMP_ANALYZER.fullName}=${minidumpAnalyzer.singleFile.absolutePath}",
             "-D${DEPEND_ON_PLATFORM_LIBS.fullName}=${dependOnPlatformLibs.get()}"
